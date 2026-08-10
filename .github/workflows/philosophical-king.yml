@@ -1,0 +1,52 @@
+name: Philosophical King — Daily Post
+
+on:
+  schedule:
+    - cron: "0 8 * * *" # 08:00 UTC = 10:00 Madrid (CEST)
+  workflow_dispatch:
+    inputs:
+      quote_index:
+        description: "Override quote index (0-based). Empty = quote of the day."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: philosophical-king
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate quote card
+        id: generate
+        env:
+          QUOTE_INDEX: ${{ inputs.quote_index }}
+        run: node post.js generate
+
+      - name: Commit image to repo (so Instagram can fetch it)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add images/
+          if git diff --cached --quiet; then
+            echo "Image unchanged, nothing to commit."
+          else
+            git commit -m "Add quote card ${{ steps.generate.outputs.image_name }}"
+            git push
+          fi
+
+      - name: Publish to Facebook and Instagram
+        env:
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          QUOTE_INDEX: ${{ inputs.quote_index }}
+          IMAGE_URL: https://raw.githubusercontent.com/${{ github.repository }}/${{ github.ref_name }}/${{ steps.generate.outputs.image_path }}
+        run: node post.js publish
