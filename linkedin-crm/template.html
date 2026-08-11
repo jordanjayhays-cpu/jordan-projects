@@ -154,6 +154,39 @@
   .row-detail .detail-foot { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 8px; font-size: 13px; }
   .saved-note { color: var(--muted); font-size: 12px; }
 
+  .views { display: flex; gap: 6px; margin: 0 0 14px; }
+  .view-btn {
+    padding: 7px 16px; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--surface); cursor: pointer; font-weight: 600; font-size: 13.5px;
+  }
+  .view-btn.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  #insightsView { display: none; }
+  body.show-insights #insightsView { display: block; }
+  body.show-insights #contactsView { display: none; }
+
+  .ins-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; margin-bottom: 12px; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 14px 16px; }
+  .panel h2 { margin: 0 0 4px; font-size: 15px; }
+  .panel .sub { color: var(--muted); font-size: 12.5px; margin: 0 0 10px; }
+  .bar-row { display: grid; grid-template-columns: 92px 1fr 40px; gap: 8px; align-items: center; margin: 3px 0; font-size: 12.5px; cursor: pointer; border: 0; background: none; width: 100%; padding: 2px 0; text-align: left; color: var(--ink); }
+  .bar-row:hover .bl { text-decoration: underline; }
+  .bar-row .bl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-row .track { background: var(--surface-2); border-radius: 4px; height: 12px; overflow: hidden; }
+  .bar-row .fill { background: var(--accent); height: 100%; border-radius: 4px; min-width: 2px; }
+  .bar-row .n { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+
+  .signal { border-top: 1px solid var(--line); padding: 12px 0 10px; }
+  .signal:first-of-type { border-top: 0; }
+  .signal h3 { margin: 0; font-size: 14px; }
+  .signal .why { color: var(--muted); font-size: 13px; margin: 3px 0 7px; }
+  .people { display: flex; flex-wrap: wrap; gap: 5px; }
+  .person {
+    border: 1px solid var(--line); background: var(--surface-2); border-radius: 999px;
+    padding: 3px 10px; font-size: 12px; cursor: pointer; color: var(--ink);
+  }
+  .person:hover { border-color: var(--accent); color: var(--accent); }
+
   .empty { padding: 40px; text-align: center; color: var(--muted); }
   footer { margin-top: 26px; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
   @media (max-width: 640px) {
@@ -171,6 +204,37 @@
 
   <div class="stats" id="stats"></div>
 
+  <div class="views" role="tablist">
+    <button class="view-btn on" id="tabContacts" role="tab" aria-selected="true">Contacts</button>
+    <button class="view-btn" id="tabInsights" role="tab" aria-selected="false">Insights</button>
+  </div>
+
+  <div id="insightsView">
+    <div class="ins-grid">
+      <div class="panel">
+        <h2>Network by era</h2>
+        <p class="sub">Click a year to see who joined your network then.</p>
+        <div id="yearBars"></div>
+      </div>
+      <div class="panel">
+        <h2>What your network does</h2>
+        <p class="sub">Auto-tags from headlines. Click to filter.</p>
+        <div id="tagBars"></div>
+      </div>
+      <div class="panel">
+        <h2>Warm company paths</h2>
+        <p class="sub">Organizations where you already know people. Click to see them.</p>
+        <div id="companyBars"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Signals worth acting on</h2>
+      <p class="sub">Curated patterns from the data — click any name to open their record.</p>
+      <div id="signals"></div>
+    </div>
+  </div>
+
+  <div id="contactsView">
   <div class="toolbar">
     <input type="search" id="q" placeholder="Search name, headline, company…" aria-label="Search connections">
     <select id="yearSel" aria-label="Filter by year connected"><option value="">All years</option></select>
@@ -190,6 +254,7 @@
   <div class="chips" id="chips"></div>
   <div class="meta-line" id="metaLine"></div>
   <div class="card" id="list"></div>
+  </div>
 
   <footer>
     Stages, stars and notes are saved in this browser (localStorage). Use <b>Backup</b> to download them as JSON
@@ -237,6 +302,7 @@ years.forEach(y => { const o = document.createElement("option"); o.value = y; o.
 function filtered() {
   const q = state.q.trim().toLowerCase();
   let rows = DATA.filter(r => {
+    if (state._re && !state._re.test(r.headline)) return false;
     if (q && !(r.name.toLowerCase().includes(q) || r.headline.toLowerCase().includes(q) || (r.company_guess || "").toLowerCase().includes(q))) return false;
     if (state.tag && !r.tags.includes(state.tag)) return false;
     if (state.year && String(r.year) !== String(state.year)) return false;
@@ -355,10 +421,115 @@ function renderList() {
   });
 }
 
-function render() { renderStats(); renderChips(); renderList(); }
+/* ---------- Insights ---------- */
+const COMPANY_PATHS = [
+  ["YouGov (alumni web)", /YouGov/i, "yougov"],
+  ["IE staff & faculty", /(Director|Professor|Dean|Coordinator|Head|Careers|Vice President).*IE (Business School|University)|IE (Business School|University).*(Director|Professor|Dean|Coordinator|Careers)/i, ""],
+  ["Iberdrola", /Iberdrola/i, "iberdrola"],
+  ["Deloitte", /Deloitte/i, "deloitte"],
+  ["Amazon / AWS", /Amazon|AWS\b/i, "amazon"],
+  ["Accenture", /Accenture/i, "accenture"],
+  ["Google (incl. ex)", /Google/i, "google"],
+  ["McKinsey", /McKinsey/i, "mckinsey"],
+  ["Hotel groups (Meliá, Iberostar, Palladium…)", /Meliá|Iberostar|Palladium|Barceló|Hotel|Resort/i, ""],
+  ["Salesforce", /Salesforce/i, "salesforce"],
+  ["Mastercard", /Mastercard/i, "mastercard"],
+  ["Big banks (Santander, BBVA…)", /Santander|BBVA|Bank of China|Julius Baer|Macquarie|JPM/i, ""],
+  ["Placewell", /Placewell/i, "placewell"],
+];
 
-document.getElementById("q").addEventListener("input", e => { state.q = e.target.value; renderList(); });
-yearSel.addEventListener("change", e => { state.year = e.target.value; renderList(); });
+const SIGNALS = [
+  { title: "Capital in the room — 30+ investor contacts",
+    why: "Direct lines into funds if you ever raise or need an intro for someone else: a Redpoint MD, Apollo, Mercury, impact funds and several pre-seed investors.",
+    people: ["Patrick Chase", "Jose Navarro", "John Vigna", "Madison Brelsford", "Yoko Kojima", "Kai Christian Buhofer", "Keith Ippel", "Erdinç Ekinci 🙋‍♂️", "Hardik Samdani", "Javier Calavera Estrada"] },
+  { title: "Hospitality talent decision-makers — connected in the last 10 weeks",
+    why: "CHRO of Meliá plus talent-acquisition leads at Iberostar, Palladium, Barceló and a hotel GM. Fresh connections; this is a live outreach window for any staffing/recruiting play.",
+    people: ["Gabriel Canaves", "Cristina Granados", "Laura López Añez", "Luis Fenollar Jaume", "Leila Strus", "Luis De la Fuente"] },
+  { title: "Placewell insiders + the Beech network",
+    why: "You're connected to Placewell's COO and staff, and five people with the Beech surname across recruiting, marketing and real estate — a dense family/business cluster.",
+    people: ["Jose Lorenzo (Joelo) E. Beech", "Estefano Rivera", "Jose Louis Beech", "Lukas Beech 🔍", "Janu Beech", "Jennifer Protacio-Beech"] },
+  { title: "Iberdrola: a mapped enterprise account",
+    why: "Six or seven contacts across one business unit (Smart Mobility / Smart Services), all added late March 2026 — including the Head of Smart Mobility. That's multi-threaded access into a utility giant.",
+    people: ["Jorge Muñoz Riesco", "Jon Macazaga", "Santiago Blanco Urdiales", "Pablo González Dos Santos", "Rubén Frías Osinaga", "Íñigo Fimia", "María Pardo Fuentes"] },
+  { title: "YouGov alumni web — ~29 contacts, highest-trust intros",
+    why: "Your 2022–23 era. Includes the CEO of YouGov Americas and the Global Head of YouGov Sport, plus ex-colleagues now spread across Kantar and the insights industry.",
+    people: ["Ray Martin", "Nicole Pike", "Victor Gras", "Dare Schenck", "Olivia Sanchez Torres", "Ben Paro", "Alejandro Herrera Gomez"] },
+  { title: "AI & Claude ecosystem circle",
+    why: "People building on or teaching the exact tools you build with — collaboration, distribution and audience: a Claude & Lovable ambassador, a Claude-based business coach, an enterprise Claude API builder, and a tech media host.",
+    people: ["Geoffrey Rolin Jacquemyns 🪁", "Maaria Tiensivu", "Matthew Damhauser", "Jesús Copado", "Jordi Hays"] },
+  { title: "IE institutional leverage — ~30 staff & faculty",
+    why: "Not classmates: the people who run the machine. Careers services, alumni office, entrepreneurship center and professors — routes to hiring pipelines, speaking slots and the startup ecosystem.",
+    people: ["Meryl His", "Víctor Cantavella Nadal", "Ines Drieselmann", "Dushinka Karani", "María Hernández Díaz", "Gayle Allard, PhD", "Balvinder Singh Powar", "Teresa Recio PhD"] },
+  { title: "A two-sided staffing marketplace hiding in the list",
+    why: "38 contacts flagged open-to-work (supply) and 65 recruiters plus 8 actively hiring (demand). If you broker even a few placements, this network pays for itself.",
+    people: [] },
+  { title: "The 2026 cohort bet — 516 connections this year",
+    why: "Half your network is the IE MBA wave (biggest month: Feb 2026, 120 adds). Today they're students; in 5 years they're decision-makers across 40+ countries. Cheapest long-term asset you own — tag and stay in touch.",
+    people: [] },
+  { title: "Vendor noise — park it",
+    why: "A visible band of 2024–25 connections are selling to you (lead-gen data vendors, insurance transfers, LinkedIn automation). Set them to Parked so pipeline stats reflect real relationships.",
+    people: ["Sárdar Hassan", "Asad Jeelani", "Talha Saghir", "Alejandro Garcia", "Casey OToole", "Andrew Hodukavich"] },
+];
+
+function jumpTo(query) {
+  showView("contacts");
+  state.q = query; state.tag = ""; state.year = ""; state.stage = ""; state.star = false; state._re = null;
+  document.getElementById("q").value = query;
+  render();
+  window.scrollTo({ top: 0 });
+}
+
+function bars(el, items, onClick) {
+  const max = Math.max(...items.map(i => i[1]), 1);
+  el.innerHTML = items.map(([label, n], i) =>
+    `<button class="bar-row" data-i="${i}"><span class="bl">${esc(label)}</span>
+       <span class="track"><span class="fill" style="width:${Math.round(n / max * 100)}%"></span></span>
+       <span class="n">${n}</span></button>`).join("");
+  el.querySelectorAll(".bar-row").forEach(b => b.onclick = () => onClick(items[+b.dataset.i]));
+}
+
+function renderInsights() {
+  const byYear = {};
+  DATA.forEach(r => { byYear[r.year] = (byYear[r.year] || 0) + 1; });
+  bars(document.getElementById("yearBars"),
+    Object.entries(byYear).sort((a, b) => b[0] - a[0]),
+    ([y]) => { showView("contacts"); state.year = y; yearSel.value = y; render(); window.scrollTo({top: 0}); });
+
+  bars(document.getElementById("tagBars"), TOP_TAGS,
+    ([t]) => { showView("contacts"); state.tag = t; render(); window.scrollTo({top: 0}); });
+
+  bars(document.getElementById("companyBars"),
+    COMPANY_PATHS.map(([label, re]) => [label, DATA.filter(r => re.test(r.headline)).length]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]),
+    ([label]) => {
+      const cp = COMPANY_PATHS.find(c => c[0] === label);
+      if (cp && cp[2]) { jumpTo(cp[2]); }
+      else {
+        showView("contacts");
+        state.q = ""; document.getElementById("q").value = "";
+        state._re = cp ? cp[1] : null; render(); window.scrollTo({top: 0});
+      }
+    });
+
+  document.getElementById("signals").innerHTML = SIGNALS.map(s =>
+    `<div class="signal"><h3>${esc(s.title)}</h3><div class="why">${esc(s.why)}</div>
+      <div class="people">${s.people.map(p => `<button class="person" data-p="${esc(p)}">${esc(p)}</button>`).join("")}</div></div>`).join("");
+  document.querySelectorAll(".person").forEach(el => el.onclick = () => jumpTo(el.dataset.p));
+}
+
+function showView(view) {
+  document.body.classList.toggle("show-insights", view === "insights");
+  document.getElementById("tabInsights").classList.toggle("on", view === "insights");
+  document.getElementById("tabContacts").classList.toggle("on", view !== "insights");
+  document.getElementById("tabInsights").setAttribute("aria-selected", view === "insights");
+  document.getElementById("tabContacts").setAttribute("aria-selected", view !== "insights");
+}
+document.getElementById("tabContacts").addEventListener("click", () => showView("contacts"));
+document.getElementById("tabInsights").addEventListener("click", () => showView("insights"));
+
+function render() { renderStats(); renderChips(); renderList(); renderInsights(); }
+
+document.getElementById("q").addEventListener("input", e => { state.q = e.target.value; state._re = null; renderList(); });
+yearSel.addEventListener("change", e => { state.year = e.target.value; state._re = null; renderList(); });
 document.getElementById("sortSel").addEventListener("change", e => { state.sort = e.target.value; renderList(); });
 document.getElementById("starFilter").addEventListener("click", e => {
   state.star = !state.star;

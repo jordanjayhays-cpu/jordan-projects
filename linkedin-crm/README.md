@@ -36,6 +36,12 @@ Open it in any browser. You can:
 
 Auto-tag rules live in `TAG_RULES` in `build.py` — edit the regexes to change how contacts get categorized.
 
+## Keeping it fresh
+
+- The app has an **Insights** view (network eras, warm company paths, curated signals) computed live from the data — it updates automatically whenever the data is rebuilt.
+- A weekly Routine ("Weekly LinkedIn CRM refresh", Mondays 09:30 Madrid) opens a session that asks Jordan to paste connections newer than the latest date in the data, merges them, and republishes the artifact at the same URL. The artifact itself embeds the full dataset (`const DATA = [...]`), so any session can recover the data from it even without this repo.
+- Curated pattern cards live in the `SIGNALS` array in `template.html` — revise them as the network changes.
+
 ## Known limits
 
 - The LinkedIn connections page doesn't expose emails, companies (only what's in the headline) or profile URLs. LinkedIn's full data export (Settings → Data privacy → Get a copy of your data) includes emails and URLs — feeding that file into `build.py` is the natural next upgrade.
