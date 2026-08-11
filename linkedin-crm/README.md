@@ -7,11 +7,16 @@ A personal CRM built from Jordan's LinkedIn connections export (999 connections,
 | File | What it is |
 |---|---|
 | `data/connections_part*.tsv` | Source of truth — raw connection data (name, headline, connected date, flags) |
-| `build.py` | Parses the TSVs, auto-tags each contact, and generates everything below |
+| `build.py` | Parses the TSVs, auto-tags each contact, and generates the outputs below |
+| `template.html` | UI source for the CRM app |
+
+Running `python3 build.py` generates (not committed — rebuild anytime):
+
+| Output | What it is |
+|---|---|
 | `connections.csv` | Flat export — open in Excel / Google Sheets, or import into HubSpot/Notion |
 | `connections.json` | Structured records with tags, for scripts and future apps |
 | `crm.db` | SQLite database (`connections` table) with stage/priority/notes columns |
-| `template.html` | UI source for the CRM app |
 | `crm.html` | **The CRM app** — a single self-contained page, no server needed |
 
 ## Using the CRM (`crm.html`)
