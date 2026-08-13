@@ -302,8 +302,8 @@ years.forEach(y => { const o = document.createElement("option"); o.value = y; o.
 function filtered() {
   const q = state.q.trim().toLowerCase();
   let rows = DATA.filter(r => {
-    if (state._re && !state._re.test(r.headline)) return false;
-    if (q && !(r.name.toLowerCase().includes(q) || r.headline.toLowerCase().includes(q) || (r.company_guess || "").toLowerCase().includes(q))) return false;
+    if (state._re && !state._re.test(r.headline + " " + (r.company || "") + " " + (r.position || ""))) return false;
+    if (q && !(r.name.toLowerCase().includes(q) || r.headline.toLowerCase().includes(q) || (r.company_guess || "").toLowerCase().includes(q) || (r.company || "").toLowerCase().includes(q) || (r.position || "").toLowerCase().includes(q))) return false;
     if (state.tag && !r.tags.includes(state.tag)) return false;
     if (state.year && String(r.year) !== String(state.year)) return false;
     if (state.star && !rec(r.id).star) return false;
@@ -357,13 +357,14 @@ function rowHtml(r) {
   const c = rec(r.id);
   const stage = c.stage || "new";
   const flags = (r.flags || "");
-  const liUrl = "https://www.linkedin.com/search/results/people/?keywords=" + encodeURIComponent(r.name);
+  const liUrl = r.url || ("https://www.linkedin.com/search/results/people/?keywords=" + encodeURIComponent(r.name));
+  const liLabel = r.url ? "Open profile ↗" : "Find on LinkedIn ↗";
   return `<div class="row ${openRows.has(r.id) ? "open" : ""}" data-id="${esc(r.id)}">
     <div class="row-main">
       <button class="star-btn ${c.star ? "on" : ""}" title="Star" aria-label="Star ${esc(r.name)}" aria-pressed="${!!c.star}">★</button>
       <div class="who">
         <span class="nm">${esc(r.name)}</span>
-        ${r.company_guess ? `<span class="co"> · ${esc(r.company_guess)}</span>` : ""}
+        ${(r.company || r.company_guess) ? `<span class="co"> · ${esc(r.company || r.company_guess)}</span>` : ""}
         <div class="hl">${esc(r.headline)}</div>
         <div class="tags">
           ${flags === "open_to_work" ? `<span class="tag otw">open to work</span>` : ""}
@@ -382,7 +383,9 @@ function rowHtml(r) {
       <div class="full-hl">${esc(r.headline)}</div>
       <textarea placeholder="Notes / next step for ${esc(r.name)}…">${esc(c.notes || "")}</textarea>
       <div class="detail-foot">
-        <a href="${liUrl}" target="_blank" rel="noopener">Find on LinkedIn ↗</a>
+        <a href="${liUrl}" target="_blank" rel="noopener">${liLabel}</a>
+        ${r.email ? `<a href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : ""}
+        ${r.position ? `<span class="saved-note">${esc(r.position)}${r.company ? " · " + esc(r.company) : ""}</span>` : ""}
         <span class="saved-note">Notes save automatically.</span>
       </div>
     </div>
@@ -499,7 +502,7 @@ function renderInsights() {
     ([t]) => { showView("contacts"); state.tag = t; render(); window.scrollTo({top: 0}); });
 
   bars(document.getElementById("companyBars"),
-    COMPANY_PATHS.map(([label, re]) => [label, DATA.filter(r => re.test(r.headline)).length]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]),
+    COMPANY_PATHS.map(([label, re]) => [label, DATA.filter(r => re.test(r.headline + " " + (r.company || "") + " " + (r.position || ""))).length]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]),
     ([label]) => {
       const cp = COMPANY_PATHS.find(c => c[0] === label);
       if (cp && cp[2]) { jumpTo(cp[2]); }
@@ -538,16 +541,32 @@ document.getElementById("starFilter").addEventListener("click", e => {
   renderList();
 });
 
-function download(name, text, type) {
+async function download(name, text, type) {
+  if (window.claude && window.claude.downloads) {
+    try {
+      await window.claude.downloads.save({ filename: name, data: text });
+    } catch (err) {
+      if (err && err.code === "extension_not_enabled") {
+        try { await window.claude.downloads.save({ filename: name.replace(/\.[a-z0-9]+$/i, "") + ".txt", data: text }); }
+        catch (e2) { if (e2 && e2.code !== "declined") alert("Couldn't save the file: " + (e2.message || e2.code)); }
+      } else if (err && err.code === "rate_limited") {
+        alert("A save prompt is already open — respond to it, then try again.");
+      } else if (!err || err.code !== "declined") {
+        alert("Couldn't save the file: " + (err && (err.message || err.code) || "unknown error"));
+      }
+    }
+    return;
+  }
   const a = document.createElement("a");
   a.href = URL.createObjectURL(new Blob([text], { type }));
   a.download = name; a.click(); URL.revokeObjectURL(a.href);
 }
 document.getElementById("exportCsv").addEventListener("click", () => {
-  const head = ["name", "headline", "company_guess", "connected_on", "tags", "flags", "stage", "starred", "notes"];
+  const head = ["name", "headline", "position", "company", "email", "url", "connected_on", "tags", "flags", "stage", "starred", "notes"];
   const lines = [head.join(",")].concat(DATA.map(r => {
     const c = rec(r.id);
-    return [r.name, r.headline, r.company_guess || "", r.connected_on, r.tags.join("; "), r.flags || "",
+    return [r.name, r.headline, r.position || "", r.company || r.company_guess || "", r.email || "", r.url || "",
+            r.connected_on, r.tags.join("; "), r.flags || "",
             STAGE_LABEL[c.stage || "new"], c.star ? "yes" : "", c.notes || ""]
       .map(v => `"${String(v).replace(/"/g, '""')}"`).join(",");
   }));

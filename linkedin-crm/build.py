@@ -73,6 +73,82 @@ def tags_for(headline):
     return tags or ["Other"]
 
 
+EXPORT_MONTHS = {m: i for i, m in enumerate(
+    ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
+
+
+def norm_name(s):
+    s = unicodedata.normalize("NFKD", s)
+    s = "".join(c for c in s if not unicodedata.combining(c) and (c.isalnum() or c.isspace()))
+    return " ".join(s.casefold().split())
+
+
+def load_export():
+    """Load LinkedIn's official Connections.csv export (data/linkedin_export.csv).
+
+    Returns [] if absent. The file is gitignored: the repo is public and the
+    export contains email addresses.
+    """
+    path = os.path.join(HERE, "data", "linkedin_export.csv")
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8-sig") as fh:
+        lines = fh.read().splitlines()
+    try:
+        hdr = next(i for i, l in enumerate(lines) if l.startswith("First Name,"))
+    except StopIteration:
+        raise ValueError("linkedin_export.csv: no 'First Name,...' header row found")
+    out = []
+    for row in csv.DictReader(lines[hdr:]):
+        name = f"{row.get('First Name', '').strip()} {row.get('Last Name', '').strip()}".strip()
+        if not name:
+            continue  # hidden/deleted profiles export as blank names
+        d, mon, y = row["Connected On"].strip().split()
+        dt = datetime(int(y), EXPORT_MONTHS[mon[:3]], int(d))
+        out.append({
+            "name": name,
+            "url": row.get("URL", "").strip(),
+            "email": row.get("Email Address", "").strip(),
+            "company": row.get("Company", "").strip(),
+            "position": row.get("Position", "").strip(),
+            "dt": dt,
+        })
+    return out
+
+
+def match_export(rows, export):
+    """Attach export records (url/email/company/position) to scraped rows by name."""
+    exact = {}
+    for e in export:
+        exact.setdefault(norm_name(e["name"]), e)
+    compact = {norm_name(e["name"]).replace(" ", ""): e for e in export}
+    used = set()
+
+    def claim(e):
+        used.add(id(e))
+        return e
+
+    for r in rows:
+        n = norm_name(r["name"])
+        e = exact.get(n)
+        if e is None:
+            # CJK exports flip name order; compare space-less in both orders
+            c = n.replace(" ", "")
+            e = compact.get(c) or compact.get("".join(reversed(n.split())))
+        if e is None:
+            # scraped name may be a shorter form of the export's full name
+            cands = [x for x in export if id(x) not in used and
+                     (norm_name(x["name"]).startswith(n + " ") or n.startswith(norm_name(x["name"]) + " "))]
+            e = cands[0] if len(cands) == 1 else None
+        if e is not None:
+            claim(e)
+            if len(e["name"]) > len(r["name"]):
+                r["name"] = e["name"]
+            r.update(url=e["url"], email=e["email"], company=e["company"], position=e["position"])
+    leftovers = [e for e in export if id(e) not in used]
+    return leftovers
+
+
 def load_rows():
     rows = []
     for path in sorted(glob.glob(os.path.join(HERE, "data", "connections_part*.tsv"))):
@@ -95,8 +171,37 @@ def load_rows():
                     "year": dt.year,
                     "flags": flags,
                     "company_guess": guess_company(headline),
+                    "url": "", "email": "", "company": "", "position": "",
                     "tags": tags_for(headline),
                 })
+
+    export = load_export()
+    if export:
+        leftovers = match_export(rows, export)
+        matched = sum(1 for r in rows if r["url"])
+        print(f"Export merge: {matched}/{len(rows)} scraped rows enriched; "
+              f"{len(leftovers)} export-only connections added")
+        for e in leftovers:
+            headline = " | ".join(x for x in (e["position"], e["company"]) if x) or "(no headline)"
+            rows.append({
+                "name": e["name"],
+                "headline": headline,
+                "connected_on": e["dt"].strftime("%Y-%m-%d"),
+                "connected_on_display": e["dt"].strftime("%B %-d, %Y"),
+                "year": e["dt"].year,
+                "flags": "",
+                "company_guess": "",
+                "url": e["url"], "email": e["email"], "company": e["company"], "position": e["position"],
+                "tags": tags_for(headline),
+            })
+        for r in rows:
+            if r["company"]:
+                r["company_guess"] = r["company"]
+            # company/position often carry signal the headline lacks
+            extra = " ".join((r["position"], r["company"]))
+            if extra.strip():
+                r["tags"] = sorted(set(r["tags"]) | set(tags_for(r["headline"] + " | " + extra)) - {"Other"}) or ["Other"]
+
     rows.sort(key=lambda r: r["connected_on"], reverse=True)
     seen = {}
     for r in rows:
@@ -110,10 +215,12 @@ def write_csv(rows):
     path = os.path.join(HERE, "connections.csv")
     with open(path, "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
-        w.writerow(["id", "name", "headline", "connected_on", "year", "flags", "company_guess", "tags"])
+        w.writerow(["id", "name", "headline", "position", "company", "email", "url",
+                    "connected_on", "year", "flags", "tags"])
         for r in rows:
-            w.writerow([r["id"], r["name"], r["headline"], r["connected_on"],
-                        r["year"], r["flags"], r["company_guess"], "; ".join(r["tags"])])
+            w.writerow([r["id"], r["name"], r["headline"], r["position"], r["company"],
+                        r["email"], r["url"], r["connected_on"], r["year"], r["flags"],
+                        "; ".join(r["tags"])])
     return path
 
 
@@ -138,15 +245,21 @@ def write_sqlite(rows):
             year INTEGER,
             flags TEXT,
             company_guess TEXT,
+            position TEXT,
+            company TEXT,
+            email TEXT,
+            url TEXT,
             tags TEXT,
             stage TEXT DEFAULT 'new',
             priority INTEGER DEFAULT 0,
             notes TEXT DEFAULT ''
         )""")
     con.executemany(
-        "INSERT INTO connections (id,name,headline,connected_on,year,flags,company_guess,tags) VALUES (?,?,?,?,?,?,?,?)",
+        "INSERT INTO connections (id,name,headline,connected_on,year,flags,company_guess,position,company,email,url,tags) "
+        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
         [(r["id"], r["name"], r["headline"], r["connected_on"], r["year"],
-          r["flags"], r["company_guess"], "; ".join(r["tags"])) for r in rows])
+          r["flags"], r["company_guess"], r["position"], r["company"], r["email"], r["url"],
+          "; ".join(r["tags"])) for r in rows])
     con.commit()
     con.close()
     return path
