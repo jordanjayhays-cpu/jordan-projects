@@ -278,8 +278,36 @@ const STAGE_LABEL = Object.fromEntries(STAGES.map(([v, l]) => [v, l]));
 const STAGE_CLASS = Object.fromEntries(STAGES.map(([v, , c]) => [v, c]));
 const LS_KEY = "linkedin-crm-v1";
 
+/* Seeds: pipeline state set from a working session, applied once per browser.
+   A seed never overwrites an existing record — your edits always win. */
+const SEEDS = [{
+  id: "hospitality-outreach-2026-08-13",
+  records: {
+    "luis-de-la-fuente": { stage: "contact", star: true, notes: "Head of Recruitment & Talent Mgmt EMEA, Barceló. Messaged Aug 13 re: hard-to-fill seasonal roles for the 2027 season.\nFollow up Aug 20 if no reply — one message, add something (candidate profile / market data), then park.\nIf he replies, find out: which roles they can't fill locally, and what they pay agencies per placement." },
+    "cristina-granados": { stage: "contact", star: true, notes: "Global TA Manager (Corporate & Hotel Mgmt), Iberostar. Connected Aug 10, messaged Aug 13 re: seasonal hiring.\nFollow up Aug 20 if no reply.\nAsk: unfillable roles + current agency cost per placement." },
+    "laura-lopez-anez": { stage: "contact", star: true, notes: "Corporate TA & Recruitment Sr. Manager, Palladium. Messaged Aug 13 re: seasonal hiring.\nFollow up Aug 20 if no reply.\nAsk: unfillable roles + current agency cost per placement." },
+    "gabriel-canaves": { stage: "contact", star: true, notes: "CHRO, Meliá Hotels International — most senior of the hospitality five. Messaged Aug 13.\nFollow up Aug 20 if no reply.\nA CHRO won't handle reqs directly; the win here is a referral down to his TA team." },
+    "leila-strus": { stage: "contact", star: true, notes: "General Manager, Plava Laguna (Hotel Umag, Croatia). Messaged Aug 13 re: seasonal hiring.\nFollow up Aug 20 if no reply.\nProperty-level GM — feels staffing gaps directly, so likely the fastest concrete answer of the five." }
+  }
+}];
+const SEEDS_KEY = "linkedin-crm-seeds";
+
 let crm = {};
 try { crm = JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch (e) { crm = {}; }
+let appliedSeeds = [];
+try { appliedSeeds = JSON.parse(localStorage.getItem(SEEDS_KEY) || "[]"); } catch (e) { appliedSeeds = []; }
+(function applySeeds() {
+  let changed = false;
+  SEEDS.forEach(seed => {
+    if (appliedSeeds.includes(seed.id)) return;
+    Object.entries(seed.records).forEach(([id, patch]) => {
+      if (!crm[id]) { crm[id] = patch; changed = true; }
+    });
+    appliedSeeds.push(seed.id);
+    localStorage.setItem(SEEDS_KEY, JSON.stringify(appliedSeeds));
+  });
+  if (changed) localStorage.setItem(LS_KEY, JSON.stringify(crm));
+})();
 const rec = id => crm[id] || {};
 function setRec(id, patch) {
   crm[id] = Object.assign({}, crm[id], patch);
