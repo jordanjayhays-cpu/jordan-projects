@@ -1,166 +1,77 @@
 [
  {
-  "text": "And even the smallest is enough. It's the harmony of hearts the rhythm of care a reminder that humanity is always there",
+  "text": "Even the smallest is enough",
   "s": 0.0,
-  "e": 6.94,
-  "words": [
-   {
-    "w": "And",
-    "s": 0.0,
-    "e": 0.0
-   },
-   {
-    "w": "even",
-    "s": 0.0,
-    "e": 0.52
-   },
-   {
-    "w": "the",
-    "s": 0.52,
-    "e": 0.72
-   },
-   {
-    "w": "smallest",
-    "s": 0.72,
-    "e": 1.06
-   },
-   {
-    "w": "is",
-    "s": 1.06,
-    "e": 1.32
-   },
-   {
-    "w": "enough.",
-    "s": 1.32,
-    "e": 1.68
-   },
-   {
-    "w": "It's",
-    "s": 1.88,
-    "e": 2.12
-   },
-   {
-    "w": "the",
-    "s": 2.12,
-    "e": 2.24
-   },
-   {
-    "w": "harmony",
-    "s": 2.24,
-    "e": 2.58
-   },
-   {
-    "w": "of",
-    "s": 2.58,
-    "e": 2.88
-   },
-   {
-    "w": "hearts",
-    "s": 2.88,
-    "e": 3.18
-   },
-   {
-    "w": "the",
-    "s": 3.18,
-    "e": 3.52
-   },
-   {
-    "w": "rhythm",
-    "s": 3.52,
-    "e": 3.86
-   },
-   {
-    "w": "of",
-    "s": 3.86,
-    "e": 4.0
-   },
-   {
-    "w": "care",
-    "s": 4.0,
-    "e": 4.34
-   },
-   {
-    "w": "a",
-    "s": 4.34,
-    "e": 4.66
-   },
-   {
-    "w": "reminder",
-    "s": 4.66,
-    "e": 5.04
-   },
-   {
-    "w": "that",
-    "s": 5.04,
-    "e": 5.3
-   },
-   {
-    "w": "humanity",
-    "s": 5.3,
-    "e": 5.74
-   },
-   {
-    "w": "is",
-    "s": 5.74,
-    "e": 6.18
-   },
-   {
-    "w": "always",
-    "s": 6.18,
-    "e": 6.5
-   },
-   {
-    "w": "there",
-    "s": 6.5,
-    "e": 6.94
-   }
-  ]
+  "e": 1.68
  },
  {
-  "text": "It's more than tradition. It's a way to",
-  "s": 17.5,
-  "e": 29.94,
-  "words": [
-   {
-    "w": "It's",
-    "s": 17.5,
-    "e": 18.1
-   },
-   {
-    "w": "more",
-    "s": 18.1,
-    "e": 18.4
-   },
-   {
-    "w": "than",
-    "s": 18.4,
-    "e": 28.62
-   },
-   {
-    "w": "tradition.",
-    "s": 28.62,
-    "e": 29.04
-   },
-   {
-    "w": "It's",
-    "s": 29.38,
-    "e": 29.54
-   },
-   {
-    "w": "a",
-    "s": 29.54,
-    "e": 29.62
-   },
-   {
-    "w": "way",
-    "s": 29.62,
-    "e": 29.8
-   },
-   {
-    "w": "to",
-    "s": 29.8,
-    "e": 29.94
-   }
-  ]
+  "text": "It's the harmony of hearts",
+  "s": 1.68,
+  "e": 3.2
+ },
+ {
+  "text": "The rhythm of care",
+  "s": 3.2,
+  "e": 4.34
+ },
+ {
+  "text": "A reminder",
+  "s": 4.34,
+  "e": 5.02
+ },
+ {
+  "text": "that humanity is always there",
+  "s": 5.02,
+  "e": 7.76
+ },
+ {
+  "text": "Sama-sama sa bawat hakbang",
+  "s": 7.76,
+  "e": 10.03
+ },
+ {
+  "text": "bayanihan ng ating daan",
+  "s": 10.03,
+  "e": 12.3
+ },
+ {
+  "text": "Pagtutulungan kung dadamayan",
+  "s": 12.3,
+  "e": 14.64
+ },
+ {
+  "text": "Lakbay ng bayan walang iwanan",
+  "s": 14.64,
+  "e": 18.2
+ },
+ {
+  "text": "Sama-sama sa bawat hakbang",
+  "s": 18.2,
+  "e": 20.47
+ },
+ {
+  "text": "bayanihan ng ating daan",
+  "s": 20.47,
+  "e": 22.74
+ },
+ {
+  "text": "Pagtutulungan kung dadamayan",
+  "s": 22.74,
+  "e": 25.1
+ },
+ {
+  "text": "Lakbay ng bayan walang iwanan",
+  "s": 25.1,
+  "e": 27.98
+ },
+ {
+  "text": "It's more than tradition,",
+  "s": 27.98,
+  "e": 29.22
+ },
+ {
+  "text": "it's a way to",
+  "s": 29.22,
+  "e": 31.44
  }
 ]
