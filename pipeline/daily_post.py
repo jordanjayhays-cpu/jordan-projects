@@ -32,6 +32,12 @@ def ensure_deps():
         import faster_whisper  # noqa
     except ImportError:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "faster-whisper"])
+    try:
+        import PIL  # noqa
+    except ImportError:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "pillow"])
+    if not os.path.exists("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf"):
+        subprocess.call(["sudo", "apt-get", "install", "-y", "-qq", "fonts-noto-color-emoji"])
 
 def http_json(url):
     with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"}), context=CTX, timeout=30) as r:
@@ -187,8 +193,15 @@ def main():
     lines[-1]["e"] += 1.5
     json.dump(lines, open(os.path.join(ASSETS, f"{slug_}-lyrics.json"), "w"), indent=1)
 
-    video = render(slug_, wav, art, lines)
-    print("rendered", video)
+    # kinetic template (current standard) — hook = first strong short line
+    hook_line = next((l["text"] for l in lines if 3 <= len(l["text"].split()) <= 8),
+                     next((l["text"] for l in lines if l["text"]), title))
+    hook_line = " ".join(hook_line.split()[:7]).strip(" ,.")
+    video = os.path.join(ASSETS, f"{slug_}-teaser.mp4")
+    subprocess.check_call([sys.executable, os.path.join(PIPE, "kinetic_render.py"),
+                           slug_, title, hook_line, "distrokid.com/hyperfollow/philosophicalking",
+                           art, wav, os.path.join(ASSETS, f"{slug_}-lyrics.json"), video])
+    print("rendered (kinetic)", video)
 
     # push video so Postiz can fetch it from the public raw URL
     subprocess.check_call(["git", "-C", ROOT, "add", "music-assets"])
