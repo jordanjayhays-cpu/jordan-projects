@@ -142,9 +142,11 @@ def platform_settings(platform, title):
                 {"key": "autoAddMusic", "value": "no"},
                 {"key": "brand_content_toggle", "value": False},
                 {"key": "brand_organic_toggle", "value": False}]
-    if platform == "instagram":
+    if platform in ("instagram", "instagram-standalone"):
         return [{"key": "post_type", "value": "post"}]
-    return []  # facebook and others: defaults
+    if platform == "facebook":
+        return [{"key": "post_type", "value": "post"}]
+    return []  # others: defaults
 
 def main():
     ensure_deps()
