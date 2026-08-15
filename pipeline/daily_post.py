@@ -132,7 +132,7 @@ def render(fn, wav, art, lines):
                            "-c:a", "aac", "-b:a", "192k", "-shortest", "-t", f"{dur:.2f}", out])
     return out
 
-def platform_settings(platform, title):
+def platform_settings(platform, title, media_url=None):
     t = f"{title} — Philosophical King (Official Lyric Teaser)"
     if platform == "youtube":
         return [{"key": "title", "value": t[:100]}, {"key": "type", "value": "public"},
@@ -158,9 +158,10 @@ def platform_settings(platform, title):
         if not os.path.exists(cfg_path):
             return None  # skip reddit until configured
         cfg = json.load(open(cfg_path))
-        # image post: Reddit video posts need a thumbnail Postiz's API can't attach
+        # image post: Reddit video posts need a thumbnail Postiz's API can't attach;
+        # the image must ALSO be passed in the settings url field, not just attachments
         value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "image",
-                 "is_flair_required": bool(cfg.get("flair"))}
+                 "url": media_url or "", "is_flair_required": bool(cfg.get("flair"))}
         if cfg.get("flair"):
             value["flair"] = cfg["flair"]
         return [{"key": "subreddit", "value": [{"value": value}]}]
@@ -249,17 +250,18 @@ def main():
 
     social = []
     for integ in integrations:
-        settings = platform_settings(integ["platform"], title)
-        if settings is None:
-            print(f"skipping {integ['platform']} ({integ['name']}): not configured")
-            continue
         if integ["platform"] == "reddit":
             up_art = mcp("uploadFromUrlTool",
                          {"url": f"https://raw.githubusercontent.com/jordanjayhays-cpu/jordan-projects/"
                                  f"claude/philosophical-king-poster-raq2ke/music-assets/{slug_}-art.jpg"})
             body, attach = reddit_content, [up_art["path"]]
+            settings = platform_settings("reddit", title, media_url=up_art["path"])
         else:
             body, attach = content, [up["path"]]
+            settings = platform_settings(integ["platform"], title)
+        if settings is None:
+            print(f"skipping {integ['platform']} ({integ['name']}): not configured")
+            continue
         social.append({"integrationId": integ["id"], "isPremium": False, "date": f"{nxt}T{POST_HOUR}",
                        "shortLink": False, "type": "schedule",
                        "postsAndComments": [{"content": body, "attachments": attach}],
