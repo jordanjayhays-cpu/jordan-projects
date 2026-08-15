@@ -158,10 +158,9 @@ def platform_settings(platform, title, media_url=None):
         if not os.path.exists(cfg_path):
             return None  # skip reddit until configured
         cfg = json.load(open(cfg_path))
-        # image post: Reddit video posts need a thumbnail Postiz's API can't attach;
-        # the image must ALSO be passed in the settings url field, not just attachments
-        value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "image",
-                 "url": media_url or "", "is_flair_required": bool(cfg.get("flair"))}
+        # text (self) post: the only media-free type Postiz's Reddit API publishes reliably
+        value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "self",
+                 "is_flair_required": bool(cfg.get("flair"))}
         if cfg.get("flair"):
             value["flair"] = cfg["flair"]
         return [{"key": "subreddit", "value": [{"value": value}]}]
@@ -251,11 +250,8 @@ def main():
     social = []
     for integ in integrations:
         if integ["platform"] == "reddit":
-            up_art = mcp("uploadFromUrlTool",
-                         {"url": f"https://raw.githubusercontent.com/jordanjayhays-cpu/jordan-projects/"
-                                 f"claude/philosophical-king-poster-raq2ke/music-assets/{slug_}-art.jpg"})
-            body, attach = reddit_content, [up_art["path"]]
-            settings = platform_settings("reddit", title, media_url=up_art["path"])
+            body, attach = reddit_content, []
+            settings = platform_settings("reddit", title)
         else:
             body, attach = content, [up["path"]]
             settings = platform_settings(integ["platform"], title)
