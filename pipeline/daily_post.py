@@ -158,7 +158,8 @@ def platform_settings(platform, title):
         if not os.path.exists(cfg_path):
             return None  # skip reddit until configured
         cfg = json.load(open(cfg_path))
-        value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "video",
+        # image post: Reddit video posts need a thumbnail Postiz's API can't attach
+        value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "image",
                  "is_flair_required": bool(cfg.get("flair"))}
         if cfg.get("flair"):
             value["flair"] = cfg["flair"]
@@ -191,6 +192,8 @@ def main():
     fetch(song["previewUrl"], f"/tmp/{slug_}.m4a")
     fetch(song["artworkUrl100"].replace("100x100", "3000x3000"), art)
     subprocess.check_call(["ffmpeg", "-v", "error", "-y", "-i", f"/tmp/{slug_}.m4a", wav])
+    import shutil as _sh
+    _sh.copy(art, os.path.join(ASSETS, f"{slug_}-art.jpg"))  # pushed with the video; Reddit uses it
 
     segs = transcribe(wav)
     lines = []
@@ -250,10 +253,16 @@ def main():
         if settings is None:
             print(f"skipping {integ['platform']} ({integ['name']}): not configured")
             continue
-        body = reddit_content if integ["platform"] == "reddit" else content
+        if integ["platform"] == "reddit":
+            up_art = mcp("uploadFromUrlTool",
+                         {"url": f"https://raw.githubusercontent.com/jordanjayhays-cpu/jordan-projects/"
+                                 f"claude/philosophical-king-poster-raq2ke/music-assets/{slug_}-art.jpg"})
+            body, attach = reddit_content, [up_art["path"]]
+        else:
+            body, attach = content, [up["path"]]
         social.append({"integrationId": integ["id"], "isPremium": False, "date": f"{nxt}T{POST_HOUR}",
                        "shortLink": False, "type": "schedule",
-                       "postsAndComments": [{"content": body, "attachments": [up["path"]]}],
+                       "postsAndComments": [{"content": body, "attachments": attach}],
                        "settings": settings})
     res = mcp("integrationSchedulePostTool", {"socialPost": social})
     print(f"scheduled {title} on {nxt} across {len(res['output'])} channel(s):",
