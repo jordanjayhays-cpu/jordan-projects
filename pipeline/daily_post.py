@@ -158,7 +158,7 @@ def platform_settings(platform, title):
         if not os.path.exists(cfg_path):
             return None  # skip reddit until configured
         cfg = json.load(open(cfg_path))
-        value = {"subreddit": cfg["subreddit"], "title": t[:290], "type": "video",
+        value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "video",
                  "is_flair_required": bool(cfg.get("flair"))}
         if cfg.get("flair"):
             value["flair"] = cfg["flair"]
@@ -239,15 +239,21 @@ def main():
     up = mcp("uploadFromUrlTool",
              {"url": f"https://raw.githubusercontent.com/jordanjayhays-cpu/jordan-projects/"
                      f"claude/philosophical-king-poster-raq2ke/music-assets/{slug_}-teaser.mp4"})
+    # Reddit gets community wording: one plain sentence on what the song is, no promotion
+    desc_path = os.path.join(PIPE, "descriptions.json")
+    descs = json.load(open(desc_path)) if os.path.exists(desc_path) else {}
+    reddit_content = f"<p>{descs.get(slug_, f'A philosophy track exploring the idea behind its title: {title}.')}</p>"
+
     social = []
     for integ in integrations:
         settings = platform_settings(integ["platform"], title)
         if settings is None:
             print(f"skipping {integ['platform']} ({integ['name']}): not configured")
             continue
+        body = reddit_content if integ["platform"] == "reddit" else content
         social.append({"integrationId": integ["id"], "isPremium": False, "date": f"{nxt}T{POST_HOUR}",
                        "shortLink": False, "type": "schedule",
-                       "postsAndComments": [{"content": content, "attachments": [up["path"]]}],
+                       "postsAndComments": [{"content": body, "attachments": [up["path"]]}],
                        "settings": settings})
     res = mcp("integrationSchedulePostTool", {"socialPost": social})
     print(f"scheduled {title} on {nxt} across {len(res['output'])} channel(s):",
