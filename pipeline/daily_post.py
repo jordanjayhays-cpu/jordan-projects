@@ -152,6 +152,17 @@ def platform_settings(platform, title):
         return [{"key": "post_type", "value": "post"}]
     if platform == "facebook":
         return [{"key": "post_type", "value": "post"}]
+    if platform == "reddit":
+        # requires pipeline/reddit.json: {"subreddit": "/r/...", "flair": {"id":..., "name":...}?}
+        cfg_path = os.path.join(PIPE, "reddit.json")
+        if not os.path.exists(cfg_path):
+            return None  # skip reddit until configured
+        cfg = json.load(open(cfg_path))
+        value = {"subreddit": cfg["subreddit"], "title": t[:290], "type": "video",
+                 "is_flair_required": bool(cfg.get("flair"))}
+        if cfg.get("flair"):
+            value["flair"] = cfg["flair"]
+        return [{"key": "subreddit", "value": [{"value": value}]}]
     return []  # others: defaults
 
 def main():
@@ -228,11 +239,16 @@ def main():
     up = mcp("uploadFromUrlTool",
              {"url": f"https://raw.githubusercontent.com/jordanjayhays-cpu/jordan-projects/"
                      f"claude/philosophical-king-poster-raq2ke/music-assets/{slug_}-teaser.mp4"})
-    social = [{"integrationId": integ["id"], "isPremium": False, "date": f"{nxt}T{POST_HOUR}",
-               "shortLink": False, "type": "schedule",
-               "postsAndComments": [{"content": content, "attachments": [up["path"]]}],
-               "settings": platform_settings(integ["platform"], title)}
-              for integ in integrations]
+    social = []
+    for integ in integrations:
+        settings = platform_settings(integ["platform"], title)
+        if settings is None:
+            print(f"skipping {integ['platform']} ({integ['name']}): not configured")
+            continue
+        social.append({"integrationId": integ["id"], "isPremium": False, "date": f"{nxt}T{POST_HOUR}",
+                       "shortLink": False, "type": "schedule",
+                       "postsAndComments": [{"content": content, "attachments": [up["path"]]}],
+                       "settings": settings})
     res = mcp("integrationSchedulePostTool", {"socialPost": social})
     print(f"scheduled {title} on {nxt} across {len(res['output'])} channel(s):",
           [i["platform"] for i in integrations])
