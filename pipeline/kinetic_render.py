@@ -153,7 +153,20 @@ def main():
             d = ImageDraw.Draw(img)
             draw_text_shadow(d, (W / 2, 1130), title, font(56), IVORY)
             d.rectangle([(W - 150) / 2, 1210, (W + 150) / 2, 1212], fill=GOLD)
-            draw_text_shadow(d, (W / 2, 1290), cta, font(38), TEAL)
+            # cta may be a full track URL — wrap at path boundaries to fit 1080px
+            cta_f = font(34)
+            cta_disp = cta.replace("https://", "")
+            if d.textlength(cta_disp, font=cta_f) > 980 and "/" in cta_disp:
+                parts = cta_disp.split("/")
+                l1, l2 = parts[0], "/" + "/".join(parts[1:])
+                for cut in range(1, len(parts)):
+                    a = "/".join(parts[:cut]); b = "/" + "/".join(parts[cut:])
+                    if d.textlength(a, font=cta_f) <= 980 and d.textlength(b, font=cta_f) <= 980:
+                        l1, l2 = a, b
+                draw_text_shadow(d, (W / 2, 1272), l1, cta_f, TEAL)
+                draw_text_shadow(d, (W / 2, 1322), l2, cta_f, TEAL)
+            else:
+                draw_text_shadow(d, (W / 2, 1290), cta_disp, cta_f, TEAL)
             try:
                 ef = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf", 109)
                 d.text((W / 2, 1410), "👑", font=ef, anchor="mm", embedded_color=True)

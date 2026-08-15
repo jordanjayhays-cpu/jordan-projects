@@ -198,8 +198,9 @@ def main():
                      next((l["text"] for l in lines if l["text"]), title))
     hook_line = " ".join(hook_line.split()[:7]).strip(" ,.")
     video = os.path.join(ASSETS, f"{slug_}-teaser.mp4")
+    track_link = hyperfollow_or_songlink(slug_, song["trackId"])
     subprocess.check_call([sys.executable, os.path.join(PIPE, "kinetic_render.py"),
-                           slug_, title, hook_line, "distrokid.com/hyperfollow/philosophicalking",
+                           slug_, title, hook_line, track_link,
                            art, wav, os.path.join(ASSETS, f"{slug_}-lyrics.json"), video])
     print("rendered (kinetic)", video)
 
@@ -213,7 +214,7 @@ def main():
 
     # next date = day after last scheduled
     nxt = (date.fromisoformat(state["last_scheduled_date"]) + timedelta(days=1)).isoformat()
-    link = hyperfollow_or_songlink(slug_, song["trackId"])
+    link = track_link
     hook = next((l["text"] for l in lines if len(l["text"].split()) >= 3), title)
     content = (f"<p>{hook} 👑</p><p>Full track everywhere: {link}</p>"
                f"<p>#Philosophy #PhilosophicalKing</p>")
