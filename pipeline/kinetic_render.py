@@ -138,12 +138,19 @@ def main():
             locked = locked_frame(art1000, 0)
             img = Image.blend(deep, locked, p)
         elif t < t_end_card:
-            # 3. body — locked framing + one lyric line at a time
+            # 3. body — locked framing + one lyric line at a time, faded in/out
             img = locked_frame(art1000, body_n); body_n += 1
-            d = ImageDraw.Draw(img)
             cur = next((ln for ln in lines if ln["s"] <= t <= ln["e"]), None)
-            if cur:
-                draw_text_shadow(d, (W / 2, 1560 + 26), cur["text"], font(52), TEAL)
+            if cur and cur["text"]:
+                fade = min(1.0, (t - max(cur["s"], t_reveal)) / 0.25, (cur["e"] - t) / 0.25 + 0.4)
+                fade = max(0.0, fade)
+                if fade > 0:
+                    ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+                    od = ImageDraw.Draw(ov)
+                    a = int(255 * fade)
+                    od.text((W / 2, 1560 + 29), cur["text"], font=font(52), fill=(0, 0, 0, a), anchor="mm")
+                    od.text((W / 2, 1560 + 26), cur["text"], font=font(52), fill=TEAL + (a,), anchor="mm")
+                    img = Image.alpha_composite(img.convert("RGBA"), ov).convert("RGB")
         else:
             # 4. end card
             p = ease(min(1, (t - t_end_card) / 0.6))

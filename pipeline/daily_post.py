@@ -188,9 +188,14 @@ def main():
             lines.append({"text": " ".join(x["w"] for x in grp), "s": grp[0]["s"], "e": grp[-1]["e"]})
     if not lines:
         lines = [{"text": "", "s": 0, "e": 0.1}]
+    # bridge small gaps only — during real instrumental breaks the screen goes clean
     for a, b in zip(lines, lines[1:]):
-        a["e"] = max(a["e"], b["s"])
-    lines[-1]["e"] += 1.5
+        gap = b["s"] - a["e"]
+        if 0 < gap <= 1.0:
+            a["e"] = b["s"]
+        elif gap > 1.0:
+            a["e"] += 1.0
+    lines[-1]["e"] += 1.0
     json.dump(lines, open(os.path.join(ASSETS, f"{slug_}-lyrics.json"), "w"), indent=1)
 
     # kinetic template (current standard) — hook = first strong short line
