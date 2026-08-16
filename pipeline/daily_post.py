@@ -70,6 +70,31 @@ def hyperfollow_or_songlink(slug, track_id):
         pass
     return f"https://song.link/i/{track_id}"
 
+def latest_published_youtube():
+    """(title, url, slug) of the most recent published YouTube post, or None."""
+    from datetime import datetime, timedelta, timezone
+    end = datetime.now(timezone.utc)
+    start = end - timedelta(days=4)
+    req = urllib.request.Request(
+        f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
+        f"&endDate={end.strftime('%Y-%m-%dT%H:%M:%SZ')}",
+        headers={"Authorization": KEY})
+    with urllib.request.urlopen(req, context=CTX, timeout=30) as r:
+        data = json.load(r)
+    posts = data["posts"] if isinstance(data, dict) else data
+    yts = [p for p in posts
+           if p.get("integration", {}).get("providerIdentifier") == "youtube"
+           and p.get("state") == "PUBLISHED" and p.get("releaseURL")]
+    if not yts:
+        return None
+    p = max(yts, key=lambda x: x.get("publishDate", ""))
+    raw_title = (json.loads(p["settings"]).get("title", "") if isinstance(p.get("settings"), str)
+                 else (p.get("settings") or {}).get("title", ""))
+    t = raw_title.split(" — Philosophical King")[0].strip() or "Philosophical King"
+    s = re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", t.lower()).strip())
+    return t, p["releaseURL"], s
+
+
 def transcribe(wav):
     from faster_whisper import WhisperModel
     model = WhisperModel("small", device="cpu", compute_type="int8")
@@ -158,9 +183,14 @@ def platform_settings(platform, title, media_url=None):
         if not os.path.exists(cfg_path):
             return None  # skip reddit until configured
         cfg = json.load(open(cfg_path))
-        # text (self) post: the only media-free type Postiz's Reddit API publishes reliably
-        value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "self",
-                 "is_flair_required": bool(cfg.get("flair"))}
+        # link post to the track's LIVE YouTube video (renders as playable video on Reddit);
+        # media_url carries the YouTube URL here. Falls back to a text post when absent.
+        if media_url:
+            value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "link",
+                     "url": media_url, "is_flair_required": bool(cfg.get("flair"))}
+        else:
+            value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "self",
+                     "is_flair_required": bool(cfg.get("flair"))}
         if cfg.get("flair"):
             value["flair"] = cfg["flair"]
         return [{"key": "subreddit", "value": [{"value": value}]}]
@@ -250,8 +280,15 @@ def main():
     social = []
     for integ in integrations:
         if integ["platform"] == "reddit":
-            body, attach = reddit_content, []
-            settings = platform_settings("reddit", title)
+            # Reddit trails YouTube by a day: link-post the most recent LIVE YouTube video
+            yt = latest_published_youtube()
+            if yt is None:
+                print("skipping reddit: no published YouTube video to link yet")
+                continue
+            yt_title, yt_url, yt_slug = yt
+            r_desc = descs.get(yt_slug, f"One idea, one song: {yt_title}.")
+            body, attach = f"<p>{r_desc}</p>", []
+            settings = platform_settings("reddit", yt_title, media_url=yt_url)
         else:
             body, attach = content, [up["path"]]
             settings = platform_settings(integ["platform"], title)
