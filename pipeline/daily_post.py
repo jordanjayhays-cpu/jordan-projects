@@ -183,14 +183,12 @@ def platform_settings(platform, title, media_url=None):
         if not os.path.exists(cfg_path):
             return None  # skip reddit until configured
         cfg = json.load(open(cfg_path))
-        # link post to the track's LIVE YouTube video (renders as playable video on Reddit);
-        # media_url carries the YouTube URL here. Falls back to a text post when absent.
-        if media_url:
-            value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "link",
-                     "url": media_url, "is_flair_required": bool(cfg.get("flair"))}
-        else:
-            value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "self",
-                     "is_flair_required": bool(cfg.get("flair"))}
+        # HARD RULE: every Reddit post is a link post to a LIVE YouTube video
+        # (renders as playable video on Reddit). No link -> no Reddit post.
+        if not media_url:
+            return None
+        value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "link",
+                 "url": media_url, "is_flair_required": bool(cfg.get("flair"))}
         if cfg.get("flair"):
             value["flair"] = cfg["flair"]
         return [{"key": "subreddit", "value": [{"value": value}]}]

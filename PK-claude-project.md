@@ -54,6 +54,8 @@ Lyrics come from faster-whisper (model small, `word_timestamps=True`, `vad_filte
 
 ## 6. Standing rules for Claude in this project
 
+- **Reddit hard rule (Jordan, Aug 2026): every Reddit post MUST be a link post to a live YouTube video** (renders as playable video in-feed), title = plain track name, body = one varied human sentence about the song's idea (never formulaic "A song about..."), no promotional wording, no hashtags. If no YouTube video is live for a track, no Reddit post — never a bare text post.
+
 - Extend, don't duplicate: the daily pipeline already posts 1 track/day to all 4 channels. Before scheduling anything, check the Postiz calendar (postsListTool) for collisions.
 - Never re-invent the template or captions — use §2–3 verbatim.
 - Transcripts are drafts; Jordan's source lyrics always win. Flag low-confidence lines instead of guessing silently.
