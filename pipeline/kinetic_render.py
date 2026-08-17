@@ -65,9 +65,9 @@ def locked_frame(art1000, n, dark=0):
     img = Image.new("RGB", (W, H), BLACK)
     dx = 40 * math.sin(2 * math.pi * n / 1500)
     dy = 40 * math.cos(2 * math.pi * n / 1900)
-    img.paste(art1000, (int((W - 1000) / 2 + dx), int(250 + 40 + dy)))
+    img.paste(art1000, (int((W - 1000) / 2 + dx), int(270 + 40 + dy)))
     d = ImageDraw.Draw(img)
-    draw_text_shadow(d, (W / 2, 110 + 21), "PHILOSOPHICAL KING", font(42), TEAL)
+    draw_text_shadow(d, (W / 2, 200), "PHILOSOPHICAL KING", font(40), TEAL)
     if dark:
         img = Image.blend(img, Image.new("RGB", (W, H), (0, 0, 0)), dark)
     return img
@@ -148,18 +148,40 @@ def main():
                     ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
                     od = ImageDraw.Draw(ov)
                     a = int(255 * fade)
-                    od.text((W / 2, 1560 + 29), cur["text"], font=font(52), fill=(0, 0, 0, a), anchor="mm")
-                    od.text((W / 2, 1560 + 26), cur["text"], font=font(52), fill=TEAL + (a,), anchor="mm")
+                    # fit: shrink to width, wrap to 2 lines if needed; sits under the art,
+                    # above every platform's bottom UI band (safe zone ends ~1440)
+                    LYRIC_Y, MAXW = 1350, 860
+                    size = 52
+                    while size > 38 and od.textlength(cur["text"], font=font(size)) > MAXW:
+                        size -= 2
+                    if od.textlength(cur["text"], font=font(size)) > MAXW:
+                        ws_ = cur["text"].split()
+                        best, bestdiff = 1, 1e9
+                        for cpt in range(1, len(ws_)):
+                            wd = max(od.textlength(" ".join(ws_[:cpt]), font=font(size)),
+                                     od.textlength(" ".join(ws_[cpt:]), font=font(size)))
+                            if wd < bestdiff: best, bestdiff = cpt, wd
+                        rows_ = [" ".join(ws_[:best]), " ".join(ws_[best:])]
+                    else:
+                        rows_ = [cur["text"]]
+                    y_ = LYRIC_Y - (len(rows_) - 1) * 30
+                    for row_ in rows_:
+                        od.text((W / 2, y_ + 3), row_, font=font(size), fill=(0, 0, 0, a), anchor="mm")
+                        od.text((W / 2, y_), row_, font=font(size), fill=TEAL + (a,), anchor="mm")
+                        y_ += 60
                     img = Image.alpha_composite(img.convert("RGBA"), ov).convert("RGB")
         else:
             # 4. end card
             p = ease(min(1, (t - t_end_card) / 0.6))
             img = Image.new("RGB", (W, H), BLACK)
-            small = fit_art(art_src, 640)
-            img.paste(small, (int((W - 640) / 2), 360))
+            small = fit_art(art_src, 560)
+            img.paste(small, (int((W - 560) / 2), 330))
             d = ImageDraw.Draw(img)
-            draw_text_shadow(d, (W / 2, 1130), title, font(56), IVORY)
-            d.rectangle([(W - 150) / 2, 1210, (W + 150) / 2, 1212], fill=GOLD)
+            tf_ = 56
+            while tf_ > 40 and d.textlength(title, font=font(tf_)) > 940:
+                tf_ -= 2
+            draw_text_shadow(d, (W / 2, 1000), title, font(tf_), IVORY)
+            d.rectangle([(W - 150) / 2, 1070, (W + 150) / 2, 1072], fill=GOLD)
             # cta may be a full track URL — wrap at path boundaries to fit 1080px
             cta_f = font(34)
             cta_disp = cta.replace("https://", "")
@@ -170,16 +192,16 @@ def main():
                     a = "/".join(parts[:cut]); b = "/" + "/".join(parts[cut:])
                     if d.textlength(a, font=cta_f) <= 980 and d.textlength(b, font=cta_f) <= 980:
                         l1, l2 = a, b
-                draw_text_shadow(d, (W / 2, 1272), l1, cta_f, TEAL)
-                draw_text_shadow(d, (W / 2, 1322), l2, cta_f, TEAL)
+                draw_text_shadow(d, (W / 2, 1132), l1, cta_f, TEAL)
+                draw_text_shadow(d, (W / 2, 1182), l2, cta_f, TEAL)
             else:
-                draw_text_shadow(d, (W / 2, 1290), cta_disp, cta_f, TEAL)
+                draw_text_shadow(d, (W / 2, 1155), cta_disp, cta_f, TEAL)
             try:
                 ef = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf", 109)
-                d.text((W / 2, 1410), "👑", font=ef, anchor="mm", embedded_color=True)
+                d.text((W / 2, 1280), "👑", font=ef, anchor="mm", embedded_color=True)
             except Exception:
-                d.rectangle([(W - 60) / 2, 1390, (W + 60) / 2, 1430], fill=GOLD)
-            draw_text_shadow(d, (W / 2, 1520), "P H I L O S O P H I C A L   K I N G", font(34), GREY)
+                d.rectangle([(W - 60) / 2, 1260, (W + 60) / 2, 1300], fill=GOLD)
+            draw_text_shadow(d, (W / 2, 1390), "P H I L O S O P H I C A L   K I N G", font(32), GREY)
             if p < 1:
                 img = Image.blend(locked_frame(art1000, body_n), img, p)
         img.save(f"{tmp}/{i:05d}.jpg", quality=90)
