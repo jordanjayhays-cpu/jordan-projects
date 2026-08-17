@@ -27,7 +27,10 @@ def sh(*cmd, **kw):
 
 def ensure_deps():
     if subprocess.call(["which", "ffmpeg"], stdout=subprocess.DEVNULL) != 0:
-        subprocess.call(["sudo", "apt-get", "install", "-y", "-qq", "ffmpeg"])
+        subprocess.call(["sudo", "apt-get", "update", "-qq"])
+        subprocess.check_call(["sudo", "apt-get", "install", "-y", "-qq", "ffmpeg"])
+    if subprocess.call(["which", "ffmpeg"], stdout=subprocess.DEVNULL) != 0:
+        raise RuntimeError("ffmpeg unavailable after install attempt")
     try:
         import faster_whisper  # noqa
     except ImportError:
@@ -278,15 +281,27 @@ def main():
     social = []
     for integ in integrations:
         if integ["platform"] == "reddit":
-            # Reddit trails YouTube by a day: link-post the most recent LIVE YouTube video
+            # Reddit posts SAME-DAY (not at queue end): link the newest LIVE YouTube video,
+            # once per track ever (state.reddit_posted), scheduled for later this morning UTC.
             yt = latest_published_youtube()
             if yt is None:
                 print("skipping reddit: no published YouTube video to link yet")
                 continue
             yt_title, yt_url, yt_slug = yt
+            if yt_slug in state.get("reddit_posted", []):
+                print(f"skipping reddit: {yt_slug} already posted there")
+                continue
             r_desc = descs.get(yt_slug, f"One idea, one song: {yt_title}.")
-            body, attach = f"<p>{r_desc}</p>", []
-            settings = platform_settings("reddit", yt_title, media_url=yt_url)
+            from datetime import datetime as _dt, timezone as _tz, timedelta as _td
+            now = _dt.now(_tz.utc)
+            r_when = max(now.replace(hour=10, minute=0, second=0), now + _td(minutes=30))
+            social.append({"integrationId": integ["id"], "isPremium": False,
+                           "date": r_when.strftime("%Y-%m-%dT%H:%M:00"),
+                           "shortLink": False, "type": "schedule",
+                           "postsAndComments": [{"content": f"<p>{r_desc}</p>", "attachments": []}],
+                           "settings": platform_settings("reddit", yt_title, media_url=yt_url)})
+            state.setdefault("reddit_posted", []).append(yt_slug)
+            continue
         else:
             body, attach = content, [up["path"]]
             settings = platform_settings(integ["platform"], title)
