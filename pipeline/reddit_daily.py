@@ -62,11 +62,31 @@ def main():
              "url": p["releaseURL"], "is_flair_required": bool(cfg.get("flair"))}
     if cfg.get("flair"):
         value["flair"] = cfg["flair"]
-    mcp("integrationSchedulePostTool", {"socialPost": [{
+    res = mcp("integrationSchedulePostTool", {"socialPost": [{
         "integrationId": reddit["id"], "isPremium": False, "date": when,
         "shortLink": False, "type": "schedule",
         "postsAndComments": [{"content": f"<p>{desc}</p>", "attachments": []}],
         "settings": [{"key": "subreddit", "value": [{"value": value}]}]}]})
+    # verify Postiz stored the requested time (it has been seen parking posts at day-end)
+    import time as _t
+    pid = res["output"][0]["postId"]
+    _t.sleep(3)
+    req2 = urllib.request.Request(
+        f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
+        f"&endDate={(end + timedelta(days=1)).strftime('%Y-%m-%dT%H:%M:%SZ')}", headers={"Authorization": KEY})
+    with urllib.request.urlopen(req2, context=CTX, timeout=30) as r2:
+        d2 = json.load(r2)
+    all2 = d2["posts"] if isinstance(d2, dict) else d2
+    mine = next((x for x in all2 if x["id"] == pid), None)
+    if mine and mine.get("publishDate", "")[:16] != when[:16]:
+        print(f"WARN: stored {mine.get('publishDate')} != requested {when}; re-pinning")
+        subprocess.check_output(["curl", "-sS", "--cacert", CA, "-X", "DELETE",
+            f"https://api.postiz.com/public/v1/posts/group/{mine['group']}", "-H", f"Authorization: {KEY}"])
+        mcp("integrationSchedulePostTool", {"socialPost": [{
+            "integrationId": reddit["id"], "isPremium": False, "date": when,
+            "shortLink": False, "type": "schedule",
+            "postsAndComments": [{"content": f"<p>{desc}</p>", "attachments": []}],
+            "settings": [{"key": "subreddit", "value": [{"value": value}]}]}]})
     state.setdefault("reddit_posted", []).append(slug)
     json.dump(state, open(os.path.join(PIPE, "state.json"), "w"), indent=1)
     subprocess.check_call(["git", "-C", ROOT, "add", "pipeline/state.json"])
