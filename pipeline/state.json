@@ -30,5 +30,27 @@
   "memento-mori",
   "death",
   "gnostic-gospels"
- ]
+ ],
+ "schedule": {
+  "2026-08-18": "gnostic-gospels",
+  "2026-08-19": "kapwa-the-soul-of-unity",
+  "2026-08-20": "banality-of-evil",
+  "2026-08-21": "courage-to-be-disliked",
+  "2026-08-22": "dolce-far-niente",
+  "2026-08-23": "che-guevara",
+  "2026-08-24": "the-anxious-generation",
+  "2026-08-25": "voltaires-vision",
+  "2026-08-26": "making-sense",
+  "2026-08-27": "row-row-your-boat",
+  "2026-08-28": "soul-ride",
+  "2026-08-29": "the-filter",
+  "2026-08-30": "reaching-for-the-stars",
+  "2026-08-31": "zoom-in-zoom-out",
+  "2026-09-01": "fugazi",
+  "2026-09-02": "the-cave",
+  "2026-09-03": "pleasure-vs-purpose",
+  "2026-09-04": "the-art-of-asking",
+  "2026-09-05": "burnout-society",
+  "2026-09-06": "the-cost-of-playing"
+ }
 }

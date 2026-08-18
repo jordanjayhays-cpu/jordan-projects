@@ -308,7 +308,10 @@ def main():
         if settings is None:
             print(f"skipping {integ['platform']} ({integ['name']}): not configured")
             continue
-        social.append({"integrationId": integ["id"], "isPremium": False, "date": f"{nxt}T{POST_HOUR}",
+        STAGGER = {"youtube": "08:00:00", "facebook": "08:03:00",
+                   "instagram-standalone": "08:07:00", "instagram": "08:07:00", "tiktok": "08:14:00"}
+        slot = STAGGER.get(integ["platform"], POST_HOUR)
+        social.append({"integrationId": integ["id"], "isPremium": False, "date": f"{nxt}T{slot}",
                        "shortLink": False, "type": "schedule",
                        "postsAndComments": [{"content": body, "attachments": attach}],
                        "settings": settings})
@@ -318,6 +321,7 @@ def main():
 
     queue.pop(0)
     state["posted"].append(title)
+    state.setdefault("schedule", {})[nxt] = slug_
     state["last_scheduled_date"] = nxt
     json.dump(queue, open(os.path.join(PIPE, "queue.json"), "w"), indent=1)
     json.dump(state, open(os.path.join(PIPE, "state.json"), "w"), indent=1)
