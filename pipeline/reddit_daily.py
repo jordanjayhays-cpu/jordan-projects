@@ -33,7 +33,7 @@ def main():
     descs = json.load(open(os.path.join(PIPE, "descriptions.json")))
 
     end = datetime.now(timezone.utc)
-    start = end - timedelta(days=2)
+    start = end - timedelta(days=3)
     req = urllib.request.Request(
         f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
         f"&endDate={end.strftime('%Y-%m-%dT%H:%M:%SZ')}", headers={"Authorization": KEY})
@@ -44,12 +44,18 @@ def main():
            and p.get("state") == "PUBLISHED" and p.get("releaseURL")]
     if not yts:
         print("no published YouTube video found"); return
-    p = max(yts, key=lambda x: x.get("publishDate", ""))
-    raw = json.loads(p["settings"]).get("title", "") if isinstance(p.get("settings"), str) else ""
-    title = raw.split(" — Philosophical King")[0].strip() or "Philosophical King"
-    slug = re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", title.lower()).strip())
-    if slug in state.get("reddit_posted", []):
-        print(f"{slug} already on Reddit — done"); return
+    # every un-posted track from the window, oldest first (self-healing catch-up)
+    pending = []
+    for y in sorted(yts, key=lambda x: x.get("publishDate", "")):
+        raw = json.loads(y["settings"]).get("title", "") if isinstance(y.get("settings"), str) else ""
+        t = raw.split(" — Philosophical King")[0].strip() or "Philosophical King"
+        sl = re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", t.lower()).strip())
+        if sl not in state.get("reddit_posted", []):
+            pending.append((y, t, sl))
+    if not pending:
+        print("all recent tracks already on Reddit — done"); return
+    print(f"{len(pending)} track(s) pending for Reddit")
+    p, title, slug = pending[0]
 
     integs = mcp("integrationList", {})["output"]
     reddit = next((i for i in integs if i["platform"] == "reddit"), None)
