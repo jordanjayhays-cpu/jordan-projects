@@ -256,8 +256,8 @@ def main():
 
     # push video so Postiz can fetch it from the public raw URL
     subprocess.check_call(["git", "-C", ROOT, "add", "music-assets"])
-    subprocess.call(["git", "-C", ROOT, "-c", "user.name=pk-pipeline",
-                     "-c", "user.email=pipeline@philosophical-king.local",
+    subprocess.call(["git", "-C", ROOT, "-c", "user.name=Claude",
+                     "-c", "user.email=noreply@anthropic.com",
                      "commit", "-q", "-m", f"pipeline: add {title} teaser"])
     subprocess.check_call(["git", "-C", ROOT, "push", "origin",
                            "claude/philosophical-king-poster-raq2ke"])
@@ -326,8 +326,8 @@ def main():
     json.dump(queue, open(os.path.join(PIPE, "queue.json"), "w"), indent=1)
     json.dump(state, open(os.path.join(PIPE, "state.json"), "w"), indent=1)
     subprocess.check_call(["git", "-C", ROOT, "add", "pipeline"])
-    subprocess.call(["git", "-C", ROOT, "-c", "user.name=pk-pipeline",
-                     "-c", "user.email=pipeline@philosophical-king.local",
+    subprocess.call(["git", "-C", ROOT, "-c", "user.name=Claude",
+                     "-c", "user.email=noreply@anthropic.com",
                      "commit", "-q", "-m", f"pipeline: scheduled {title} for {nxt}"])
     subprocess.check_call(["git", "-C", ROOT, "push", "origin",
                            "claude/philosophical-king-poster-raq2ke"])

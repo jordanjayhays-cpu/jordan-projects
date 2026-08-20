@@ -96,8 +96,8 @@ def main():
     state.setdefault("reddit_posted", []).append(slug)
     json.dump(state, open(os.path.join(PIPE, "state.json"), "w"), indent=1)
     subprocess.check_call(["git", "-C", ROOT, "add", "pipeline/state.json"])
-    subprocess.call(["git", "-C", ROOT, "-c", "user.name=pk-pipeline",
-                     "-c", "user.email=pipeline@philosophical-king.local",
+    subprocess.call(["git", "-C", ROOT, "-c", "user.name=Claude",
+                     "-c", "user.email=noreply@anthropic.com",
                      "commit", "-q", "-m", f"reddit: posted {slug}"])
     subprocess.check_call(["git", "-C", ROOT, "push", "origin", "claude/philosophical-king-poster-raq2ke"])
     print(f"scheduled Reddit link post for {title} at {when} UTC -> {p['releaseURL']}")
