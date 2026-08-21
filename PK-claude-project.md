@@ -29,7 +29,7 @@ Lyrics come from faster-whisper (model small, `word_timestamps=True`, `vad_filte
 `<lyric hook from the track> 👑` + link + hashtags.
 - **YouTube (Shorts):** title `<Track> — Philosophical King (Official Lyric Teaser)`; description: hook, `Listen everywhere: <HyperFollow>`, `Spotify | Apple Music | Deezer | iHeartRadio`, hashtags + `#Shorts`
 - **Facebook:** hook, `<TRACK> — out on all platforms: ▶ <HyperFollow>`, hashtags
-- **Instagram:** hook, `<TRACK> — streaming everywhere. Link in bio.`, hashtags (+`#StoicWisdom #DailyPhilosophy`)
+- **Instagram:** hook, `<TRACK> — out everywhere:`, then `▶ <HyperFollow full URL>` on its own line, hashtags (+`#StoicWisdom #DailyPhilosophy`). The URL is mandatory even though IG does not hyperlink it.
 - **TikTok:** hook, `Full track everywhere: <link>`, hashtags + `#fyp`; settings: DIRECT_POST, public, comments/duet/stitch ON, AI-content label ON
 - Filipino-themed tracks add 🇵🇭, `Salamat sa lahat ng nakinig. 🙏`, tags `#Bayanihan #FilipinoPride #Pinoy`
 - Hashtag core everywhere: `#Philosophy #PhilosophicalKing`
