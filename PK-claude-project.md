@@ -54,6 +54,9 @@ Lyrics come from faster-whisper (model small, `word_timestamps=True`, `vad_filte
 
 ## 6. Standing rules for Claude in this project
 
+- **Link rule (Jordan, Aug 2026): the full URL goes in the post text on EVERY platform, always — including Instagram.**
+  Never write "link in bio" as the only pointer. Instagram captions don't hyperlink, but the URL must still be
+  visible and copyable in the caption; "link in bio" may only ever be an addition to it, never a replacement.
 - **Reddit hard rule (Jordan, Aug 2026): every daily TRACK post on Reddit MUST be a link post to a live YouTube video** (Substack essays may also be link-posted when Jordan asks) (renders as playable video in-feed), title = plain track name, body = one varied human sentence about the song's idea (never formulaic "A song about..."), no promotional wording, no hashtags. If no YouTube video is live for a track, no Reddit post — never a bare text post.
 
 - Extend, don't duplicate: the daily pipeline already posts 1 track/day to all 4 channels. Before scheduling anything, check the Postiz calendar (postsListTool) for collisions.
