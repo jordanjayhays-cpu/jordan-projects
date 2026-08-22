@@ -17,7 +17,7 @@ W, H, FPS = 1080, 1920, 30
 TEAL = (200, 224, 216)
 GREY = (122, 126, 135)
 SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
-DISSOLVE = 0.9          # seconds of cross-fade between shots
+DISSOLVE = 0.45         # seconds of cross-fade between shots (short, so 3s shots hold)
 OVERSCAN = 1.32         # how much bigger than frame the still is, to allow movement
 
 def font(sz):
@@ -36,11 +36,18 @@ def prep(path):
     return im
 
 # camera moves, one per shot index (cycles): (zoom_start, zoom_end, x_dir, y_dir)
+# Sequenced so no two neighbouring shots share a gesture — at 3s a repeat reads as a stutter.
 MOVES = [
-    (1.00, 1.10,  0.0,  0.0),   # slow push in
-    (1.08, 1.00,  0.35, 0.0),   # pull back, drift right
-    (1.00, 1.09, -0.30, 0.15),  # push, drift left/down
-    (1.06, 1.00,  0.0, -0.30),  # pull back, rise
+    (1.00, 1.12,  0.00,  0.00),   # 1  drawn in
+    (1.02, 1.14,  0.00, -0.20),   # 2  push toward the light
+    (1.12, 1.00,  0.00,  0.00),   # 3  pull back, open up
+    (1.04, 1.04,  0.45,  0.00),   # 4  lateral drift right
+    (1.00, 1.11, -0.20,  0.22),   # 5  push in, settle down
+    (1.06, 1.06, -0.45,  0.00),   # 6  lateral drift left
+    (1.00, 1.09,  0.00,  0.12),   # 7  push, held wide enough to read
+    (1.10, 1.00,  0.00, -0.35),   # 8  pull back, rise
+    (1.00, 1.15,  0.15, -0.15),   # 9  push through
+    (1.14, 1.00,  0.00,  0.00),   # 10 pull back, settle
 ]
 
 def frame_from(im, p, move):
@@ -55,6 +62,25 @@ def frame_from(im, p, move):
     cx = max(0, min(max_x, cx)); cy = max(0, min(max_y, cy))
     crop = im.crop((int(cx), int(cy), int(cx + cw), int(cy + ch)))
     return crop.resize((W, H), Image.LANCZOS)
+
+def scrim(top, peak_a, peak_b, bottom, alpha):
+    """A soft dark band that fades in/out vertically — keeps text legible over bright shots."""
+    m = Image.new("L", (1, H), 0)
+    px = m.load()
+    for y in range(H):
+        if y <= top or y >= bottom:
+            v = 0.0
+        elif y < peak_a:
+            v = ease((y - top) / (peak_a - top))
+        elif y <= peak_b:
+            v = 1.0
+        else:
+            v = ease((bottom - y) / (bottom - peak_b))
+        px[0, y] = int(alpha * v)
+    m = m.resize((W, H))
+    band = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    band.putalpha(m)
+    return band
 
 def vignette_mask():
     m = Image.new("L", (W, H), 0)
@@ -80,6 +106,8 @@ def main():
 
     lines = json.load(open(lyr_path)) if os.path.exists(lyr_path) else []
     vig = vignette_mask()
+    top_scrim = scrim(60, 150, 250, 400, 120)          # holds the watermark on bright shots
+    lyric_scrim = scrim(1100, 1300, 1500, 1740, 150)   # holds the lyric line
     black = Image.new("RGB", (W, H), (0, 0, 0))
     total = int(dur * FPS)
     tmp = tempfile.mkdtemp()
@@ -107,6 +135,8 @@ def main():
         # vignette
         img = Image.composite(img, Image.blend(img, black, 0.55), vig)
 
+        img = Image.alpha_composite(img.convert("RGBA"), top_scrim).convert("RGB")
+
         d = ImageDraw.Draw(img)
         # watermark, below the platform's top UI band
         d.text((W / 2, 200 + 3), "PHILOSOPHICAL KING", font=font(38), fill=(0, 0, 0), anchor="mm")
@@ -117,6 +147,9 @@ def main():
         if cur and cur.get("text"):
             fade = max(0.0, min(1.0, (t - cur["s"]) / 0.3, (cur["e"] - t) / 0.3 + 0.4))
             if fade > 0:
+                sc = lyric_scrim.copy()
+                sc.putalpha(sc.getchannel("A").point(lambda v: int(v * fade)))
+                img = Image.alpha_composite(img.convert("RGBA"), sc).convert("RGB")
                 ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
                 od = ImageDraw.Draw(ov)
                 a = int(255 * fade)
