@@ -41,12 +41,12 @@ MOVES = [
     (1.00, 1.12,  0.00,  0.00),   # 1  drawn in
     (1.02, 1.14,  0.00, -0.20),   # 2  push toward the light
     (1.12, 1.00,  0.00,  0.00),   # 3  pull back, open up
-    (1.04, 1.04,  0.45,  0.00),   # 4  lateral drift right
+    (1.10, 1.00,  0.15,  0.00),   # 4  pull back to reveal the wall
     (1.00, 1.11, -0.20,  0.22),   # 5  push in, settle down
     (1.06, 1.06, -0.45,  0.00),   # 6  lateral drift left
     (1.00, 1.09,  0.00,  0.12),   # 7  push, held wide enough to read
     (1.10, 1.00,  0.00, -0.35),   # 8  pull back, rise
-    (1.00, 1.15,  0.15, -0.15),   # 9  push through
+    (1.02, 1.08,  0.10, -0.05),   # 9  slow creep, keeps the figure framed
     (1.14, 1.00,  0.00,  0.00),   # 10 pull back, settle
 ]
 
@@ -106,8 +106,8 @@ def main():
 
     lines = json.load(open(lyr_path)) if os.path.exists(lyr_path) else []
     vig = vignette_mask()
-    top_scrim = scrim(60, 150, 250, 400, 120)          # holds the watermark on bright shots
-    lyric_scrim = scrim(1100, 1300, 1500, 1740, 150)   # holds the lyric line
+    top_scrim = scrim(60, 150, 250, 400, 135)          # holds the watermark on bright shots
+    lyric_scrim = scrim(1100, 1290, 1510, 1760, 205)   # holds the lyric line
     black = Image.new("RGB", (W, H), (0, 0, 0))
     total = int(dur * FPS)
     tmp = tempfile.mkdtemp()
@@ -132,8 +132,8 @@ def main():
         elif t > dur - 1.2:
             img = Image.blend(black, img, ease(max(0.0, (dur - t) / 1.2)))
 
-        # vignette
-        img = Image.composite(img, Image.blend(img, black, 0.55), vig)
+        # vignette (light — the stills already carry their own falloff)
+        img = Image.composite(img, Image.blend(img, black, 0.35), vig)
 
         img = Image.alpha_composite(img.convert("RGBA"), top_scrim).convert("RGB")
 
@@ -174,7 +174,7 @@ def main():
         "ffmpeg", "-v", "error", "-y", "-framerate", str(FPS), "-i", f"{tmp}/%05d.jpg",
         "-i", audio,
         # film grain + slight contrast for cohesion across generated stills
-        "-vf", "noise=alls=7:allf=t+u,eq=contrast=1.06:saturation=1.04",
+        "-vf", "noise=alls=4:allf=t+u,eq=contrast=1.06:saturation=1.04",
         "-c:v", "libx264", "-preset", "slow", "-crf", "19", "-pix_fmt", "yuv420p",
         "-c:a", "aac", "-b:a", "192k", "-shortest", "-t", f"{dur:.2f}", out])
     shutil.rmtree(tmp, ignore_errors=True)
