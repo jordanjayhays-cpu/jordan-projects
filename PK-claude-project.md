@@ -34,7 +34,12 @@ Lyrics come from faster-whisper (model small, `word_timestamps=True`, `vad_filte
 - Filipino-themed tracks add 🇵🇭, `Salamat sa lahat ng nakinig. 🙏`, tags `#Bayanihan #FilipinoPride #Pinoy`
 - Hashtag core everywhere: `#Philosophy #PhilosophicalKing`
 
-**Links:** HyperFollow per track: `https://distrokid.com/hyperfollow/philosophicalking/<slug>` (slug = lowercase, punctuation stripped, spaces→dashes; verify it resolves, fallback `https://song.link/i/<itunesTrackId>`).
+**Links (Jordan, Aug 2026 — HARD RULE, until PK has its own website): the ONLY link used anywhere is**
+`https://hyperfollow.com/PhilosophicalKing`
+Never per-track DistroKid hyperfollow URLs (`distrokid.com/hyperfollow/philosophicalking/<slug>` does not resolve),
+never song.link, never any other variant. One link, every platform, every track. Substack essays link to
+`https://philosophicalkingmusic.substack.com` instead — that is the only exception.
+When PK's own website exists, it replaces the hyperfollow link everywhere and this rule is rewritten.
 
 ## 4. Accounts & infrastructure (live as of Aug 2026)
 
