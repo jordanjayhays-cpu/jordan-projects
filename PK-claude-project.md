@@ -11,7 +11,28 @@ You are the operations brain for **Philosophical King (PK)** — Jordan's philos
 
 ## 2. Visual system — video templates
 
-**Current standard: the KINETIC teaser template** — built in the Omelette project "Music teaser animation template" (`PK Kinetic Teaser.dc.html`, spec in `TEASER-SPEC.md` + that project's `CLAUDE.md` — read those first). Do NOT produce the old flat "static cover + one fading lyric" video anymore. The kinetic template adds: (1) cold open deep in the cover art, hook landing word-by-word with the final word in gold `#e9c46a`, closing on the 150×2px gold rule; (2) one continuous camera pull-back settling into the locked framing at the Reveal cue; (3) lyrics verbatim from `<slug>-lyrics.json`, one line at a time; (4) end card (cover, track name, gold rule, link line, 👑, wordmark). Per-track inputs only: `assets/art/<slug>.jpg` (iTunes master), `assets/lyrics/<slug>.json`, iTunes track id in `componentDidMount` (resolves the official 30s preview itself), `HOOK`, `OM_SCENES` retimed to phrase edges (Bayanihan reference cut: 1.68/1.52/4.56/6.88/3.56/4.2 = 22.4s), `cta` link line. Transcripts are preview-relative — they only sync from 0:00 of the preview. If Apple's CDN blocks audio capture on export, drop a local file in `assets/` and set the `audioSrc` tweak. Export the video → upload to Postiz for scheduling; never post to platforms directly. If a chat can't reach the Omelette project files, it needs `TEASER-SPEC.md` and `pk-teaser.jsx` as attachments.
+**Current standard (Jordan, Aug 2026): the MINI MOVIE template.** Ten-ish AI-generated
+stills cut at **2.5–3 seconds each** (use 2.75s; `shots = round(duration / 2.75)`), each shot a
+beat in a story drawn from that track's own lyrics — not an illustration of a line. Rendered by
+`pipeline/movie_render.py`. Reference build: The Cave (`music-assets/the-cave-minimovie-v3.mp4`).
+
+Non-negotiables for every mini movie:
+1. **One recurring character** across the whole catalogue — the Wanderer. Locked spec in
+   `music-assets/movie-shots/CHARACTER.md`; paste the CHARACTER and STYLE blocks verbatim into
+   every prompt. He is always back-to-camera and silhouetted so there is no face to mismatch.
+2. **A story, not a slideshow.** Each shot must be caused by the one before it, and one object
+   must persist across the whole film (The Cave: the chains. Memento Mori: the hourglass). If the
+   lyrics are aphoristic rather than narrative, build the arc yourself — see
+   `music-assets/movie-shots/memento-mori/SHOTLIST.md` for how, and the v1-vs-v2 difference for
+   why it matters.
+3. **Never open on black.** Measured: The Cave opened at brightness 0.3 and took 1.5s to reach
+   normal, and retained 48% against the old teasers' 58–75%. The first second is the entire
+   retention decision on a Short. Fade out only.
+4. **Cut to the lyric windows** — each shot gets the line that *dominates* its window, not the
+   line that starts in it. Songs are often non-linear; follow the lyric, not the myth.
+5. Trim the generator's printed film border before rendering (`m = int(w * 0.055)`).
+
+**Superseded: the KINETIC teaser template** — built in the Omelette project "Music teaser animation template" (`PK Kinetic Teaser.dc.html`, spec in `TEASER-SPEC.md` + that project's `CLAUDE.md` — read those first). Do NOT produce the old flat "static cover + one fading lyric" video anymore. The kinetic template adds: (1) cold open deep in the cover art, hook landing word-by-word with the final word in gold `#e9c46a`, closing on the 150×2px gold rule; (2) one continuous camera pull-back settling into the locked framing at the Reveal cue; (3) lyrics verbatim from `<slug>-lyrics.json`, one line at a time; (4) end card (cover, track name, gold rule, link line, 👑, wordmark). Per-track inputs only: `assets/art/<slug>.jpg` (iTunes master), `assets/lyrics/<slug>.json`, iTunes track id in `componentDidMount` (resolves the official 30s preview itself), `HOOK`, `OM_SCENES` retimed to phrase edges (Bayanihan reference cut: 1.68/1.52/4.56/6.88/3.56/4.2 = 22.4s), `cta` link line. Transcripts are preview-relative — they only sync from 0:00 of the preview. If Apple's CDN blocks audio capture on export, drop a local file in `assets/` and set the `audioSrc` tweak. Export the video → upload to Postiz for scheduling; never post to platforms directly. If a chat can't reach the Omelette project files, it needs `TEASER-SPEC.md` and `pk-teaser.jsx` as attachments.
 
 **Locked constants (both templates — never redesign):** watermark y=110, art 1000×1000 at y=250, waveform 900×120 at (90,1380), lyric y=1560, drift `x=40·sin(2πn/1500)` / `y=40·cos(2πn/1900)`, the six canonical hexes, the serif stack, hard `0 3px 0 rgba(0,0,0,.9)` text shadows, zero radius.
 
