@@ -126,10 +126,10 @@ def main():
             nxt = frame_from(imgs[idx + 1], (DISSOLVE - into_next) / per, MOVES[(idx + 1) % len(MOVES)])
             img = Image.blend(img, nxt, ease(a))
 
-        # open from / close to black
-        if t < 1.2:
-            img = Image.blend(black, img, ease(t / 1.2))
-        elif t > dur - 1.2:
+        # NO fade-in: on a Short the first second decides retention, and opening
+        # on black measurably cost us (The Cave 48% vs the teasers' 58-75%).
+        # Close to black only.
+        if t > dur - 1.2:
             img = Image.blend(black, img, ease(max(0.0, (dur - t) / 1.2)))
 
         # vignette (light — the stills already carry their own falloff)
