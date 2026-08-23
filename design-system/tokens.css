@@ -1,0 +1,59 @@
+/* Philosophical King — design tokens
+   Every value here is taken from the shipping system (pipeline/movie_render.py
+   and the published assets), not invented for this file. */
+
+:root {
+  /* ---- Colour -------------------------------------------------------------
+     Monochrome teal and cyan. There is no second accent colour anywhere in the
+     brand; emphasis comes from gold or from scale. */
+  --pk-ground:        #0e0f13;  /* near-black — the ground for everything */
+  --pk-ground-raised: #15171c;  /* cards sitting on the ground */
+  --pk-teal:          #c8e0d8;  /* primary text, wordmark, lyric lines */
+  --pk-teal-dim:      #8fa9a2;  /* secondary text on dark */
+  --pk-ivory:         #eef4f2;  /* headings that need to sit above the teal */
+  --pk-gold:          #e9c46a;  /* ACCENT ONLY: rules, one landing word */
+  --pk-gold-dim:      #b09a4a;  /* waveforms, secondary marks */
+  --pk-grey:          #7a7e87;  /* footers, URLs, metadata */
+
+  /* Imagery lives in the same range */
+  --pk-cyan-glow:     #7fd4c8;
+  --pk-shadow-blue:   #0a1418;
+
+  /* ---- Type ---------------------------------------------------------------
+     A serif throughout. It reads as inscription rather than interface, which is
+     the whole point of the project. */
+  --pk-serif: "Cambria", "Bookman Old Style", Georgia, "DejaVu Serif", serif;
+  --pk-sans:  "Calibri", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --pk-size-display: 4rem;    /* title cards */
+  --pk-size-h1:      2.5rem;
+  --pk-size-h2:      1.5rem;
+  --pk-size-lyric:   1.9rem;  /* 52px at video scale */
+  --pk-size-body:    1rem;
+  --pk-size-meta:    0.8125rem;
+
+  --pk-tracking-wordmark: 0.34em;  /* P H I L O S O P H I C A L   K I N G */
+
+  /* ---- Form ---------------------------------------------------------------
+     Nothing rounds. Shadows are hard, never blurred. */
+  --pk-radius: 0;
+  --pk-shadow-text: 0 3px 0 rgba(0, 0, 0, 0.9);
+  --pk-rule: 2px;
+  --pk-rule-width: 150px;
+
+  /* ---- Space --------------------------------------------------------------- */
+  --pk-gap-xs: 0.5rem;
+  --pk-gap-sm: 1rem;
+  --pk-gap-md: 2rem;
+  --pk-gap-lg: 4rem;
+
+  /* ---- Video safe zones (1080x1920 native canvas) --------------------------
+     Short-form platform UI eats the top and bottom of the frame. These are
+     measured positions, not guesses. */
+  --pk-canvas-w: 1080px;
+  --pk-canvas-h: 1920px;
+  --pk-watermark-y: 200px;   /* below the top UI band */
+  --pk-lyric-y: 1380px;      /* above the bottom UI band */
+  --pk-scrim-top: 1100px;    /* text between here and 1760 needs a dark scrim */
+  --pk-scrim-bottom: 1760px;
+}
