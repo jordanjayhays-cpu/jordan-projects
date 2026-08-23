@@ -1,3 +1,28 @@
+/* ---- Brand fonts ----------------------------------------------------------
+   Self-hosted, no network dependency, no proprietary faces. DejaVu Serif is
+   what pipeline/movie_render.py uses for every lyric line and watermark, so
+   web output matches video output exactly. */
+@font-face {
+  font-family: "DejaVu Serif";
+  src: url("fonts/DejaVuSerif.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "DejaVu Serif";
+  src: url("fonts/DejaVuSerif-Bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "DejaVu Sans";
+  src: url("fonts/DejaVuSans.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "DejaVu Sans";
+  src: url("fonts/DejaVuSans-Bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
 /* Philosophical King — design tokens
    Every value here is taken from the shipping system (pipeline/movie_render.py
    and the published assets), not invented for this file. */
@@ -21,9 +46,14 @@
 
   /* ---- Type ---------------------------------------------------------------
      A serif throughout. It reads as inscription rather than interface, which is
-     the whole point of the project. */
-  --pk-serif: "Cambria", "Bookman Old Style", Georgia, "DejaVu Serif", serif;
-  --pk-sans:  "Calibri", system-ui, -apple-system, "Segoe UI", sans-serif;
+     the whole point of the project.
+
+     DejaVu Serif is THE brand font — it is what the video renderer draws every
+     lyric and watermark with, so it is the only face that matches published
+     output exactly. The files ship in fonts/ under a permissive licence
+     (fonts/LICENSE.txt); there is nothing proprietary to license or chase. */
+  --pk-serif: "DejaVu Serif", Georgia, "Times New Roman", serif;
+  --pk-sans:  "DejaVu Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --pk-size-display: 4rem;    /* title cards */
   --pk-size-h1:      2.5rem;
