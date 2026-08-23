@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Philosophical King — design system</title>
+<link rel="stylesheet" href="components.css">
+<style>
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+  section { margin-bottom: 5rem; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+  .sw { height: 110px; display: flex; align-items: flex-end; padding: 0.65rem; font-size: 0.75rem; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .label { color: var(--pk-grey); font-size: 0.75rem; letter-spacing: 0.08em;
+           text-transform: uppercase; margin-bottom: 0.75rem; }
+  @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header style="margin-bottom:4rem">
+    <div class="pk-wordmark">Philosophical King</div>
+    <hr class="pk-rule">
+    <h1 class="pk-display">Design system</h1>
+    <p class="pk-meta" style="max-width:52ch">
+      Philosophy set to music. 250+ tracks, daily short-form video, an audience
+      that is roughly 90% Philippines.
+    </p>
+  </header>
+
+  <section>
+    <div class="label">Colour — monochrome teal and cyan, nothing else</div>
+    <div class="swatches">
+      <div class="sw" style="background:#0e0f13;color:#eef4f2;border:1px solid #2a2d33">#0e0f13 ground</div>
+      <div class="sw" style="background:#c8e0d8;color:#0e0f13">#c8e0d8 teal</div>
+      <div class="sw" style="background:#e9c46a;color:#0e0f13">#e9c46a gold</div>
+      <div class="sw" style="background:#b09a4a;color:#0e0f13">#b09a4a gold dim</div>
+      <div class="sw" style="background:#7a7e87;color:#0e0f13">#7a7e87 grey</div>
+    </div>
+    <p class="pk-meta" style="margin-top:1rem">
+      There is no second accent colour. Emphasis comes from gold or from scale.
+    </p>
+  </section>
+
+  <section>
+    <div class="label">Type — serif throughout</div>
+    <p class="pk-display">Memento mori</p>
+    <p class="pk-h1">The cave fell behind</p>
+    <p class="pk-lyric">Break the chains, <span class="pk-land">step outside</span></p>
+    <p class="pk-meta">
+      Serif reads as inscription rather than interface. Gold takes one landing
+      word, never a whole line. Shadows are hard, never blurred. Nothing rounds.
+    </p>
+  </section>
+
+  <section>
+    <div class="label">Components</div>
+    <div class="grid2">
+      <div class="pk-quote-card">
+        <blockquote>It is easier to imagine the end of the world than the end of capitalism.</blockquote>
+        <cite>Mark Fisher</cite>
+        <hr class="pk-rule">
+        <span class="pk-link">hyperfollow.com/PhilosophicalKing</span>
+      </div>
+
+      <div class="pk-card">
+        <h2 class="pk-h2">Card</h2>
+        <p style="color:var(--pk-teal-dim)">
+          Surfaces sit on the ground colour with a hairline teal border. No
+          rounding, no blurred shadow, no gradient used as decoration.
+        </p>
+        <hr class="pk-rule">
+        <a class="pk-btn" href="https://hyperfollow.com/PhilosophicalKing">Listen</a>
+        <a class="pk-btn pk-btn--ghost" href="https://philosophicalkingmusic.substack.com">Read</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Social post — 1080×1350, the full URL always visible</div>
+    <div style="max-width:380px">
+      <div class="pk-post">
+        <div class="pk-post__image" style="background:
+          radial-gradient(circle at 50% 38%, #7fd4c8 0%, #14494b 45%, #0a1418 100%)"></div>
+        <div class="pk-post__scrim pk-scrim"></div>
+        <div class="pk-post__body">
+          <div class="pk-wordmark" style="font-size:0.7rem">Philosophical King</div>
+          <h2 class="pk-h1" style="margin:0.5rem 0 0">Plato's Cave</h2>
+          <hr class="pk-rule">
+          <p class="pk-lyric" style="font-size:1.1rem;margin:0 0 0.5rem">
+            Your whole life, shadows on a wall.
+          </p>
+          <span class="pk-link">philosophicalkingmusic.substack.com</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="label">Video safe zones — 1080×1920 native canvas</div>
+    <div class="pk-card">
+      <p style="color:var(--pk-teal-dim);margin-top:0">
+        Short-form platform UI eats the top and bottom of the frame. These are
+        measured positions from the shipping renderer, not guesses.
+      </p>
+      <ul style="color:var(--pk-teal-dim)">
+        <li><strong style="color:var(--pk-gold)">y = 200</strong> — watermark, below the top UI band</li>
+        <li><strong style="color:var(--pk-gold)">y ≈ 1380</strong> — lyric line, above the bottom UI band</li>
+        <li><strong style="color:var(--pk-gold)">1100–1760</strong> — needs a scrim behind it, or teal text vanishes against teal imagery</li>
+      </ul>
+      <p class="pk-meta">
+        Never open on black. Measured: a video that faded in from black retained
+        48% where the same-length alternatives retained 58–75%.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <hr class="pk-rule">
+    <span class="pk-wordmark" style="font-size:0.7rem">Philosophical King</span>
+    <span class="pk-mark"></span>
+    <p class="pk-link">https://hyperfollow.com/PhilosophicalKing</p>
+  </footer>
+
+</div>
+</body>
+</html>

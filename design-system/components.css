@@ -1,0 +1,150 @@
+/* Philosophical King — components
+   Built on tokens.css. Nothing rounds, no gradients, no blurred shadows,
+   no second accent colour. */
+
+@import "tokens.css";
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--pk-ground);
+  color: var(--pk-teal);
+  font-family: var(--pk-sans);
+  font-size: var(--pk-size-body);
+  line-height: 1.6;
+}
+
+/* ---- Wordmark ------------------------------------------------------------
+   Always spaced caps. Never set solid, never lowercase. */
+.pk-wordmark {
+  font-family: var(--pk-serif);
+  letter-spacing: var(--pk-tracking-wordmark);
+  text-transform: uppercase;
+  color: var(--pk-teal);
+  font-size: 0.875rem;
+  text-shadow: var(--pk-shadow-text);
+}
+.pk-mark::after { content: "\265B"; color: var(--pk-gold); }
+
+/* ---- Type ---------------------------------------------------------------- */
+.pk-display,
+.pk-h1,
+.pk-h2 { font-family: var(--pk-serif); color: var(--pk-ivory); margin: 0; font-weight: 700; }
+.pk-display { font-size: var(--pk-size-display); line-height: 1.05; }
+.pk-h1      { font-size: var(--pk-size-h1); line-height: 1.15; }
+.pk-h2      { font-size: var(--pk-size-h2); line-height: 1.25; }
+
+.pk-lyric {
+  font-family: var(--pk-serif);
+  font-size: var(--pk-size-lyric);
+  color: var(--pk-teal);
+  text-shadow: var(--pk-shadow-text);
+  line-height: 1.35;
+}
+
+/* The one landing word of a hook takes gold. Never a whole line. */
+.pk-land { color: var(--pk-gold); }
+
+.pk-meta {
+  font-size: var(--pk-size-meta);
+  color: var(--pk-grey);
+  letter-spacing: 0.04em;
+}
+
+/* ---- Gold rule -----------------------------------------------------------
+   The only decorative element in the system. 150x2px, never full width. */
+.pk-rule {
+  width: var(--pk-rule-width);
+  height: var(--pk-rule);
+  background: var(--pk-gold);
+  border: 0;
+  margin: var(--pk-gap-sm) 0;
+}
+
+/* ---- Surfaces ------------------------------------------------------------- */
+.pk-card {
+  background: var(--pk-ground-raised);
+  border-radius: var(--pk-radius);
+  padding: var(--pk-gap-md);
+  border: 1px solid rgba(200, 224, 216, 0.08);
+}
+
+/* Scrim — required behind text sitting over imagery, or teal disappears
+   against a teal photograph. Measured, not decorative. */
+.pk-scrim {
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 12, 14, 0) 0%,
+    rgba(6, 12, 14, 0.82) 45%,
+    rgba(6, 12, 14, 0.94) 100%
+  );
+}
+
+/* ---- Buttons -------------------------------------------------------------- */
+.pk-btn {
+  display: inline-block;
+  font-family: var(--pk-serif);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pk-ground);
+  background: var(--pk-teal);
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: var(--pk-radius);
+  text-decoration: none;
+  cursor: pointer;
+}
+.pk-btn--ghost {
+  background: transparent;
+  color: var(--pk-teal);
+  border: 1px solid var(--pk-teal);
+}
+.pk-btn:hover { background: var(--pk-gold); color: var(--pk-ground); }
+.pk-btn--ghost:hover { background: var(--pk-teal); color: var(--pk-ground); }
+
+/* ---- Quote card — the static-image side project -------------------------- */
+.pk-quote-card {
+  aspect-ratio: 1 / 1;
+  background: var(--pk-ground);
+  padding: var(--pk-gap-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.pk-quote-card blockquote {
+  margin: 0;
+  font-family: var(--pk-serif);
+  font-size: 1.75rem;
+  color: var(--pk-gold);
+  line-height: 1.3;
+}
+.pk-quote-card cite {
+  display: block;
+  margin-top: var(--pk-gap-sm);
+  font-style: normal;
+  color: var(--pk-ivory);
+  font-family: var(--pk-serif);
+}
+
+/* ---- Social post — 1080x1350 (Instagram portrait) ------------------------ */
+.pk-post {
+  aspect-ratio: 4 / 5;
+  position: relative;
+  overflow: hidden;
+  background: var(--pk-ground);
+}
+.pk-post__image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pk-post__scrim { position: absolute; inset: 0; }
+.pk-post__body  { position: absolute; left: 7%; right: 7%; bottom: 6%; }
+
+/* ---- Link line -----------------------------------------------------------
+   HARD RULE: the full URL is always visible text. Never "link in bio" alone,
+   on any platform. */
+.pk-link {
+  color: var(--pk-grey);
+  font-size: var(--pk-size-meta);
+  letter-spacing: 0.04em;
+  word-break: break-all;
+}
