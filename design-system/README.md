@@ -37,6 +37,13 @@ introducing a new hue.
 point of the project. Wordmark is always spaced caps: `P H I L O S O P H I C A L   K I N G`.
 Mark: ♛.
 
+**The brand font is DejaVu Serif**, and it ships in `fonts/` as woff2 with `@font-face`
+already wired up in `tokens.css` — nothing to install, nothing proprietary, no network
+call. It is the same face `pipeline/movie_render.py` draws every lyric line and watermark
+with, so web output matches published video exactly. `DejaVu Sans` is bundled for the rare
+supporting label. Licence in `fonts/LICENSE.txt` (permissive — free to embed and
+redistribute).
+
 **Nothing rounds.** `border-radius: 0` everywhere. Shadows are hard —
 `0 3px 0 rgba(0,0,0,.9)` — never blurred. No gradients used as decoration.
 
