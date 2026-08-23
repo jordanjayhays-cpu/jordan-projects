@@ -10,3 +10,13 @@ vendor.nomin.mn), Tavan Bogd in parallel. Startup ballpark $1,500–4,000.
 Validated when: one signed brand mandate + one Mongolian importer sample request.
 
 Open items: verify de minimis rule (conflicting $290 vs $50), real freight quotes, named Nomin buyers.
+
+## Product direction from Jordan (2026-08-23)
+"Kleenex-like products" — everyday US household consumer staples (tissue/paper goods, hygiene,
+supermarket brands), not supplements-first. Implications:
+- Low value-per-kg -> AIR IS OUT. This is a pallet/container sea+rail play (Tianjin bonded transit)
+  from day one, pitched to supermarket import arms (Nomin Foods/retail, Good Price, etc.).
+- Fits the "Kirkland cachet" finding: American supermarket goods carry brand premium in UB.
+- Open question (next research): which US staple brands do NOT already have Mongolia/regional
+  distribution? Kimberly-Clark (Kleenex) itself likely distributes via Asia channels — UNSURE,
+  must verify brand by brand. The gap list IS the pitch deck.
