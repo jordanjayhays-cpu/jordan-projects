@@ -1,0 +1,205 @@
+<title>Puhunan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --cream:#fff7ea; --card:#fffdf8; --card2:#fdefd8; --line:#eaddc4;
+    --ink:#2c2013; --muted:#6d5c45; --faint:#a08d72;
+    --sun:#eb9d2e; --sun-deep:#d1811a; --sun-soft:#eb9d2e18;
+    --clay:#c9573a; --leaf:#2f7d57; --leaf-soft:#2f7d5714;
+    --disp:"Fraunces",Georgia,serif;
+    --sans:"Figtree",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --cream:#16110a; --card:#1e1710; --card2:#251c11; --line:#332818;
+    --ink:#f2e8d6; --muted:#b6a487; --faint:#7c6c53;
+    --sun:#f0ab45; --sun-deep:#e0942c; --sun-soft:#f0ab4518;
+    --clay:#e07050; --leaf:#54b483; --leaf-soft:#54b48316;
+  }}
+  :root[data-theme="dark"]{
+    --cream:#16110a; --card:#1e1710; --card2:#251c11; --line:#332818;
+    --ink:#f2e8d6; --muted:#b6a487; --faint:#7c6c53;
+    --sun:#f0ab45; --sun-deep:#e0942c; --sun-soft:#f0ab4518;
+    --clay:#e07050; --leaf:#54b483; --leaf-soft:#54b48316;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  img{max-width:100%}
+  .shell{max-width:1080px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:18px clamp(16px,4vw,32px);max-width:1080px;margin:0 auto}
+  .logo{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:800;font-size:22px;color:var(--ink)}
+  .logo .sun{width:22px;height:22px}
+  .navcta{background:var(--sun);color:#3a2610;font-weight:700;font-size:14px;padding:10px 20px;border-radius:999px;text-decoration:none}
+  .navcta:hover{background:var(--sun-deep)}
+
+  /* hero */
+  .hero{position:relative;text-align:center;padding:56px 0 44px;overflow:hidden}
+  .rays{position:absolute;left:50%;top:-40px;width:520px;height:520px;transform:translateX(-50%);pointer-events:none;
+    background:radial-gradient(circle at 50% 40%, #eb9d2e26 0%, #eb9d2e0d 38%, transparent 66%)}
+  .eyebrow{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:13px;color:var(--sun-deep);
+    background:var(--sun-soft);border:1px solid #eb9d2e40;border-radius:999px;padding:6px 14px;position:relative}
+  h1{font-family:var(--disp);font-weight:800;font-size:clamp(38px,7vw,62px);line-height:1.03;letter-spacing:-.02em;
+    margin:20px auto 0;max-width:16ch;text-wrap:balance;position:relative}
+  h1 em{font-style:italic;color:var(--sun-deep)}
+  .lede{font-size:18.5px;color:var(--muted);max-width:52ch;margin:20px auto 0;position:relative}
+  .lede b{color:var(--ink)}
+  .heroctas{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
+  .btn{display:inline-block;font-weight:700;font-size:16px;text-decoration:none;border-radius:999px;padding:14px 30px}
+  .btn.primary{background:var(--sun);color:#3a2610}
+  .btn.primary:hover{background:var(--sun-deep)}
+  .btn.ghost{color:var(--sun-deep);border:1.5px solid #eb9d2e66}
+  .tagalog{margin-top:18px;font-family:var(--disp);font-style:italic;font-size:17px;color:var(--faint);position:relative}
+
+  /* trust strip */
+  .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:36px;position:relative}
+  @media (max-width:620px){.trust{grid-template-columns:1fr}}
+  .tcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center}
+  .tcard .n{font-family:var(--disp);font-weight:800;font-size:24px;color:var(--sun-deep)}
+  .tcard .l{font-size:13.5px;color:var(--muted);margin-top:4px}
+
+  section{padding:56px 0 0}
+  h2{font-family:var(--disp);font-weight:700;font-size:clamp(26px,4vw,36px);letter-spacing:-.01em;text-align:center;text-wrap:balance}
+  .ssub{color:var(--muted);text-align:center;max-width:50ch;margin:12px auto 0;font-size:16px}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+  @media (max-width:720px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 24px;text-align:center}
+  .stepn{width:44px;height:44px;margin:0 auto 14px;border-radius:50%;background:var(--sun-soft);border:1px solid #eb9d2e40;
+    display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;color:var(--sun-deep);font-size:18px}
+  .step h3{font-family:var(--disp);font-weight:600;font-size:19px;margin-bottom:8px}
+  .step p{font-size:14.5px;color:var(--muted)}
+
+  /* what we back */
+  .backs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+  @media (max-width:720px){.backs{grid-template-columns:1fr}}
+  .back{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;gap:14px;align-items:flex-start}
+  .back .ic{font-size:30px;line-height:1;flex:none}
+  .back h3{font-family:var(--disp);font-weight:600;font-size:18px;margin-bottom:4px}
+  .back p{font-size:14px;color:var(--muted)}
+
+  /* the deal */
+  .deal{background:linear-gradient(160deg,var(--card2),var(--card));border:1px solid #eb9d2e40;border-radius:22px;
+    padding:clamp(26px,4vw,40px);margin-top:36px;text-align:center}
+  .deal h2{margin-bottom:6px}
+  .flow{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:26px}
+  .fbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;min-width:150px}
+  .fbox .big{font-family:var(--disp);font-weight:800;font-size:22px;color:var(--ink)}
+  .fbox .sm{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .arrow{color:var(--sun);font-size:20px;font-weight:700}
+  .promise{margin-top:24px;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.6vw,22px);color:var(--leaf);
+    display:inline-flex;align-items:center;gap:10px;background:var(--leaf-soft);border-radius:999px;padding:12px 22px}
+
+  /* apply form */
+  .apply{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(24px,4vw,40px);margin-top:36px;max-width:640px;margin-left:auto;margin-right:auto}
+  .apply h2{margin-bottom:6px}
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+  @media (max-width:560px){.form{grid-template-columns:1fr}}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:13px;font-weight:600;color:var(--ink)}
+  .field input,.field select,.field textarea{font-family:var(--sans);font-size:15px;padding:12px 14px;
+    border:1.5px solid var(--line);border-radius:12px;background:var(--cream);color:var(--ink);outline:none;width:100%}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--sun)}
+  .field textarea{resize:vertical;min-height:80px}
+  .submit{grid-column:1/-1;background:var(--sun);color:#3a2610;font-family:var(--sans);font-weight:700;font-size:16px;
+    border:none;border-radius:999px;padding:15px;cursor:pointer;margin-top:4px}
+  .submit:hover{background:var(--sun-deep)}
+  .formnote{grid-column:1/-1;text-align:center;font-size:13px;color:var(--faint);margin-top:4px}
+  .fmsg{grid-column:1/-1;text-align:center;font-size:14px;color:var(--leaf);font-weight:600;min-height:1em}
+
+  footer{margin-top:64px;background:var(--card2);border-top:1px solid var(--line);padding:40px 0 34px;text-align:center}
+  footer .logo{justify-content:center;margin-bottom:10px}
+  footer p{color:var(--muted);font-size:14px;max-width:44ch;margin:0 auto}
+  footer .fine{font-size:12px;color:var(--faint);margin-top:16px}
+
+  .sun-svg{color:var(--sun)}
+</style>
+
+<nav>
+  <div class="logo"><svg class="sun sun-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5" fill="currentColor" stroke="none"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M20 4l-2 2M6 18l-2 2" stroke-linecap="round"/></svg>Puhunan</div>
+  <a class="navcta" href="#apply">Apply for funding</a>
+</nav>
+
+<header class="hero">
+  <div class="rays"></div>
+  <div class="shell">
+    <span class="eyebrow">🇵🇭 Philippines · community micro-funding</span>
+    <h1>Your <em>₱30,000</em> to begin.</h1>
+    <p class="lede">Seed capital for sari-sari stores, food carts, and small dreams. <b>No collateral. No bank. No loan shark.</b> And if your business honestly doesn't work out — you owe nothing.</p>
+    <div class="heroctas">
+      <a class="btn primary" href="#apply">Pitch your idea →</a>
+      <a class="btn ghost" href="#how">How it works</a>
+    </div>
+    <div class="tagalog">"Puhunan para sa pangarap mo."</div>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="trust">
+    <div class="tcard"><div class="n">₱30,000</div><div class="l">typical funding, straight to your business</div></div>
+    <div class="tcard"><div class="n">No collateral</div><div class="l">we back people, not paperwork</div></div>
+    <div class="tcard"><div class="n">Forgiven if it fails</div><div class="l">honest failure means no debt</div></div>
+  </div>
+
+  <section id="how">
+    <h2>How it works</h2>
+    <p class="ssub">Three simple steps. A real person, a real conversation — not a form that disappears into a bank.</p>
+    <div class="steps">
+      <div class="step"><div class="stepn">1</div><h3>Tell us your idea</h3><p>Fill the short form below. What you'd sell, how much you need, and what you'd do with it.</p></div>
+      <div class="step"><div class="stepn">2</div><h3>We talk</h3><p>If it's a fit, we have a real conversation — video or in person. We fund people we believe in.</p></div>
+      <div class="step"><div class="stepn">3</div><h3>We fund it — you grow</h3><p>Money goes to your business. You repay a little from your weekly sales, and you keep everything you build.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What we back</h2>
+    <p class="ssub">Everyday businesses with real customers and daily sales — the backbone of every barangay.</p>
+    <div class="backs">
+      <div class="back"><div class="ic">🏪</div><div><h3>Sari-sari stores</h3><p>Stock up on inventory, add a freezer, grow your shelves and your regulars.</p></div></div>
+      <div class="back"><div class="ic">🍢</div><div><h3>Food carts &amp; carinderia</h3><p>A cart, a grill, first ingredients — turn good cooking into a daily income.</p></div></div>
+      <div class="back"><div class="ic">✂️</div><div><h3>Small services</h3><p>A sewing machine, tools, a phone-load stall — small trades that earn every day.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="deal">
+      <h2>The fair deal</h2>
+      <p class="ssub" style="margin-top:8px">Everything on the table. No hidden interest, no tricks — this is the whole agreement.</p>
+      <div class="flow">
+        <div class="fbox"><div class="big">You get ₱30,000</div><div class="sm">into your business</div></div>
+        <div class="arrow">→</div>
+        <div class="fbox"><div class="big">Repay ~₱42,000</div><div class="sm">a small % of weekly sales</div></div>
+        <div class="arrow">→</div>
+        <div class="fbox"><div class="big">You keep it all</div><div class="sm">we take no ownership</div></div>
+      </div>
+      <div style="margin-top:26px"><span class="promise">🌱 If your business honestly fails, the debt is forgiven. We win only when you win.</span></div>
+    </div>
+  </section>
+
+  <section id="apply">
+    <div class="apply">
+      <h2>Pitch your idea</h2>
+      <p class="ssub" style="margin-top:6px">Two minutes. If it's a fit, we'll reach out for a conversation.</p>
+      <form class="form" onsubmit="event.preventDefault();document.getElementById('fm').textContent='✓ Salamat! We got your pitch — we\'ll be in touch if it\'s a fit.';this.reset();">
+        <div class="field"><label>Your name</label><input required placeholder="Juan dela Cruz"></div>
+        <div class="field"><label>City / Barangay</label><input required placeholder="Cebu City"></div>
+        <div class="field full"><label>What business? (or the one you want to grow)</label><input required placeholder="Sari-sari store near the school"></div>
+        <div class="field"><label>How much do you need?</label><select><option>₱10,000</option><option selected>₱30,000</option><option>₱50,000</option></select></div>
+        <div class="field"><label>Do you sell already?</label><select><option>Yes — running now</option><option>Starting soon</option><option>Brand new idea</option></select></div>
+        <div class="field full"><label>What would you do with the money?</label><textarea required placeholder="Buy inventory in bulk so I can sell more and cheaper..."></textarea></div>
+        <div class="field full"><label>Contact (mobile or Facebook)</label><input required placeholder="0917... or fb.com/yourname"></div>
+        <button class="submit" type="submit">Send my pitch</button>
+        <div class="fmsg" id="fm"></div>
+        <div class="formnote">We read every pitch. We fund the ones we believe in.</div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="shell">
+    <div class="logo"><svg class="sun sun-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5" fill="currentColor" stroke="none"/><path d="M12 1v3M12 20v3M1 12h3M20 12h3M4 4l2 2M18 18l2 2M20 4l-2 2M6 18l-2 2" stroke-linecap="round"/></svg>Puhunan</div>
+    <p>Small capital, real dreams. We back everyday Filipino entrepreneurs the banks won't — and we only win when you do.</p>
+    <p class="fine">Puhunan · a community micro-funding project · Philippines</p>
+  </div>
+</footer>
