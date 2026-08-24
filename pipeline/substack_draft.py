@@ -83,13 +83,21 @@ def main():
         print("\ndry run — nothing sent to Substack")
         return 0
 
-    cookie = os.environ.get("SUBSTACK_COOKIE")
-    if not cookie:
-        sys.exit("SUBSTACK_COOKIE not set — copy the substack.sid value from a "
-                 "logged-in browser (DevTools > Application > Cookies)")
-
     from substack import Api
-    api = Api(cookies_string=f"substack.sid={cookie}", publication_url=PUBLICATION)
+    cookie = os.environ.get("SUBSTACK_COOKIE")
+    email = os.environ.get("SUBSTACK_EMAIL")
+    password = os.environ.get("SUBSTACK_PASSWORD")
+
+    if cookie:
+        api = Api(cookies_string=f"substack.sid={cookie}", publication_url=PUBLICATION)
+    elif email and password:
+        # Simpler to set up than the cookie, and it does not expire. Substack
+        # defaults to magic-link sign-in, so a password may need setting first
+        # under Settings -> Account.
+        api = Api(email=email, password=password, publication_url=PUBLICATION)
+    else:
+        sys.exit("set SUBSTACK_EMAIL + SUBSTACK_PASSWORD (simplest), or "
+                 "SUBSTACK_COOKIE with the substack.sid value from a logged-in browser")
     user_id = api.get_user_id()
     post = build(body, title, a.subtitle, user_id=user_id, youtube_url=a.youtube)
     draft = api.post_draft(post.get_draft())
