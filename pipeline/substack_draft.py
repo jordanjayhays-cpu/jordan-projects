@@ -37,14 +37,41 @@ def split_title(md, title_arg):
     return title, body
 
 
-def build(md, title, subtitle, user_id, youtube_url=None):
+def build(md, title, subtitle, user_id, youtube_url=None, image_url=None,
+          media_at="end"):
+    """
+    Assemble the draft.
+
+    MEDIA SLOT. Every post carries media. `media_at` decides where:
+      "end"   - after the essay, as the payoff (default)
+      "top"   - before the first line, as a cover
+      "MARKER" - wherever the line `[media]` appears in the markdown
+
+    The YouTube block MUST be type "youtube2" with a `src`. Setting videoId on a
+    paragraph silently produces nothing — that is why the first two published
+    posts went out with no video.
+    """
     from substack.post import Post
     post = Post(title=title, subtitle=subtitle or "", user_id=user_id)
-    post.from_markdown(md)
-    if youtube_url:
-        # The video goes last, after the essay — it is the payoff, not the intro.
-        post.paragraph()
-        post.youtube(youtube_url)
+
+    def add_media():
+        if image_url:
+            post.captioned_image(src=image_url)
+        if youtube_url:
+            post.add({"type": "youtube2", "src": youtube_url})
+
+    if media_at == "top":
+        add_media()
+        post.from_markdown(md)
+    elif "[media]" in md:
+        before, after = md.split("[media]", 1)
+        post.from_markdown(before.strip())
+        add_media()
+        if after.strip():
+            post.from_markdown(after.strip())
+    else:
+        post.from_markdown(md)
+        add_media()
     return post
 
 
@@ -53,7 +80,10 @@ def main():
     ap.add_argument("markdown", help="path to the essay in markdown")
     ap.add_argument("--title")
     ap.add_argument("--subtitle", default="")
-    ap.add_argument("--youtube", help="YouTube URL to embed at the end")
+    ap.add_argument("--youtube", help="YouTube URL to embed")
+    ap.add_argument("--image", help="image URL to embed alongside the video")
+    ap.add_argument("--media-at", default="end", choices=["end", "top"],
+                    help="where media goes when the markdown has no [media] marker")
     ap.add_argument("--dry-run", action="store_true",
                     help="build and print the draft structure without touching Substack")
     a = ap.parse_args()
@@ -65,7 +95,8 @@ def main():
 
     if a.dry_run:
         from substack.post import Post
-        post = build(body, title, a.subtitle, user_id=0, youtube_url=a.youtube)
+        post = build(body, title, a.subtitle, user_id=0, youtube_url=a.youtube,
+                     image_url=a.image, media_at=a.media_at)
         draft = post.get_draft()
         blocks = draft.get("draft_body", {})
         import json
@@ -99,7 +130,8 @@ def main():
         sys.exit("set SUBSTACK_EMAIL + SUBSTACK_PASSWORD (simplest), or "
                  "SUBSTACK_COOKIE with the substack.sid value from a logged-in browser")
     user_id = api.get_user_id()
-    post = build(body, title, a.subtitle, user_id=user_id, youtube_url=a.youtube)
+    post = build(body, title, a.subtitle, user_id=user_id, youtube_url=a.youtube,
+                image_url=a.image, media_at=a.media_at)
     draft = api.post_draft(post.get_draft())
     print(f"draft created: {PUBLICATION}/publish/post/{draft.get('id')}")
     print("review it and press publish yourself — this script never publishes")
