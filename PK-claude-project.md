@@ -87,7 +87,14 @@ When PK's own website exists, it replaces the hyperfollow link everywhere and th
 
 - Extend, don't duplicate: the daily pipeline already posts 1 track/day to all 4 channels. Before scheduling anything, check the Postiz calendar (postsListTool) for collisions.
 - Never re-invent the template or captions — use §2–3 verbatim.
+- **Confidence rule (Jordan, Aug 2026): if you are not 100% certain, ASK FIRST — do not change it, do not
+  publish it, do not guess.** This applies to everything, not just lyrics: transcript lines, factual claims about
+  the data, links, captions, anything that reaches a platform. A plausible guess that ships is worse than a
+  question that delays. Whisper mis-heard "anxious" as "exes" and the pipeline published it to four platforms
+  because nothing stopped to ask.
 - Transcripts are drafts; Jordan's source lyrics always win. Flag low-confidence lines instead of guessing silently.
+  `pipeline/check_lyrics.py` catches the specific case where a title word is absent from its own transcript;
+  run it before rendering. It exits 1 so the pipeline can refuse.
 - Anything only Jordan can do (credentials, DistroKid uploads, Meta/app approvals, payments) → log to the agent_tasks board (assigned_to='jordan', dedupe first).
 - Public repo = never commit secrets or raw royalty CSVs; queue.json (titles/UPCs/slugs) is fine.
 - Batch-review cadence: after each posting wave, pull platform analytics + next royalty CSV, re-rank the queue, and pick lyric-registration batches from §5's formula.
