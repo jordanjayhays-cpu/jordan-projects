@@ -32,6 +32,19 @@
 
   h2{font-family:var(--caps);font-size:clamp(20px,3.6vw,26px);letter-spacing:.14em;text-transform:uppercase;
     color:var(--gold);text-align:center;margin:0}
+
+  /* headline badges */
+  .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+  @media (max-width:680px){.badges{grid-template-columns:1fr}}
+  .bdg{position:relative;background:linear-gradient(160deg,#191308,#100c06);padding:22px 22px 18px;
+    border:1px solid var(--edge);clip-path:polygon(0 0, 100% 0, 96% 100%, 0 100%)}
+  .bdg::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+    background:linear-gradient(90deg,var(--gold-hi),var(--gold-dim),transparent)}
+  .bdg .big{font-family:var(--sans);font-weight:600;font-size:clamp(26px,4.6vw,36px);color:#fff;
+    letter-spacing:-.01em;line-height:1.1}
+  .bdg .big small{font-family:var(--caps);font-size:.5em;color:var(--gold);letter-spacing:.08em;vertical-align:.28em;margin-left:6px}
+  .bdg .ast{font-size:12.5px;color:var(--body);margin-top:6px}
+  .bdg .ast::before{content:"*";color:var(--gold)}
   section{padding-top:58px}
   .lead{font-size:clamp(17px,2.6vw,20px);line-height:1.75;color:var(--cream);text-align:center;
     max-width:58ch;margin:22px auto 0}
@@ -117,8 +130,23 @@
   </header>
 
   <section>
-    <p class="lead">Remote work is repricing Southeast Asia's islands. Bali went first — rents tripled as nomads arrived ahead of capital. <b>The Philippines is the same story, a decade earlier:</b> English-speaking, half the cost, and almost untouched by the long-stay wave.</p>
-    <p class="body">PHREGROUP exists to be early on purpose — building the demand engine first, and letting property follow proven occupancy instead of speculation.</p>
+    <p class="lead">Remote work is repricing Southeast Asia's islands, and the pattern is always the same: <b>the community arrives first, the capital arrives late, and whoever stood between them owns the upside.</b> Bali already ran this play. The Philippines — English-speaking, at half the cost — hasn't yet.</p>
+    <p class="body">PHREGROUP is built to stand in that gap: the demand engine first, property only behind proven occupancy.</p>
+
+    <div class="badges">
+      <div class="bdg">
+        <div class="big">100%<small>DFA</small></div>
+        <div class="ast">Demand-First Acquisition — no property is acquired before a paying community proves occupancy</div>
+      </div>
+      <div class="bdg">
+        <div class="big">$500–800<small>/MO</small></div>
+        <div class="ast">Field-verified all-in cost base at our first location — a basis Bali and Thailand lost years ago</div>
+      </div>
+      <div class="bdg">
+        <div class="big">30+<small>DAY</small></div>
+        <div class="ast">Minimum-stay model — monthly recurring occupancy, not nightly tourism volatility</div>
+      </div>
+    </div>
   </section>
 
   <section>
@@ -159,6 +187,17 @@
       <div class="pr"><div class="rn">II</div><div><h4>Locals as partners, not vendors</h4><p>Island property owners and families keep equity in what gets built on their islands.</p></div></div>
       <div class="pr"><div class="rn">III</div><div><h4>Honest marketing</h4><p>Speed tests and real prices on camera. The audience trusts the content because it is true — that trust is the asset.</p></div></div>
       <div class="pr"><div class="rn">IV</div><div><h4>Small, then right</h4><p>One island, one cohort, one working model — before any talk of scale.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>For Early Partners</h2>
+    <p class="body">What being on the short list actually gets you — commitments we can stand behind today:</p>
+    <div class="cells">
+      <div class="cell"><h3>First look</h3><p><b>First-look rights on the first property partnership</b> — you see the occupancy data and the deal before anyone outside the room.</p></div>
+      <div class="cell"><h3>Founding terms</h3><p>Whatever structure the first deal takes, <b>the short list gets its best terms.</b> Early conviction is priced in, not forgotten.</p></div>
+      <div class="cell"><h3>The real numbers</h3><p>Waitlist size, cohort commitments, occupancy — <b>reported to the short list as they happen,</b> unpolished.</p></div>
+      <div class="cell"><h3>Founder access</h3><p>A direct line, not a newsletter. Small list, <b>kept small on purpose.</b></p></div>
     </div>
   </section>
 
