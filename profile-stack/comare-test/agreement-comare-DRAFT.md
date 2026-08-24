@@ -1,6 +1,6 @@
 # Representation Agreement — [REP NAME] × COMARE  (DRAFT — 2 blanks pending COMARE pricing)
 
-Parties: [Rep full name] ("Representative") and COMARE ("Company"), managed by Placewell Intl BD ("Manager").
+Parties: [Rep full name] ("Representative") and COMARE ("Company"), managed by [FAMILY BUSINESS ENTITY — name TBD] ("Manager").
 
 1. Appointment: Representative is appointed non-exclusive **Business Development Representative** for
    COMARE, introducing COMARE's services to **gyms and fitness businesses in Mexico**.

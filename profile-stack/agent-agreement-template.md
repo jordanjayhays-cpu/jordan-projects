@@ -5,7 +5,7 @@ scaling. Purpose: make the representative's title genuine so LinkedIn outreach u
 is real representation, not impersonation.*
 
 **Parties:** [Agent full name] ("Representative") and [Client company] ("Company"),
-introduced/managed by Placewell International BD ("Manager").
+introduced/managed by [FAMILY BUSINESS ENTITY — name TBD] ("Manager").
 
 1. **Appointment.** Company appoints Representative as a non-exclusive **Business Development
    Representative** to introduce Company's services to prospects in [market/region]. Representative
