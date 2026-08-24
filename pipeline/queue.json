@@ -2,1136 +2,1590 @@
  {
   "title": "DK",
   "upc": "199328619305",
-  "slug": "dk"
+  "slug": "dk",
+  "pay_earn": 0.27,
+  "pay_plays": 33
  },
  {
   "title": "Between the Body and the Fabric",
   "upc": "199507690477",
-  "slug": "between-the-body-and-the-fabric"
+  "slug": "between-the-body-and-the-fabric",
+  "pay_earn": 0.261,
+  "pay_plays": 31
  },
  {
   "title": "Monopoly",
   "upc": "199328627560",
-  "slug": "monopoly"
+  "slug": "monopoly",
+  "pay_earn": 0.2586,
+  "pay_plays": 40
  },
  {
   "title": "Legacy",
   "upc": "199087316989",
-  "slug": "legacy"
- },
- {
-  "title": "They say we're free",
-  "upc": "199507295191",
-  "slug": "they-say-were-free"
- },
- {
-  "title": "Sisyphus Smiles",
-  "upc": "199328200459",
-  "slug": "sisyphus-smiles"
+  "slug": "legacy",
+  "pay_earn": 0.2506,
+  "pay_plays": 36
  },
  {
   "title": "Shift the Lens",
   "upc": "199329488016",
-  "slug": "shift-the-lens"
+  "slug": "shift-the-lens",
+  "pay_earn": 0.2489,
+  "pay_plays": 31
+ },
+ {
+  "title": "Sisyphus Smiles",
+  "upc": "199328200459",
+  "slug": "sisyphus-smiles",
+  "pay_earn": 0.2467,
+  "pay_plays": 32
  },
  {
   "title": "Rock Bottom Rise",
   "upc": "199329481727",
-  "slug": "rock-bottom-rise"
- },
- {
-  "title": "The Bureaucracy Trap",
-  "upc": "199329478970",
-  "slug": "the-bureaucracy-trap"
+  "slug": "rock-bottom-rise",
+  "pay_earn": 0.2452,
+  "pay_plays": 30
  },
  {
   "title": "Levels of Layers",
   "upc": "199512409156",
-  "slug": "levels-of-layers"
+  "slug": "levels-of-layers",
+  "pay_earn": 0.2424,
+  "pay_plays": 33
  },
  {
   "title": "The Experience Machine",
   "upc": "199329479571",
-  "slug": "the-experience-machine"
+  "slug": "the-experience-machine",
+  "pay_earn": 0.2341,
+  "pay_plays": 31
  },
  {
   "title": "Elephant in the Room",
   "upc": "199329036309",
-  "slug": "elephant-in-the-room"
+  "slug": "elephant-in-the-room",
+  "pay_earn": 0.2329,
+  "pay_plays": 29
  },
  {
   "title": "Off Course",
   "upc": "199329483349",
-  "slug": "off-course"
+  "slug": "off-course",
+  "pay_earn": 0.225,
+  "pay_plays": 30
  },
  {
   "title": "9 to Fake",
   "upc": "199522223421",
-  "slug": "9-to-fake"
+  "slug": "9-to-fake",
+  "pay_earn": 0.2212,
+  "pay_plays": 30
  },
  {
-  "title": "The Self That Wasn\u2019t",
+  "title": "The Self That Wasn’t",
   "upc": "199328857738",
-  "slug": "the-self-that-wasnt"
+  "slug": "the-self-that-wasnt",
+  "pay_earn": 0.2207,
+  "pay_plays": 28
  },
  {
   "title": "Claim Your Mind",
   "upc": "199328859305",
-  "slug": "claim-your-mind"
+  "slug": "claim-your-mind",
+  "pay_earn": 0.2171,
+  "pay_plays": 27
  },
  {
   "title": "Prison of the Will",
   "upc": "199328639174",
-  "slug": "prison-of-the-will"
- },
- {
-  "title": "This is Water",
-  "upc": "199507277715",
-  "slug": "this-is-water"
+  "slug": "prison-of-the-will",
+  "pay_earn": 0.2155,
+  "pay_plays": 28
  },
  {
   "title": "Winners Keep Winning",
   "upc": "199328367121",
-  "slug": "winners-keep-winning"
- },
- {
-  "title": "Dia De Los Muertos",
-  "upc": "199747345823",
-  "slug": "dia-de-los-muertos"
+  "slug": "winners-keep-winning",
+  "pay_earn": 0.2122,
+  "pay_plays": 29
  },
  {
   "title": "Rise and Fall",
   "upc": "199328370206",
-  "slug": "rise-and-fall"
+  "slug": "rise-and-fall",
+  "pay_earn": 0.2055,
+  "pay_plays": 25
+ },
+ {
+  "title": "The Bureaucracy Trap",
+  "upc": "199329478970",
+  "slug": "the-bureaucracy-trap",
+  "pay_earn": 0.2005,
+  "pay_plays": 27
  },
  {
   "title": "Elephant & Rider",
   "upc": "199748936969",
-  "slug": "elephant-rider"
+  "slug": "elephant-rider",
+  "pay_earn": 0.2,
+  "pay_plays": 24
  },
  {
   "title": "The Illusion of No Escape",
   "upc": "199738516454",
-  "slug": "the-illusion-of-no-escape"
+  "slug": "the-illusion-of-no-escape",
+  "pay_earn": 0.1994,
+  "pay_plays": 24
  },
  {
-  "title": "The Dark Night of the Soul",
-  "upc": "199328147983",
-  "slug": "the-dark-night-of-the-soul"
+  "title": "Dia De Los Muertos",
+  "upc": "199747345823",
+  "slug": "dia-de-los-muertos",
+  "pay_earn": 0.1991,
+  "pay_plays": 34
  },
  {
   "title": "Bullshit Jobs",
   "upc": "199506231213",
-  "slug": "bullshit-jobs"
+  "slug": "bullshit-jobs",
+  "pay_earn": 0.1948,
+  "pay_plays": 36
  },
  {
-  "title": "Uncarved Block",
-  "upc": "199328195380",
-  "slug": "uncarved-block"
+  "title": "They say we're free",
+  "upc": "199507295191",
+  "slug": "they-say-were-free",
+  "pay_earn": 0.1947,
+  "pay_plays": 24
  },
  {
-  "title": "Cult of One",
-  "upc": "199521893809",
-  "slug": "cult-of-one"
- },
- {
-  "title": "Cash Rules Nothing Around Me",
-  "upc": "199521410532",
-  "slug": "cash-rules-nothing-around-me"
+  "title": "The Dark Night of the Soul",
+  "upc": "199328147983",
+  "slug": "the-dark-night-of-the-soul",
+  "pay_earn": 0.1939,
+  "pay_plays": 26
  },
  {
   "title": "The Spirit of Shinto",
   "upc": "199329487446",
-  "slug": "the-spirit-of-shinto"
+  "slug": "the-spirit-of-shinto",
+  "pay_earn": 0.1919,
+  "pay_plays": 25
+ },
+ {
+  "title": "Uncarved Block",
+  "upc": "199328195380",
+  "slug": "uncarved-block",
+  "pay_earn": 0.1912,
+  "pay_plays": 23
  },
  {
   "title": "Escape the Code",
   "upc": "199732508066",
-  "slug": "escape-the-code"
- },
- {
-  "title": "Mind Unchained",
-  "upc": "199328629212",
-  "slug": "mind-unchained"
+  "slug": "escape-the-code",
+  "pay_earn": 0.191,
+  "pay_plays": 23
  },
  {
   "title": "Group Think Chronicles",
   "upc": "199329040405",
-  "slug": "group-think-chronicles"
+  "slug": "group-think-chronicles",
+  "pay_earn": 0.1903,
+  "pay_plays": 29
+ },
+ {
+  "title": "Cash Rules Nothing Around Me",
+  "upc": "199521410532",
+  "slug": "cash-rules-nothing-around-me",
+  "pay_earn": 0.1903,
+  "pay_plays": 24
+ },
+ {
+  "title": "Cult of One",
+  "upc": "199521893809",
+  "slug": "cult-of-one",
+  "pay_earn": 0.1901,
+  "pay_plays": 28
+ },
+ {
+  "title": "Mind Unchained",
+  "upc": "199328629212",
+  "slug": "mind-unchained",
+  "pay_earn": 0.1892,
+  "pay_plays": 24
  },
  {
   "title": "Through Their Eyes",
   "upc": "199329489778",
-  "slug": "through-their-eyes"
- },
- {
-  "title": "Dance with the Abyss",
-  "upc": "199522213149",
-  "slug": "dance-with-the-abyss"
+  "slug": "through-their-eyes",
+  "pay_earn": 0.1874,
+  "pay_plays": 23
  },
  {
   "title": "Minds Divided",
   "upc": "199328368043",
-  "slug": "minds-divided"
- },
- {
-  "title": "Shock Doctrine",
-  "upc": "199328365950",
-  "slug": "shock-doctrine"
+  "slug": "minds-divided",
+  "pay_earn": 0.1846,
+  "pay_plays": 25
  },
  {
   "title": "Altered States of Faith",
   "upc": "199506225885",
-  "slug": "altered-states-of-faith"
+  "slug": "altered-states-of-faith",
+  "pay_earn": 0.1834,
+  "pay_plays": 24
  },
  {
   "title": "No Fences, No Kings",
   "upc": "199328373269",
-  "slug": "no-fences-no-kings"
+  "slug": "no-fences-no-kings",
+  "pay_earn": 0.1832,
+  "pay_plays": 24
  },
  {
-  "title": "Don Quixote (The Windmills of the Mind)",
-  "upc": "199742775298",
-  "slug": "don-quixote-the-windmills-of-the-mind"
- },
- {
-  "title": "Blind Shepherds, Lost Flocks",
-  "upc": "199524614616",
-  "slug": "blind-shepherds-lost-flocks"
- },
- {
-  "title": "Awaken the Soul",
-  "upc": "199328198893",
-  "slug": "awaken-the-soul"
+  "title": "Dance with the Abyss",
+  "upc": "199522213149",
+  "slug": "dance-with-the-abyss",
+  "pay_earn": 0.18,
+  "pay_plays": 23
  },
  {
   "title": "The Fly in the Glass",
   "upc": "199738538814",
-  "slug": "the-fly-in-the-glass"
+  "slug": "the-fly-in-the-glass",
+  "pay_earn": 0.1791,
+  "pay_plays": 23
+ },
+ {
+  "title": "Blind Shepherds, Lost Flocks",
+  "upc": "199524614616",
+  "slug": "blind-shepherds-lost-flocks",
+  "pay_earn": 0.1786,
+  "pay_plays": 26
+ },
+ {
+  "title": "Shock Doctrine",
+  "upc": "199328365950",
+  "slug": "shock-doctrine",
+  "pay_earn": 0.1759,
+  "pay_plays": 30
+ },
+ {
+  "title": "This is Water",
+  "upc": "199507277715",
+  "slug": "this-is-water",
+  "pay_earn": 0.1756,
+  "pay_plays": 25
  },
  {
   "title": "Monk and the Moment",
   "upc": "199506220309",
-  "slug": "monk-and-the-moment"
+  "slug": "monk-and-the-moment",
+  "pay_earn": 0.1734,
+  "pay_plays": 22
  },
  {
-  "title": "Whakapapa",
-  "upc": "199738506387",
-  "slug": "whakapapa"
- },
- {
-  "title": "Everything Changes",
-  "upc": "199944630616",
-  "slug": "everything-changes"
+  "title": "Don Quixote (The Windmills of the Mind)",
+  "upc": "199742775298",
+  "slug": "don-quixote-the-windmills-of-the-mind",
+  "pay_earn": 0.1697,
+  "pay_plays": 21
  },
  {
   "title": "First Step, Last Breathe",
   "upc": "199738561485",
-  "slug": "first-step-last-breathe"
+  "slug": "first-step-last-breathe",
+  "pay_earn": 0.1683,
+  "pay_plays": 21
  },
  {
   "title": "Denial of Death",
   "upc": "199748936563",
-  "slug": "denial-of-death"
- },
- {
-  "title": "Candy Story Paradox",
-  "upc": "199081415749",
-  "slug": "candy-story-paradox"
+  "slug": "denial-of-death",
+  "pay_earn": 0.1674,
+  "pay_plays": 20
  },
  {
   "title": "Who Knows?",
   "upc": "199328196240",
-  "slug": "who-knows"
+  "slug": "who-knows",
+  "pay_earn": 0.1656,
+  "pay_plays": 21
  },
  {
   "title": "Observers & Shadows",
   "upc": "199738605691",
-  "slug": "observers-shadows"
+  "slug": "observers-shadows",
+  "pay_earn": 0.1653,
+  "pay_plays": 20
+ },
+ {
+  "title": "Awaken the Soul",
+  "upc": "199328198893",
+  "slug": "awaken-the-soul",
+  "pay_earn": 0.1652,
+  "pay_plays": 19
  },
  {
   "title": "Pain",
   "upc": "199737078588",
-  "slug": "pain"
+  "slug": "pain",
+  "pay_earn": 0.165,
+  "pay_plays": 20
+ },
+ {
+  "title": "Candy Story Paradox",
+  "upc": "199081415749",
+  "slug": "candy-story-paradox",
+  "pay_earn": 0.1645,
+  "pay_plays": 20
  },
  {
   "title": "Who Speaks for You?",
   "upc": "199524729570",
-  "slug": "who-speaks-for-you"
- },
- {
-  "title": "Tolstoy: Confessions",
-  "upc": "199948566645",
-  "slug": "tolstoy-confessions"
- },
- {
-  "title": "Mask On, Mind Off",
-  "upc": "199522226224",
-  "slug": "mask-on-mind-off"
+  "slug": "who-speaks-for-you",
+  "pay_earn": 0.1641,
+  "pay_plays": 21
  },
  {
   "title": "Running to Stay Still",
   "upc": "199738604014",
-  "slug": "running-to-stay-still"
+  "slug": "running-to-stay-still",
+  "pay_earn": 0.1635,
+  "pay_plays": 20
+ },
+ {
+  "title": "Mask On, Mind Off",
+  "upc": "199522226224",
+  "slug": "mask-on-mind-off",
+  "pay_earn": 0.1634,
+  "pay_plays": 21
  },
  {
   "title": "Guns, Germs and Steel",
   "upc": "199948384898",
-  "slug": "guns-germs-and-steel"
- },
- {
-  "title": "Dichos del Coraz\u00f3n",
-  "upc": "199506202886",
-  "slug": "dichos-del-coraz\u00f3n"
- },
- {
-  "title": "All I Know",
-  "upc": "199738546161",
-  "slug": "all-i-know"
+  "slug": "guns-germs-and-steel",
+  "pay_earn": 0.1631,
+  "pay_plays": 27
  },
  {
   "title": "Chains We Wear",
   "upc": "199506214971",
-  "slug": "chains-we-wear"
+  "slug": "chains-we-wear",
+  "pay_earn": 0.1582,
+  "pay_plays": 20
  },
  {
-  "title": "Unity of Being \u0648\u064e\u062d\u0652\u062f\u064e\u0629 \u0627\u0644\u0648\u064f\u062c\u064f\u0648\u062f",
-  "upc": "199738524398",
-  "slug": "unity-of-being-\u0648\u062d\u062f\u0629-\u0627\u0644\u0648\u062c\u0648\u062f"
- },
- {
-  "title": "N B A",
-  "upc": "199081417521",
-  "slug": "n-b-a"
- },
- {
-  "title": "Animal Within",
-  "upc": "199085930064",
-  "slug": "animal-within"
+  "title": "Whakapapa",
+  "upc": "199738506387",
+  "slug": "whakapapa",
+  "pay_earn": 0.1558,
+  "pay_plays": 25
  },
  {
   "title": "Ripples of Karma",
   "upc": "199328186333",
-  "slug": "ripples-of-karma"
+  "slug": "ripples-of-karma",
+  "pay_earn": 0.1556,
+  "pay_plays": 19
+ },
+ {
+  "title": "All I Know",
+  "upc": "199738546161",
+  "slug": "all-i-know",
+  "pay_earn": 0.1537,
+  "pay_plays": 20
+ },
+ {
+  "title": "Animal Within",
+  "upc": "199085930064",
+  "slug": "animal-within",
+  "pay_earn": 0.1535,
+  "pay_plays": 23
  },
  {
   "title": "Chains of Gold",
   "upc": "199328371708",
-  "slug": "chains-of-gold"
+  "slug": "chains-of-gold",
+  "pay_earn": 0.1529,
+  "pay_plays": 20
+ },
+ {
+  "title": "Everything Changes",
+  "upc": "199944630616",
+  "slug": "everything-changes",
+  "pay_earn": 0.1521,
+  "pay_plays": 31
  },
  {
   "title": "Quiet Revolt",
   "upc": "199328945923",
-  "slug": "quiet-revolt"
+  "slug": "quiet-revolt",
+  "pay_earn": 0.1521,
+  "pay_plays": 19
  },
  {
-  "title": "Advaita Vedanta",
-  "upc": "199948250339",
-  "slug": "advaita-vedanta"
+  "title": "Tolstoy: Confessions",
+  "upc": "199948566645",
+  "slug": "tolstoy-confessions",
+  "pay_earn": 0.152,
+  "pay_plays": 17
  },
  {
-  "title": "M\u0100Y\u0100 Illusion \u092e\u093e\u092f\u093e \u092e\u0943\u0917\u0924\u0943\u0937\u094d\u0923\u093e",
+  "title": "MĀYĀ Illusion माया मृगतृष्णा",
   "upc": "199738531419",
-  "slug": "m\u0101y\u0101-illusion-\u092e\u092f-\u092e\u0917\u0924\u0937\u0923"
+  "slug": "māyā-illusion-मय-मगतषण",
+  "pay_earn": 0.1511,
+  "pay_plays": 22
  },
  {
   "title": "The Social Mind",
   "upc": "199524618966",
-  "slug": "the-social-mind"
+  "slug": "the-social-mind",
+  "pay_earn": 0.1506,
+  "pay_plays": 21
  },
  {
-  "title": "Combat Depression",
-  "upc": "199327417476",
-  "slug": "combat-depression"
+  "title": "Unity of Being وَحْدَة الوُجُود",
+  "upc": "199738524398",
+  "slug": "unity-of-being-وحدة-الوجود",
+  "pay_earn": 0.1501,
+  "pay_plays": 18
  },
  {
-  "title": "It\u2019s Only Gonna Get Weirder",
-  "upc": "199328870317",
-  "slug": "its-only-gonna-get-weirder"
+  "title": "Dichos del Corazón",
+  "upc": "199506202886",
+  "slug": "dichos-del-corazón",
+  "pay_earn": 0.149,
+  "pay_plays": 18
  },
  {
   "title": "Notes from Underground",
   "upc": "199738623404",
-  "slug": "notes-from-underground"
- },
- {
-  "title": "The Limits of Self-Knowledge \u0422\u0430\u0439\u043d\u0430 \u0441\u0435\u0431\u044f",
-  "upc": "199742781404",
-  "slug": "the-limits-of-self-knowledge-\u0442\u0430\u0439\u043d\u0430-\u0441\u0435\u0431\u044f"
- },
- {
-  "title": "What If?",
-  "upc": "199328621476",
-  "slug": "what-if"
+  "slug": "notes-from-underground",
+  "pay_earn": 0.1487,
+  "pay_plays": 18
  },
  {
   "title": "The Paradox of the Criterion",
   "upc": "199507503920",
-  "slug": "the-paradox-of-the-criterion"
+  "slug": "the-paradox-of-the-criterion",
+  "pay_earn": 0.148,
+  "pay_plays": 18
  },
  {
-  "title": "Bridge Collapse",
-  "upc": "199742750134",
-  "slug": "bridge-collapse"
+  "title": "The Limits of Self-Knowledge Тайна себя",
+  "upc": "199742781404",
+  "slug": "the-limits-of-self-knowledge-тайна-себя",
+  "pay_earn": 0.1475,
+  "pay_plays": 18
  },
  {
-  "title": "Real in a World That Isn\u2019t",
-  "upc": "199738552148",
-  "slug": "real-in-a-world-that-isnt"
+  "title": "Combat Depression",
+  "upc": "199327417476",
+  "slug": "combat-depression",
+  "pay_earn": 0.1473,
+  "pay_plays": 20
  },
  {
-  "title": "Positive Placebo",
-  "upc": "199507117356",
-  "slug": "positive-placebo"
+  "title": "It’s Only Gonna Get Weirder",
+  "upc": "199328870317",
+  "slug": "its-only-gonna-get-weirder",
+  "pay_earn": 0.1465,
+  "pay_plays": 19
+ },
+ {
+  "title": "N B A",
+  "upc": "199081417521",
+  "slug": "n-b-a",
+  "pay_earn": 0.1455,
+  "pay_plays": 19
+ },
+ {
+  "title": "What If?",
+  "upc": "199328621476",
+  "slug": "what-if",
+  "pay_earn": 0.1453,
+  "pay_plays": 32
  },
  {
   "title": "Chains of Credit",
   "upc": "199327417186",
-  "slug": "chains-of-credit"
+  "slug": "chains-of-credit",
+  "pay_earn": 0.1413,
+  "pay_plays": 17
+ },
+ {
+  "title": "Real in a World That Isn’t",
+  "upc": "199738552148",
+  "slug": "real-in-a-world-that-isnt",
+  "pay_earn": 0.141,
+  "pay_plays": 17
  },
  {
   "title": "Skeptic's Anthem",
   "upc": "199738608814",
-  "slug": "skeptics-anthem"
- },
- {
-  "title": "Saudade Universal",
-  "upc": "199329491122",
-  "slug": "saudade-universal"
+  "slug": "skeptics-anthem",
+  "pay_earn": 0.1405,
+  "pay_plays": 17
  },
  {
   "title": "Freedoms Blueprint",
   "upc": "199524615804",
-  "slug": "freedoms-blueprint"
+  "slug": "freedoms-blueprint",
+  "pay_earn": 0.1383,
+  "pay_plays": 17
  },
  {
-  "title": "Life is Short=Slow Down",
-  "upc": "199732506413",
-  "slug": "life-is-shortslow-down"
+  "title": "Saudade Universal",
+  "upc": "199329491122",
+  "slug": "saudade-universal",
+  "pay_earn": 0.1372,
+  "pay_plays": 18
  },
  {
   "title": "The Scales of Wealth",
   "upc": "199524730743",
-  "slug": "the-scales-of-wealth"
- },
- {
-  "title": "Throne on Repeat",
-  "upc": "199742752848",
-  "slug": "throne-on-repeat"
- },
- {
-  "title": "Behind the Veil",
-  "upc": "199086003378",
-  "slug": "behind-the-veil"
+  "slug": "the-scales-of-wealth",
+  "pay_earn": 0.1369,
+  "pay_plays": 20
  },
  {
   "title": "Endless Riddle",
   "upc": "199742735971",
-  "slug": "endless-riddle"
+  "slug": "endless-riddle",
+  "pay_earn": 0.1358,
+  "pay_plays": 17
  },
  {
-  "title": "The System Can't See Itself",
-  "upc": "199732507366",
-  "slug": "the-system-cant-see-itself"
+  "title": "Positive Placebo",
+  "upc": "199507117356",
+  "slug": "positive-placebo",
+  "pay_earn": 0.1349,
+  "pay_plays": 14
  },
  {
-  "title": "Show me the Incentives",
-  "upc": "199738545140",
-  "slug": "show-me-the-incentives"
+  "title": "Advaita Vedanta",
+  "upc": "199948250339",
+  "slug": "advaita-vedanta",
+  "pay_earn": 0.1342,
+  "pay_plays": 33
+ },
+ {
+  "title": "Behind the Veil",
+  "upc": "199086003378",
+  "slug": "behind-the-veil",
+  "pay_earn": 0.1342,
+  "pay_plays": 18
  },
  {
   "title": "Worship of Us",
   "upc": "199506221894",
-  "slug": "worship-of-us"
+  "slug": "worship-of-us",
+  "pay_earn": 0.1337,
+  "pay_plays": 17
  },
  {
   "title": "Power vs Peace",
   "upc": "199738635780",
-  "slug": "power-vs-peace"
+  "slug": "power-vs-peace",
+  "pay_earn": 0.1329,
+  "pay_plays": 16
  },
  {
-  "title": "Consumersim is Slavery",
-  "upc": "199507688887",
-  "slug": "consumersim-is-slavery"
+  "title": "The System Can't See Itself",
+  "upc": "199732507366",
+  "slug": "the-system-cant-see-itself",
+  "pay_earn": 0.1324,
+  "pay_plays": 17
  },
  {
-  "title": "Fitness Beats Truth",
-  "upc": "199742747202",
-  "slug": "fitness-beats-truth"
+  "title": "Bridge Collapse",
+  "upc": "199742750134",
+  "slug": "bridge-collapse",
+  "pay_earn": 0.1318,
+  "pay_plays": 16
  },
  {
   "title": "Brave New World",
   "upc": "199738620595",
-  "slug": "brave-new-world"
+  "slug": "brave-new-world",
+  "pay_earn": 0.1315,
+  "pay_plays": 16
  },
  {
-  "title": "Puppet Politics",
-  "upc": "199742754422",
-  "slug": "puppet-politics"
+  "title": "Consumersim is Slavery",
+  "upc": "199507688887",
+  "slug": "consumersim-is-slavery",
+  "pay_earn": 0.131,
+  "pay_plays": 16
  },
  {
-  "title": "The Way of the Sword \u5263\u306e\u9053",
+  "title": "Fitness Beats Truth",
+  "upc": "199742747202",
+  "slug": "fitness-beats-truth",
+  "pay_earn": 0.1296,
+  "pay_plays": 16
+ },
+ {
+  "title": "The Way of the Sword 剣の道",
   "upc": "199738539149",
-  "slug": "the-way-of-the-sword-\u5263\u306e\u9053"
+  "slug": "the-way-of-the-sword-剣の道",
+  "pay_earn": 0.1285,
+  "pay_plays": 22
  },
  {
   "title": "Stranger",
   "upc": "199742733229",
-  "slug": "stranger"
+  "slug": "stranger",
+  "pay_earn": 0.1253,
+  "pay_plays": 15
  },
  {
-  "title": "Being and Nothingness L\u2019\u00catre et le N\u00e9ant",
+  "title": "Show me the Incentives",
+  "upc": "199738545140",
+  "slug": "show-me-the-incentives",
+  "pay_earn": 0.1245,
+  "pay_plays": 15
+ },
+ {
+  "title": "Being and Nothingness L’Être et le Néant",
   "upc": "199742734400",
-  "slug": "being-and-nothingness-l\u00eatre-et-le-n\u00e9ant"
+  "slug": "being-and-nothingness-lêtre-et-le-néant",
+  "pay_earn": 0.1242,
+  "pay_plays": 15
  },
  {
   "title": "What Money Can't Buy",
   "upc": "199742731973",
-  "slug": "what-money-cant-buy"
+  "slug": "what-money-cant-buy",
+  "pay_earn": 0.1238,
+  "pay_plays": 15
  },
  {
-  "title": "Wealth Without Work",
-  "upc": "199742753975",
-  "slug": "wealth-without-work"
- },
- {
-  "title": "\u05d0\u05d9\u05df \u05e1\u05d5\u05e3 (The Infinite)",
+  "title": "אין סוף (The Infinite)",
   "upc": "199738485149",
-  "slug": "\u05d0\u05d9\u05df-\u05e1\u05d5\u05e3-the-infinite"
+  "slug": "אין-סוף-the-infinite",
+  "pay_earn": 0.1233,
+  "pay_plays": 20
  },
  {
   "title": "Machiavelli Power",
   "upc": "199737139890",
-  "slug": "machiavelli-power"
+  "slug": "machiavelli-power",
+  "pay_earn": 0.1232,
+  "pay_plays": 16
  },
  {
   "title": "Wired Yet Alone",
   "upc": "199328144975",
-  "slug": "wired-yet-alone"
+  "slug": "wired-yet-alone",
+  "pay_earn": 0.1225,
+  "pay_plays": 15
  },
  {
-  "title": "\u1210\u1270\u1273 (Hat\u00e4ta \u2013 The Inquiry)",
+  "title": "ሐተታ (Hatäta – The Inquiry)",
   "upc": "199738496138",
-  "slug": "\u1210\u1270\u1273-hat\u00e4ta-the-inquiry"
+  "slug": "ሐተታ-hatäta-the-inquiry",
+  "pay_earn": 0.1195,
+  "pay_plays": 15
  },
  {
   "title": "Roulette Spin",
   "upc": "199738616055",
-  "slug": "roulette-spin"
+  "slug": "roulette-spin",
+  "pay_earn": 0.1193,
+  "pay_plays": 14
  },
  {
-  "title": "War and Peace \u0412\u043e\u0439\u043d\u0430 \u0438 \u043c\u0438\u0440",
+  "title": "Puppet Politics",
+  "upc": "199742754422",
+  "slug": "puppet-politics",
+  "pay_earn": 0.1188,
+  "pay_plays": 15
+ },
+ {
+  "title": "War and Peace Война и мир",
   "upc": "199742780322",
-  "slug": "war-and-peace-\u0432\u043e\u0439\u043d\u0430-\u0438-\u043c\u0438\u0440"
- },
- {
-  "title": "Dokk\u014dd\u014d \u72ec\u884c\u9053",
-  "upc": "199738535042",
-  "slug": "dokk\u014dd\u014d-\u72ec\u884c\u9053"
- },
- {
-  "title": "Language as a Virus",
-  "upc": "199748467838",
-  "slug": "language-as-a-virus"
- },
- {
-  "title": "Take It Easy, But Take It",
-  "upc": "199328868352",
-  "slug": "take-it-easy-but-take-it"
+  "slug": "war-and-peace-война-и-мир",
+  "pay_earn": 0.1181,
+  "pay_plays": 14
  },
  {
   "title": "Don't Know Anymore",
   "upc": "883174013676",
-  "slug": "dont-know-anymore"
+  "slug": "dont-know-anymore",
+  "pay_earn": 0.1164,
+  "pay_plays": 4
+ },
+ {
+  "title": "Wealth Without Work",
+  "upc": "199742753975",
+  "slug": "wealth-without-work",
+  "pay_earn": 0.116,
+  "pay_plays": 14
  },
  {
   "title": "M.A.P",
   "upc": "199748937461",
-  "slug": "map"
+  "slug": "map",
+  "pay_earn": 0.1158,
+  "pay_plays": 14
+ },
+ {
+  "title": "Language as a Virus",
+  "upc": "199748467838",
+  "slug": "language-as-a-virus",
+  "pay_earn": 0.1152,
+  "pay_plays": 14
+ },
+ {
+  "title": "Dokkōdō 独行道",
+  "upc": "199738535042",
+  "slug": "dokkōdō-独行道",
+  "pay_earn": 0.1135,
+  "pay_plays": 29
  },
  {
   "title": "Ideas Have Dates",
   "upc": "199742776578",
-  "slug": "ideas-have-dates"
+  "slug": "ideas-have-dates",
+  "pay_earn": 0.1128,
+  "pay_plays": 14
+ },
+ {
+  "title": "Life is Short=Slow Down",
+  "upc": "199732506413",
+  "slug": "life-is-shortslow-down",
+  "pay_earn": 0.1114,
+  "pay_plays": 14
  },
  {
   "title": "Universal Paradox",
   "upc": "199327415755",
-  "slug": "universal-paradox"
+  "slug": "universal-paradox",
+  "pay_earn": 0.1096,
+  "pay_plays": 16
  },
  {
   "title": "The Contract We Never Signed",
   "upc": "199944549833",
-  "slug": "the-contract-we-never-signed"
+  "slug": "the-contract-we-never-signed",
+  "pay_earn": 0.1092,
+  "pay_plays": 17
  },
  {
   "title": "Deeper in the Maze",
   "upc": "199742733809",
-  "slug": "deeper-in-the-maze"
+  "slug": "deeper-in-the-maze",
+  "pay_earn": 0.1087,
+  "pay_plays": 13
  },
  {
   "title": "Mystery Savior",
   "upc": "199506211529",
-  "slug": "mystery-savior"
- },
- {
-  "title": "Fight Club",
-  "upc": "199738548028",
-  "slug": "fight-club"
+  "slug": "mystery-savior",
+  "pay_earn": 0.1078,
+  "pay_plays": 14
  },
  {
   "title": "Harmony's Call",
   "upc": "199327414444",
-  "slug": "harmonys-call"
+  "slug": "harmonys-call",
+  "pay_earn": 0.1077,
+  "pay_plays": 13
  },
  {
-  "title": "Metaphors of the Divine",
-  "upc": "199328142803",
-  "slug": "metaphors-of-the-divine"
+  "title": "Fight Club",
+  "upc": "199738548028",
+  "slug": "fight-club",
+  "pay_earn": 0.1076,
+  "pay_plays": 13
  },
  {
-  "title": "Mind Masters",
-  "upc": "199327415960",
-  "slug": "mind-masters"
- },
- {
-  "title": "Rigged in Your Favor \u0628\u0647 \u0633\u0648\u062f \u062a\u0648\u0633\u062a",
+  "title": "Rigged in Your Favor به سود توست",
   "upc": "199738504352",
-  "slug": "rigged-in-your-favor-\u0628\u0647-\u0633\u0648\u062f-\u062a\u0648\u0633\u062a"
+  "slug": "rigged-in-your-favor-به-سود-توست",
+  "pay_earn": 0.107,
+  "pay_plays": 13
  },
  {
   "title": "Ngikhona ngoba sikhona (I Am Because We Are)",
   "upc": "199738482490",
-  "slug": "ngikhona-ngoba-sikhona-i-am-because-we-are"
+  "slug": "ngikhona-ngoba-sikhona-i-am-because-we-are",
+  "pay_earn": 0.1063,
+  "pay_plays": 19
  },
  {
   "title": "Invincible Summer",
   "upc": "199328624088",
-  "slug": "invincible-summer"
+  "slug": "invincible-summer",
+  "pay_earn": 0.1063,
+  "pay_plays": 13
  },
  {
-  "title": "Mirror of Desire",
-  "upc": "199742766494",
-  "slug": "mirror-of-desire"
+  "title": "Mind Masters",
+  "upc": "199327415960",
+  "slug": "mind-masters",
+  "pay_earn": 0.1063,
+  "pay_plays": 13
+ },
+ {
+  "title": "Take It Easy, But Take It",
+  "upc": "199328868352",
+  "slug": "take-it-easy-but-take-it",
+  "pay_earn": 0.1055,
+  "pay_plays": 16
  },
  {
   "title": "Human 2.0",
   "upc": "883128910273",
-  "slug": "human-20"
+  "slug": "human-20",
+  "pay_earn": 0.1043,
+  "pay_plays": 22
  },
  {
   "title": "Litost",
   "upc": "199934515947",
-  "slug": "litost"
- },
- {
-  "title": "Invisible Crown",
-  "upc": "199742751568",
-  "slug": "invisible-crown"
+  "slug": "litost",
+  "pay_earn": 0.104,
+  "pay_plays": 3
  },
  {
   "title": "Lies My Teacher Told Me",
   "upc": "199948384089",
-  "slug": "lies-my-teacher-told-me"
+  "slug": "lies-my-teacher-told-me",
+  "pay_earn": 0.1009,
+  "pay_plays": 12
  },
  {
   "title": "Money Round and Round",
   "upc": "199742736725",
-  "slug": "money-round-and-round"
+  "slug": "money-round-and-round",
+  "pay_earn": 0.1007,
+  "pay_plays": 12
  },
  {
-  "title": "Be Bored",
-  "upc": "199737130170",
-  "slug": "be-bored"
+  "title": "Invisible Crown",
+  "upc": "199742751568",
+  "slug": "invisible-crown",
+  "pay_earn": 0.1002,
+  "pay_plays": 12
  },
  {
   "title": "What You Don't Say",
   "upc": "199742738491",
-  "slug": "what-you-dont-say"
+  "slug": "what-you-dont-say",
+  "pay_earn": 0.1001,
+  "pay_plays": 12
  },
  {
-  "title": "Negative Utility",
-  "upc": "199742743549",
-  "slug": "negative-utility"
+  "title": "Metaphors of the Divine",
+  "upc": "199328142803",
+  "slug": "metaphors-of-the-divine",
+  "pay_earn": 0.0998,
+  "pay_plays": 14
+ },
+ {
+  "title": "Be Bored",
+  "upc": "199737130170",
+  "slug": "be-bored",
+  "pay_earn": 0.0992,
+  "pay_plays": 12
  },
  {
   "title": "I am You, You are Me (Tiang I Raga, Raga I Tiang)",
   "upc": "199738511756",
-  "slug": "i-am-you-you-are-me-tiang-i-raga-raga-i-tiang"
+  "slug": "i-am-you-you-are-me-tiang-i-raga-raga-i-tiang",
+  "pay_earn": 0.0961,
+  "pay_plays": 12
  },
  {
-  "title": "The Horse Who Jumped",
-  "upc": "199738542507",
-  "slug": "the-horse-who-jumped"
+  "title": "Negative Utility",
+  "upc": "199742743549",
+  "slug": "negative-utility",
+  "pay_earn": 0.0933,
+  "pay_plays": 12
+ },
+ {
+  "title": "Mirror of Desire",
+  "upc": "199742766494",
+  "slug": "mirror-of-desire",
+  "pay_earn": 0.0929,
+  "pay_plays": 11
  },
  {
   "title": "Hyperreal",
   "upc": "199742770101",
-  "slug": "hyperreal"
+  "slug": "hyperreal",
+  "pay_earn": 0.0926,
+  "pay_plays": 11
  },
  {
-  "title": "Yasuke (The African Samurai)",
-  "upc": "199750658859",
-  "slug": "yasuke-the-african-samurai"
- },
- {
-  "title": "Paradox of Tolerance",
-  "upc": "199742765190",
-  "slug": "paradox-of-tolerance"
- },
- {
-  "title": "Existential Psychology",
-  "upc": "199944634201",
-  "slug": "existential-psychology"
- },
- {
-  "title": "History of God",
-  "upc": "199948268600",
-  "slug": "history-of-god"
+  "title": "Throne on Repeat",
+  "upc": "199742752848",
+  "slug": "throne-on-repeat",
+  "pay_earn": 0.0925,
+  "pay_plays": 11
  },
  {
   "title": "Selling Signs",
   "upc": "199742740104",
-  "slug": "selling-signs"
+  "slug": "selling-signs",
+  "pay_earn": 0.0924,
+  "pay_plays": 11
+ },
+ {
+  "title": "Yasuke (The African Samurai)",
+  "upc": "199750658859",
+  "slug": "yasuke-the-african-samurai",
+  "pay_earn": 0.0923,
+  "pay_plays": 13
+ },
+ {
+  "title": "The Horse Who Jumped",
+  "upc": "199738542507",
+  "slug": "the-horse-who-jumped",
+  "pay_earn": 0.092,
+  "pay_plays": 11
  },
  {
   "title": "Truth as a Tribe",
   "upc": "199742757706",
-  "slug": "truth-as-a-tribe"
+  "slug": "truth-as-a-tribe",
+  "pay_earn": 0.092,
+  "pay_plays": 11
  },
  {
-  "title": "\u00c1gua mole em pedra dura",
-  "upc": "199937736196",
-  "slug": "\u00e1gua-mole-em-pedra-dura"
- },
- {
-  "title": "Being and Time Sein und Zeit",
-  "upc": "199742779470",
-  "slug": "being-and-time-sein-und-zeit"
+  "title": "History of God",
+  "upc": "199948268600",
+  "slug": "history-of-god",
+  "pay_earn": 0.0919,
+  "pay_plays": 12
  },
  {
   "title": "God's Suicide",
   "upc": "199742732833",
-  "slug": "gods-suicide"
+  "slug": "gods-suicide",
+  "pay_earn": 0.0919,
+  "pay_plays": 11
  },
  {
-  "title": "Art of War \u5b6b\u5b50\u5175\u6cd5",
-  "upc": "199742777506",
-  "slug": "art-of-war-\u5b6b\u5b50\u5175\u6cd5"
+  "title": "Being and Time Sein und Zeit",
+  "upc": "199742779470",
+  "slug": "being-and-time-sein-und-zeit",
+  "pay_earn": 0.0915,
+  "pay_plays": 11
+ },
+ {
+  "title": "Água mole em pedra dura",
+  "upc": "199937736196",
+  "slug": "água-mole-em-pedra-dura",
+  "pay_earn": 0.0914,
+  "pay_plays": 25
  },
  {
   "title": "Who Decides Death?",
   "upc": "199742737388",
-  "slug": "who-decides-death"
- },
- {
-  "title": "\u0422\u044d\u043d\u0433\u044d\u0440: \u041c\u04e9\u043d\u0445 \u0425\u04e9\u0445 \u0422\u044d\u043d\u0433\u044d\u0440 (Tenger: Eternal Sky)",
-  "upc": "199738479964",
-  "slug": "\u0442\u044d\u043d\u0433\u044d\u0440-\u043c\u04e9\u043d\u0445-\u0445\u04e9\u0445-\u0442\u044d\u043d\u0433\u044d\u0440-tenger-eternal-sky"
+  "slug": "who-decides-death",
+  "pay_earn": 0.0911,
+  "pay_plays": 11
  },
  {
   "title": "Tit for Tat",
   "upc": "825348293361",
-  "slug": "tit-for-tat"
+  "slug": "tit-for-tat",
+  "pay_earn": 0.0869,
+  "pay_plays": 12
  },
  {
   "title": "The Weave of Wyrd (Wyrds vefur)",
   "upc": "199738488775",
-  "slug": "the-weave-of-wyrd-wyrds-vefur"
- },
- {
-  "title": "Ayni (Sacred Reciprocity)",
-  "upc": "199738490990",
-  "slug": "ayni-sacred-reciprocity"
- },
- {
-  "title": "Enlightenment Paradox",
-  "upc": "199737072562",
-  "slug": "enlightenment-paradox"
+  "slug": "the-weave-of-wyrd-wyrds-vefur",
+  "pay_earn": 0.0866,
+  "pay_plays": 13
  },
  {
   "title": "Four Ways to Forget",
   "upc": "199944632160",
-  "slug": "four-ways-to-forget"
- },
- {
-  "title": "\ub9ac Before \uae30",
-  "upc": "199738500019",
-  "slug": "\ub9ac-before-\uae30"
+  "slug": "four-ways-to-forget",
+  "pay_earn": 0.084,
+  "pay_plays": 13
  },
  {
   "title": "Iron Law",
   "upc": "199742758697",
-  "slug": "iron-law"
+  "slug": "iron-law",
+  "pay_earn": 0.0834,
+  "pay_plays": 10
+ },
+ {
+  "title": "리 Before 기",
+  "upc": "199738500019",
+  "slug": "리-before-기",
+  "pay_earn": 0.0834,
+  "pay_plays": 10
+ },
+ {
+  "title": "Ayni (Sacred Reciprocity)",
+  "upc": "199738490990",
+  "slug": "ayni-sacred-reciprocity",
+  "pay_earn": 0.0833,
+  "pay_plays": 10
  },
  {
   "title": "Reminisce",
   "upc": "199748159498",
-  "slug": "reminisce"
+  "slug": "reminisce",
+  "pay_earn": 0.0828,
+  "pay_plays": 10
+ },
+ {
+  "title": "Enlightenment Paradox",
+  "upc": "199737072562",
+  "slug": "enlightenment-paradox",
+  "pay_earn": 0.0827,
+  "pay_plays": 10
  },
  {
   "title": "The Cage of Flesh",
   "upc": "199944552475",
-  "slug": "the-cage-of-flesh"
- },
- {
-  "title": "The Wealth of Health",
-  "upc": "199524621034",
-  "slug": "the-wealth-of-health"
+  "slug": "the-cage-of-flesh",
+  "pay_earn": 0.0826,
+  "pay_plays": 10
  },
  {
   "title": "Best",
   "upc": "825484066867",
-  "slug": "best"
+  "slug": "best",
+  "pay_earn": 0.0821,
+  "pay_plays": 8
  },
  {
   "title": "Crime in the Headlines",
   "upc": "199327413959",
-  "slug": "crime-in-the-headlines"
+  "slug": "crime-in-the-headlines",
+  "pay_earn": 0.082,
+  "pay_plays": 10
  },
  {
-  "title": "Islamic Mysticism",
-  "upc": "882000230775",
-  "slug": "islamic-mysticism"
+  "title": "Art of War 孫子兵法",
+  "upc": "199742777506",
+  "slug": "art-of-war-孫子兵法",
+  "pay_earn": 0.0795,
+  "pay_plays": 14
  },
  {
-  "title": "Ren \u4ec1",
+  "title": "Ren 仁",
   "upc": "199742783804",
-  "slug": "ren-\u4ec1"
+  "slug": "ren-仁",
+  "pay_earn": 0.0785,
+  "pay_plays": 11
  },
  {
   "title": "Beyond Civilization",
   "upc": "199748936693",
-  "slug": "beyond-civilization"
+  "slug": "beyond-civilization",
+  "pay_earn": 0.0784,
+  "pay_plays": 11
+ },
+ {
+  "title": "Islamic Mysticism",
+  "upc": "882000230775",
+  "slug": "islamic-mysticism",
+  "pay_earn": 0.0778,
+  "pay_plays": 13
  },
  {
   "title": "I'll Be Me",
   "upc": "199944630234",
-  "slug": "ill-be-me"
+  "slug": "ill-be-me",
+  "pay_earn": 0.0773,
+  "pay_plays": 13
  },
  {
-  "title": "MIC",
-  "upc": "199943665183",
-  "slug": "mic"
+  "title": "Existential Psychology",
+  "upc": "199944634201",
+  "slug": "existential-psychology",
+  "pay_earn": 0.0769,
+  "pay_plays": 11
  },
  {
-  "title": "Pakikibaka",
-  "upc": "199748894443",
-  "slug": "pakikibaka"
- },
- {
-  "title": "The Philosophy of Mister Rogers",
-  "upc": "199948248503",
-  "slug": "the-philosophy-of-mister-rogers"
+  "title": "Тэнгэр: Мөнх Хөх Тэнгэр (Tenger: Eternal Sky)",
+  "upc": "199738479964",
+  "slug": "тэнгэр-мөнх-хөх-тэнгэр-tenger-eternal-sky",
+  "pay_earn": 0.0747,
+  "pay_plays": 10
  },
  {
   "title": "4,000 Mondays",
   "upc": "199738614549",
-  "slug": "4000-mondays"
+  "slug": "4000-mondays",
+  "pay_earn": 0.0747,
+  "pay_plays": 9
  },
  {
-  "title": "Kensh\u014d Shock",
+  "title": "Kenshō Shock",
   "upc": "199750957228",
-  "slug": "kensh\u014d-shock"
+  "slug": "kenshō-shock",
+  "pay_earn": 0.0747,
+  "pay_plays": 9
  },
  {
   "title": "Ibuanyidanda",
   "upc": "199742772570",
-  "slug": "ibuanyidanda"
+  "slug": "ibuanyidanda",
+  "pay_earn": 0.0745,
+  "pay_plays": 8
+ },
+ {
+  "title": "The Wealth of Health",
+  "upc": "199524621034",
+  "slug": "the-wealth-of-health",
+  "pay_earn": 0.0743,
+  "pay_plays": 10
+ },
+ {
+  "title": "The Philosophy of Mister Rogers",
+  "upc": "199948248503",
+  "slug": "the-philosophy-of-mister-rogers",
+  "pay_earn": 0.074,
+  "pay_plays": 12
+ },
+ {
+  "title": "MIC",
+  "upc": "199943665183",
+  "slug": "mic",
+  "pay_earn": 0.073,
+  "pay_plays": 9
  },
  {
   "title": "Under The Surface",
   "upc": "825348296249",
-  "slug": "under-the-surface"
+  "slug": "under-the-surface",
+  "pay_earn": 0.0715,
+  "pay_plays": 9
  },
  {
-  "title": "Bad Money Wins",
-  "upc": "199742760300",
-  "slug": "bad-money-wins"
- },
- {
-  "title": "The River of One \u0a07\u0a71\u0a15 \u0a26\u0a30\u0a3f\u0a06",
+  "title": "The River of One ਇੱਕ ਦਰਿਆ",
   "upc": "199948249562",
-  "slug": "the-river-of-one-\u0a07\u0a15-\u0a26\u0a30\u0a06"
+  "slug": "the-river-of-one-ਇਕ-ਦਰਆ",
+  "pay_earn": 0.069,
+  "pay_plays": 10
  },
  {
-  "title": "Cursed Riches",
-  "upc": "199742755085",
-  "slug": "cursed-riches"
+  "title": "Pakikibaka",
+  "upc": "199748894443",
+  "slug": "pakikibaka",
+  "pay_earn": 0.0684,
+  "pay_plays": 8
  },
  {
   "title": "Sawubona",
   "upc": "883086369717",
-  "slug": "sawubona"
+  "slug": "sawubona",
+  "pay_earn": 0.0682,
+  "pay_plays": 6
  },
  {
-  "title": "Reality\u2019s Fiction",
-  "upc": "199742771610",
-  "slug": "realitys-fiction"
- },
- {
-  "title": "Hygge",
-  "upc": "199750961164",
-  "slug": "hygge"
- },
- {
-  "title": "Invisible Strings",
-  "upc": "199748935887",
-  "slug": "invisible-strings"
+  "title": "Bad Money Wins",
+  "upc": "199742760300",
+  "slug": "bad-money-wins",
+  "pay_earn": 0.0673,
+  "pay_plays": 9
  },
  {
   "title": "End in Mind",
   "upc": "199750366150",
-  "slug": "end-in-mind"
+  "slug": "end-in-mind",
+  "pay_earn": 0.0673,
+  "pay_plays": 9
+ },
+ {
+  "title": "Cursed Riches",
+  "upc": "199742755085",
+  "slug": "cursed-riches",
+  "pay_earn": 0.0673,
+  "pay_plays": 8
+ },
+ {
+  "title": "Reality’s Fiction",
+  "upc": "199742771610",
+  "slug": "realitys-fiction",
+  "pay_earn": 0.0671,
+  "pay_plays": 8
  },
  {
   "title": "Hyperobject",
   "upc": "199742742313",
-  "slug": "hyperobject"
+  "slug": "hyperobject",
+  "pay_earn": 0.067,
+  "pay_plays": 8
  },
  {
   "title": "Stone Code",
   "upc": "199943662977",
-  "slug": "stone-code"
- },
- {
-  "title": "The Language Code",
-  "upc": "199328147150",
-  "slug": "the-language-code"
+  "slug": "stone-code",
+  "pay_earn": 0.0669,
+  "pay_plays": 8
  },
  {
   "title": "Give an Inch, Take a Mile",
   "upc": "199742754842",
-  "slug": "give-an-inch-take-a-mile"
+  "slug": "give-an-inch-take-a-mile",
+  "pay_earn": 0.0665,
+  "pay_plays": 8
  },
  {
   "title": "Monogamy",
   "upc": "199749869495",
-  "slug": "monogamy"
+  "slug": "monogamy",
+  "pay_earn": 0.0643,
+  "pay_plays": 8
  },
  {
   "title": "Toska",
   "upc": "199934442120",
-  "slug": "toska"
+  "slug": "toska",
+  "pay_earn": 0.064,
+  "pay_plays": 9
+ },
+ {
+  "title": "The Language Code",
+  "upc": "199328147150",
+  "slug": "the-language-code",
+  "pay_earn": 0.0639,
+  "pay_plays": 8
+ },
+ {
+  "title": "Invisible Strings",
+  "upc": "199748935887",
+  "slug": "invisible-strings",
+  "pay_earn": 0.0632,
+  "pay_plays": 10
  },
  {
   "title": "Technofeudalism",
   "upc": "199742748650",
-  "slug": "technofeudalism"
+  "slug": "technofeudalism",
+  "pay_earn": 0.063,
+  "pay_plays": 9
  },
  {
-  "title": "Futtitinni",
-  "upc": "199749602016",
-  "slug": "futtitinni"
- },
- {
-  "title": "Wisdom of the Land (\u1eccgb\u1ecd\u0301n Il\u1eb9\u0300)",
+  "title": "Wisdom of the Land (Ọgbọ́n Ilẹ̀)",
   "upc": "199738513071",
-  "slug": "wisdom-of-the-land-\u1ecdgb\u1ecdn-il\u1eb9"
- },
- {
-  "title": "\u1eccgb\u1ecd\u0301n j\u1eb9\u0301 ti gbogbo wa (Wisdom is Communal)",
-  "upc": "199742773683",
-  "slug": "\u1ecdgb\u1ecdn-j\u1eb9-ti-gbogbo-wa-wisdom-is-communal"
+  "slug": "wisdom-of-the-land-ọgbọn-ilẹ",
+  "pay_earn": 0.0612,
+  "pay_plays": 11
  },
  {
   "title": "Wings of Expectation",
   "upc": "199742768894",
-  "slug": "wings-of-expectation"
+  "slug": "wings-of-expectation",
+  "pay_earn": 0.0594,
+  "pay_plays": 7
+ },
+ {
+  "title": "Ọgbọ́n jẹ́ ti gbogbo wa (Wisdom is Communal)",
+  "upc": "199742773683",
+  "slug": "ọgbọn-jẹ-ti-gbogbo-wa-wisdom-is-communal",
+  "pay_earn": 0.0585,
+  "pay_plays": 7
+ },
+ {
+  "title": "Paradox of Tolerance",
+  "upc": "199742765190",
+  "slug": "paradox-of-tolerance",
+  "pay_earn": 0.0584,
+  "pay_plays": 7
+ },
+ {
+  "title": "Hygge",
+  "upc": "199750961164",
+  "slug": "hygge",
+  "pay_earn": 0.0583,
+  "pay_plays": 9
  },
  {
   "title": "Bystander Effect",
   "upc": "199742763905",
-  "slug": "bystander-effect"
- },
- {
-  "title": "Stay Sane in an Insane World",
-  "upc": "199742732116",
-  "slug": "stay-sane-in-an-insane-world"
+  "slug": "bystander-effect",
+  "pay_earn": 0.0582,
+  "pay_plays": 7
  },
  {
   "title": "The Anthem of the Individual",
   "upc": "199742783019",
-  "slug": "the-anthem-of-the-individual"
+  "slug": "the-anthem-of-the-individual",
+  "pay_earn": 0.0582,
+  "pay_plays": 7
+ },
+ {
+  "title": "Stay Sane in an Insane World",
+  "upc": "199742732116",
+  "slug": "stay-sane-in-an-insane-world",
+  "pay_earn": 0.0577,
+  "pay_plays": 6
  },
  {
   "title": "Why Something?",
   "upc": "825348305095",
-  "slug": "why-something"
+  "slug": "why-something",
+  "pay_earn": 0.0576,
+  "pay_plays": 8
  },
  {
   "title": "Torschlusspanik",
   "upc": "199934466379",
-  "slug": "torschlusspanik"
+  "slug": "torschlusspanik",
+  "pay_earn": 0.0535,
+  "pay_plays": 7
  },
  {
   "title": "Life is Worth Losing",
   "upc": "199948385314",
-  "slug": "life-is-worth-losing"
+  "slug": "life-is-worth-losing",
+  "pay_earn": 0.0508,
+  "pay_plays": 7
+ },
+ {
+  "title": "Futtitinni",
+  "upc": "199749602016",
+  "slug": "futtitinni",
+  "pay_earn": 0.0498,
+  "pay_plays": 10
  },
  {
   "title": "Pachamama",
   "upc": "882000247339",
-  "slug": "pachamama"
+  "slug": "pachamama",
+  "pay_earn": 0.0486,
+  "pay_plays": 20
  },
  {
   "title": "Doors of Perception",
   "upc": "883128940898",
-  "slug": "doors-of-perception"
+  "slug": "doors-of-perception",
+  "pay_earn": 0.047,
+  "pay_plays": 6
  },
  {
   "title": "Wisdom of the Ancestors (Amamihe Ndi Ichie)",
   "upc": "199738513989",
-  "slug": "wisdom-of-the-ancestors-amamihe-ndi-ichie"
+  "slug": "wisdom-of-the-ancestors-amamihe-ndi-ichie",
+  "pay_earn": 0.0465,
+  "pay_plays": 6
  },
  {
   "title": "Movement Capture",
   "upc": "199937730088",
-  "slug": "movement-capture"
+  "slug": "movement-capture",
+  "pay_earn": 0.0436,
+  "pay_plays": 15
  },
  {
   "title": "Climb Too High",
   "upc": "199742755962",
-  "slug": "climb-too-high"
+  "slug": "climb-too-high",
+  "pay_earn": 0.0415,
+  "pay_plays": 5
  },
  {
-  "title": "\u1eccgb\u1ecd\u0301n n\u00ed \u1ecd\u0300p\u1ecd\u0300 oh\u00f9n (Wisdom Has Many Voices)",
+  "title": "Ọgbọ́n ní ọ̀pọ̀ ohùn (Wisdom Has Many Voices)",
   "upc": "199742774185",
-  "slug": "\u1ecdgb\u1ecdn-n\u00ed-\u1ecdp\u1ecd-oh\u00f9n-wisdom-has-many-voices"
+  "slug": "ọgbọn-ní-ọpọ-ohùn-wisdom-has-many-voices",
+  "pay_earn": 0.041,
+  "pay_plays": 5
  },
  {
   "title": "Pronoia",
   "upc": "883128975289",
-  "slug": "pronoia"
+  "slug": "pronoia",
+  "pay_earn": 0.041,
+  "pay_plays": 4
  },
  {
-  "title": "Grow Together \u0b92\u0ba9\u0bcd\u0bb1\u0bbe\u0b95 \u0bb5\u0bb3\u0bb0\u0bc1\u0b99\u0bcd\u0b95\u0bb3\u0bcd",
+  "title": "Grow Together ஒன்றாக வளருங்கள்",
   "upc": "825348298762",
-  "slug": "grow-together-\u0b92\u0ba9\u0bb1\u0b95-\u0bb5\u0bb3\u0bb0\u0b99\u0b95\u0bb3"
+  "slug": "grow-together-ஒனறக-வளரஙகள",
+  "pay_earn": 0.0404,
+  "pay_plays": 12
  },
  {
   "title": "Mektub",
   "upc": "199934508369",
-  "slug": "mektub"
+  "slug": "mektub",
+  "pay_earn": 0.0404,
+  "pay_plays": 6
  },
  {
   "title": "Superbloom",
   "upc": "882000245359",
-  "slug": "superbloom"
+  "slug": "superbloom",
+  "pay_earn": 0.0389,
+  "pay_plays": 6
  },
  {
-  "title": "Ikigai Flow \u751f\u304d\u304c\u3044",
+  "title": "Ikigai Flow 生きがい",
   "upc": "199738518519",
-  "slug": "ikigai-flow-\u751f\u304d\u304c\u3044"
+  "slug": "ikigai-flow-生きがい",
+  "pay_earn": 0.0363,
+  "pay_plays": 15
  },
  {
   "title": "Jeong",
   "upc": "883071159439",
-  "slug": "jeong"
+  "slug": "jeong",
+  "pay_earn": 0.0359,
+  "pay_plays": 6
  },
  {
   "title": "Manson Theory",
   "upc": "199944636298",
-  "slug": "manson-theory"
+  "slug": "manson-theory",
+  "pay_earn": 0.034,
+  "pay_plays": 4
  },
  {
   "title": "Secular Age",
   "upc": "883174005800",
-  "slug": "secular-age"
- },
- {
-  "title": "Insha\u2019Allah",
-  "upc": "199934468649",
-  "slug": "inshaallah"
+  "slug": "secular-age",
+  "pay_earn": 0.0336,
+  "pay_plays": 5
  },
  {
   "title": "The Stoic Capitalist",
   "upc": "882000183903",
-  "slug": "the-stoic-capitalist"
- },
- {
-  "title": "Querencia",
-  "upc": "825200245385",
-  "slug": "querencia"
+  "slug": "the-stoic-capitalist",
+  "pay_earn": 0.0323,
+  "pay_plays": 5
  },
  {
   "title": "By The Time You Hear This",
   "upc": "882000232915",
-  "slug": "by-the-time-you-hear-this"
+  "slug": "by-the-time-you-hear-this",
+  "pay_earn": 0.0319,
+  "pay_plays": 4
+ },
+ {
+  "title": "Querencia",
+  "upc": "825200245385",
+  "slug": "querencia",
+  "pay_earn": 0.0319,
+  "pay_plays": 4
+ },
+ {
+  "title": "Insha’Allah",
+  "upc": "199934468649",
+  "slug": "inshaallah",
+  "pay_earn": 0.0317,
+  "pay_plays": 5
  },
  {
   "title": "Godless Gospel",
   "upc": "883306984188",
-  "slug": "godless-gospel"
+  "slug": "godless-gospel",
+  "pay_earn": 0.0301,
+  "pay_plays": 4
  },
  {
   "title": "Still Here",
   "upc": "825348265702",
-  "slug": "still-here"
- },
- {
-  "title": "The Mushroom and the Cross",
-  "upc": "883306983938",
-  "slug": "the-mushroom-and-the-cross"
- },
- {
-  "title": "Kaitiaki",
-  "upc": "883174015120",
-  "slug": "kaitiaki"
+  "slug": "still-here",
+  "pay_earn": 0.0294,
+  "pay_plays": 3
  },
  {
   "title": "Pena",
   "upc": "825181290770",
-  "slug": "pena"
+  "slug": "pena",
+  "pay_earn": 0.0239,
+  "pay_plays": 3
  },
  {
-  "title": "Culture Code",
-  "upc": "883306980470",
-  "slug": "culture-code"
+  "title": "The Mushroom and the Cross",
+  "upc": "883306983938",
+  "slug": "the-mushroom-and-the-cross",
+  "pay_earn": 0.0239,
+  "pay_plays": 3
+ },
+ {
+  "title": "Kaitiaki",
+  "upc": "883174015120",
+  "slug": "kaitiaki",
+  "pay_earn": 0.0238,
+  "pay_plays": 3
  },
  {
   "title": "Passport Minds",
   "upc": "882458791453",
-  "slug": "passport-minds"
+  "slug": "passport-minds",
+  "pay_earn": 0.0202,
+  "pay_plays": 3
+ },
+ {
+  "title": "Culture Code",
+  "upc": "883306980470",
+  "slug": "culture-code",
+  "pay_earn": 0.0198,
+  "pay_plays": 3
  },
  {
   "title": "Yarana",
   "upc": "825181288432",
-  "slug": "yarana"
- },
- {
-  "title": "Restart",
-  "upc": "825192348217",
-  "slug": "restart"
+  "slug": "yarana",
+  "pay_earn": 0.0162,
+  "pay_plays": 3
  },
  {
   "title": "Pura Vida",
   "upc": "883306971768",
-  "slug": "pura-vida"
+  "slug": "pura-vida",
+  "pay_earn": 0.0159,
+  "pay_plays": 3
+ },
+ {
+  "title": "Restart",
+  "upc": "825192348217",
+  "slug": "restart",
+  "pay_earn": 0.0159,
+  "pay_plays": 2
  },
  {
   "title": "Meaning in the Void",
   "upc": "199328143985",
-  "slug": "meaning-in-the-void"
- },
- {
-  "title": "No Signal",
-  "upc": "882458794652",
-  "slug": "no-signal"
- },
- {
-  "title": "World Keeps Turning",
-  "upc": "882458798759",
-  "slug": "world-keeps-turning"
+  "slug": "meaning-in-the-void",
+  "pay_earn": 0.0091,
+  "pay_plays": 2
  },
  {
   "title": "God Delusion",
   "upc": "883306975643",
-  "slug": "god-delusion"
+  "slug": "god-delusion",
+  "pay_earn": 0.008,
+  "pay_plays": 1
+ },
+ {
+  "title": "No Signal",
+  "upc": "882458794652",
+  "slug": "no-signal",
+  "pay_earn": 0.008,
+  "pay_plays": 1
+ },
+ {
+  "title": "World Keeps Turning",
+  "upc": "882458798759",
+  "slug": "world-keeps-turning",
+  "pay_earn": 0.008,
+  "pay_plays": 1
  },
  {
   "title": "Wonder Cha Cha Cha",
   "upc": "882458364695",
-  "slug": "wonder-cha-cha-cha"
+  "slug": "wonder-cha-cha-cha",
+  "pay_earn": 0.0009,
+  "pay_plays": 6
  }
 ]
