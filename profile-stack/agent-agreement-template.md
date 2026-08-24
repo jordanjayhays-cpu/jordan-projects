@@ -11,9 +11,12 @@ introduced/managed by Placewell International BD ("Manager").
    Representative** to introduce Company's services to prospects in [market/region]. Representative
    is genuinely authorized to carry this title while this agreement is in force.
 
-2. **Scope of activity.** Representative permits outreach and introductions to be conducted through
-   Representative's LinkedIn and email under Representative's name. Manager prepares all outreach
-   content; Representative reviews and approves before anything is sent, and may decline any message.
+2. **Scope of activity (two tiers — pick one per rep).**
+   - **Passive:** Representative connects their LinkedIn to the outreach tool (**HeyReach**) operated by
+     Manager, and permits outreach under Representative's name. Manager prepares and runs all content.
+   - **Active (temp sales agent):** as above, plus Representative reviews/approves sends and fields
+     replies and intro calls using Manager's scripts, routing qualified interest to Company's closer.
+   Manager prepares all outreach content in both tiers; Representative may decline any message.
 
 3. **No authority to bind.** Representative may introduce and route interest only. Representative may
    NOT sign contracts, quote binding prices, or accept obligations for Company. Qualified interest is
