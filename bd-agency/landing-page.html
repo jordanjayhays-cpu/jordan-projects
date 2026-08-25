@@ -1,0 +1,163 @@
+<title>Kinsol</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cormorant+Garamond:wght@500;600&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --night:#0b0906; --panel:#13100a; --panel2:#191309; --edge:#2c2214;
+    --gold:#d6ac4f; --gold-hi:#f0cd78; --gold-dim:#8b6f34; --gold-soft:#d6ac4f14;
+    --cream:#ece1c8; --muted:#a2957c; --faint:#6e6247;
+    --disp:"Marcellus",Georgia,serif; --serif:"Cormorant Garamond",Georgia,serif;
+    --sans:"Figtree",-apple-system,"Segoe UI",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{background:var(--night);color:var(--cream);font-family:var(--sans);font-size:16px;line-height:1.6}
+  .shell{max-width:1000px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+  a{color:inherit}
+
+  nav{display:flex;justify-content:space-between;align-items:center;padding:20px clamp(16px,4vw,32px);max-width:1000px;margin:0 auto}
+  .logo{font-family:var(--disp);font-size:23px;letter-spacing:.22em;color:var(--gold)}
+  .navcta{font-family:var(--sans);font-weight:600;font-size:14px;color:var(--night);background:var(--gold);
+    padding:10px 20px;border-radius:2px;text-decoration:none}
+  .navcta:hover{background:var(--gold-hi)}
+
+  .hero{position:relative;text-align:center;padding:70px 0 54px;overflow:hidden}
+  .hero::before{content:"";position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:700px;height:400px;
+    background:radial-gradient(ellipse at 50% 30%, #d6ac4f18 0%, transparent 62%);pointer-events:none}
+  .eyebrow{font-family:var(--sans);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dim);position:relative}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(38px,7vw,64px);line-height:1.06;letter-spacing:.005em;
+    margin:18px auto 0;max-width:17ch;text-wrap:balance;position:relative;color:var(--cream)}
+  h1 em{font-style:italic;color:var(--gold)}
+  .lede{font-size:18.5px;color:var(--muted);max-width:54ch;margin:22px auto 0;position:relative}
+  .lede b{color:var(--cream)}
+  .heroctas{margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative}
+  .btn{display:inline-block;font-weight:700;font-size:15.5px;text-decoration:none;border-radius:2px;padding:14px 30px}
+  .btn.gold{background:var(--gold);color:var(--night)} .btn.gold:hover{background:var(--gold-hi)}
+  .btn.ghost{color:var(--gold);border:1px solid var(--gold-dim)} .btn.ghost:hover{border-color:var(--gold)}
+
+  .rule{display:flex;align-items:center;gap:14px;max-width:340px;margin:44px auto 0}
+  .rule::before,.rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent)}
+  .rule span{width:5px;height:5px;background:var(--gold);border-radius:50%;transform:rotate(45deg)}
+
+  section{padding:58px 0 0}
+  h2{font-family:var(--disp);font-size:clamp(22px,3.6vw,30px);letter-spacing:.05em;text-align:center;color:var(--gold);text-wrap:balance}
+  .ssub{color:var(--muted);text-align:center;max-width:52ch;margin:12px auto 0;font-size:16px}
+
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--edge);border:1px solid var(--edge);margin-top:36px}
+  @media (max-width:720px){.pillars{grid-template-columns:1fr}}
+  .pill{background:var(--panel);padding:30px 26px}
+  .pill .n{font-family:var(--disp);font-size:14px;color:var(--gold-dim);letter-spacing:.14em}
+  .pill h3{font-family:var(--disp);font-size:19px;letter-spacing:.03em;color:var(--gold);margin:12px 0 8px}
+  .pill p{font-size:14.5px;color:var(--muted)}
+
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:36px}
+  @media (max-width:760px){.steps{grid-template-columns:1fr 1fr}}
+  @media (max-width:460px){.steps{grid-template-columns:1fr}}
+  .step{text-align:center;padding:0 6px}
+  .stepn{font-family:var(--disp);font-style:normal;font-size:30px;color:var(--gold);line-height:1}
+  .step h3{font-family:var(--sans);font-weight:700;font-size:16px;margin:10px 0 6px;color:var(--cream)}
+  .step p{font-size:14px;color:var(--muted)}
+
+  .edge{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--edge);border-radius:6px;
+    padding:clamp(28px,4vw,44px);margin-top:36px}
+  .edge h2{margin-bottom:8px}
+  .cells{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}
+  @media (max-width:620px){.cells{grid-template-columns:1fr}}
+  .cell{display:flex;gap:14px;align-items:flex-start}
+  .cell .k{font-family:var(--disp);color:var(--gold);font-size:22px;line-height:1;flex:none}
+  .cell h4{font-family:var(--sans);font-weight:700;font-size:15.5px;color:var(--cream);margin-bottom:3px}
+  .cell p{font-size:14px;color:var(--muted)}
+
+  .who{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px}
+  .chip{font-family:var(--sans);font-size:14px;color:var(--cream);background:var(--panel);border:1px solid var(--edge);
+    border-radius:999px;padding:9px 18px}
+
+  .cta{text-align:center;background:linear-gradient(160deg,#191309,#0d0a06);border:1px solid var(--gold-dim);border-radius:6px;
+    padding:clamp(32px,5vw,52px);margin-top:58px}
+  .cta h2{margin-bottom:10px}
+  .cta p{color:var(--muted);max-width:48ch;margin:0 auto 24px;font-size:16px}
+
+  footer{margin-top:60px;border-top:1px solid var(--edge);padding:32px 0 28px;text-align:center}
+  footer .logo{display:inline-block;margin-bottom:8px}
+  footer p{color:var(--faint);font-size:13px}
+  .wip{font-family:var(--sans);font-size:11px;color:var(--faint);text-align:center;margin-top:14px;letter-spacing:.04em}
+</style>
+
+<nav>
+  <div class="logo">KINSOL</div>
+  <a class="navcta" href="#start">Book a call</a>
+</nav>
+
+<header class="hero">
+  <div class="shell">
+    <div class="eyebrow">International Business Development</div>
+    <h1>We open the doors to <em>markets you can't reach.</em></h1>
+    <p class="lede">Entering a new country is slow, cold, and full of closed doors. We place a <b>credible local representative</b> in your target market and run the outreach for you — so your first conversations there are <b>warm, not cold.</b></p>
+    <div class="heroctas">
+      <a class="btn gold" href="#start">Start expanding →</a>
+      <a class="btn ghost" href="#how">How it works</a>
+    </div>
+    <div class="rule"><span></span></div>
+  </div>
+</header>
+
+<div class="shell">
+  <section>
+    <h2>What we do</h2>
+    <p class="ssub">Not consultants who hand you a deck. An operating partner that puts a face in the market and does the work.</p>
+    <div class="pillars">
+      <div class="pill"><div class="n">I</div><h3>Local representation</h3><p>A vetted, appointed representative in your target market — a real, credible person who opens doors a foreign cold email never will.</p></div>
+      <div class="pill"><div class="n">II</div><h3>AI-powered outreach</h3><p>We build the target list and run the campaigns at scale, under your representative's name — professionally paced, never spammy.</p></div>
+      <div class="pill"><div class="n">III</div><h3>Warm hand-offs</h3><p>Qualified interest is routed straight to your team — real conversations with real buyers, not a list of unanswered emails.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><div class="stepn">1</div><h3>Tell us your market</h3><p>The country, the buyer, and what you sell. We learn your offer.</p></div>
+      <div class="step"><div class="stepn">2</div><h3>We place a rep</h3><p>A credible representative in-market, formally appointed, plus a built target list.</p></div>
+      <div class="step"><div class="stepn">3</div><h3>We run outreach</h3><p>Campaigns under their name — approved by them, managed entirely by us.</p></div>
+      <div class="step"><div class="stepn">4</div><h3>You get warm intros</h3><p>Interested buyers, handed to your team ready to talk. You close.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="edge">
+      <h2>Why it works</h2>
+      <p class="ssub" style="margin-top:6px">Cold outreach from a foreign brand gets ignored. A trusted local voice gets answered.</p>
+      <div class="cells">
+        <div class="cell"><div class="k">◆</div><div><h4>A real person, in the market</h4><p>Credibility and a local network you can't fake — appointed properly, not impersonated.</p></div></div>
+        <div class="cell"><div class="k">◆</div><div><h4>We do the work, not you</h4><p>Research, writing, campaigns — all us. Your rep approves; your team just takes the calls.</p></div></div>
+        <div class="cell"><div class="k">◆</div><div><h4>Warm beats cold, every time</h4><p>An introduction from someone credible outperforms a cold email from a stranger, always.</p></div></div>
+        <div class="cell"><div class="k">◆</div><div><h4>You only field real interest</h4><p>No sifting dead leads — qualified conversations only, routed straight to you.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Who we work with</h2>
+    <p class="ssub">Companies with something proven at home, ready to reach buyers in a market they don't yet know.</p>
+    <div class="who">
+      <span class="chip">Manufacturers entering new countries</span>
+      <span class="chip">IT &amp; software firms expanding abroad</span>
+      <span class="chip">Exporters seeking distributors</span>
+      <span class="chip">Service companies opening a new region</span>
+      <span class="chip">Brands looking for their first foothold</span>
+    </div>
+  </section>
+
+  <section id="start">
+    <div class="cta">
+      <h2>Enter your next market — warm</h2>
+      <p>Tell us the market you want and the buyer you're after. If we're a fit, we'll place a representative and start opening doors.</p>
+      <a class="btn gold" href="mailto:hello@kinsol.example">Book a call</a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="shell">
+    <div class="logo">KINSOL</div>
+    <p>International business development · representation &amp; outreach for companies entering new markets</p>
+    <p class="wip">Working name "Kinsol" — placeholder until final naming. Content sells capability; no client claims made.</p>
+  </div>
+</footer>
