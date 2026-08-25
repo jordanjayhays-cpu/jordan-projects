@@ -346,6 +346,10 @@ def main():
                 print("skipping reddit: no published YouTube video to link yet")
                 continue
             yt_title, yt_url, yt_slug = yt
+            # Prefer the FULL song over the 30-second teaser. Reddit is a place
+            # people sit and listen; a teaser cutting off mid-verse reads as an ad.
+            from yt_catalogue import full_song
+            yt_url = full_song(slug=yt_slug, title=yt_title) or yt_url
             if yt_slug in state.get("reddit_posted", []):
                 print(f"skipping reddit: {yt_slug} already posted there")
                 continue

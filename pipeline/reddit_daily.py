@@ -64,8 +64,15 @@ def main():
 
     desc = descs.get(slug, f"One idea, one song: {title}.")
     when = (datetime.now(timezone.utc) + timedelta(minutes=15)).strftime("%Y-%m-%dT%H:%M:00")
+    # Link the FULL song, not the 30-second teaser Short. Reddit is a place people
+    # sit and listen; a teaser that cuts off mid-verse reads as an advert. Falls
+    # back to the Short if a track is not on the Topic channel.
+    sys.path.insert(0, PIPE)
+    from yt_catalogue import full_song
+    link = full_song(slug=slug, title=title) or p["releaseURL"]
+    print(f"reddit link: {link}" + ("" if link != p["releaseURL"] else " (teaser fallback)"))
     value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "link",
-             "url": p["releaseURL"], "is_flair_required": bool(cfg.get("flair"))}
+             "url": link, "is_flair_required": bool(cfg.get("flair"))}
     if cfg.get("flair"):
         value["flair"] = cfg["flair"]
     res = mcp("integrationSchedulePostTool", {"socialPost": [{

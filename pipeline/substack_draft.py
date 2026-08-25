@@ -80,7 +80,9 @@ def main():
     ap.add_argument("markdown", help="path to the essay in markdown")
     ap.add_argument("--title")
     ap.add_argument("--subtitle", default="")
-    ap.add_argument("--youtube", help="YouTube URL to embed")
+    ap.add_argument("--youtube", help="YouTube URL to embed (overrides --track)")
+    ap.add_argument("--track", help="track slug or title: embeds the FULL song from "
+                                    "the Topic channel instead of a 30s teaser")
     ap.add_argument("--image", help="image URL to embed alongside the video")
     ap.add_argument("--media-at", default="end", choices=["end", "top"],
                     help="where media goes when the markdown has no [media] marker")
@@ -92,6 +94,17 @@ def main():
     title, body = split_title(md, a.title)
     if not title:
         sys.exit("no title: pass --title or start the file with '# Title'")
+
+    # An essay is where someone will actually sit and listen, so it gets the whole
+    # song rather than the teaser Short the social channels use.
+    if a.track and not a.youtube:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from yt_catalogue import full_song
+        a.youtube = full_song(slug=a.track, title=a.track)
+        if not a.youtube:
+            sys.exit(f"no full song found for {a.track!r} — check "
+                     "music-assets/youtube-tracks.json")
+        print(f"embedding full song: {a.youtube}")
 
     if a.dry_run:
         from substack.post import Post
