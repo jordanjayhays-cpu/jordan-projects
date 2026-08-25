@@ -87,6 +87,17 @@ When PK's own website exists, it replaces the hyperfollow link everywhere and th
 
 ## 5. Data playbook (18-month royalty baseline, Jan 2025–Jun 2026)
 
+**READ THIS BEFORE RANKING ANYTHING BY PLAYS (Jordan, Aug 2026):** a lot of these tracks are
+songs Jordan has played over and over himself. At 20–40 plays per track, his own listening is a
+large and unknown share of the count — so per-track play data does not measure audience, it
+partly measures which songs Jordan likes. `queue.json` is ordered by it anyway, which makes the
+ordering worse than random: it is biased toward his personal favourites, and the gap between
+position 1 and position 95 is fourteen cents ($0.26 vs $0.12). Do not present that ordering as
+optimisation, and do not reason from small per-track counts as if they were audience signal.
+
+The exception is Bayanihan: 212,000 plays, 95% of everything, plainly not self-plays. Big
+numbers still mean something. Small ones do not.
+
 - Totals: $61.39 / 223,711 plays. Top: Bayanihan $21.15 (212k plays, 95% PH, viral via FB Reels audio Nov 2025); Gnostic Gospels $2.62 (June 2026 YouTube-Ads breakout); Banality of Evil $2.28 (top Apple earner).
 - Platform economics: Apple ≈ $0.008/play; YouTube ≈ $0.007; Facebook ≈ $0.0003; FB Social-Media-Pack ≈ $0.00003. Social = marketing, Apple/YT = money. Always funnel social reach to streaming links.
 - Lyrics registration: LyricFind rows in royalty data = lyrics exist. 51 tracks have them; priority for adding = recent listening ×3 + total earnings + Apple earnings ×2 (top gaps: Gnostic Gospels, Making Sense, Dolce far niente, The Anxious Generation, Soul Ride, Kapwa, Che Guevara, Voltaire's Vision, Fugazi, The Filter).

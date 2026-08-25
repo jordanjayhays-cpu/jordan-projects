@@ -1,12 +1,5 @@
 [
  {
-  "title": "אין סוף (The Infinite)",
-  "upc": "199738485149",
-  "slug": "the-infinite",
-  "pay_earn": 0.1233,
-  "pay_plays": 20
- },
- {
   "title": "Between the Body and the Fabric",
   "upc": "199507690477",
   "slug": "between-the-body-and-the-fabric",
@@ -663,6 +656,13 @@
   "slug": "what-money-cant-buy",
   "pay_earn": 0.1238,
   "pay_plays": 15
+ },
+ {
+  "title": "אין סוף (The Infinite)",
+  "upc": "199738485149",
+  "slug": "the-infinite",
+  "pay_earn": 0.1233,
+  "pay_plays": 20
  },
  {
   "title": "Machiavelli Power",
