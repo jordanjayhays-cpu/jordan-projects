@@ -62,16 +62,68 @@ def mcp(name, args):
         raise RuntimeError(body[:500])
     return json.loads(body)
 
-def hyperfollow_or_songlink(slug, track_id):
-    url = f"https://distrokid.com/hyperfollow/philosophicalking/{slug}"
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        with urllib.request.urlopen(req, context=CTX, timeout=20) as r:
-            if r.status == 200 and b"hyperfollow" in r.read(4000).lower():
-                return url
-    except Exception:
-        pass
-    return f"https://song.link/i/{track_id}"
+# HARD RULE (Jordan, Aug 2026): one link, everywhere, every track. The per-track
+# DistroKid URLs this used to build (distrokid.com/hyperfollow/philosophicalking/<slug>)
+# do not resolve, and song.link is not to be used either. This is replaced only when
+# PK has its own website.
+TRACK_LINK = "https://hyperfollow.com/PhilosophicalKing"
+
+# The catalogue, for the series line. queue.json + state["posted"] should sum to this.
+CATALOGUE = 251
+
+def pick_hook(lines, title):
+    """
+    The caption's first line — the only thing most people read.
+
+    The old rule (first 3-8 word segment, truncated to 7 words) produced
+    fragments, because Whisper segments on breath, not on clauses: "decide or
+    does", "and strife. Purpose is carved". Score for completeness instead and
+    never truncate — a short whole line beats a long broken one.
+    """
+    texts = [l["text"].strip() for l in lines[:26] if l["text"].strip()]
+    best, best_score = None, -99
+    # Whisper segments on breath, so a whole clause usually spans two or three of
+    # them ("Each step was a death," + "each truth was reborn"). Score joined
+    # windows, not single segments, or every candidate is half a sentence.
+    for i in range(len(texts)):
+        for span in (1, 2, 3):
+            if i + span > len(texts):
+                break
+            t = " ".join(texts[i:i + span]).strip()
+            w = t.lower().split()
+            n = len(w)
+            if not (4 <= n <= 12):
+                continue
+            score = 0
+            if t[0].isupper():        score += 3   # not picked up mid-clause
+            if t[-1] in ".!?":        score += 4   # a finished thought
+            if t.endswith(","):       score -= 5   # runs into the next line
+            if w[0] in OPENERS_BAD:   score -= 4   # a continuation, not an opening
+            # The real fragment tell. These transcripts are mostly unpunctuated, so
+            # "ends with a full stop" rarely fires; "ends on a word that cannot end
+            # a sentence" catches what it misses -- "From earth's first spark to".
+            if w[-1].strip(".,!?") in DANGLING:
+                score -= 6
+            nxt = texts[i + span] if i + span < len(texts) else ""
+            if nxt[:1].isupper():     score += 2   # next line starts fresh, so this one closed
+            if not nxt:               score += 1
+            if 6 <= n <= 10:          score += 1   # reads in one glance
+            if score > best_score:
+                best, best_score = t, score
+    if best is None:
+        best = texts[0] if texts else title
+    return best.strip(" ,")
+
+
+# words a sentence cannot end on
+DANGLING = set("""a an the and but or nor yet so of to in on at for with from by as
+is are was were be been being am do does did has have had will would can could
+shall should may might must that this these those which who whom whose what when
+where while if than then like into onto over under through up down out about not
+no my your his her its their our it he she they we you i""".split())
+
+OPENERS_BAD = set("""and but or the a an of to it that which yet is was as""".split())
+
 
 def latest_published_youtube():
     """(title, url, slug) of the most recent published YouTube post, or None."""
@@ -244,11 +296,9 @@ def main():
     json.dump(lines, open(os.path.join(ASSETS, f"{slug_}-lyrics.json"), "w"), indent=1)
 
     # kinetic template (current standard) — hook = first strong short line
-    hook_line = next((l["text"] for l in lines if 3 <= len(l["text"].split()) <= 8),
-                     next((l["text"] for l in lines if l["text"]), title))
-    hook_line = " ".join(hook_line.split()[:7]).strip(" ,.")
+    hook_line = pick_hook(lines, title)
     video = os.path.join(ASSETS, f"{slug_}-teaser.mp4")
-    track_link = hyperfollow_or_songlink(slug_, song["trackId"])
+    track_link = TRACK_LINK
     subprocess.check_call([sys.executable, os.path.join(PIPE, "kinetic_render.py"),
                            slug_, title, hook_line, track_link,
                            art, wav, os.path.join(ASSETS, f"{slug_}-lyrics.json"), video])
@@ -265,8 +315,16 @@ def main():
     # next date = day after last scheduled
     nxt = (date.fromisoformat(state["last_scheduled_date"]) + timedelta(days=1)).isoformat()
     link = track_link
-    hook = next((l["text"] for l in lines if len(l["text"].split()) >= 3), title)
-    content = (f"<p>{hook} 👑</p><p>Full track everywhere: {link}</p>"
+    hook = hook_line
+    # Series frame: people follow projects, not posts. The number tells a first-time
+    # viewer there are dozens behind this one and hundreds coming, which turns the
+    # catalogue depth from a liability into the pitch. Written "Track N" rather than
+    # "#N" on purpose — a leading "#N" renders as a hashtag on Instagram and TikTok.
+    series_no = len(state["posted"]) + 1
+    content = (f"<p>{hook} 👑</p>"
+               f"<p>Track {series_no} of {CATALOGUE} — turning every idea in "
+               f"philosophy into a song.</p>"
+               f"<p>Full track everywhere: {link}</p>"
                f"<p>#Philosophy #PhilosophicalKing</p>")
 
     integrations = mcp("integrationList", {})["output"]

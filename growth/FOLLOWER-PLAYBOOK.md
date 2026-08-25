@@ -62,6 +62,24 @@ with a shape. People follow *projects*. They do not follow *posts*.
 The catalogue depth that has been a liability — 251 tracks nobody can navigate —
 becomes the entire pitch.
 
+**Shipped Aug 25 2026, live from Aug 29.** The line in production is:
+
+> Track 15 of 251 — turning every idea in philosophy into a song.
+
+Written "Track 15" rather than "#15" on purpose: a leading `#15` renders as a
+hashtag on Instagram and TikTok, which looks broken and dilutes the tag set.
+
+Two things changed in that caption at once, and it is worth being honest about
+why. The hook line — the first thing anyone reads — was a seven-word slice of a
+Whisper segment, and most of them landed mid-clause: *"decide or does 👑"*,
+*"and strife. Purpose is carved 👑"*. Shipping a series line on top of a broken
+first line would have tested nothing, so the hooks were rewritten to complete
+lyric lines in the same pass.
+
+That means this is **not a clean A/B**, and at ~40 views a video it could never
+have been one. Read it directionally: profile visits per video, Aug 29 – Sep 7
+against the two weeks before. See `growth/SERIES-FRAME-TEST.md`.
+
 ### 2. Get other people to use the audio
 
 **This is how Bayanihan did 212,000 plays.** Not your posts. Other people's

@@ -47,7 +47,19 @@ Lyrics come from faster-whisper (model small, `word_timestamps=True`, `vad_filte
 
 ## 3. Caption formula (uniform across platforms)
 
-`<lyric hook from the track> 👑` + link + hashtags.
+`<lyric hook from the track> 👑` + **series line** + link + hashtags.
+
+**Series line (Jordan, Aug 2026 — live from Aug 29):** every caption's second paragraph is
+`Track {n} of 251 — turning every idea in philosophy into a song.`
+`{n}` is the track's position in the posting run (`state.json` → `len(posted) + 1`).
+Write it as `Track {n}`, never `#{n}` — a leading `#15` renders as a hashtag on Instagram
+and TikTok. People follow projects, not posts; the number is what makes it a project.
+
+**Hook line:** must be a COMPLETE lyric line, never a truncated slice. Whisper segments on
+breath rather than clause, so the first matching segment is usually half a sentence
+("decide or does", "and strife. Purpose is carved"). `pick_hook()` in `daily_post.py` scores
+joined windows of 1–3 segments and rejects lines ending on a dangling function word. It gets
+roughly 7 in 10 right; when a track's transcript is poor, hand-pick the hook instead.
 - **YouTube (Shorts):** title `<Track> — Philosophical King (Official Lyric Teaser)`; description: hook, `Listen everywhere: <HyperFollow>`, `Spotify | Apple Music | Deezer | iHeartRadio`, hashtags + `#Shorts`
 - **Facebook:** hook, `<TRACK> — out on all platforms: ▶ <HyperFollow>`, hashtags
 - **Instagram:** hook, `<TRACK> — out everywhere:`, then `▶ <HyperFollow full URL>` on its own line, hashtags (+`#StoicWisdom #DailyPhilosophy`). The URL is mandatory even though IG does not hyperlink it.
