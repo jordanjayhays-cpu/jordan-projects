@@ -15,33 +15,248 @@
   ],
   "timing_note": "226s. At ~12s per still that is 19 shots for the stills render; at 8s per clip it is 29 for a Veo render. Written here as 24 shots, with trim:true marking the first to drop. The lyric timings available are the first 31s only - the full-audio pass must re-cut these against the real chorus positions, because the chorus (Sama-sama sa bawat hakbang) should always land on a shot where the count JUMPS.",
   "shots": [
-    {"n": 1,  "act": "I. ALONE",     "size": "WIDE",   "count": 1,  "desc": "Vast empty flooded rice terrace at dawn, mirror-still water, mountains behind. One small hooded figure stands dead centre, back to us. Nothing else in the frame.", "camera": "very slow push in", "chain": false},
-    {"n": 2,  "act": "I. ALONE",     "size": "MEDIUM", "count": 1,  "desc": "The figure from behind, facing a small stilted bamboo house with a steep thatched roof and one softly glowing window. He does not move toward it.", "camera": "static, slow drift", "motif": "house", "chain": false},
-    {"n": 3,  "act": "I. ALONE",     "size": "DETAIL", "count": 1,  "desc": "One pair of hands closing around a bamboo pole beneath the house. The pole does not lift. The hands stay closed on it.", "camera": "static, close", "motif": "hands", "chain": true},
-    {"n": 4,  "act": "I. ALONE",     "size": "WIDE",   "count": 1,  "desc": "The figure straining alone against the pole, the house not moving at all. He is far too small for it. The scale is the point.", "camera": "slow pull back to show how big the house is", "chain": true},
-
-    {"n": 5,  "act": "II. THE FIRST", "size": "MEDIUM", "count": 2, "desc": "A second identical hooded silhouette walks in from frame left and takes the other end of the same pole. Neither turns to the other.", "camera": "static, letting them enter", "motif": "hands", "chain": true},
-    {"n": 6,  "act": "II. THE FIRST", "size": "DETAIL", "count": 2, "desc": "Two pairs of hands now on the pole, spaced apart. The pole lifts a few inches clear of the ground.", "camera": "static, close on the pole", "motif": "hands", "chain": true},
-    {"n": 7,  "act": "II. THE FIRST", "size": "WIDE",   "count": 4, "desc": "Two more identical silhouettes wade in through the shallow water from opposite edges of frame, taking the two remaining corner poles.", "camera": "slow pull back", "chain": false},
-    {"n": 8,  "act": "II. THE FIRST", "size": "MEDIUM", "count": 4, "desc": "Four figures, one at each corner, the house now fully off the ground and swaying slightly. Water drips from the poles.", "camera": "slow rise", "motif": "house", "chain": true},
-
-    {"n": 9,  "act": "III. THE MANY", "size": "WIDE",   "count": 12, "desc": "A long line of identical hooded silhouettes wading in single file across the flooded terrace toward the house, reflections doubling them in the water.", "camera": "slow lateral track along the line", "motif": "line", "chain": false},
-    {"n": 10, "act": "III. THE MANY", "size": "MEDIUM", "count": 12, "desc": "Figures packing in shoulder to shoulder beneath the house, hands going up onto the poles one after another, filling every gap.", "camera": "slow push in", "motif": "hands", "chain": true},
-    {"n": 11, "act": "III. THE MANY", "size": "DETAIL", "count": 12, "desc": "A dense row of hands gripping one bamboo pole, packed tight along its whole length, no space left on it.", "camera": "slow lateral track along the pole", "motif": "hands", "chain": true},
-    {"n": 12, "act": "III. THE MANY", "size": "WIDE",   "count": 30, "desc": "The house fully airborne, carried high on a crowd of identical silhouettes moving as one body across the water. Too many to count.", "camera": "slow rise, revealing the scale of the crowd", "motif": "house", "chain": true},
-    {"n": 13, "act": "III. THE MANY", "size": "MEDIUM", "count": 30, "desc": "The crowd from behind, walking away from camera, the house riding above their heads, one glowing window visible in it.", "camera": "following behind the crowd", "motif": "house", "chain": true},
-    {"n": 14, "act": "III. THE MANY", "size": "WIDE",   "count": 30, "desc": "High and wide: the whole procession crossing an immense flooded plain, a single dark ribbon of figures under an enormous pale sky.", "camera": "very high, very slow", "motif": "line", "chain": false, "trim": true},
-
-    {"n": 15, "act": "IV. THE STORM", "size": "WIDE",   "count": 30, "desc": "The sky darkens hard and rain comes down in sheets. The procession does not stop. The house tilts but stays up.", "camera": "static, heavy rain", "chain": false},
-    {"n": 16, "act": "IV. THE STORM", "size": "DETAIL", "count": 30, "desc": "Hands slipping on a wet pole, then other hands closing over them, more hands than there is room for.", "camera": "close, handheld", "motif": "hands", "chain": true},
-    {"n": 17, "act": "IV. THE STORM", "size": "MEDIUM", "count": 30, "desc": "One figure stumbles and goes down into the water. Two others stop, turn back, and lift him. The line closes over the gap.", "camera": "static, then slow push", "chain": true},
-    {"n": 18, "act": "IV. THE STORM", "size": "WIDE",   "count": 30, "desc": "The procession pushing on through the downpour, the house still high, nobody left behind on the water behind them.", "camera": "slow pull back", "motif": "line", "chain": true, "trim": true},
-
-    {"n": 19, "act": "V. WALANG IWANAN", "size": "WIDE",   "count": 30, "desc": "The rain breaks. Pale light opens across the water. The house is set down gently on new high ground.", "camera": "slow settle, light rising", "motif": "house", "chain": false},
-    {"n": 20, "act": "V. WALANG IWANAN", "size": "DETAIL", "count": 30, "desc": "Hands releasing the pole one by one, opening, falling away. The last hand lets go.", "camera": "static, close", "motif": "hands", "chain": true},
-    {"n": 21, "act": "V. WALANG IWANAN", "size": "MEDIUM", "count": 30, "desc": "The crowd standing back from the house, all of them facing it, none facing us. The window glows warmer than before.", "camera": "slow pull back", "motif": "house", "chain": true},
-    {"n": 22, "act": "V. WALANG IWANAN", "size": "WIDE",   "count": 30, "desc": "The crowd disperses in every direction across the water, each figure walking away alone, the house left standing behind them.", "camera": "static, wide", "chain": true, "trim": true},
-    {"n": 23, "act": "V. WALANG IWANAN", "size": "MEDIUM", "count": 1,  "desc": "One figure alone again on the open water, back to us - the same framing as shot one, the same figure, the same stance.", "camera": "very slow push in, echoing shot 1", "chain": false},
-    {"n": 24, "act": "V. WALANG IWANAN", "size": "WIDE",   "count": 30, "desc": "Pull back from that lone figure to reveal he is one point in a line of identical silhouettes stretching past both edges of frame, all walking the same way. He was never alone.", "camera": "long slow pull back, the reveal", "motif": "line", "chain": true}
+    {
+      "n": 1,
+      "act": "I. ALONE",
+      "size": "WIDE",
+      "count": 1,
+      "desc": "Vast empty flooded rice terrace at dawn, mirror-still water, mountains behind. One small hooded figure stands dead centre, back to us. Nothing else in the frame.",
+      "camera": "very slow push in",
+      "chain": false
+    },
+    {
+      "n": 2,
+      "act": "I. ALONE",
+      "size": "MEDIUM",
+      "count": 1,
+      "desc": "The figure from behind, facing a small stilted bamboo house with a steep thatched roof and one softly glowing window. He does not move toward it.",
+      "camera": "static, slow drift",
+      "motif": "house",
+      "chain": false
+    },
+    {
+      "n": 3,
+      "act": "I. ALONE",
+      "size": "DETAIL",
+      "count": 1,
+      "desc": "One pair of hands closing around a bamboo pole beneath the house. The pole does not lift. The hands stay closed on it.",
+      "camera": "static, close",
+      "motif": "hands",
+      "chain": true
+    },
+    {
+      "n": 4,
+      "act": "I. ALONE",
+      "size": "WIDE",
+      "count": 1,
+      "desc": "The figure straining alone against the pole, the house not moving at all. He is far too small for it. The scale is the point.",
+      "camera": "slow pull back to show how big the house is",
+      "chain": true
+    },
+    {
+      "n": 5,
+      "act": "II. THE FIRST",
+      "size": "MEDIUM",
+      "count": 2,
+      "desc": "A second identical hooded silhouette walks in from frame left and takes the other end of the same pole. Neither turns to the other.",
+      "camera": "static, letting them enter",
+      "motif": "hands",
+      "chain": true
+    },
+    {
+      "n": 6,
+      "act": "II. THE FIRST",
+      "size": "DETAIL",
+      "count": 2,
+      "desc": "Two pairs of hands now on the pole, spaced apart. The pole lifts a few inches clear of the ground.",
+      "camera": "static, close on the pole",
+      "motif": "hands",
+      "chain": true
+    },
+    {
+      "n": 7,
+      "act": "II. THE FIRST",
+      "size": "WIDE",
+      "count": 4,
+      "desc": "Two more identical silhouettes wade in through the shallow water from opposite edges of frame, taking the two remaining corner poles.",
+      "camera": "slow pull back",
+      "chain": false
+    },
+    {
+      "n": 8,
+      "act": "II. THE FIRST",
+      "size": "MEDIUM",
+      "count": 4,
+      "desc": "Four figures, one at each corner, the house now fully off the ground and swaying slightly. Water drips from the poles.",
+      "camera": "slow rise",
+      "motif": "house",
+      "chain": true
+    },
+    {
+      "n": 9,
+      "act": "III. THE MANY",
+      "size": "WIDE",
+      "count": 12,
+      "desc": "A long line of identical hooded silhouettes wading in single file across the flooded terrace toward the house, reflections doubling them in the water.",
+      "camera": "slow lateral track along the line",
+      "motif": "line",
+      "chain": false
+    },
+    {
+      "n": 10,
+      "act": "III. THE MANY",
+      "size": "MEDIUM",
+      "count": 12,
+      "desc": "Figures packing in shoulder to shoulder beneath the house, hands going up onto the poles one after another, filling every gap.",
+      "camera": "slow push in",
+      "motif": "hands",
+      "chain": true
+    },
+    {
+      "n": 11,
+      "act": "III. THE MANY",
+      "size": "DETAIL",
+      "count": 12,
+      "desc": "A dense row of hands gripping one bamboo pole, packed tight along its whole length, no space left on it.",
+      "camera": "slow lateral track along the pole",
+      "motif": "hands",
+      "chain": true
+    },
+    {
+      "n": 12,
+      "act": "III. THE MANY",
+      "size": "WIDE",
+      "count": 30,
+      "desc": "The house fully airborne, carried high on a crowd of identical silhouettes moving as one body across the water. Too many to count.",
+      "camera": "slow rise, revealing the scale of the crowd",
+      "motif": "house",
+      "chain": true
+    },
+    {
+      "n": 13,
+      "act": "III. THE MANY",
+      "size": "MEDIUM",
+      "count": 30,
+      "desc": "The crowd from behind, walking away from camera, the house riding above their heads, one glowing window visible in it.",
+      "camera": "following behind the crowd",
+      "motif": "house",
+      "chain": true
+    },
+    {
+      "n": 14,
+      "act": "III. THE MANY",
+      "size": "WIDE",
+      "count": 30,
+      "desc": "High and wide: the whole procession crossing an immense flooded plain, a single dark ribbon of figures under an enormous pale sky.",
+      "camera": "very high, very slow",
+      "motif": "line",
+      "chain": false,
+      "trim": true
+    },
+    {
+      "n": 15,
+      "act": "IV. THE STORM",
+      "size": "WIDE",
+      "count": 30,
+      "desc": "The sky darkens hard and rain comes down in sheets. The procession does not stop. The house tilts but stays up.",
+      "camera": "static, heavy rain",
+      "chain": false
+    },
+    {
+      "n": 16,
+      "act": "IV. THE STORM",
+      "size": "DETAIL",
+      "count": 30,
+      "desc": "Hands slipping on a wet pole, then other hands closing over them, more hands than there is room for.",
+      "camera": "close, handheld",
+      "motif": "hands",
+      "chain": true
+    },
+    {
+      "n": 17,
+      "act": "IV. THE STORM",
+      "size": "MEDIUM",
+      "count": 30,
+      "desc": "One figure stumbles and goes down into the water. Two others stop, turn back, and lift him. The line closes over the gap.",
+      "camera": "static, then slow push",
+      "chain": true
+    },
+    {
+      "n": 18,
+      "act": "IV. THE STORM",
+      "size": "WIDE",
+      "count": 30,
+      "desc": "The procession pushing on through the downpour, the house still high, nobody left behind on the water behind them.",
+      "camera": "slow pull back",
+      "motif": "line",
+      "chain": true,
+      "trim": true
+    },
+    {
+      "n": 19,
+      "act": "V. WALANG IWANAN",
+      "size": "WIDE",
+      "count": 30,
+      "desc": "The rain breaks. Pale light opens across the water. The house is set down gently on new high ground.",
+      "camera": "slow settle, light rising",
+      "motif": "house",
+      "chain": false
+    },
+    {
+      "n": 20,
+      "act": "V. WALANG IWANAN",
+      "size": "DETAIL",
+      "count": 30,
+      "desc": "Hands releasing the pole one by one, opening, falling away. The last hand lets go.",
+      "camera": "static, close",
+      "motif": "hands",
+      "chain": true
+    },
+    {
+      "n": 21,
+      "act": "V. WALANG IWANAN",
+      "size": "MEDIUM",
+      "count": 30,
+      "desc": "The crowd standing back from the house, all of them facing it, none facing us. The window glows warmer than before.",
+      "camera": "slow pull back",
+      "motif": "house",
+      "chain": true
+    },
+    {
+      "n": 22,
+      "act": "V. WALANG IWANAN",
+      "size": "WIDE",
+      "count": 30,
+      "desc": "The crowd disperses in every direction across the water, each figure walking away alone, the house left standing behind them.",
+      "camera": "static, wide",
+      "chain": true,
+      "trim": true
+    },
+    {
+      "n": 23,
+      "act": "V. WALANG IWANAN",
+      "size": "MEDIUM",
+      "count": 1,
+      "desc": "One figure alone again on the open water, back to us - the same framing as shot one, the same figure, the same stance.",
+      "camera": "very slow push in, echoing shot 1",
+      "chain": false
+    },
+    {
+      "n": 24,
+      "act": "V. WALANG IWANAN",
+      "size": "WIDE",
+      "count": 30,
+      "desc": "Pull back from that lone figure to reveal he is one point in a line of identical silhouettes stretching past both edges of frame, all walking the same way. He was never alone.",
+      "camera": "long slow pull back, the reveal",
+      "motif": "line",
+      "chain": true
+    }
+  ],
+  "status": "PARKED Aug 25 2026 - Jordan reviewed the finished 3:45 render and did not like it. He is directing the next one himself. Everything below stands as a record of what was tried, not as an approved plan.",
+  "post_mortem": [
+    "PACE IS THE PRIME SUSPECT. 24 stills across 225s is 9.4s per shot. The mini-movie standard Jordan liked is 2.75s. A Ken Burns push that reads as cinematic over 3s reads as a screensaver over 9. Fixing it means generating MORE stills, not stretching fewer - 45 shots at 5s, or 80 at 2.75s. Stills are free; only the render time grows.",
+    "The pipeline is direction-agnostic and is the part that now works: storyboard JSON -> storyboard_stills.py (free) -> movie_render_wide.py -> 1920x1080 non-Short. Changing the creative costs one JSON edit, a free regeneration, and ~20 unattended minutes.",
+    "What did work and is worth keeping: character consistency held across 24 separate generations; the count arc (1 -> 2 -> line -> crowd -> 1 -> line past the frame edges) was legible; the bilingual lyric treatment was correct once the Tagalog transcription was fixed.",
+    "UNRESOLVED, needs a Filipino ear: the chorus line is rendered 'Pagtutulungan, pagdadamayan'. An earlier transcript had 'Pagtutulungan kung dadamayan'. Not confirmed by Jordan."
   ]
 }
