@@ -41,9 +41,35 @@ def ease(t):
 
 
 def prep(path):
+    """
+    Build the over-scanned plate a camera move crops out of.
+
+    A 16:9 source can simply be scaled up. A SQUARE one cannot: the generator
+    returns square images, and cropping 16:9 out of an over-scanned square shows
+    roughly the middle 40% at 2.7x - which threw away the house in the shot whose
+    entire subject was a line of figures wading toward it.
+
+    So square (and portrait) sources are composited instead: the full image, whole
+    and sharp, over a blown-up blurred copy of itself that fills the sides. The
+    composition survives intact and the frame still reads as full rather than
+    pillarboxed against black.
+    """
     im = Image.open(path).convert("RGB")
-    scale = max(W * OVERSCAN / im.width, H * OVERSCAN / im.height)
-    return im.resize((int(im.width * scale), int(im.height * scale)), Image.LANCZOS)
+    if abs(im.width / im.height - W / H) < 0.12:
+        scale = max(W * OVERSCAN / im.width, H * OVERSCAN / im.height)
+        return im.resize((int(im.width * scale), int(im.height * scale)), Image.LANCZOS)
+
+    pw, ph = int(W * OVERSCAN), int(H * OVERSCAN)
+    bs = max(pw / im.width, ph / im.height) * 1.5
+    bg = im.resize((int(im.width * bs), int(im.height * bs)), Image.LANCZOS)
+    bg = bg.crop(((bg.width - pw) // 2, (bg.height - ph) // 2,
+                  (bg.width - pw) // 2 + pw, (bg.height - ph) // 2 + ph))
+    bg = bg.filter(ImageFilter.GaussianBlur(52))
+    bg = Image.blend(bg, Image.new("RGB", (pw, ph), (0, 0, 0)), 0.42)
+    side = ph
+    fg = im.resize((int(im.width * side / im.height), side), Image.LANCZOS)
+    bg.paste(fg, ((pw - fg.width) // 2, 0))
+    return bg
 
 
 # Slower and shallower than the vertical moves: a 15s shot magnifies everything,
