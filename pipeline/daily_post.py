@@ -180,7 +180,13 @@ def transcribe(wav):
                "bawat", "ating", "kayo", "tayo", "namin", "natin", "iwanan"}
     hits = sum(1 for w in words if w in markers)
     density = hits / max(1, len(words))
-    return tl if density >= 0.04 else en
+    # Threshold measured, not guessed. Across real previews the separation is
+    # total: English-only tracks score EXACTLY 0.000 (The Cave, Burnout Society,
+    # Memento Mori) because the tl pass simply returns English; Filipino tracks
+    # score 0.036 (Kapwa) to 0.246 (Bayanihan). 0.02 sits in the empty middle.
+    # An earlier 0.04 was too tight and would have anglicised Kapwa, which the
+    # old rule happened to get right - a fix that regresses a working case.
+    return tl if density >= 0.02 else en
 
 def split_seg(ws, maxw=5):
     if len(ws) <= maxw: return [ws]
