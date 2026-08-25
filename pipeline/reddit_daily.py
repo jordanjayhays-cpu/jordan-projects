@@ -107,7 +107,7 @@ def main():
                      "-c", "user.email=noreply@anthropic.com",
                      "commit", "-q", "-m", f"reddit: posted {slug}"])
     subprocess.check_call(["git", "-C", ROOT, "push", "origin", "claude/philosophical-king-poster-raq2ke"])
-    print(f"scheduled Reddit link post for {title} at {when} UTC -> {p['releaseURL']}")
+    print(f"scheduled Reddit link post for {title} at {when} UTC -> {link}")
 
 if __name__ == "__main__":
     main()
