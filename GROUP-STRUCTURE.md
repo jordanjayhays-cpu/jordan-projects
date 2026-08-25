@@ -1,26 +1,23 @@
-# The family business — group structure
+# Jordan's ventures — the simple, true picture (2026-08-25)
 
-**Parent: [Family Business Group — name TBD]**
-(the "Kin"/agency brand; name still parked among finalists — Kininti / Sunterra Group / others.
-Not locked. Everything below sits UNDER this parent, whatever it ends up called.)
+NOT a holding company with divisions (that's premature for a solo, pre-revenue operator).
+Just three separate things Jordan owns:
 
-## Divisions / ventures under the parent
+## 1. The family business = the BD / Representation agency  ← SAME THING
+The family business (started as consulting / "Family Business Flourish") IS the BD agency. One
+company, one brand, ONE name to settle. It places appointed BD reps + AI outreach (HeyReach) for
+client companies entering new markets. Clients: the `agency_clients` book on Supabase
+neurodashboards (COMARE, Nomin, Techanzo, Colombian hardware, Turkey, mining, textile, box, etc.).
+Name: still parked among finalists — not locked. This is the ONLY name still to decide.
 
-### 1. Business Development / Representation (the agency)
-Places appointed BD representatives + AI outreach (HeyReach) for client companies entering new
-markets. Clients live in the `agency_clients` book (Supabase neurodashboards):
-COMARE, Nomin, Techanzo, Colombian hardware, Turkey, mining, textile, box, pharmacy, etc.
+## 2. Puhunan — separate venture Jordan owns
+Philippines micro-investment / incubator. Own warm consumer brand (already named). Assets in
+`jordan-projects/puhunan/`. NOT a division of the agency — a different business.
 
-### 2. Puhunan (Philippines micro-investment / incubator)
-Funds skilled Filipinos starting new businesses (₱10-30k, profit-share, forgiven-if-fails),
-markets them on social, and connects them to an ops/software partner. Revolving fund = lifetime
-income. Assets in `jordan-projects/puhunan/`. Sits under the parent as the Philippines
-investment arm.
+## 3. Property / New Bali — separate, later
+Coliving + property. Its own thing. Explore after Puhunan + New Bali build the ground network.
 
-### 3. (future) Philippines property / New Bali — PHREGROUP
-Coliving + property once Puhunan + New Bali build the ground network. Same country, same flywheel.
-
-## The logic
-One parent brand, several ventures — a holding group, not one company. Each venture is its own
-lane but shares the parent's identity, network, and (eventually) capital. This is why the name
-needs to work as a "Group": [Name] Group, with BD / Puhunan / Property beneath it.
+## The point
+Three things you own, not one company with an org chart. Don't build holding-company structure
+for a one-person operation — that's a founder trap. The only structural decision that matters now
+is the BD agency / family-business NAME. Everything else already has an identity or can wait.
