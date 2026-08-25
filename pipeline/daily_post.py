@@ -162,11 +162,25 @@ def transcribe(wav):
         return segs
     en = run("en")
     tl = run("tl")
-    nw = lambda s: sum(len(x) for x in s)
-    # tl only wins when it finds substantially more words AND contains real Tagalog markers
-    tl_text = " ".join(w["w"].lower() for s in tl for w in s)
-    tagalog = any(m in tl_text for m in (" ng ", " mga ", " ang ", "sama-sama", "bayanihan", "kapwa"))
-    return tl if (tagalog and nw(tl) > 1.2 * nw(en)) else en
+    # Pick by Tagalog DENSITY, not by word count.
+    #
+    # The old rule required the tl pass to find 1.2x more words than the en pass.
+    # That fails on exactly the songs it exists for: when a chorus is genuinely
+    # SUNG in Tagalog, the English model does not produce fewer words, it produces
+    # fluent English of similar length - it translates. On Bayanihan (91% Filipino
+    # audience, PK's single biggest earner) that put "Together, in every corner of
+    # our land" on screen where the track sings "Sama-sama sa bawat hakbang".
+    # Confirmed by locating the iTunes preview at 45.0s in the full song: the same
+    # seconds of audio, two different answers.
+    #
+    # Density is the honest test. A song actually sung in English, transcribed
+    # under language="tl", does not come back peppered with Tagalog function words.
+    words = [w["w"].lower().strip(".,!?") for s in tl for w in s]
+    markers = {"ng", "mga", "ang", "sa", "ay", "na", "kung", "pag", "walang",
+               "bawat", "ating", "kayo", "tayo", "namin", "natin", "iwanan"}
+    hits = sum(1 for w in words if w in markers)
+    density = hits / max(1, len(words))
+    return tl if density >= 0.04 else en
 
 def split_seg(ws, maxw=5):
     if len(ws) <= maxw: return [ws]
