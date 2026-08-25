@@ -195,7 +195,11 @@ def main():
         for off, col in ((2, (0, 0, 0)), (0, (150, 170, 165))):
             d.text((56, H - 46 + off), "PHILOSOPHICAL KING", font=font(26), fill=col, anchor="lm")
 
-        cur = next((l for l in lines if l["s"] <= t <= l["e"]), None)
+        # Lyrics stop when the end card begins. Both live in the lower half, and a
+        # half-faded lyric under the link reads as a mistake. (Same fix as
+        # video_assemble.py - it was made there first and not ported here.)
+        cur = None if t > dur - ENDCARD else next(
+            (l for l in lines if l["s"] <= t <= l["e"]), None)
         if cur and cur.get("text"):
             fade = max(0.0, min(1.0, (t - cur["s"]) / 0.35, (cur["e"] - t) / 0.35 + 0.4))
             if fade > 0:
