@@ -3,6 +3,16 @@
 **Working name: Puhunan** (Tagalog for "seed capital / the money you start a business with").
 Rename freely — but it's culturally perfect and means exactly what this is.
 
+## Model update (2026-08-24, late night): NEW businesses only + a marketing layer
+- Fund BRAND-NEW businesses, but screen hard for PROVEN SKILL / existing demand (see borrower-screen).
+- This is micro-INCUBATION, not micro-lending: ~half will fail, so winners' profit-share covers
+  losers, money is STAGED (small first, more on milestones), and borrowers put skin in the game.
+- **Marketing without money:** every funded entrepreneur gets a social-media presence — we film/tell
+  their story (TikTok, Facebook — the PH platforms), build them an audience, and a community that
+  roots for them and BUYS from them. Solving customers-not-just-capital is what makes new businesses
+  survive. Same content-first, demand-pull playbook as New Bali. Ties to Postiz + the video pipeline.
+- The audience also becomes Puhunan's own community: future supporters, future borrowers, credibility.
+
 ## The idea (Jordan, 2026-08-24)
 Back everyday Filipino micro-entrepreneurs — a sari-sari store, a food cart, a small idea — with
 ~$500 / ₱30k each. They pitch, Jordan interviews, funds the best, and takes a friendly profit-share
