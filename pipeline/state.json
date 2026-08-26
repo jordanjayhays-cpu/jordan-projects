@@ -24,9 +24,10 @@
   "Burnout Society",
   "The Cost of Playing",
   "Infinite Possbilities",
-  "DK"
+  "DK",
+  "Between the Body and the Fabric"
  ],
- "last_scheduled_date": "2026-09-08",
+ "last_scheduled_date": "2026-09-09",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -64,6 +65,7 @@
   "2026-09-05": "burnout-society",
   "2026-09-06": "the-cost-of-playing",
   "2026-09-07": "infinite-possbilities",
-  "2026-09-08": "dk"
+  "2026-09-08": "dk",
+  "2026-09-09": "between-the-body-and-the-fabric"
  }
 }
