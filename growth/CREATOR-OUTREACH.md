@@ -27,13 +27,36 @@ video copyright-claimed or muted. PK has 251 tracks and no reason to hoard them.
 
 That is a genuine exchange, not a pitch. Lead with the thing they need.
 
-**Message — comment or email, kept short:**
+**Message — comment or email, kept short. This is the Content-ID-honest version;
+send this one, not an older draft:**
 
 > Hey — I make philosophy-rap under the name Philosophical King. I've got 251
-> tracks and you're welcome to use any of them in your videos, free, no strings.
-> A credit in the description is appreciated but not required.
-> Everything's here: https://hyperfollow.com/PhilosophicalKing
-> The Filipino ones might fit what you make — Bayanihan and Kapwa especially.
+> tracks and you're welcome to use any of them in your videos, free.
+>
+> One honest heads-up so it doesn't surprise you: my distributor registers my
+> music with YouTube's Content ID, so a claim from "Interstreet Recordings" can
+> land on a video that uses it. That's me. YouTube emails you when it happens —
+> send me the link and I'll release it, usually same day.
+>
+> A credit in the description is appreciated but not required. The Filipino ones
+> might fit what you make — Bayanihan and Kapwa especially.
+> https://hyperfollow.com/PhilosophicalKing
+
+**For @BambryanPH specifically** — he already used Bayanihan, so lead with
+fixing it rather than offering anything:
+
+> Hey — I'm the artist behind the track in your beach cleanup video
+> (Philosophical King). I came across it and just wanted to say it fit the
+> footage really well, thank you for using it.
+>
+> One thing you may have run into: my distributor registers my music with
+> YouTube's Content ID, so there's a good chance a copyright claim from
+> "Interstreet Recordings" landed on that video and took the ads off it. That
+> claim is mine and I can release it — send me the link and I'll clear it.
+>
+> Beyond that, you're welcome to use anything from my catalogue, 251 tracks, and
+> I'll clear any claim that comes up the same way.
+> https://hyperfollow.com/PhilosophicalKing
 
 Do not ask for anything back. Do not mention follows, streams or algorithms. The
 value is entirely theirs; the return is that their audience hears the music.
@@ -86,14 +109,45 @@ The royalty export can't answer it either: YouTube (Ads) shows $4.75 across 311
 rows, but every row is tagged Source Type "Song", so Content ID matches and PK's
 own Topic-channel plays are indistinguishable.
 
-### Either answer is workable
+### ANSWERED, 2026-08-27: Content ID is ON for Bayanihan
 
-- **Content ID OFF** — send the message as written above, no changes.
-- **Content ID ON** — allowlist the creator's channel at
-  <https://distrokid.com/youtubeAllowlist> *before* they publish, or change the
-  wording to be honest: *"heads up, my distributor's Content ID may auto-claim the
-  video — tell me and I'll clear it."* Less appealing, but survivable. Silently
-  claiming someone who took you at your word is not.
+Jordan checked. Bayanihan's release page shows **Social Media Pack active** —
+so the track is enrolled in YouTube Content ID, TikTok's music ID service, Meta
+Rights Manager on Instagram and Facebook, and Spotify's video music matching.
+
+That is the track creators actually reach for, so the plain "free, no strings"
+message cannot be sent as written.
+
+### How allowlisting really works — read this before promising anything
+
+DistroKid's help page is explicit on two points that rule out the obvious plan:
+
+> *"It is not possible to allowlist an entire YouTube channel — allowlisting is
+> for individual videos, and only after a claim is placed on it by YouTube
+> Content ID."*
+
+So you **cannot** clear a creator in advance. The only possible sequence is:
+
+1. Creator publishes a video using the track
+2. YouTube Content ID claims it — the claim shows up as **"Interstreet
+   Recordings"**, which is the engine behind DistroKid's Content ID
+3. Jordan clears that specific video at <https://distrokid.com/youtubeAllowlist>
+
+The claim is unavoidable. What Jordan controls is how fast it goes away and
+whether the creator was warned. So the message has to say so up front.
+
+Note: Art Tracks ("provided to YouTube by DistroKid") cannot be allowlisted at
+all — irrelevant for creators, relevant if PK's own channel ever gets claimed.
+
+### Do this first: @BambryanPH probably has a live claim right now
+
+He used Bayanihan. Bayanihan is in Content ID. So his video is very likely
+already claimed and demonetised, and he may have no idea why.
+
+Open <https://distrokid.com/youtubeAllowlist>, find his video, clear it. Then
+make contact — the opening is no longer a pitch, it's removing a problem he
+didn't know he had, which is a far stronger first message than anything else on
+this page.
 
 ## The list
 
