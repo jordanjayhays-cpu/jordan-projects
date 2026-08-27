@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """One-page Philosophical King link sheet, for sharing.
 
-Everything on it was checked by loading the page on 2026-08-27, not by trusting
-a status code — Instagram answered 429 (throttling this server, not a broken
-link) and the handle comes from the connected account itself.
+Title, then link. Nothing else — no section headings, no explanatory notes.
+
+Every URL is written as a real PDF link annotation, so it is tappable in any
+normal PDF viewer. Inline previews in chat apps rasterise the page and flatten
+annotations, which makes the links look dead; that is the viewer, not the file.
 """
+import os
+
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
-from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-import os
+from reportlab.pdfgen import canvas
 
 OUT = "/home/user/jordan-projects/music-assets/brand/philosophical-king-links.pdf"
 W, H = A4
@@ -18,48 +21,34 @@ W, H = A4
 INK = (0.08, 0.08, 0.10)
 MUTED = (0.42, 0.42, 0.46)
 GOLD = (0.62, 0.48, 0.16)
+LINK = (0.13, 0.31, 0.62)
 RULE = (0.84, 0.84, 0.86)
 
-# DejaVu ships with most Linux images and has the glyph coverage the built-in
-# Type 1 fonts lack.
+# DejaVu ships with most Linux images and has glyph coverage the built-in Type 1
+# fonts lack — the em dash in "YouTube — full songs" among them.
 FONTS = {
     "reg": "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
     "bold": "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
     "sans": "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-    "sansb": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
 }
 NAMES = {}
-for k, path in FONTS.items():
+for key, path in FONTS.items():
     if os.path.exists(path):
-        pdfmetrics.registerFont(TTFont(f"PK-{k}", path))
-        NAMES[k] = f"PK-{k}"
+        pdfmetrics.registerFont(TTFont(f"PK-{key}", path))
+        NAMES[key] = f"PK-{key}"
 NAMES.setdefault("reg", "Times-Roman")
 NAMES.setdefault("bold", "Times-Bold")
 NAMES.setdefault("sans", "Helvetica")
-NAMES.setdefault("sansb", "Helvetica-Bold")
 
-SECTIONS = [
-    ("Start here", [
-        ("All the music, every platform", "https://hyperfollow.com/PhilosophicalKing",
-         "One link — Spotify, Apple Music, Amazon, everywhere else."),
-    ]),
-    ("Listen", [
-        ("Apple Music", "https://music.apple.com/us/artist/philosophical-king/1791470584",
-         "The full artist page."),
-        ("YouTube — full songs", "https://www.youtube.com/channel/UCST1Tzuraa0CSR4o3RkVIMw",
-         "All 257 tracks. This channel is hidden from YouTube search, so the link is the only way in."),
-        ("YouTube — videos", "https://www.youtube.com/@philosophicalkingmusic",
-         "Lyric videos and the daily posts."),
-    ]),
-    ("Follow", [
-        ("Instagram", "https://www.instagram.com/philosophicalkingmusicofficial/", ""),
-        ("TikTok", "https://www.tiktok.com/@philosophicalkingmusic", ""),
-        ("Reddit", "https://www.reddit.com/user/PhilosophicalKingM", ""),
-    ]),
-    ("Read", [
-        ("Substack", "https://philosophicalkingmusic.substack.com",
-         "Writing on the ideas behind the songs."),
-    ]),
+ROWS = [
+    ("All the music, every platform", "https://hyperfollow.com/PhilosophicalKing"),
+    ("Apple Music", "https://music.apple.com/us/artist/philosophical-king/1791470584"),
+    ("YouTube — full songs", "https://www.youtube.com/channel/UCST1Tzuraa0CSR4o3RkVIMw"),
+    ("YouTube — videos", "https://www.youtube.com/@philosophicalkingmusic"),
+    ("Instagram", "https://www.instagram.com/philosophicalkingmusicofficial/"),
+    ("TikTok", "https://www.tiktok.com/@philosophicalkingmusic"),
+    ("Reddit", "https://www.reddit.com/user/PhilosophicalKingM"),
+    ("Substack", "https://philosophicalkingmusic.substack.com"),
 ]
 
 
@@ -69,72 +58,48 @@ def main():
     c.setAuthor("Philosophical King")
     c.setSubject("Where to find the music")
 
-    L = 24 * mm
-    R = W - 24 * mm
-    y = H - 32 * mm
+    left = 24 * mm
+    right = W - 24 * mm
+    y = H - 34 * mm
 
     c.setFillColorRGB(*INK)
-    c.setFont(NAMES["bold"], 27)
-    c.drawString(L, y, "Philosophical King")
-    y -= 9 * mm
+    c.setFont(NAMES["bold"], 28)
+    c.drawString(left, y, "Philosophical King")
+    y -= 9.5 * mm
 
     c.setFillColorRGB(*GOLD)
-    c.setFont(NAMES["sans"], 10.5)
-    c.drawString(L, y, "Philosophy and hip hop  ·  251 tracks")
-    y -= 6 * mm
+    c.setFont(NAMES["sans"], 11)
+    c.drawString(left, y, "Philosophy and hip hop  ·  251 tracks")
+    y -= 7 * mm
 
     c.setStrokeColorRGB(*RULE)
     c.setLineWidth(0.8)
-    c.line(L, y, R, y)
-    y -= 12 * mm
+    c.line(left, y, right, y)
 
-    for heading, rows in SECTIONS:
-        c.setFillColorRGB(*MUTED)
-        c.setFont(NAMES["sansb"], 8.5)
-        c.drawString(L, y, heading.upper())
-        y -= 7.5 * mm
+    # Eight rows spread evenly down the remaining page, so the sheet reads as one
+    # deliberate block rather than a list crowded at the top.
+    y -= 15 * mm
+    step = (y - 34 * mm) / (len(ROWS) - 1)
 
-        for label, url, note in rows:
-            c.setFillColorRGB(*INK)
-            c.setFont(NAMES["bold"], 12)
-            c.drawString(L, y, label)
-            y -= 5.4 * mm
+    for label, url in ROWS:
+        c.setFillColorRGB(*INK)
+        c.setFont(NAMES["bold"], 13)
+        c.drawString(left, y, label)
 
-            c.setFillColorRGB(0.13, 0.31, 0.62)
-            c.setFont(NAMES["sans"], 9.5)
-            c.drawString(L, y, url)
-            tw = c.stringWidth(url, NAMES["sans"], 9.5)
-            # Clickable, and underlined so it reads as a link on paper too.
-            c.setStrokeColorRGB(0.13, 0.31, 0.62)
-            c.setLineWidth(0.4)
-            c.line(L, y - 1.1 * mm, L + tw, y - 1.1 * mm)
-            c.linkURL(url, (L, y - 2 * mm, L + tw, y + 3.4 * mm), relative=0)
-            y -= 5.2 * mm
+        ly = y - 6.2 * mm
+        c.setFillColorRGB(*LINK)
+        c.setFont(NAMES["sans"], 10)
+        c.drawString(left, ly, url)
 
-            if note:
-                c.setFillColorRGB(*MUTED)
-                c.setFont(NAMES["reg"], 9)
-                # Wrap by measured width rather than a character count.
-                words, line = note.split(), ""
-                for word in words:
-                    trial = f"{line} {word}".strip()
-                    if c.stringWidth(trial, NAMES["reg"], 9) > (R - L):
-                        c.drawString(L, y, line)
-                        y -= 4.4 * mm
-                        line = word
-                    else:
-                        line = trial
-                if line:
-                    c.drawString(L, y, line)
-                    y -= 4.4 * mm
-            y -= 4 * mm
-        y -= 3 * mm
+        width = c.stringWidth(url, NAMES["sans"], 10)
+        c.setStrokeColorRGB(*LINK)
+        c.setLineWidth(0.4)
+        c.line(left, ly - 1.2 * mm, left + width, ly - 1.2 * mm)
+        # The clickable box, sized to the drawn text with a little slack so a
+        # fingertip on a phone still lands inside it.
+        c.linkURL(url, (left, ly - 2.2 * mm, left + width, ly + 3.8 * mm), relative=0)
 
-    c.setStrokeColorRGB(*RULE)
-    c.line(L, 24 * mm, R, 24 * mm)
-    c.setFillColorRGB(*MUTED)
-    c.setFont(NAMES["reg"], 8.5)
-    c.drawString(L, 18 * mm, "Every link checked 27 August 2026.")
+        y -= step
 
     c.showPage()
     c.save()
