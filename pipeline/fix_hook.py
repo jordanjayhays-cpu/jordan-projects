@@ -91,20 +91,17 @@ def main():
         sys.exit(f"state.json has no track recorded against {day}")
     title = slug.replace("-", " ").title()
 
-    # Keep the title line the live caption already carries rather than
-    # regenerating it from the slug — "Dolce Far Niente" is not what
-    # "dolce-far-niente".title() produces for every track.
-    live_title = None
-    tm = re.search(r"</p>\s*<p>(.*?)</p>\s*<p>Track \d+ of", old, re.S)
-    if tm and tm.group(1).strip():
-        live_title = tm.group(1).strip()
+    # Keep the title the live caption already carries rather than regenerating
+    # it from the slug — "dolce-far-niente".title() is not how the track is
+    # actually written, and the non-English titles fare worse.
+    tm = re.search(r"<p>(.*?)\s+—\s+.*?👑</p>", old, re.S)
+    live_title = tm.group(1).strip() if tm else title
 
-    content = (f"<p>{hook} 👑</p>"
-               + (f"<p>{live_title}</p>" if live_title else f"<p>{title}</p>")
-               + f"<p>Track {series_no} of {catalogue} — turning every idea in "
-                 f"philosophy into a song.</p>"
-                 f"<p>Full track everywhere: {TRACK_LINK}</p>"
-                 f"<p>#Philosophy #PhilosophicalKing</p>")
+    content = (f"<p>{live_title} — {hook} 👑</p>"
+               f"<p>Track {series_no} of {catalogue} — turning every idea in "
+               f"philosophy into a song.</p>"
+               f"<p>Full track everywhere: {TRACK_LINK}</p>"
+               f"<p>#Philosophy #PhilosophicalKing</p>")
 
     channels = [(p.get("integration") or {}).get("providerIdentifier") for p in social]
     print(f"track:    {slug}")

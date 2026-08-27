@@ -346,12 +346,13 @@ def main():
     # catalogue depth from a liability into the pitch. Written "Track N" rather than
     # "#N" on purpose — a leading "#N" renders as a hashtag on Instagram and TikTok.
     series_no = len(state["posted"]) + 1
-    # The song's name, on its own line, high in the caption. Facebook and
-    # Instagram have no title field at all, so before this the track was
-    # unnamed everywhere except the video's last four seconds — someone who
-    # liked what they heard had no way to know what to search for.
-    content = (f"<p>{hook} 👑</p>"
-               f"<p>{title}</p>"
+    # The song's name leads the FIRST line, and that placement is the whole
+    # point. Facebook truncates a caption at the first line break — a live post
+    # showed only "Let your story be told 👑... more" — so anything on line two
+    # is invisible unless someone taps. Facebook and Instagram have no title
+    # field either, so this is the only place the name can appear on the two
+    # platforms that actually produce views.
+    content = (f"<p>{title} — {hook} 👑</p>"
                f"<p>Track {series_no} of {CATALOGUE} — turning every idea in "
                f"philosophy into a song.</p>"
                f"<p>Full track everywhere: {link}</p>"
