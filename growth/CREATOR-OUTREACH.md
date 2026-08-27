@@ -46,17 +46,54 @@ containing it. So a creator who accepts "free, no strings" gets a copyright clai
 on their video, loses monetisation on it, and quite reasonably never works with
 him again.
 
-So: open DistroKid, find whether Content ID is enabled on the catalogue.
+### Where the setting actually lives (verified 2026-08-27)
 
-- **Content ID OFF** — send the message as written above.
-- **Content ID ON** — either whitelist the channel first, or change the wording
-  to be honest: *"heads up, my distributor's Content ID may auto-claim the video —
-  tell me and I'll clear it."* Less appealing, but survivable. Silently claiming
-  someone who took you at your word is not.
+**On DistroKid, Content ID only exists through a paid extra called "Social Media
+Pack."** DistroKid's own help page: *"Access to YouTube Content ID is part of our
+annually charged DistroKid Album Extra, Social Media Pack."* It is billed
+annually and **priced per release** — so this is not one account-wide switch, it
+is a per-album answer.
 
-The royalty export cannot answer this: YouTube (Ads) shows $4.75 across 311 rows,
-but every row is tagged Source Type "Song", so Content ID matches and PK's own
-Topic-channel plays are indistinguishable. Only the DistroKid setting says.
+If Social Media Pack was never bought on a release, Content ID is off for it.
+That is the entire question.
+
+**The exact check:**
+
+1. <https://distrokid.com/dashboard> → sign in
+2. Click into a release (check **Bayanihan** first — it's the one creators actually use)
+3. Scroll down to the **"Extras"** section
+4. Look for **Social Media Pack**
+   - Offered as something you can *add or buy* → not active → **Content ID is OFF**
+   - Shown as already active → **Content ID is ON** for that release
+
+**Second confirmation:** <https://distrokid.com/youtubeAllowlist> — DistroKid's
+Content ID allowlist page. Nothing to allowlist means no Content ID.
+
+**Best guess before checking:** probably OFF. Social Media Pack is an annual
+per-release charge and PK has 251 releases; buying it across the catalogue would
+be a very large recurring bill. But check rather than assume — if it was bought
+on a handful, those specific tracks are the dangerous ones to offer.
+
+### Do not read the Facebook plays as evidence
+
+Bayanihan's 212,000 Facebook Reels plays do **not** mean Social Media Pack is on.
+Getting a release into the Instagram/Facebook audio library is free — it only
+requires ticking "Instagram & Facebook" as a store at upload. Social Media Pack
+governs *monetising* user-generated video, not library availability. The plays
+tell us nothing either way.
+
+The royalty export can't answer it either: YouTube (Ads) shows $4.75 across 311
+rows, but every row is tagged Source Type "Song", so Content ID matches and PK's
+own Topic-channel plays are indistinguishable.
+
+### Either answer is workable
+
+- **Content ID OFF** — send the message as written above, no changes.
+- **Content ID ON** — allowlist the creator's channel at
+  <https://distrokid.com/youtubeAllowlist> *before* they publish, or change the
+  wording to be honest: *"heads up, my distributor's Content ID may auto-claim the
+  video — tell me and I'll clear it."* Less appealing, but survivable. Silently
+  claiming someone who took you at your word is not.
 
 ## The list
 
