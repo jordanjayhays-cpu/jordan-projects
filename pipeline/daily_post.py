@@ -277,13 +277,18 @@ def main():
         print("QUEUE EMPTY — nothing to schedule"); return
 
     track = queue[0]
-    title, slug_, upc = track["title"], track["slug"], track["upc"]
+    title, slug_, upc = track["title"], track["slug"], track.get("upc")
     print(f"Next track: {title}")
 
-    d = http_json(f"https://itunes.apple.com/lookup?upc={upc}&entity=song")
+    # UPC is the usual key, from the royalty CSVs. Tracks released after that
+    # baseline have no UPC on file, so they carry an iTunes collectionId instead
+    # — found by searching the store for an exact artist + title match. Same
+    # lookup endpoint, different key.
+    key = f"upc={upc}" if upc else f"id={track['collectionId']}"
+    d = http_json(f"https://itunes.apple.com/lookup?{key}&entity=song")
     songs = [x for x in d.get("results", []) if x.get("kind") == "song"]
     if not songs:
-        print(f"SKIP {title}: no iTunes song for UPC {upc}")
+        print(f"SKIP {title}: no iTunes song for {key}")
         queue.pop(0)
         state.setdefault("skipped", []).append(title)
         json.dump(queue, open(os.path.join(PIPE, "queue.json"), "w"), indent=1)

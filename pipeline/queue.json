@@ -1,5 +1,47 @@
 [
  {
+  "title": "Natsukashii",
+  "slug": "natsukashii",
+  "collectionId": 6802823061,
+  "pay_earn": 0,
+  "pay_plays": 0
+ },
+ {
+  "title": "Kenosis",
+  "slug": "kenosis",
+  "collectionId": 6790236445,
+  "pay_earn": 0,
+  "pay_plays": 0
+ },
+ {
+  "title": "Love of Honor",
+  "slug": "love-of-honor",
+  "collectionId": 6790235775,
+  "pay_earn": 0,
+  "pay_plays": 0
+ },
+ {
+  "title": "Ananda",
+  "slug": "ananda",
+  "collectionId": 6787320494,
+  "pay_earn": 0,
+  "pay_plays": 0
+ },
+ {
+  "title": "Normal is a Business",
+  "slug": "normal-is-a-business",
+  "collectionId": 6785515934,
+  "pay_earn": 0,
+  "pay_plays": 0
+ },
+ {
+  "title": "Mind of the Year",
+  "slug": "mind-of-the-year",
+  "collectionId": 6782778518,
+  "pay_earn": 0,
+  "pay_plays": 0
+ },
+ {
   "title": "Monopoly",
   "upc": "199328627560",
   "slug": "monopoly",
@@ -70,7 +112,7 @@
   "pay_plays": 30
  },
  {
-  "title": "The Self That Wasn\u2019t",
+  "title": "The Self That Wasn’t",
   "upc": "199328857738",
   "slug": "the-self-that-wasnt",
   "pay_earn": 0.2207,
@@ -420,7 +462,7 @@
   "pay_plays": 17
  },
  {
-  "title": "M\u0100Y\u0100 Illusion \u092e\u093e\u092f\u093e \u092e\u0943\u0917\u0924\u0943\u0937\u094d\u0923\u093e",
+  "title": "MĀYĀ Illusion माया मृगतृष्णा",
   "upc": "199738531419",
   "slug": "maya-illusion",
   "pay_earn": 0.1511,
@@ -434,14 +476,14 @@
   "pay_plays": 21
  },
  {
-  "title": "Unity of Being \u0648\u064e\u062d\u0652\u062f\u064e\u0629 \u0627\u0644\u0648\u064f\u062c\u064f\u0648\u062f",
+  "title": "Unity of Being وَحْدَة الوُجُود",
   "upc": "199738524398",
   "slug": "unity-of-being",
   "pay_earn": 0.1501,
   "pay_plays": 18
  },
  {
-  "title": "Dichos del Coraz\u00f3n",
+  "title": "Dichos del Corazón",
   "upc": "199506202886",
   "slug": "dichos-del-corazon",
   "pay_earn": 0.149,
@@ -462,7 +504,7 @@
   "pay_plays": 18
  },
  {
-  "title": "The Limits of Self-Knowledge \u0422\u0430\u0439\u043d\u0430 \u0441\u0435\u0431\u044f",
+  "title": "The Limits of Self-Knowledge Тайна себя",
   "upc": "199742781404",
   "slug": "the-limits-of-self-knowledge",
   "pay_earn": 0.1475,
@@ -476,7 +518,7 @@
   "pay_plays": 20
  },
  {
-  "title": "It\u2019s Only Gonna Get Weirder",
+  "title": "It’s Only Gonna Get Weirder",
   "upc": "199328870317",
   "slug": "its-only-gonna-get-weirder",
   "pay_earn": 0.1465,
@@ -504,7 +546,7 @@
   "pay_plays": 17
  },
  {
-  "title": "Real in a World That Isn\u2019t",
+  "title": "Real in a World That Isn’t",
   "upc": "199738552148",
   "slug": "real-in-a-world-that-isnt",
   "pay_earn": 0.141,
@@ -616,7 +658,7 @@
   "pay_plays": 16
  },
  {
-  "title": "The Way of the Sword \u5263\u306e\u9053",
+  "title": "The Way of the Sword 剣の道",
   "upc": "199738539149",
   "slug": "the-way-of-the-sword",
   "pay_earn": 0.1285,
@@ -637,7 +679,7 @@
   "pay_plays": 15
  },
  {
-  "title": "Being and Nothingness L\u2019\u00catre et le N\u00e9ant",
+  "title": "Being and Nothingness L’Être et le Néant",
   "upc": "199742734400",
   "slug": "being-and-nothingness-letre-et-le-neant",
   "pay_earn": 0.1242,
@@ -651,7 +693,7 @@
   "pay_plays": 15
  },
  {
-  "title": "\u05d0\u05d9\u05df \u05e1\u05d5\u05e3 (The Infinite)",
+  "title": "אין סוף (The Infinite)",
   "upc": "199738485149",
   "slug": "the-infinite",
   "pay_earn": 0.1233,
@@ -672,7 +714,7 @@
   "pay_plays": 15
  },
  {
-  "title": "\u1210\u1270\u1273 (Hat\u00e4ta \u2013 The Inquiry)",
+  "title": "ሐተታ (Hatäta – The Inquiry)",
   "upc": "199738496138",
   "slug": "hatata-the-inquiry",
   "pay_earn": 0.1195,
@@ -693,7 +735,7 @@
   "pay_plays": 15
  },
  {
-  "title": "War and Peace \u0412\u043e\u0439\u043d\u0430 \u0438 \u043c\u0438\u0440",
+  "title": "War and Peace Война и мир",
   "upc": "199742780322",
   "slug": "war-and-peace",
   "pay_earn": 0.1181,
@@ -728,7 +770,7 @@
   "pay_plays": 14
  },
  {
-  "title": "Dokk\u014dd\u014d \u72ec\u884c\u9053",
+  "title": "Dokkōdō 独行道",
   "upc": "199738535042",
   "slug": "dokkodo",
   "pay_earn": 0.1135,
@@ -791,7 +833,7 @@
   "pay_plays": 13
  },
  {
-  "title": "Rigged in Your Favor \u0628\u0647 \u0633\u0648\u062f \u062a\u0648\u0633\u062a",
+  "title": "Rigged in Your Favor به سود توست",
   "upc": "199738504352",
   "slug": "rigged-in-your-favor",
   "pay_earn": 0.107,
@@ -966,7 +1008,7 @@
   "pay_plays": 11
  },
  {
-  "title": "\u00c1gua mole em pedra dura",
+  "title": "Água mole em pedra dura",
   "upc": "199937736196",
   "slug": "agua-mole-em-pedra-dura",
   "pay_earn": 0.0914,
@@ -1008,7 +1050,7 @@
   "pay_plays": 10
  },
  {
-  "title": "\ub9ac Before \uae30",
+  "title": "리 Before 기",
   "upc": "199738500019",
   "slug": "before",
   "pay_earn": 0.0834,
@@ -1057,14 +1099,14 @@
   "pay_plays": 10
  },
  {
-  "title": "Art of War \u5b6b\u5b50\u5175\u6cd5",
+  "title": "Art of War 孫子兵法",
   "upc": "199742777506",
   "slug": "art-of-war",
   "pay_earn": 0.0795,
   "pay_plays": 14
  },
  {
-  "title": "Ren \u4ec1",
+  "title": "Ren 仁",
   "upc": "199742783804",
   "slug": "ren",
   "pay_earn": 0.0785,
@@ -1099,7 +1141,7 @@
   "pay_plays": 11
  },
  {
-  "title": "\u0422\u044d\u043d\u0433\u044d\u0440: \u041c\u04e9\u043d\u0445 \u0425\u04e9\u0445 \u0422\u044d\u043d\u0433\u044d\u0440 (Tenger: Eternal Sky)",
+  "title": "Тэнгэр: Мөнх Хөх Тэнгэр (Tenger: Eternal Sky)",
   "upc": "199738479964",
   "slug": "tenger-eternal-sky",
   "pay_earn": 0.0747,
@@ -1113,7 +1155,7 @@
   "pay_plays": 9
  },
  {
-  "title": "Kensh\u014d Shock",
+  "title": "Kenshō Shock",
   "upc": "199750957228",
   "slug": "kensho-shock",
   "pay_earn": 0.0747,
@@ -1155,7 +1197,7 @@
   "pay_plays": 9
  },
  {
-  "title": "The River of One \u0a07\u0a71\u0a15 \u0a26\u0a30\u0a3f\u0a06",
+  "title": "The River of One ਇੱਕ ਦਰਿਆ",
   "upc": "199948249562",
   "slug": "the-river-of-one",
   "pay_earn": 0.069,
@@ -1197,7 +1239,7 @@
   "pay_plays": 8
  },
  {
-  "title": "Reality\u2019s Fiction",
+  "title": "Reality’s Fiction",
   "upc": "199742771610",
   "slug": "realitys-fiction",
   "pay_earn": 0.0671,
@@ -1260,7 +1302,7 @@
   "pay_plays": 9
  },
  {
-  "title": "Wisdom of the Land (\u1eccgb\u1ecd\u0301n Il\u1eb9\u0300)",
+  "title": "Wisdom of the Land (Ọgbọ́n Ilẹ̀)",
   "upc": "199738513071",
   "slug": "wisdom-of-the-land-ogbon-ile",
   "pay_earn": 0.0612,
@@ -1274,7 +1316,7 @@
   "pay_plays": 7
  },
  {
-  "title": "\u1eccgb\u1ecd\u0301n j\u1eb9\u0301 ti gbogbo wa (Wisdom is Communal)",
+  "title": "Ọgbọ́n jẹ́ ti gbogbo wa (Wisdom is Communal)",
   "upc": "199742773683",
   "slug": "ogbon-je-ti-gbogbo-wa-wisdom-is-communal",
   "pay_earn": 0.0585,
@@ -1379,7 +1421,7 @@
   "pay_plays": 5
  },
  {
-  "title": "\u1eccgb\u1ecd\u0301n n\u00ed \u1ecd\u0300p\u1ecd\u0300 oh\u00f9n (Wisdom Has Many Voices)",
+  "title": "Ọgbọ́n ní ọ̀pọ̀ ohùn (Wisdom Has Many Voices)",
   "upc": "199742774185",
   "slug": "ogbon-ni-opo-ohun-wisdom-has-many-voices",
   "pay_earn": 0.041,
@@ -1393,7 +1435,7 @@
   "pay_plays": 4
  },
  {
-  "title": "Grow Together \u0b92\u0ba9\u0bcd\u0bb1\u0bbe\u0b95 \u0bb5\u0bb3\u0bb0\u0bc1\u0b99\u0bcd\u0b95\u0bb3\u0bcd",
+  "title": "Grow Together ஒன்றாக வளருங்கள்",
   "upc": "825348298762",
   "slug": "grow-together",
   "pay_earn": 0.0404,
@@ -1414,7 +1456,7 @@
   "pay_plays": 6
  },
  {
-  "title": "Ikigai Flow \u751f\u304d\u304c\u3044",
+  "title": "Ikigai Flow 生きがい",
   "upc": "199738518519",
   "slug": "ikigai-flow",
   "pay_earn": 0.0363,
@@ -1463,7 +1505,7 @@
   "pay_plays": 4
  },
  {
-  "title": "Insha\u2019Allah",
+  "title": "Insha’Allah",
   "upc": "199934468649",
   "slug": "inshaallah",
   "pay_earn": 0.0317,
