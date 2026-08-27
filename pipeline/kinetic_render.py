@@ -60,14 +60,26 @@ def art_camera_frame(art_big, zoom, cx, cy):
     x0 = max(0, min(aw - crop_w, x0)); y0 = max(0, min(ah - crop_h, y0))
     return art_big.crop((x0, y0, x0 + crop_w, y0 + crop_h)).resize((W, H), Image.LANCZOS)
 
-def locked_frame(art1000, n, dark=0):
-    """The locked framing with drift; n = body frame index."""
+def locked_frame(art1000, n, dark=0, title=None):
+    """The locked framing with drift; n = body frame index.
+
+    The track title sits under the wordmark for the WHOLE body, not only on the
+    end card. Most people never reach the last four seconds of a 30s teaser, so
+    a title that only appears there is a title most viewers never see.
+    """
     img = Image.new("RGB", (W, H), BLACK)
     dx = 40 * math.sin(2 * math.pi * n / 1500)
     dy = 40 * math.cos(2 * math.pi * n / 1900)
     img.paste(art1000, (int((W - 1000) / 2 + dx), int(270 + 40 + dy)))
     d = ImageDraw.Draw(img)
-    draw_text_shadow(d, (W / 2, 200), "PHILOSOPHICAL KING", font(40), TEAL)
+    draw_text_shadow(d, (W / 2, 186), "PHILOSOPHICAL KING", font(40), TEAL)
+    if title:
+        # Gold, to separate it from the teal wordmark, and shrunk to fit rather
+        # than truncated — several titles run past 940px at the base size.
+        ts = 36
+        while ts > 22 and d.textlength(title, font=font(ts)) > 940:
+            ts -= 2
+        draw_text_shadow(d, (W / 2, 240), title, font(ts), GOLD)
     if dark:
         img = Image.blend(img, Image.new("RGB", (W, H), (0, 0, 0)), dark)
     return img
@@ -135,11 +147,11 @@ def main():
             zoom = 2.45 - (2.45 - 1.0) * p
             deep = art_camera_frame(art_src, max(1.0, zoom), 0.5, 0.42)
             deep = Image.blend(deep, Image.new("RGB", (W, H), (0, 0, 0)), 0.72 * (1 - p))
-            locked = locked_frame(art1000, 0)
+            locked = locked_frame(art1000, 0, title=title)
             img = Image.blend(deep, locked, p)
         elif t < t_end_card:
             # 3. body — locked framing + one lyric line at a time, faded in/out
-            img = locked_frame(art1000, body_n); body_n += 1
+            img = locked_frame(art1000, body_n, title=title); body_n += 1
             cur = next((ln for ln in lines if ln["s"] <= t <= ln["e"]), None)
             if cur and cur["text"]:
                 fade = min(1.0, (t - max(cur["s"], t_reveal)) / 0.25, (cur["e"] - t) / 0.25 + 0.4)
@@ -203,7 +215,7 @@ def main():
                 d.rectangle([(W - 60) / 2, 1260, (W + 60) / 2, 1300], fill=GOLD)
             draw_text_shadow(d, (W / 2, 1390), "P H I L O S O P H I C A L   K I N G", font(32), GREY)
             if p < 1:
-                img = Image.blend(locked_frame(art1000, body_n), img, p)
+                img = Image.blend(locked_frame(art1000, body_n, title=title), img, p)
         img.save(f"{tmp}/{i:05d}.jpg", quality=90)
 
     # assemble + waveform overlay during body + audio mux
