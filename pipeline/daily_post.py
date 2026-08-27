@@ -346,9 +346,24 @@ def main():
     # catalogue depth from a liability into the pitch. Written "Track N" rather than
     # "#N" on purpose — a leading "#N" renders as a hashtag on Instagram and TikTok.
     series_no = len(state["posted"]) + 1
+    # Follow ask. Release Radar goes automatically to Spotify followers, and PK has
+    # 28 of them — so a new release currently reaches 3 listeners by default. That
+    # number is the floor under everything, and no post has ever asked for a follow.
+    #
+    # Spotify rather than Apple because Jordan reports the two are close, and the
+    # tiebreak goes to the platform whose mechanic is confirmed: Release Radar
+    # pushes to followers, Apple's equivalent is unverified.
+    #
+    # Date-gated to the day AFTER the series-frame test closes (Sep 7). Running both
+    # at once would move two variables and neither result would be readable.
+    # One link only, still hyperfollow — the follow ask is words, not a second URL.
+    FOLLOW_ASK_FROM = "2026-09-08"
+    follow = ("<p>Follow Philosophical King on Spotify so the new ones find you.</p>"
+              if nxt >= FOLLOW_ASK_FROM else "")
     content = (f"<p>{hook} 👑</p>"
                f"<p>Track {series_no} of {CATALOGUE} — turning every idea in "
                f"philosophy into a song.</p>"
+               f"{follow}"
                f"<p>Full track everywhere: {link}</p>"
                f"<p>#Philosophy #PhilosophicalKing</p>")
 
