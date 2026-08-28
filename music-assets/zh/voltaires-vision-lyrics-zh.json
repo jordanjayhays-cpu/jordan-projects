@@ -1,86 +1,103 @@
 [
  {
   "text": "他谈到",
+  "en": "He spoke of",
   "s": 0.0,
   "e": 0.68
  },
  {
-  "text": "自由，思想的力量",
+  "text": "自由，谈思想的力量",
+  "en": "freedom, the power of thought",
   "s": 0.68,
   "e": 1.92
  },
  {
   "text": "对抗盲目的教条",
+  "en": "against blind dogma",
   "s": 1.92,
   "e": 3.28
  },
  {
-  "text": "他起身战斗",
+  "text": "他发起",
+  "en": "He fought",
   "s": 3.28,
   "e": 4.0
  },
  {
-  "text": "他的呐喊如火燃起",
+  "text": "一声燃烧般的呐喊",
+  "en": "a rallying cry set alight",
   "s": 4.0,
   "e": 5.56
  },
  {
   "text": "摧毁暴政，别让",
+  "en": "Destroy the tyranny, don't let",
   "s": 5.56,
   "e": 7.08
  },
  {
-  "text": "它藏身于宗教或王座",
+  "text": "它藏在宗教或王座背后",
+  "en": "it lie in religion or rulers",
   "s": 7.08,
   "e": 8.38
  },
  {
   "text": "他",
+  "en": "He",
   "s": 8.38,
   "e": 8.54
  },
  {
   "text": "揭发暴行，要求一个",
+  "en": "called out abuse, demanding a",
   "s": 8.54,
   "e": 9.98
  },
  {
-  "text": "让理性自由的世界",
+  "text": "让理性挣脱束缚的世界",
+  "en": "world where reason's let loose",
   "s": 9.98,
   "e": 11.1
  },
  {
-  "text": "他的机智是武器",
+  "text": "他的机锋是武器",
+  "en": "His wit was a weapon",
   "s": 11.1,
   "e": 12.08
  },
  {
-  "text": "点燃成火焰",
+  "text": "点着了就成了火",
+  "en": "set to a flame",
   "s": 12.08,
   "e": 12.98
  },
  {
   "text": "他挑战权势",
+  "en": "He challenged the mighty and",
   "s": 12.98,
   "e": 14.1
  },
  {
-  "text": "直呼其名",
+  "text": "并且直呼其名",
+  "en": "called them by name",
   "s": 14.1,
   "e": 15.08
  },
  {
   "text": "对话的力量，异议的权利",
+  "en": "the power of dialogue, the right to dissent",
   "s": 15.08,
   "e": 16.14
  },
  {
-  "text": "为那些无声的人",
+  "text": "为那些没有声音的人",
+  "en": "a voice for the voiceless",
   "s": 16.14,
   "e": 17.24
  },
  {
-  "text": "发声，无论他走到哪里",
+  "text": "发声，无论走到哪里",
+  "en": "wherever he went",
   "s": 17.24,
   "e": 19.92
  }

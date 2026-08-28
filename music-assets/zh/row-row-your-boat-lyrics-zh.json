@@ -1,101 +1,121 @@
 [
  {
-  "text": "让你的故事被讲出来",
+  "text": "让你的故事被讲述",
+  "en": "Let your story be told",
   "s": 0.0,
   "e": 2.0
  },
  {
-  "text": "快乐地，快乐地",
+  "text": "欢快地，欢快地",
+  "en": "Merrily, merrily",
   "s": 2.0,
   "e": 3.48
  },
  {
-  "text": "人生并非表面的样子",
+  "text": "人生不是它看上去的样子",
+  "en": "life's not what it seems",
   "s": 3.48,
   "e": 5.4
  },
  {
-  "text": "一个个瞬间",
+  "text": "一个个",
+  "en": "Moments of",
   "s": 5.4,
   "e": 6.16
  },
  {
-  "text": "惊奇，如流水不息",
+  "text": "惊奇的瞬间，像水流不停",
+  "en": "wonder in an endless stream",
   "s": 6.16,
   "e": 8.26
  },
  {
-  "text": "快乐地，快乐地",
+  "text": "欢快地，欢快地",
+  "en": "Merrily, merrily",
   "s": 8.26,
   "e": 10.38
  },
  {
   "text": "那是一种心境",
+  "en": "that's the state of mind",
   "s": 10.38,
   "e": 11.46
  },
  {
   "text": "喜悦就在当下",
+  "en": "Joy in the present",
   "s": 11.46,
   "e": 13.18
  },
  {
-  "text": "把遗憾留在身后",
+  "text": "把悔恨留在身后",
+  "en": "leave regrets behind",
   "s": 13.18,
   "e": 14.58
  },
  {
   "text": "人生并不完美",
+  "en": "Life isn't perfect",
   "s": 14.58,
   "e": 16.36
  },
  {
-  "text": "它凌乱又模糊",
+  "text": "它凌乱，也看不清",
+  "en": "it's messy and unclear",
   "s": 16.36,
   "e": 17.74
  },
  {
   "text": "但只要找到喜悦",
+  "en": "But find the joy and",
   "s": 17.74,
   "e": 19.16
  },
  {
-  "text": "找到此刻，恐惧就消散",
+  "text": "找到此刻，恐惧就化开",
+  "en": "the now, dissolve your fear",
   "s": 19.16,
   "e": 21.0
  },
  {
   "text": "人生不过一场梦",
+  "en": "Life is but a dream",
   "s": 21.0,
   "e": 22.76
  },
  {
-  "text": "一句轻描淡写的深意",
+  "text": "一句轻巧却很深的话",
+  "en": "a profound little line",
   "s": 22.76,
   "e": 24.24
  },
  {
   "text": "现实转瞬即逝",
+  "en": "Realities fleeting",
   "s": 24.24,
   "e": 25.8
  },
  {
-  "text": "像时间流过",
+  "text": "像时间流走",
+  "en": "like the passage of time",
   "s": 25.8,
   "e": 27.4
  },
  {
   "text": "什么是真的",
+  "en": "What's real",
   "s": 27.4,
   "e": 28.44
  },
  {
   "text": "什么不是，这才是问题",
+  "en": "what's not, that's the question",
   "s": 28.44,
   "e": 29.82
  },
  {
   "text": "",
+  "en": "",
   "s": 29.82,
   "e": 31.4
  }

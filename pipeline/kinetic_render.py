@@ -178,24 +178,56 @@ def main():
                     # fit: shrink to width, wrap to 2 lines if needed; sits under the art,
                     # above every platform's bottom UI band (safe zone ends ~1440)
                     LYRIC_Y, MAXW = 1350, 860
-                    size = 52
-                    while size > 38 and od.textlength(cur["text"], font=font(size, cur["text"])) > MAXW:
-                        size -= 2
-                    if od.textlength(cur["text"], font=font(size, cur["text"])) > MAXW:
-                        ws_ = cur["text"].split()
+
+                    def wrap(text, base, floor):
+                        """Largest size that fits, wrapped to at most two rows."""
+                        sz = base
+                        while sz > floor and od.textlength(text, font=font(sz, text)) > MAXW:
+                            sz -= 2
+                        if od.textlength(text, font=font(sz, text)) <= MAXW:
+                            return sz, [text]
+                        # CJK has no spaces to break on, so split on character count;
+                        # English splits at the word boundary that balances the rows.
+                        if has_cjk(text) and " " not in text.strip():
+                            mid = len(text) // 2
+                            return sz, [text[:mid], text[mid:]]
+                        ws_ = text.split()
+                        if len(ws_) < 2:
+                            return sz, [text]
                         best, bestdiff = 1, 1e9
                         for cpt in range(1, len(ws_)):
-                            wd = max(od.textlength(" ".join(ws_[:cpt]), font=font(size, cur["text"])),
-                                     od.textlength(" ".join(ws_[cpt:]), font=font(size, cur["text"])))
-                            if wd < bestdiff: best, bestdiff = cpt, wd
-                        rows_ = [" ".join(ws_[:best]), " ".join(ws_[best:])]
+                            wd = max(od.textlength(" ".join(ws_[:cpt]), font=font(sz, text)),
+                                     od.textlength(" ".join(ws_[cpt:]), font=font(sz, text)))
+                            if wd < bestdiff:
+                                best, bestdiff = cpt, wd
+                        return sz, [" ".join(ws_[:best]), " ".join(ws_[best:])]
+
+                    def draw_rows(rows, sz, top, colour, gap):
+                        y2 = top
+                        for row_ in rows:
+                            od.text((W / 2, y2 + 3), row_, font=font(sz, row_),
+                                    fill=(0, 0, 0, a), anchor="mm")
+                            od.text((W / 2, y2), row_, font=font(sz, row_),
+                                    fill=colour + (a,), anchor="mm")
+                            y2 += gap
+                        return y2
+
+                    # Bilingual: the primary language reads full size in teal, the
+                    # secondary sits under it smaller and dimmed. A translation
+                    # competing at equal weight makes both harder to read, and the
+                    # pair has to clear the safe zone, so the second line is the one
+                    # that gives up size.
+                    size, rows_ = wrap(cur["text"], 52, 38)
+                    sub = (cur.get("en") or "").strip()
+                    if sub:
+                        sub_size, sub_rows = wrap(sub, 34, 26)
+                        block = (len(rows_) - 1) * 58 + 16 + (len(sub_rows) - 1) * 38
+                        y_ = LYRIC_Y - block / 2
+                        y_ = draw_rows(rows_, size, y_, TEAL, 58)
+                        draw_rows(sub_rows, sub_size, y_ - 58 + 62, GREY, 38)
                     else:
-                        rows_ = [cur["text"]]
-                    y_ = LYRIC_Y - (len(rows_) - 1) * 30
-                    for row_ in rows_:
-                        od.text((W / 2, y_ + 3), row_, font=font(size, row_), fill=(0, 0, 0, a), anchor="mm")
-                        od.text((W / 2, y_), row_, font=font(size, row_), fill=TEAL + (a,), anchor="mm")
-                        y_ += 60
+                        y_ = LYRIC_Y - (len(rows_) - 1) * 30
+                        draw_rows(rows_, size, y_, TEAL, 60)
                     img = Image.alpha_composite(img.convert("RGBA"), ov).convert("RGB")
         else:
             # 4. end card

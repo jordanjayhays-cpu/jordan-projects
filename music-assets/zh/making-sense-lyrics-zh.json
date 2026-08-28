@@ -1,91 +1,109 @@
 [
  {
   "text": "没有悲伤",
+  "en": "No grief",
   "s": 0.0,
   "e": 1.32
  },
  {
   "text": "没有天堂，没有堕落",
+  "en": "no heaven, no fall",
   "s": 1.32,
   "e": 3.04
  },
  {
   "text": "一个无人见证的宇宙",
+  "en": "a universe with no witness",
   "s": 3.04,
   "e": 4.7
  },
  {
-  "text": "沉默而盲目",
+  "text": "沉默，而且盲目",
+  "en": "Silent and blind",
   "s": 4.7,
   "e": 6.32
  },
  {
   "text": "但只要有一瞬的",
+  "en": "but one moment of",
   "s": 6.32,
   "e": 7.58
  },
  {
-  "text": "痛，就有了价值与重量",
+  "text": "痛，价值就有了脊梁",
+  "en": "pain gives value a spine",
   "s": 7.58,
   "e": 9.42
  },
  {
   "text": "所以意识",
+  "en": "That's why consciousness",
   "s": 9.42,
   "e": 10.86
  },
  {
-  "text": "才是第一个秘密的事实",
+  "text": "才是最初那个隐秘的事实",
+  "en": "is the first secret fact",
   "s": 10.86,
   "e": 12.82
  },
  {
   "text": "在经文之前，在科学之前",
+  "en": "Before scripture, before science",
   "s": 12.82,
   "e": 14.78
  },
  {
   "text": "在一切社会行为之前",
+  "en": "before every social act",
   "s": 14.78,
   "e": 16.5
  },
  {
-  "text": "问题不只是",
+  "text": "问题不只在于",
+  "en": "The question is",
   "s": 16.5,
   "e": 17.46
  },
  {
   "text": "粒子在做什么",
+  "en": "not only what particles do",
   "s": 17.46,
   "e": 19.66
  },
  {
-  "text": "而是「成为我」",
+  "text": "而在于「成为我」",
+  "en": "But what it is like",
   "s": 19.66,
   "e": 21.2
  },
  {
   "text": "「成为你」",
+  "en": "to be me, to be you",
   "s": 21.2,
   "e": 23.1
  },
  {
-  "text": "是什么感觉——一个心灵亮起",
+  "text": "究竟是什么感觉——一个心灵亮起",
+  "en": "a mind lights up",
   "s": 23.1,
   "e": 24.86
  },
  {
   "text": "世界于是成真",
+  "en": "And the world becomes real",
   "s": 24.86,
   "e": 26.96
  },
  {
-  "text": "一道伤口于是有了道德",
+  "text": "一道伤口于是有了是非",
+  "en": "a wound becomes moral",
   "s": 26.96,
   "e": 28.42
  },
  {
-  "text": "因为有人能够感受",
+  "text": "因为终于有人能够感受",
+  "en": "Because someone can feel",
   "s": 28.42,
   "e": 31.44
  }
