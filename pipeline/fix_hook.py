@@ -141,10 +141,14 @@ def main():
         api(f"posts/{p['id']}", method="DELETE")
     print(f"rewrote {len(made)} post(s) on {day}")
 
+    # Commit AND push. Leaving the audit commit local strands the branch ahead
+    # of origin, which the repo's stop hook then flags on every later turn.
     subprocess.call(["git", "-C", ROOT, "-c", "user.name=Claude",
                      "-c", "user.email=noreply@anthropic.com",
                      "commit", "-q", "--allow-empty",
                      "-m", f"pipeline: corrected the hook on {day} ({slug})"])
+    subprocess.call(["git", "-C", ROOT, "push", "-q", "origin",
+                     "claude/philosophical-king-poster-raq2ke"])
 
 
 if __name__ == "__main__":
