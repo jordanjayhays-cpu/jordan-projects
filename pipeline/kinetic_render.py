@@ -31,8 +31,23 @@ BLACK = (10, 11, 14)        # 0e0f13-family
 WAVE_GOLD = "0xb09a4a"
 
 SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
+# DejaVu has no CJK coverage at all — Chinese, Japanese and Korean text renders
+# as empty boxes. Noto Serif CJK keeps the serif look of the template rather
+# than dropping to a sans fallback. The .ttc holds SC/TC/JP/HK/KR; index 2 is
+# Simplified Chinese, which also covers the Han characters the others need.
+CJK = "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc"
+CJK_INDEX = 2
 
-def font(size):
+
+def has_cjk(text):
+    return any("぀" <= c <= "ヿ" or "㐀" <= c <= "鿿"
+               or "가" <= c <= "힯" or "＀" <= c <= "￯"
+               for c in str(text))
+
+
+def font(size, text=""):
+    if text and has_cjk(text) and os.path.exists(CJK):
+        return ImageFont.truetype(CJK, size, index=CJK_INDEX)
     return ImageFont.truetype(SERIF, size)
 
 def ease(t):  # smooth in-out
@@ -77,9 +92,9 @@ def locked_frame(art1000, n, dark=0, title=None):
         # Gold, to separate it from the teal wordmark, and shrunk to fit rather
         # than truncated — several titles run past 940px at the base size.
         ts = 36
-        while ts > 22 and d.textlength(title, font=font(ts)) > 940:
+        while ts > 22 and d.textlength(title, font=font(ts, title)) > 940:
             ts -= 2
-        draw_text_shadow(d, (W / 2, 240), title, font(ts), GOLD)
+        draw_text_shadow(d, (W / 2, 240), title, font(ts, title), GOLD)
     if dark:
         img = Image.blend(img, Image.new("RGB", (W, H), (0, 0, 0)), dark)
     return img
@@ -113,7 +128,7 @@ def main():
             img = Image.blend(img, Image.new("RGB", (W, H), (0, 0, 0)), 0.72)
             d = ImageDraw.Draw(img)
             words_on = max(1, min(len(hook_words), 1 + int(t / (1.68 / max(1, len(hook_words))))))
-            f = font(64)
+            f = font(64, hook)
             # layout words centered as wrapped block
             shown = hook_words[:words_on]
             linebuf, rows = [], []
@@ -164,22 +179,22 @@ def main():
                     # above every platform's bottom UI band (safe zone ends ~1440)
                     LYRIC_Y, MAXW = 1350, 860
                     size = 52
-                    while size > 38 and od.textlength(cur["text"], font=font(size)) > MAXW:
+                    while size > 38 and od.textlength(cur["text"], font=font(size, cur["text"])) > MAXW:
                         size -= 2
-                    if od.textlength(cur["text"], font=font(size)) > MAXW:
+                    if od.textlength(cur["text"], font=font(size, cur["text"])) > MAXW:
                         ws_ = cur["text"].split()
                         best, bestdiff = 1, 1e9
                         for cpt in range(1, len(ws_)):
-                            wd = max(od.textlength(" ".join(ws_[:cpt]), font=font(size)),
-                                     od.textlength(" ".join(ws_[cpt:]), font=font(size)))
+                            wd = max(od.textlength(" ".join(ws_[:cpt]), font=font(size, cur["text"])),
+                                     od.textlength(" ".join(ws_[cpt:]), font=font(size, cur["text"])))
                             if wd < bestdiff: best, bestdiff = cpt, wd
                         rows_ = [" ".join(ws_[:best]), " ".join(ws_[best:])]
                     else:
                         rows_ = [cur["text"]]
                     y_ = LYRIC_Y - (len(rows_) - 1) * 30
                     for row_ in rows_:
-                        od.text((W / 2, y_ + 3), row_, font=font(size), fill=(0, 0, 0, a), anchor="mm")
-                        od.text((W / 2, y_), row_, font=font(size), fill=TEAL + (a,), anchor="mm")
+                        od.text((W / 2, y_ + 3), row_, font=font(size, row_), fill=(0, 0, 0, a), anchor="mm")
+                        od.text((W / 2, y_), row_, font=font(size, row_), fill=TEAL + (a,), anchor="mm")
                         y_ += 60
                     img = Image.alpha_composite(img.convert("RGBA"), ov).convert("RGB")
         else:
@@ -190,9 +205,9 @@ def main():
             img.paste(small, (int((W - 560) / 2), 330))
             d = ImageDraw.Draw(img)
             tf_ = 56
-            while tf_ > 40 and d.textlength(title, font=font(tf_)) > 940:
+            while tf_ > 40 and d.textlength(title, font=font(tf_, title)) > 940:
                 tf_ -= 2
-            draw_text_shadow(d, (W / 2, 1000), title, font(tf_), IVORY)
+            draw_text_shadow(d, (W / 2, 1000), title, font(tf_, title), IVORY)
             d.rectangle([(W - 150) / 2, 1070, (W + 150) / 2, 1072], fill=GOLD)
             # cta may be a full track URL — wrap at path boundaries to fit 1080px
             cta_f = font(34)
