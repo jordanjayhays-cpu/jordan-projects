@@ -94,6 +94,9 @@ def pick_hook(lines, title):
             n = len(w)
             if not (4 <= n <= 12):
                 continue
+            low = t.lower()
+            if any(h in low for h in HALLUCINATED):
+                continue
             score = 0
             if t[0].isupper():        score += 3   # not picked up mid-clause
             if t[-1] in ".!?":        score += 4   # a finished thought
@@ -104,6 +107,16 @@ def pick_hook(lines, title):
             # a sentence" catches what it misses -- "From earth's first spark to".
             if w[-1].strip(".,!?") in DANGLING:
                 score -= 6
+            # Vocables. Kenosis is mostly "yeah, yeah, yeah" and "oh, oh, oh",
+            # and the scoring above happily picked "Have me wanting more Till it
+            # broke, yeah, yeah, yeah" — every structural test passed because
+            # nothing here knew those words carry no meaning. Penalise in
+            # proportion, so a line with one "oh" survives and a line that is
+            # half filler cannot win.
+            fill = sum(1 for x in w if x.strip(".,!?") in FILLER)
+            score -= int(8 * fill / n)
+            if fill / n > 0.4:        score -= 6
+
             nxt = texts[i + span] if i + span < len(texts) else ""
             if nxt[:1].isupper():     score += 2   # next line starts fresh, so this one closed
             if not nxt:               score += 1
@@ -123,6 +136,23 @@ where while if than then like into onto over under through up down out about not
 no my your his her its their our it he she they we you i""".split())
 
 OPENERS_BAD = set("""and but or the a an of to it that which yet is was as""".split())
+
+# Sung filler. Structurally these look like ordinary words — they capitalise,
+# they end clauses, they sit at sensible lengths — so every other test passes
+# and a chorus of them can outscore the actual line.
+FILLER = set("""oh ooh ohh yeah yea yah ya uh huh hey ay aye na la da mm mmm
+hmm ah aah woah whoa oo ooo eh""".split())
+
+# Whisper hallucinations. Over quiet or purely musical passages the model emits
+# phrases from its training data — subtitle boilerplate, mostly. They score
+# beautifully: capitalised, punctuated, the right length. "Row Row Your Boat"
+# already carries "Thank you for watching!" in its transcript. A hook is the
+# first thing anyone reads, so any candidate containing one is discarded
+# outright rather than merely penalised.
+HALLUCINATED = ("thank you for watching", "thanks for watching", "subscribe",
+                "like and subscribe", "see you next time", "see you in the next",
+                "subtitles by", "amara.org", "transcription by", "closed captions",
+                "www.", "http")
 
 
 def latest_published_youtube():
