@@ -94,11 +94,11 @@ def main():
     # Keep the title the live caption already carries rather than regenerating
     # it from the slug — "dolce-far-niente".title() is not how the track is
     # actually written, and the non-English titles fare worse.
-    tm = re.search(r"<p>(.*?)\s+—\s+.*?👑</p>", old, re.S)
+    tm = re.search(r"<p>(.*?):\s+.*?👑</p>", old, re.S)
     live_title = tm.group(1).strip() if tm else title
 
-    content = (f"<p>{live_title} — {hook} 👑</p>"
-               f"<p>Track {series_no} of {catalogue} — turning every idea in "
+    content = (f"<p>{live_title}: {hook} 👑</p>"
+               f"<p>Track {series_no} of {catalogue}. Turning every idea in "
                f"philosophy into a song.</p>"
                f"<p>Full track everywhere: {TRACK_LINK}</p>"
                f"<p>#Philosophy #PhilosophicalKing</p>")

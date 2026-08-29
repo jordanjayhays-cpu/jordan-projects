@@ -270,7 +270,7 @@ def platform_settings(platform, title, media_url=None):
                 {"key": "tags", "value": [{"value": x, "label": x} for x in
                                           [title.lower(), "philosophy", "philosophical king"]]}]
     if platform == "tiktok":
-        return [{"key": "title", "value": f"{title} — Philosophical King"[:90]},
+        return [{"key": "title", "value": f"{title} | Philosophical King"[:90]},
                 {"key": "content_posting_method", "value": "DIRECT_POST"},
                 {"key": "privacy_level", "value": "PUBLIC_TO_EVERYONE"},
                 {"key": "comment", "value": True}, {"key": "duet", "value": True},
@@ -382,8 +382,8 @@ def main():
     # is invisible unless someone taps. Facebook and Instagram have no title
     # field either, so this is the only place the name can appear on the two
     # platforms that actually produce views.
-    content = (f"<p>{title} — {hook} 👑</p>"
-               f"<p>Track {series_no} of {CATALOGUE} — turning every idea in "
+    content = (f"<p>{title}: {hook} 👑</p>"
+               f"<p>Track {series_no} of {CATALOGUE}. Turning every idea in "
                f"philosophy into a song.</p>"
                f"<p>Full track everywhere: {link}</p>"
                f"<p>#Philosophy #PhilosophicalKing</p>")

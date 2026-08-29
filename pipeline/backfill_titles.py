@@ -78,7 +78,7 @@ def title_from(posts):
             except ValueError:
                 continue
         t = (s or {}).get("title") or ""
-        t = t.split(" — Philosophical King")[0].strip()
+        t = t.split(" | Philosophical King")[0].split(" — Philosophical King")[0].strip()
         if t:
             return t
     return None
@@ -93,8 +93,10 @@ def hook_from(caption):
     # Captions written before this change read "<hook> 👑"; ones written after
     # read "<Title> — <hook> 👑". Handle both so a partial re-run is safe.
     first = first.replace("👑", "").strip()
-    if " — " in first:
-        first = first.split(" — ", 1)[1].strip()
+    for sep in (": ", " — "):
+        if sep in first:
+            first = first.split(sep, 1)[1].strip()
+            break
     return first or None
 
 
@@ -146,15 +148,15 @@ def do_day(day, slug, dry):
         return (f"{day} {slug}: could not recover title/hook "
                 f"(title={title!r} hook={hook!r}) — skipped")
 
-    if f"{title} —" in re.sub(r"<[^>]+>", "", caption)[:120]:
+    if f"{title}:" in re.sub(r"<[^>]+>", "", caption)[:120]:
         return f"{day} {slug}: already carries the title — skipped"
 
     # Days scheduled before the series frame existed have no "Track N of 251"
     # line. Add the title to those without inventing a series number they were
     # never posted with.
-    series_line = (f"<p>Track {series_no} of {catalogue} — turning every idea in "
+    series_line = (f"<p>Track {series_no} of {catalogue}. Turning every idea in "
                    f"philosophy into a song.</p>") if series_no else ""
-    content = (f"<p>{title} — {hook} 👑</p>"
+    content = (f"<p>{title}: {hook} 👑</p>"
                f"{series_line}"
                f"<p>Full track everywhere: {TRACK_LINK}</p>"
                f"<p>#Philosophy #PhilosophicalKing</p>")

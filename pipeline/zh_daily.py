@@ -89,8 +89,8 @@ def main():
                      "-m", f"zh: Chinese cut of {slug} ({title_zh})"])
     sh("git", "-C", ROOT, "push", "-q", "origin", BRANCH)
 
-    caption = (f"{title_zh} —— {hook_zh} 👑\n\n"
-               f"251 首中的一首 —— 把哲学里的每一个念头，写成一首歌。\n\n"
+    caption = (f"{title_zh}：{hook_zh} 👑\n\n"
+               f"251 首中的一首。把哲学里的每一个念头，写成一首歌。\n\n"
                f"QQ音乐搜索「Philosophical King」：{QQ}\n\n"
                f"#哲学 #说唱 #独立音乐")
     print("\n=== PASTE INTO NOTION ===")
