@@ -39,43 +39,40 @@ Being approved for one does **not** approve the other. If an update returns
 `MCP tool call requires approval`, that is a prompt waiting on Jordan's machine —
 say so plainly and retry; it is not a Notion problem and not a sharing problem.
 
-**3. If ToolSearch genuinely finds nothing, try the REST API.** Checked on
-2026-08-29 and there is currently **no Notion token anywhere** — not in the
-environment, not in the repo, not in Supabase `app_secrets`. So this path does
-not work yet. See "The permanent fix" below.
+**3. If ToolSearch genuinely finds nothing, use the REST API.** This is the
+reliable path and does not depend on the connector at all.
+
+The token lives in Supabase, project `dprdnrgjkzgfgtcsguuq`, table
+`app_secrets`, key `NOTION_TOKEN` — the same table that holds the SMTP
+credentials. Read it with `execute_sql`; it is a workspace integration named
+"Claude". **Never write it into the repo — this repository is public.**
 
 ```bash
+# read the token
+#   SELECT value FROM app_secrets WHERE key = 'NOTION_TOKEN';
+
+# append blocks to a page
 curl -sS -X PATCH "https://api.notion.com/v1/blocks/$PAGE_ID/children" \
   -H "Authorization: Bearer $NOTION_TOKEN" \
   -H "Notion-Version: 2022-06-28" \
-  -H "Content-Type: application/json" -d '{...}'
+  -H "Content-Type: application/json" \
+  -d '{"children":[ ... ]}'
+
+# read a page's blocks (to insert in the right place)
+curl -sS "https://api.notion.com/v1/blocks/$PAGE_ID/children?page_size=100" \
+  -H "Authorization: Bearer $NOTION_TOKEN" -H "Notion-Version: 2022-06-28"
 ```
+
+To place a new entry at the TOP rather than the end, pass `"after"` with the id
+of the block it should follow — the API appends by default.
+
+**`object_not_found` does not mean the page is gone.** It means the page is not
+shared with the integration. Notion integrations see nothing by default. Fix on
+the page itself: **⋯ → Connections → Connect to → Claude**. Sharing a parent
+page shares its children, so connecting one top-level page is usually enough.
 
 **4. Only then fall back to email**, and say in the report that Notion was
-skipped and why — so he can decide whether to fix the connector.
-
-## The permanent fix — worth doing once
-
-The MCP connector will keep dropping. A Notion **internal integration token**
-does not, and makes every future write a plain HTTP call independent of session
-state.
-
-1. <https://www.notion.so/profile/integrations> → **New integration** →
-   internal, pointed at Jordan's workspace
-2. Copy the secret (starts `ntn_`)
-3. On the target Notion page: **⋯ → Connections → Connect to →** the new
-   integration. Without this the API returns 404 for that page even with a valid
-   token.
-4. Store it so it survives the session:
-
-```sql
-INSERT INTO app_secrets (key, value) VALUES ('NOTION_TOKEN', 'ntn_...')
-ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;
-```
-
-Supabase project `dprdnrgjkzgfgtcsguuq`, same table that holds the SMTP
-credentials. After that, read it back with `execute_sql` and use the REST API —
-no connector needed, and the daily Chinese Routine stops depending on one.
+skipped and why.
 
 ## The pages
 
