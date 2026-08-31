@@ -109,7 +109,14 @@ def main():
     print(f"now:      {hook}")
     print(f"channels: {channels}")
 
-    up = mcp("uploadFromUrlTool", {"url": f"{RAW}{slug}-teaser.mp4"})
+    # Newest render wins. A day can carry the original teaser, a -v2 from the
+    # title backfill, or a -v3 from a hook re-render; uploading the wrong one
+    # silently ships a video whose on-screen hook contradicts the caption.
+    video = next(v for v in (f"{slug}-teaser-v3.mp4", f"{slug}-teaser-v2.mp4",
+                             f"{slug}-teaser.mp4")
+                 if os.path.exists(os.path.join(ROOT, "music-assets", v)))
+    print(f"video:    {video}")
+    up = mcp("uploadFromUrlTool", {"url": RAW + video})
 
     rebuilt = []
     for integ in mcp("integrationList", {})["output"]:
