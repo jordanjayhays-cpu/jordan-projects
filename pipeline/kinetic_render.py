@@ -261,12 +261,21 @@ def main():
                 draw_text_shadow(d, (W / 2, 1182), l2, cta_f, TEAL)
             else:
                 draw_text_shadow(d, (W / 2, 1155), cta_disp, cta_f, TEAL)
-            try:
-                ef = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf", 109)
-                d.text((W / 2, 1280), "👑", font=ef, anchor="mm", embedded_color=True)
-            except Exception:
-                d.rectangle([(W - 60) / 2, 1260, (W + 60) / 2, 1300], fill=GOLD)
-            draw_text_shadow(d, (W / 2, 1390), "P H I L O S O P H I C A L   K I N G", font(32), GREY)
+            # PK_END_CARD=minimal drops the crown. The Chinese cuts use it: the
+            # emoji reads as decoration rather than as a mark, and the wordmark
+            # underneath already says who this is. Env var rather than another
+            # positional arg, because backfill_titles, fix_hook and the 15s
+            # cutter all call this with the existing signature.
+            if os.environ.get("PK_END_CARD") != "minimal":
+                try:
+                    ef = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf", 109)
+                    d.text((W / 2, 1280), "👑", font=ef, anchor="mm", embedded_color=True)
+                except Exception:
+                    d.rectangle([(W - 60) / 2, 1260, (W + 60) / 2, 1300], fill=GOLD)
+            # Without the crown the wordmark has to move up, or the card is a
+            # gold rule and then 300px of nothing.
+            mark_y = 1180 if os.environ.get("PK_END_CARD") == "minimal" else 1390
+            draw_text_shadow(d, (W / 2, mark_y), "P H I L O S O P H I C A L   K I N G", font(32), GREY)
             if p < 1:
                 img = Image.blend(locked_frame(art1000, body_n, title=title), img, p)
         img.save(f"{tmp}/{i:05d}.jpg", quality=90)
