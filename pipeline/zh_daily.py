@@ -79,8 +79,10 @@ def main():
        "-ar", "44100", wav)
     out = os.path.join(ZH, f"{slug}-zh.mp4")
     os.makedirs(ZH, exist_ok=True)
+    # No link line on the Chinese end card. Jordan's call: a URL on screen is
+    # unusable, and the caption already carries a tappable one.
     sh(sys.executable, os.path.join(PIPE, "kinetic_render.py"), slug, title_zh,
-       hook_zh, "QQ音乐搜索「Philosophical King」", art, wav, lyr, out)
+       hook_zh, "", art, wav, lyr, out)
     os.remove(wav)
 
     sh("git", "-C", ROOT, "add", f"music-assets/zh/{slug}-zh.mp4", f"music-assets/zh/{slug}-lyrics-zh.json")

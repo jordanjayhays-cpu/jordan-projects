@@ -241,10 +241,16 @@ def main():
                 tf_ -= 2
             draw_text_shadow(d, (W / 2, 1000), title, font(tf_, title), IVORY)
             d.rectangle([(W - 150) / 2, 1070, (W + 150) / 2, 1072], fill=GOLD)
-            # cta may be a full track URL — wrap at path boundaries to fit 1080px
-            cta_f = font(34)
-            cta_disp = cta.replace("https://", "")
-            if d.textlength(cta_disp, font=cta_f) > 980 and "/" in cta_disp:
+            # An empty cta means no link line at all. The Chinese cuts use this:
+            # nobody types a URL off a video, and the caption already carries a
+            # tappable one. Note font(34, cta_disp) rather than font(34) — the
+            # Latin font has no CJK glyphs, so a Chinese line here rendered as a
+            # row of empty boxes until 2026-08-31.
+            cta_f = font(34, cta)
+            cta_disp = (cta or "").replace("https://", "").strip()
+            if not cta_disp:
+                pass
+            elif d.textlength(cta_disp, font=cta_f) > 980 and "/" in cta_disp:
                 parts = cta_disp.split("/")
                 l1, l2 = parts[0], "/" + "/".join(parts[1:])
                 for cut in range(1, len(parts)):
