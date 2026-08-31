@@ -1,0 +1,9 @@
+{
+ "soul-ride":              {"title": "灵魂过山车",   "hook": "这座位是我自己选的 我不是被困在这里", "hook15": "这座位是我自己选的"},
+ "row-row-your-boat":      {"title": "划船歌",       "hook": "欢快地 欢快地 人生不是它看上去的样子", "hook15": "人生不是它看上去的样子"},
+ "making-sense":           {"title": "意义何来",     "hook": "所以意识 才是最初那个隐秘的事实", "hook15": "所以意识才是最初那个隐秘的事实"},
+ "voltaires-vision":       {"title": "伏尔泰的远见", "hook": "他谈自由 谈思想的力量", "hook15": "他谈自由 谈思想的力量"},
+ "the-filter":             {"title": "滤镜",         "hook": "想象力被换成了社会的那张脸", "hook15": "想象力被换成了社会的那张脸"},
+ "reaching-for-the-stars": {"title": "伸手摘星",     "hook": "答案就藏在我们是谁", "hook15": "答案就藏在我们是谁"},
+ "zoom-in-zoom-out":       {"title": "推近，拉远",   "hook": "宏观的艺术 微观的手艺", "hook15": "宏观的艺术 微观的手艺"}
+}
