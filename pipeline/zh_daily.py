@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """Render and publish the Chinese cut of a scheduled track.
 
-    python3 pipeline/zh_daily.py 2026-08-29 "标题" "钩子那一行"
-    python3 pipeline/zh_daily.py --slug the-filter "标题" "钩子那一行"
+    python3 pipeline/zh_daily.py 2026-08-29 "标题" "钩子那一行" "概念说明…"
+    python3 pipeline/zh_daily.py --slug the-filter "标题" "钩子那一行" "概念说明…"
+
+The fourth argument is the concept note: two or three sentences in Chinese
+explaining the idea the song is about. Chinese listeners do not necessarily
+know kenosis or Voltaire, and Xiaohongshu in particular rewards a post that
+teaches something. Optional, but the caption is thin without it.
 
 Everything mechanical lives here. The one thing it cannot do is translate, so
 it refuses to run until the bilingual lyric file exists at
@@ -49,6 +54,7 @@ def main():
     if len(rest) < 2:
         sys.exit(__doc__)
     title_zh, hook_zh = rest[0], rest[1]
+    note_zh = rest[2].strip() if len(rest) > 2 else ""
 
     lyr = os.path.join(ZH, f"{slug}-lyrics-zh.json")
     if not os.path.exists(lyr):
@@ -93,7 +99,8 @@ def main():
     sh("git", "-C", ROOT, "push", "-q", "origin", BRANCH)
 
     caption = (f"{title_zh}：{hook_zh} 👑\n\n"
-               f"把哲学里的每一个念头，写成一首歌。\n\n"
+               + (f"{note_zh}\n\n" if note_zh else "")
+               + f"把哲学里的每一个念头，写成一首歌。\n\n"
                f"QQ音乐搜索「Philosophical King」：{QQ}\n\n"
                f"#哲学 #说唱 #独立音乐")
     print("\n=== PASTE INTO NOTION ===")
