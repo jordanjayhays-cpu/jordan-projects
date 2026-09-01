@@ -80,10 +80,6 @@ def main():
         sys.exit(f"{day} is already published — too late to change the hook")
 
     old = social[0].get("content") or ""
-    m = re.search(r"Track (\d+) of (\d+)", old)
-    if not m:
-        sys.exit(f"could not find the series line in the existing caption:\n{old}")
-    series_no, catalogue = m.group(1), m.group(2)
 
     state = json.load(open(os.path.join(PIPE, "state.json")))
     slug = state.get("schedule", {}).get(day)
@@ -98,8 +94,7 @@ def main():
     live_title = tm.group(1).strip() if tm else title
 
     content = (f"<p>{live_title}: {hook} 👑</p>"
-               f"<p>Track {series_no} of {catalogue}. Turning every idea in "
-               f"philosophy into a song.</p>"
+               f"<p>Turning every idea in philosophy into a song.</p>"
                f"<p>Full track everywhere: {TRACK_LINK}</p>"
                f"<p>#Philosophy #PhilosophicalKing</p>")
 

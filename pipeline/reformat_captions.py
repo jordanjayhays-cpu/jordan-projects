@@ -61,19 +61,15 @@ def do_day(day, dry):
     old = social[0].get("content") or ""
     flat = re.sub(r"<[^>]+>", "\n", old)
     first = next((l.strip() for l in flat.split("\n") if l.strip()), "")
-    if " — " not in first:
-        return f"{day}: already in the new format, skipped"
+    if "Track " not in re.sub(r"<[^>]+>", " ", old) and " — " not in first:
+        return f"{day}: already in the current format, skipped"
 
-    title, hook = first.split(" — ", 1)
+    sep = " — " if " — " in first else ": "
+    title, hook = first.split(sep, 1)
     hook = hook.replace("👑", "").strip()
-    m = re.search(r"Track (\d+) of (\d+)", old)
-    if not m:
-        return f"{day}: no series line found, skipped"
-    series_no, catalogue = m.group(1), m.group(2)
 
     content = (f"<p>{title}: {hook} 👑</p>"
-               f"<p>Track {series_no} of {catalogue}. Turning every idea in "
-               f"philosophy into a song.</p>"
+               f"<p>Turning every idea in philosophy into a song.</p>"
                f"<p>Full track everywhere: {TRACK_LINK}</p>"
                f"<p>#Philosophy #PhilosophicalKing</p>")
 

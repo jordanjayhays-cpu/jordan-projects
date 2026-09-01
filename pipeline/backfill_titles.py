@@ -154,8 +154,7 @@ def do_day(day, slug, dry):
     # Days scheduled before the series frame existed have no "Track N of 251"
     # line. Add the title to those without inventing a series number they were
     # never posted with.
-    series_line = (f"<p>Track {series_no} of {catalogue}. Turning every idea in "
-                   f"philosophy into a song.</p>") if series_no else ""
+    series_line = "<p>Turning every idea in philosophy into a song.</p>"
     content = (f"<p>{title}: {hook} 👑</p>"
                f"{series_line}"
                f"<p>Full track everywhere: {TRACK_LINK}</p>"

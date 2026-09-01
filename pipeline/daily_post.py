@@ -375,7 +375,10 @@ def main():
     # viewer there are dozens behind this one and hundreds coming, which turns the
     # catalogue depth from a liability into the pitch. Written "Track N" rather than
     # "#N" on purpose — a leading "#N" renders as a hashtag on Instagram and TikTok.
-    series_no = len(state["posted"]) + 1
+    # No "Track N of 251": the catalogue grows whenever another song is written,
+    # so any fixed denominator is wrong the moment it ships. The sentence saying
+    # what the project IS survives; only the counting goes.
+    #
     # The song's name leads the FIRST line, and that placement is the whole
     # point. Facebook truncates a caption at the first line break — a live post
     # showed only "Let your story be told 👑... more" — so anything on line two
@@ -383,8 +386,7 @@ def main():
     # field either, so this is the only place the name can appear on the two
     # platforms that actually produce views.
     content = (f"<p>{title}: {hook} 👑</p>"
-               f"<p>Track {series_no} of {CATALOGUE}. Turning every idea in "
-               f"philosophy into a song.</p>"
+               f"<p>Turning every idea in philosophy into a song.</p>"
                f"<p>Full track everywhere: {link}</p>"
                f"<p>#Philosophy #PhilosophicalKing</p>")
 
