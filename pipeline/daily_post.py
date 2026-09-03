@@ -180,17 +180,44 @@ def latest_published_youtube():
     return t, p["releaseURL"], s
 
 
-def transcribe(wav):
+# Names and terms the catalogue keeps using. Whisper's small model does not
+# know them and guesses at the sound: "Dunning-Kruger" came out as "done in
+# Kruger", "Epicurus" as "Epicura's", "in flux" as "influx". Biasing the decoder
+# with the vocabulary of the subject matter is far cheaper than correcting the
+# output afterwards, and it generalises to tracks nobody has proofread yet.
+GLOSSARY = (
+    "A philosophy rap track. Terms and names that may appear: Aristotle, Plato, "
+    "Socrates, Nietzsche, Kierkegaard, Camus, Sartre, Heidegger, Voltaire, "
+    "Descartes, Kant, Hume, Spinoza, Epicurus, Marcus Aurelius, Seneca, "
+    "Schopenhauer, Foucault, Byung-Chul Han, Simone de Beauvoir, Hannah Arendt, "
+    "eudaimonia, hedonism, stoicism, kenosis, nihilism, existentialism, "
+    "phenomenology, epistemology, ontology, dialectic, the Dunning-Kruger "
+    "effect, the allegory of the cave, amor fati, memento mori, tabula rasa, "
+    "categorical imperative, the banality of evil, bayanihan, kapwa, "
+    "natsukashii, dolce far niente, wabi-sabi, ikigai, in flux, self-made, "
+    "auto-exploitation, neoliberal, consciousness, virtue, flourishing."
+)
+
+
+def transcribe(wav, title=""):
     from faster_whisper import WhisperModel
-    model = WhisperModel("small", device="cpu", compute_type="int8")
-    def run(lang):
-        segments, _ = model.transcribe(wav, word_timestamps=True, vad_filter=False, language=lang)
+    # "medium" over "small": the small model is where most of the mangled proper
+    # nouns come from, and this runs once a day in the background, so the extra
+    # minutes cost nothing anybody is waiting on.
+    model = WhisperModel("medium", device="cpu", compute_type="int8")
+    def run(lang, prompt=None):
+        segments, _ = model.transcribe(wav, word_timestamps=True, vad_filter=False,
+                                       language=lang, initial_prompt=prompt)
         segs = []
         for seg in segments:
             ws = [{"w": w.word.strip(), "s": round(w.start, 2), "e": round(w.end, 2)} for w in (seg.words or [])]
             if ws: segs.append(ws)
         return segs
-    en = run("en")
+    # The glossary goes to the English pass only. The Tagalog pass feeds the
+    # density test below, whose 0.02 threshold was measured against an unbiased
+    # decode; priming it with English vocabulary would move the number the
+    # threshold was calibrated on.
+    en = run("en", f"{GLOSSARY} This one is called {title}." if title else GLOSSARY)
     tl = run("tl")
     # Pick by Tagalog DENSITY, not by word count.
     #
@@ -333,7 +360,7 @@ def main():
     import shutil as _sh
     _sh.copy(art, os.path.join(ASSETS, f"{slug_}-art.jpg"))  # pushed with the video; Reddit uses it
 
-    segs = transcribe(wav)
+    segs = transcribe(wav, title)
     lines = []
     for ws in segs:
         for grp in split_seg(ws):
