@@ -180,11 +180,10 @@ def latest_published_youtube():
     return t, p["releaseURL"], s
 
 
-# Names and terms the catalogue keeps using. Whisper's small model does not
-# know them and guesses at the sound: "Dunning-Kruger" came out as "done in
-# Kruger", "Epicurus" as "Epicura's", "in flux" as "influx". Biasing the decoder
-# with the vocabulary of the subject matter is far cheaper than correcting the
-# output afterwards, and it generalises to tracks nobody has proofread yet.
+# Names and terms the catalogue keeps using, kept for the hotwords experiment.
+# Passing this as initial_prompt is what dropped the first eighteen seconds of
+# the transcript, so it is NOT wired into transcribe() — see the note there
+# before trying again.
 GLOSSARY = (
     "A philosophy rap track. Terms and names that may appear: Aristotle, Plato, "
     "Socrates, Nietzsche, Kierkegaard, Camus, Sartre, Heidegger, Voltaire, "
@@ -201,10 +200,13 @@ GLOSSARY = (
 
 def transcribe(wav, title=""):
     from faster_whisper import WhisperModel
-    # "medium" over "small": the small model is where most of the mangled proper
-    # nouns come from, and this runs once a day in the background, so the extra
-    # minutes cost nothing anybody is waiting on.
-    model = WhisperModel("medium", device="cpu", compute_type="int8")
+    # Stays on "small". "medium" reads the names better but transcribes less of
+    # the song, and the glossary below made that far worse: measured on Pleasure
+    # vs Purpose, small/unprompted returns 83 words across the full 0.0-29.9s,
+    # medium/unprompted 57 words, and medium primed with the glossary only 43
+    # words covering 18.3-29.9s — the first eighteen seconds silently dropped.
+    # Lyrics that are missing are worse on screen than lyrics that are wrong.
+    model = WhisperModel("small", device="cpu", compute_type="int8")
     def run(lang, prompt=None):
         segments, _ = model.transcribe(wav, word_timestamps=True, vad_filter=False,
                                        language=lang, initial_prompt=prompt)
@@ -213,11 +215,7 @@ def transcribe(wav, title=""):
             ws = [{"w": w.word.strip(), "s": round(w.start, 2), "e": round(w.end, 2)} for w in (seg.words or [])]
             if ws: segs.append(ws)
         return segs
-    # The glossary goes to the English pass only. The Tagalog pass feeds the
-    # density test below, whose 0.02 threshold was measured against an unbiased
-    # decode; priming it with English vocabulary would move the number the
-    # threshold was calibrated on.
-    en = run("en", f"{GLOSSARY} This one is called {title}." if title else GLOSSARY)
+    en = run("en")
     tl = run("tl")
     # Pick by Tagalog DENSITY, not by word count.
     #
