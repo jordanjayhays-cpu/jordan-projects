@@ -376,6 +376,14 @@ def main():
             a["e"] += 1.0
     lines[-1]["e"] += 1.0
 
+    # Whisper splits a hyphenated compound across its word timestamps and leaves
+    # the space in: "self -made", "Auto -exploitation", "Dunning -Kruger". It is
+    # not a mishearing, it is a join artefact, so it is fixed for every track
+    # rather than listed per track. The pattern is deliberately narrow — a space
+    # on ONE side of the hyphen only — so a real dash between words survives.
+    for ln in lines:
+        ln["text"] = re.sub(r"(\w) -(\w)", r"\1-\2", ln["text"])
+
     # Whisper mangles proper nouns and homophones, and the transcript IS the
     # lyric layer of the video, so an error here is an error the audience reads.
     # Anything already known wrong for this track is corrected before render.
