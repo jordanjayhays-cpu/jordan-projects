@@ -348,6 +348,13 @@ def main():
         elif gap > 1.0:
             a["e"] += 1.0
     lines[-1]["e"] += 1.0
+
+    # Whisper mangles proper nouns and homophones, and the transcript IS the
+    # lyric layer of the video, so an error here is an error the audience reads.
+    # Anything already known wrong for this track is corrected before render.
+    import fix_lyrics
+    if fix_lyrics.apply(slug_, lines):
+        print(f"applied hand corrections to {slug_}")
     json.dump(lines, open(os.path.join(ASSETS, f"{slug_}-lyrics.json"), "w"), indent=1)
 
     # kinetic template (current standard) — hook = first strong short line
