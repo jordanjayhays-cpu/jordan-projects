@@ -9,7 +9,9 @@ Beats:
   2. One continuous pull-back settling into the locked 1080x1920 framing.
   3. Body: locked framing (art 1000x1000 @ y=250 with drift, watermark y=110,
      waveform 900x120 @ (90,1380)), lyrics one line at a time @ y=1560.
-  4. End card: cover, track name, gold rule, link line, crown, wordmark.
+  4. End card: cover, track name, gold rule, wordmark. Nothing else — Jordan's
+     call, for English as well as Chinese. Set PK_END_CARD=full to get the old
+     card with its link line and crown back.
 
 Locked constants respected: drift x=40sin(2pi n/1500), y=40cos(2pi n/1900),
 hard 0/3px black shadows, zero radius, canonical hexes, serif stack.
@@ -37,6 +39,12 @@ SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
 # Simplified Chinese, which also covers the Han characters the others need.
 CJK = "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc"
 CJK_INDEX = 2
+
+# The end card is cover, title, gold rule, wordmark — no link, no crown — for
+# every language now. An env var rather than another positional argument,
+# because backfill_titles, fix_hook, rerender_days and the 15s cutter all call
+# this script with the existing signature.
+MINIMAL = os.environ.get("PK_END_CARD", "minimal") != "full"
 
 
 def has_cjk(text):
@@ -241,13 +249,12 @@ def main():
                 tf_ -= 2
             draw_text_shadow(d, (W / 2, 1000), title, font(tf_, title), IVORY)
             d.rectangle([(W - 150) / 2, 1070, (W + 150) / 2, 1072], fill=GOLD)
-            # An empty cta means no link line at all. The Chinese cuts use this:
-            # nobody types a URL off a video, and the caption already carries a
-            # tappable one. Note font(34, cta_disp) rather than font(34) — the
-            # Latin font has no CJK glyphs, so a Chinese line here rendered as a
-            # row of empty boxes until 2026-08-31.
+            # No link line on the end card, in either language. Nobody types a
+            # URL off a video and the caption already carries a tappable one, so
+            # it was only ever decoration. PK_END_CARD=full restores it; callers
+            # still pass a cta and it is simply ignored.
             cta_f = font(34, cta)
-            cta_disp = (cta or "").replace("https://", "").strip()
+            cta_disp = "" if MINIMAL else (cta or "").replace("https://", "").strip()
             if not cta_disp:
                 pass
             elif d.textlength(cta_disp, font=cta_f) > 980 and "/" in cta_disp:
@@ -261,12 +268,9 @@ def main():
                 draw_text_shadow(d, (W / 2, 1182), l2, cta_f, TEAL)
             else:
                 draw_text_shadow(d, (W / 2, 1155), cta_disp, cta_f, TEAL)
-            # PK_END_CARD=minimal drops the crown. The Chinese cuts use it: the
-            # emoji reads as decoration rather than as a mark, and the wordmark
-            # underneath already says who this is. Env var rather than another
-            # positional arg, because backfill_titles, fix_hook and the 15s
-            # cutter all call this with the existing signature.
-            if os.environ.get("PK_END_CARD") != "minimal":
+            # No crown either. The emoji reads as decoration rather than as a
+            # mark, and the wordmark underneath already says who this is.
+            if not MINIMAL:
                 try:
                     ef = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf", 109)
                     d.text((W / 2, 1280), "👑", font=ef, anchor="mm", embedded_color=True)
@@ -274,7 +278,7 @@ def main():
                     d.rectangle([(W - 60) / 2, 1260, (W + 60) / 2, 1300], fill=GOLD)
             # Without the crown the wordmark has to move up, or the card is a
             # gold rule and then 300px of nothing.
-            mark_y = 1180 if os.environ.get("PK_END_CARD") == "minimal" else 1390
+            mark_y = 1180 if MINIMAL else 1390
             draw_text_shadow(d, (W / 2, mark_y), "P H I L O S O P H I C A L   K I N G", font(32), GREY)
             if p < 1:
                 img = Image.blend(locked_frame(art1000, body_n, title=title), img, p)
