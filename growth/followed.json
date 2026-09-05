@@ -1,0 +1,4 @@
+{
+  "sent_targets": [],
+  "note": "Each entry: {date, platform, url, concept, followed_count}. The daily routine appends here so target posts are never repeated."
+}
