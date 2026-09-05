@@ -80,26 +80,46 @@ def main():
         "shortLink": False, "type": "schedule",
         "postsAndComments": [{"content": f"<p>{desc}</p>", "attachments": []}],
         "settings": [{"key": "subreddit", "value": [{"value": value}]}]}]})
-    # verify Postiz stored the requested time (it has been seen parking posts at day-end)
+    # Verify the post actually exists before recording it as done.
+    #
+    # This is the bug that lost five days. The old code appended the slug to
+    # state.reddit_posted unconditionally, so a run that scheduled nothing still
+    # marked the track posted and every later run skipped it as already done.
+    # The re-pin branch below made it worse: it DELETED the post first and never
+    # checked that the replacement was created, so a failure there left the day
+    # with no post and the state saying otherwise. Nothing ever raised, so the
+    # routine reported success each morning while Reddit sat empty.
     import time as _t
+
+    def fetch(pid):
+        _t.sleep(3)
+        r = urllib.request.Request(
+            f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
+            f"&endDate={(end + timedelta(days=2)).strftime('%Y-%m-%dT%H:%M:%SZ')}",
+            headers={"Authorization": KEY})
+        with urllib.request.urlopen(r, context=CTX, timeout=30) as resp:
+            dd = json.load(resp)
+        return next((x for x in (dd["posts"] if isinstance(dd, dict) else dd)
+                     if x["id"] == pid), None)
+
     pid = res["output"][0]["postId"]
-    _t.sleep(3)
-    req2 = urllib.request.Request(
-        f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
-        f"&endDate={(end + timedelta(days=1)).strftime('%Y-%m-%dT%H:%M:%SZ')}", headers={"Authorization": KEY})
-    with urllib.request.urlopen(req2, context=CTX, timeout=30) as r2:
-        d2 = json.load(r2)
-    all2 = d2["posts"] if isinstance(d2, dict) else d2
-    mine = next((x for x in all2 if x["id"] == pid), None)
+    mine = fetch(pid)
     if mine and mine.get("publishDate", "")[:16] != when[:16]:
         print(f"WARN: stored {mine.get('publishDate')} != requested {when}; re-pinning")
         subprocess.check_output(["curl", "-sS", "--cacert", CA, "-X", "DELETE",
             f"https://api.postiz.com/public/v1/posts/group/{mine['group']}", "-H", f"Authorization: {KEY}"])
-        mcp("integrationSchedulePostTool", {"socialPost": [{
+        res = mcp("integrationSchedulePostTool", {"socialPost": [{
             "integrationId": reddit["id"], "isPremium": False, "date": when,
             "shortLink": False, "type": "schedule",
             "postsAndComments": [{"content": f"<p>{desc}</p>", "attachments": []}],
             "settings": [{"key": "subreddit", "value": [{"value": value}]}]}]})
+        pid = (res.get("output") or [{}])[0].get("postId")
+        mine = fetch(pid) if pid else None
+
+    if not mine:
+        sys.exit(f"FAILED: scheduled {slug} but no post came back from Postiz. "
+                 f"state NOT updated, so tomorrow's run retries it. Raise an alert.")
+
     state.setdefault("reddit_posted", []).append(slug)
     json.dump(state, open(os.path.join(PIPE, "state.json"), "w"), indent=1)
     subprocess.check_call(["git", "-C", ROOT, "add", "pipeline/state.json"])
