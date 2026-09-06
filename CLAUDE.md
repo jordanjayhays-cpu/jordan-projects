@@ -3,6 +3,9 @@
 This repo is the **deliverables drop** — agents file finished docs here, one folder per project
 (massage-club, neurodashboard, niah, sauce-match). It is not the system brain.
 
+**Vaya is the exception.** Its home is the separate repo `jordanjayhays-cpu/Vaya`; `vaya/` here is
+only a pointer. File Vaya work there.
+
 **The master map lives in `mission-control/CLAUDE.md`.** Read it before doing system-wide work:
 the board (`agent_tasks` on Supabase `neurodashboards`), token discipline, operator rules, and
 where every project lives.
