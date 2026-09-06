@@ -25,8 +25,10 @@ introduced/managed by [FAMILY BUSINESS ENTITY — name TBD] ("Manager").
 4. **Honesty clause.** All outreach must be truthful. Representative is a real appointed representative
    of Company; no false employment history, titles, or credentials will be stated.
 
-5. **Fee.** Company/Manager pays Representative **€[X]/month** retainer while active[, plus
-   €[Y] per qualified introduction / [Z]% of first-year contract value]. Paid [monthly, in arrears].
+5. **Fee.** Company/Manager pays Representative **€20/month** retainer while active (starter
+   figure set by Jordan 2026-09-07; revisit after the first real client)[, plus €[Y] per qualified
+   introduction / [Z]% of first-year contract value, to be negotiated per client against their
+   budget]. Paid [monthly, in arrears].
 
 6. **Term & termination.** Month-to-month. Either party ends with 7 days' notice. On termination the
    title, access permission, and any listing lapse immediately.
