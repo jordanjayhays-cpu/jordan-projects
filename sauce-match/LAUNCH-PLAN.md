@@ -1,10 +1,13 @@
 # Sauce Match — Launch Plan v1 (2026-09-07)
 
-**Decision (Jordan):** Sauce Match is a **quiz + affiliate** product. No stock. Focus lane from today.
-**Launched =** one paying customer who is not a friend. Two routes, both pursued:
-- Route A: first affiliate commission (a stranger takes the quiz, clicks out, buys).
-- Route B: first sauce maker paying for a featured slot in the quiz results (B2B, Jordan's BD skill).
-**Market:** undecided. Default = wherever traffic lands, links geo-switched (Amazon.es for EU visitors, Amazon.com for US) plus maker-direct links.
+**Decision (Jordan, revised 2026-09-07 pm):** Sauce Match is a **real ecommerce shop** for hot sauce,
+launched in **concierge mode**. Stripe takes the money, orders land in a database and an admin page,
+Jordan ships the first orders by hand from Madrid. Small stock (6-8 sauces he can actually source),
+affiliate links stay on catalog sauces he does NOT stock, so the catalog can be bigger than the shelf.
+Supersedes the morning's affiliate-only decision; the step-1 cleanup (fake reviews, disclosure,
+analytics off the agent DB) still stands and is already shipped on branch claude/sauce-match-launch.
+
+**Launched =** one paid order from someone who is not a friend, shipped and delivered.
 
 ## What exists
 Live at sauchematch.lovable.app. Quiz + results + shop + compare + cart + checkout (charges nothing) + orders. 8 static SKUs (Sambal, Gochujang, Chili Crisp, Yuzu Kosho, Sriracha, Naga, ...) with **fabricated reviewer names**. Analytics write into the agent board DB with a hardcoded key. Stalled since Aug 16 in a design revert loop. Competitive analysis (Jul 15) in this folder.
@@ -43,3 +46,43 @@ Live at sauchematch.lovable.app. Quiz + results + shop + compare + cart + checko
 Quiz completions · outbound clicks · click-through by sauce · affiliate orders · maker pitches sent / replies / paid.
 
 **Accept when:** the live site has no fake commerce, 24 real sauces with working affiliate links, a disclosure, its own analytics, and one paying maker or one affiliate commission from a stranger.
+
+---
+
+## Revision 2 — real shop, concierge fulfilment (2026-09-07 pm)
+
+### Backend to build (agents)
+1. **Supabase project of its own** (never the agent board, never the Massage Club DB). Tables:
+   `sauces` (name, maker, origin, heat 1-10, flavour tags, price, stock_qty, stocked bool, buy_url_eu, buy_url_us, image, active),
+   `orders` (customer, email, phone, address, items jsonb, subtotal, shipping, total, currency, stripe_payment_intent, status: paid/packed/shipped/delivered/refunded, tracking, notes, created_at),
+   `order_items`, `quiz_results` (answers, matched sauce ids, email optional, session),
+   `events` (quiz_completed, sauce_viewed, add_to_cart, checkout_started, purchased, affiliate_click).
+   RLS: public read on active sauces only; inserts via edge functions; admin behind auth.
+2. **Stripe Checkout** via an edge function (`create-checkout-session`) + webhook (`stripe-webhook`) that writes the paid order. Test mode until Jordan's Stripe account is live. Never put a secret key in the client bundle.
+3. **Cart + checkout restored**, but real: stock check, shipping options, address capture, order confirmation page and email (Resend, server-side).
+4. **Admin page** `/admin` behind Supabase auth: add/edit sauces, set stock and price, see orders, mark packed/shipped with tracking, refund link. This is what makes it operable without Claude.
+5. **Hybrid catalog**: `stocked = true` sauces get the real Buy button; the rest keep the affiliate outbound link with the disclosure.
+6. **Transactional emails**: order confirmation, shipped-with-tracking. Plain, in Jordan's voice.
+
+### Legal and practical (before the first real sale)
+- Spain/EU: selling packaged food needs the seller's details, allergen info and ingredients visible per product; distance-selling rules give a 14-day withdrawal right (food that spoils is exempt, sealed sauce is not). Terms, privacy and returns pages required. **UNSURE on the exact Spanish registration needed for resale of packaged food — Jordan to confirm with his gestor/CPA before the first sale.**
+- Stripe needs Kinsol LLC (or a Spanish sole-trader registration) with a bank account. Ties to the EIN task already on the board.
+- Shipping: bottles are heavy and glass. Get 3 courier quotes (Correos, SEUR, MRW) for a 2-bottle and a 4-bottle box.
+
+### First 8 sauces (agents research, Jordan approves)
+Sourceable in Madrid or shippable to Madrid within a week, ideally with a wholesale or trade price. Mix of heat levels and origins so the quiz has range.
+
+### Sequence
+- Week 1: Supabase project + schema + admin page + Stripe test-mode checkout. Agents research the 8 sauces and courier costs.
+- Week 2: Jordan approves the 8, orders a small first batch, Stripe goes live, packaging and labels sorted.
+- Week 3: soft launch to the quiz traffic + Reddit/TikTok. First real order shipped by hand.
+- Week 4: 3 to 5 orders shipped, or change the offer.
+
+### Jordan-only
+- Stripe account on Kinsol LLC (needs EIN + bank) or a Spanish alternative.
+- Confirm with a gestor what is required to resell packaged food in Spain.
+- Buy the first batch of sauces (budget to set) and packaging.
+- Approve the 8-sauce shortlist and the retail prices.
+- Domain purchase.
+
+**Accept when:** a stranger completes checkout with a card, the order appears in the admin page, Jordan ships it, and the customer confirms delivery.
