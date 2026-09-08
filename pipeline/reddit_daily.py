@@ -36,7 +36,8 @@ def main():
     start = end - timedelta(days=3)
     req = urllib.request.Request(
         f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
-        f"&endDate={end.strftime('%Y-%m-%dT%H:%M:%SZ')}", headers={"Authorization": KEY})
+        f"&endDate={end.strftime('%Y-%m-%dT%H:%M:%SZ')}", headers={"Authorization": KEY,
+                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
     with urllib.request.urlopen(req, context=CTX, timeout=30) as r:
         data = json.load(r)
     posts = data["posts"] if isinstance(data, dict) else data
@@ -96,7 +97,8 @@ def main():
         r = urllib.request.Request(
             f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
             f"&endDate={(end + timedelta(days=2)).strftime('%Y-%m-%dT%H:%M:%SZ')}",
-            headers={"Authorization": KEY})
+            headers={"Authorization": KEY,
+                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
         with urllib.request.urlopen(r, context=CTX, timeout=30) as resp:
             dd = json.load(resp)
         return next((x for x in (dd["posts"] if isinstance(dd, dict) else dd)

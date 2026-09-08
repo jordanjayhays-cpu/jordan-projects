@@ -36,7 +36,8 @@ def posts_on(day):
     url = (f"{API}posts?startDate={day}T00:00:00.000Z&endDate={day}T23:59:59.000Z"
            f"&customer=&display=day&day=0&week=0&month=0&year={day[:4]}")
     d = json.load(urllib.request.urlopen(
-        urllib.request.Request(url, headers={"Authorization": KEY}), timeout=60))
+        urllib.request.Request(url, headers={"Authorization": KEY,
+                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"}), timeout=60))
     return d.get("posts", d if isinstance(d, list) else [])
 
 

@@ -53,7 +53,8 @@ from daily_post import mcp, platform_settings, TRACK_LINK, CATALOGUE  # noqa: E4
 def api(path, method="GET"):
     req = urllib.request.Request(
         API + path, method=method,
-        headers={"Authorization": KEY, "Content-Type": "application/json"})
+        headers={"Authorization": KEY, "Content-Type": "application/json",
+                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
     raw = urllib.request.urlopen(req, timeout=120).read()
     return json.loads(raw) if raw else {}
 
