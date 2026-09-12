@@ -1,0 +1,118 @@
+{
+ "_readme": [
+  "Hand corrections to Whisper's transcripts, applied after transcription and",
+  "before anything is rendered. Keyed by slug, then by segment index.",
+  "",
+  "`was` must match the transcript exactly or the fix is skipped with a warning.",
+  "That is deliberate: if a re-transcription produces different text, a blind",
+  "replacement would put the wrong words on screen at the wrong timing. A skipped",
+  "fix is a prompt to look, not a failure.",
+  "",
+  "Only put a correction here when the transcript is not English as written, or",
+  "when it mangles a proper noun. Anything that merely reads oddly but could be",
+  "what is actually rapped belongs in Jordan's ear, not in this file.",
+  "Where Jordan has supplied the real lyric sheet, that is the source of truth and beats any reading of the audio. Ask him for the sheet before guessing."
+ ],
+ "dk": [
+  {
+   "i": 3,
+   "was": "barely in the game done",
+   "now": "barely in the game",
+   "why": "'done in Kruger' is Dunning-Kruger, the whole subject of the track"
+  },
+  {
+   "i": 4,
+   "was": "in Kruger effect knowledge and",
+   "now": "Dunning-Kruger effect, knowledge and"
+  }
+ ],
+ "infinite-possbilities": [
+  {
+   "i": 4,
+   "was": "but as",
+   "now": "but is",
+   "why": "'but as free will and illusion of our own reflection' is not a sentence"
+  },
+  {
+   "i": 5,
+   "was": "free will and illusion of",
+   "now": "free will an illusion of"
+  },
+  {
+   "i": 9,
+   "was": "thread redeems the worlds influx",
+   "now": "thread redeems, the world's in flux",
+   "why": "'influx' is 'in flux' — the line is about a world that will not hold still"
+  },
+  {
+   "i": 11,
+   "was": "possibilities key one moment",
+   "now": "possibility's key, one moment"
+  },
+  {
+   "i": 14,
+   "was": "the worlds influx no",
+   "now": "the world's in flux, no"
+  }
+ ],
+ "the-cost-of-playing": [
+  {
+   "i": 3,
+   "was": "Yet times the true",
+   "now": "Yet time's the true",
+   "why": "possessive, not plural"
+  }
+ ],
+ "burnout-society": [
+  {
+   "i": 7,
+   "was": "it's now self -made",
+   "now": "it's now self-made",
+   "why": "Whisper's stray space before a hyphen, visible on screen"
+  },
+  {
+   "i": 8,
+   "was": "Auto -exploitation,",
+   "now": "Auto-exploitation,"
+  }
+ ],
+ "between-the-body-and-the-fabric": [
+  {
+   "i": 2,
+   "was": "inform NPCs in a loop",
+   "now": "in form, NPCs in a loop",
+   "why": "'shadows inform NPCs' is not what is sung; it is 'shadows in form'"
+  },
+  {
+   "i": 28,
+   "was": "It's amazing, the dark",
+   "now": "It's a maze in the dark",
+   "why": "the line ends 'with no map in sight', which only parses with a maze"
+  }
+ ],
+ "natsukashii": [
+  {
+   "i": 15,
+   "was": "picture gotta ghost around them",
+   "now": "picture got a ghost around them"
+  }
+ ],
+ "pleasure-vs-purpose": [
+  {
+   "i": 2,
+   "was": "But is eyes",
+   "now": "Hedonist highs",
+   "why": "from Jordan's lyric sheet; the chorus opens 'Hedonist highs or a life of meaning'"
+  },
+  {
+   "i": 18,
+   "was": "Epicura's",
+   "now": "Epicurus"
+  },
+  {
+   "i": 19,
+   "was": "spoke of balance and need",
+   "now": "spoke of balance in need"
+  }
+ ]
+}

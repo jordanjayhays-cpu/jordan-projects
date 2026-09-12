@@ -1,0 +1,337 @@
+{
+  "track": "The Cave",
+  "slug": "the-cave",
+  "premise": "Plato's allegory told as one continuous journey: a man who is dragged out of the dark, is blinded by what is true, learns to see it, goes back to tell the others, and is rejected for it. The tragedy is the return, not the escape.",
+  "spine": "LIGHT. The whole film is one exposure ramp: near-black at the wall, a first unbearable flare at the fire, blowing out completely at the summit, then closing back down to black as he descends. If a viewer with the sound off can feel the light rise and fall, the story worked.",
+  "continuity": [
+    "The figure is ALWAYS back-to-camera and silhouetted - the locked spec. Identity is shape, never face.",
+    "Three motifs recur and must be recognisable: the CHAIN (act I, broken in II, absent in III), the SHADOW thrown on rock, and the LIGHT SOURCE (fire, then sun).",
+    "Each clip is fed the previous clip's final frame as a reference image so the look carries shot to shot - EXCEPT shots marked chain:false, which open in a new location. A reference frame there makes the clip linger in the old scene before finding its own.",
+    "Every prompt says 'single continuous shot, no cuts' - the first Veo test cut scenes inside one 8-second clip when the prompt was loose."
+  ],
+  "timing_note": "Shot-to-lyric assignment is NOT final. It is written against the 30-second preview and the allegory. The song is non-linear - it leaves the cave in verse one and flashes back to the shadows - so the order below must be re-cut against the full lyric timings once the full audio exists. Shots marked trim:true are the first to drop for a shorter song.",
+  "shots": [
+    {
+      "n": 1,
+      "act": "I. THE WALL",
+      "size": "CLOSE",
+      "light": 0,
+      "desc": "Extreme close on wet black rock, a faint teal glimmer crawling across it. Nothing else. The camera drifts right, revealing nothing.",
+      "camera": "slow lateral drift right",
+      "chain": false
+    },
+    {
+      "n": 2,
+      "act": "I. THE WALL",
+      "size": "MEDIUM",
+      "light": 1,
+      "desc": "The figure seen from behind, seated, head fixed forward toward a rock wall. Shapes move on the wall in front of him. He does not move.",
+      "camera": "static, almost imperceptible push",
+      "chain": true
+    },
+    {
+      "n": 3,
+      "act": "I. THE WALL",
+      "size": "DETAIL",
+      "light": 1,
+      "desc": "Close on a heavy iron manacle around an ankle, chain running off into blackness. The chain is taut. It shifts once, and settles.",
+      "camera": "static, shallow focus",
+      "motif": "chain",
+      "chain": true
+    },
+    {
+      "n": 4,
+      "act": "I. THE WALL",
+      "size": "WIDE",
+      "light": 2,
+      "desc": "Wide from behind: the figure small against an enormous cave wall, his own vast shadow thrown up onto it by a fire somewhere behind him.",
+      "camera": "slow pull back",
+      "motif": "shadow",
+      "chain": false
+    },
+    {
+      "n": 5,
+      "act": "I. THE WALL",
+      "size": "MEDIUM",
+      "light": 2,
+      "desc": "The shadows on the wall sharpen into recognisable shapes - carried objects passing - then dissolve back into formless dark.",
+      "camera": "static",
+      "motif": "shadow",
+      "chain": true
+    },
+    {
+      "n": 6,
+      "act": "I. THE WALL",
+      "size": "WIDE",
+      "light": 2,
+      "desc": "A row of identical hooded silhouettes, all seated, all facing the same wall, stretching off into darkness. None turn.",
+      "camera": "slow lateral track along the row",
+      "trim": true,
+      "chain": false
+    },
+    {
+      "n": 7,
+      "act": "I. THE WALL",
+      "size": "CLOSE",
+      "light": 3,
+      "desc": "Behind the figure's shoulder: teal light flickers at the edge of frame from a source he never turns to see.",
+      "camera": "handheld micro-drift",
+      "chain": true
+    },
+    {
+      "n": 8,
+      "act": "I. THE WALL",
+      "size": "DETAIL",
+      "light": 3,
+      "desc": "The chain snaps taut and then goes slack, links falling loose across stone. Dust lifts.",
+      "camera": "static, hard on the chain",
+      "motif": "chain",
+      "chain": true
+    },
+    {
+      "n": 9,
+      "act": "I. THE WALL",
+      "size": "MEDIUM",
+      "light": 4,
+      "desc": "The figure is hauled backward out of frame, robe dragging, heels scraping stone - resisting, not walking.",
+      "camera": "quick pull back, unsteady",
+      "chain": true
+    },
+    {
+      "n": 10,
+      "act": "I. THE WALL",
+      "size": "WIDE",
+      "light": 4,
+      "desc": "The empty seated space he occupied, the wall still crawling with shadows, the shape of him gone from it.",
+      "camera": "static",
+      "trim": true,
+      "chain": true
+    },
+    {
+      "n": 11,
+      "act": "II. THE ASCENT",
+      "size": "WIDE",
+      "light": 6,
+      "desc": "For the first time, the fire itself: a brilliant cyan-white blaze on a walkway, painfully bright against the black. The figure is a cut-out before it.",
+      "camera": "slow push toward the blaze",
+      "motif": "light",
+      "chain": false
+    },
+    {
+      "n": 12,
+      "act": "II. THE ASCENT",
+      "size": "CLOSE",
+      "light": 7,
+      "desc": "The figure's hooded head turns fractionally away from the glare - the only time he moves against the light. Still no face.",
+      "camera": "static, blown highlights",
+      "chain": true
+    },
+    {
+      "n": 13,
+      "act": "II. THE ASCENT",
+      "size": "MEDIUM",
+      "light": 5,
+      "desc": "A steep rough-cut passage rising away into haze. The figure is pulled up it, stumbling, hem catching on rock.",
+      "camera": "following from below, climbing",
+      "chain": false
+    },
+    {
+      "n": 14,
+      "act": "II. THE ASCENT",
+      "size": "DETAIL",
+      "light": 5,
+      "desc": "Close on the ground-length hem dragging over broken stone, snagging, tearing free.",
+      "camera": "low, tracking with the hem",
+      "chain": true
+    },
+    {
+      "n": 15,
+      "act": "II. THE ASCENT",
+      "size": "WIDE",
+      "light": 6,
+      "desc": "The passage from far above: the figure tiny, halfway up, the black mouth of the cave below him and the haze above.",
+      "camera": "high, slow rise",
+      "trim": true,
+      "chain": true
+    },
+    {
+      "n": 16,
+      "act": "II. THE ASCENT",
+      "size": "MEDIUM",
+      "light": 8,
+      "desc": "The cave mouth ahead, a blinding aperture of white. The figure stops dead in front of it, a black shape against pure light.",
+      "camera": "push in until the frame is mostly white",
+      "motif": "light",
+      "chain": false
+    },
+    {
+      "n": 17,
+      "act": "II. THE ASCENT",
+      "size": "CLOSE",
+      "light": 10,
+      "desc": "Total white-out, the faintest teal edge of a hood barely legible within it. Haze churns.",
+      "camera": "static, overexposed",
+      "chain": true
+    },
+    {
+      "n": 18,
+      "act": "II. THE ASCENT",
+      "size": "MEDIUM",
+      "light": 9,
+      "desc": "The white slowly resolves: vague forms emerging from glare as an eye adjusts. Nothing is identifiable yet.",
+      "camera": "very slow pull back, exposure settling",
+      "chain": true
+    },
+    {
+      "n": 19,
+      "act": "II. THE ASCENT",
+      "size": "DETAIL",
+      "light": 7,
+      "desc": "Reflections on the still surface of a pool - shapes readable only as reflections, not yet as things.",
+      "camera": "static, close on water",
+      "motif": "shadow",
+      "chain": false
+    },
+    {
+      "n": 20,
+      "act": "II. THE ASCENT",
+      "size": "WIDE",
+      "light": 6,
+      "desc": "The world finally legible: an immense range of pale layered mountains under a vast sky, the figure small at the edge of it.",
+      "camera": "slow reveal, pulling back",
+      "chain": false
+    },
+    {
+      "n": 21,
+      "act": "II. THE ASCENT",
+      "size": "WIDE",
+      "light": 4,
+      "desc": "Night. An enormous star field above the same ridge, the figure a speck beneath it, head tilted up.",
+      "camera": "slow tilt up to the stars",
+      "chain": false
+    },
+    {
+      "n": 22,
+      "act": "II. THE ASCENT",
+      "size": "MEDIUM",
+      "light": 10,
+      "desc": "The sun itself clearing the ridge, flaring across the lens. The figure stands square in it, unflinching for the first time.",
+      "camera": "static, heavy bloom",
+      "motif": "light",
+      "chain": false
+    },
+    {
+      "n": 23,
+      "act": "III. THE RETURN",
+      "size": "WIDE",
+      "light": 8,
+      "desc": "The figure turns from the light and faces the black cave mouth again. He is walking back in, of his own accord.",
+      "camera": "slow push toward the dark opening",
+      "chain": false
+    },
+    {
+      "n": 24,
+      "act": "III. THE RETURN",
+      "size": "MEDIUM",
+      "light": 5,
+      "desc": "Descending the steep passage, the light behind him shrinking, the dark rising to meet him.",
+      "camera": "following from behind, descending",
+      "chain": true
+    },
+    {
+      "n": 25,
+      "act": "III. THE RETURN",
+      "size": "CLOSE",
+      "light": 3,
+      "desc": "His hand braced against rock in near-darkness, feeling for a way down that he used to know.",
+      "camera": "handheld, unsteady",
+      "trim": true,
+      "chain": true
+    },
+    {
+      "n": 26,
+      "act": "III. THE RETURN",
+      "size": "WIDE",
+      "light": 2,
+      "desc": "Back at the wall. The row of seated silhouettes is unchanged. He stands behind them, upright among the seated - the only one standing.",
+      "camera": "slow push from behind the row",
+      "chain": false
+    },
+    {
+      "n": 27,
+      "act": "III. THE RETURN",
+      "size": "MEDIUM",
+      "light": 2,
+      "desc": "He gestures toward the passage he came from. Not one head turns. The shadows keep moving on the wall.",
+      "camera": "static",
+      "chain": true
+    },
+    {
+      "n": 28,
+      "act": "III. THE RETURN",
+      "size": "CLOSE",
+      "light": 1,
+      "desc": "The shadows on the wall are blurred and unreadable to him now - out of focus where they were once sharp.",
+      "camera": "static, defocused",
+      "motif": "shadow",
+      "chain": true
+    },
+    {
+      "n": 29,
+      "act": "III. THE RETURN",
+      "size": "MEDIUM",
+      "light": 1,
+      "desc": "He reaches toward a seated figure. The seated figure shrinks away from his hand.",
+      "camera": "slow push",
+      "trim": true,
+      "chain": true
+    },
+    {
+      "n": 30,
+      "act": "III. THE RETURN",
+      "size": "WIDE",
+      "light": 1,
+      "desc": "The seated row has turned - every hooded head now faces him instead of the wall. A wall of blank hoods, watching.",
+      "camera": "static, the row facing camera-ward",
+      "chain": false
+    },
+    {
+      "n": 31,
+      "act": "III. THE RETURN",
+      "size": "DETAIL",
+      "light": 1,
+      "desc": "An empty manacle lying open on the stone, untouched, nobody reaching for it.",
+      "camera": "static, close",
+      "motif": "chain",
+      "chain": false
+    },
+    {
+      "n": 32,
+      "act": "III. THE RETURN",
+      "size": "MEDIUM",
+      "light": 2,
+      "desc": "The figure alone, back to us, facing the passage up. The way out is still there and entirely unused.",
+      "camera": "slow pull back",
+      "chain": true
+    },
+    {
+      "n": 33,
+      "act": "III. THE RETURN",
+      "size": "WIDE",
+      "light": 1,
+      "desc": "Very wide: the whole cavern, the row of shadows, the single standing figure, the distant pinprick of light far above.",
+      "camera": "very slow pull back",
+      "chain": false
+    },
+    {
+      "n": 34,
+      "act": "III. THE RETURN",
+      "size": "CLOSE",
+      "light": 0,
+      "desc": "The pinprick of light far above, shrinking, until only black and the faintest teal remains. Back where shot one began.",
+      "camera": "static, fading to black",
+      "motif": "light",
+      "chain": true
+    }
+  ]
+}
