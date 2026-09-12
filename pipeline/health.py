@@ -62,6 +62,26 @@ def main():
     expected = {c for c, n in seen.items() if n >= max(2, len(window) // 3)}
 
     problems = []
+
+    # Queue depth first, because it fails EARLIEST and hurts most.
+    #
+    # The daily pipeline schedules roughly two weeks ahead, so when it stopped
+    # running on 2026-08-28 nothing looked wrong for fifteen days: the backlog
+    # kept publishing on time. The first symptom was a morning with no post at
+    # all, by which point the run had been broken for over two weeks.
+    #
+    # Counting posts cannot catch that. A day with nothing scheduled has no
+    # missing channel and no error, it simply is not there. So check the
+    # schedule ahead of today rather than the posts behind it.
+    ahead = sorted(d for d in schedule if d >= today.isoformat())
+    print(f"queue: {len(ahead)} day(s) scheduled from today"
+          + (f", through {ahead[-1]}" if ahead else "") + "\n")
+    if len(ahead) < 3:
+        problems.append((today.isoformat(), [
+            f"QUEUE NEARLY EMPTY: only {len(ahead)} day(s) scheduled. The daily "
+            f"pipeline is not extending the schedule; run it before a morning "
+            f"passes with nothing to post"]))
+
     print(f"expected channels: {', '.join(sorted(expected)) or '(none seen)'}\n")
     for d in window:
         ps = by_day[d]
@@ -77,6 +97,10 @@ def main():
         print(f"{d}  {schedule.get(d, ''):32s} {len(pub)} published{flag}")
         if notes and d != today.isoformat():
             problems.append((d, notes))
+        elif notes and d == today.isoformat() and not pub and not err:
+            # Nothing at all today, not even a failure: the day was never
+            # scheduled. That is the queue running dry, not a run in progress.
+            problems.append((d, ["NOTHING SCHEDULED TODAY"]))
 
     print()
     if not problems:
