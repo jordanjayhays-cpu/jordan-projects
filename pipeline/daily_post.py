@@ -490,8 +490,24 @@ def main():
                        "postsAndComments": [{"content": body, "attachments": attach}],
                        "settings": settings})
     res = mcp("integrationSchedulePostTool", {"socialPost": social})
-    print(f"scheduled {title} on {nxt} across {len(res['output'])} channel(s):",
-          [i["platform"] for i in integrations])
+
+    # Postiz can accept the call and create fewer posts than were asked for.
+    # The old line printed the CREATED count beside the REQUESTED list, so a
+    # channel that silently failed to schedule read as success unless somebody
+    # noticed the number and the list disagreeing. On 2026-09-13 that was
+    # Reddit: five requested, four created, no error anywhere.
+    made = res.get("output") or []
+    wanted = [i["platform"] for i in integrations]
+    print(f"scheduled {title} on {nxt} across {len(made)} of {len(wanted)} "
+          f"channel(s):", wanted)
+    if len(made) != len(wanted):
+        made_ids = {m.get("integration") for m in made if isinstance(m, dict)}
+        missing = [i["platform"] for i in integrations
+                   if made_ids and i["id"] not in made_ids] or ["unknown"]
+        print(f"WARNING: {len(wanted) - len(made)} channel(s) did NOT schedule "
+              f"({', '.join(missing)}). The day is live but short. Reddit is the "
+              f"usual one: the pipeline schedules it same-day and the separate "
+              f"same-day Reddit routine may already have posted.")
 
     queue.pop(0)
     state["posted"].append(title)
