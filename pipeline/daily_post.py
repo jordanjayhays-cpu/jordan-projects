@@ -449,6 +449,7 @@ def main():
     reddit_content = f"<p>{descs.get(slug_, f'A philosophy track exploring the idea behind its title: {title}.')}</p>"
 
     social = []
+    pending_reddit = None
     for integ in integrations:
         if integ["platform"] == "reddit":
             # Reddit posts SAME-DAY (not at queue end): link the newest LIVE YouTube video,
@@ -474,7 +475,15 @@ def main():
                            "shortLink": False, "type": "schedule",
                            "postsAndComments": [{"content": f"<p>{r_desc}</p>", "attachments": []}],
                            "settings": platform_settings("reddit", yt_title, media_url=yt_url)})
-            state.setdefault("reddit_posted", []).append(yt_slug)
+            # NOT marked posted here. Postiz can accept the call and create
+            # fewer posts than asked for, and Reddit is the one it drops,
+            # because the separate same-day Reddit routine has usually posted
+            # already that morning. Recording it here marked tracks as done
+            # that were never posted, and reddit_daily.py then skipped them
+            # forever as "already on Reddit". Between 08-31 and 09-12 that left
+            # exactly two Reddit posts in thirteen days. Recorded after the
+            # call instead, only if the post actually came back.
+            pending_reddit = (integ["id"], yt_slug)
             continue
         else:
             body, attach = content, [up["path"]]
@@ -500,6 +509,15 @@ def main():
     wanted = [i["platform"] for i in integrations]
     print(f"scheduled {title} on {nxt} across {len(made)} of {len(wanted)} "
           f"channel(s):", wanted)
+    if pending_reddit:
+        rid, rslug = pending_reddit
+        created = {m.get("integration") for m in made if isinstance(m, dict)}
+        if rid in created:
+            state.setdefault("reddit_posted", []).append(rslug)
+        else:
+            print(f"reddit did NOT schedule for {rslug} — leaving it unmarked so "
+                  f"reddit_daily.py retries it tomorrow")
+
     if len(made) != len(wanted):
         made_ids = {m.get("integration") for m in made if isinstance(m, dict)}
         missing = [i["platform"] for i in integrations
