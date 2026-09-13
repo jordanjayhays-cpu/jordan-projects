@@ -408,8 +408,16 @@ def main():
     subprocess.check_call(["git", "-C", ROOT, "push", "origin",
                            "claude/philosophical-king-poster-raq2ke"])
 
-    # next date = day after last scheduled
-    nxt = (date.fromisoformat(state["last_scheduled_date"]) + timedelta(days=1)).isoformat()
+    # Next date = day after the last scheduled post, but never in the past.
+    #
+    # The run stopped completing on 2026-08-28 and nobody noticed until the
+    # fourteen-day backlog drained on 09-12. By then last_scheduled_date was
+    # four days behind, so a naive +1 would have scheduled into a day that had
+    # already gone: Postiz either fires it immediately or rejects it, and either
+    # way the catch-up never walks forward. Clamping to tomorrow means a run
+    # after any outage resumes cleanly and each further run adds another day.
+    nxt = max(date.fromisoformat(state["last_scheduled_date"]) + timedelta(days=1),
+              date.today() + timedelta(days=1)).isoformat()
     link = track_link
     hook = hook_line
     # Series frame: people follow projects, not posts. The number tells a first-time
