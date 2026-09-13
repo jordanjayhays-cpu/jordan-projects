@@ -27,9 +27,10 @@
   "DK",
   "Between the Body and the Fabric",
   "Natsukashii",
-  "Kenosis"
+  "Kenosis",
+  "Love of Honor"
  ],
- "last_scheduled_date": "2026-09-11",
+ "last_scheduled_date": "2026-09-14",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -45,7 +46,8 @@
   "making-sense",
   "row-row-your-boat",
   "soul-ride",
-  "pleasure-vs-purpose"
+  "pleasure-vs-purpose",
+  "kenosis"
  ],
  "schedule": {
   "2026-08-18": "gnostic-gospels",
@@ -72,6 +74,7 @@
   "2026-09-08": "dk",
   "2026-09-09": "between-the-body-and-the-fabric",
   "2026-09-10": "natsukashii",
-  "2026-09-11": "kenosis"
+  "2026-09-11": "kenosis",
+  "2026-09-14": "love-of-honor"
  }
 }
