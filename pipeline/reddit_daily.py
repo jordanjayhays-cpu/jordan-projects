@@ -24,10 +24,42 @@ def mcp(name, args):
         raise RuntimeError(body[:300])
     return json.loads(body)
 
+
+LOG = os.path.join(PIPE, "reddit-log.jsonl")
+
+
+def trace(outcome, **fields):
+    """Append one line saying what this run decided, and commit it.
+
+    Reddit published twice between 2026-08-31 and 09-12 while this Routine
+    reported success every morning and filed no alert. Every branch below is a
+    quiet `return`, so a run that decided to do nothing looked exactly like a
+    run that posted. The Routine's own logs are not readable afterwards, so the
+    decision has to be written somewhere durable: the repo.
+
+    Never let logging break the run it is logging.
+    """
+    try:
+        from datetime import datetime as _d, timezone as _tz
+        line = json.dumps({"at": _d.now(_tz.utc).isoformat(timespec="seconds"),
+                           "outcome": outcome, **fields}, ensure_ascii=False)
+        with open(LOG, "a") as f:
+            f.write(line + "\n")
+        print(f"trace: {line}")
+        subprocess.call(["git", "-C", ROOT, "add", "pipeline/reddit-log.jsonl"])
+        subprocess.call(["git", "-C", ROOT, "-c", "user.name=Claude",
+                         "-c", "user.email=noreply@anthropic.com", "commit", "-q",
+                         "-m", f"reddit: run trace ({outcome})"])
+        subprocess.call(["git", "-C", ROOT, "push", "-q", "origin",
+                         "claude/philosophical-king-poster-raq2ke"])
+    except Exception as exc:
+        print(f"trace failed (ignored): {type(exc).__name__}: {exc}")
+
+
 def main():
     cfg_path = os.path.join(PIPE, "reddit.json")
     if not os.path.exists(cfg_path):
-        print("no reddit.json — nothing to do"); return
+        trace("no-reddit-json"); return
     cfg = json.load(open(cfg_path))
     state = json.load(open(os.path.join(PIPE, "state.json")))
     descs = json.load(open(os.path.join(PIPE, "descriptions.json")))
@@ -44,7 +76,7 @@ def main():
     yts = [p for p in posts if p.get("integration", {}).get("providerIdentifier") == "youtube"
            and p.get("state") == "PUBLISHED" and p.get("releaseURL")]
     if not yts:
-        print("no published YouTube video found"); return
+        trace("no-published-youtube", window_posts=len(posts)); return
     # every un-posted track from the window, oldest first (self-healing catch-up)
     pending = []
     for y in sorted(yts, key=lambda x: x.get("publishDate", "")):
@@ -54,14 +86,21 @@ def main():
         if sl not in state.get("reddit_posted", []):
             pending.append((y, t, sl))
     if not pending:
-        print("all recent tracks already on Reddit — done"); return
+        seen = []
+        for y in yts:
+            raw = json.loads(y["settings"]).get("title", "") if isinstance(y.get("settings"), str) else ""
+            t = raw.split(" — Philosophical King")[0].strip()
+            seen.append(re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", t.lower()).strip()))
+        trace("all-already-posted", window_posts=len(posts), considered=seen,
+              already=[x for x in seen if x in state.get("reddit_posted", [])])
+        return
     print(f"{len(pending)} track(s) pending for Reddit")
     p, title, slug = pending[0]
 
     integs = mcp("integrationList", {})["output"]
     reddit = next((i for i in integs if i["platform"] == "reddit"), None)
     if not reddit:
-        print("no reddit channel connected"); return
+        trace("no-reddit-channel"); return
 
     desc = descs.get(slug, f"One idea, one song: {title}.")
     when = (datetime.now(timezone.utc) + timedelta(minutes=15)).strftime("%Y-%m-%dT%H:%M:00")
@@ -130,6 +169,7 @@ def main():
                      "commit", "-q", "-m", f"reddit: posted {slug}"])
     subprocess.check_call(["git", "-C", ROOT, "push", "origin", "claude/philosophical-king-poster-raq2ke"])
     print(f"scheduled Reddit link post for {title} at {when} UTC -> {link}")
+    trace("posted", slug=slug, title=title, when=when, link=link)
 
 if __name__ == "__main__":
     main()
