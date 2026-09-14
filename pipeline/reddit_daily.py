@@ -25,6 +25,28 @@ def mcp(name, args):
     return json.loads(body)
 
 
+def get_json(url, tries=4):
+    """GET with retries. The agent proxy drops tunnels intermittently
+    (ws_closed_mid_exchange, connection reset by peer). Observed on 2026-09-14:
+    one run died at the first fetch and the very next run succeeded. An
+    unretried read turns a blip into a day with no Reddit post."""
+    import time as _t
+    for attempt in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={
+                "Authorization": KEY,
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
+            with urllib.request.urlopen(req, context=CTX, timeout=45) as r:
+                return json.load(r)
+        except Exception as exc:
+            if attempt == tries - 1:
+                raise
+            print(f"fetch failed ({type(exc).__name__}), retrying in "
+                  f"{2 ** attempt}s: {str(exc)[:90]}")
+            _t.sleep(2 ** attempt)
+
+
 LOG = os.path.join(PIPE, "reddit-log.jsonl")
 
 
@@ -66,12 +88,9 @@ def main():
 
     end = datetime.now(timezone.utc)
     start = end - timedelta(days=3)
-    req = urllib.request.Request(
+    data = get_json(
         f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
-        f"&endDate={end.strftime('%Y-%m-%dT%H:%M:%SZ')}", headers={"Authorization": KEY,
-                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
-    with urllib.request.urlopen(req, context=CTX, timeout=30) as r:
-        data = json.load(r)
+        f"&endDate={end.strftime('%Y-%m-%dT%H:%M:%SZ')}")
     posts = data["posts"] if isinstance(data, dict) else data
     yts = [p for p in posts if p.get("integration", {}).get("providerIdentifier") == "youtube"
            and p.get("state") == "PUBLISHED" and p.get("releaseURL")]
@@ -133,13 +152,9 @@ def main():
 
     def fetch(pid):
         _t.sleep(3)
-        r = urllib.request.Request(
+        dd = get_json(
             f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
-            f"&endDate={(end + timedelta(days=2)).strftime('%Y-%m-%dT%H:%M:%SZ')}",
-            headers={"Authorization": KEY,
-                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
-        with urllib.request.urlopen(r, context=CTX, timeout=30) as resp:
-            dd = json.load(resp)
+            f"&endDate={(end + timedelta(days=2)).strftime('%Y-%m-%dT%H:%M:%SZ')}")
         return next((x for x in (dd["posts"] if isinstance(dd, dict) else dd)
                      if x["id"] == pid), None)
 
@@ -172,4 +187,14 @@ def main():
     trace("posted", slug=slug, title=title, when=when, link=link)
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit:
+        raise
+    except Exception as exc:
+        # Every quiet exit already traces. A crash did not, which is exactly how
+        # a dropped connection on 2026-09-14 produced a silent no-op day.
+        import traceback
+        trace("crashed", error=f"{type(exc).__name__}: {str(exc)[:200]}")
+        traceback.print_exc()
+        raise
