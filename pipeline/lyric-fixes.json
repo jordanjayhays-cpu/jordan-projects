@@ -135,5 +135,30 @@
    "was": "ga sagara aham I'm not",
    "now": "sagaro aham. I'm not"
   }
+ ],
+ "mind-of-the-year": [
+  {
+   "i": 2,
+   "was": "i'm the gap fly now",
+   "now": "i'm the gadfly now",
+   "why": "Socrates calls himself the gadfly of Athens in the Apology"
+  },
+  {
+   "i": 11,
+   "was": "why is it",
+   "now": "wiser",
+   "why": "the Delphic oracle said no one was wiser than Socrates"
+  },
+  {
+   "i": 12,
+   "was": "that sound is strange so",
+   "now": "that sounds strange so"
+  },
+  {
+   "i": 16,
+   "was": "crash my new one thing",
+   "now": "craftsmen knew one thing",
+   "why": "the Apology examines politicians, poets and craftsmen in that order, which is exactly the sequence of these three lines"
+  }
  ]
 }
