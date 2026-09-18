@@ -34,9 +34,10 @@
   "Mind of the Year",
   "Monopoly",
   "Legacy",
-  "Shift the Lens"
+  "Shift the Lens",
+  "Sisyphus Smiles"
  ],
- "last_scheduled_date": "2026-09-20",
+ "last_scheduled_date": "2026-09-21",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -92,6 +93,7 @@
   "2026-09-17": "mind-of-the-year",
   "2026-09-18": "monopoly",
   "2026-09-19": "legacy",
-  "2026-09-20": "shift-the-lens"
+  "2026-09-20": "shift-the-lens",
+  "2026-09-21": "sisyphus-smiles"
  }
 }
