@@ -33,9 +33,10 @@
   "Normal is a Business",
   "Mind of the Year",
   "Monopoly",
-  "Legacy"
+  "Legacy",
+  "Shift the Lens"
  ],
- "last_scheduled_date": "2026-09-19",
+ "last_scheduled_date": "2026-09-20",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -90,6 +91,7 @@
   "2026-09-16": "normal-is-a-business",
   "2026-09-17": "mind-of-the-year",
   "2026-09-18": "monopoly",
-  "2026-09-19": "legacy"
+  "2026-09-19": "legacy",
+  "2026-09-20": "shift-the-lens"
  }
 }
