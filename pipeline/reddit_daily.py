@@ -173,8 +173,22 @@ def main():
         mine = fetch(pid) if pid else None
 
     if not mine:
-        sys.exit(f"FAILED: scheduled {slug} but no post came back from Postiz. "
-                 f"state NOT updated, so tomorrow's run retries it. Raise an alert.")
+        # The scheduling call returned a postId, so the post very likely EXISTS
+        # and only the read-back failed. Treating that as "not posted" is what
+        # caused the 2026-09-14 duplicate: the first run created the post, the
+        # verification read died on a dropped tunnel, the slug went unrecorded,
+        # and the next run posted the same track an hour later. Two posts in one
+        # day from a small account is what Reddit rate-limits, and the next two
+        # days errored on publish.
+        #
+        # So record it and flag it. A track wrongly marked posted costs one
+        # missed day, which the next day's run makes up. A duplicate costs two
+        # days of rejected posts and antagonises the platform.
+        trace("posted-unverified", slug=slug, title=title, when=when, post_id=pid,
+              note="scheduling returned a postId but the read-back failed; "
+                   "recorded anyway to avoid a duplicate tomorrow")
+        print(f"WARNING: scheduled {slug} but could not read it back. Recording it "
+              f"as posted anyway: a duplicate is worse than a miss. Check Postiz.")
 
     state.setdefault("reddit_posted", []).append(slug)
     json.dump(state, open(os.path.join(PIPE, "state.json"), "w"), indent=1)
