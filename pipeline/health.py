@@ -87,7 +87,8 @@ def main():
         ps = by_day[d]
         pub = {plat(p) for p in ps if p.get("state") == "PUBLISHED"}
         err = sorted(plat(p) for p in ps if p.get("state") == "ERROR")
-        missing = sorted(expected - pub - set(err))
+        queued = {plat(p) for p in ps if p.get("state") == "QUEUE"}
+        missing = sorted(expected - pub - set(err) - queued)
         notes = []
         if err:
             notes.append("ERROR: " + ", ".join(err))
@@ -97,9 +98,14 @@ def main():
         print(f"{d}  {schedule.get(d, ''):32s} {len(pub)} published{flag}")
         if notes and d != today.isoformat():
             problems.append((d, notes))
-        elif notes and d == today.isoformat() and not pub and not err:
-            # Nothing at all today, not even a failure: the day was never
-            # scheduled. That is the queue running dry, not a run in progress.
+        elif d == today.isoformat() and not pub and not err and not queued:
+            # Nothing at all today, not even a failure or a queued post: the day
+            # was never scheduled. That is the queue running dry.
+            #
+            # `q` matters. This runs at 06:10 and the posts go out at 08:00, so
+            # before then a perfectly healthy day has zero published and four
+            # queued. Without the queue check it reported NOTHING SCHEDULED
+            # every single morning, which is how a real warning gets ignored.
             problems.append((d, ["NOTHING SCHEDULED TODAY"]))
 
     print()
