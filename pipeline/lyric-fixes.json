@@ -160,5 +160,24 @@
    "now": "craftsmen knew one thing",
    "why": "the Apology examines politicians, poets and craftsmen in that order, which is exactly the sequence of these three lines"
   }
+ ],
+ "sisyphus-smiles": [
+  {
+   "i": 8,
+   "was": "Push the bolder and laugh,",
+   "now": "Push the boulder and laugh,",
+   "why": "Sisyphus pushes a boulder, not a bolder"
+  },
+  {
+   "i": 10,
+   "was": "The bolder rolls, struggle's real",
+   "now": "The boulder rolls, struggle's real"
+  },
+  {
+   "i": 11,
+   "was": "Absurd he bites, but",
+   "now": "Absurdity bites, but",
+   "why": "'Absurd he' is the -ity ending misheard; the next line is 'but you choose how to feel', so the subject is the absurd, not a person"
+  }
  ]
 }
