@@ -79,6 +79,30 @@ tell others.**
 connectivity situation is. The recorded figure is ~25 Mbps and nothing else. If the pitch is
 infrastructure, that has to be measured before it is promised. **UNSURE and unverified.**
 
+### First hard data point on that gap — water, found 2026-09-22
+
+**Fresh water on Bantayan is very limited, and a Cebu university study reportedly found all 72 test
+wells on the island contaminated with nitrates.** Water and sanitation is described as a chronic
+issue with low coverage of the pipe network. Environmental lawyer Antonio Oposa has publicly called
+for a general management plan, a proper land use plan and a **water carrying capacity plan** for
+the island.
+
+**Source is secondary press reporting — the underlying study is UNVERIFIED.** But if it holds, it
+is the most important fact in this project, because:
+
+1. **Water is the binding constraint, not land.** The island is bigger than Hong Kong Island; the
+   aquifer is not.
+2. **It is the exact failure mode the pitch claims to solve.** Bali's water crisis is named in this
+   document as Bali's central flaw. Building on an island with a worse one, without solving it, is
+   the project failing on its own stated terms.
+3. **"Water carrying capacity" is the phrase that will appear in any permitting fight.** Three
+   municipalities, ~147,000 residents, a contested aquifer — a development that draws water without
+   adding supply is the Crawfish Rock scenario with local politics attached.
+
+**This reframes Phase 1.** The first question on the ground is not land price. It is: what is the
+island's water carrying capacity, who is measuring it, and can desalination or catchment be part of
+the build rather than an afterthought. **Solving water is plausibly the whole business.**
+
 ## The trip
 
 The relocation dossier's bold pick is Manila/Cebu. **The sampling trip and the Bantayan
