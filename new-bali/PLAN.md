@@ -53,6 +53,17 @@ You are not selling a beach to corporations. You are selling:
 That last clause is the differentiator. Every PEZA IT park in Manila and Cebu offers the first
 three. None of them offer the fourth.
 
+### Why PEZA and not a Próspera-style carve-out
+
+Próspera bought its 1% tax rate by carving a zone *out* of Honduran sovereignty. Congress repealed
+the ZEDE law unanimously in April 2022; the Supreme Court voided it as unconstitutional *ab initio*
+on 20 September 2024. Próspera now enforces its own rules inside a country that has legally
+abolished its basis, and is in CAFTA-DR arbitration.
+
+PEZA's 5% is worse than Próspera's effective 1%. **It is also the Philippine state's own
+instrument, with ~400 zones operating and a presidential proclamation behind it rather than a
+Supreme Court ruling against it.** For a project measured in decades that is not a close call.
+
 ### The catch, stated plainly
 
 An ecozone must be **proclaimed by the President** on PEZA's recommendation. That is a real
@@ -86,13 +97,20 @@ before the visa makes it competitive.
 
 ## The phases
 
-### Phase 0 — now to January. Audience. Costs a weekend.
+### Phase 0 — now to January. Audience, then membership. Costs a weekend.
 - **Shoot the video.** The pitch is no longer "beach coliving." It is *the beach city Bali should
   have been* — Bali's feeling, without Bali's traffic, water crisis and power cuts.
 - Stand up an email list. Currently a recorded gap.
+- **Define the founding membership** — the Próspera mechanic. An annual fee for first access to
+  units, the company-setup service, the community, discounted stays. **Not a residency, not a
+  visa** — Jordan cannot grant either, and implying otherwise is fraud. See `PROSPERA-MODEL.md`.
 - Target: a waitlist number you can say out loud to a landowner.
 
 **No land, no capital, no legal structure required.** This phase is entirely unblocked.
+
+**Why membership belongs here and not in phase 3:** Próspera had 443 e-residents paying $130/year
+and 200+ registered companies while holding 79 full physical residents. Revenue does not have to
+wait for buildings.
 
 ### Phase 1 — January to June, on the ground. Verify.
 Four questions, none about land area:
@@ -140,6 +158,12 @@ people *want* to be there.
 2. **Waiting for the nomad visa.** It may slip further. Build the audience on tourist-visa reality.
 3. **Attempting PEZA before there is anything to show.** Accreditation is slow, expensive, and
    pointless without demonstrated demand.
+4. **Doing a Crawfish Rock.** Próspera's neighbouring Garifuna village says it was never consulted,
+   then fought the project over water access for four years. Bantayan has ~147,000 residents across
+   three municipalities and three mayors. Infrastructure that serves only the development and not
+   the island does not get permitted. See `PROSPERA-MODEL.md`.
+5. **Selling anything that sounds like a residency or a visa.** Membership is a service and a queue
+   position. Describe it as exactly that.
 
 ## Accept when
 

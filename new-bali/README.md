@@ -1,16 +1,30 @@
-# New Bali — a beach city with Bali vibes and Hong Kong infrastructure
+# New Bali — Bali vibes, Hong Kong infrastructure, Próspera mechanics
 
 **Jordan, 2026-09-22, verbatim:**
 
 > just want to build a nice beach city mixed with bali vibes and hong kong infrastrucure
 
+> mix hong kong, and prospera in roatan with bali vibes in this place of Bantayan
+
 **Location: Bantayan Island, Cebu.** Alternates: Siargao (established, pricier), Dumaguete
 (budget, university town).
 
-## The idea
+## The idea — three ingredients, each supplying something the others can't
+
+| Ingredient | What it supplies | The question it answers |
+| --- | --- | --- |
+| **Bali** | Feeling, design language, existing demand | Why would anyone come? |
+| **Hong Kong** | Working infrastructure, low-tax business gravity | Why does it function once they're here? |
+| **Próspera** | Jurisdiction as a product — membership, fast company setup, regulatory clarity | **What do you sell on day one, before you own anything?** |
 
 Bali gets the feeling right and the plumbing wrong. Hong Kong gets the plumbing right and the
-feeling wrong. The bet is that nobody has properly built the combination.
+feeling wrong. Próspera got the product right and the politics catastrophically wrong. The bet is
+that nobody has properly built the combination.
+
+**Próspera's contribution is the one that makes this startable.** It sold e-residency at $130/year
+and registered 200+ companies while having 79 full physical residents. You can have paying members
+before you have a building. Full analysis — including the three things about Próspera that would
+sink this project if copied — is in **`PROSPERA-MODEL.md`**.
 
 **What Bali gets right:** beaches, climate, a design language people love, cheap enough to live
 well, and a community that already exists.
