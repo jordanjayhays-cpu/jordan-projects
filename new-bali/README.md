@@ -1,72 +1,78 @@
-# New Bali — the new Bali and a smaller Hong Kong
+# New Bali — a beach city with Bali vibes and Hong Kong infrastructure
+
+**Jordan, 2026-09-22, verbatim:**
+
+> just want to build a nice beach city mixed with bali vibes and hong kong infrastrucure
 
 **Location: Bantayan Island, Cebu.** Alternates: Siargao (established, pricier), Dumaguete
 (budget, university town).
 
-Repositioned 2026-09-22 (Jordan): this is not only a nomad coliving. It is **a place you live like
-Bali and do business like Hong Kong.** Same project, bigger claim.
+## The idea
 
-## What the two halves mean
+Bali gets the feeling right and the plumbing wrong. Hong Kong gets the plumbing right and the
+feeling wrong. The bet is that nobody has properly built the combination.
 
-**The Bali half — the draw.** Beaches, $500–800/month all-in, ~25 Mbps, a community of remote
-workers. This is what gets attention and fills a waitlist. It is marketing, and it is cheap.
+**What Bali gets right:** beaches, climate, a design language people love, cheap enough to live
+well, and a community that already exists.
 
-**The Hong Kong half — the function.** Hong Kong was never about skyline. It was about being the
-easiest place in the region to base a company: form an entity fast, hire quickly, low friction,
-gateway to a bigger market. Scaled down to an island in Cebu that means:
+**What Bali gets wrong — and this is the whole opening:** traffic that has made Canggu unlivable,
+a documented water crisis, power that drops, waste handling that does not cope, internet that
+embarrasses itself the moment it rains.
 
-- A foreigner can base a company here and actually operate
-- Staff are hired for them, not by them
-- Visas, banking and compliance are handled rather than endured
-- It is a door into the Philippine and wider Asian market, not a beach to answer email from
+**What Hong Kong infrastructure means here:** power that stays on, water that works, internet that
+does not fail in weather, transport that moves people without gridlock, and planning done before
+building rather than after.
 
-## Why this is not a stretch for Jordan specifically
+The line is: **a beach town that works.** People already pay a premium for that combination and
+mostly cannot find it.
 
-The business half already exists as three companies:
+## The honest scoping
 
-| Need | Who covers it |
-|---|---|
-| Hiring and deploying staff | **Placewell** |
-| Visas, logistics, on-the-ground services | **Vaya** (Visa Desk, Care, Staff) |
-| Business development for those companies | **Amigo Sales** |
+**Building a city is not a project, it is a career.** Land assembly, capital, permits, a developer
+partner, utilities, decades. That version is not wrong, it is just not a thing to start on a
+Tuesday.
 
-**The coliving is not the business. It is the front door to the businesses that already exist.**
+The version that can actually begin:
 
-That reframes the economics entirely. A coliving makes thin margins on rent. A coliving that feeds
-recruitment, visa and BD revenue makes money on everything that happens after someone arrives.
+| Scale | What it is | Realistic? |
+| --- | --- | --- |
+| A building | Coliving, one property | Now |
+| **A block** | A small development done properly — power, water, connectivity designed in | **The real first target** |
+| A district | Master-planned, needs a developer and serious capital | Later, if the block works |
+| A city | Generational | The vision, not the plan |
 
-## The honest constraint
+**A block done properly is a proof of concept for the city.** It is also the only version where
+Jordan's own money and network are enough to start.
 
-**Bantayan cannot literally be Hong Kong.** It is roughly 72 km², no deepwater port, no financial
-infrastructure, and the recorded internet figure is ~25 Mbps. That supports individuals and very
-small teams. It does not support a company of fifty.
+## Why the infrastructure half is the defensible bit
 
-So the accurate version of the claim is: **the easiest place in Asia for a small foreign team to
-land, live well and start operating.** Not a financial centre. A landing pad.
+Anyone can open a beach coliving — there are hundreds. Almost nobody solves the power, water and
+connectivity properly, because it is boring, capital-heavy and invisible until it fails.
 
-If the business half outgrows the island, the Hong Kong function moves to Cebu City and Bantayan
-stays the lifestyle end of the same offer. Worth deciding before any property partner is signed.
+That is the moat. The vibe attracts people. **The infrastructure is why they stay and why they
+tell others.**
 
-## Status and prior decisions (still standing)
+## What has not changed
 
 - **THE ONE ACTION: shoot the YouTube video.** Audience before property. Waitlist numbers are the
-  negotiating leverage with property owners.
-- Attract the people first, build or partner on the place second.
-- Feasible because Jordan has people on the ground through the Placewell network.
+  negotiating leverage with any property owner or partner.
+- Attract people first, build or partner on the place second.
+- Feasible to start because Jordan has people on the ground through the Placewell network.
 
 **Gaps:** no email list infrastructure, no property partner, no footage.
 
-**New gap from this repositioning:** the business-services offer has never been written down as a
-single page. Three companies exist; the combined pitch does not.
+**New gap from this reframing:** nobody has checked what Bantayan's actual power, water and
+connectivity situation is. The recorded figure is ~25 Mbps and nothing else. If the pitch is
+infrastructure, that has to be measured before it is promised. **UNSURE and unverified.**
 
 ## The trip
 
 The relocation dossier's bold pick is Manila/Cebu. **The sampling trip and the Bantayan
-scouting/filming trip are the same trip.** Jordan is in the Philippines January to June 2027 and
+scouting/filming trip are the same trip.** Jordan is in the Philippines January to June 2027;
 Bantayan is a domestic flight from Manila.
 
 ## Assets
 
-Working files live in `007-Axton/NewBali/` — README, Bantayan scout report, property-owner pitch,
-YouTube script, landing page — plus `007-Axton/downloads/NEW-BALI-*.md`. **That repo is marked for
-archiving; extract these before it goes.**
+Working files live in `007-Axton/NewBali/` — scout report, property-owner pitch, YouTube script,
+landing page — plus `007-Axton/downloads/NEW-BALI-*.md`. **That repo is marked for archiving;
+extract these before it goes.**
