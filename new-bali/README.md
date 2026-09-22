@@ -76,3 +76,47 @@ Bantayan is a domestic flight from Manila.
 Working files live in `007-Axton/NewBali/` — scout report, property-owner pitch, YouTube script,
 landing page — plus `007-Axton/downloads/NEW-BALI-*.md`. **That repo is marked for archiving;
 extract these before it goes.**
+
+## Can Jordan actually hold land there? Yes, and the rules improved in 2025
+
+**Foreigners cannot own land in the Philippines.** Article XII, Section 7 of the 1987 Constitution
+restricts land ownership to Filipino citizens and corporations at least 60% Filipino-owned. That is
+constitutional, not a policy anyone is going to waive.
+
+Three legal routes exist:
+
+| Route | What it gives | Catch |
+| --- | --- | --- |
+| **Long lease** | **Up to 99 years** under **RA 12252**, in force 19 Sept 2025 | Only for "qualified investments" — thresholds **UNVERIFIED** |
+| 60/40 corporation | The company owns the land outright | Jordan holds max 40% and does not control land decisions |
+| Condominium units | Direct ownership of units | Max 40% of any building; does not work for land development |
+
+**RA 12252 is the material change.** It replaced the old limit — 25 years plus a 25-year renewal —
+with a single term of up to 99 years. For a project measured in decades, a 99-year lease is
+effectively ownership for every practical purpose except the title.
+
+This law came into force twelve months ago. Anything written about Philippine land leases before
+September 2025 is out of date.
+
+**What still needs checking:** what counts as a "qualified investment" under RA 12252, and what the
+minimum capital thresholds are. Unverified, and it decides whether the 99-year route is open at
+phase-1 scale or only for large developments.
+
+## Physical size — verified 2026-09-22
+
+| | Area |
+| --- | --- |
+| **Bantayan Island** | **108.77 km²**, ~147,000 people (2015, whole island) |
+| Hong Kong Island | ~78.6–80.7 km² |
+| Kowloon peninsula | ~46.9 km² |
+| Hong Kong, entire territory | 1,115 km² |
+| Bali | 5,780 km² |
+
+**Bantayan is larger than Hong Kong Island.** The whole dense famous half of Hong Kong fits inside
+it with roughly 28 km² spare. It is about the size of Hong Kong's entire urban core.
+
+Against Bali it is **1/53rd the size**, so the name is about feeling, not scale. Anyone who checks
+will notice.
+
+**Land is not the constraint.** The constraints are the 147,000 residents across three
+municipalities, the unmeasured infrastructure, and who holds title to what.
