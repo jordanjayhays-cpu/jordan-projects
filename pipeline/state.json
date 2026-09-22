@@ -40,9 +40,10 @@
   "Levels of Layers",
   "The Experience Machine",
   "Elephant in the Room",
-  "Off Course"
+  "Off Course",
+  "9 to Fake"
  ],
- "last_scheduled_date": "2026-09-26",
+ "last_scheduled_date": "2026-09-27",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -107,6 +108,7 @@
   "2026-09-23": "levels-of-layers",
   "2026-09-24": "the-experience-machine",
   "2026-09-25": "elephant-in-the-room",
-  "2026-09-26": "off-course"
+  "2026-09-26": "off-course",
+  "2026-09-27": "9-to-fake"
  }
 }
