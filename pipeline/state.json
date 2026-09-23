@@ -41,9 +41,10 @@
   "The Experience Machine",
   "Elephant in the Room",
   "Off Course",
-  "9 to Fake"
+  "9 to Fake",
+  "The Self That Wasn\u2019t"
  ],
- "last_scheduled_date": "2026-09-27",
+ "last_scheduled_date": "2026-09-28",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -110,6 +111,7 @@
   "2026-09-24": "the-experience-machine",
   "2026-09-25": "elephant-in-the-room",
   "2026-09-26": "off-course",
-  "2026-09-27": "9-to-fake"
+  "2026-09-27": "9-to-fake",
+  "2026-09-28": "the-self-that-wasnt"
  }
 }
