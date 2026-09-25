@@ -150,6 +150,27 @@ def match_export(rows, export):
 
 
 def load_rows():
+    """Row source, in priority order:
+
+    1. data/enriched_snapshot.json — the live app's dataset, recovered from the
+       published artifact. Authoritative once the app has been updated in place
+       (gitignored: holds shared email addresses, and this repo is public).
+    2. data/connections_part*.tsv + data/linkedin_export.csv — the original
+       scrape plus LinkedIn's official export.
+    """
+    snapshot = os.path.join(HERE, "data", "enriched_snapshot.json")
+    if os.path.exists(snapshot):
+        with open(snapshot, encoding="utf-8") as fh:
+            rows = json.load(fh)
+        for r in rows:
+            r.setdefault("url", "")
+            r.setdefault("email", "")
+            r.setdefault("company", "")
+            r.setdefault("position", "")
+        rows.sort(key=lambda r: r["connected_on"], reverse=True)
+        print(f"Source: enriched_snapshot.json ({len(rows)} records)")
+        return rows
+
     rows = []
     for path in sorted(glob.glob(os.path.join(HERE, "data", "connections_part*.tsv"))):
         with open(path, encoding="utf-8") as fh:

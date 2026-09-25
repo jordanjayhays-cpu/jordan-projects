@@ -188,6 +188,25 @@
   .person:hover { border-color: var(--accent); color: var(--accent); }
 
   .empty { padding: 40px; text-align: center; color: var(--muted); }
+
+  .import-panel { margin-bottom: 14px; }
+  .import-panel[hidden] { display: none; }
+  .import-panel .sub { line-height: 1.6; }
+  .import-panel code {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 4px;
+    padding: 0 5px; font-size: 12px;
+  }
+  .import-panel textarea {
+    width: 100%; min-height: 130px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--bg); padding: 10px 12px; resize: vertical; font-size: 13px;
+  }
+  .import-foot { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+  .import-foot .btn { padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--surface); cursor: pointer; font-size: 13.5px; }
+  .import-foot .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .import-foot .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .import-result { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .import-result.warn { color: var(--st-talks); }
   footer { margin-top: 26px; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
   @media (max-width: 640px) {
     .row-main { grid-template-columns: 28px 1fr; }
@@ -245,10 +264,31 @@
       <option value="stage">Pipeline stage</option>
     </select>
     <button class="btn" id="starFilter" aria-pressed="false">★ Starred</button>
+    <button class="btn primary" id="addBtn">+ Add connections</button>
     <button class="btn" id="exportCsv">Export CSV</button>
     <button class="btn" id="exportJson">Backup</button>
     <button class="btn" id="importJson">Restore</button>
     <input type="file" id="importFile" accept="application/json" hidden>
+  </div>
+
+  <div class="panel import-panel" id="importPanel" hidden>
+    <h2>Add new connections</h2>
+    <p class="sub">
+      Two ways, both instant and entirely in this browser — no export, no waiting.
+      <br><b>Quickest:</b> open your
+      <a href="https://www.linkedin.com/mynetwork/invite-connect/connections/" target="_blank" rel="noopener">LinkedIn connections page</a>,
+      scroll until you reach people you already have, select all (⌘A / Ctrl+A), copy, and paste below.
+      <br><b>Most complete</b> (adds profile links, companies and job titles): drop in the
+      <code>Connections.csv</code> from a LinkedIn data export.
+    </p>
+    <textarea id="pasteBox" placeholder="Paste your LinkedIn connections page here…"></textarea>
+    <div class="import-foot">
+      <button class="btn primary" id="mergeBtn">Add them</button>
+      <label class="btn" for="csvFile">Or choose Connections.csv…</label>
+      <input type="file" id="csvFile" accept=".csv,text/csv" hidden>
+      <button class="btn" id="cancelImport">Cancel</button>
+      <span class="import-result" id="importResult"></span>
+    </div>
   </div>
 
   <div class="chips" id="chips"></div>
@@ -257,14 +297,192 @@
   </div>
 
   <footer>
-    Stages, stars and notes are saved in this browser (localStorage). Use <b>Backup</b> to download them as JSON
-    and <b>Restore</b> to load them on another device. <b>Export CSV</b> downloads the full list including your
-    pipeline data — ready for Sheets, HubSpot or Notion.
+    <b>Add connections</b> whenever you like — paste the LinkedIn page or drop a <code>Connections.csv</code>,
+    and they merge in instantly, right here in the browser. Everything you add, plus your stages, stars and
+    notes, is saved in this browser only. Use <b>Backup</b> to download all of it as one file and
+    <b>Restore</b> to load it on another device. <b>Export CSV</b> gives you the full list with your pipeline
+    data — ready for Sheets, HubSpot or Notion.
   </footer>
 </div>
 
 <script>
-const DATA = /*__DATA__*/[];
+const BASE = /*__DATA__*/[];
+const ADDED_KEY = "linkedin-crm-added";
+
+/* Connections you've imported in the browser since this page was built.
+   Kept separate from BASE so a future rebuild never clobbers them. */
+let ADDED = [];
+try { ADDED = JSON.parse(localStorage.getItem(ADDED_KEY) || "[]"); } catch (e) { ADDED = []; }
+let DATA = BASE.concat(ADDED);
+
+const normName = s => s.normalize("NFKD").replace(/[̀-ͯ]/g, "")
+  .replace(/[^a-zA-Z0-9\s]/g, " ").toLowerCase().split(/\s+/).filter(Boolean).join(" ");
+
+const TAG_RULES = [
+  ["IE / MBA network", /IE Business School|IE University|IE Univerity|Instituto de Empresa|\bIMBA\b|\bIE MBA\b|MBA Candidate|MBA candidate|\bMiM\b|\bMIM\b|Master in Management|Masters in Management|International MBA|MBA @|MBA at IE|@ ?IE\b/],
+  ["Founder / CEO", /\bFounder\b|Co-?[Ff]ounder\b|\bCEO\b|\bCTO\b|\bCOO\b|\bCPO\b|\bCMO\b|\bCFO\b|Entrepreneur|\bOwner\b|Fundador|Managing Director|Managing Partner/],
+  ["Investor / VC", /Venture Capital\b|\bVC\b|Investor|Private Equity|Angel|Impact Investing|Ventures\b|Capital Partner/],
+  ["Recruiting / Talent", /[Rr]ecruit|[Tt]alent|[Hh]eadhunt|[Ss]taffing|Executive Search|Talent Acquisition/],
+  ["Sales / BD", /\bSales\b|Business Development|BizDev|Account Executive|Account Manager|Partnerships|\bGTM\b|Revenue|Client Development|Commercial\b/],
+  ["Marketing / Brand", /Marketing|\bBrand\b|\bSEO\b|Content|Communications|\bPR\b|Advertis|Growth\b/],
+  ["AI / Software", /\bAI\b|Artificial Intelligence|Software|Engineer|Machine Learning|\bML\b|Data Scien|Developer|DevOps|GenAI|Generative AI|Cloud|SaaS|Tech\b|Automation/],
+  ["Finance / Investing", /Finance|Financial|Banking|Investment|M&A|Equity|CFA\b|FP&A|Wealth|Treasury|Payments|Fintech|FinTech|CPA\b|Mortgage|Loan/],
+  ["HR / People", /\bHR\b|Human Resource|People Ops|PeopleOps|Chief HR|People Leader|Employee Experience/],
+  ["Consulting / Strategy", /Consultant|Consulting|McKinsey|\bBCG\b|Deloitte|Accenture|\bEY\b|KPMG|PwC|Strategy|Strategist|Advisory|Advisor/],
+  ["Research / Insights", /YouGov|Research|Insights|Kantar|Toluna|Harris ?Quest|Veridata|Analyst/],
+  ["Real Estate", /Real [Ee]state|Realtor|Propert|PropTech|\bMRED\b|Escrow/],
+  ["Events / Hospitality", /Events?\b|Hotel|Hospitality|Resort|Travel|Tourism|MICE\b/],
+  ["Healthcare / Biotech", /Health|Medical|Biotech|Pharma|Clinical|Neuro|Nurse|Hospital|\bMD\b|Doctor/],
+  ["Legal / Compliance", /\bLaw\b|Legal|Juris Doctor|J\.?D\.?\b|Attorney|Compliance|AML\b|KYC\b|Counsel|Privacy/],
+];
+function tagsFor(text) {
+  const t = TAG_RULES.filter(([, re]) => re.test(text)).map(([tag]) => tag);
+  return t.length ? t : ["Other"];
+}
+
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const MON3 = MONTHS.map(m => m.slice(0, 3));
+function makeId(name, taken) {
+  let base = name.normalize("NFKD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-+|-+$/g, "").toLowerCase() || "contact";
+  let id = base, n = 1;
+  while (taken.has(id)) { n++; id = base + "-" + n; }
+  taken.add(id);
+  return id;
+}
+
+/* LinkedIn's connections page, copied and pasted. Entries are anchored on the
+   "Connected on <date>" line; the two lines above it are the headline and name. */
+function parsePaste(text) {
+  const out = [];
+  let buf = [], pendingFlag = "";
+  for (const raw of text.split("\n")) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (/^(Message|Connect|Follow|Following|Pending|Withdraw)$/i.test(line)) { buf = []; continue; }
+    const pic = line.match(/^(.+?)['’]s?\s+profile picture(?:,\s*(open to work|hiring))?$/i);
+    if (pic) { pendingFlag = (pic[2] || "").toLowerCase().replace(/\s+/g, "_"); buf = []; continue; }
+    const d = line.match(/^Connected on ([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})$/);
+    if (d) {
+      const headline = buf.length >= 1 ? buf[buf.length - 1] : "";
+      const name = buf.length >= 2 ? buf[buf.length - 2] : (buf.length === 1 ? buf[0] : "");
+      const mi = MONTHS.indexOf(d[1]);
+      if (name && mi >= 0) {
+        out.push({ name, headline: buf.length >= 2 ? headline : "",
+                   y: +d[3], m: mi, d: +d[2], flags: pendingFlag });
+      }
+      pendingFlag = ""; buf = [];
+      continue;
+    }
+    buf.push(line);
+  }
+  return out;
+}
+
+function splitCsvLine(line) {
+  const out = []; let cur = "", q = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (q) {
+      if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; }
+      else if (c === '"') q = false;
+      else cur += c;
+    } else if (c === '"') q = true;
+    else if (c === ",") { out.push(cur); cur = ""; }
+    else cur += c;
+  }
+  out.push(cur);
+  return out;
+}
+
+/* LinkedIn's official export: Connections.csv (has a notes preamble). */
+function parseCsv(text) {
+  const lines = text.split(/\r?\n/);
+  const h = lines.findIndex(l => l.startsWith("First Name,"));
+  if (h < 0) return null;
+  const cols = splitCsvLine(lines[h]).map(c => c.trim());
+  const idx = n => cols.indexOf(n);
+  const out = [];
+  for (let i = h + 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const f = splitCsvLine(lines[i]);
+    const name = ((f[idx("First Name")] || "") + " " + (f[idx("Last Name")] || "")).trim();
+    const when = (f[idx("Connected On")] || "").trim().split(/\s+/);
+    if (!name || when.length < 3) continue;
+    const mi = MON3.indexOf(when[1].slice(0, 3));
+    if (mi < 0) continue;
+    out.push({
+      name, headline: "", y: +when[2], m: mi, d: +when[0], flags: "",
+      url: (f[idx("URL")] || "").trim(), email: (f[idx("Email Address")] || "").trim(),
+      company: (f[idx("Company")] || "").trim(), position: (f[idx("Position")] || "").trim(),
+    });
+  }
+  return out;
+}
+
+/* Merge parsed entries into ADDED, skipping anyone already known. */
+function mergeConnections(parsed) {
+  const known = new Map(DATA.map(r => [normName(r.name), r]));
+  const taken = new Set(DATA.map(r => r.id));
+  let added = 0, dupes = 0, enriched = 0;
+  parsed.forEach(p => {
+    const key = normName(p.name);
+    if (!key) return;
+    const existing = known.get(key);
+    if (existing) {
+      dupes++;
+      // a CSV row can still fill in blanks on someone we already have
+      let touched = false;
+      ["url", "email", "company", "position"].forEach(f => {
+        if (p[f] && !existing[f]) { existing[f] = p[f]; touched = true; }
+      });
+      if (touched) { enriched++; if (existing.company) existing.company_guess = existing.company; }
+      return;
+    }
+    const dt = new Date(Date.UTC(p.y, p.m, p.d));
+    const headline = p.headline || [p.position, p.company].filter(Boolean).join(" | ") || "(no headline)";
+    const rec = {
+      name: p.name, headline,
+      connected_on: dt.toISOString().slice(0, 10),
+      connected_on_display: MONTHS[p.m] + " " + p.d + ", " + p.y,
+      year: p.y, flags: p.flags || "",
+      company_guess: p.company || "", url: p.url || "", email: p.email || "",
+      company: p.company || "", position: p.position || "",
+      tags: tagsFor([headline, p.position, p.company].filter(Boolean).join(" | ")),
+      id: makeId(p.name, taken),
+    };
+    ADDED.push(rec);
+    known.set(key, rec);
+    added++;
+  });
+  if (added || enriched) {
+    localStorage.setItem(ADDED_KEY, JSON.stringify(ADDED));
+    if (enriched) localStorage.setItem(ENRICHED_KEY, JSON.stringify(
+      DATA.filter(r => r.url || r.email).map(r => [r.id, r.url, r.email, r.company, r.position])));
+    DATA = BASE.concat(ADDED);
+    DATA.sort((a, b) => b.connected_on.localeCompare(a.connected_on));
+    rebuildDerived();
+  }
+  return { added, dupes, enriched, parsed: parsed.length };
+}
+
+const ENRICHED_KEY = "linkedin-crm-enriched";
+(function restoreEnrichment() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(ENRICHED_KEY) || "[]");
+    if (!saved.length) return;
+    const byId = new Map(DATA.map(r => [r.id, r]));
+    saved.forEach(([id, url, email, company, position]) => {
+      const r = byId.get(id);
+      if (!r) return;
+      if (url && !r.url) r.url = url;
+      if (email && !r.email) r.email = email;
+      if (company && !r.company) { r.company = company; r.company_guess = company; }
+      if (position && !r.position) r.position = position;
+    });
+  } catch (e) { /* ignore */ }
+})();
+DATA.sort((a, b) => b.connected_on.localeCompare(a.connected_on));
 
 const STAGES = [
   ["new", "— stage —", ""],
@@ -319,13 +537,23 @@ const openRows = new Set();
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-const tagCounts = {};
-DATA.forEach(r => r.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; }));
-const TOP_TAGS = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
-
-const years = [...new Set(DATA.map(r => r.year))].sort((a, b) => b - a);
+let TOP_TAGS = [];
 const yearSel = document.getElementById("yearSel");
-years.forEach(y => { const o = document.createElement("option"); o.value = y; o.textContent = y; yearSel.appendChild(o); });
+
+function rebuildDerived() {
+  const tagCounts = {};
+  DATA.forEach(r => r.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; }));
+  TOP_TAGS = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+
+  const keep = yearSel.value;
+  const years = [...new Set(DATA.map(r => r.year))].sort((a, b) => b - a);
+  yearSel.innerHTML = '<option value="">All years</option>' +
+    years.map(y => `<option value="${y}">${y}</option>`).join("");
+  if (years.some(y => String(y) === keep)) yearSel.value = keep;
+
+  if (window.__booted) render();
+}
+rebuildDerived();
 
 function filtered() {
   const q = state.q.trim().toLowerCase();
@@ -569,6 +797,49 @@ document.getElementById("starFilter").addEventListener("click", e => {
   renderList();
 });
 
+const importPanel = document.getElementById("importPanel");
+const importResult = document.getElementById("importResult");
+function showImportResult(msg, warn) {
+  importResult.textContent = msg;
+  importResult.classList.toggle("warn", !!warn);
+}
+document.getElementById("addBtn").addEventListener("click", () => {
+  importPanel.hidden = !importPanel.hidden;
+  if (!importPanel.hidden) { showImportResult(""); document.getElementById("pasteBox").focus(); }
+});
+document.getElementById("cancelImport").addEventListener("click", () => {
+  importPanel.hidden = true;
+  document.getElementById("pasteBox").value = "";
+  showImportResult("");
+});
+function reportMerge(res) {
+  if (!res.parsed) {
+    showImportResult("Couldn't find any connections in that — paste the page including the “Connected on …” lines.", true);
+    return;
+  }
+  const bits = [];
+  if (res.added) bits.push(res.added + (res.added === 1 ? " new connection added" : " new connections added"));
+  if (res.enriched) bits.push(res.enriched + " existing filled in");
+  if (res.dupes) bits.push(res.dupes + " already on the list");
+  showImportResult(bits.join(" · ") || "Nothing new — you already have all of them.", !res.added && !res.enriched);
+  if (res.added || res.enriched) document.getElementById("pasteBox").value = "";
+}
+document.getElementById("mergeBtn").addEventListener("click", () => {
+  const text = document.getElementById("pasteBox").value;
+  if (!text.trim()) { showImportResult("Paste your connections into the box first.", true); return; }
+  reportMerge(mergeConnections(parsePaste(text)));
+});
+document.getElementById("csvFile").addEventListener("change", e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  f.text().then(txt => {
+    const rows = parseCsv(txt);
+    if (!rows) { showImportResult("That CSV isn't LinkedIn's Connections.csv (no “First Name” header row).", true); return; }
+    reportMerge(mergeConnections(rows));
+  });
+  e.target.value = "";
+});
+
 async function download(name, text, type) {
   if (window.claude && window.claude.downloads) {
     try {
@@ -601,19 +872,34 @@ document.getElementById("exportCsv").addEventListener("click", () => {
   download("jordan-network-crm.csv", "﻿" + lines.join("\n"), "text/csv");
 });
 document.getElementById("exportJson").addEventListener("click", () =>
-  download("crm-backup.json", JSON.stringify(crm, null, 1), "application/json"));
+  download("crm-backup.json", JSON.stringify({ v: 2, pipeline: crm, added: ADDED }, null, 1), "application/json"));
 document.getElementById("importJson").addEventListener("click", () => document.getElementById("importFile").click());
 document.getElementById("importFile").addEventListener("change", e => {
   const f = e.target.files[0]; if (!f) return;
   f.text().then(txt => {
     try {
       const incoming = JSON.parse(txt);
-      crm = Object.assign({}, crm, incoming);
+      // v2 backups carry imported connections alongside the pipeline; v1 was pipeline only
+      const pipeline = incoming && incoming.v === 2 ? incoming.pipeline : incoming;
+      crm = Object.assign({}, crm, pipeline || {});
       localStorage.setItem(LS_KEY, JSON.stringify(crm));
+      if (incoming && Array.isArray(incoming.added) && incoming.added.length) {
+        const have = new Set(DATA.map(r => normName(r.name)));
+        const fresh = incoming.added.filter(r => r && r.name && !have.has(normName(r.name)));
+        if (fresh.length) {
+          ADDED = ADDED.concat(fresh);
+          localStorage.setItem(ADDED_KEY, JSON.stringify(ADDED));
+          DATA = BASE.concat(ADDED);
+          DATA.sort((a, b) => b.connected_on.localeCompare(a.connected_on));
+          rebuildDerived();
+        }
+      }
       render();
     } catch (err) { alert("That file is not a valid CRM backup (expected JSON exported by the Backup button)."); }
   });
+  e.target.value = "";
 });
 
+window.__booted = true;
 render();
 </script>

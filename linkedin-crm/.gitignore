@@ -3,3 +3,4 @@ connections.json
 crm.db
 crm.html
 data/linkedin_export.csv
+data/enriched_snapshot.json
