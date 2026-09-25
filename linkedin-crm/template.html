@@ -1,0 +1,619 @@
+<title>Dealbook — Jordan's Network CRM</title>
+<style>
+  :root {
+    --bg: #F3F5F4;
+    --surface: #FFFFFF;
+    --surface-2: #EBEFED;
+    --ink: #1B2422;
+    --muted: #5C6B67;
+    --line: #D9E0DD;
+    --accent: #0F6B5B;
+    --accent-soft: #E0EEEA;
+    --accent-ink: #FFFFFF;
+    --star: #B45309;
+    --st-reach: #2563EB;   --st-reach-bg: #E4ECFB;
+    --st-contact: #7C3AED; --st-contact-bg: #EDE7FB;
+    --st-talks: #B45309;   --st-talks-bg: #F7ECDD;
+    --st-deal: #15803D;    --st-deal-bg: #E2F1E6;
+    --st-parked: #64748B;  --st-parked-bg: #E8ECEF;
+    --chip-otw: #15803D;
+    --chip-hiring: #B45309;
+    --shadow: 0 1px 2px rgba(20, 32, 29, .06), 0 4px 14px rgba(20, 32, 29, .05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F1514; --surface: #161D1B; --surface-2: #1D2624;
+      --ink: #E4EAE8; --muted: #92A29D; --line: #2A3431;
+      --accent: #4CB79A; --accent-soft: #1B2E2A; --accent-ink: #0C1412;
+      --star: #E0A85C;
+      --st-reach: #86ABF2; --st-reach-bg: #1B2536;
+      --st-contact: #B79CF7; --st-contact-bg: #271F38;
+      --st-talks: #E0A85C; --st-talks-bg: #33271599;
+      --st-deal: #6BCB92; --st-deal-bg: #14291B;
+      --st-parked: #97A5B4; --st-parked-bg: #202830;
+      --chip-otw: #6BCB92; --chip-hiring: #E0A85C;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 4px 14px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1514; --surface: #161D1B; --surface-2: #1D2624;
+    --ink: #E4EAE8; --muted: #92A29D; --line: #2A3431;
+    --accent: #4CB79A; --accent-soft: #1B2E2A; --accent-ink: #0C1412;
+    --star: #E0A85C;
+    --st-reach: #86ABF2; --st-reach-bg: #1B2536;
+    --st-contact: #B79CF7; --st-contact-bg: #271F38;
+    --st-talks: #E0A85C; --st-talks-bg: #33271599;
+    --st-deal: #6BCB92; --st-deal-bg: #14291B;
+    --st-parked: #97A5B4; --st-parked-bg: #202830;
+    --chip-otw: #6BCB92; --chip-hiring: #E0A85C;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 4px 14px rgba(0,0,0,.25);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 15px/1.45 ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  button, select, input, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 20px 80px; }
+
+  header.top { padding: 28px 0 18px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; }
+  .wordmark {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font-size: 30px; font-weight: 600; letter-spacing: .01em; margin: 0;
+  }
+  .wordmark .amp { color: var(--accent); }
+  .tagline { color: var(--muted); font-size: 13.5px; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .stat {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 14px; box-shadow: var(--shadow); cursor: pointer; text-align: left;
+  }
+  .stat:hover { border-color: var(--accent); }
+  .stat .n { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat .l { font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .stat.active { border-color: var(--accent); background: var(--accent-soft); }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px; }
+  .toolbar input[type=search] {
+    flex: 1 1 240px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--surface);
+  }
+  .toolbar select {
+    padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+  }
+  .toolbar .btn {
+    padding: 9px 13px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--surface); cursor: pointer; white-space: nowrap;
+  }
+  .toolbar .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .toolbar .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .chip {
+    border: 1px solid var(--line); background: var(--surface); border-radius: 999px;
+    padding: 4px 11px; font-size: 12.5px; cursor: pointer; color: var(--muted);
+  }
+  .chip b { color: var(--ink); font-weight: 600; }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .chip.on b { color: var(--accent-ink); }
+
+  .meta-line { color: var(--muted); font-size: 13px; margin: 4px 2px 10px; font-variant-numeric: tabular-nums; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+  .row { border-top: 1px solid var(--line); }
+  .row:first-child { border-top: 0; }
+  .row-main {
+    display: grid; grid-template-columns: 34px 1fr auto; gap: 4px 12px;
+    padding: 12px 14px; cursor: pointer; align-items: start;
+  }
+  .row-main:hover { background: var(--surface-2); }
+  .star-btn {
+    border: 0; background: none; cursor: pointer; font-size: 17px; line-height: 1.2;
+    color: var(--line); padding: 2px 4px;
+  }
+  .star-btn.on { color: var(--star); }
+  .who .nm { font-weight: 650; }
+  .who .co { color: var(--muted); font-size: 13px; }
+  .who .hl {
+    color: var(--muted); font-size: 13px; margin-top: 2px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .who .tags { margin-top: 5px; display: flex; flex-wrap: wrap; gap: 4px; }
+  .tag {
+    font-size: 11px; padding: 1.5px 8px; border-radius: 999px;
+    background: var(--surface-2); color: var(--muted); border: 1px solid var(--line);
+  }
+  .tag.otw { color: var(--chip-otw); border-color: currentColor; background: transparent; }
+  .tag.hiring { color: var(--chip-hiring); border-color: currentColor; background: transparent; }
+  .side { text-align: right; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .date { color: var(--muted); font-size: 12.5px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .stage-sel {
+    border: 1px solid var(--line); border-radius: 999px; padding: 3px 8px; font-size: 12.5px;
+    background: var(--surface); cursor: pointer; max-width: 160px;
+  }
+  .stage-sel.s-reach   { color: var(--st-reach);   background: var(--st-reach-bg);   border-color: transparent; }
+  .stage-sel.s-contact { color: var(--st-contact); background: var(--st-contact-bg); border-color: transparent; }
+  .stage-sel.s-talks   { color: var(--st-talks);   background: var(--st-talks-bg);   border-color: transparent; }
+  .stage-sel.s-deal    { color: var(--st-deal);    background: var(--st-deal-bg);    border-color: transparent; }
+  .stage-sel.s-parked  { color: var(--st-parked);  background: var(--st-parked-bg);  border-color: transparent; }
+
+  .row-detail { display: none; padding: 0 14px 14px 60px; }
+  .row.open .row-detail { display: block; }
+  .row-detail .full-hl { color: var(--muted); font-size: 13.5px; margin: 2px 0 10px; }
+  .row-detail textarea {
+    width: 100%; min-height: 74px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--bg); padding: 9px 11px; resize: vertical;
+  }
+  .row-detail .detail-foot { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 8px; font-size: 13px; }
+  .saved-note { color: var(--muted); font-size: 12px; }
+
+  .views { display: flex; gap: 6px; margin: 0 0 14px; }
+  .view-btn {
+    padding: 7px 16px; border: 1px solid var(--line); border-radius: 999px;
+    background: var(--surface); cursor: pointer; font-weight: 600; font-size: 13.5px;
+  }
+  .view-btn.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  #insightsView { display: none; }
+  body.show-insights #insightsView { display: block; }
+  body.show-insights #contactsView { display: none; }
+
+  .ins-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; margin-bottom: 12px; }
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); padding: 14px 16px; }
+  .panel h2 { margin: 0 0 4px; font-size: 15px; }
+  .panel .sub { color: var(--muted); font-size: 12.5px; margin: 0 0 10px; }
+  .bar-row { display: grid; grid-template-columns: 92px 1fr 40px; gap: 8px; align-items: center; margin: 3px 0; font-size: 12.5px; cursor: pointer; border: 0; background: none; width: 100%; padding: 2px 0; text-align: left; color: var(--ink); }
+  .bar-row:hover .bl { text-decoration: underline; }
+  .bar-row .bl { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bar-row .track { background: var(--surface-2); border-radius: 4px; height: 12px; overflow: hidden; }
+  .bar-row .fill { background: var(--accent); height: 100%; border-radius: 4px; min-width: 2px; }
+  .bar-row .n { color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+
+  .signal { border-top: 1px solid var(--line); padding: 12px 0 10px; }
+  .signal:first-of-type { border-top: 0; }
+  .signal h3 { margin: 0; font-size: 14px; }
+  .signal .why { color: var(--muted); font-size: 13px; margin: 3px 0 7px; }
+  .people { display: flex; flex-wrap: wrap; gap: 5px; }
+  .person {
+    border: 1px solid var(--line); background: var(--surface-2); border-radius: 999px;
+    padding: 3px 10px; font-size: 12px; cursor: pointer; color: var(--ink);
+  }
+  .person:hover { border-color: var(--accent); color: var(--accent); }
+
+  .empty { padding: 40px; text-align: center; color: var(--muted); }
+  footer { margin-top: 26px; color: var(--muted); font-size: 12.5px; line-height: 1.6; }
+  @media (max-width: 640px) {
+    .row-main { grid-template-columns: 28px 1fr; }
+    .side { grid-column: 2; flex-direction: row; align-items: center; justify-content: flex-start; }
+    .row-detail { padding-left: 14px; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1 class="wordmark">Dealbook<span class="amp"> ·</span></h1>
+    <span class="tagline">Jordan's network CRM — every LinkedIn connection, one working list.</span>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="views" role="tablist">
+    <button class="view-btn on" id="tabContacts" role="tab" aria-selected="true">Contacts</button>
+    <button class="view-btn" id="tabInsights" role="tab" aria-selected="false">Insights</button>
+  </div>
+
+  <div id="insightsView">
+    <div class="ins-grid">
+      <div class="panel">
+        <h2>Network by era</h2>
+        <p class="sub">Click a year to see who joined your network then.</p>
+        <div id="yearBars"></div>
+      </div>
+      <div class="panel">
+        <h2>What your network does</h2>
+        <p class="sub">Auto-tags from headlines. Click to filter.</p>
+        <div id="tagBars"></div>
+      </div>
+      <div class="panel">
+        <h2>Warm company paths</h2>
+        <p class="sub">Organizations where you already know people. Click to see them.</p>
+        <div id="companyBars"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Signals worth acting on</h2>
+      <p class="sub">Curated patterns from the data — click any name to open their record.</p>
+      <div id="signals"></div>
+    </div>
+  </div>
+
+  <div id="contactsView">
+  <div class="toolbar">
+    <input type="search" id="q" placeholder="Search name, headline, company…" aria-label="Search connections">
+    <select id="yearSel" aria-label="Filter by year connected"><option value="">All years</option></select>
+    <select id="sortSel" aria-label="Sort">
+      <option value="recent">Newest first</option>
+      <option value="oldest">Oldest first</option>
+      <option value="name">Name A–Z</option>
+      <option value="stage">Pipeline stage</option>
+    </select>
+    <button class="btn" id="starFilter" aria-pressed="false">★ Starred</button>
+    <button class="btn" id="exportCsv">Export CSV</button>
+    <button class="btn" id="exportJson">Backup</button>
+    <button class="btn" id="importJson">Restore</button>
+    <input type="file" id="importFile" accept="application/json" hidden>
+  </div>
+
+  <div class="chips" id="chips"></div>
+  <div class="meta-line" id="metaLine"></div>
+  <div class="card" id="list"></div>
+  </div>
+
+  <footer>
+    Stages, stars and notes are saved in this browser (localStorage). Use <b>Backup</b> to download them as JSON
+    and <b>Restore</b> to load them on another device. <b>Export CSV</b> downloads the full list including your
+    pipeline data — ready for Sheets, HubSpot or Notion.
+  </footer>
+</div>
+
+<script>
+const DATA = /*__DATA__*/[];
+
+const STAGES = [
+  ["new", "— stage —", ""],
+  ["reach", "To reach out", "s-reach"],
+  ["contact", "Contacted", "s-contact"],
+  ["talks", "In conversation", "s-talks"],
+  ["deal", "Deal / working together", "s-deal"],
+  ["parked", "Parked", "s-parked"],
+];
+const STAGE_LABEL = Object.fromEntries(STAGES.map(([v, l]) => [v, l]));
+const STAGE_CLASS = Object.fromEntries(STAGES.map(([v, , c]) => [v, c]));
+const LS_KEY = "linkedin-crm-v1";
+
+/* Seeds: pipeline state set from a working session, applied once per browser.
+   A seed never overwrites an existing record — your edits always win. */
+const SEEDS = [{
+  id: "hospitality-outreach-2026-08-13",
+  records: {
+    "luis-de-la-fuente": { stage: "contact", star: true, notes: "Head of Recruitment & Talent Mgmt EMEA, Barceló. Messaged Aug 13 re: hard-to-fill seasonal roles for the 2027 season.\nFollow up Aug 20 if no reply — one message, add something (candidate profile / market data), then park.\nIf he replies, find out: which roles they can't fill locally, and what they pay agencies per placement." },
+    "cristina-granados": { stage: "contact", star: true, notes: "Global TA Manager (Corporate & Hotel Mgmt), Iberostar. Connected Aug 10, messaged Aug 13 re: seasonal hiring.\nFollow up Aug 20 if no reply.\nAsk: unfillable roles + current agency cost per placement." },
+    "laura-lopez-anez": { stage: "contact", star: true, notes: "Corporate TA & Recruitment Sr. Manager, Palladium. Messaged Aug 13 re: seasonal hiring.\nFollow up Aug 20 if no reply.\nAsk: unfillable roles + current agency cost per placement." },
+    "gabriel-canaves": { stage: "contact", star: true, notes: "CHRO, Meliá Hotels International — most senior of the hospitality five. Messaged Aug 13.\nFollow up Aug 20 if no reply.\nA CHRO won't handle reqs directly; the win here is a referral down to his TA team." },
+    "leila-strus": { stage: "contact", star: true, notes: "General Manager, Plava Laguna (Hotel Umag, Croatia). Messaged Aug 13 re: seasonal hiring.\nFollow up Aug 20 if no reply.\nProperty-level GM — feels staffing gaps directly, so likely the fastest concrete answer of the five." }
+  }
+}];
+const SEEDS_KEY = "linkedin-crm-seeds";
+
+let crm = {};
+try { crm = JSON.parse(localStorage.getItem(LS_KEY) || "{}"); } catch (e) { crm = {}; }
+let appliedSeeds = [];
+try { appliedSeeds = JSON.parse(localStorage.getItem(SEEDS_KEY) || "[]"); } catch (e) { appliedSeeds = []; }
+(function applySeeds() {
+  let changed = false;
+  SEEDS.forEach(seed => {
+    if (appliedSeeds.includes(seed.id)) return;
+    Object.entries(seed.records).forEach(([id, patch]) => {
+      if (!crm[id]) { crm[id] = patch; changed = true; }
+    });
+    appliedSeeds.push(seed.id);
+    localStorage.setItem(SEEDS_KEY, JSON.stringify(appliedSeeds));
+  });
+  if (changed) localStorage.setItem(LS_KEY, JSON.stringify(crm));
+})();
+const rec = id => crm[id] || {};
+function setRec(id, patch) {
+  crm[id] = Object.assign({}, crm[id], patch);
+  localStorage.setItem(LS_KEY, JSON.stringify(crm));
+}
+
+const state = { q: "", tag: "", year: "", sort: "recent", star: false, stage: "" };
+const openRows = new Set();
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+const tagCounts = {};
+DATA.forEach(r => r.tags.forEach(t => { tagCounts[t] = (tagCounts[t] || 0) + 1; }));
+const TOP_TAGS = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+
+const years = [...new Set(DATA.map(r => r.year))].sort((a, b) => b - a);
+const yearSel = document.getElementById("yearSel");
+years.forEach(y => { const o = document.createElement("option"); o.value = y; o.textContent = y; yearSel.appendChild(o); });
+
+function filtered() {
+  const q = state.q.trim().toLowerCase();
+  let rows = DATA.filter(r => {
+    if (state._re && !state._re.test(r.headline + " " + (r.company || "") + " " + (r.position || ""))) return false;
+    if (q && !(r.name.toLowerCase().includes(q) || r.headline.toLowerCase().includes(q) || (r.company_guess || "").toLowerCase().includes(q) || (r.company || "").toLowerCase().includes(q) || (r.position || "").toLowerCase().includes(q))) return false;
+    if (state.tag && !r.tags.includes(state.tag)) return false;
+    if (state.year && String(r.year) !== String(state.year)) return false;
+    if (state.star && !rec(r.id).star) return false;
+    if (state.stage) {
+      const st = rec(r.id).stage || "new";
+      if (state.stage === "pipeline" ? (st === "new" || st === "parked") : st !== state.stage) return false;
+    }
+    return true;
+  });
+  const stageRank = { deal: 0, talks: 1, contact: 2, reach: 3, new: 4, parked: 5 };
+  if (state.sort === "recent") rows.sort((a, b) => b.connected_on.localeCompare(a.connected_on));
+  if (state.sort === "oldest") rows.sort((a, b) => a.connected_on.localeCompare(b.connected_on));
+  if (state.sort === "name") rows.sort((a, b) => a.name.localeCompare(b.name));
+  if (state.sort === "stage") rows.sort((a, b) => (stageRank[rec(a.id).stage || "new"] - stageRank[rec(b.id).stage || "new"]) || b.connected_on.localeCompare(a.connected_on));
+  return rows;
+}
+
+function renderStats() {
+  const counts = { total: DATA.length, reach: 0, contact: 0, talks: 0, deal: 0, starred: 0 };
+  DATA.forEach(r => {
+    const c = rec(r.id);
+    if (c.star) counts.starred++;
+    if (c.stage && counts[c.stage] !== undefined) counts[c.stage]++;
+  });
+  const tiles = [
+    ["", "Connections", counts.total],
+    ["reach", "To reach out", counts.reach],
+    ["contact", "Contacted", counts.contact],
+    ["talks", "In conversation", counts.talks],
+    ["deal", "Deals", counts.deal],
+  ];
+  document.getElementById("stats").innerHTML = tiles.map(([stg, label, n]) =>
+    `<button class="stat ${state.stage === (stg || "") && (stg || state.stage === "") && state.stage === stg ? "active" : ""}" data-stage="${stg}">
+       <div class="n">${n}</div><div class="l">${label}</div></button>`).join("");
+  document.querySelectorAll(".stat").forEach(el => {
+    const stg = el.dataset.stage;
+    if (state.stage === stg) el.classList.add("active"); else el.classList.remove("active");
+    el.onclick = () => { state.stage = (state.stage === stg) ? "" : stg; render(); };
+  });
+}
+
+function renderChips() {
+  document.getElementById("chips").innerHTML = TOP_TAGS.map(([t, n]) =>
+    `<button class="chip ${state.tag === t ? "on" : ""}" data-tag="${esc(t)}"><b>${esc(t)}</b> ${n}</button>`).join("");
+  document.querySelectorAll(".chip").forEach(el => {
+    el.onclick = () => { state.tag = state.tag === el.dataset.tag ? "" : el.dataset.tag; render(); };
+  });
+}
+
+function rowHtml(r) {
+  const c = rec(r.id);
+  const stage = c.stage || "new";
+  const flags = (r.flags || "");
+  const liUrl = r.url || ("https://www.linkedin.com/search/results/people/?keywords=" + encodeURIComponent(r.name));
+  const liLabel = r.url ? "Open profile ↗" : "Find on LinkedIn ↗";
+  return `<div class="row ${openRows.has(r.id) ? "open" : ""}" data-id="${esc(r.id)}">
+    <div class="row-main">
+      <button class="star-btn ${c.star ? "on" : ""}" title="Star" aria-label="Star ${esc(r.name)}" aria-pressed="${!!c.star}">★</button>
+      <div class="who">
+        <span class="nm">${esc(r.name)}</span>
+        ${(r.company || r.company_guess) ? `<span class="co"> · ${esc(r.company || r.company_guess)}</span>` : ""}
+        <div class="hl">${esc(r.headline)}</div>
+        <div class="tags">
+          ${flags === "open_to_work" ? `<span class="tag otw">open to work</span>` : ""}
+          ${flags === "hiring" ? `<span class="tag hiring">hiring</span>` : ""}
+          ${r.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}
+        </div>
+      </div>
+      <div class="side">
+        <span class="date">${esc(r.connected_on_display)}</span>
+        <select class="stage-sel ${STAGE_CLASS[stage]}" aria-label="Stage for ${esc(r.name)}">
+          ${STAGES.map(([v, l]) => `<option value="${v}" ${v === stage ? "selected" : ""}>${l}</option>`).join("")}
+        </select>
+      </div>
+    </div>
+    <div class="row-detail">
+      <div class="full-hl">${esc(r.headline)}</div>
+      <textarea placeholder="Notes / next step for ${esc(r.name)}…">${esc(c.notes || "")}</textarea>
+      <div class="detail-foot">
+        <a href="${liUrl}" target="_blank" rel="noopener">${liLabel}</a>
+        ${r.email ? `<a href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : ""}
+        ${r.position ? `<span class="saved-note">${esc(r.position)}${r.company ? " · " + esc(r.company) : ""}</span>` : ""}
+        <span class="saved-note">Notes save automatically.</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderList() {
+  const rows = filtered();
+  document.getElementById("metaLine").textContent =
+    rows.length === DATA.length ? `${DATA.length} connections` : `${rows.length} of ${DATA.length} connections`;
+  const list = document.getElementById("list");
+  list.innerHTML = rows.length ? rows.map(rowHtml).join("") : `<div class="empty">No connections match. Clear a filter or two.</div>`;
+
+  list.querySelectorAll(".row").forEach(rowEl => {
+    const id = rowEl.dataset.id;
+    rowEl.querySelector(".row-main").addEventListener("click", e => {
+      if (e.target.closest("select, .star-btn, a")) return;
+      openRows.has(id) ? openRows.delete(id) : openRows.add(id);
+      rowEl.classList.toggle("open");
+    });
+    rowEl.querySelector(".star-btn").addEventListener("click", () => {
+      setRec(id, { star: !rec(id).star });
+      renderStats();
+      const btn = rowEl.querySelector(".star-btn");
+      btn.classList.toggle("on"); btn.setAttribute("aria-pressed", rec(id).star ? "true" : "false");
+    });
+    rowEl.querySelector(".stage-sel").addEventListener("change", e => {
+      setRec(id, { stage: e.target.value });
+      e.target.className = "stage-sel " + (STAGE_CLASS[e.target.value] || "");
+      renderStats();
+    });
+    let t;
+    rowEl.querySelector("textarea").addEventListener("input", e => {
+      clearTimeout(t); t = setTimeout(() => setRec(id, { notes: e.target.value }), 300);
+    });
+  });
+}
+
+/* ---------- Insights ---------- */
+const COMPANY_PATHS = [
+  ["YouGov (alumni web)", /YouGov/i, "yougov"],
+  ["IE staff & faculty", /(Director|Professor|Dean|Coordinator|Head|Careers|Vice President).*IE (Business School|University)|IE (Business School|University).*(Director|Professor|Dean|Coordinator|Careers)/i, ""],
+  ["Iberdrola", /Iberdrola/i, "iberdrola"],
+  ["Deloitte", /Deloitte/i, "deloitte"],
+  ["Amazon / AWS", /Amazon|AWS\b/i, "amazon"],
+  ["Accenture", /Accenture/i, "accenture"],
+  ["Google (incl. ex)", /Google/i, "google"],
+  ["McKinsey", /McKinsey/i, "mckinsey"],
+  ["Hotel groups (Meliá, Iberostar, Palladium…)", /Meliá|Iberostar|Palladium|Barceló|Hotel|Resort/i, ""],
+  ["Salesforce", /Salesforce/i, "salesforce"],
+  ["Mastercard", /Mastercard/i, "mastercard"],
+  ["Big banks (Santander, BBVA…)", /Santander|BBVA|Bank of China|Julius Baer|Macquarie|JPM/i, ""],
+  ["Placewell", /Placewell/i, "placewell"],
+];
+
+const SIGNALS = [
+  { title: "Capital in the room — 30+ investor contacts",
+    why: "Direct lines into funds if you ever raise or need an intro for someone else: a Redpoint MD, Apollo, Mercury, impact funds and several pre-seed investors.",
+    people: ["Patrick Chase", "Jose Navarro", "John Vigna", "Madison Brelsford", "Yoko Kojima", "Kai Christian Buhofer", "Keith Ippel", "Erdinç Ekinci 🙋‍♂️", "Hardik Samdani", "Javier Calavera Estrada"] },
+  { title: "Hospitality talent decision-makers — connected in the last 10 weeks",
+    why: "CHRO of Meliá plus talent-acquisition leads at Iberostar, Palladium, Barceló and a hotel GM. Fresh connections; this is a live outreach window for any staffing/recruiting play.",
+    people: ["Gabriel Canaves", "Cristina Granados", "Laura López Añez", "Luis Fenollar Jaume", "Leila Strus", "Luis De la Fuente"] },
+  { title: "Placewell insiders + the Beech network",
+    why: "You're connected to Placewell's COO and staff, and five people with the Beech surname across recruiting, marketing and real estate — a dense family/business cluster.",
+    people: ["Jose Lorenzo (Joelo) E. Beech", "Estefano Rivera", "Jose Louis Beech", "Lukas Beech 🔍", "Janu Beech", "Jennifer Protacio-Beech"] },
+  { title: "Iberdrola: a mapped enterprise account",
+    why: "Six or seven contacts across one business unit (Smart Mobility / Smart Services), all added late March 2026 — including the Head of Smart Mobility. That's multi-threaded access into a utility giant.",
+    people: ["Jorge Muñoz Riesco", "Jon Macazaga", "Santiago Blanco Urdiales", "Pablo González Dos Santos", "Rubén Frías Osinaga", "Íñigo Fimia", "María Pardo Fuentes"] },
+  { title: "YouGov alumni web — ~29 contacts, highest-trust intros",
+    why: "Your 2022–23 era. Includes the CEO of YouGov Americas and the Global Head of YouGov Sport, plus ex-colleagues now spread across Kantar and the insights industry.",
+    people: ["Ray Martin", "Nicole Pike", "Victor Gras", "Dare Schenck", "Olivia Sanchez Torres", "Ben Paro", "Alejandro Herrera Gomez"] },
+  { title: "AI & Claude ecosystem circle",
+    why: "People building on or teaching the exact tools you build with — collaboration, distribution and audience: a Claude & Lovable ambassador, a Claude-based business coach, an enterprise Claude API builder, and a tech media host.",
+    people: ["Geoffrey Rolin Jacquemyns 🪁", "Maaria Tiensivu", "Matthew Damhauser", "Jesús Copado", "Jordi Hays"] },
+  { title: "IE institutional leverage — ~30 staff & faculty",
+    why: "Not classmates: the people who run the machine. Careers services, alumni office, entrepreneurship center and professors — routes to hiring pipelines, speaking slots and the startup ecosystem.",
+    people: ["Meryl His", "Víctor Cantavella Nadal", "Ines Drieselmann", "Dushinka Karani", "María Hernández Díaz", "Gayle Allard, PhD", "Balvinder Singh Powar", "Teresa Recio PhD"] },
+  { title: "A two-sided staffing marketplace hiding in the list",
+    why: "38 contacts flagged open-to-work (supply) and 65 recruiters plus 8 actively hiring (demand). If you broker even a few placements, this network pays for itself.",
+    people: [] },
+  { title: "The 2026 cohort bet — 516 connections this year",
+    why: "Half your network is the IE MBA wave (biggest month: Feb 2026, 120 adds). Today they're students; in 5 years they're decision-makers across 40+ countries. Cheapest long-term asset you own — tag and stay in touch.",
+    people: [] },
+  { title: "Vendor noise — park it",
+    why: "A visible band of 2024–25 connections are selling to you (lead-gen data vendors, insurance transfers, LinkedIn automation). Set them to Parked so pipeline stats reflect real relationships.",
+    people: ["Sárdar Hassan", "Asad Jeelani", "Talha Saghir", "Alejandro Garcia", "Casey OToole", "Andrew Hodukavich"] },
+];
+
+function jumpTo(query) {
+  showView("contacts");
+  state.q = query; state.tag = ""; state.year = ""; state.stage = ""; state.star = false; state._re = null;
+  document.getElementById("q").value = query;
+  render();
+  window.scrollTo({ top: 0 });
+}
+
+function bars(el, items, onClick) {
+  const max = Math.max(...items.map(i => i[1]), 1);
+  el.innerHTML = items.map(([label, n], i) =>
+    `<button class="bar-row" data-i="${i}"><span class="bl">${esc(label)}</span>
+       <span class="track"><span class="fill" style="width:${Math.round(n / max * 100)}%"></span></span>
+       <span class="n">${n}</span></button>`).join("");
+  el.querySelectorAll(".bar-row").forEach(b => b.onclick = () => onClick(items[+b.dataset.i]));
+}
+
+function renderInsights() {
+  const byYear = {};
+  DATA.forEach(r => { byYear[r.year] = (byYear[r.year] || 0) + 1; });
+  bars(document.getElementById("yearBars"),
+    Object.entries(byYear).sort((a, b) => b[0] - a[0]),
+    ([y]) => { showView("contacts"); state.year = y; yearSel.value = y; render(); window.scrollTo({top: 0}); });
+
+  bars(document.getElementById("tagBars"), TOP_TAGS,
+    ([t]) => { showView("contacts"); state.tag = t; render(); window.scrollTo({top: 0}); });
+
+  bars(document.getElementById("companyBars"),
+    COMPANY_PATHS.map(([label, re]) => [label, DATA.filter(r => re.test(r.headline + " " + (r.company || "") + " " + (r.position || ""))).length]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]),
+    ([label]) => {
+      const cp = COMPANY_PATHS.find(c => c[0] === label);
+      if (cp && cp[2]) { jumpTo(cp[2]); }
+      else {
+        showView("contacts");
+        state.q = ""; document.getElementById("q").value = "";
+        state._re = cp ? cp[1] : null; render(); window.scrollTo({top: 0});
+      }
+    });
+
+  document.getElementById("signals").innerHTML = SIGNALS.map(s =>
+    `<div class="signal"><h3>${esc(s.title)}</h3><div class="why">${esc(s.why)}</div>
+      <div class="people">${s.people.map(p => `<button class="person" data-p="${esc(p)}">${esc(p)}</button>`).join("")}</div></div>`).join("");
+  document.querySelectorAll(".person").forEach(el => el.onclick = () => jumpTo(el.dataset.p));
+}
+
+function showView(view) {
+  document.body.classList.toggle("show-insights", view === "insights");
+  document.getElementById("tabInsights").classList.toggle("on", view === "insights");
+  document.getElementById("tabContacts").classList.toggle("on", view !== "insights");
+  document.getElementById("tabInsights").setAttribute("aria-selected", view === "insights");
+  document.getElementById("tabContacts").setAttribute("aria-selected", view !== "insights");
+}
+document.getElementById("tabContacts").addEventListener("click", () => showView("contacts"));
+document.getElementById("tabInsights").addEventListener("click", () => showView("insights"));
+
+function render() { renderStats(); renderChips(); renderList(); renderInsights(); }
+
+document.getElementById("q").addEventListener("input", e => { state.q = e.target.value; state._re = null; renderList(); });
+yearSel.addEventListener("change", e => { state.year = e.target.value; state._re = null; renderList(); });
+document.getElementById("sortSel").addEventListener("change", e => { state.sort = e.target.value; renderList(); });
+document.getElementById("starFilter").addEventListener("click", e => {
+  state.star = !state.star;
+  e.target.setAttribute("aria-pressed", state.star);
+  e.target.classList.toggle("primary", state.star);
+  renderList();
+});
+
+async function download(name, text, type) {
+  if (window.claude && window.claude.downloads) {
+    try {
+      await window.claude.downloads.save({ filename: name, data: text });
+    } catch (err) {
+      if (err && err.code === "extension_not_enabled") {
+        try { await window.claude.downloads.save({ filename: name.replace(/\.[a-z0-9]+$/i, "") + ".txt", data: text }); }
+        catch (e2) { if (e2 && e2.code !== "declined") alert("Couldn't save the file: " + (e2.message || e2.code)); }
+      } else if (err && err.code === "rate_limited") {
+        alert("A save prompt is already open — respond to it, then try again.");
+      } else if (!err || err.code !== "declined") {
+        alert("Couldn't save the file: " + (err && (err.message || err.code) || "unknown error"));
+      }
+    }
+    return;
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name; a.click(); URL.revokeObjectURL(a.href);
+}
+document.getElementById("exportCsv").addEventListener("click", () => {
+  const head = ["name", "headline", "position", "company", "email", "url", "connected_on", "tags", "flags", "stage", "starred", "notes"];
+  const lines = [head.join(",")].concat(DATA.map(r => {
+    const c = rec(r.id);
+    return [r.name, r.headline, r.position || "", r.company || r.company_guess || "", r.email || "", r.url || "",
+            r.connected_on, r.tags.join("; "), r.flags || "",
+            STAGE_LABEL[c.stage || "new"], c.star ? "yes" : "", c.notes || ""]
+      .map(v => `"${String(v).replace(/"/g, '""')}"`).join(",");
+  }));
+  download("jordan-network-crm.csv", "﻿" + lines.join("\n"), "text/csv");
+});
+document.getElementById("exportJson").addEventListener("click", () =>
+  download("crm-backup.json", JSON.stringify(crm, null, 1), "application/json"));
+document.getElementById("importJson").addEventListener("click", () => document.getElementById("importFile").click());
+document.getElementById("importFile").addEventListener("change", e => {
+  const f = e.target.files[0]; if (!f) return;
+  f.text().then(txt => {
+    try {
+      const incoming = JSON.parse(txt);
+      crm = Object.assign({}, crm, incoming);
+      localStorage.setItem(LS_KEY, JSON.stringify(crm));
+      render();
+    } catch (err) { alert("That file is not a valid CRM backup (expected JSON exported by the Backup button)."); }
+  });
+});
+
+render();
+</script>
