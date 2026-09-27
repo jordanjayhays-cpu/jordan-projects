@@ -92,6 +92,45 @@ def main():
         f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
         f"&endDate={end.strftime('%Y-%m-%dT%H:%M:%SZ')}")
     posts = data["posts"] if isinstance(data, dict) else data
+
+    # Put back any track whose Reddit post FAILED to publish.
+    #
+    # On 2026-09-26 and 09-27 the post was created, sat in QUEUE, and went to
+    # ERROR at fire time with releaseURL and releaseId both null. The slug was
+    # already in reddit_posted by then, so the track was silently skipped for
+    # good. Two tracks were lost that way before anyone looked. Without this,
+    # every morning Reddit is broken burns one more track permanently.
+    #
+    # An ERROR with no releaseId definitively did not publish, so releasing the
+    # slug cannot produce a duplicate. A PUBLISHED post for the same title in
+    # the window wins and the slug stays recorded.
+    published_titles, failed = set(), {}
+    for rp in posts:
+        if (rp.get("integration") or {}).get("providerIdentifier") != "reddit":
+            continue
+        try:
+            t = json.loads(rp.get("settings") or "{}")["subreddit"][0]["value"]["title"]
+        except Exception:
+            continue
+        sl = re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", t.lower()).strip())
+        if rp.get("state") == "PUBLISHED" or rp.get("releaseId"):
+            published_titles.add(sl)
+        elif rp.get("state") == "ERROR":
+            failed[sl] = t
+    released = [sl for sl in failed
+                if sl not in published_titles and sl in state.get("reddit_posted", [])]
+    if released:
+        state["reddit_posted"] = [x for x in state["reddit_posted"] if x not in released]
+        json.dump(state, open(os.path.join(PIPE, "state.json"), "w"), indent=1)
+        subprocess.call(["git", "-C", ROOT, "add", "pipeline/state.json"])
+        subprocess.call(["git", "-C", ROOT, "-c", "user.name=Claude",
+                         "-c", "user.email=noreply@anthropic.com", "commit", "-q",
+                         "-m", f"reddit: released {', '.join(released)} after failed publish"])
+        subprocess.call(["git", "-C", ROOT, "push", "-q", "origin",
+                         "claude/philosophical-king-poster-raq2ke"])
+        print(f"released after ERROR on Reddit, will retry: {', '.join(released)}")
+        trace("released-failed", slugs=released)
+
     yts = [p for p in posts if p.get("integration", {}).get("providerIdentifier") == "youtube"
            and p.get("state") == "PUBLISHED" and p.get("releaseURL")]
     if not yts:
