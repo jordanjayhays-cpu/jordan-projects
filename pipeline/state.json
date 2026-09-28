@@ -46,9 +46,10 @@
   "Claim Your Mind",
   "Prison of the Will",
   "Winners Keep Winning",
-  "Rise and Fall"
+  "Rise and Fall",
+  "The Bureaucracy Trap"
  ],
- "last_scheduled_date": "2026-10-02",
+ "last_scheduled_date": "2026-10-03",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -125,6 +126,7 @@
   "2026-09-29": "claim-your-mind",
   "2026-09-30": "prison-of-the-will",
   "2026-10-01": "winners-keep-winning",
-  "2026-10-02": "rise-and-fall"
+  "2026-10-02": "rise-and-fall",
+  "2026-10-03": "the-bureaucracy-trap"
  }
 }
