@@ -115,3 +115,140 @@ becoming the tier that hub needs.
 
 Both tables are in the report with APA citations, the poverty figures use one consistent reference
 period, and no row contains a number you cannot point to a source for.
+
+---
+
+# PRIMARY SOURCE — read from the JICA Final Report itself, 2026-09-29
+
+Source: **JICA & MCDCB, *The Roadmap Study for Sustainable Urban Development in Metro Cebu*, Final
+Report Summary** (68 pp.), openjicareport.jica.go.jp/pdf/12235529.pdf. Everything below is quoted
+from that document, not from press coverage. **Use these and delete the web-sourced equivalents.**
+
+## CORRECTION to the table above
+
+I earlier recorded the 90% wastewater treatment figure as the 2024–27 Sewerage Master Plan's target.
+**That was wrong.** The JICA roadmap states the targets plainly:
+
+> *"it was targeted that the waste water treatment system cover **50% of the population in 2030 and
+> 90% in 2050**."*
+
+**90% is a 2050 target, not a near-term one.** And the roadmap's framing of the problem is blunter
+than any paraphrase: *"waste water has been hardly treated to begin with. Consequently, the water
+quality of the metropolis is worsening."* Quote that line directly — it does the work of a paragraph.
+
+## Population — Table 6.1, thousands
+
+| | 1980 | 1990 | 2000 | 2010 | **2030** | **2050** | 2050/2010 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **Metro Cebu** | 1,088 | 1,454 | 1,930 | **2,551** | **3,810** | **4,993** | **2.0×** |
+| Cebu City | 490.3 | 610.4 | 718.8 | 866.2 | 1,090.7 | 1,211.6 | 1.4× |
+| Lapu-Lapu City | 98.7 | 146.2 | 217.0 | 350.5 | 645.2 | 803.8 | 2.3× |
+| Mandaue City | 110.6 | 180.3 | 259.7 | 331.3 | 445.4 | 506.9 | 1.5× |
+| City of Carcar | 57.8 | 70.8 | 89.2 | 107.3 | 190.9 | 400.5 | **3.7×** |
+| San Fernando | 28.3 | 35.1 | 48.2 | 61.0 | 96.9 | 187.1 | **3.1×** |
+| Consolacion | 27.5 | 41.3 | 62.3 | 106.6 | 210.9 | 280.4 | 2.6× |
+| Liloan | 30.2 | 42.6 | 65.0 | 100.5 | 202.8 | 271.0 | 2.7× |
+
+**The population conflict is resolved: use 3,810,000 for 2030.** Drop the 3.3M figure entirely.
+
+**And there is an argument hiding in this table.** The core cities grow 1.4–1.5×. The periphery grows
+**2.6× to 3.7×.** Growth is happening in exactly the small LGUs with the least planning capacity, and
+no metropolitan body can compel any of them. **That is your governance argument made arithmetically,
+and it is a far better use of this table than the headline total.**
+
+## Land demand — Table 6.2
+
+New urban land required 2011–2050: **12,120 ha**, which the report notes is **11% of the total area
+of Metro Cebu and about 66% of the current urbanized area.** Of that, **3,120 ha is industrial and
+service land under PEZA category.**
+
+**The PEZA line is directly usable:** the roadmap planned for 3,120 ha of PEZA-category land, and
+MEPZ today is 150 ha and shedding jobs.
+
+## Regional economy — Table 2.2 (constant 2000 prices)
+
+| | 2009 | 2012 | Annual growth, Central Visayas | Philippines |
+| --- | --- | --- | --- | --- |
+| **Per capita GRDP** | **₱44,993** | **₱56,507** | **7.9%** | 4.2% |
+| GRDP total (₱M) | 301,882.9 | 397,651.7 | 9.6% | 6.0% |
+| Secondary / industry (₱M) | 98,301.7 | 145,507.4 | **14.0%** | 6.7% |
+| Industry share of GRDP | 32.6% | **36.6%** | | |
+| Service share of GRDP | 58.5% | 56.2% | | |
+
+**The sentence to quote, because it is the whole pro-poor pillar in one line:**
+
+> *"the growth in the industry sector did not contribute to the expansion of employment as much as
+> the other sectors."*
+
+Industry grew **14% a year** and did not create proportionate jobs. Set that beside the 7,883 MEPZ
+jobs lost since 2023 and you have growth without employment, then employment loss. **That is the
+inclusive-growth failure, evidenced from the region's own roadmap.**
+
+Target for 2050: per capita GRDP **above USD 20,000.**
+
+## Poverty — Table 2.3, National Statistical Coordination Board
+
+| 2012 | Poverty incidence among **families** | Poverty incidence among **population** | Magnitude of poor |
+| --- | --- | --- | --- |
+| **Cebu province** | **18.9%** | **22.7%** | 1,000,163 |
+| **Central Visayas** | **25.7%** | **30.2%** | 2,094,911 |
+| **Philippines** | 19.7% | 25.2% | 23,745,895 |
+
+**This solves the semestral-vs-annual trap.** These are consistent, same-source, same-year figures
+with families and population reported separately. **Use this table and cite NSCB via JICA.** If you
+also want the recent PSA numbers, present them as a separate, later observation and say explicitly
+that the reference periods differ.
+
+## Informal settlement — the best single figure in the report
+
+> **35,217 informal settler families (ISFs) in Metro Cebu. Nearly 50% reside in the City of Talisay,
+> followed by Cebu City with 32%.**
+
+Specific, sourced, and spatially concentrated. **Talisay holds nearly half the metro's ISFs** — which
+is also one of the peripheral LGUs, tying informality directly to the growth-and-capacity argument.
+
+## Mobility — the measurement, not an impression
+
+A travel speed survey covered **343 road sections** across the metropolis, by direction and time
+period. The report's threshold: **roads with travel speeds below 10 kph show serious congestion.**
+
+Cite the methodology and the threshold rather than a single average speed. It is more defensible and
+it shows you read the study.
+
+## The 13 LGUs named their own priorities
+
+The report lists **four major development issues in Metro Cebu**, as identified by the member LGUs:
+
+1. **Septage and sewerage management**
+2. **Solid waste management**
+3. **Traffic management, public transport, roads and other transport infrastructure**
+4. **Water supply**
+
+**This is the strongest validation available for your section 3.** You are not imposing an outside
+analyst's priorities — the thirteen local governments named these themselves, and your argument is
+that the institutional structure makes all four unsolvable at municipal scale.
+
+## What is now fully sourced
+
+Population (all years, all LGUs) · per capita GRDP · GRDP by sector · poverty, families and
+population, three geographies · informal settler families and their distribution · wastewater targets
+and dates · land demand including PEZA category · travel speed methodology · the LGUs' own priorities.
+
+## Still not sourced, and now safe to drop
+
+- **Average commute time.** The survey measured *speeds*, not door-to-door times. Cite the 10 kph
+  threshold instead and remove the commute-time row.
+- **Piped-water coverage as a % of households.** Not in the Summary volume. It may be in Supporting
+  Report 2 (water supply, stormwater and wastewater). Either fetch that volume or drop the row.
+- **MEPZ current total employment.** Still inconsistent across sources. Keep using the 7,883 jobs
+  lost, which is specific and dated.
+
+## Discernment
+
+- **The 2012 GRDP and poverty figures are at constant 2000 prices and are fourteen years old.** They
+  are the roadmap's own baseline, which is legitimate for describing the plan, but say the year every
+  time. Do not present 2012 data as current conditions.
+- **Do not mix the NSCB 2012 poverty figures with the PSA 2023 ones in a single comparison.** Method
+  and reference period both changed.
+- The report is the **Summary** volume. Supporting Reports hold the detail — fetch one only if you
+  need the water-coverage figure.
