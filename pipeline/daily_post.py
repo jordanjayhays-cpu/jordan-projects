@@ -446,44 +446,25 @@ def main():
     # Reddit gets community wording: one plain sentence on what the song is, no promotion
     desc_path = os.path.join(PIPE, "descriptions.json")
     descs = json.load(open(desc_path)) if os.path.exists(desc_path) else {}
-    reddit_content = f"<p>{descs.get(slug_, f'A philosophy track exploring the idea behind its title: {title}.')}</p>"
-
     social = []
-    pending_reddit = None
     for integ in integrations:
         if integ["platform"] == "reddit":
-            # Reddit posts SAME-DAY (not at queue end): link the newest LIVE YouTube video,
-            # once per track ever (state.reddit_posted), scheduled for later this morning UTC.
-            yt = latest_published_youtube()
-            if yt is None:
-                print("skipping reddit: no published YouTube video to link yet")
-                continue
-            yt_title, yt_url, yt_slug = yt
-            # Prefer the FULL song over the 30-second teaser. Reddit is a place
-            # people sit and listen; a teaser cutting off mid-verse reads as an ad.
-            from yt_catalogue import full_song
-            yt_url = full_song(slug=yt_slug, title=yt_title) or yt_url
-            if yt_slug in state.get("reddit_posted", []):
-                print(f"skipping reddit: {yt_slug} already posted there")
-                continue
-            r_desc = descs.get(yt_slug, f"One idea, one song: {yt_title}.")
-            from datetime import datetime as _dt, timezone as _tz, timedelta as _td
-            now = _dt.now(_tz.utc)
-            r_when = max(now.replace(hour=10, minute=0, second=0), now + _td(minutes=30))
-            social.append({"integrationId": integ["id"], "isPremium": False,
-                           "date": r_when.strftime("%Y-%m-%dT%H:%M:00"),
-                           "shortLink": False, "type": "schedule",
-                           "postsAndComments": [{"content": f"<p>{r_desc}</p>", "attachments": []}],
-                           "settings": platform_settings("reddit", yt_title, media_url=yt_url)})
-            # NOT marked posted here. Postiz can accept the call and create
-            # fewer posts than asked for, and Reddit is the one it drops,
-            # because the separate same-day Reddit routine has usually posted
-            # already that morning. Recording it here marked tracks as done
-            # that were never posted, and reddit_daily.py then skipped them
-            # forever as "already on Reddit". Between 08-31 and 09-12 that left
-            # exactly two Reddit posts in thirteen days. Recorded after the
-            # call instead, only if the post actually came back.
-            pending_reddit = (integ["id"], yt_slug)
+            # Reddit belongs to reddit_daily.py, not to this script.
+            #
+            # Both used to post to Reddit, three hours apart, sharing one dedupe
+            # list (state.reddit_posted). That only held together while the list
+            # never gave a slug back: this script ran at 06:10, found the slug
+            # reddit_daily.py had recorded the previous morning, and skipped.
+            # Once reddit_daily.py started releasing slugs whose post failed to
+            # publish, the skip stopped firing and 2026-09-29 got two Reddit
+            # submissions nine minutes apart. Two posts in one morning from a
+            # small account is what Reddit rate-limited on 09-14, and the two
+            # days after that were rejected outright.
+            #
+            # One poster, one dedupe list, one post a day. reddit_daily.py has
+            # the retry, the reconciliation and the tracing; this script has
+            # none of it and does not need to.
+            print("skipping reddit: reddit_daily.py owns that channel")
             continue
         else:
             body, attach = content, [up["path"]]
@@ -506,26 +487,19 @@ def main():
     # noticed the number and the list disagreeing. On 2026-09-13 that was
     # Reddit: five requested, four created, no error anywhere.
     made = res.get("output") or []
-    wanted = [i["platform"] for i in integrations]
+    # Reddit is deliberately not in this count: reddit_daily.py posts it, so a
+    # run that never asked for it is not a run that came up short.
+    video = [i for i in integrations if i["platform"] != "reddit"]
+    wanted = [i["platform"] for i in video]
     print(f"scheduled {title} on {nxt} across {len(made)} of {len(wanted)} "
           f"channel(s):", wanted)
-    if pending_reddit:
-        rid, rslug = pending_reddit
-        created = {m.get("integration") for m in made if isinstance(m, dict)}
-        if rid in created:
-            state.setdefault("reddit_posted", []).append(rslug)
-        else:
-            print(f"reddit did NOT schedule for {rslug} — leaving it unmarked so "
-                  f"reddit_daily.py retries it tomorrow")
-
     if len(made) != len(wanted):
         made_ids = {m.get("integration") for m in made if isinstance(m, dict)}
-        missing = [i["platform"] for i in integrations
+        missing = [i["platform"] for i in video
                    if made_ids and i["id"] not in made_ids] or ["unknown"]
         print(f"WARNING: {len(wanted) - len(made)} channel(s) did NOT schedule "
-              f"({', '.join(missing)}). The day is live but short. Reddit is the "
-              f"usual one: the pipeline schedules it same-day and the separate "
-              f"same-day Reddit routine may already have posted.")
+              f"({', '.join(missing)}). The day is live but short. Postiz can "
+              f"accept the call and create fewer posts than asked for, silently.")
 
     queue.pop(0)
     state["posted"].append(title)
