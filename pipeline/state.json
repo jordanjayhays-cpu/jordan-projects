@@ -47,9 +47,10 @@
   "Prison of the Will",
   "Winners Keep Winning",
   "Rise and Fall",
-  "The Bureaucracy Trap"
+  "The Bureaucracy Trap",
+  "Elephant & Rider"
  ],
- "last_scheduled_date": "2026-10-03",
+ "last_scheduled_date": "2026-10-04",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -79,7 +80,8 @@
   "levels-of-layers",
   "the-experience-machine",
   "elephant-in-the-room",
-  "off-course"
+  "off-course",
+  "the-self-that-wasnt"
  ],
  "schedule": {
   "2026-08-18": "gnostic-gospels",
@@ -126,6 +128,7 @@
   "2026-09-30": "prison-of-the-will",
   "2026-10-01": "winners-keep-winning",
   "2026-10-02": "rise-and-fall",
-  "2026-10-03": "the-bureaucracy-trap"
+  "2026-10-03": "the-bureaucracy-trap",
+  "2026-10-04": "elephant-rider"
  }
 }
