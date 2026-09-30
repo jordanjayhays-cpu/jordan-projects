@@ -17,3 +17,4 @@
 {"at": "2026-09-28T09:36:32+00:00", "outcome": "posted", "slug": "off-course", "title": "Off Course", "when": "2026-09-28T09:51:00", "link": "https://www.youtube.com/watch?v=W4pSubnoToA"}
 {"at": "2026-09-29T09:36:10+00:00", "outcome": "released-failed", "slugs": ["off-course"]}
 {"at": "2026-09-29T09:36:20+00:00", "outcome": "posted", "slug": "9-to-fake", "title": "9 to Fake", "when": "2026-09-29T09:51:00", "link": "https://www.youtube.com/watch?v=5jbvnan0Srk"}
+{"at": "2026-09-30T09:36:26+00:00", "outcome": "released-failed", "slugs": ["9-to-fake"]}
