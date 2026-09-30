@@ -48,9 +48,10 @@
   "Winners Keep Winning",
   "Rise and Fall",
   "The Bureaucracy Trap",
-  "Elephant & Rider"
+  "Elephant & Rider",
+  "The Illusion of No Escape"
  ],
- "last_scheduled_date": "2026-10-04",
+ "last_scheduled_date": "2026-10-05",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -128,6 +129,7 @@
   "2026-10-01": "winners-keep-winning",
   "2026-10-02": "rise-and-fall",
   "2026-10-03": "the-bureaucracy-trap",
-  "2026-10-04": "elephant-rider"
+  "2026-10-04": "elephant-rider",
+  "2026-10-05": "the-illusion-of-no-escape"
  }
 }
