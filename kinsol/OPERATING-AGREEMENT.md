@@ -124,27 +124,46 @@ supersedes any prior understanding.
 
 ---
 
-## Signature
+## 12. Electronic execution
 
-The undersigned, being the sole Member of Kinsol LLC, adopts this Operating Agreement as of the
-Effective Date.
-
-<br>
-
-**Member:** ______________________________
-
-Jordan Hays, Sole Member
-
-**Date:** ______________________
+12.1 The Member intends this Agreement to be executed electronically. A typed signature below
+constitutes the Member's signature and is intended to have the same effect as a handwritten one, under
+the federal E-SIGN Act (15 U.S.C. § 7001) and the Colorado Uniform Electronic Transactions Act
+(C.R.S. § 24-71.3-101 et seq.).
 
 ---
 
-## Before you sign — the four blanks
+## Signature
 
-1. **Effective date** — copy the formation date from the Articles of Organization
+The undersigned, being the sole Member of Kinsol LLC, adopts this Operating Agreement as of the
+Effective Date and intends the typed signature below to be their legal signature.
+
+<br>
+
+**Member signature:** `/s/ ` [TYPE YOUR FULL NAME HERE]
+
+**Print name:** Jordan Hays
+
+**Title:** Sole Member
+
+**Date signed:** [TYPE TODAY'S DATE]
+
+---
+
+## The five blanks — all typed, nothing to print
+
+1. **Effective date** (top of document) — copy the formation date from the Articles of Organization
 2. **Madrid residential address** — clause 1.3, and it must match what you give Mercury
 3. **Initial capital contribution** — clause 4.1. Any honest number; $1,000 is unremarkable
-4. **Clauses 6.3 and 6.4** — leave as written. They are flagged questions for your CPA, not decisions
-   to make tonight
+4. **Clauses 6.3 and 6.4** — leave as written. They are flagged CPA questions, not decisions for tonight
+5. **The signature block** — type your name after `/s/ ` and type the date
 
-Print, sign, scan. A signed PDF is what Mercury wants to see.
+**No printer and no scanner.** Fill the blanks, export to PDF, done. If you would rather have a
+handwriting-style signature on it, paste an image of your own signature into the block — but the typed
+version is equally valid and faster.
+
+### Why I am not typing your name for you
+
+This document's only job is to record that *you* adopted it, and Mercury relies on it during
+onboarding. Me typing your name would make the one thing the document is supposed to prove untrue.
+Typing it yourself takes about five seconds, which is the whole remaining cost.
