@@ -1,6 +1,6 @@
 # BUSINESS DEVELOPMENT REFERRAL AGREEMENT
 
-**Between:** Kinsol LLC, a limited liability company organised under the laws of the State of [STATE, USA] ("Kinsol"), represented by Jordan Hays, Member
+**Between:** Kinsol LLC, a limited liability company organised under the laws of the State of Colorado ("Kinsol"), represented by Jordan Hays, Member
 **And:** Placewell International [exact legal name and registration number], a company organised under the laws of the Republic of the Philippines ("Placewell"), represented by [Eleanor Escueta, title] (name spelling UNSURE, confirm)
 **Effective date:** [DATE]. This Agreement records in writing the arrangement the Parties have operated verbally since [MONTH YEAR].
 

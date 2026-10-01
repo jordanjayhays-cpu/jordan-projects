@@ -1,6 +1,6 @@
 # BILLING AND SERVICES AGREEMENT
 
-**Between:** Kinsol LLC, a limited liability company organised under the laws of the State of [STATE, USA] ("Kinsol"), represented by Jordan Hays, Member
+**Between:** Kinsol LLC, a limited liability company organised under the laws of the State of Colorado ("Kinsol"), represented by Jordan Hays, Member
 **And:** Amigo Sales, currently operated by Jordan Hays as a sole proprietor doing business as Amigo Sales, and after formation, Amigo Sales LLC [or other entity] ("Amigo")
 **Effective date:** [DATE]
 
