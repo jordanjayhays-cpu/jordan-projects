@@ -67,11 +67,14 @@ budgets, which is the opposite of the buyer in this idea.
 | 2 | A coffee cup generates meaningful impressions | **FAILS.** See the arithmetic. ~5 views per cup |
 | 3 | The QR code converts | **FAILS.** 1–5%, median 2 scans, a third get zero |
 | 4 | Cafés want co-branding | **Untested and probably conditional.** A café's cup is its own branding; handing it to a stranger for three hours has a real cost to them |
-| 5 | Printed cups can be produced in small runs affordably | **UNVERIFIED and it is the live question.** Print economics are dominated by setup at 300 units. **Quote this before anything else** |
+| 5 | Printed cups can be produced in small runs affordably | **PASSES — quoted 2026-10-01.** Digital printing has no plate, so there is no setup wall. €0.79/cup at 300, €0.17/cup at 1,000. See the quotes below |
 | 6 | Three hours is a meaningful unit | **Weak as media. Strong as an event.** Nobody buys three hours of reach. People do buy a launch moment |
 
 **Assumption 2 and 3 failing together means the product is not advertising.** The idea survives only
 if what is being sold is something other than impressions.
+
+**Assumption 5 passing kills "three hours" as the product.** See the MOQ finding below — the smallest
+real print run is roughly ten times what a café pours in three hours.
 
 ---
 
@@ -123,21 +126,69 @@ posted about it.
 
 ---
 
+## Printer quotes — Spain, pulled 2026-10-01
+
+This was the one assumption flagged as decisive, and it is now answered. **I was wrong about it.**
+I assumed small runs would be crushed by plate setup. They are not: these are **digital** print, 1–4
+inks, so there is no plate and no setup wall.
+
+| Supplier | Cup | Min order | Total | Per cup |
+| --- | --- | --- | --- | --- |
+| Punto Q Pack (ES) | 240 ml paper, digital 1–4 inks | 1,000 | €155 – €218 | **€0.155 – €0.218** |
+| Punto Q Pack (ES) | 250 ml | 300 | €236.49 | **€0.788** |
+| Punto Q Pack (ES) | 330 ml | 400 | €325.69 | €0.814 |
+| Labo Print (EU) | 100–120 ml | 500 | — | €0.13 – €0.28 |
+| Limepack (ES) | full colour, unlimited inks | 1,000 | — | not published |
+| Vistaprint (ES) | drinkware | 500 | from €746 | €1.50 (worst of the set) |
+
+**UNSURE: whether these are ex-VAT.** Spanish B2B sites usually quote ex-VAT, so assume **+21%** and
+add shipping. Artwork/plate cost appears to be nil on the digital lines; **confirm in writing** before
+committing to a price with a customer.
+
+### The MOQ finding — this is the real result
+
+The smallest genuine print run is **300 cups.** A single independent café pours perhaps **10–40
+coffees in three hours** (my estimate, UNVERIFIED — count one before relying on it).
+
+**So the minimum order is roughly 10× what a three-hour slot consumes.** Three consequences:
+
+1. **"Three hours" is an artefact of nothing.** It is not a unit the supply chain can produce. One run
+   covers eight to fifteen slots.
+2. **The small option costs more and delivers less.** 300 cups = €236 and three hours. 1,000 cups =
+   €170 and roughly a week. **The cheaper purchase is the bigger one.** Any pricing built on hours is
+   upside-down against its own cost base.
+3. **Sell a week, not an afternoon.** It is cheaper to produce, more honest to describe, and the only
+   version where the brand is on the counter long enough for the café's regulars to see it twice.
+
+### It still does not rescue the media case
+
+Real prices, redone: 1,000 cups at €0.17 ex-VAT is **€206 inc. VAT.** At 5 views per cup that is
+5,000 impressions → **€41 CPM** for the cups alone, **€89 – €131 CPM** for the full package. Facebook
+local is ~€11. **Cheaper print did not fix it — it is still 4× to 12× worse than Meta.** Assumptions
+2 and 3 stand. The event framing remains the only one that survives.
+
+---
+
 ## Unit economics — a frame to test, not a forecast
 
-**Every number below is UNVERIFIED and must be quoted before it is used.**
+**One line is now quoted. The rest are still UNVERIFIED and must be checked before they are used.**
+Priced as a **week-long** takeover at 1,000 cups, because the MOQ finding says that is both cheaper
+and more defensible than three hours.
 
-| Line | Estimate | Note |
+| Line | Figure | Status |
 | --- | --- | --- |
-| 300 printed single-wall cups, small run | **€90 – €240** | **Dominated by setup at this volume. The number that decides everything. GET A QUOTE FIRST** |
-| Café fee for three hours of cup space | €100 – €200 | Pure guess. No café has been asked |
-| Photographer, 90 minutes | €120 – €250 | Madrid rates |
-| **Your cost** | **€310 – €690** | |
-| **Price to startup** | **€900 – €1,500** | A plausible one-off activation budget for a funded seed startup. **Untested** |
-| **Margin per event** | **€250 – €1,100** | |
+| 1,000 printed cups, 240 ml, digital 1–4 inks | **€155 – €218 ex-VAT / €188 – €264 inc.** | **QUOTED 2026-10-01.** Was my biggest unknown; it came back cheap |
+| Café fee for a week of cup space | €150 – €300 | **Pure guess. No café has been asked** |
+| Photographer, 90 minutes at the launch | €120 – €250 | Madrid rates, **unverified** |
+| Shipping | €15 – €40 | **Unverified** |
+| **Your cost** | **€473 – €854** | |
+| **Price to startup** | **€900 – €1,500** | A plausible one-off activation budget for a funded seed startup. **Untested — this is the number that actually decides it** |
+| **Margin per event** | **€50 – €1,030** | Spread is enormous because the price is a guess, not because the cost is |
 
-**Ten events is €2,500–€11,000.** That is a real side business and not a venture. Price it honestly as
-what it is.
+**The cost side is now mostly known and the revenue side is entirely unknown.** That inverts the
+kill-test: stop quoting printers, go ask one startup what it would pay.
+
+**Ten events is €500–€10,300.** A side business, not a venture. Price it honestly as what it is.
 
 ---
 
@@ -146,9 +197,9 @@ what it is.
 1. **You sell it as advertising.** Then the founder measures scans, gets three, and tells other
    founders. **Mitigation: never quote impressions, never quote the industry's CPM, never promise QR
    performance. Sell the assets and the café's post, which are deliverable with certainty.**
-2. **Small-run cup printing is uneconomic.** If 300 cups cost €400 because of plate setup, the margin
-   disappears. **Mitigation: get three printer quotes before you speak to a single café or startup.
-   This is the cheapest kill-test available and it costs one afternoon.**
+2. ~~**Small-run cup printing is uneconomic.**~~ **CLEARED 2026-10-01.** Quotes came back at
+   €0.17–0.79/cup; digital print has no plate. The risk has moved: **the unknown is now the price a
+   startup will pay, not the cost to produce.** Mitigation: ask one founder before printing anything.
 3. **Cafés say no.** A café's cup is its own brand asset and three hours of it is a real concession.
    **Mitigation: ask two cafés before building anything. If both say no, the idea is dead and you have
    spent nothing.**
@@ -167,23 +218,27 @@ Reinertsen's WIP logic, adding a 42nd project while 22 sit idle makes the queue 
 - Its kill-test is **genuinely cheap**: three printer quotes and two café conversations. Under a day,
   and it either dies or it does not.
 
-**Recommendation: do the kill-test, do not build.** If cup printing is cheap and one café says yes,
-it earns a slot when something else ships.
+**Recommendation: do the kill-test, do not build.** Printing came back cheap, so the remaining gate is
+one founder naming a number. If a founder will pay €900+, it earns a slot when something else ships.
 
 ---
 
 ## The kill-test, in order
 
-1. **Three printer quotes** for 300 single-colour printed cups, Madrid, small run. *(Claude can do
-   this — it is research, not outreach.)*
-2. **Two café conversations.** Would you let a startup brand your cups for three hours, and what
-   would you want for it? *(Jordan only. Two conversations.)*
-3. **One startup conversation.** Would you pay €1,000 for cups, a photographer and the café's post on
-   your launch day? *(Jordan only. One conversation.)*
+1. ~~**Three printer quotes.**~~ **DONE 2026-10-01.** €0.17–0.79/cup, no plate setup, MOQ 300.
+   See the quotes table. *Step 1 passed and reframed the product from hours to a week.*
+2. **One startup conversation — do this before step 3.** Would you pay €1,000 for a week of branded
+   cups in a café, a photographer at your launch, 12 social assets and the café's own post? *(Jordan
+   only. One conversation.)* **This is now the decisive question**, because the cost side is known and
+   the revenue side is not.
+3. **Two café conversations.** Would you let a startup brand your cups for a week, and what would you
+   want for it? *(Jordan only. Two conversations.)* Only worth having if step 2 gives a number.
 
-**If steps 1–3 all come back positive, run the SAFE version once. If any one fails, it is dead and it
-cost you three conversations.**
+**Order changed on purpose.** Originally this went printers → cafés → startup. With printing resolved,
+the biggest remaining unknown is willingness to pay, so that question moves to the front. If one
+founder will not name a number, the café conversations are wasted breath.
 
 ## Accept when
 
-Three printer quotes exist, two cafés have answered, and one startup has said a number out loud.
+One startup has said a number out loud, and if that number clears €900, two cafés have answered.
+*(Printer quotes: complete.)*
