@@ -50,9 +50,10 @@
   "The Bureaucracy Trap",
   "Elephant & Rider",
   "The Illusion of No Escape",
-  "Dia De Los Muertos"
+  "Dia De Los Muertos",
+  "Bullshit Jobs"
  ],
- "last_scheduled_date": "2026-10-06",
+ "last_scheduled_date": "2026-10-07",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -132,6 +133,7 @@
   "2026-10-03": "the-bureaucracy-trap",
   "2026-10-04": "elephant-rider",
   "2026-10-05": "the-illusion-of-no-escape",
-  "2026-10-06": "dia-de-los-muertos"
+  "2026-10-06": "dia-de-los-muertos",
+  "2026-10-07": "bullshit-jobs"
  }
 }
