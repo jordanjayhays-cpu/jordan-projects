@@ -23,3 +23,4 @@
 {"at": "2026-10-01T09:36:19+00:00", "outcome": "posted", "slug": "claim-your-mind", "title": "Claim Your Mind", "when": "2026-10-01T09:51:00", "link": "https://www.youtube.com/watch?v=u4Vz52CCFOg"}
 {"at": "2026-10-02T09:36:44+00:00", "outcome": "released-failed", "slugs": ["claim-your-mind"]}
 {"at": "2026-10-02T09:36:52+00:00", "outcome": "posted", "slug": "prison-of-the-will", "title": "Prison of the Will", "when": "2026-10-02T09:51:00", "link": "https://www.youtube.com/watch?v=CzTIBnkC2E8"}
+{"at": "2026-10-03T09:36:12+00:00", "outcome": "released-failed", "slugs": ["prison-of-the-will"]}
