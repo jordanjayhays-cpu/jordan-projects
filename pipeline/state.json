@@ -51,9 +51,10 @@
   "Elephant & Rider",
   "The Illusion of No Escape",
   "Dia De Los Muertos",
-  "Bullshit Jobs"
+  "Bullshit Jobs",
+  "They say we're free"
  ],
- "last_scheduled_date": "2026-10-07",
+ "last_scheduled_date": "2026-10-08",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -134,6 +135,7 @@
   "2026-10-04": "elephant-rider",
   "2026-10-05": "the-illusion-of-no-escape",
   "2026-10-06": "dia-de-los-muertos",
-  "2026-10-07": "bullshit-jobs"
+  "2026-10-07": "bullshit-jobs",
+  "2026-10-08": "they-say-were-free"
  }
 }
