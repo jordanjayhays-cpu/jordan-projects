@@ -53,9 +53,10 @@
   "Dia De Los Muertos",
   "Bullshit Jobs",
   "They say we're free",
-  "The Dark Night of the Soul"
+  "The Dark Night of the Soul",
+  "The Spirit of Shinto"
  ],
- "last_scheduled_date": "2026-10-09",
+ "last_scheduled_date": "2026-10-10",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -138,6 +139,7 @@
   "2026-10-06": "dia-de-los-muertos",
   "2026-10-07": "bullshit-jobs",
   "2026-10-08": "they-say-were-free",
-  "2026-10-09": "the-dark-night-of-the-soul"
+  "2026-10-09": "the-dark-night-of-the-soul",
+  "2026-10-10": "the-spirit-of-shinto"
  }
 }
