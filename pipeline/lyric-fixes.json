@@ -201,5 +201,13 @@
    "now": "Commerce thrives, trade routes expand",
    "why": "'Commarses' is not a word. The line sits between 'from warriors to merchants' and 'trade routes expand', so it is Commerce."
   }
+ ],
+ "dia-de-los-muertos": [
+  {
+   "i": 20,
+   "was": "lie to candles",
+   "now": "light the candles",
+   "why": "'lie to candles' is not a phrase. It sits between 'that's the expectation' and 'say your prayer, set the spirits free', so it is lighting candles."
+  }
  ]
 }
