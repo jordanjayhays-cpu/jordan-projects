@@ -54,9 +54,10 @@
   "Bullshit Jobs",
   "They say we're free",
   "The Dark Night of the Soul",
-  "The Spirit of Shinto"
+  "The Spirit of Shinto",
+  "Uncarved Block"
  ],
- "last_scheduled_date": "2026-10-10",
+ "last_scheduled_date": "2026-10-11",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -141,6 +142,7 @@
   "2026-10-07": "bullshit-jobs",
   "2026-10-08": "they-say-were-free",
   "2026-10-09": "the-dark-night-of-the-soul",
-  "2026-10-10": "the-spirit-of-shinto"
+  "2026-10-10": "the-spirit-of-shinto",
+  "2026-10-11": "uncarved-block"
  }
 }
