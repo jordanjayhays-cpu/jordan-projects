@@ -55,9 +55,10 @@
   "They say we're free",
   "The Dark Night of the Soul",
   "The Spirit of Shinto",
-  "Uncarved Block"
+  "Uncarved Block",
+  "Escape the Code"
  ],
- "last_scheduled_date": "2026-10-11",
+ "last_scheduled_date": "2026-10-12",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -144,6 +145,7 @@
   "2026-10-08": "they-say-were-free",
   "2026-10-09": "the-dark-night-of-the-soul",
   "2026-10-10": "the-spirit-of-shinto",
-  "2026-10-11": "uncarved-block"
+  "2026-10-11": "uncarved-block",
+  "2026-10-12": "escape-the-code"
  }
 }
