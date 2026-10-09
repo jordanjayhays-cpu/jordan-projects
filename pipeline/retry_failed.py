@@ -11,7 +11,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PIPE = os.path.join(ROOT, "pipeline")
 KEY = os.environ.get("POSTIZ_KEY") or sys.exit("POSTIZ_KEY not set")
 CA = "/root/.ccr/ca-bundle.crt"
-RETRY_PLATFORMS = {"youtube", "instagram-standalone", "tiktok"}
+# Facebook joined on 2026-10-09: it had published 11 days straight and then
+# errored once, and nothing retried it because it was not in this set.
+# Reddit stays out: reddit_daily.py owns that channel and has its own retry.
+RETRY_PLATFORMS = {"youtube", "instagram-standalone", "tiktok", "facebook"}
 RAW = "https://raw.githubusercontent.com/jordanjayhays-cpu/jordan-projects/claude/philosophical-king-poster-raq2ke/music-assets"
 
 def mcp(name, args):
