@@ -239,5 +239,19 @@
    "now": "Groupthink,",
    "why": "same line, second chorus."
   }
+ ],
+ "escape-the-code": [
+  {
+   "i": 2,
+   "was": "Nio was lost, caught in",
+   "now": "Neo was lost, caught in",
+   "why": "The track is The Matrix; the protagonist is Neo."
+  },
+  {
+   "i": 5,
+   "was": "Kane said, here's the key",
+   "now": "came, said here's the key",
+   "why": "There is no Kane in The Matrix. The previous segment ends on Morpheus, so the line is 'Morpheus came, said here's the key'."
+  }
  ]
 }
