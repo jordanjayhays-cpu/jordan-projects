@@ -28,8 +28,8 @@ If a reading for this course has ever been wrong, this is the most likely place 
 
 | # | Session | Item |
 |---|---|---|
-| 1 | 1. Introduction | The Methodology of Geopolitics |
-| 2 | 1. Introduction | Thinking Straight: Cognitive Bias in the US Debate about China |
+| 1 | 1. Introduction | The Methodology of Geopolitics — **have it** (Friedman, Stratfor 2008) |
+| 2 | 1. Introduction | Thinking Straight: Cognitive Bias in the US Debate about China — **have it** (Kerbel, Studies in Intelligence 2004) |
 | 3 | 2. Scale, Resources & Routes | The World Explained in Maps *(working paper)* |
 | 4 | 3. Demography | With Great Demographics Comes Great Power |
 | 5 | 5. 3-GRAIN Technology | **Video:** La Ingeniería Genética Cambiará Todo Para Siempre — CRISPR |
@@ -112,6 +112,13 @@ it is wrong unless you either know the answer or can cross-check it with another
 responsible for any errors or omissions."*
 
 ---
+
+## Have the PDF
+
+Filed under `readings/`. Session 1 is covered; prep notes in `SESSION-01-prep.md`.
+
+- `S01-1_Friedman_Methodology_of_Geopolitics.pdf`
+- `S01-2_Kerbel_Thinking_Straight.pdf`
 
 ## Still needed
 
