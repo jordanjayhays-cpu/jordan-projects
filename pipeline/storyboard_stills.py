@@ -87,8 +87,8 @@ def main():
         return 0
 
     os.makedirs(a.out_dir, exist_ok=True)
-    sys.path.insert(0, "/tmp/claude-0/-home-user-jordan-projects/"
-                       "768ae2b7-9878-5207-b3e8-50f2736cf423/scratchpad")
+    # series_frame used to live in a session scratchpad, which every container
+    # rebuild wiped. It sits beside this file now.
     import series_frame as S
 
     for s in shots:
