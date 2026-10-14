@@ -238,6 +238,12 @@
    "was": "Group thing,",
    "now": "Groupthink,",
    "why": "same line, second chorus."
+  },
+  {
+   "i": 8,
+   "was": "on fear nevertheless you're free",
+   "now": "on fear never sets you free",
+   "why": "'nevertheless you're free' does not parse after 'peace built on fear'; the rapped line is 'never sets you free'."
   }
  ],
  "escape-the-code": [
@@ -252,6 +258,20 @@
    "was": "Kane said, here's the key",
    "now": "came, said here's the key",
    "why": "There is no Kane in The Matrix. The previous segment ends on Morpheus, so the line is 'Morpheus came, said here's the key'."
+  }
+ ],
+ "cash-rules-nothing-around-me": [
+  {
+   "i": 4,
+   "was": "keeps us drowning sweetly By",
+   "now": "keeps us drowning sweetly. Buy",
+   "why": "'By the dream sell the soul' is 'Buy the dream, sell the soul'."
+  },
+  {
+   "i": 5,
+   "was": "the dream sell the soul",
+   "now": "the dream, sell the soul",
+   "why": "second half of the same line."
   }
  ]
 }
