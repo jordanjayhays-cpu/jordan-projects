@@ -42,3 +42,4 @@
 {"at": "2026-10-15T09:36:16+00:00", "outcome": "released-failed", "slugs": ["escape-the-code"]}
 {"at": "2026-10-15T09:36:18+00:00", "outcome": "crashed", "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"}
 {"at": "2026-10-15T09:36:28+00:00", "outcome": "crashed", "error": "JSONDecodeError: Expecting value: line 1 column 1 (char 0)"}
+{"at": "2026-10-15T09:37:13+00:00", "outcome": "posted", "slug": "group-think-chronicles", "title": "Group Think Chronicles", "when": "2026-10-15T09:52:00", "link": "https://www.youtube.com/watch?v=RRXA6AoK77o"}
