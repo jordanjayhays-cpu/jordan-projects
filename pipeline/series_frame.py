@@ -12,7 +12,9 @@ made from stills and a moving camera rather than from clips.
 No key is stored here. POSTIZ_KEY comes from the environment, falling back to
 /tmp/.pz, the same as every other script in this pipeline.
 """
-import json, os, subprocess, time
+import json, os, subprocess, sys, time
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import mcp_parse
 
 CA = "/root/.ccr/ca-bundle.crt"
 
@@ -47,7 +49,7 @@ def mcp(name, args, tries=3):
                  "-H", "Accept: application/json, text/event-stream",
                  "-d", payload],
                 timeout=300)
-            d = json.loads(out)
+            d = mcp_parse.parse(out)
             body = d["result"]["content"][0]["text"]
             if d["result"].get("isError"):
                 return {"error": body[:300]}
