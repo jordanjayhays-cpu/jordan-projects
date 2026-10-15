@@ -5,8 +5,9 @@
 
 Reads title/hook/note from music-assets/zh/titles.json and the bilingual lyric
 file, builds the blocks, and PATCHes them in after the intro divider so the new
-entry lands at the top. The page-note paragraph is read from <slug>.note if it
-sits next to this script, otherwise falls back to the titles.json note.
+entry lands at the top. The fourth argument is a file holding the page note,
+the paragraph of guidance written for the friend who posts it; leave it off and
+the entry repeats the concept note, which is already in the caption.
 """
 import json, os, sys, urllib.request
 
@@ -31,9 +32,11 @@ def main():
     meta = json.load(open(f"{ROOT}/music-assets/zh/titles.json"))[slug]
     rows = json.load(open(f"{ROOT}/music-assets/zh/{slug}-lyrics-zh.json"))
 
-    here = os.path.dirname(os.path.abspath(__file__))
-    note_path = os.path.join(here, f"{slug}.note")
-    page_note = open(note_path).read().strip() if os.path.exists(note_path) else meta["note"]
+    # The page note is the guidance for the friend posting it, which is NOT the
+    # concept note in the caption. Pass it as a fourth argument; without one the
+    # entry falls back to the concept note, which only repeats the caption.
+    note_path = sys.argv[4] if len(sys.argv) > 4 else None
+    page_note = open(note_path).read().strip() if note_path else meta["note"]
 
     caption = (f"{meta['title']}：{meta['hook']} 👑\n\n{meta['note']}\n\n"
                "把哲学里的每一个念头，写成一首歌。\n\n"
