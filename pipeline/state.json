@@ -63,9 +63,10 @@
   "Mind Unchained",
   "Through Their Eyes",
   "Minds Divided",
-  "Altered States of Faith"
+  "Altered States of Faith",
+  "No Fences, No Kings"
  ],
- "last_scheduled_date": "2026-10-19",
+ "last_scheduled_date": "2026-10-20",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -166,6 +167,7 @@
   "2026-10-16": "mind-unchained",
   "2026-10-17": "through-their-eyes",
   "2026-10-18": "minds-divided",
-  "2026-10-19": "altered-states-of-faith"
+  "2026-10-19": "altered-states-of-faith",
+  "2026-10-20": "no-fences-no-kings"
  }
 }
