@@ -39,3 +39,4 @@
 {"at": "2026-10-13T09:36:43+00:00", "outcome": "posted", "slug": "uncarved-block", "title": "Uncarved Block", "when": "2026-10-13T09:51:00", "link": "https://www.youtube.com/watch?v=5a0_bIDYsKA"}
 {"at": "2026-10-14T09:36:43+00:00", "outcome": "released-failed", "slugs": ["uncarved-block"]}
 {"at": "2026-10-14T09:36:52+00:00", "outcome": "posted", "slug": "escape-the-code", "title": "Escape the Code", "when": "2026-10-14T09:51:00", "link": "https://www.youtube.com/watch?v=DeuJNC4ZXUg"}
+{"at": "2026-10-15T09:36:16+00:00", "outcome": "released-failed", "slugs": ["escape-the-code"]}
