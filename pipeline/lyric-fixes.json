@@ -281,5 +281,19 @@
    "now": "Meditate to crack the",
    "why": "'frag the code' is not the line; it is 'crack the code'."
   }
+ ],
+ "mind-unchained": [
+  {
+   "i": 0,
+   "was": "More shadows, no more lies",
+   "now": "No more shadows, no more lies",
+   "why": "the transcript dropped the first 'No', which reverses the line."
+  },
+  {
+   "i": 3,
+   "was": "they'll try to bond",
+   "now": "they'll try to bind",
+   "why": "'bind' rhymes with 'mind' and matches 'cage' in the next line; 'bond' does neither."
+  }
  ]
 }
