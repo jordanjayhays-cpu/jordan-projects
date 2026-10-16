@@ -12,6 +12,8 @@ Env:  POSTIZ_KEY (required)
 Deps: ffmpeg, pip install faster-whisper  (installed automatically if missing)
 """
 import json, os, re, ssl, subprocess, sys, itertools, urllib.request
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import mcp_parse
 from datetime import date, timedelta
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -56,7 +58,7 @@ def mcp(name, args):
     out = sh("curl", "-sS", "--cacert", CA, "-X", "POST", "https://mcp.postiz.com/mcp",
              "-H", f"Authorization: Bearer {KEY}", "-H", "Content-Type: application/json",
              "-H", "Accept: application/json, text/event-stream", "-d", payload)
-    d = json.loads(out)
+    d = mcp_parse.parse(out)
     body = d["result"]["content"][0]["text"]
     if d["result"].get("isError"):
         raise RuntimeError(body[:500])

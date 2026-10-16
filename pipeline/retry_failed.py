@@ -5,6 +5,8 @@ gets re-scheduled once with identical content and fresh media, and the errored
 entry is deleted. Runs shortly after the morning posting window. Env: POSTIZ_KEY.
 """
 import json, os, ssl, subprocess, sys, time, urllib.request
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import mcp_parse
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +25,7 @@ def mcp(name, args):
     out = subprocess.check_output(["curl", "-sS", "--cacert", CA, "-X", "POST",
         "https://mcp.postiz.com/mcp", "-H", f"Authorization: Bearer {KEY}",
         "-H", "Content-Type: application/json", "-H", "Accept: application/json, text/event-stream", "-d", payload])
-    d = json.loads(out)
+    d = mcp_parse.parse(out)
     body = d["result"]["content"][0]["text"]
     if d["result"].get("isError"):
         raise RuntimeError(body[:300])
