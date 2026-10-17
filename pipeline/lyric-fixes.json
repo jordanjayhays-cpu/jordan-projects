@@ -295,5 +295,19 @@
    "now": "they'll try to bind",
    "why": "'bind' rhymes with 'mind' and matches 'cage' in the next line; 'bond' does neither."
   }
+ ],
+ "through-their-eyes": [
+  {
+   "i": 3,
+   "was": "It's not about a green",
+   "now": "It's not about agreeing",
+   "why": "'a green' is 'agreeing'; the line is 'It's not about agreeing, but learning to see'."
+  },
+  {
+   "i": 21,
+   "was": "Lutivism's the",
+   "now": "Relativism's the",
+   "why": "the track is about cultural relativism; there is no such word as Lutivism."
+  }
  ]
 }
