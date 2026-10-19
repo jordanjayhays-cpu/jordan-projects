@@ -67,9 +67,10 @@
   "No Fences, No Kings",
   "Dance with the Abyss",
   "The Fly in the Glass",
-  "Blind Shepherds, Lost Flocks"
+  "Blind Shepherds, Lost Flocks",
+  "Shock Doctrine"
  ],
- "last_scheduled_date": "2026-10-23",
+ "last_scheduled_date": "2026-10-24",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -174,6 +175,7 @@
   "2026-10-20": "no-fences-no-kings",
   "2026-10-21": "dance-with-the-abyss",
   "2026-10-22": "the-fly-in-the-glass",
-  "2026-10-23": "blind-shepherds-lost-flocks"
+  "2026-10-23": "blind-shepherds-lost-flocks",
+  "2026-10-24": "shock-doctrine"
  }
 }
