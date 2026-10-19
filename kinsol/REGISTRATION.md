@@ -10,18 +10,31 @@ Verified from the Northwest Registered Agent account, 2026-10-01.
 | Registered agent / filing service | **Northwest Registered Agent** |
 | Filing | Standard processing, approved ~2026-09-04 |
 | Registered address | Northwest's Denver address (home address shielded) |
-| **EIN letter** | **RECEIVED 2026-10-01** — held in Northwest → Documents (2 pages) |
+| **EIN** | **32-0871752** |
+| EIN name control | **KINS** (needed for e-filing) |
+| EIN assigned by IRS | **2026-09-28** |
+| EIN letter received at Northwest | 2026-10-01 — held in Northwest → Documents (2 pages) |
 | Member | Jordan Hays |
 
-## The EIN number is deliberately NOT in this file
+## On recording the EIN here
 
-It is a tax identifier. It lives in the EIN Letter in the Northwest Documents area and in
-the IRS letter itself. Do not paste it into any repo, chat, or doc. Anything that needs it
-(bank application, Stripe, Meta verification) should read it from Northwest directly.
+Jordan asked for it on the record, 2026-10-19, and it is above. Two notes:
+
+**It is not a secret of the SSN class.** The IRS notice itself says you may share a copy
+"with anyone asking for proof of your EIN." It goes on every W-9, to every client who pays
+you, and to every bank and vendor. Treating it as unshareable was over-cautious of me.
+
+**It is also not nothing.** An EIN plus a company name is the raw material for business
+identity theft — opening credit or filing returns in the company's name. This repo is
+private; keep it that way, and do not put the EIN in anything public (a website, an invoice
+template that gets shared around, a pitch deck).
+
+The signed IRS notice itself stays in Northwest → Documents. A copy belongs in a password
+manager, not in git — an image of the letter committed here could never be fully removed.
 
 ## What the EIN unblocks, in order
 
-1. **Business bank account** — Mercury or Relay. Needs the EIN letter plus the Articles.
+1. **Business bank account** — Mercury or Relay. Needs the EIN letter plus the Articles. **Unblocked — you have everything.**
 2. **Stripe on Kinsol LLC** — needed before the first real sale of anything.
 3. **Meta Business verification** — which lifts Massage Club's WhatsApp sending ceiling to 250/day.
 4. **Invoicing** for both Massage Club and Amigo Sales, which is the reason Kinsol exists.
