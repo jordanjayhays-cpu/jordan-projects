@@ -68,9 +68,10 @@
   "Dance with the Abyss",
   "The Fly in the Glass",
   "Blind Shepherds, Lost Flocks",
-  "Shock Doctrine"
+  "Shock Doctrine",
+  "This is Water"
  ],
- "last_scheduled_date": "2026-10-24",
+ "last_scheduled_date": "2026-10-25",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -176,6 +177,7 @@
   "2026-10-21": "dance-with-the-abyss",
   "2026-10-22": "the-fly-in-the-glass",
   "2026-10-23": "blind-shepherds-lost-flocks",
-  "2026-10-24": "shock-doctrine"
+  "2026-10-24": "shock-doctrine",
+  "2026-10-25": "this-is-water"
  }
 }
