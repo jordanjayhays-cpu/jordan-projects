@@ -1,6 +1,12 @@
 # ISLAND DIRECT — run of show
 **ISA Storytelling & Public Speaking · final group project · Prof. Javier**
-Deck: https://claude.ai/artifact/LdBv3TdU7wjbxpkLPZoXVM · 15 slides · 5 speakers
+Deck: https://claude.ai/artifact/LdBv3TdU7wjbxpkLPZoXVM · 17 slides · 5 speakers
+
+## The story we are telling
+A man is awake at four in the morning with two tabs open. One is a private island. The other is
+how much a bunker costs. **He is the same customer, and nobody is selling him one island that does
+both.** Tab one is the good year, above the ground. Tab two is the bad year, below it. The lesson,
+and the last thing Javier hears before the callback: **he never had to close either tab.**
 
 ## The one message (say it at least five times)
 > **You are not buying an island. You are buying access.**
@@ -13,17 +19,17 @@ Speaker 1 names these on three fingers in the opening, and Speaker 1 closes on t
 
 1. **What it is** — Katafanga, 225 freehold acres, Fiji
 2. **What it costs** — $17,000,000, or $85,000 if there are 200 of you
-3. **What it becomes** — Necker's list above ground, the bunker below
+3. **What he gets** — Necker's list above ground, the bunker below
 
 ## Who speaks when
 
 | # | Speaker | Part | Slides | Job |
 |---|---------|------|--------|-----|
-| 1 | | **The opening + the island** | hook · island · gallery | Grabber, topic, WIFM. Then the island and the photos. |
+| 1 | | **The opening + the buyer** | hook · buyer · island · gallery | Grabber, topic, WIFM. Then the two tabs — the story everything hangs off. |
 | 2 | | **Why it is worth anything** | where · turn · butwait | Distance as the product. Then the obstacle, then the pattern break. |
-| 3 | | **The maths** | club · nownext | $20m already spent, $17m asked, $85,000 a share. Same photo twice. |
-| 4 | | **The vision** | built · amenities | The plan view, then Necker's list item for item. |
-| 5 | | **The bad year** | bunker · bunkerin · bunkerreal | The cutaway, the six rooms, the receipts. Then opens Q&A. |
+| 3 | | **The maths** | club · nownext | $20m already spent, $17m asked, $85,000 a share. Then now vs next. |
+| 4 | | **Tab one, the good year** | render · built · amenities | The aerial render, the plan view, Necker's list item for item. |
+| 5 | | **Tab two, the bad year** | bunker · bunkerin · bunkerreal | Eight levels, six rooms, the receipts. Then opens Q&A. |
 | — | all five | **Questions** | questions | Q&A happens here — *before* the close. Javier's rule. |
 | 1 | (returns) | **The closing** | access | Summary, WIFM, grabber callback. All five say the last line. |
 
@@ -58,7 +64,8 @@ at the end.
 - **Running costs, staff wages** → Speaker 3. Honest answer: it is the part nobody puts on a slide and we have not costed it.
 - **Is the club legal in Fiji?** → Speaker 3. The brochure itself proposes strata-titling the villas so the residences fund the resort. It is the seller's model, not ours.
 - **200 people all want Christmas** → Speaker 4. Booking rights, and say plainly we have not designed them.
-- **Is the bunker serious?** → Speaker 5. The bunker is our idea. The market for it is not.
+- **Is the bunker serious?** → Speaker 5. The bunker is our idea. The market for it is not — the room list comes straight off survivalcondo.com.
+- **Is that a photo?** → Speaker 4. No. The aerial is a massing render we drew. Say it before he asks.
 
 If a question has no answer, say so in one sentence. Do not invent one.
 
