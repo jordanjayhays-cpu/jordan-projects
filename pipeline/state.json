@@ -69,9 +69,10 @@
   "The Fly in the Glass",
   "Blind Shepherds, Lost Flocks",
   "Shock Doctrine",
-  "This is Water"
+  "This is Water",
+  "Monk and the Moment"
  ],
- "last_scheduled_date": "2026-10-25",
+ "last_scheduled_date": "2026-10-26",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -178,6 +179,7 @@
   "2026-10-22": "the-fly-in-the-glass",
   "2026-10-23": "blind-shepherds-lost-flocks",
   "2026-10-24": "shock-doctrine",
-  "2026-10-25": "this-is-water"
+  "2026-10-25": "this-is-water",
+  "2026-10-26": "monk-and-the-moment"
  }
 }
