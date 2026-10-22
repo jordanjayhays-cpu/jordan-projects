@@ -1,85 +1,84 @@
-# ISLAND DIRECT — run of show
+# ISLAND DIRECT — LIVE · run of show
 **ISA Storytelling & Public Speaking · final group project · Prof. Javier**
-Deck: https://claude.ai/artifact/LdBv3TdU7wjbxpkLPZoXVM · 22 slides · 5 speakers
+Deck: https://claude.ai/artifact/LdBv3TdU7wjbxpkLPZoXVM · 16 slides · 5 speakers
 
-## The shape of it — an infomercial, in order
-A television is on at four in the morning. There is an island for sale for $17,000,000. We show
-you the island, then we take you round everything it has when it is finished, then we tell you
-what somebody already spent on it — and *then* we drop the price to $85,000. And then, once you
-think the offer is over: **but wait, there's more.** The bonus is eight levels of shelter under
-the villa, and that part is not a joke, because it is already built in Kansas.
+## The format
+It is not a presentation about an infomercial. It **is** a broadcast. Every slide carries the same
+furniture: a LIVE bug, a clock running from 04:12 to 05:11, a call-now ticker, and a bar along the
+bottom with the item number, the price, and the number of memberships left. The counter falls from
+**200 to 0** across the show. That counter is the story — it does the work no bullet point can.
+
+Five speakers, five items. Nobody is "the next slide" — you are each presenting your own segment of
+the same programme, and you hand over the way presenters do, by name and by item.
 
 ## The one message (say it at least five times)
 > **You are not buying an island. You are buying access.**
 
-Planted by Speaker 1, repeated by Speakers 2 and 3, and said by all five together as the last
-line. That is five plantings — the minimum Javier asks for.
+## The three parts we announce at 04:12
+Speaker 1 names these on three fingers in the cold open and Speaker 1 closes on the same three.
+1. **One item** — Katafanga, 225 freehold acres, Fiji
+2. **One price** — $17,000,000, or $85,000 if there are 200 of you
+3. **Two hundred memberships** — and by the end they are gone
 
-## The three parts we announce (Rule of 3)
-Speaker 1 names these on three fingers in the opening, and Speaker 1 closes on the same three.
+## Who presents what
 
-1. **What it is** — Katafanga, 225 freehold acres, Fiji
-2. **What it costs** — $17,000,000, or $85,000 if there are 200 of you
-3. **What he is really buying** — the finished island above, and the bonus underneath
-
-## Who speaks when
-
-| # | Speaker | Part | Slides | Job |
-|---|---------|------|--------|-----|
-| 1 | | **The cold open + the island** | open · hook · island · gallery | The TV at 4am, the price, the island, the photographs. |
-| 2 | | **Why it is worth anything** | where · nownext | Distance as the product. Then now vs next. |
-| 3 | | **The tour** | render · greathouse · villas · pools · sport · water · golfstrip · amenities | Eight fast beats, ten seconds each. Name it, three lines, move. |
-| 4 | | **What you get, and what it costs** | club · turn | $20m already spent → the price drop to $85,000. |
-| 5 | | **But wait, there's more** | butwait · bunker · bunkerin · bunkerreal | The bonus: eight levels, the real photographs, the receipts. Then opens Q&A. |
-| — | all five | **Questions** | questions | Q&A happens here — *before* the close. Javier's rule. |
-| 1 | (returns) | **The closing** | access | Summary, WIFM, grabber callback. All five say the last line. |
+| # | Speaker | Item | Slides | The job |
+|---|---------|------|--------|---------|
+| 1 | | **ITEM 001 — the island** | onair · item1 · frames | Open the channel. The island, three numbers, then ten seconds of silence on the photographs. |
+| 2 | | **ITEM 002 — the location** | where · noway | The distance ladder down to Madrid. Then: one hour by charter, no other way in. |
+| 3 | | **ITEM 003 — the build** | already · benchmark · benchmark2 · thebuild | $20m already spent. Then Necker as the benchmark, named honestly. Then what we finish. |
+| 4 | | **ITEM 004 — the price** | price · selling | $17,000,000 slashed → **$85,000**. Then the counter crash, and the line that gives the game away. |
+| 5 | | **ITEM 005 — the bonus** | butwait · bonus · receipts | But wait, there's more. The real shelter photographs. The receipts. |
+| — | all five | **Caller one** | caller | Q&A — *before* the close. Javier is caller one, on the air. |
+| 1 | (returns) | **The close** | soldout | SOLD OUT. Summary, WIFM, callback to 04:12. All five say the last line. |
 
 Write your names into the table and bring a printed copy each.
 
 ## Javier's checklist, and where we hit it
-
 | His requirement | Where |
 |---|---|
-| Three-point opening: grabber, topic, WIFM | Speaker 1, slides 1–2 — the TV at 4am, then "Seventeen. Million. Dollars." |
-| Three-point closing: summary, WIFM, grabber | Speaker 1, slide 15 — callback to the same three words |
-| Q&A *before* the closing | slide 14, its own slide so we cannot forget |
-| Memorable message | "You are not buying an island. You are buying access." |
-| Parts that flow and support the message | every handoff is scripted in the slide notes |
-| Props, stories, participation, rhetoric | printed listing as a prop; "do you have $17m?" to Javier; 10 seconds of silence on the photos; the infomercial register itself |
-| Slides as a visual aid | headline titles, one idea per slide, images over text, no slide over six lines |
-| Style skills | one named technique per speaker, in the notes |
-| ~1 min per person | ~6 min of speech in a 20-min slot, rest is Q&A and feedback |
+| Three-point opening: grabber, topic, WIFM | Speaker 1, slide 1 — "It's four in the morning. If you're awake, you're who we're talking to." |
+| Three-point closing: summary, WIFM, grabber | Speaker 1, slide 16 — callback to the clock and the opening words |
+| Q&A **before** the closing | slide 15, its own slide, so it cannot be forgotten |
+| Memorable message | "You're not buying an island. You're buying access." |
+| Parts that flow and support the message | five items in one broadcast hour, handed over by name |
+| Props, stories, participation, rhetoric | the counter, the clock, the phone number, and Javier made caller one |
+| Slides as a visual aid | every slide is a photograph or one big number; no slide is read aloud |
+| ~1 min per person | ~6 minutes of air time inside the 20-minute slot |
 
-## Style assignment — one each, so Javier sees five different things
-- **Speaker 1** — stillness. Walk on, say nothing for three seconds while a TV glows in a dark room.
-- **Speaker 2** — the pause. Freeze after the distance ladder lands on Madrid, 17,424 km, then three full seconds of nothing.
-- **Speaker 3** — pace. The opposite: the tour is eight slides fast, ten seconds each, no dawdling.
-- **Speaker 4** — the price drop. Point at $17,000,000, say "not today", then say $85,000 and stop dead for three seconds.
-- **Speaker 5** — volume. Drop it for the bunker, then lift for "in Kansas."
+## Style assignment — one each, so he sees five different things
+- **Speaker 1** — stillness. Three seconds of silence before the first word, and again on the photo grid.
+- **Speaker 2** — the pause. Freeze on "no other way in", then three full seconds of nothing.
+- **Speaker 3** — honesty as a technique. Name Necker as Necker in your first breath, before he can.
+- **Speaker 4** — the drop. Say "$85,000" and stop dead. Do not fill the silence.
+- **Speaker 5** — volume. Loud on "but wait", then all the way down for the shelter.
 
-Everyone: eye contact on Javier for 3–5 seconds at a time, hands loose at your thighs and free to
-gesture, no clasping or crossing, no swaying, **never read a slide**, and nobody says "thank you"
-at the end.
+Everyone: eye contact on Javier for 3–5 seconds at a time, hands loose at your thighs, no clasping
+or crossing, no swaying, **never read a slide**, and nobody says "thank you" at the end.
+
+## The one line that protects the whole thing
+Speaker 4, on the counter slide, deadpan: *"That number is completely made up. Everything else on
+this channel tonight is real, and the small print says which is which."* It gets the laugh and it
+buys back every bit of credibility the format spends.
 
 ## Q&A — who takes what
-- **Running costs, staff wages** → Speaker 3. Honest answer: it is the part nobody puts on a slide and we have not costed it.
-- **Is the club legal in Fiji?** → Speaker 3. The brochure itself proposes strata-titling the villas so the residences fund the resort. It is the seller's model, not ours.
+- **Is the club legal in Fiji?** → Speaker 3. The brochure itself proposes strata-titling the villas so the residences fund the resort. The seller's model, not ours.
+- **What does $85,000 actually buy?** → Speaker 4. Honest answer: we priced the purchase, not the running of it.
 - **200 people all want Christmas** → Speaker 4. Booking rights, and say plainly we have not designed them.
 - **Is the bunker serious?** → Speaker 5. The bunker is our idea. The market for it is not — the room list comes straight off survivalcondo.com.
-- **Is that a photo?** → Speaker 4. No. The aerial is a massing render we drew. Say it before he asks.
+- **Is that your island in the photo?** → Speaker 3. No. Necker and the shelter photographs are credited on the slide. Every Katafanga photo is the real island.
 
 If a question has no answer, say so in one sentence. Do not invent one.
 
 ## Honesty rules we are holding to
-Every number on a slide is a real listing, a real brochure line, or a real purchase somebody has
-already made, and each slide's fine print says which and when it was retrieved. Three things are
-ours and are labelled as ours on the slides: the 200-member club, the build, and the bunker.
-Nothing is costed and we say so out loud before anyone asks.
+Every photograph is credited on the slide it appears on, with the source and the date. The
+Katafanga images are the island we are selling; the Necker images are labelled Necker; the shelter
+images are labelled Kansas. Three things are ours and are labelled as ours: the 200-member club,
+the build, and the shelter. The membership counter is a device and the slide says so.
 
 ## Before the session
 - [ ] Submit the deck link to Javier by Blackboard message (**deadline unconfirmed — check**)
 - [ ] Agree presentation order with the other groups
-- [ ] Print the Katafanga listing page — Speaker 1's prop for the close
 - [ ] Rehearse standing, out loud, in the room, at least 10 times
-- [ ] Time it: if we are over 7 minutes of speech, cut, do not rush
+- [ ] Time it: if you are over 7 minutes of speech, cut `benchmark2` first
 - [ ] Learn `B` / `W` to blank the screen, and type a slide number + Enter to jump
