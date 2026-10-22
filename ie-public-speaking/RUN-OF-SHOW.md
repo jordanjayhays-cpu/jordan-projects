@@ -1,12 +1,13 @@
 # ISLAND DIRECT — LIVE · run of show
 **ISA Storytelling & Public Speaking · final group project · Prof. Javier**
-Deck: https://claude.ai/artifact/LdBv3TdU7wjbxpkLPZoXVM · 16 slides · 5 speakers
+Deck: https://claude.ai/artifact/LdBv3TdU7wjbxpkLPZoXVM · 15 slides · 5 speakers
 
 ## The format
 It is not a presentation about an infomercial. It **is** a broadcast. Every slide carries the same
 furniture: a LIVE bug, a clock running from 04:12 to 05:11, a call-now ticker, and a bar along the
 bottom with the item number, the price, and the number of memberships left. The counter falls from
-**200 to 0** across the show. That counter is the story — it does the work no bullet point can.
+**200 to 0** across the show without anyone explaining it, until Speaker 4 points at it and admits
+it is made up. That counter is the story — it does the work no bullet point can.
 
 Five speakers, five items. Nobody is "the next slide" — you are each presenting your own segment of
 the same programme, and you hand over the way presenters do, by name and by item.
@@ -26,8 +27,8 @@ Speaker 1 names these on three fingers in the cold open and Speaker 1 closes on 
 |---|---------|------|--------|---------|
 | 1 | | **ITEM 001 — the island** | onair · item1 · frames | Open the channel. The island, three numbers, then ten seconds of silence on the photographs. |
 | 2 | | **ITEM 002 — the location** | where · noway | The distance ladder down to Madrid. Then: one hour by charter, no other way in. |
-| 3 | | **ITEM 003 — the build** | already · benchmark · benchmark2 · thebuild | $20m already spent. Then Necker as the benchmark, named honestly. Then what we finish. |
-| 4 | | **ITEM 004 — the price** | price · selling | $17,000,000 slashed → **$85,000**. Then the counter crash, and the line that gives the game away. |
+| 3 | | **ITEM 003 — the build** | already · benchmark · benchmark2 | $20m already spent. Then Branson's island is perfect — then BOOM, three times the land. |
+| 4 | | **ITEM 004 — the price** | thebuild · price | What goes on it, then $17,000,000 slashed → **$85,000**, and the line that gives the game away. |
 | 5 | | **ITEM 005 — the bonus** | butwait · bonus · receipts | But wait, there's more. The real shelter photographs. The receipts. |
 | — | all five | **Caller one** | caller | Q&A — *before* the close. Javier is caller one, on the air. |
 | 1 | (returns) | **The close** | soldout | SOLD OUT. Summary, WIFM, callback to 04:12. All five say the last line. |
@@ -49,7 +50,7 @@ Write your names into the table and bring a printed copy each.
 ## Style assignment — one each, so he sees five different things
 - **Speaker 1** — stillness. Three seconds of silence before the first word, and again on the photo grid.
 - **Speaker 2** — the pause. Freeze on "no other way in", then three full seconds of nothing.
-- **Speaker 3** — honesty as a technique. Name Necker as Necker in your first breath, before he can.
+- **Speaker 3** — warmth, then the turn. Be genuinely admiring about Necker, then say "Boom" out loud and stop.
 - **Speaker 4** — the drop. Say "$85,000" and stop dead. Do not fill the silence.
 - **Speaker 5** — volume. Loud on "but wait", then all the way down for the shelter.
 
@@ -80,5 +81,5 @@ the build, and the shelter. The membership counter is a device and the slide say
 - [ ] Submit the deck link to Javier by Blackboard message (**deadline unconfirmed — check**)
 - [ ] Agree presentation order with the other groups
 - [ ] Rehearse standing, out loud, in the room, at least 10 times
-- [ ] Time it: if you are over 7 minutes of speech, cut `benchmark2` first
+- [ ] Time it: if you are over 7 minutes of speech, cut `frames` first (the photo grid)
 - [ ] Learn `B` / `W` to blank the screen, and type a slide number + Enter to jump
