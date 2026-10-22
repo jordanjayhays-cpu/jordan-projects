@@ -1,12 +1,13 @@
 # ISLAND DIRECT — run of show
 **ISA Storytelling & Public Speaking · final group project · Prof. Javier**
-Deck: https://claude.ai/artifact/LdBv3TdU7wjbxpkLPZoXVM · 17 slides · 5 speakers
+Deck: https://claude.ai/artifact/LdBv3TdU7wjbxpkLPZoXVM · 22 slides · 5 speakers
 
-## The story we are telling
-A man is awake at four in the morning with two tabs open. One is a private island. The other is
-how much a bunker costs. **He is the same customer, and nobody is selling him one island that does
-both.** Tab one is the good year, above the ground. Tab two is the bad year, below it. The lesson,
-and the last thing Javier hears before the callback: **he never had to close either tab.**
+## The shape of it — an infomercial, in order
+A television is on at four in the morning. There is an island for sale for $17,000,000. We show
+you the island, then we take you round everything it has when it is finished, then we tell you
+what somebody already spent on it — and *then* we drop the price to $85,000. And then, once you
+think the offer is over: **but wait, there's more.** The bonus is eight levels of shelter under
+the villa, and that part is not a joke, because it is already built in Kansas.
 
 ## The one message (say it at least five times)
 > **You are not buying an island. You are buying access.**
@@ -19,17 +20,17 @@ Speaker 1 names these on three fingers in the opening, and Speaker 1 closes on t
 
 1. **What it is** — Katafanga, 225 freehold acres, Fiji
 2. **What it costs** — $17,000,000, or $85,000 if there are 200 of you
-3. **What he gets** — Necker's list above ground, the bunker below
+3. **What he is really buying** — the finished island above, and the bonus underneath
 
 ## Who speaks when
 
 | # | Speaker | Part | Slides | Job |
 |---|---------|------|--------|-----|
-| 1 | | **The opening + the buyer** | hook · buyer · island · gallery | Grabber, topic, WIFM. Then the two tabs — the story everything hangs off. |
-| 2 | | **Why it is worth anything** | where · turn · butwait | Distance as the product. Then the obstacle, then the pattern break. |
-| 3 | | **The maths** | club · nownext | $20m already spent, $17m asked, $85,000 a share. Then now vs next. |
-| 4 | | **Tab one, the good year** | render · built · amenities | The aerial render, the plan view, Necker's list item for item. |
-| 5 | | **Tab two, the bad year** | bunker · bunkerin · bunkerreal | Eight levels, six rooms, the receipts. Then opens Q&A. |
+| 1 | | **The cold open + the island** | open · hook · island · gallery | The TV at 4am, the price, the island, the photographs. |
+| 2 | | **Why it is worth anything** | where · nownext | Distance as the product. Then now vs next. |
+| 3 | | **The tour** | render · greathouse · villas · pools · sport · water · golfstrip · amenities | Eight fast beats, ten seconds each. Name it, three lines, move. |
+| 4 | | **What you get, and what it costs** | club · turn | $20m already spent → the price drop to $85,000. |
+| 5 | | **But wait, there's more** | butwait · bunker · bunkerin · bunkerreal | The bonus: eight levels, the real photographs, the receipts. Then opens Q&A. |
 | — | all five | **Questions** | questions | Q&A happens here — *before* the close. Javier's rule. |
 | 1 | (returns) | **The closing** | access | Summary, WIFM, grabber callback. All five say the last line. |
 
@@ -39,7 +40,7 @@ Write your names into the table and bring a printed copy each.
 
 | His requirement | Where |
 |---|---|
-| Three-point opening: grabber, topic, WIFM | Speaker 1, slide 1 — "Seventeen. Million. Dollars." |
+| Three-point opening: grabber, topic, WIFM | Speaker 1, slides 1–2 — the TV at 4am, then "Seventeen. Million. Dollars." |
 | Three-point closing: summary, WIFM, grabber | Speaker 1, slide 15 — callback to the same three words |
 | Q&A *before* the closing | slide 14, its own slide so we cannot forget |
 | Memorable message | "You are not buying an island. You are buying access." |
@@ -50,10 +51,10 @@ Write your names into the table and bring a printed copy each.
 | ~1 min per person | ~6 min of speech in a 20-min slot, rest is Q&A and feedback |
 
 ## Style assignment — one each, so Javier sees five different things
-- **Speaker 1** — stillness. Feet planted, no pacing, three-second silence before the first word.
-- **Speaker 2** — the pause. Freeze on "Nobody here has seventeen million dollars", then three full seconds of nothing.
-- **Speaker 3** — pace. Slow right down for the numbers; slow conveys authority.
-- **Speaker 4** — gesture. Walk the plan with your hand, name things as you touch them.
+- **Speaker 1** — stillness. Walk on, say nothing for three seconds while a TV glows in a dark room.
+- **Speaker 2** — the pause. Freeze after the distance ladder lands on Madrid, 17,424 km, then three full seconds of nothing.
+- **Speaker 3** — pace. The opposite: the tour is eight slides fast, ten seconds each, no dawdling.
+- **Speaker 4** — the price drop. Point at $17,000,000, say "not today", then say $85,000 and stop dead for three seconds.
 - **Speaker 5** — volume. Drop it for the bunker, then lift for "in Kansas."
 
 Everyone: eye contact on Javier for 3–5 seconds at a time, hands loose at your thighs and free to
