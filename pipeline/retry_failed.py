@@ -20,16 +20,8 @@ RETRY_PLATFORMS = {"youtube", "instagram-standalone", "tiktok", "facebook"}
 RAW = "https://raw.githubusercontent.com/jordanjayhays-cpu/jordan-projects/claude/philosophical-king-poster-raq2ke/music-assets"
 
 def mcp(name, args):
-    payload = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/call",
-                          "params": {"name": name, "arguments": args}})
-    out = subprocess.check_output(["curl", "-sS", "--cacert", CA, "-X", "POST",
-        "https://mcp.postiz.com/mcp", "-H", f"Authorization: Bearer {KEY}",
-        "-H", "Content-Type: application/json", "-H", "Accept: application/json, text/event-stream", "-d", payload])
-    d = mcp_parse.parse(out)
-    body = d["result"]["content"][0]["text"]
-    if d["result"].get("isError"):
-        raise RuntimeError(body[:300])
-    return json.loads(body)
+    """One Postiz MCP tool call. Retries and error text live in mcp_parse."""
+    return mcp_parse.call(name, args, KEY, CA)
 
 def main():
     state = json.load(open(os.path.join(PIPE, "state.json")))

@@ -53,16 +53,8 @@ def fetch(url, out):
         f.write(r.read())
 
 def mcp(name, args):
-    payload = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/call",
-                          "params": {"name": name, "arguments": args}})
-    out = sh("curl", "-sS", "--cacert", CA, "-X", "POST", "https://mcp.postiz.com/mcp",
-             "-H", f"Authorization: Bearer {KEY}", "-H", "Content-Type: application/json",
-             "-H", "Accept: application/json, text/event-stream", "-d", payload)
-    d = mcp_parse.parse(out)
-    body = d["result"]["content"][0]["text"]
-    if d["result"].get("isError"):
-        raise RuntimeError(body[:500])
-    return json.loads(body)
+    """One Postiz MCP tool call. Retries and error text live in mcp_parse."""
+    return mcp_parse.call(name, args, KEY, CA)
 
 # HARD RULE (Jordan, Aug 2026): one link, everywhere, every track. The per-track
 # DistroKid URLs this used to build (distrokid.com/hyperfollow/philosophicalking/<slug>)
