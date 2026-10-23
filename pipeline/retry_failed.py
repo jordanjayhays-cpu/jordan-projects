@@ -24,18 +24,33 @@ def mcp(name, args):
     return mcp_parse.call(name, args, KEY, CA)
 
 def main():
+    """Retry channels that errored. Takes an optional lookback in days.
+
+    It used to look at today alone, so a failure noticed later was never
+    retried: TikTok dropped 2026-10-20 and the watchdog, run on the 23rd,
+    reported all clean. Default is still today, so the daily run is
+    unchanged; pass a number to sweep back over a window.
+    """
+    back = int(sys.argv[1]) if len(sys.argv) > 1 else 0
     state = json.load(open(os.path.join(PIPE, "state.json")))
     schedule = state.get("schedule", {})
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    posts = mcp("postsListTool", {"startDate": f"{today}T00:00:00", "endDate": f"{today}T23:59:00"})["output"]["posts"]
+    now = datetime.now(timezone.utc)
+    today = now.strftime("%Y-%m-%d")
+    start = (now - timedelta(days=back)).strftime("%Y-%m-%d")
+    posts = mcp("postsListTool", {"startDate": f"{start}T00:00:00", "endDate": f"{today}T23:59:00"})["output"]["posts"]
     errored = [p for p in posts if p.get("state") == "ERROR" and p.get("platform") in RETRY_PLATFORMS]
     if not errored:
-        print("no errored posts today — all clean"); return
-    slug = schedule.get(today)
+        span = "today" if not back else f"the last {back + 1} days"
+        print(f"no errored posts in {span} — all clean"); return
     when = (datetime.now(timezone.utc) + timedelta(minutes=10)).strftime("%Y-%m-%dT%H:%M:00")
     for p in errored:
+        # The slug has to come from the post's OWN day, not from today, or a
+        # swept-up older failure is retried carrying the wrong video.
+        day = (p.get("publishDate") or "")[:10]
+        slug = schedule.get(day)
         if not slug:
-            print(f"no schedule entry for {today}; cannot derive media — skipping {p['platform']}"); continue
+            print(f"no schedule entry for {day or 'unknown date'}; "
+                  f"cannot derive media — skipping {p['platform']}"); continue
         up = mcp("uploadFromUrlTool", {"url": f"{RAW}/{slug}-teaser.mp4"})
         s = p.get("settings") or {}
         settings = [{"key": k, "value": v} for k, v in s.items() if k != "__type" and v not in (None, "", [])]
