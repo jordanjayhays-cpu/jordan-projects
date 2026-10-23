@@ -325,5 +325,13 @@
    "now": "it's just under lease",
    "why": "'The land ain't for sale, it's just under lease' is the line; 'under release' is not English."
   }
+ ],
+ "blind-shepherds-lost-flocks": [
+  {
+   "i": 5,
+   "was": "and where do they leave?",
+   "now": "and where do they lead?",
+   "why": "a shepherd leads a flock; 'where do they leave' is a mishearing of 'lead'."
+  }
  ]
 }
