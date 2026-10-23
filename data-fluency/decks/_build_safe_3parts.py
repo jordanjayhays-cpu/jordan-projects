@@ -23,6 +23,7 @@ rep("@media (prefers-reduced-motion:no-preference){.slide.active .chart{animatio
 .tslide.pink .trule,.tslide.pink .thuge{color:var(--pink);background-color:transparent}.tslide.pink .trule{background:var(--pink)}
 .tslide.blue .thuge{color:var(--blue)}.tslide.blue .trule{background:var(--blue)}
 .tcap{font-size:21px;fill:var(--muted)}
+.progress .seg{width:22px}
 @media (prefers-reduced-motion:no-preference){.slide.active .chart{animation:fade .35s ease-out}}""")
 
 # ---------- slides ----------
@@ -111,28 +112,35 @@ m = re.search(r"\n<!-- 5 -->\n<section class=\"slide\" data-i=\"4\">.*?</section
 salt_slide = m.group(0); html = html.replace(salt_slide, "\n")
 rep("\n<!-- 7 -->\n", "\n" + T3 + salt_slide + "\n<!-- 12 -->\n")
 
-S14 = """
-<!-- 14 (new) -->
-<section class="slide" data-i="13">
+MEALS = [
+ ("Keep the Big Mac. Change the cup.", "A Big Mac meal is 16 cubes of sugar. 14 of them are in the medium Coke. Small fries and a Diet Coke keep the burger and drop 310 calories.", "m1"),
+ ("Grilled, not crispy. Same bun.", "The crispy chicken meal is 16 cubes and 1,050 calories. Grilled chicken, small fries and a Diet Coke: 2 cubes and 580 calories.", "m2"),
+ ("Keep the latte. Lose the syrup.", "A medium caramel latte is 12 cubes on its own. A plain latte is 4. Egg McMuffin instead of sausage with egg saves another 150 calories.", "m3"),
+]
+S14 = ""
+for n,(h,l,cid) in enumerate(MEALS,1):
+    S14 += f"""
+<!-- meal {n} -->
+<section class="slide" data-i="0">
   <div class="panel">
-    <div class="eyebrow">Part 3 · Policy · <b>What to order instead</b></div>
+    <div class="eyebrow">Part 3 · What to order · <b>Example {n} of 3</b></div>
     <div class="bar" style="margin-top:18px"></div>
-    <h1 class="sm">Same meal, a fraction of the sugar</h1>
-    <p class="lede">Three common orders. Keep the main item, change the cup and the side. Nothing new has to go on the menu.</p>
-    <div class="stat"><span class="lbl">Sugar cubes saved, three meals</span><span class="num" id="savedCubes">–</span></div>
+    <h1 class="sm">{h}</h1>
+    <p class="lede">{l}</p>
+    <div class="stat"><span class="lbl">Sugar cubes saved</span><span class="num" id="{cid}-saved">–</span></div>
     <div class="key">
       <div class="kh">KEY</div>
       <div class="row"><span class="sw" style="background:var(--grey-deep)"></span><span>What people order</span></div>
       <div class="row"><span class="sw" style="background:var(--gold)"></span><span>Order this instead</span></div>
-      <div class="row"><span class="sw sq" style="background:var(--pink)"></span><span>One sugar cube, 4g</span></div>
-      <div class="howto">Meals follow McDonald's own combos: main item, fries, drink. Nutrition from the same 260-item dataset.</div>
+      <div class="row"><span class="sw sq" style="background:var(--pink)"></span><span>One sugar cube, 4g. Pink fill = sugar inside.</span></div>
+      <div class="howto">Meals follow McDonald's own combos: main item, side, drink. Nutrition from the same 260-item dataset.</div>
     </div>
   </div>
-  <div class="chart" id="c14"></div>
+  <div class="chart" id="{cid}"></div>
 </section>
 """
-rep("\n<!-- 9 (new) -->\n", "\n" + S14 + "\n<!-- 15 -->\n")
-rep('<div class="twho">Presenter 3 · 5 slides</div>', '<div class="twho">Presenter 3 · 6 slides</div>')
+rep("\n<!-- 9 (new) -->\n", "\n" + S14 + "\n<!-- closer -->\n")
+rep('<div class="twho">Presenter 3 · 5 slides</div>', '<div class="twho">Presenter 3 · 8 slides</div>')
 
 # ---------- eyebrows ----------
 rep("Serving 1 of 6 · <b>The menu</b>", "Part 1 · The menu · <b>Categories</b>")
@@ -160,7 +168,9 @@ NOTES = r'''const NOTES = [
  ["Food barely carries sugar. But forty-eight dishes hold half a day's sodium. The more calories on the plate, the saltier. Forty nuggets: a day and a half of salt.", "<b>Session 7, Challenger lesson:</b> no jargon, say it in words · <b>Kate Strachnyi, ColorWise:</b> blue/pink is colourblind-safe"],
  ["Four measures instead of a ban. Small as the default drink. Sugar warning at fifty grams. Sodium warning at eleven-fifty. Grilled listed first. Together they touch 110 items and leave 150 alone. (Read only the Measure column.)", "<b>Nathan Yau, Visualize This:</b> unit charts make counts felt"],
  ["What this data cannot tell us: one chain, US menu, no sales volumes, thresholds are ours. Sources on screen. We built the charts with D3 and the dashboard in Looker Studio, with AI assistance.", "<b>Rubric:</b> limitations and sources stated · <b>Session 9 & 10:</b> honesty about the data"],
- ["Three real orders. Big Mac meal: keep the Big Mac, small fries, Diet Coke, and fourteen cubes of sugar disappear. Chicken meal: grilled instead of crispy, small fries, Diet Coke. Breakfast: the caramel syrup alone is eight cubes, a plain latte keeps the coffee. Nothing new on the menu. (Point at the gold rows only.)", "<b>Knaflic:</b> before/after side by side · <b>Session 7:</b> make the solution concrete · <b>Yau:</b> unit cubes, counts you can feel"],
+ ["Example one, the Big Mac meal. Sixteen cubes of sugar. Look where they sit: two in the burger, none in the fries, fourteen in the cup. Keep the Big Mac. Small fries, Diet Coke. Two cubes, three hundred fewer calories.", "<b>Knaflic:</b> before/after side by side · <b>Yau:</b> unit cubes under each item · <b>Session 2:</b> proximity, the cubes sit under the item they belong to"],
+ ["Example two, the crispy chicken meal. Same sixteen cubes, same cup. Grilled instead of crispy is on the menu already: one hundred and sixty calories off the sandwich alone. With small fries and a Diet Coke, the meal nearly halves.", "<b>Session 7:</b> make the solution concrete · the 'grilled listed first' measure in one picture"],
+ ["Example three, breakfast. The caramel latte is twelve cubes before you add any food. A plain latte is four. Swap sausage with egg for an Egg McMuffin and you save another hundred and fifty calories. The coffee counter is where the sugar hides.", "<b>Session 3:</b> pink fill means sugar inside, nothing else is coloured · <b>Rosling:</b> an object the audience can picture"],
  ["We are asking for one decision: a six-month pilot, two or three chains, Small as the default drink. Measure what people actually order. Then decide on a ban. Thank you. Questions.", "<b>Session 7:</b> resolution = one decision to ask for · <b>Brent Dykes:</b> next steps"]
 ];'''
 html = html.replace(m.group(0), NOTES)
@@ -224,42 +234,115 @@ rep("/* ---------- navigation ---------- */", r"""/* ---------- new: 4b calories
   s.append('text').attr('x',x0).attr('y',yEnd+62).attr('class','ann-s').text('Average sugar per item · 1 cube = 4g');
 })();
 
-/* ---------- new: 14 what to order instead ---------- */
+/* ---------- meal slides: icons + cubes per item ---------- */
 (function(){
-  const s = svg('c14');
   const by = new Map(DATA.map(d=>[d.item,d]));
   const get = n => { const d=by.get(n); if(!d) throw new Error('missing '+n); return d; };
-  const meals = [
-    {name:'Big Mac Meal', before:['Big Mac','Medium French Fries','Coca-Cola Classic (Medium)'], after:['Big Mac','Small French Fries','Diet Coke (Medium)'], why:'Keep the Big Mac. Small fries, a no-sugar drink.'},
-    {name:'Crispy chicken meal', before:['Premium Crispy Chicken Classic Sandwich','Medium French Fries','Coca-Cola Classic (Medium)'], after:['Premium Grilled Chicken Classic Sandwich','Small French Fries','Diet Coke (Medium)'], why:'Grilled instead of crispy. Same sandwich, same bun.'},
-    {name:'Breakfast run', before:['Sausage McMuffin with Egg','Hash Brown','Caramel Latte (Medium)'], after:['Egg McMuffin','Hash Brown','Latte (Medium)'], why:'The caramel syrup alone is 8 cubes. Keep the latte, lose the syrup.'}
-  ];
-  const sum = (names,k) => d3.sum(names.map(n=>get(n)[k]));
-  const short = n => n.replace('Coca-Cola Classic (Medium)','medium Coke').replace('Diet Coke (Medium)','medium Diet Coke').replace('Medium French Fries','medium fries').replace('Small French Fries','small fries').replace('Premium Crispy Chicken Classic Sandwich','Crispy chicken sandwich').replace('Premium Grilled Chicken Classic Sandwich','Grilled chicken sandwich').replace('Caramel Latte (Medium)','medium caramel latte').replace('Latte (Medium)','medium latte');
-  const CU=17, G=3, cx=720, rowH=300, top=40;
-  let saved=0;
-  meals.forEach((m,i)=>{
-    const y = top+i*rowH;
-    s.append('text').attr('x',0).attr('y',y+26).attr('class','ann-t').attr('font-size',26).text(`${i+1} · ${m.name}`);
-    s.append('text').attr('x',0).attr('y',y+54).attr('class','ann-s').text(m.why);
-    if(i<2) s.append('line').attr('x1',0).attr('x2',1170).attr('y1',y+rowH-28).attr('y2',y+rowH-28).attr('stroke',GREYS);
-    const b = {cal:sum(m.before,'cal'), sug:sum(m.before,'sugar')};
-    [['before',GREYD],['after',GOLD]].forEach(([k,c],j)=>{
-      const yy = y+88+j*92;
-      const cal=sum(m[k],'cal'), sug=sum(m[k],'sugar'), sod=sum(m[k],'sodium'), cubes=sug/4;
-      saved += (k==='before'?cubes:-cubes);
-      s.append('circle').attr('cx',10).attr('cy',yy+12).attr('r',9).attr('fill',c);
-      s.append('text').attr('x',30).attr('y',yy+18).attr('class','ann-t').attr('font-size',20).text(m[k].map(short).join(' · '));
-      s.append('text').attr('x',30).attr('y',yy+44).attr('class','ann-s').attr('font-size',17).text(`${d3.format(',')(cal)} cal · ${sug}g sugar · ${d3.format(',')(sod)}mg sodium`);
-      const full=Math.floor(cubes), frac=cubes-full;
-      for(let q=0;q<full;q++) s.append('rect').attr('x',cx+q*(CU+G)).attr('y',yy+2).attr('width',CU).attr('height',CU).attr('rx',3).attr('fill',PINK);
-      if(frac>.12) s.append('rect').attr('x',cx+full*(CU+G)).attr('y',yy+2).attr('width',CU*frac).attr('height',CU).attr('rx',3).attr('fill',PINK);
-      s.append('text').attr('x',cx+Math.ceil(cubes)*(CU+G)+10).attr('y',yy+18).attr('class','ann-t').attr('font-size',19).attr('fill',k==='before'?INK:GOLD).text(`${Math.round(cubes)} cube${Math.round(cubes)===1?'':'s'}`);
-      if(k==='after') s.append('text').attr('x',cx).attr('y',yy+50).attr('class','ann-t').attr('font-size',19).attr('fill',GOLD).text(`saves ${d3.format(',')(b.cal-cal)} calories and ${b.sug-sug}g of sugar`);
+  const WHITE='#FFFFFF';
+  const ICON = {
+    burger(g,x,y,big){ // x,y = centre bottom
+      const w=200;
+      const bun=(yy,h,top)=>{ if(top){ g.append('path').attr('d',`M ${x-w/2} ${yy} A ${w/2} ${h} 0 0 1 ${x+w/2} ${yy} Z`).attr('fill',GREYS).attr('stroke',INK).attr('stroke-width',3);
+          [-50,-15,20,55].forEach(dx=>g.append('ellipse').attr('cx',x+dx).attr('cy',yy-h*0.55).attr('rx',6).attr('ry',3.5).attr('fill',INK)); }
+        else g.append('rect').attr('x',x-w/2).attr('y',yy-h).attr('width',w).attr('height',h).attr('rx',12).attr('fill',GREYS).attr('stroke',INK).attr('stroke-width',3); };
+      const patty=yy=>g.append('rect').attr('x',x-w/2+6).attr('y',yy-26).attr('width',w-12).attr('height',26).attr('rx',8).attr('fill',GREYD).attr('stroke',INK).attr('stroke-width',3);
+      const lettuce=yy=>g.append('path').attr('d',`M ${x-w/2-6} ${yy} ${d3.range(0,10).map(i=>`q 10 -12 21 0`).join(' ')}`).attr('fill','none').attr('stroke',INK).attr('stroke-width',3);
+      let yy=y; bun(yy,34,false); yy-=34; patty(yy); yy-=26; lettuce(yy); yy-=6;
+      if(big){ bun(yy,24,false); yy-=24; patty(yy); yy-=26; lettuce(yy); yy-=6; }
+      bun(yy,60,true);
+    },
+    chicken(g,x,y,crispy){
+      const w=200;
+      g.append('rect').attr('x',x-w/2).attr('y',y-34).attr('width',w).attr('height',34).attr('rx',12).attr('fill',GREYS).attr('stroke',INK).attr('stroke-width',3);
+      const py=y-34;
+      if(crispy){ const pts=[]; for(let i=0;i<=20;i++){ const px=x-w/2+4+i*(w-8)/20; pts.push([px, py-30+(i%2?8:0)]); } pts.push([x+w/2-4,py],[x-w/2+4,py]);
+        g.append('polygon').attr('points',pts.map(p=>p.join(',')).join(' ')).attr('fill',GREYD).attr('stroke',INK).attr('stroke-width',3).attr('stroke-linejoin','round'); }
+      else { g.append('rect').attr('x',x-w/2+6).attr('y',py-26).attr('width',w-12).attr('height',26).attr('rx',8).attr('fill',GREYD).attr('stroke',INK).attr('stroke-width',3);
+        [-50,-10,30].forEach(dx=>g.append('line').attr('x1',x+dx).attr('x2',x+dx+22).attr('y1',py-20).attr('y2',py-6).attr('stroke',INK).attr('stroke-width',3)); }
+      const ly=py-32; g.append('path').attr('d',`M ${x-w/2-6} ${ly} ${d3.range(0,10).map(()=>`q 10 -12 21 0`).join(' ')}`).attr('fill','none').attr('stroke',INK).attr('stroke-width',3);
+      g.append('path').attr('d',`M ${x-w/2} ${ly-6} A ${w/2} 56 0 0 1 ${x+w/2} ${ly-6} Z`).attr('fill',GREYS).attr('stroke',INK).attr('stroke-width',3);
+    },
+    muffin(g,x,y,sausage){
+      const w=190;
+      g.append('rect').attr('x',x-w/2).attr('y',y-30).attr('width',w).attr('height',30).attr('rx',10).attr('fill',GREYS).attr('stroke',INK).attr('stroke-width',3);
+      let yy=y-30;
+      if(sausage){ g.append('rect').attr('x',x-w/2+8).attr('y',yy-24).attr('width',w-16).attr('height',24).attr('rx',8).attr('fill',GREYD).attr('stroke',INK).attr('stroke-width',3); yy-=24; }
+      g.append('ellipse').attr('cx',x).attr('cy',yy-14).attr('rx',w/2-4).attr('ry',16).attr('fill',WHITE).attr('stroke',INK).attr('stroke-width',3);
+      g.append('circle').attr('cx',x+10).attr('cy',yy-16).attr('r',16).attr('fill',GREY).attr('stroke',INK).attr('stroke-width',3); yy-=28;
+      g.append('rect').attr('x',x-w/2+6).attr('y',yy-18).attr('width',w-12).attr('height',18).attr('rx',4).attr('fill',GREYS).attr('stroke',INK).attr('stroke-width',3); yy-=18; // cheese
+      g.append('path').attr('d',`M ${x-w/2} ${yy} L ${x-w/2} ${yy-22} A ${w/2} 26 0 0 1 ${x+w/2} ${yy-22} L ${x+w/2} ${yy} Z`).attr('fill',GREYS).attr('stroke',INK).attr('stroke-width',3);
+    },
+    fries(g,x,y,small){
+      const k=small?0.72:1, bw=150*k, bh=110*k;
+      const sticks=small?5:7;
+      for(let i=0;i<sticks;i++){ const sx=x-bw/2+14*k+i*(bw-28*k)/(sticks-1); const h=(120+(i%3)*18)*k; g.append('rect').attr('x',sx-9*k).attr('y',y-bh-h+20*k).attr('width',18*k).attr('height',h).attr('rx',4).attr('fill',GREYS).attr('stroke',INK).attr('stroke-width',3); }
+      g.append('path').attr('d',`M ${x-bw/2} ${y-bh} L ${x-bw/2+10*k} ${y} L ${x+bw/2-10*k} ${y} L ${x+bw/2} ${y-bh} Z`).attr('fill',GREYD).attr('stroke',INK).attr('stroke-width',3);
+      g.append('text').attr('x',x).attr('y',y-bh/2+8).attr('text-anchor','middle').attr('font-size',20*k).attr('font-weight',800).attr('fill',WHITE).text(small?'S':'M');
+    },
+    cup(g,x,y,sugar){
+      const h=200, tw=150, bw=110;
+      const poly=[[x-tw/2,y-h],[x+tw/2,y-h],[x+bw/2,y],[x-bw/2,y]];
+      g.append('polygon').attr('points',poly.map(p=>p.join(',')).join(' ')).attr('fill',sugar?PINKF:WHITE).attr('stroke',INK).attr('stroke-width',3);
+      if(sugar){ g.append('polygon').attr('points',[[x-tw/2+2,y-h+20],[x+tw/2-2,y-h+20],[x+bw/2-2,y-2],[x-bw/2+2,y-2]].map(p=>p.join(',')).join(' ')).attr('fill',PINK).attr('opacity',.85); }
+      g.append('line').attr('x1',x-tw/2-10).attr('x2',x+tw/2+10).attr('y1',y-h).attr('y2',y-h).attr('stroke',INK).attr('stroke-width',7);
+      g.append('line').attr('x1',x+20).attr('x2',x+55).attr('y1',y-h+30).attr('y2',y-h-60).attr('stroke',INK).attr('stroke-width',6).attr('stroke-linecap','round');
+      g.append('text').attr('x',x).attr('y',y-h/2+8).attr('text-anchor','middle').attr('font-size',22).attr('font-weight',800).attr('fill',sugar?WHITE:INK).text(sugar?'COKE':'DIET');
+    },
+    latte(g,x,y,syrup){
+      const w=140, h=150;
+      g.append('rect').attr('x',x-w/2).attr('y',y-h).attr('width',w).attr('height',h).attr('rx',14).attr('fill',syrup?PINKF:WHITE).attr('stroke',INK).attr('stroke-width',3);
+      g.append('path').attr('d',`M ${x+w/2} ${y-h+30} a 34 34 0 0 1 0 68`).attr('fill','none').attr('stroke',INK).attr('stroke-width',6);
+      g.append('ellipse').attr('cx',x).attr('cy',y-h).attr('rx',w/2).attr('ry',14).attr('fill',WHITE).attr('stroke',INK).attr('stroke-width',3);
+      if(syrup){ g.append('path').attr('d',`M ${x-50} ${y-h-4} q 12 -14 25 0 t 25 0 t 25 0 t 25 0`).attr('fill','none').attr('stroke',PINK).attr('stroke-width',5); g.append('text').attr('x',x).attr('y',y-h/2+10).attr('text-anchor','middle').attr('font-size',18).attr('font-weight',800).attr('fill',PINK).text('CARAMEL'); }
+      else g.append('text').attr('x',x).attr('y',y-h/2+10).attr('text-anchor','middle').attr('font-size',18).attr('font-weight',800).attr('fill',INK).text('LATTE');
+      [-30,0,30].forEach(dx=>g.append('path').attr('d',`M ${x+dx} ${y-h-30} q 8 -10 0 -20`).attr('fill','none').attr('stroke',GREYD).attr('stroke-width',3));
+    },
+    hash(g,x,y){
+      g.append('ellipse').attr('cx',x).attr('cy',y-45).attr('rx',95).attr('ry',45).attr('fill',GREYS).attr('stroke',INK).attr('stroke-width',3);
+      d3.range(14).forEach(i=>g.append('circle').attr('cx',x-70+((i*37)%140)).attr('cy',y-45-20+((i*23)%40)).attr('r',3).attr('fill',GREYD));
+    }
+  };
+  const meals = {
+    m1:{ before:[['Big Mac',g=>ICON.burger(g,0,0,true)],['Medium French Fries',g=>ICON.fries(g,0,0,false)],['Coca-Cola Classic (Medium)',g=>ICON.cup(g,0,0,true)]],
+         after:[['Big Mac',g=>ICON.burger(g,0,0,true)],['Small French Fries',g=>ICON.fries(g,0,0,true)],['Diet Coke (Medium)',g=>ICON.cup(g,0,0,false)]] },
+    m2:{ before:[['Premium Crispy Chicken Classic Sandwich',g=>ICON.chicken(g,0,0,true)],['Medium French Fries',g=>ICON.fries(g,0,0,false)],['Coca-Cola Classic (Medium)',g=>ICON.cup(g,0,0,true)]],
+         after:[['Premium Grilled Chicken Classic Sandwich',g=>ICON.chicken(g,0,0,false)],['Small French Fries',g=>ICON.fries(g,0,0,true)],['Diet Coke (Medium)',g=>ICON.cup(g,0,0,false)]] },
+    m3:{ before:[['Sausage McMuffin with Egg',g=>ICON.muffin(g,0,0,true)],['Hash Brown',g=>ICON.hash(g,0,0)],['Caramel Latte (Medium)',g=>ICON.latte(g,0,0,true)]],
+         after:[['Egg McMuffin',g=>ICON.muffin(g,0,0,false)],['Hash Brown',g=>ICON.hash(g,0,0)],['Latte (Medium)',g=>ICON.latte(g,0,0,false)]] }
+  };
+  const short = n => n.replace('Coca-Cola Classic (Medium)','Medium Coke').replace('Diet Coke (Medium)','Medium Diet Coke').replace('Medium French Fries','Medium fries').replace('Small French Fries','Small fries').replace('Premium Crispy Chicken Classic Sandwich','Crispy chicken sandwich').replace('Premium Grilled Chicken Classic Sandwich','Grilled chicken sandwich').replace('Caramel Latte (Medium)','Medium caramel latte').replace('Latte (Medium)','Medium latte');
+  const CU=18, G=3, PER=7;
+  const cubesAt=(s,x,y,n,col)=>{ const full=Math.floor(n), frac=n-full; let k=0;
+    for(;k<full;k++) s.append('rect').attr('x',x+(k%PER)*(CU+G)).attr('y',y+Math.floor(k/PER)*(CU+G)).attr('width',CU).attr('height',CU).attr('rx',3).attr('fill',col);
+    if(frac>.12) s.append('rect').attr('x',x+(k%PER)*(CU+G)).attr('y',y+Math.floor(k/PER)*(CU+G)).attr('width',CU*frac).attr('height',CU).attr('rx',3).attr('fill',col); };
+  Object.entries(meals).forEach(([id,m])=>{
+    const s = svg(id);
+    const tot = items => ({cal:d3.sum(items,([n])=>get(n).cal), sug:d3.sum(items,([n])=>get(n).sugar), sod:d3.sum(items,([n])=>get(n).sodium)});
+    const B=tot(m.before), A=tot(m.after);
+    [['before',GREYD,'WHAT PEOPLE ORDER',m.before,B,0],['after',GOLD,'ORDER THIS INSTEAD',m.after,A,480]].forEach(([k,c,lbl,items,T,top])=>{
+      s.append('circle').attr('cx',10).attr('cy',top+16).attr('r',9).attr('fill',c);
+      s.append('text').attr('x',30).attr('y',top+23).attr('class','ann-s').attr('font-size',16).attr('font-weight',700).attr('letter-spacing','.14em').attr('fill',INK).text(lbl);
+      items.forEach(([n,draw],i)=>{
+        const d=get(n), x=150+i*300, iy=top+270;
+        const g=s.append('g').attr('transform',`translate(${x},${iy})`); draw(g);
+        if(i<2) s.append('text').attr('x',x+150).attr('y',iy-100).attr('text-anchor','middle').attr('font-size',40).attr('font-weight',300).attr('fill',GREYD).text('+');
+        s.append('text').attr('x',x).attr('y',top+310).attr('text-anchor','middle').attr('class','ann-t').attr('font-size',21).text(short(n));
+        s.append('text').attr('x',x).attr('y',top+336).attr('text-anchor','middle').attr('class','ann-s').attr('font-size',17).text(`${d3.format(',')(d.cal)} cal · ${d.sugar}g sugar`);
+        const cubes=d.sugar/4, rows=Math.max(1,Math.ceil(cubes/PER)), w=Math.min(PER,Math.ceil(cubes))*(CU+G)-G;
+        cubesAt(s,x-w/2,top+352,cubes,PINK);
+        s.append('text').attr('x',x).attr('y',top+352+rows*(CU+G)+16).attr('text-anchor','middle').attr('class','ann-s').attr('font-size',16).attr('fill',cubes>=1?PINK:MUTED).attr('font-weight',700).text(cubes===0?'no sugar':cubes<1?'under 1 cube':`${Math.round(cubes)} cube${Math.round(cubes)===1?'':'s'}`);
+      });
+      s.append('text').attr('x',1000).attr('y',top+170).attr('text-anchor','middle').attr('font-size',44).attr('font-weight',300).attr('fill',GREYD).text('=');
+      s.append('text').attr('x',1000).attr('y',top+270).attr('text-anchor','middle').attr('font-size',96).attr('font-weight',900).attr('letter-spacing','-.04em').attr('fill',k==='after'?GOLD:INK).text(Math.round(T.sug/4));
+      s.append('text').attr('x',1000).attr('y',top+305).attr('text-anchor','middle').attr('class','ann-t').attr('font-size',21).text('cubes of sugar');
+      s.append('text').attr('x',1000).attr('y',top+336).attr('text-anchor','middle').attr('class','ann-s').attr('font-size',17).text(`${d3.format(',')(T.cal)} calories`);
+      s.append('text').attr('x',1000).attr('y',top+360).attr('text-anchor','middle').attr('class','ann-s').attr('font-size',17).text(`${d3.format(',')(T.sod)}mg sodium`);
+      if(k==='after'){ s.append('text').attr('x',1000).attr('y',top+400).attr('text-anchor','middle').attr('class','ann-t').attr('font-size',20).attr('fill',GOLD).text(`saves ${d3.format(',')(B.cal-A.cal)} cal`);
+        s.append('text').attr('x',1000).attr('y',top+426).attr('text-anchor','middle').attr('class','ann-t').attr('font-size',20).attr('fill',GOLD).text(`and ${B.sug-A.sug}g of sugar`); }
     });
+    s.append('line').attr('x1',0).attr('x2',1170).attr('y1',455).attr('y2',455).attr('stroke',INK).attr('stroke-width',1.5);
+    document.getElementById(id+'-saved').textContent = Math.round(B.sug/4)-Math.round(A.sug/4);
   });
-  s.append('text').attr('x',cx).attr('y',top+22).attr('class','ann-s').attr('font-size',15).attr('letter-spacing','.14em').text('SUGAR IN THE MEAL · ONE CUBE = 4G');
-  document.getElementById('savedCubes').textContent = Math.round(saved);
 })();
 
 /* ---------- transitions: replayable visuals ---------- */
@@ -338,7 +421,7 @@ k = [-1]
 def renum(m):
     k[0]+=1; return f'<section class="slide{m.group(1)}" data-i="{k[0]}">'
 html = re.sub(r'<section class="slide([^"]*)" data-i="\d+">', renum, html)
-assert k[0]+1 == 15, k
+assert k[0]+1 == 17, k
 assert html.count('["') >= 14
 OUT.write_text(html)
 print('wrote', OUT, 'slides', k[0]+1, 'notes', len(re.findall(r'^ \["', NOTES, re.M)))
