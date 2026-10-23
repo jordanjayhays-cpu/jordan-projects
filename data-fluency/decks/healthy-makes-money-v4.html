@@ -184,7 +184,7 @@ const LAYOUTS={
     nodes.forEach(n=>{p[n.i].x=n.x;p[n.i].y=n.y}); return p; },
   swarmPlain(){ const p=base(); swarm(items,d=>sx(d.sugar),()=>385).forEach(n=>{p[n.i].x=n.x;p[n.i].y=n.y}); return p; },
   swarm(){ return L('swarmPlain').map((o,i)=>({...o,fill:sugarFill(items[i])})); },
-  cupplate(){ const p=base(); swarm(items,d=>sx(d.sugar),d=>d.cup?258:482).forEach(n=>{p[n.i].x=n.x;p[n.i].y=n.y;p[n.i].fill=sugarFill(items[n.i])}); return p; },
+  cupplate(){ const p=base().map(o=>({...o,r:o.r*.8})); swarm(items.map(d=>({...d,r:d.r*.8})),d=>sx(d.sugar),d=>d.cup?258:482).forEach(n=>{p[n.i].x=n.x;p[n.i].y=n.y;p[n.i].fill=sugarFill(items[n.i])}); return p; },
   coffee(){ const p=L('cupplate').map(o=>({...o})); items.forEach(d=>{const q=p[d.i]; if(d.cat==='Coffee & Tea'){q.fill='sugar';q.op=1}else{q.fill='sand';q.op=d.cup?.4:.18}}); return p; },
   sizes(){ const p=L('coffee').map(o=>({...o,fill:'sand',op:0,r:0}));
     swarm(items.filter(d=>d.size),d=>SZ[d.size],d=>sySize(d.sugar),.12,1).forEach(n=>{const d=items[n.i];p[n.i]={x:n.x,y:n.y,r:d.r,fill:d.sugar>50?T.overKey:'sand',op:1}}); return p; },
@@ -209,10 +209,10 @@ const AN={
   circle(g){},
   swarmPlain(g){ axisCubes(g,600,true); vline(g,sx(50),200,585,'A whole day of sugar: 12 cubes',true); },
   swarm(g){ axisCubes(g,600,true); vline(g,sx(50),200,585,'A whole day of sugar: 12 cubes',true); },
-  cupplate(g){ gBack.append('rect').attr('class','region').attr('x',M-30).attr('y',158).attr('width',W-2*M+60).attr('height',200); gBack.append('rect').attr('class','region').attr('x',M-30).attr('y',378).attr('width',W-2*M+60).attr('height',200);
-    axisCubes(g,600,false); vline(g,sx(50),158,578,'A whole day of sugar: 12 cubes',true);
-    label(g,M-10,183,'IN A CUP',true); label(g,M-10,203,N.cup+' things you drink or eat with a spoon');
-    label(g,M-10,403,'ON A PLATE',true); label(g,M-10,423,N.plate+' things you eat with your hands');
+  cupplate(g){ gBack.append('rect').attr('class','region').attr('x',M-30).attr('y',150).attr('width',W-2*M+60).attr('height',210); gBack.append('rect').attr('class','region').attr('x',M-30).attr('y',372).attr('width',W-2*M+60).attr('height',218);
+    axisCubes(g,600,false); vline(g,sx(50),150,590,'A whole day of sugar: 12 cubes',true);
+    label(g,M-10,176,'IN A CUP',true); label(g,M-10,196,N.cup+' things you drink or eat with a spoon');
+    g.append('text').attr('x',W-M+20).attr('y',398).attr('text-anchor','end').attr('class','lab').text('ON A PLATE'); g.append('text').attr('x',W-M+20).attr('y',418).attr('text-anchor','end').text(N.plate+' things you eat with your hands');
     const mx=L('cupplate')[N.maxItem.i]; callout(g,mx.x,mx.y,mx.x-150,mx.y-66,N.maxItem.item.replace(' Candies',''),cubesOf(N.maxItem.sugar)+' cubes · two and a half days');
     const pm=items.filter(d=>!d.cup).reduce((a,b)=>b.sugar>a.sugar?b:a); const pp=L('cupplate')[pm.i]; callout(g,pp.x,pp.y,pp.x+90,pp.y+76,'Sweetest thing on a plate',cubesOf(pm.sugar)+' cubes · '+pm.item); },
   coffee(g){ axisCubes(g,600,false); vline(g,sx(50),158,578,'A whole day of sugar: 12 cubes',true);
@@ -221,7 +221,7 @@ const AN={
   sizes(g){ g.append('g').attr('class','axis').attr('transform','translate(205,0)').call(d3.axisLeft(sySize).tickValues([0,20,40,60,80,100,120]).tickFormat(d=>d/4+' cubes')).call(s=>s.select('.domain').attr('class','axl'));
     g.append('text').attr('class','axt').attr('transform',`translate(100,${(570+200)/2}) rotate(-90)`).attr('text-anchor','middle').text('SUGAR PER DRINK, IN CUBES ↑');
     g.append('line').attr('class','axl').attr('x1',205).attr('x2',W-M).attr('y1',570).attr('y2',570); g.append('text').attr('class','axt').attr('x',(205+W-M)/2).attr('y',676).attr('text-anchor','middle').text('CUP SIZE →');
-    g.append('line').attr('class','rule hard').attr('x1',205).attr('x2',W-M).attr('y1',sySize(50)).attr('y2',sySize(50)); g.append('text').attr('x',W-M).attr('y',sySize(50)+20).attr('text-anchor','end').attr('fill',HEX.over).attr('font-weight',700).text('A WHOLE DAY OF SUGAR: 12 CUBES');
+    g.append('line').attr('class','rule hard').attr('x1',205).attr('x2',W-M).attr('y1',sySize(50)).attr('y2',sySize(50)); g.append('text').attr('x',W-M).attr('y',sySize(50)+22).attr('text-anchor','end').attr('fill',HEX.over).attr('font-weight',700).text('12 CUBES = A DAY');
     ['Small','Medium','Large'].forEach(s=>{ const a=N.sizeAvg[s]; g.append('line').attr('x1',SZ[s]-120).attr('x2',SZ[s]+120).attr('y1',sySize(a)).attr('y2',sySize(a)).attr('stroke',HEX.sugar).attr('stroke-width',3);
       g.append('text').attr('x',SZ[s]).attr('y',620).attr('text-anchor','middle').attr('class','big').text(s); g.append('text').attr('x',SZ[s]+128).attr('y',sySize(a)+4).attr('fill',HEX.sugar).text('average '+cubesOf(a)+' cubes'); }); },
   swapsOne(g){ const pr=N.onePair; const ya=ysw(pr.a.cal), yb=ysw(pr.b.cal);
@@ -317,7 +317,7 @@ const BEATS = [
  {single:'ov',stage:4,ov:()=>OV.behind([['Characters','Glovo, McDonald\'s, hungry Madrid'],['Setting','260 menu items, one dot each'],['Conflict','Healthy swaps shrink the bill'],['Resolution','Free swap + add-ons, four-week test']]),layout:'hidden',src:'Story arc: Brent Dykes · Gestalt: Session 2 · hero framework: Session 7',
   note:'Hero: Glovo. Guide: us. Twenty seconds, then questions.',course:'Session 2 Gestalt, Session 7 hero framework, the seven Book of the Day picks.'},
 ];
-const S=[]; BEATS.forEach(b=>{ if(b.single){S.push({...b,type:b.single})} else {S.push({...b,type:'text'}); S.push({...b,type:'data'})} });
+const S=[]; BEATS.forEach(b=>{ if(b.single){S.push({...b,type:b.single})} else if(b.layout==='hidden'&&!b.ov){S.push({...b,type:'text'})} else {S.push({...b,type:'text'}); S.push({...b,type:'data'})} });
 const STAGES=['Setting + hook','Rising action','Aha','Solution','Next steps'];
 
 /* ---------- render ---------- */
