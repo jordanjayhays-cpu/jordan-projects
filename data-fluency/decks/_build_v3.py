@@ -236,7 +236,7 @@ const AN={
     const food=items.filter(d=>!d.cup); const mx=d3.mean(food,d=>d.cal),my=d3.mean(food,d=>d.sodium); const b=d3.sum(food,d=>(d.cal-mx)*(d.sodium-my))/d3.sum(food,d=>(d.cal-mx)**2); const a=my-b*mx; const xmax=d3.max(food,d=>d.cal);
     g.append('line').attr('x1',xsC(0)).attr('y1',ysN(a)).attr('x2',xsC(xmax)).attr('y2',ysN(a+b*xmax)).attr('stroke',HEX.paper).attr('stroke-opacity',.5).attr('stroke-dasharray','2 4');
     g.append('text').attr('x',M).attr('y',290).attr('fill',HEX.paper).text('ALMOST A STRAIGHT LINE: MORE CALORIES, MORE SALT');
-    callout(g,xsC(N.nuggets.cal),ysN(N.nuggets.sodium),xsC(N.nuggets.cal)-340,ysN(N.nuggets.sodium)+40,N.nuggets.item,fmt(N.nuggets.sodium)+' mg · a day and a half of salt');
+    callout(g,xsC(N.nuggets.cal),ysN(N.nuggets.sodium),xsC(N.nuggets.cal)-130,ysN(N.nuggets.sodium)+150,N.nuggets.item,fmt(N.nuggets.sodium)+' mg · a day and a half of salt');
     callout(g,xsC(N.bigb.cal),ysN(N.bigb.sodium),xsC(N.bigb.cal)-80,ysN(N.bigb.sodium)-104,'Big Breakfast with Hotcakes',fmt(N.bigb.sodium)+' mg · one day of salt'); },
   swaps(g){ pairs.forEach(pr=>g.append('line').attr('x1',SW.a).attr('y1',ysw(pr.a.cal)).attr('x2',SW.b).attr('y2',ysw(pr.b.cal)).attr('stroke',HEX[swapCol[pr.t]]).attr('stroke-opacity',pr.t==='smaller'?.35:.85).attr('stroke-width',pr.t==='smaller'?1:1.8));
     swapChrome(g); rlabels(g,[[N.pSmaller+' × Small instead of Large','grey',Math.round(N.smallSave)+' g less sugar · cheaper'],[N.pGrilled+' × grilled, not crispy','sugar',N.grilledSave[0]+' to '+N.grilledSave[1]+' fewer calories'],[N.pDiet+' × Zero, not regular','zero','same cup, same price, 0 g']]); },
