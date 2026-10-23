@@ -222,7 +222,7 @@ const AN={
     hline(g,ys(1150),90,1050,'Half a day of sodium · 1,150 mg',false,C.salt);
     const food=items.filter(d=>!d.cup); const mx=d3.mean(food,d=>d.cal),my=d3.mean(food,d=>d.sodium); const b=d3.sum(food,d=>(d.cal-mx)*(d.sodium-my))/d3.sum(food,d=>(d.cal-mx)**2); const a=my-b*mx; const xmax=d3.max(food,d=>d.cal);
     g.append('line').attr('x1',xs(0)).attr('y1',ys(a)).attr('x2',xs(xmax)).attr('y2',ys(a+b*xmax)).attr('stroke',C.paper).attr('stroke-opacity',.5).attr('stroke-dasharray','2 4');
-    g.append('text').attr('x',90).attr('y',100).attr('fill',C.paper).text('ALMOST A STRAIGHT LINE: DOUBLE THE CALORIES, DOUBLE THE SALT');
+    g.append('text').attr('x',90).attr('y',215).attr('fill',C.paper).text('ALMOST A STRAIGHT LINE: DOUBLE THE CALORIES, DOUBLE THE SALT');
     callout(g,xs(N.nuggets.cal),ys(N.nuggets.sodium),xs(N.nuggets.cal)-330,ys(N.nuggets.sodium)+10,N.nuggets.item,fmt(N.nuggets.sodium)+' mg · 1.5 days of sodium');
     callout(g,xs(N.bigb.cal),ys(N.bigb.sodium),xs(N.bigb.cal)-70,ys(N.bigb.sodium)-100,'Big Breakfast with Hotcakes',fmt(N.bigb.sodium)+' mg'); },
   swaps(g){ const ys=d3.scaleLinear().domain([0,900]).range([650,90]); const col={smaller:C.grey,grilled:C.sugar,diet:C.zero};
