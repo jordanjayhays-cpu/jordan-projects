@@ -1,0 +1,585 @@
+<title>Would You Like Sugar With That</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: fixed 1920x1080 stage scaled to the viewport; left briefing panel, chart on the right. Single-theme by design (Jordan's V1 newspaper-briefing look). */
+:root{
+  --bg:#F5F4F0;
+  --ink:#141414;
+  --muted:#5E5C57;
+  --rule:#141414;
+  --grey:#C9C5BB;
+  --grey-soft:#E3E1DB;
+  --grey-deep:#A8A49A;
+  --pink:#D81B60;
+  --pink-fill:#F5D5E1;
+  --blue:#2962FF;
+  --gold:#C58B12;
+  --panel:#F8F7F3;
+  --font-display:"Inter",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --font-body:"Inter",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0;overflow:hidden;-webkit-font-smoothing:antialiased}
+#viewport{position:fixed;inset:0;display:grid;place-items:center;background:var(--bg)}
+#stage{position:relative;width:1920px;height:1080px;transform-origin:center center;background:var(--bg)}
+.slide{position:absolute;inset:0;display:none}
+.slide.active{display:block}
+.panel{position:absolute;left:70px;top:56px;width:576px;height:946px;border:2.5px solid var(--rule);background:var(--panel);box-sizing:border-box;padding:22px 28px;display:flex;flex-direction:column}
+.eyebrow{font-family:var(--font-mono);font-size:17px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--rule)}
+.eyebrow b{color:var(--ink)}
+.bar{height:11px;background:var(--rule);margin:14px 0 18px}
+h1{font-family:var(--font-display);font-weight:900;font-size:66px;line-height:1.0;letter-spacing:-.03em;margin:0;text-wrap:balance}
+h1.sm{font-size:56px}
+.lede{font-size:26px;line-height:1.35;color:var(--ink);margin:22px 0 0;font-weight:400}
+.lede strong{font-weight:800}
+.stat{display:flex;align-items:baseline;justify-content:space-between;border-top:11px solid var(--rule);border-bottom:1px solid var(--rule);margin-top:26px;padding:12px 0 10px}
+.stat .lbl{font-size:26px;font-weight:800}
+.stat .num{font-size:70px;font-weight:900;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.stakes{font-family:var(--font-mono);font-size:16px;color:var(--muted);margin-top:12px;line-height:1.4}
+.key{margin-top:auto}
+.key .kh{font-family:var(--font-mono);font-size:15px;letter-spacing:.14em;font-weight:700;border-top:11px solid var(--rule);padding-top:10px;border-bottom:1px solid var(--rule);padding-bottom:8px}
+.key .row{display:flex;align-items:center;gap:14px;font-size:21px;padding:9px 0;border-bottom:1px solid var(--rule)}
+.key .row:last-child{border-bottom:0}
+.sw{width:18px;height:18px;border-radius:50%;flex:none}
+.sw.sq{border-radius:3px}
+.sw.ring{background:transparent;border:2.5px solid var(--ink)}
+.sw.line{width:28px;height:4px;border-radius:2px}
+.sw.dots{width:28px;height:18px;background:radial-gradient(circle at 25% 50%,var(--grey-deep) 3px,transparent 3.5px),radial-gradient(circle at 70% 50%,var(--grey-deep) 6px,transparent 6.5px)}
+.howto{font-size:15px;color:var(--muted);line-height:1.4;padding-top:10px;border-top:1px solid var(--rule)}
+.chart{position:absolute;left:690px;top:56px;width:1170px;height:946px}
+.chart svg{width:100%;height:100%;display:block;overflow:visible}
+.caption{position:absolute;font-size:18px;color:var(--muted)}
+.footer{position:absolute;left:70px;bottom:22px;font-size:15px;color:var(--muted);width:1380px}
+.progress{position:absolute;right:70px;bottom:20px;display:flex;align-items:center;gap:8px}
+.progress .seg{width:30px;height:6px;background:var(--grey-soft)}
+.progress .seg.on{background:var(--ink)}
+.progress .n{font-family:var(--font-mono);font-size:15px;font-weight:700;margin-left:10px;font-variant-numeric:tabular-nums}
+.cue{position:absolute;right:70px;bottom:70px;font-family:var(--font-mono);font-size:16px;color:var(--pink);font-weight:700}
+svg text{font-family:var(--font-body)}
+.lbl-cat{font-size:21px;font-weight:800;fill:var(--ink)}
+.lbl-n{font-size:21px;font-weight:500;fill:var(--muted)}
+.axis text{font-size:17px;fill:var(--muted)}
+.axis line,.axis path{stroke:var(--grey-soft)}
+.ann-t{font-size:21px;font-weight:800;fill:var(--ink)}
+.ann-s{font-size:18px;fill:var(--muted)}
+/* slide 7 table */
+.tbl{position:absolute;left:720px;top:620px;width:1130px;border-collapse:collapse;font-size:21px}
+.tbl th{text-align:left;font-family:var(--font-mono);font-size:14px;letter-spacing:.14em;color:var(--muted);font-weight:700;padding:0 0 10px;border-bottom:5px solid var(--rule)}
+.tbl td{padding:14px 18px 14px 0;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.3}
+.tbl td.m{font-weight:800;width:330px}
+.tbl td.r{width:200px;font-weight:600}
+.prec{position:absolute;left:720px;top:948px;width:1130px;font-size:16px;color:var(--muted);line-height:1.35}
+/* slide 8 columns */
+.cols{position:absolute;left:720px;top:70px;width:1140px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.col h3{font-family:var(--font-mono);font-size:15px;letter-spacing:.14em;font-weight:700;margin:0 0 10px;border-bottom:6px solid var(--rule);padding-bottom:10px}
+.col p{font-size:22px;line-height:1.35;margin:0;padding:14px 0;border-bottom:1px solid var(--rule)}
+.col p b{font-weight:800}
+.src{position:absolute;left:720px;top:640px;width:1140px}
+.src h3{font-family:var(--font-mono);font-size:15px;letter-spacing:.14em;font-weight:700;margin:0 0 6px;border-bottom:6px solid var(--rule);padding-bottom:10px}
+.src p{font-size:17px;margin:0;padding:9px 0;border-bottom:1px solid var(--grey);color:var(--muted)}
+.src p b{color:var(--ink);font-weight:800}
+.ball{position:absolute;right:70px;top:120px;width:200px;height:200px}
+.decision{font-family:var(--font-mono);font-size:17px;line-height:1.45;color:var(--ink);margin-top:18px;padding:12px 14px;border-left:8px solid var(--pink);background:#FFF}
+/* slide 9 */
+.arc{position:absolute;left:720px;top:80px;width:1130px;height:430px}
+.arcrow{position:absolute;left:720px;top:560px;width:1130px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.arcrow .c h4{font-family:var(--font-mono);font-size:14px;letter-spacing:.14em;color:var(--muted);margin:0 0 8px;font-weight:700}
+.arcrow .c p{font-size:24px;font-weight:800;line-height:1.2;margin:0}
+.arcrow .c p span{display:block;font-weight:400;font-size:19px;color:var(--muted);margin-top:4px}
+.books{position:absolute;left:720px;top:780px;width:1130px}
+.books h4{font-family:var(--font-mono);font-size:14px;letter-spacing:.14em;color:var(--muted);margin:0 0 10px;font-weight:700;border-bottom:6px solid var(--rule);padding-bottom:8px}
+.books ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:8px 22px;font-size:16px;line-height:1.3}
+.books li b{display:block;font-weight:800}
+.books li span{color:var(--muted)}
+.arc .n{font-family:var(--font-mono);font-size:15px;font-weight:700}
+/* notes */
+#notes{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:#F5F4F0;padding:16px max(20px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));font-size:15px;line-height:1.45;max-height:38vh;overflow:auto;box-shadow:0 -4px 20px rgba(0,0,0,.25);z-index:20}
+#notes[hidden]{display:none}
+#notes .sp{font-size:17px;margin:0 0 8px}
+#notes .cl{font-family:var(--font-mono);font-size:13px;color:#F5B5CB;margin:0}
+#notes .cl b{color:#FFF}
+#notesbtn{position:fixed;top:max(10px,env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));z-index:21;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.1em;padding:7px 11px;border:1.5px solid var(--ink);background:var(--bg);color:var(--ink);cursor:pointer;border-radius:3px}
+#notesbtn:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+.hint{position:fixed;left:max(12px,env(safe-area-inset-left,0px));top:max(10px,env(safe-area-inset-top,0px));font-family:var(--font-mono);font-size:11px;color:var(--muted);letter-spacing:.08em;z-index:21}
+@media (prefers-reduced-motion:no-preference){.slide.active .chart{animation:fade .35s ease-out}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+</style>
+
+<div class="hint">← → SPACE · N = NOTES</div>
+<button id="notesbtn" type="button" aria-pressed="false">NOTES</button>
+<div id="viewport"><div id="stage">
+
+<!-- 1 -->
+<section class="slide active" data-i="0">
+  <div class="panel">
+    <div class="eyebrow">Briefing for City Council · <b>Group 3</b></div>
+    <div style="font-size:19px;padding:10px 0 2px;display:flex;justify-content:space-between"><span>260 menu items per container</span></div>
+    <div style="font-size:19px;display:flex;justify-content:space-between;font-weight:800"><span>Serving size</span><span>one dot</span></div>
+    <div class="bar"></div>
+    <h1>Would you like sugar with that?</h1>
+    <p class="lede">The council is weighing a fast-food ban. A ban treats all 260 menu items the same. We read the nutrition facts of every one to see where the problem actually sits. <strong>Spoiler: 150 of them are not the problem.</strong></p>
+    <div class="stat"><span class="lbl">Menu items analysed</span><span class="num">260</span></div>
+    <div class="stakes">A blanket ban removes 260 items. The data flags 110.</div>
+    <div class="key">
+      <div class="kh">HOW TO READ</div>
+      <div class="row"><span class="sw dots"></span><span>Each dot is one menu item. Bigger dot, more calories.</span></div>
+      <div class="howto">IE IMBA Data Fluency · Final group assignment. Use the arrow keys or a clicker to move through the story.</div>
+    </div>
+  </div>
+  <div class="chart" id="c1"></div>
+  <div class="caption" style="left:1120px;top:980px">260 items. Where does the problem sit?</div>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-i="1">
+  <div class="panel">
+    <div class="eyebrow">Serving 1 of 6 · <b>The menu</b></div>
+    <div class="bar" style="margin-top:18px"></div>
+    <h1 class="sm">Six in ten menu items are drinks or desserts</h1>
+    <p class="lede">157 of the 260 items are coffees, sodas, shakes or desserts. 21 of them carry more calories than a Big Mac.</p>
+    <div class="stat"><span class="lbl">Drinks &amp; desserts</span><span class="num">60%</span></div>
+    <div class="key">
+      <div class="kh">KEY</div>
+      <div class="row"><span class="sw" style="background:var(--pink)"></span><span>Drinks &amp; desserts</span></div>
+      <div class="row"><span class="sw" style="background:var(--grey)"></span><span>Food</span></div>
+      <div class="row"><span class="sw ring"></span><span>More calories than a Big Mac (530)</span></div>
+    </div>
+  </div>
+  <div class="chart" id="c2"></div>
+  <div class="cue">all 260 dots are in our dashboard →</div>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-i="2">
+  <div class="panel">
+    <div class="eyebrow">Serving 2 of 6 · <b>Sugar · The finding</b></div>
+    <div class="bar" style="margin-top:18px"></div>
+    <h1 class="sm">Every item over the daily sugar limit comes in a cup</h1>
+    <p class="lede">62 items pass the WHO limit of about 50g in a single serving: shakes, McFlurries, sodas and sweet coffees. The sweetest food item has 32g.</p>
+    <div class="stat"><span class="lbl">Items over 50g of sugar</span><span class="num">62</span></div>
+    <div class="key">
+      <div class="kh">KEY</div>
+      <div class="row"><span class="sw sq" style="background:var(--pink)"></span><span>Over 50g of sugar</span></div>
+      <div class="row"><span class="sw sq" style="background:var(--grey)"></span><span>Under 50g</span></div>
+      <div class="row"><span class="sw dots"></span><span>Bigger square, more calories</span></div>
+    </div>
+  </div>
+  <div class="chart" id="c3"></div>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-i="3">
+  <div class="panel">
+    <div class="eyebrow">Serving 3 of 6 · <b>Size</b></div>
+    <div class="bar" style="margin-top:18px"></div>
+    <h1 class="sm">Each size up adds about 10g of sugar</h1>
+    <p class="lede">Across 136 drinks sold in three sizes, the average Small has 36g of sugar, the Medium 48g and the Large 57g. The average Large is over the daily limit on its own.</p>
+    <div class="stat"><span class="lbl">Large vs Small</span><span class="num">+21g</span></div>
+    <div class="key">
+      <div class="kh">KEY</div>
+      <div class="row"><span class="sw" style="background:var(--pink)"></span><span>Over 50g of sugar</span></div>
+      <div class="row"><span class="sw" style="background:var(--grey)"></span><span>Under 50g</span></div>
+      <div class="row"><span class="sw line" style="background:var(--pink)"></span><span>Fill line: average sugar per size. <b>Read the line, not the pink area.</b></span></div>
+    </div>
+  </div>
+  <div class="chart" id="c4"></div>
+</section>
+
+<!-- 5 -->
+<section class="slide" data-i="4">
+  <div class="panel">
+    <div class="eyebrow">Serving 4 of 6 · <b>Salt</b></div>
+    <div class="bar" style="margin-top:18px"></div>
+    <h1 class="sm">On the plate, the problem is salt</h1>
+    <p class="lede">Food items barely carry sugar, but 48 of them hold half a day's sodium or more. The more calories on the plate, the saltier it gets.</p>
+    <div class="stat"><span class="lbl">Items with 1,150mg+ sodium</span><span class="num">48</span></div>
+    <div class="key">
+      <div class="kh">KEY</div>
+      <div class="row"><span class="sw" style="background:var(--blue)"></span><span>Food with 1,150mg+ sodium</span></div>
+      <div class="row"><span class="sw" style="background:var(--grey-deep)"></span><span>Other food</span></div>
+      <div class="row"><span class="sw" style="background:var(--grey-soft)"></span><span>Drinks &amp; desserts</span></div>
+    </div>
+  </div>
+  <div class="chart" id="c5"></div>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-i="5">
+  <div class="panel">
+    <div class="eyebrow">Serving 5 of 6 · <b>Swaps</b></div>
+    <div class="bar" style="margin-top:18px"></div>
+    <h1 class="sm">Same order, smaller or grilled</h1>
+    <p class="lede">All 13 chicken dishes sold both ways lose 80 to 160 calories when grilled. A Small instead of a Large saves a median 130 calories and 21g of sugar.</p>
+    <div class="stat"><span class="lbl">Calories saved per grilled dish</span><span class="num">80–160</span></div>
+    <div class="key">
+      <div class="kh">KEY</div>
+      <div class="row"><span class="sw" style="background:var(--grey-deep)"></span><span>What people order now</span></div>
+      <div class="row"><span class="sw" style="background:var(--gold)"></span><span>The smarter version</span></div>
+    </div>
+  </div>
+  <div class="chart" id="c6"></div>
+</section>
+
+<!-- 7 -->
+<section class="slide" data-i="6">
+  <div class="panel">
+    <div class="eyebrow">Serving 6 of 6 · <b>Policy</b></div>
+    <div class="bar" style="margin-top:18px"></div>
+    <h1 class="sm">Regulate the cup, not the counter</h1>
+    <p class="lede">A ban removes all 260 items. Two warning labels would flag the 110 items that drive the problem and leave the other 150 alone.</p>
+    <div class="stat"><span class="lbl">Items flagged</span><span class="num">110</span></div>
+    <div class="key">
+      <div class="kh">KEY</div>
+      <div class="row"><span class="sw" style="background:var(--pink)"></span><span>Sugar over 50g</span></div>
+      <div class="row"><span class="sw" style="background:var(--blue)"></span><span>Sodium 1,150mg or more</span></div>
+      <div class="row"><span class="sw" style="background:var(--grey)"></span><span>No flag</span></div>
+    </div>
+  </div>
+  <div class="chart" id="c7" style="height:540px"></div>
+  <table class="tbl">
+    <thead><tr><th>MEASURE</th><th>REACHES</th><th>WHAT THE DATA SAYS</th></tr></thead>
+    <tbody>
+      <tr><td class="m">Small as the default drink size</td><td class="r">136 drinks</td><td>Median 130 fewer calories and 21g less sugar per drink</td></tr>
+      <tr><td class="m">Sugar warning at 50g+</td><td class="r">62 items</td><td>Every one of them comes in a cup</td></tr>
+      <tr><td class="m">Sodium warning at 1,150mg+</td><td class="r">48 items</td><td>New York City's 2,300mg icon would flag only 1 item here</td></tr>
+      <tr><td class="m">Grilled listed first on menu boards</td><td class="r">13 dishes</td><td>80 to 160 fewer calories per dish</td></tr>
+    </tbody>
+  </table>
+  <div class="prec">Precedents: New York City requires chain restaurants to show a salt-shaker icon next to items with 2,300mg of sodium or more. California makes water or plain milk the default drink in kids' meals (SB 1192).</div>
+</section>
+
+<!-- 8 -->
+<section class="slide" data-i="7">
+  <div class="panel">
+    <div class="eyebrow">After the meal · <b>Recommendation</b></div>
+    <div class="bar" style="margin-top:18px"></div>
+    <h1 class="sm">Pilot targeted rules before any ban</h1>
+    <div class="decision">Decision we ask for today: approve a six-month Small-by-default pilot with two or three chains.</div>
+    <p class="lede">Start where the data points: the drink cup and the salt on the plate. Measure what people actually order, then decide.</p>
+    <div class="key">
+      <div class="kh">KEY</div>
+      <div class="row"><span class="sw" style="background:var(--pink)"></span><span>Sugar flag</span></div>
+      <div class="row"><span class="sw" style="background:var(--blue)"></span><span>Sodium flag</span></div>
+      <div class="row"><span class="sw" style="background:var(--grey)"></span><span>No flag</span></div>
+    </div>
+  </div>
+  <div class="cols">
+    <div class="col"><h3>NEXT STEPS</h3>
+      <p><b>Pilot Small-by-default</b> with two or three chains for six months.</p>
+      <p><b>Ask chains for sales data.</b> A menu shows what is offered, not what is eaten.</p>
+      <p><b>Repeat with local menus.</b> Portions and recipes differ by country.</p>
+    </div>
+    <div class="col" style="padding-right:220px"><h3>WHAT THIS DATA CAN'T TELL US</h3>
+      <p><b>One chain, one menu.</b> 260 McDonald's items, US nutrition facts.</p>
+      <p><b>No sales volumes.</b> A rarely ordered shake counts as much as fries.</p>
+      <p><b>Thresholds are ours.</b> 50g sugar and 1,150mg sodium follow WHO and US daily values.</p>
+    </div>
+  </div>
+  <div class="ball" id="c8"></div>
+  <div class="src">
+    <h3>SOURCES AND TOOLS</h3>
+    <p><b>Data:</b> Nutrition Facts for McDonald's Menu, Kaggle (US menu, 260 items)</p>
+    <p><b>Sugar limit:</b> WHO Guideline on sugars intake for adults and children (2015)</p>
+    <p><b>Sodium warning:</b> NYC Department of Health, Sodium Warning Rule</p>
+    <p><b>Kids' meal drinks:</b> California Department of Public Health, SB 1192 fact sheet</p>
+    <p><b>Tools:</b> Looker Studio dashboard and D3.js. Built with AI assistance (Claude); analysis and recommendations by Group 3.</p>
+  </div>
+</section>
+
+<!-- 9 (new) -->
+<section class="slide" data-i="8">
+  <div class="panel">
+    <div class="eyebrow">After the meal · <b>One decision</b></div>
+    <div class="bar" style="margin-top:18px"></div>
+    <h1 class="sm">Approve a six-month Small-by-default pilot.</h1>
+    <p class="lede">Start small, measure what people actually order, then decide. Madrid keeps its menu and loses the sugar.</p>
+    <div class="decision">Thank you for listening. Questions welcome.</div>
+    <div class="key">
+      <div class="kh">WHAT THE DATA SAYS</div>
+      <div class="row"><span class="sw" style="background:var(--pink)"></span><span>62 items over 50g of sugar. Every one comes in a cup.</span></div>
+      <div class="row"><span class="sw" style="background:var(--blue)"></span><span>48 dishes with half a day of sodium. Every one is food.</span></div>
+      <div class="row"><span class="sw" style="background:var(--grey)"></span><span>150 items touched by neither flag. A ban would remove them too.</span></div>
+    </div>
+  </div>
+  <div class="cols">
+    <div class="col"><h3>SUGAR · REGULATE THE CUP</h3><p style="font-size:120px;font-weight:800;line-height:1;margin:10px 0 14px;color:var(--pink)">62</p><p>items over the daily limit in one serving. All of them drinks or desserts. A sugar warning at 50g reaches every one.</p></div>
+    <div class="col" style="padding-right:220px"><h3>SALT · WARN, DON'T BAN</h3><p style="font-size:120px;font-weight:800;line-height:1;margin:10px 0 14px;color:var(--blue)">48</p><p>dishes with half a day of sodium. All of them food. A sodium icon at 1,150mg, as New York does at 2,300mg.</p></div>
+  </div>
+  <div id="c9" hidden></div>
+</section>
+
+<div class="footer" id="footer">Data: Nutrition Facts for McDonald's Menu (Kaggle, US menu, 260 items). Sugar limit: WHO guideline, under 10% of energy, about 50g on 2,000 kcal.</div>
+<div class="progress" id="progress"></div>
+</div></div>
+
+<div id="notes" hidden><p class="sp" id="notes-sp"></p><p class="cl" id="notes-cl"></p></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+const DATA = [{"cat":"Breakfast","item":"Egg McMuffin","serving":"4.8 oz (136 g)","cal":300.0,"fat":13.0,"satfat":5.0,"sodium":750.0,"carbs":31.0,"fiber":4.0,"sugar":3.0,"protein":17.0},{"cat":"Breakfast","item":"Egg White Delight","serving":"4.8 oz (135 g)","cal":250.0,"fat":8.0,"satfat":3.0,"sodium":770.0,"carbs":30.0,"fiber":4.0,"sugar":3.0,"protein":18.0},{"cat":"Breakfast","item":"Sausage McMuffin","serving":"3.9 oz (111 g)","cal":370.0,"fat":23.0,"satfat":8.0,"sodium":780.0,"carbs":29.0,"fiber":4.0,"sugar":2.0,"protein":14.0},{"cat":"Breakfast","item":"Sausage McMuffin with Egg","serving":"5.7 oz (161 g)","cal":450.0,"fat":28.0,"satfat":10.0,"sodium":860.0,"carbs":30.0,"fiber":4.0,"sugar":2.0,"protein":21.0},{"cat":"Breakfast","item":"Sausage McMuffin with Egg Whites","serving":"5.7 oz (161 g)","cal":400.0,"fat":23.0,"satfat":8.0,"sodium":880.0,"carbs":30.0,"fiber":4.0,"sugar":2.0,"protein":21.0},{"cat":"Breakfast","item":"Steak & Egg McMuffin","serving":"6.5 oz (185 g)","cal":430.0,"fat":23.0,"satfat":9.0,"sodium":960.0,"carbs":31.0,"fiber":4.0,"sugar":3.0,"protein":26.0},{"cat":"Breakfast","item":"Bacon, Egg & Cheese Biscuit (Regular Biscuit)","serving":"5.3 oz (150 g)","cal":460.0,"fat":26.0,"satfat":13.0,"sodium":1300.0,"carbs":38.0,"fiber":2.0,"sugar":3.0,"protein":19.0},{"cat":"Breakfast","item":"Bacon, Egg & Cheese Biscuit (Large Biscuit)","serving":"5.8 oz (164 g)","cal":520.0,"fat":30.0,"satfat":14.0,"sodium":1410.0,"carbs":43.0,"fiber":3.0,"sugar":4.0,"protein":19.0},{"cat":"Breakfast","item":"Bacon, Egg & Cheese Biscuit with Egg Whites (Regular Biscuit)","serving":"5.4 oz (153 g)","cal":410.0,"fat":20.0,"satfat":11.0,"sodium":1300.0,"carbs":36.0,"fiber":2.0,"sugar":3.0,"protein":20.0},{"cat":"Breakfast","item":"Bacon, Egg & Cheese Biscuit with Egg Whites (Large Biscuit)","serving":"5.9 oz (167 g)","cal":470.0,"fat":25.0,"satfat":12.0,"sodium":1420.0,"carbs":42.0,"fiber":3.0,"sugar":4.0,"protein":20.0},{"cat":"Breakfast","item":"Sausage Biscuit (Regular Biscuit)","serving":"4.1 oz (117 g)","cal":430.0,"fat":27.0,"satfat":12.0,"sodium":1080.0,"carbs":34.0,"fiber":2.0,"sugar":2.0,"protein":11.0},{"cat":"Breakfast","item":"Sausage Biscuit (Large Biscuit)","serving":"4.6 oz (131 g)","cal":480.0,"fat":31.0,"satfat":13.0,"sodium":1190.0,"carbs":39.0,"fiber":3.0,"sugar":3.0,"protein":11.0},{"cat":"Breakfast","item":"Sausage Biscuit with Egg (Regular Biscuit)","serving":"5.7 oz (163 g)","cal":510.0,"fat":33.0,"satfat":14.0,"sodium":1170.0,"carbs":36.0,"fiber":2.0,"sugar":2.0,"protein":18.0},{"cat":"Breakfast","item":"Sausage Biscuit with Egg (Large Biscuit)","serving":"6.2 oz (177 g)","cal":570.0,"fat":37.0,"satfat":15.0,"sodium":1280.0,"carbs":42.0,"fiber":3.0,"sugar":3.0,"protein":18.0},{"cat":"Breakfast","item":"Sausage Biscuit with Egg Whites (Regular Biscuit)","serving":"5.9 oz (167 g)","cal":460.0,"fat":27.0,"satfat":12.0,"sodium":1180.0,"carbs":34.0,"fiber":2.0,"sugar":3.0,"protein":18.0},{"cat":"Breakfast","item":"Sausage Biscuit with Egg Whites (Large Biscuit)","serving":"6.4 oz (181 g)","cal":520.0,"fat":32.0,"satfat":13.0,"sodium":1290.0,"carbs":40.0,"fiber":3.0,"sugar":3.0,"protein":18.0},{"cat":"Breakfast","item":"Southern Style Chicken Biscuit (Regular Biscuit)","serving":"5 oz (143 g)","cal":410.0,"fat":20.0,"satfat":8.0,"sodium":1180.0,"carbs":41.0,"fiber":2.0,"sugar":3.0,"protein":17.0},{"cat":"Breakfast","item":"Southern Style Chicken Biscuit (Large Biscuit)","serving":"5.5 oz (157 g)","cal":470.0,"fat":24.0,"satfat":9.0,"sodium":1290.0,"carbs":46.0,"fiber":3.0,"sugar":4.0,"protein":17.0},{"cat":"Breakfast","item":"Steak & Egg Biscuit (Regular Biscuit)","serving":"7.1 oz (201 g)","cal":540.0,"fat":32.0,"satfat":16.0,"sodium":1470.0,"carbs":38.0,"fiber":2.0,"sugar":3.0,"protein":25.0},{"cat":"Breakfast","item":"Bacon, Egg & Cheese McGriddles","serving":"6.1 oz (174 g)","cal":460.0,"fat":21.0,"satfat":9.0,"sodium":1250.0,"carbs":48.0,"fiber":2.0,"sugar":15.0,"protein":19.0},{"cat":"Breakfast","item":"Bacon, Egg & Cheese McGriddles with Egg Whites","serving":"6.3 oz (178 g)","cal":400.0,"fat":15.0,"satfat":7.0,"sodium":1250.0,"carbs":47.0,"fiber":2.0,"sugar":16.0,"protein":20.0},{"cat":"Breakfast","item":"Sausage McGriddles","serving":"5 oz (141 g)","cal":420.0,"fat":22.0,"satfat":8.0,"sodium":1030.0,"carbs":44.0,"fiber":2.0,"sugar":15.0,"protein":11.0},{"cat":"Breakfast","item":"Sausage, Egg & Cheese McGriddles","serving":"7.1 oz (201 g)","cal":550.0,"fat":31.0,"satfat":12.0,"sodium":1320.0,"carbs":48.0,"fiber":2.0,"sugar":15.0,"protein":20.0},{"cat":"Breakfast","item":"Sausage, Egg & Cheese McGriddles with Egg Whites","serving":"7.2 oz (205 g)","cal":500.0,"fat":26.0,"satfat":10.0,"sodium":1320.0,"carbs":46.0,"fiber":2.0,"sugar":15.0,"protein":21.0},{"cat":"Breakfast","item":"Bacon, Egg & Cheese Bagel","serving":"6.9 oz (197 g)","cal":620.0,"fat":31.0,"satfat":11.0,"sodium":1480.0,"carbs":57.0,"fiber":3.0,"sugar":7.0,"protein":30.0},{"cat":"Breakfast","item":"Bacon, Egg & Cheese Bagel with Egg Whites","serving":"7.1 oz (201 g)","cal":570.0,"fat":25.0,"satfat":9.0,"sodium":1480.0,"carbs":55.0,"fiber":3.0,"sugar":8.0,"protein":30.0},{"cat":"Breakfast","item":"Steak, Egg & Cheese Bagel","serving":"8.5 oz (241 g)","cal":670.0,"fat":35.0,"satfat":13.0,"sodium":1510.0,"carbs":56.0,"fiber":3.0,"sugar":7.0,"protein":33.0},{"cat":"Breakfast","item":"Big Breakfast (Regular Biscuit)","serving":"9.5 oz (269 g)","cal":740.0,"fat":48.0,"satfat":17.0,"sodium":1560.0,"carbs":51.0,"fiber":3.0,"sugar":3.0,"protein":28.0},{"cat":"Breakfast","item":"Big Breakfast (Large Biscuit)","serving":"10 oz (283 g)","cal":800.0,"fat":52.0,"satfat":18.0,"sodium":1680.0,"carbs":56.0,"fiber":4.0,"sugar":3.0,"protein":28.0},{"cat":"Breakfast","item":"Big Breakfast with Egg Whites (Regular Biscuit)","serving":"9.6 oz (272 g)","cal":640.0,"fat":37.0,"satfat":14.0,"sodium":1590.0,"carbs":50.0,"fiber":3.0,"sugar":3.0,"protein":26.0},{"cat":"Breakfast","item":"Big Breakfast with Egg Whites (Large Biscuit)","serving":"10.1 oz (286 g)","cal":690.0,"fat":41.0,"satfat":14.0,"sodium":1700.0,"carbs":55.0,"fiber":4.0,"sugar":4.0,"protein":26.0},{"cat":"Breakfast","item":"Big Breakfast with Hotcakes (Regular Biscuit)","serving":"14.8 oz (420 g)","cal":1090.0,"fat":56.0,"satfat":19.0,"sodium":2150.0,"carbs":111.0,"fiber":6.0,"sugar":17.0,"protein":36.0},{"cat":"Breakfast","item":"Big Breakfast with Hotcakes (Large Biscuit)","serving":"15.3 oz (434 g)","cal":1150.0,"fat":60.0,"satfat":20.0,"sodium":2260.0,"carbs":116.0,"fiber":7.0,"sugar":17.0,"protein":36.0},{"cat":"Breakfast","item":"Big Breakfast with Hotcakes and Egg Whites (Regular Biscuit)","serving":"14.9 oz (423 g)","cal":990.0,"fat":46.0,"satfat":16.0,"sodium":2170.0,"carbs":110.0,"fiber":6.0,"sugar":17.0,"protein":35.0},{"cat":"Breakfast","item":"Big Breakfast with Hotcakes and Egg Whites (Large Biscuit)","serving":"15.4 oz (437 g)","cal":1050.0,"fat":50.0,"satfat":16.0,"sodium":2290.0,"carbs":115.0,"fiber":7.0,"sugar":18.0,"protein":35.0},{"cat":"Breakfast","item":"Hotcakes","serving":"5.3 oz (151 g)","cal":350.0,"fat":9.0,"satfat":2.0,"sodium":590.0,"carbs":60.0,"fiber":3.0,"sugar":14.0,"protein":8.0},{"cat":"Breakfast","item":"Hotcakes and Sausage","serving":"6.8 oz (192 g)","cal":520.0,"fat":24.0,"satfat":7.0,"sodium":930.0,"carbs":61.0,"fiber":3.0,"sugar":14.0,"protein":15.0},{"cat":"Breakfast","item":"Sausage Burrito","serving":"3.9 oz (111 g)","cal":300.0,"fat":16.0,"satfat":7.0,"sodium":790.0,"carbs":26.0,"fiber":1.0,"sugar":2.0,"protein":12.0},{"cat":"Breakfast","item":"Hash Brown","serving":"2 oz (56 g)","cal":150.0,"fat":9.0,"satfat":1.5,"sodium":310.0,"carbs":15.0,"fiber":2.0,"sugar":0.0,"protein":1.0},{"cat":"Breakfast","item":"Cinnamon Melts","serving":"4 oz (114 g)","cal":460.0,"fat":19.0,"satfat":9.0,"sodium":370.0,"carbs":66.0,"fiber":3.0,"sugar":32.0,"protein":6.0},{"cat":"Breakfast","item":"Fruit & Maple Oatmeal","serving":"9.6 oz (251 g)","cal":290.0,"fat":4.0,"satfat":1.5,"sodium":160.0,"carbs":58.0,"fiber":5.0,"sugar":32.0,"protein":5.0},{"cat":"Breakfast","item":"Fruit & Maple Oatmeal without Brown Sugar","serving":"9.6 oz (251 g)","cal":260.0,"fat":4.0,"satfat":1.5,"sodium":115.0,"carbs":49.0,"fiber":5.0,"sugar":18.0,"protein":5.0},{"cat":"Beef & Pork","item":"Big Mac","serving":"7.4 oz (211 g)","cal":530.0,"fat":27.0,"satfat":10.0,"sodium":960.0,"carbs":47.0,"fiber":3.0,"sugar":9.0,"protein":24.0},{"cat":"Beef & Pork","item":"Quarter Pounder with Cheese","serving":"7.1 oz (202 g)","cal":520.0,"fat":26.0,"satfat":12.0,"sodium":1100.0,"carbs":41.0,"fiber":3.0,"sugar":10.0,"protein":30.0},{"cat":"Beef & Pork","item":"Quarter Pounder with Bacon & Cheese","serving":"8 oz (227 g)","cal":600.0,"fat":29.0,"satfat":13.0,"sodium":1440.0,"carbs":48.0,"fiber":3.0,"sugar":12.0,"protein":37.0},{"cat":"Beef & Pork","item":"Quarter Pounder with Bacon Habanero Ranch","serving":"8.3 oz (235 g)","cal":610.0,"fat":31.0,"satfat":13.0,"sodium":1180.0,"carbs":46.0,"fiber":3.0,"sugar":10.0,"protein":37.0},{"cat":"Beef & Pork","item":"Quarter Pounder Deluxe","serving":"8.6 oz (244 g)","cal":540.0,"fat":27.0,"satfat":11.0,"sodium":960.0,"carbs":45.0,"fiber":3.0,"sugar":9.0,"protein":29.0},{"cat":"Beef & Pork","item":"Double Quarter Pounder with Cheese","serving":"10 oz (283 g)","cal":750.0,"fat":43.0,"satfat":19.0,"sodium":1280.0,"carbs":42.0,"fiber":3.0,"sugar":10.0,"protein":48.0},{"cat":"Beef & Pork","item":"Hamburger","serving":"3.5 oz (98 g)","cal":240.0,"fat":8.0,"satfat":3.0,"sodium":480.0,"carbs":32.0,"fiber":1.0,"sugar":6.0,"protein":12.0},{"cat":"Beef & Pork","item":"Cheeseburger","serving":"4 oz (113 g)","cal":290.0,"fat":11.0,"satfat":5.0,"sodium":680.0,"carbs":33.0,"fiber":2.0,"sugar":7.0,"protein":15.0},{"cat":"Beef & Pork","item":"Double Cheeseburger","serving":"5.7 oz (161 g)","cal":430.0,"fat":21.0,"satfat":10.0,"sodium":1040.0,"carbs":35.0,"fiber":2.0,"sugar":7.0,"protein":24.0},{"cat":"Beef & Pork","item":"Bacon Clubhouse Burger","serving":"9.5 oz (270 g)","cal":720.0,"fat":40.0,"satfat":15.0,"sodium":1470.0,"carbs":51.0,"fiber":4.0,"sugar":14.0,"protein":39.0},{"cat":"Beef & Pork","item":"McDouble","serving":"5.2 oz (147 g)","cal":380.0,"fat":17.0,"satfat":8.0,"sodium":840.0,"carbs":34.0,"fiber":2.0,"sugar":7.0,"protein":22.0},{"cat":"Beef & Pork","item":"Bacon McDouble","serving":"5.7 oz (161 g)","cal":440.0,"fat":22.0,"satfat":10.0,"sodium":1110.0,"carbs":35.0,"fiber":2.0,"sugar":7.0,"protein":27.0},{"cat":"Beef & Pork","item":"Daily Double","serving":"6.7 oz (190 g)","cal":430.0,"fat":22.0,"satfat":9.0,"sodium":760.0,"carbs":34.0,"fiber":2.0,"sugar":7.0,"protein":22.0},{"cat":"Beef & Pork","item":"Jalape\u00f1o Double","serving":"5.6 oz (159 g)","cal":430.0,"fat":23.0,"satfat":9.0,"sodium":1030.0,"carbs":35.0,"fiber":2.0,"sugar":6.0,"protein":22.0},{"cat":"Beef & Pork","item":"McRib","serving":"7.3 oz (208 g)","cal":500.0,"fat":26.0,"satfat":10.0,"sodium":980.0,"carbs":44.0,"fiber":3.0,"sugar":11.0,"protein":22.0},{"cat":"Chicken & Fish","item":"Premium Crispy Chicken Classic Sandwich","serving":"7.5 oz (213 g)","cal":510.0,"fat":22.0,"satfat":3.5,"sodium":990.0,"carbs":55.0,"fiber":3.0,"sugar":10.0,"protein":24.0},{"cat":"Chicken & Fish","item":"Premium Grilled Chicken Classic Sandwich","serving":"7 oz (200 g)","cal":350.0,"fat":9.0,"satfat":2.0,"sodium":820.0,"carbs":42.0,"fiber":3.0,"sugar":8.0,"protein":28.0},{"cat":"Chicken & Fish","item":"Premium Crispy Chicken Club Sandwich","serving":"8.8 oz (249 g)","cal":670.0,"fat":33.0,"satfat":9.0,"sodium":1410.0,"carbs":58.0,"fiber":3.0,"sugar":11.0,"protein":36.0},{"cat":"Chicken & Fish","item":"Premium Grilled Chicken Club Sandwich","serving":"8.3 oz (235 g)","cal":510.0,"fat":20.0,"satfat":7.0,"sodium":1250.0,"carbs":44.0,"fiber":3.0,"sugar":9.0,"protein":40.0},{"cat":"Chicken & Fish","item":"Premium Crispy Chicken Ranch BLT Sandwich","serving":"8.1 oz (230 g)","cal":610.0,"fat":28.0,"satfat":6.0,"sodium":1400.0,"carbs":57.0,"fiber":3.0,"sugar":11.0,"protein":32.0},{"cat":"Chicken & Fish","item":"Premium Grilled Chicken Ranch BLT Sandwich","serving":"7.6 oz (217 g)","cal":450.0,"fat":15.0,"satfat":4.5,"sodium":1230.0,"carbs":43.0,"fiber":3.0,"sugar":9.0,"protein":36.0},{"cat":"Chicken & Fish","item":"Bacon Clubhouse Crispy Chicken Sandwich","serving":"10 oz (284 g)","cal":750.0,"fat":38.0,"satfat":10.0,"sodium":1720.0,"carbs":65.0,"fiber":4.0,"sugar":16.0,"protein":36.0},{"cat":"Chicken & Fish","item":"Bacon Clubhouse Grilled Chicken Sandwich","serving":"9.5 oz (270 g)","cal":590.0,"fat":25.0,"satfat":8.0,"sodium":1560.0,"carbs":51.0,"fiber":4.0,"sugar":14.0,"protein":40.0},{"cat":"Chicken & Fish","item":"Southern Style Crispy Chicken Sandwich","serving":"5.6 oz (160 g)","cal":430.0,"fat":19.0,"satfat":3.0,"sodium":910.0,"carbs":43.0,"fiber":2.0,"sugar":7.0,"protein":21.0},{"cat":"Chicken & Fish","item":"McChicken","serving":"5.1 oz (143 g)","cal":360.0,"fat":16.0,"satfat":3.0,"sodium":800.0,"carbs":40.0,"fiber":2.0,"sugar":5.0,"protein":14.0},{"cat":"Chicken & Fish","item":"Bacon Cheddar McChicken","serving":"6 oz (171 g)","cal":480.0,"fat":24.0,"satfat":7.0,"sodium":1260.0,"carbs":43.0,"fiber":2.0,"sugar":6.0,"protein":22.0},{"cat":"Chicken & Fish","item":"Bacon Buffalo Ranch McChicken","serving":"5.7 oz (161 g)","cal":430.0,"fat":21.0,"satfat":5.0,"sodium":1260.0,"carbs":41.0,"fiber":2.0,"sugar":6.0,"protein":20.0},{"cat":"Chicken & Fish","item":"Buffalo Ranch McChicken","serving":"5.2 oz (148 g)","cal":360.0,"fat":16.0,"satfat":3.0,"sodium":990.0,"carbs":40.0,"fiber":2.0,"sugar":5.0,"protein":14.0},{"cat":"Chicken & Fish","item":"Premium McWrap Chicken & Bacon (Crispy Chicken)","serving":"11.1 oz (316 g)","cal":630.0,"fat":32.0,"satfat":9.0,"sodium":1540.0,"carbs":56.0,"fiber":3.0,"sugar":7.0,"protein":32.0},{"cat":"Chicken & Fish","item":"Premium McWrap Chicken & Bacon (Grilled Chicken)","serving":"10.7 oz (302 g)","cal":480.0,"fat":19.0,"satfat":7.0,"sodium":1370.0,"carbs":42.0,"fiber":3.0,"sugar":6.0,"protein":36.0},{"cat":"Chicken & Fish","item":"Premium McWrap Chicken & Ranch (Crispy Chicken)","serving":"10.9 oz (310 g)","cal":610.0,"fat":31.0,"satfat":8.0,"sodium":1340.0,"carbs":56.0,"fiber":3.0,"sugar":8.0,"protein":27.0},{"cat":"Chicken & Fish","item":"Premium McWrap Chicken & Ranch (Grilled Chicken)","serving":"10.5 oz (297 g)","cal":450.0,"fat":18.0,"satfat":6.0,"sodium":1170.0,"carbs":42.0,"fiber":3.0,"sugar":6.0,"protein":30.0},{"cat":"Chicken & Fish","item":"Premium McWrap Southwest Chicken (Crispy Chicken)","serving":"11.1 oz (314 g)","cal":670.0,"fat":33.0,"satfat":8.0,"sodium":1480.0,"carbs":68.0,"fiber":5.0,"sugar":12.0,"protein":27.0},{"cat":"Chicken & Fish","item":"Premium McWrap Southwest Chicken (Grilled Chicken)","serving":"11.2 oz (318 g)","cal":520.0,"fat":20.0,"satfat":6.0,"sodium":1320.0,"carbs":55.0,"fiber":5.0,"sugar":10.0,"protein":31.0},{"cat":"Chicken & Fish","item":"Premium McWrap Chicken Sweet Chili (Crispy Chicken)","serving":"10.7 oz (304 g)","cal":540.0,"fat":23.0,"satfat":4.5,"sodium":1260.0,"carbs":61.0,"fiber":3.0,"sugar":14.0,"protein":23.0},{"cat":"Chicken & Fish","item":"Premium McWrap Chicken Sweet Chili (Grilled Chicken)","serving":"10.3 oz (291 g)","cal":380.0,"fat":10.0,"satfat":3.0,"sodium":1090.0,"carbs":47.0,"fiber":3.0,"sugar":12.0,"protein":27.0},{"cat":"Chicken & Fish","item":"Chicken McNuggets (4 piece)","serving":"2.3 oz (65 g)","cal":190.0,"fat":12.0,"satfat":2.0,"sodium":360.0,"carbs":12.0,"fiber":1.0,"sugar":0.0,"protein":9.0},{"cat":"Chicken & Fish","item":"Chicken McNuggets (6 piece)","serving":"3.4 oz (97 g)","cal":280.0,"fat":18.0,"satfat":3.0,"sodium":540.0,"carbs":18.0,"fiber":1.0,"sugar":0.0,"protein":13.0},{"cat":"Chicken & Fish","item":"Chicken McNuggets (10 piece)","serving":"5.7 oz (162 g)","cal":470.0,"fat":30.0,"satfat":5.0,"sodium":900.0,"carbs":30.0,"fiber":2.0,"sugar":0.0,"protein":22.0},{"cat":"Chicken & Fish","item":"Chicken McNuggets (20 piece)","serving":"11.4 oz (323 g)","cal":940.0,"fat":59.0,"satfat":10.0,"sodium":1800.0,"carbs":59.0,"fiber":3.0,"sugar":0.0,"protein":44.0},{"cat":"Chicken & Fish","item":"Chicken McNuggets (40 piece)","serving":"22.8 oz (646 g)","cal":1880.0,"fat":118.0,"satfat":20.0,"sodium":3600.0,"carbs":118.0,"fiber":6.0,"sugar":1.0,"protein":87.0},{"cat":"Chicken & Fish","item":"Filet-O-Fish","serving":"5 oz (142 g)","cal":390.0,"fat":19.0,"satfat":4.0,"sodium":590.0,"carbs":39.0,"fiber":2.0,"sugar":5.0,"protein":15.0},{"cat":"Salads","item":"Premium Bacon Ranch Salad (without Chicken)","serving":"7.9 oz (223 g)","cal":140.0,"fat":7.0,"satfat":3.5,"sodium":300.0,"carbs":10.0,"fiber":3.0,"sugar":4.0,"protein":9.0},{"cat":"Salads","item":"Premium Bacon Ranch Salad with Crispy Chicken","serving":"9 oz (255 g)","cal":380.0,"fat":21.0,"satfat":6.0,"sodium":860.0,"carbs":22.0,"fiber":2.0,"sugar":5.0,"protein":25.0},{"cat":"Salads","item":"Premium Bacon Ranch Salad with Grilled Chicken","serving":"8.5 oz (241 g)","cal":220.0,"fat":8.0,"satfat":4.0,"sodium":690.0,"carbs":8.0,"fiber":2.0,"sugar":4.0,"protein":29.0},{"cat":"Salads","item":"Premium Southwest Salad (without Chicken)","serving":"8.1 oz (230 g)","cal":140.0,"fat":4.5,"satfat":2.0,"sodium":150.0,"carbs":20.0,"fiber":6.0,"sugar":6.0,"protein":6.0},{"cat":"Salads","item":"Premium Southwest Salad with Crispy Chicken","serving":"12.3 oz (348 g)","cal":450.0,"fat":22.0,"satfat":4.5,"sodium":850.0,"carbs":42.0,"fiber":7.0,"sugar":12.0,"protein":23.0},{"cat":"Salads","item":"Premium Southwest Salad with Grilled Chicken","serving":"11.8 oz (335 g)","cal":290.0,"fat":8.0,"satfat":2.5,"sodium":680.0,"carbs":28.0,"fiber":7.0,"sugar":10.0,"protein":27.0},{"cat":"Snacks & Sides","item":"Chipotle BBQ Snack Wrap (Crispy Chicken)","serving":"4.6 oz (130 g)","cal":340.0,"fat":15.0,"satfat":4.5,"sodium":780.0,"carbs":37.0,"fiber":1.0,"sugar":8.0,"protein":14.0},{"cat":"Snacks & Sides","item":"Chipotle BBQ Snack Wrap (Grilled Chicken)","serving":"4.3 oz (123 g)","cal":260.0,"fat":8.0,"satfat":3.5,"sodium":700.0,"carbs":30.0,"fiber":1.0,"sugar":7.0,"protein":16.0},{"cat":"Snacks & Sides","item":"Honey Mustard Snack Wrap (Crispy Chicken)","serving":"4.3 oz (123 g)","cal":330.0,"fat":15.0,"satfat":4.5,"sodium":730.0,"carbs":34.0,"fiber":1.0,"sugar":3.0,"protein":14.0},{"cat":"Snacks & Sides","item":"Honey Mustard Snack Wrap (Grilled Chicken)","serving":"4.1 oz (116 g)","cal":250.0,"fat":8.0,"satfat":3.5,"sodium":650.0,"carbs":27.0,"fiber":1.0,"sugar":2.0,"protein":16.0},{"cat":"Snacks & Sides","item":"Ranch Snack Wrap (Crispy Chicken)","serving":"4.5 oz (128 g)","cal":360.0,"fat":20.0,"satfat":5.0,"sodium":810.0,"carbs":32.0,"fiber":1.0,"sugar":3.0,"protein":15.0},{"cat":"Snacks & Sides","item":"Ranch Snack Wrap (Grilled Chicken)","serving":"4.3 oz (121 g)","cal":280.0,"fat":13.0,"satfat":4.5,"sodium":720.0,"carbs":25.0,"fiber":1.0,"sugar":2.0,"protein":16.0},{"cat":"Snacks & Sides","item":"Small French Fries","serving":"2.6 oz (75 g)","cal":230.0,"fat":11.0,"satfat":1.5,"sodium":130.0,"carbs":30.0,"fiber":2.0,"sugar":0.0,"protein":2.0},{"cat":"Snacks & Sides","item":"Medium French Fries","serving":"3.9 oz (111 g)","cal":340.0,"fat":16.0,"satfat":2.5,"sodium":190.0,"carbs":44.0,"fiber":4.0,"sugar":0.0,"protein":4.0},{"cat":"Snacks & Sides","item":"Large French Fries","serving":"5.9 oz (168 g)","cal":510.0,"fat":24.0,"satfat":3.5,"sodium":290.0,"carbs":67.0,"fiber":5.0,"sugar":0.0,"protein":6.0},{"cat":"Snacks & Sides","item":"Kids French Fries","serving":"1.3 oz (38 g)","cal":110.0,"fat":5.0,"satfat":1.0,"sodium":65.0,"carbs":15.0,"fiber":1.0,"sugar":0.0,"protein":1.0},{"cat":"Snacks & Sides","item":"Side Salad","serving":"3.1 oz (87 g)","cal":20.0,"fat":0.0,"satfat":0.0,"sodium":10.0,"carbs":4.0,"fiber":1.0,"sugar":2.0,"protein":1.0},{"cat":"Snacks & Sides","item":"Apple Slices","serving":"1.2 oz (34 g)","cal":15.0,"fat":0.0,"satfat":0.0,"sodium":0.0,"carbs":4.0,"fiber":0.0,"sugar":3.0,"protein":0.0},{"cat":"Snacks & Sides","item":"Fruit 'n Yogurt Parfait","serving":"5.2 oz (149 g)","cal":150.0,"fat":2.0,"satfat":1.0,"sodium":70.0,"carbs":30.0,"fiber":1.0,"sugar":23.0,"protein":4.0},{"cat":"Desserts","item":"Baked Apple Pie","serving":"2.7 oz (77 g)","cal":250.0,"fat":13.0,"satfat":7.0,"sodium":170.0,"carbs":32.0,"fiber":4.0,"sugar":13.0,"protein":2.0},{"cat":"Desserts","item":"Chocolate Chip Cookie","serving":"1 cookie (33 g)","cal":160.0,"fat":8.0,"satfat":3.5,"sodium":90.0,"carbs":21.0,"fiber":1.0,"sugar":15.0,"protein":2.0},{"cat":"Desserts","item":"Oatmeal Raisin Cookie","serving":"1 cookie (33 g)","cal":150.0,"fat":6.0,"satfat":2.5,"sodium":135.0,"carbs":22.0,"fiber":1.0,"sugar":13.0,"protein":2.0},{"cat":"Desserts","item":"Kids Ice Cream Cone","serving":"1 oz (29 g)","cal":45.0,"fat":1.5,"satfat":1.0,"sodium":20.0,"carbs":7.0,"fiber":0.0,"sugar":6.0,"protein":1.0},{"cat":"Desserts","item":"Hot Fudge Sundae","serving":"6.3 oz (179 g)","cal":330.0,"fat":9.0,"satfat":7.0,"sodium":170.0,"carbs":53.0,"fiber":1.0,"sugar":48.0,"protein":8.0},{"cat":"Desserts","item":"Hot Caramel Sundae","serving":"6.4 oz (182 g)","cal":340.0,"fat":8.0,"satfat":5.0,"sodium":150.0,"carbs":60.0,"fiber":0.0,"sugar":43.0,"protein":7.0},{"cat":"Desserts","item":"Strawberry Sundae","serving":"6.3 oz (178 g)","cal":280.0,"fat":6.0,"satfat":4.0,"sodium":85.0,"carbs":49.0,"fiber":0.0,"sugar":45.0,"protein":6.0},{"cat":"Beverages","item":"Coca-Cola Classic (Small)","serving":"16 fl oz cup","cal":140.0,"fat":0.0,"satfat":0.0,"sodium":0.0,"carbs":39.0,"fiber":0.0,"sugar":39.0,"protein":0.0},{"cat":"Beverages","item":"Coca-Cola Classic (Medium)","serving":"21 fl oz cup","cal":200.0,"fat":0.0,"satfat":0.0,"sodium":5.0,"carbs":55.0,"fiber":0.0,"sugar":55.0,"protein":0.0},{"cat":"Beverages","item":"Coca-Cola Classic (Large)","serving":"30 fl oz cup","cal":280.0,"fat":0.0,"satfat":0.0,"sodium":5.0,"carbs":76.0,"fiber":0.0,"sugar":76.0,"protein":0.0},{"cat":"Beverages","item":"Coca-Cola Classic (Child)","serving":"12 fl oz cup","cal":100.0,"fat":0.0,"satfat":0.0,"sodium":0.0,"carbs":28.0,"fiber":0.0,"sugar":28.0,"protein":0.0},{"cat":"Beverages","item":"Diet Coke (Small)","serving":"16 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":10.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Beverages","item":"Diet Coke (Medium)","serving":"21 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":20.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Beverages","item":"Diet Coke (Large)","serving":"30 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":35.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Beverages","item":"Diet Coke (Child)","serving":"12 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":15.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Beverages","item":"Dr Pepper (Small)","serving":"16 fl oz cup","cal":140.0,"fat":0.0,"satfat":0.0,"sodium":45.0,"carbs":37.0,"fiber":0.0,"sugar":35.0,"protein":0.0},{"cat":"Beverages","item":"Dr Pepper (Medium)","serving":"21 fl oz cup","cal":190.0,"fat":0.0,"satfat":0.0,"sodium":65.0,"carbs":53.0,"fiber":0.0,"sugar":51.0,"protein":0.0},{"cat":"Beverages","item":"Dr Pepper (Large)","serving":"30 fl oz cup","cal":270.0,"fat":0.0,"satfat":0.0,"sodium":90.0,"carbs":72.0,"fiber":0.0,"sugar":70.0,"protein":0.0},{"cat":"Beverages","item":"Dr Pepper (Child)","serving":"12 fl oz cup","cal":100.0,"fat":0.0,"satfat":0.0,"sodium":30.0,"carbs":27.0,"fiber":0.0,"sugar":26.0,"protein":0.0},{"cat":"Beverages","item":"Diet Dr Pepper (Small)","serving":"16 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":70.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":2.0},{"cat":"Beverages","item":"Diet Dr Pepper (Medium)","serving":"21 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":100.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":3.0},{"cat":"Beverages","item":"Diet Dr Pepper (Large)","serving":"30 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":140.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":4.0},{"cat":"Beverages","item":"Diet Dr Pepper (Child)","serving":"12 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":50.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":1.0},{"cat":"Beverages","item":"Sprite (Small)","serving":"16 fl oz cup","cal":140.0,"fat":0.0,"satfat":0.0,"sodium":30.0,"carbs":37.0,"fiber":0.0,"sugar":37.0,"protein":0.0},{"cat":"Beverages","item":"Sprite (Medium)","serving":"21 fl oz cup","cal":200.0,"fat":0.0,"satfat":0.0,"sodium":45.0,"carbs":54.0,"fiber":0.0,"sugar":54.0,"protein":0.0},{"cat":"Beverages","item":"Sprite (Large)","serving":"30 fl oz cup","cal":280.0,"fat":0.0,"satfat":0.0,"sodium":60.0,"carbs":74.0,"fiber":0.0,"sugar":74.0,"protein":0.0},{"cat":"Beverages","item":"Sprite (Child)","serving":"12 fl oz cup","cal":100.0,"fat":0.0,"satfat":0.0,"sodium":25.0,"carbs":27.0,"fiber":0.0,"sugar":27.0,"protein":0.0},{"cat":"Beverages","item":"1% Low Fat Milk Jug","serving":"1 carton (236 ml)","cal":100.0,"fat":2.5,"satfat":1.5,"sodium":125.0,"carbs":12.0,"fiber":0.0,"sugar":12.0,"protein":8.0},{"cat":"Beverages","item":"Fat Free Chocolate Milk Jug","serving":"1 carton (236 ml)","cal":130.0,"fat":0.0,"satfat":0.0,"sodium":135.0,"carbs":23.0,"fiber":1.0,"sugar":22.0,"protein":9.0},{"cat":"Beverages","item":"Minute Maid 100% Apple Juice Box","serving":"6 fl oz (177 ml)","cal":80.0,"fat":0.0,"satfat":0.0,"sodium":15.0,"carbs":21.0,"fiber":0.0,"sugar":19.0,"protein":0.0},{"cat":"Beverages","item":"Minute Maid Orange Juice (Small)","serving":"12 fl oz cup","cal":150.0,"fat":0.0,"satfat":0.0,"sodium":0.0,"carbs":34.0,"fiber":0.0,"sugar":30.0,"protein":2.0},{"cat":"Beverages","item":"Minute Maid Orange Juice (Medium)","serving":"16 fl oz cup","cal":190.0,"fat":0.0,"satfat":0.0,"sodium":0.0,"carbs":44.0,"fiber":0.0,"sugar":39.0,"protein":3.0},{"cat":"Beverages","item":"Minute Maid Orange Juice (Large)","serving":"22 fl oz cup","cal":280.0,"fat":0.0,"satfat":0.0,"sodium":5.0,"carbs":65.0,"fiber":0.0,"sugar":58.0,"protein":4.0},{"cat":"Beverages","item":"Dasani Water Bottle","serving":"16.9 fl oz","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":0.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Coffee & Tea","item":"Iced Tea (Small)","serving":"16 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":10.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Coffee & Tea","item":"Iced Tea (Medium)","serving":"21 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":10.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Coffee & Tea","item":"Iced Tea (Large)","serving":"30 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":15.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Coffee & Tea","item":"Iced Tea (Child)","serving":"12 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":5.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Coffee & Tea","item":"Sweet Tea (Small)","serving":"16 fl oz cup","cal":150.0,"fat":0.0,"satfat":0.0,"sodium":10.0,"carbs":36.0,"fiber":0.0,"sugar":36.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Sweet Tea (Medium)","serving":"21 fl oz cup","cal":180.0,"fat":0.0,"satfat":0.0,"sodium":10.0,"carbs":45.0,"fiber":0.0,"sugar":45.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Sweet Tea (Large)","serving":"30 fl oz cup","cal":220.0,"fat":0.0,"satfat":0.0,"sodium":10.0,"carbs":54.0,"fiber":0.0,"sugar":54.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Sweet Tea (Child)","serving":"12 fl oz cup","cal":110.0,"fat":0.0,"satfat":0.0,"sodium":5.0,"carbs":27.0,"fiber":0.0,"sugar":27.0,"protein":0.0},{"cat":"Coffee & Tea","item":"Coffee (Small)","serving":"12 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":0.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Coffee & Tea","item":"Coffee (Medium)","serving":"16 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":0.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Coffee & Tea","item":"Coffee (Large)","serving":"16 fl oz cup","cal":0.0,"fat":0.0,"satfat":0.0,"sodium":0.0,"carbs":0.0,"fiber":0.0,"sugar":0.0,"protein":0.0},{"cat":"Coffee & Tea","item":"Latte (Small)","serving":"12 fl oz cup","cal":170.0,"fat":9.0,"satfat":5.0,"sodium":115.0,"carbs":15.0,"fiber":1.0,"sugar":12.0,"protein":9.0},{"cat":"Coffee & Tea","item":"Latte (Medium)","serving":"16 fl oz cup","cal":210.0,"fat":10.0,"satfat":6.0,"sodium":140.0,"carbs":18.0,"fiber":1.0,"sugar":15.0,"protein":11.0},{"cat":"Coffee & Tea","item":"Latte (Large)","serving":"20 fl oz cup","cal":280.0,"fat":14.0,"satfat":8.0,"sodium":180.0,"carbs":24.0,"fiber":1.0,"sugar":20.0,"protein":15.0},{"cat":"Coffee & Tea","item":"Caramel Latte (Small)","serving":"12 fl oz cup","cal":270.0,"fat":9.0,"satfat":5.0,"sodium":115.0,"carbs":40.0,"fiber":1.0,"sugar":38.0,"protein":9.0},{"cat":"Coffee & Tea","item":"Caramel Latte (Medium)","serving":"16 fl oz cup","cal":340.0,"fat":10.0,"satfat":6.0,"sodium":140.0,"carbs":50.0,"fiber":1.0,"sugar":48.0,"protein":11.0},{"cat":"Coffee & Tea","item":"Caramel Latte (Large)","serving":"20 fl oz cup","cal":430.0,"fat":14.0,"satfat":8.0,"sodium":180.0,"carbs":62.0,"fiber":1.0,"sugar":59.0,"protein":15.0},{"cat":"Coffee & Tea","item":"Hazelnut Latte (Small)","serving":"12 fl oz cup","cal":270.0,"fat":9.0,"satfat":5.0,"sodium":115.0,"carbs":40.0,"fiber":1.0,"sugar":38.0,"protein":9.0},{"cat":"Coffee & Tea","item":"Hazelnut Latte (Medium)","serving":"16 fl oz cup","cal":330.0,"fat":10.0,"satfat":6.0,"sodium":140.0,"carbs":50.0,"fiber":1.0,"sugar":47.0,"protein":11.0},{"cat":"Coffee & Tea","item":"Hazelnut Latte (Large)","serving":"20 fl oz cup","cal":430.0,"fat":14.0,"satfat":8.0,"sodium":180.0,"carbs":62.0,"fiber":1.0,"sugar":58.0,"protein":15.0},{"cat":"Coffee & Tea","item":"French Vanilla Latte (Small)","serving":"12 fl oz cup","cal":260.0,"fat":9.0,"satfat":5.0,"sodium":115.0,"carbs":38.0,"fiber":1.0,"sugar":36.0,"protein":9.0},{"cat":"Coffee & Tea","item":"French Vanilla Latte (Medium)","serving":"16 fl oz cup","cal":330.0,"fat":10.0,"satfat":6.0,"sodium":140.0,"carbs":48.0,"fiber":1.0,"sugar":45.0,"protein":11.0},{"cat":"Coffee & Tea","item":"French Vanilla Latte (Large)","serving":"20 fl oz cup","cal":420.0,"fat":14.0,"satfat":8.0,"sodium":190.0,"carbs":60.0,"fiber":1.0,"sugar":56.0,"protein":15.0},{"cat":"Coffee & Tea","item":"Latte with Sugar Free French Vanilla Syrup (Small)","serving":"12 fl oz cup","cal":210.0,"fat":9.0,"satfat":5.0,"sodium":150.0,"carbs":24.0,"fiber":1.0,"sugar":12.0,"protein":9.0},{"cat":"Coffee & Tea","item":"Latte with Sugar Free French Vanilla Syrup (Medium)","serving":"16 fl oz cup","cal":260.0,"fat":10.0,"satfat":6.0,"sodium":190.0,"carbs":29.0,"fiber":1.0,"sugar":15.0,"protein":12.0},{"cat":"Coffee & Tea","item":"Latte with Sugar Free French Vanilla Syrup (Large)","serving":"20 fl oz cup","cal":330.0,"fat":14.0,"satfat":8.0,"sodium":240.0,"carbs":37.0,"fiber":2.0,"sugar":20.0,"protein":15.0},{"cat":"Coffee & Tea","item":"Nonfat Latte (Small)","serving":"12 fl oz cup","cal":100.0,"fat":0.0,"satfat":0.0,"sodium":110.0,"carbs":15.0,"fiber":1.0,"sugar":13.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Nonfat Latte (Medium)","serving":"16 fl oz cup","cal":130.0,"fat":0.0,"satfat":0.0,"sodium":135.0,"carbs":19.0,"fiber":1.0,"sugar":16.0,"protein":12.0},{"cat":"Coffee & Tea","item":"Nonfat Latte (Large)","serving":"20 fl oz cup","cal":170.0,"fat":0.5,"satfat":0.0,"sodium":180.0,"carbs":25.0,"fiber":1.0,"sugar":21.0,"protein":16.0},{"cat":"Coffee & Tea","item":"Nonfat Caramel Latte (Small)","serving":"12 fl oz cup","cal":200.0,"fat":0.0,"satfat":0.0,"sodium":110.0,"carbs":41.0,"fiber":1.0,"sugar":39.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Nonfat Caramel Latte (Medium)","serving":"16 fl oz cup","cal":250.0,"fat":0.0,"satfat":0.0,"sodium":135.0,"carbs":51.0,"fiber":1.0,"sugar":48.0,"protein":12.0},{"cat":"Coffee & Tea","item":"Nonfat Caramel Latte (Large)","serving":"20 fl oz cup","cal":310.0,"fat":0.5,"satfat":0.0,"sodium":180.0,"carbs":63.0,"fiber":1.0,"sugar":59.0,"protein":16.0},{"cat":"Coffee & Tea","item":"Nonfat Hazelnut Latte (Small)","serving":"12 fl oz cup","cal":200.0,"fat":0.0,"satfat":0.0,"sodium":110.0,"carbs":40.0,"fiber":1.0,"sugar":38.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Nonfat Hazelnut Latte (Medium)","serving":"16 fl oz cup","cal":250.0,"fat":0.0,"satfat":0.0,"sodium":135.0,"carbs":51.0,"fiber":1.0,"sugar":48.0,"protein":12.0},{"cat":"Coffee & Tea","item":"Nonfat Hazelnut Latte (Large)","serving":"20 fl oz cup","cal":310.0,"fat":0.5,"satfat":0.0,"sodium":180.0,"carbs":63.0,"fiber":1.0,"sugar":59.0,"protein":16.0},{"cat":"Coffee & Tea","item":"Nonfat French Vanilla Latte (Small)","serving":"12 fl oz cup","cal":190.0,"fat":0.0,"satfat":0.0,"sodium":115.0,"carbs":39.0,"fiber":1.0,"sugar":37.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Nonfat French Vanilla Latte (Medium)","serving":"16 fl oz cup","cal":240.0,"fat":0.0,"satfat":0.0,"sodium":140.0,"carbs":49.0,"fiber":1.0,"sugar":46.0,"protein":12.0},{"cat":"Coffee & Tea","item":"Nonfat French Vanilla Latte (Large)","serving":"20 fl oz cup","cal":300.0,"fat":0.5,"satfat":0.0,"sodium":180.0,"carbs":60.0,"fiber":1.0,"sugar":56.0,"protein":16.0},{"cat":"Coffee & Tea","item":"Nonfat Latte with Sugar Free French Vanilla Syrup (Small)","serving":"12 fl oz cup","cal":140.0,"fat":0.0,"satfat":0.0,"sodium":150.0,"carbs":24.0,"fiber":1.0,"sugar":13.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Nonfat Latte with Sugar Free French Vanilla Syrup (Medium)","serving":"16 fl oz cup","cal":170.0,"fat":0.0,"satfat":0.0,"sodium":180.0,"carbs":30.0,"fiber":1.0,"sugar":16.0,"protein":12.0},{"cat":"Coffee & Tea","item":"Nonfat Latte with Sugar Free French Vanilla Syrup (Large)","serving":"20 fl oz cup","cal":220.0,"fat":0.5,"satfat":0.0,"sodium":240.0,"carbs":38.0,"fiber":2.0,"sugar":21.0,"protein":16.0},{"cat":"Coffee & Tea","item":"Mocha (Small)","serving":"12 fl oz cup","cal":340.0,"fat":11.0,"satfat":7.0,"sodium":150.0,"carbs":49.0,"fiber":2.0,"sugar":42.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Mocha (Medium)","serving":"16 fl oz cup","cal":410.0,"fat":14.0,"satfat":8.0,"sodium":190.0,"carbs":60.0,"fiber":2.0,"sugar":53.0,"protein":13.0},{"cat":"Coffee & Tea","item":"Mocha (Large)","serving":"20 fl oz cup","cal":500.0,"fat":17.0,"satfat":10.0,"sodium":240.0,"carbs":72.0,"fiber":2.0,"sugar":63.0,"protein":16.0},{"cat":"Coffee & Tea","item":"Mocha with Nonfat Milk (Small)","serving":"12 fl oz cup","cal":270.0,"fat":3.5,"satfat":2.0,"sodium":150.0,"carbs":49.0,"fiber":2.0,"sugar":43.0,"protein":11.0},{"cat":"Coffee & Tea","item":"Mocha with Nonfat Milk (Medium)","serving":"16 fl oz cup","cal":330.0,"fat":3.5,"satfat":2.0,"sodium":190.0,"carbs":60.0,"fiber":2.0,"sugar":53.0,"protein":13.0},{"cat":"Coffee & Tea","item":"Mocha with Nonfat Milk (Large)","serving":"20 fl oz cup","cal":390.0,"fat":4.0,"satfat":2.5,"sodium":240.0,"carbs":73.0,"fiber":2.0,"sugar":64.0,"protein":17.0},{"cat":"Coffee & Tea","item":"Caramel Mocha (Small)","serving":"12 fl oz cup","cal":320.0,"fat":11.0,"satfat":7.0,"sodium":170.0,"carbs":45.0,"fiber":1.0,"sugar":40.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Caramel Mocha (Medium)","serving":"16 fl oz cup","cal":390.0,"fat":14.0,"satfat":8.0,"sodium":220.0,"carbs":55.0,"fiber":1.0,"sugar":50.0,"protein":12.0},{"cat":"Coffee & Tea","item":"Caramel Mocha (Large)","serving":"20 fl oz cup","cal":480.0,"fat":17.0,"satfat":10.0,"sodium":270.0,"carbs":66.0,"fiber":1.0,"sugar":60.0,"protein":16.0},{"cat":"Coffee & Tea","item":"Nonfat Caramel Mocha (Small)","serving":"12 fl oz cup","cal":250.0,"fat":3.5,"satfat":2.0,"sodium":170.0,"carbs":45.0,"fiber":1.0,"sugar":41.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Nonfat Caramel Mocha (Medium)","serving":"16 fl oz cup","cal":310.0,"fat":3.5,"satfat":2.0,"sodium":210.0,"carbs":56.0,"fiber":1.0,"sugar":51.0,"protein":13.0},{"cat":"Coffee & Tea","item":"Nonfat Caramel Mocha (Large)","serving":"20 fl oz cup","cal":370.0,"fat":3.5,"satfat":2.5,"sodium":270.0,"carbs":67.0,"fiber":1.0,"sugar":61.0,"protein":17.0},{"cat":"Coffee & Tea","item":"Hot Chocolate (Small)","serving":"12 fl oz cup","cal":360.0,"fat":13.0,"satfat":8.0,"sodium":180.0,"carbs":50.0,"fiber":1.0,"sugar":45.0,"protein":11.0},{"cat":"Coffee & Tea","item":"Hot Chocolate (Medium)","serving":"16 fl oz cup","cal":440.0,"fat":16.0,"satfat":9.0,"sodium":220.0,"carbs":61.0,"fiber":1.0,"sugar":56.0,"protein":14.0},{"cat":"Coffee & Tea","item":"Hot Chocolate (Large)","serving":"20 fl oz cup","cal":540.0,"fat":20.0,"satfat":12.0,"sodium":280.0,"carbs":73.0,"fiber":1.0,"sugar":68.0,"protein":17.0},{"cat":"Coffee & Tea","item":"Hot Chocolate with Nonfat Milk (Small)","serving":"12 fl oz cup","cal":280.0,"fat":3.5,"satfat":2.0,"sodium":180.0,"carbs":50.0,"fiber":1.0,"sugar":46.0,"protein":12.0},{"cat":"Coffee & Tea","item":"Hot Chocolate with Nonfat Milk (Medium)","serving":"16 fl oz cup","cal":340.0,"fat":3.5,"satfat":2.0,"sodium":220.0,"carbs":61.0,"fiber":1.0,"sugar":57.0,"protein":14.0},{"cat":"Coffee & Tea","item":"Hot Chocolate with Nonfat Milk (Large)","serving":"20 fl oz cup","cal":400.0,"fat":3.5,"satfat":2.5,"sodium":280.0,"carbs":74.0,"fiber":1.0,"sugar":69.0,"protein":19.0},{"cat":"Coffee & Tea","item":"Regular Iced Coffee (Small)","serving":"16 fl oz cup","cal":140.0,"fat":4.5,"satfat":3.0,"sodium":35.0,"carbs":23.0,"fiber":0.0,"sugar":22.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Regular Iced Coffee (Medium)","serving":"22 fl oz cup","cal":190.0,"fat":7.0,"satfat":4.5,"sodium":50.0,"carbs":31.0,"fiber":0.0,"sugar":30.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Regular Iced Coffee (Large)","serving":"32 fl oz cup","cal":270.0,"fat":9.0,"satfat":6.0,"sodium":75.0,"carbs":47.0,"fiber":0.0,"sugar":45.0,"protein":2.0},{"cat":"Coffee & Tea","item":"Caramel Iced Coffee (Small)","serving":"16 fl oz cup","cal":130.0,"fat":4.5,"satfat":3.0,"sodium":35.0,"carbs":22.0,"fiber":0.0,"sugar":21.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Caramel Iced Coffee (Medium)","serving":"22 fl oz cup","cal":180.0,"fat":7.0,"satfat":4.5,"sodium":50.0,"carbs":29.0,"fiber":0.0,"sugar":28.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Caramel Iced Coffee (Large)","serving":"32 fl oz cup","cal":260.0,"fat":9.0,"satfat":6.0,"sodium":65.0,"carbs":43.0,"fiber":0.0,"sugar":42.0,"protein":2.0},{"cat":"Coffee & Tea","item":"Hazelnut Iced Coffee (Small)","serving":"16 fl oz cup","cal":130.0,"fat":4.5,"satfat":3.0,"sodium":35.0,"carbs":21.0,"fiber":0.0,"sugar":20.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Hazelnut Iced Coffee (Medium)","serving":"22 fl oz cup","cal":180.0,"fat":7.0,"satfat":4.5,"sodium":50.0,"carbs":29.0,"fiber":0.0,"sugar":28.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Hazelnut Iced Coffee (Large)","serving":"32 fl oz cup","cal":250.0,"fat":9.0,"satfat":6.0,"sodium":75.0,"carbs":43.0,"fiber":0.0,"sugar":41.0,"protein":2.0},{"cat":"Coffee & Tea","item":"French Vanilla Iced Coffee (Small)","serving":"16 fl oz cup","cal":120.0,"fat":4.5,"satfat":3.0,"sodium":40.0,"carbs":20.0,"fiber":0.0,"sugar":19.0,"protein":1.0},{"cat":"Coffee & Tea","item":"French Vanilla Iced Coffee (Medium)","serving":"22 fl oz cup","cal":170.0,"fat":7.0,"satfat":4.5,"sodium":55.0,"carbs":27.0,"fiber":0.0,"sugar":26.0,"protein":1.0},{"cat":"Coffee & Tea","item":"French Vanilla Iced Coffee (Large)","serving":"32 fl oz cup","cal":240.0,"fat":9.0,"satfat":6.0,"sodium":80.0,"carbs":41.0,"fiber":0.0,"sugar":39.0,"protein":2.0},{"cat":"Coffee & Tea","item":"Iced Coffee with Sugar Free French Vanilla Syrup (Small)","serving":"16 fl oz cup","cal":80.0,"fat":4.5,"satfat":3.0,"sodium":65.0,"carbs":9.0,"fiber":0.0,"sugar":1.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Iced Coffee with Sugar Free French Vanilla Syrup (Medium)","serving":"22 fl oz cup","cal":120.0,"fat":7.0,"satfat":4.5,"sodium":90.0,"carbs":12.0,"fiber":0.0,"sugar":2.0,"protein":1.0},{"cat":"Coffee & Tea","item":"Iced Coffee with Sugar Free French Vanilla Syrup (Large)","serving":"32 fl oz cup","cal":160.0,"fat":9.0,"satfat":6.0,"sodium":135.0,"carbs":18.0,"fiber":0.0,"sugar":2.0,"protein":2.0},{"cat":"Coffee & Tea","item":"Iced Mocha (Small)","serving":"12 fl oz cup","cal":290.0,"fat":11.0,"satfat":7.0,"sodium":125.0,"carbs":41.0,"fiber":1.0,"sugar":34.0,"protein":8.0},{"cat":"Coffee & Tea","item":"Iced Mocha (Medium)","serving":"16 fl oz cup","cal":350.0,"fat":13.0,"satfat":8.0,"sodium":150.0,"carbs":50.0,"fiber":1.0,"sugar":43.0,"protein":9.0},{"cat":"Coffee & Tea","item":"Iced Mocha (Large)","serving":"22 fl oz cup","cal":480.0,"fat":16.0,"satfat":10.0,"sodium":220.0,"carbs":70.0,"fiber":2.0,"sugar":62.0,"protein":14.0},{"cat":"Coffee & Tea","item":"Iced Mocha with Nonfat Milk (Small)","serving":"12 fl oz cup","cal":240.0,"fat":5.0,"satfat":3.0,"sodium":125.0,"carbs":41.0,"fiber":1.0,"sugar":35.0,"protein":8.0},{"cat":"Coffee & Tea","item":"Iced Mocha with Nonfat Milk (Medium)","serving":"16 fl oz cup","cal":290.0,"fat":5.0,"satfat":3.5,"sodium":150.0,"carbs":50.0,"fiber":1.0,"sugar":43.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Iced Mocha with Nonfat Milk (Large)","serving":"22 fl oz cup","cal":390.0,"fat":6.0,"satfat":3.5,"sodium":220.0,"carbs":71.0,"fiber":2.0,"sugar":62.0,"protein":14.0},{"cat":"Coffee & Tea","item":"Iced Caramel Mocha (Small)","serving":"12 fl oz cup","cal":280.0,"fat":11.0,"satfat":7.0,"sodium":140.0,"carbs":38.0,"fiber":0.0,"sugar":33.0,"protein":8.0},{"cat":"Coffee & Tea","item":"Iced Caramel Mocha (Medium)","serving":"16 fl oz cup","cal":340.0,"fat":13.0,"satfat":7.0,"sodium":170.0,"carbs":46.0,"fiber":1.0,"sugar":41.0,"protein":9.0},{"cat":"Coffee & Tea","item":"Iced Caramel Mocha (Large)","serving":"22 fl oz cup","cal":460.0,"fat":16.0,"satfat":10.0,"sodium":250.0,"carbs":65.0,"fiber":1.0,"sugar":59.0,"protein":13.0},{"cat":"Coffee & Tea","item":"Iced Nonfat Caramel Mocha (Small)","serving":"12 fl oz cup","cal":230.0,"fat":5.0,"satfat":3.0,"sodium":140.0,"carbs":38.0,"fiber":0.0,"sugar":33.0,"protein":8.0},{"cat":"Coffee & Tea","item":"Iced Nonfat Caramel Mocha (Medium)","serving":"16 fl oz cup","cal":270.0,"fat":5.0,"satfat":3.0,"sodium":170.0,"carbs":47.0,"fiber":1.0,"sugar":41.0,"protein":10.0},{"cat":"Coffee & Tea","item":"Iced Nonfat Caramel Mocha (Large)","serving":"22 fl oz cup","cal":370.0,"fat":6.0,"satfat":3.5,"sodium":250.0,"carbs":65.0,"fiber":1.0,"sugar":59.0,"protein":14.0},{"cat":"Coffee & Tea","item":"Frapp\u00e9 Mocha (Small)","serving":"12 fl oz cup","cal":450.0,"fat":18.0,"satfat":12.0,"sodium":125.0,"carbs":65.0,"fiber":1.0,"sugar":57.0,"protein":7.0},{"cat":"Coffee & Tea","item":"Frapp\u00e9 Mocha (Medium)","serving":"16 fl oz cup","cal":550.0,"fat":22.0,"satfat":14.0,"sodium":160.0,"carbs":80.0,"fiber":1.0,"sugar":71.0,"protein":9.0},{"cat":"Coffee & Tea","item":"Frapp\u00e9 Mocha (Large)","serving":"22 fl oz cup","cal":670.0,"fat":26.0,"satfat":17.0,"sodium":190.0,"carbs":98.0,"fiber":1.0,"sugar":88.0,"protein":11.0},{"cat":"Coffee & Tea","item":"Frapp\u00e9 Caramel (Small)","serving":"12 fl oz cup","cal":450.0,"fat":19.0,"satfat":12.0,"sodium":125.0,"carbs":64.0,"fiber":0.0,"sugar":57.0,"protein":7.0},{"cat":"Coffee & Tea","item":"Frapp\u00e9 Caramel (Medium)","serving":"16 fl oz cup","cal":550.0,"fat":23.0,"satfat":15.0,"sodium":160.0,"carbs":79.0,"fiber":0.0,"sugar":71.0,"protein":9.0},{"cat":"Coffee & Tea","item":"Frapp\u00e9 Caramel (Large)","serving":"22 fl oz cup","cal":670.0,"fat":27.0,"satfat":17.0,"sodium":190.0,"carbs":96.0,"fiber":0.0,"sugar":88.0,"protein":11.0},{"cat":"Coffee & Tea","item":"Frapp\u00e9 Chocolate Chip (Small)","serving":"12 fl oz cup","cal":530.0,"fat":23.0,"satfat":14.0,"sodium":135.0,"carbs":76.0,"fiber":1.0,"sugar":67.0,"protein":8.0},{"cat":"Coffee & Tea","item":"Frapp\u00e9 Chocolate Chip (Medium)","serving":"16 fl oz cup","cal":630.0,"fat":26.0,"satfat":17.0,"sodium":160.0,"carbs":91.0,"fiber":1.0,"sugar":81.0,"protein":9.0},{"cat":"Coffee & Tea","item":"Frapp\u00e9 Chocolate Chip (Large)","serving":"22 fl oz cup","cal":760.0,"fat":31.0,"satfat":20.0,"sodium":200.0,"carbs":111.0,"fiber":1.0,"sugar":99.0,"protein":12.0},{"cat":"Smoothies & Shakes","item":"Blueberry Pomegranate Smoothie (Small)","serving":"12 fl oz cup","cal":220.0,"fat":0.5,"satfat":0.0,"sodium":40.0,"carbs":50.0,"fiber":3.0,"sugar":44.0,"protein":2.0},{"cat":"Smoothies & Shakes","item":"Blueberry Pomegranate Smoothie (Medium)","serving":"16 fl oz cup","cal":260.0,"fat":1.0,"satfat":0.0,"sodium":50.0,"carbs":62.0,"fiber":4.0,"sugar":54.0,"protein":3.0},{"cat":"Smoothies & Shakes","item":"Blueberry Pomegranate Smoothie (Large)","serving":"22 fl oz cup","cal":340.0,"fat":1.0,"satfat":0.5,"sodium":65.0,"carbs":79.0,"fiber":5.0,"sugar":70.0,"protein":4.0},{"cat":"Smoothies & Shakes","item":"Strawberry Banana Smoothie (Small)","serving":"12 fl oz cup","cal":210.0,"fat":0.5,"satfat":0.0,"sodium":50.0,"carbs":47.0,"fiber":3.0,"sugar":44.0,"protein":3.0},{"cat":"Smoothies & Shakes","item":"Strawberry Banana Smoothie (Medium)","serving":"16 fl oz cup","cal":250.0,"fat":1.0,"satfat":0.0,"sodium":60.0,"carbs":58.0,"fiber":3.0,"sugar":54.0,"protein":4.0},{"cat":"Smoothies & Shakes","item":"Strawberry Banana Smoothie (Large)","serving":"22 fl oz cup","cal":330.0,"fat":1.0,"satfat":0.5,"sodium":80.0,"carbs":74.0,"fiber":4.0,"sugar":70.0,"protein":5.0},{"cat":"Smoothies & Shakes","item":"Mango Pineapple Smoothie (Small)","serving":"12 fl oz cup","cal":210.0,"fat":0.5,"satfat":0.0,"sodium":40.0,"carbs":50.0,"fiber":1.0,"sugar":46.0,"protein":2.0},{"cat":"Smoothies & Shakes","item":"Mango Pineapple Smoothie (Medium)","serving":"16 fl oz cup","cal":260.0,"fat":1.0,"satfat":0.0,"sodium":45.0,"carbs":61.0,"fiber":1.0,"sugar":56.0,"protein":3.0},{"cat":"Smoothies & Shakes","item":"Mango Pineapple Smoothie (Large)","serving":"22 fl oz cup","cal":340.0,"fat":1.0,"satfat":0.5,"sodium":60.0,"carbs":78.0,"fiber":2.0,"sugar":72.0,"protein":4.0},{"cat":"Smoothies & Shakes","item":"Vanilla Shake (Small)","serving":"12 fl oz cup","cal":530.0,"fat":15.0,"satfat":10.0,"sodium":160.0,"carbs":86.0,"fiber":0.0,"sugar":63.0,"protein":11.0},{"cat":"Smoothies & Shakes","item":"Vanilla Shake (Medium)","serving":"16 fl oz cup","cal":660.0,"fat":19.0,"satfat":12.0,"sodium":200.0,"carbs":109.0,"fiber":0.0,"sugar":81.0,"protein":14.0},{"cat":"Smoothies & Shakes","item":"Vanilla Shake (Large)","serving":"22 fl oz cup","cal":820.0,"fat":23.0,"satfat":15.0,"sodium":260.0,"carbs":135.0,"fiber":0.0,"sugar":101.0,"protein":18.0},{"cat":"Smoothies & Shakes","item":"Strawberry Shake (Small)","serving":"12 fl oz cup","cal":550.0,"fat":16.0,"satfat":10.0,"sodium":160.0,"carbs":90.0,"fiber":0.0,"sugar":79.0,"protein":12.0},{"cat":"Smoothies & Shakes","item":"Strawberry Shake (Medium)","serving":"16 fl oz cup","cal":690.0,"fat":20.0,"satfat":13.0,"sodium":210.0,"carbs":114.0,"fiber":0.0,"sugar":100.0,"protein":15.0},{"cat":"Smoothies & Shakes","item":"Strawberry Shake (Large)","serving":"22 fl oz cup","cal":850.0,"fat":24.0,"satfat":15.0,"sodium":260.0,"carbs":140.0,"fiber":0.0,"sugar":123.0,"protein":18.0},{"cat":"Smoothies & Shakes","item":"Chocolate Shake (Small)","serving":"12 fl oz cup","cal":560.0,"fat":16.0,"satfat":10.0,"sodium":240.0,"carbs":91.0,"fiber":1.0,"sugar":77.0,"protein":12.0},{"cat":"Smoothies & Shakes","item":"Chocolate Shake (Medium)","serving":"16 fl oz cup","cal":700.0,"fat":20.0,"satfat":12.0,"sodium":300.0,"carbs":114.0,"fiber":2.0,"sugar":97.0,"protein":15.0},{"cat":"Smoothies & Shakes","item":"Chocolate Shake (Large)","serving":"22 fl oz cup","cal":850.0,"fat":23.0,"satfat":15.0,"sodium":380.0,"carbs":141.0,"fiber":2.0,"sugar":120.0,"protein":19.0},{"cat":"Smoothies & Shakes","item":"Shamrock Shake (Medium)","serving":"16 fl oz cup","cal":660.0,"fat":19.0,"satfat":12.0,"sodium":210.0,"carbs":109.0,"fiber":0.0,"sugar":93.0,"protein":14.0},{"cat":"Smoothies & Shakes","item":"Shamrock Shake (Large)","serving":"22 fl oz cup","cal":820.0,"fat":23.0,"satfat":15.0,"sodium":260.0,"carbs":135.0,"fiber":0.0,"sugar":115.0,"protein":18.0},{"cat":"Smoothies & Shakes","item":"McFlurry with M&M\u2019s Candies (Small)","serving":"10.9 oz (310 g)","cal":650.0,"fat":23.0,"satfat":14.0,"sodium":180.0,"carbs":96.0,"fiber":1.0,"sugar":89.0,"protein":13.0},{"cat":"Smoothies & Shakes","item":"McFlurry with M&M\u2019s Candies (Medium)","serving":"16.2 oz (460 g)","cal":930.0,"fat":33.0,"satfat":20.0,"sodium":260.0,"carbs":139.0,"fiber":2.0,"sugar":128.0,"protein":20.0},{"cat":"Smoothies & Shakes","item":"McFlurry with M&M\u2019s Candies (Snack)","serving":"7.3 oz (207 g)","cal":430.0,"fat":15.0,"satfat":10.0,"sodium":120.0,"carbs":64.0,"fiber":1.0,"sugar":59.0,"protein":9.0},{"cat":"Smoothies & Shakes","item":"McFlurry with Oreo Cookies (Small)","serving":"10.1 oz (285 g)","cal":510.0,"fat":17.0,"satfat":9.0,"sodium":280.0,"carbs":80.0,"fiber":1.0,"sugar":64.0,"protein":12.0},{"cat":"Smoothies & Shakes","item":"McFlurry with Oreo Cookies (Medium)","serving":"13.4 oz (381 g)","cal":690.0,"fat":23.0,"satfat":12.0,"sodium":380.0,"carbs":106.0,"fiber":1.0,"sugar":85.0,"protein":15.0},{"cat":"Smoothies & Shakes","item":"McFlurry with Oreo Cookies (Snack)","serving":"6.7 oz (190 g)","cal":340.0,"fat":11.0,"satfat":6.0,"sodium":190.0,"carbs":53.0,"fiber":1.0,"sugar":43.0,"protein":8.0},{"cat":"Smoothies & Shakes","item":"McFlurry with Reese's Peanut Butter Cups (Medium)","serving":"14.2 oz (403 g)","cal":810.0,"fat":32.0,"satfat":15.0,"sodium":400.0,"carbs":114.0,"fiber":2.0,"sugar":103.0,"protein":21.0},{"cat":"Smoothies & Shakes","item":"McFlurry with Reese's Peanut Butter Cups (Snack)","serving":"7.1 oz (202 g)","cal":410.0,"fat":16.0,"satfat":8.0,"sodium":200.0,"carbs":57.0,"fiber":1.0,"sugar":51.0,"protein":10.0}];
+const DR = new Set(['Beverages','Coffee & Tea','Smoothies & Shakes','Desserts']);
+const isDrink = d => DR.has(d.cat);
+const C = getComputedStyle(document.documentElement);
+const col = n => C.getPropertyValue(n).trim();
+const PINK=col('--pink'), BLUE=col('--blue'), GREY=col('--grey'), GREYS=col('--grey-soft'), GREYD=col('--grey-deep'), GOLD=col('--gold'), INK=col('--ink'), MUTED=col('--muted'), PINKF=col('--pink-fill');
+
+const NOTES = [
+ ["Councillors, before you ban a menu, meet it. Two hundred and sixty items, one dot each. By slide three you will see that most of them are not your problem.", "<b>Session 7:</b> setting + hook, name the hero and the stakes. If the ban is hypothetical, say so out loud here."],
+ ["Hundred and fifty-seven of 260 are coffees, sodas, shakes or desserts. Twenty-one of those out-calorie a Big Mac. Every dot here is in our dashboard, filter by category. (Show the dashboard for 30 seconds, then return.)", "<b>Ben Jones, Learning to See Data:</b> one mark per item · dashboard cue (50% of the grade)"],
+ ["(Slow down, pause before the line.) Sixty-two items break the daily limit in one serving. Every single one is a drink or a dessert. The sweetest thing on a plate is thirty-two grams. This is where a ban on food stops making sense.", "<b>Session 7:</b> the aha, pause before the headline · <b>Session 3:</b> highlight palette"],
+ ["Small, thirty-six grams. Medium, forty-eight. Large, fifty-seven. The average Large breaks the daily limit by itself. Read the line, the cup shape is decoration.", "<b>Session 3:</b> pictograms only when the fill line carries the number"],
+ ["Food barely carries sugar. But forty-eight dishes hold half a day's sodium. The more calories on the plate, the saltier. Forty nuggets: a day and a half of salt.", "<b>Session 7, Challenger lesson:</b> no jargon, say it in words · <b>Kate Strachnyi, ColorWise:</b> blue/pink is colourblind-safe"],
+ ["No new menu needed. Grilled instead of crispy saves eighty to one-sixty calories on all thirteen dishes. Small instead of Large: median one-thirty calories and twenty-one grams of sugar.", "<b>Cole Nussbaumer Knaflic:</b> slope charts for before/after"],
+ ["Four measures instead of a ban. Small as the default drink. Sugar warning at fifty grams. Sodium warning at eleven-fifty. Grilled listed first. Together they touch 110 items and leave 150 alone. (Read only the Measure column.)", "<b>Nathan Yau, Visualize This:</b> unit charts make counts felt"],
+ ["We are asking for one decision: a six-month pilot, two or three chains, Small as the default drink. Measure what people actually order. Then decide on a ban. Questions.", "<b>Session 7:</b> resolution = one decision to ask for · limitations stated"],
+ ["Twenty seconds. Hero: the council. Guide: us. Arc: Brent Dykes. One dataset carried every slide. Questions.", "<b>Brent Dykes:</b> hero framework · reading list = the seven Book of the Day picks"]
+];
+
+/* ---------- helpers ---------- */
+const svg = (id,w=1170,h=946) => d3.select('#'+id).append('svg').attr('viewBox',`0 0 ${w} ${h}`);
+const sizeTag = d => { const m = /\((Small|Medium|Large)\)$/.exec(d.item); return m ? m[1] : null; };
+const base = d => d.item.replace(/\s*\((Small|Medium|Large)\)$/,'').trim();
+const rCal = d3.scaleSqrt().domain([0,1880]).range([2,14]);
+
+/* ---------- 1: 260 dots ---------- */
+(function(){
+  const s = svg('c1');
+  const root = d3.hierarchy({children:DATA}).sum(d=>Math.max(60,d.cal||0));
+  d3.pack().size([560,560]).padding(3)(root);
+  const g = s.append('g').attr('transform','translate(305,195)');
+  g.selectAll('circle').data(root.leaves()).join('circle')
+    .attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>d.r).attr('fill',GREY);
+})();
+
+/* ---------- 2: category clusters ---------- */
+(function(){
+  const s = svg('c2');
+  const cats = d3.groups(DATA,d=>d.cat);
+  const pos = {
+    'Coffee & Tea':[720,300,'Coffee & Tea',[-20,-110,'start']],
+    'Smoothies & Shakes':[830,490,'Smoothies & Shakes',[120,0,'start']],
+    'Beverages':[790,650,'Beverages',[70,10,'start']],
+    'Desserts':[690,710,'Desserts',[10,70,'start']],
+    'Breakfast':[520,710,'Breakfast',[-40,120,'start']],
+    'Beef & Pork':[400,610,'Beef & Pork',[-70,60,'end']],
+    'Chicken & Fish':[380,460,'Chicken & Fish',[-80,-30,'end']],
+    'Salads':[450,340,'Salads',[-50,-40,'end']],
+    'Snacks & Sides':[540,300,'Snacks & Sides',[-30,-50,'end']]
+  };
+  cats.forEach(([cat,items])=>{
+    const dia = 24*Math.sqrt(items.length)+14;
+    const root = d3.hierarchy({children:items}).sum(d=>Math.max(80,d.cal||0));
+    d3.pack().size([dia,dia]).padding(2)(root);
+    const [cx,cy,label,[lx,ly,anchor]] = pos[cat];
+    const g = s.append('g').attr('transform',`translate(${cx-dia/2},${cy-dia/2})`);
+    g.selectAll('circle').data(root.leaves()).join('circle')
+      .attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>Math.max(1.5,d.r-0.5))
+      .attr('fill',d=>isDrink(d.data)?PINK:GREY)
+      .attr('stroke',d=>d.data.cal>530?INK:'none').attr('stroke-width',2.5);
+    const t = s.append('text').attr('x',cx+lx).attr('y',cy+ly).attr('text-anchor',anchor).attr('dominant-baseline','middle');
+    t.append('tspan').attr('class','lbl-cat').text(label+' ');
+    t.append('tspan').attr('class','lbl-n').text(items.length);
+  });
+})();
+
+/* ---------- 3: sugar strip ---------- */
+(function(){
+  const s = svg('c3');
+  const x = d3.scaleLinear().domain([0,130]).range([60,1110]);
+  const sz = d3.scaleSqrt().domain([0,1880]).range([6,22]);
+  const nodes = DATA.map(d=>({d,x:x(d.sugar),y:470,s:sz(d.cal)}));
+  d3.forceSimulation(nodes).force('x',d3.forceX(n=>x(n.d.sugar)).strength(1)).force('y',d3.forceY(470).strength(.08))
+    .force('c',d3.forceCollide(n=>n.s/2+1.5).iterations(3)).stop().tick(260);
+  s.append('line').attr('x1',x(50)).attr('x2',x(50)).attr('y1',120).attr('y2',880).attr('stroke',INK).attr('stroke-width',2);
+  s.append('text').attr('x',x(50)+12).attr('y',120).attr('class','ann-t').text('WHO daily limit');
+  s.append('text').attr('x',x(50)+12).attr('y',146).attr('class','ann-s').text('about 50g');
+  s.selectAll('rect').data(nodes).join('rect')
+    .attr('x',n=>n.x-n.s/2).attr('y',n=>n.y-n.s/2).attr('width',n=>n.s).attr('height',n=>n.s).attr('rx',2)
+    .attr('fill',n=>n.d.sugar>50?PINK:GREY);
+  const ax = s.append('g').attr('class','axis').attr('transform','translate(0,890)').call(d3.axisBottom(x).tickValues([0,25,50,75,100,125]).tickFormat(v=>v+'g').tickSize(0));
+  ax.select('.domain').remove();
+  s.append('text').attr('x',1110).attr('y',930).attr('text-anchor','end').attr('class','ann-s').text('Sugar per serving');
+  const top = nodes.reduce((a,b)=>b.d.sugar>a.d.sugar?b:a);
+  s.append('path').attr('d',`M ${top.x} ${top.y-top.s/2-4} C ${top.x} ${top.y-120}, ${top.x-40} ${top.y-200}, ${top.x-40} ${top.y-250}`).attr('fill','none').attr('stroke',INK).attr('stroke-width',1.8);
+  s.append('text').attr('x',top.x-20).attr('y',top.y-290).attr('text-anchor','end').attr('class','ann-t').text(top.d.item);
+  s.append('text').attr('x',top.x-20).attr('y',top.y-265).attr('text-anchor','end').attr('class','ann-s').text(`${top.d.sugar}g of sugar, ${(top.d.sugar/50).toFixed(1)} days' limit`);
+})();
+
+/* ---------- 4: cups ---------- */
+(function(){
+  const s = svg('c4');
+  const sizes = ['Small','Medium','Large'];
+  const y = d3.scaleLinear().domain([0,132]).range([870,160]);
+  const centers = {Small:260,Medium:580,Large:900};
+  const topW=270, botW=200, top=160, bot=870;
+  s.append('line').attr('x1',40).attr('x2',1110).attr('y1',y(50)).attr('y2',y(50)).attr('stroke',INK).attr('stroke-dasharray','8 7').attr('stroke-width',1.5);
+  s.append('text').attr('x',40).attr('y',y(50)-12).attr('class','ann-t').text('WHO 50g');
+  sizes.forEach(sz=>{
+    const items = DATA.filter(d=>sizeTag(d)===sz);
+    const avgS = d3.mean(items,d=>d.sugar), avgC = d3.mean(items,d=>d.cal);
+    const cx = centers[sz];
+    const poly = [[cx-topW/2,top],[cx+topW/2,top],[cx+botW/2,bot],[cx-botW/2,bot]];
+    const id='clip'+sz;
+    s.append('clipPath').attr('id',id).append('polygon').attr('points',poly.map(p=>p.join(',')).join(' '));
+    s.append('rect').attr('clip-path',`url(#${id})`).attr('x',cx-topW/2).attr('y',y(avgS)).attr('width',topW).attr('height',bot-y(avgS)).attr('fill',PINKF);
+    s.append('polygon').attr('points',poly.map(p=>p.join(',')).join(' ')).attr('fill','none').attr('stroke',INK).attr('stroke-width',2.5);
+    s.append('line').attr('x1',cx-topW/2).attr('x2',cx+topW/2).attr('y1',top).attr('y2',top).attr('stroke',INK).attr('stroke-width',6);
+    // width of cup at a given y
+    const wAt = yy => botW + (topW-botW)*((bot-yy)/(bot-top));
+    const nodes = items.map(d=>({d,x:cx,y:y(d.sugar)}));
+    d3.forceSimulation(nodes).force('y',d3.forceY(n=>y(n.d.sugar)).strength(1)).force('x',d3.forceX(cx).strength(.15))
+      .force('c',d3.forceCollide(7.5).iterations(3)).stop().tick(220);
+    nodes.forEach(n=>{ const half = wAt(n.y)/2-14; n.x = Math.max(cx-half,Math.min(cx+half,n.x)); });
+    s.selectAll('.d'+sz).data(nodes).join('circle').attr('cx',n=>n.x).attr('cy',n=>n.y).attr('r',6)
+      .attr('fill',n=>n.d.sugar>50?PINK:GREY);
+    s.append('line').attr('x1',cx-wAt(y(avgS))/2).attr('x2',cx+wAt(y(avgS))/2).attr('y1',y(avgS)).attr('y2',y(avgS)).attr('stroke',PINK).attr('stroke-width',3.5);
+    s.append('text').attr('x',cx).attr('y',905).attr('text-anchor','middle').attr('class','ann-t').text(sz);
+    s.append('text').attr('x',cx).attr('y',930).attr('text-anchor','middle').attr('class','ann-s').text(`avg ${Math.round(avgS)}g sugar · ${Math.round(avgC)} cal`);
+  });
+})();
+
+/* ---------- 5: salt scatter ---------- */
+(function(){
+  const s = svg('c5');
+  const x = d3.scaleLinear().domain([0,1900]).range([80,1080]);
+  const y = d3.scaleLinear().domain([0,3700]).range([860,120]);
+  const food = DATA.filter(d=>!isDrink(d));
+  s.append('g').attr('class','axis').call(g=>{
+    [1000,2000,3000].forEach(v=>{
+      g.append('line').attr('x1',80).attr('x2',1080).attr('y1',y(v)).attr('y2',y(v)).attr('stroke',GREYS);
+      g.append('text').attr('x',72).attr('y',y(v)+6).attr('text-anchor','end').text(d3.format(',')(v)+'mg');
+    });
+    g.append('text').attr('x',72).attr('y',y(0)+6).attr('text-anchor','end').text('0');
+    [0,500,1000,1500].forEach(v=>g.append('text').attr('x',x(v)).attr('y',895).attr('text-anchor','middle').text(d3.format(',')(v)));
+  });
+  s.append('text').attr('x',1080).attr('y',925).attr('text-anchor','end').attr('class','ann-s').text('Calories per item');
+  s.selectAll('.dr').data(DATA.filter(isDrink)).join('circle').attr('cx',d=>x(d.cal)).attr('cy',d=>y(d.sodium)).attr('r',6).attr('fill',GREYS);
+  // regression on food
+  const mx=d3.mean(food,d=>d.cal), my=d3.mean(food,d=>d.sodium);
+  const sl = d3.sum(food,d=>(d.cal-mx)*(d.sodium-my))/d3.sum(food,d=>(d.cal-mx)**2), ic = my-sl*mx;
+  const xmin=d3.min(food,d=>d.cal), xmax=d3.max(food,d=>d.cal);
+  s.append('line').attr('x1',x(xmin)).attr('y1',y(ic+sl*xmin)).attr('x2',x(xmax)).attr('y2',y(ic+sl*xmax)).attr('stroke',GREYD).attr('stroke-width',2.5);
+  s.append('line').attr('x1',80).attr('x2',1080).attr('y1',y(1150)).attr('y2',y(1150)).attr('stroke',INK).attr('stroke-width',2.5);
+  s.append('text').attr('x',1080).attr('y',y(1150)-10).attr('text-anchor','end').attr('class','ann-t').text("Half a day's sodium: 1,150mg");
+  s.selectAll('.fd').data(food).join('circle').attr('cx',d=>x(d.cal)).attr('cy',d=>y(d.sodium)).attr('r',d=>d.sodium>=1150?8:6)
+    .attr('fill',d=>d.sodium>=1150?BLUE:GREYD);
+  // plain-words line label
+  const midx = 1000, midy = y(ic+sl*1000);
+  s.append('text').attr('x',x(midx)+30).attr('y',midy-20).attr('class','ann-t').attr('font-size',19).text('Almost a straight line:');
+  s.append('text').attr('x',x(midx)+30).attr('y',midy+4).attr('class','ann-s').text('double the calories, double the salt');
+  const call = (name,label,dx,dy,sub)=>{ const d=DATA.find(r=>r.item===name); if(!d)return;
+    const px=x(d.cal),py=y(d.sodium);
+    s.append('path').attr('d',`M ${px-12} ${py} C ${px-80} ${py}, ${px-120+dx} ${py+dy}, ${px-180+dx} ${py+dy}`).attr('fill','none').attr('stroke',INK).attr('stroke-width',1.8);
+    s.append('text').attr('x',px-190+dx).attr('y',py+dy-8).attr('text-anchor','end').attr('class','ann-t').text(label);
+    s.append('text').attr('x',px-190+dx).attr('y',py+dy+16).attr('text-anchor','end').attr('class','ann-s').text(sub(d)); };
+  call('Chicken McNuggets (40 piece)','Chicken McNuggets (40 piece)',0,20,d=>`${d3.format(',')(d.sodium)}mg, ${(d.sodium/2300).toFixed(1)} days of sodium`);
+  call('Big Breakfast with Hotcakes and Egg Whites (Large Biscuit)','Big Breakfast with Hotcakes',-80,-130,d=>`${d3.format(',')(d.sodium)}mg, almost a full day`);
+})();
+
+/* ---------- 6: slopes ---------- */
+(function(){
+  const s = svg('c6');
+  const y = d3.scaleLinear().domain([0,900]).range([840,200]);
+  [0,300,600,900].forEach(v=>{ s.append('line').attr('x1',60).attr('x2',1110).attr('y1',y(v)).attr('y2',y(v)).attr('stroke',GREYS); s.append('text').attr('x',52).attr('y',y(v)+6).attr('text-anchor','end').attr('class','axis').attr('fill',MUTED).attr('font-size',17).text(v+' cal'); });
+  const byName = new Map(DATA.map(d=>[d.item,d]));
+  const cris = DATA.filter(d=>/Crispy/.test(d.item)).map(c=>{ const g=byName.get(c.item.replace('Crispy','Grilled')); return g?[c,g]:null; }).filter(Boolean);
+  const Ls = DATA.filter(d=>sizeTag(d)==='Large'), smallMap = new Map(DATA.filter(d=>sizeTag(d)==='Small').map(d=>[base(d),d]));
+  const ls = Ls.map(l=>{ const sm=smallMap.get(base(l)); return sm?[l,sm]:null; }).filter(Boolean);
+  const draw=(pairs,xa,xb,ta,tb,title,cap,sub)=>{
+    s.append('text').attr('x',(xa+xb)/2).attr('y',110).attr('text-anchor','middle').attr('class','ann-s').text(title);
+    s.append('text').attr('x',xa).attr('y',160).attr('text-anchor','middle').attr('class','ann-t').attr('font-size',24).text(ta);
+    s.append('text').attr('x',xb).attr('y',160).attr('text-anchor','middle').attr('class','ann-t').attr('font-size',24).text(tb);
+    pairs.forEach(([a,b])=>{
+      s.append('line').attr('x1',xa).attr('y1',y(a.cal)).attr('x2',xb).attr('y2',y(b.cal)).attr('stroke',GREYD).attr('stroke-width',1.5).attr('opacity',.8);
+      s.append('circle').attr('cx',xa).attr('cy',y(a.cal)).attr('r',7).attr('fill',GREYD);
+      s.append('circle').attr('cx',xb).attr('cy',y(b.cal)).attr('r',7).attr('fill',GOLD);
+    });
+    s.append('text').attr('x',(xa+xb)/2).attr('y',895).attr('text-anchor','middle').attr('class','ann-t').text(cap);
+    if(sub) s.append('text').attr('x',(xa+xb)/2).attr('y',922).attr('text-anchor','middle').attr('class','ann-s').text(sub);
+  };
+  const dC = cris.map(([a,b])=>a.cal-b.cal);
+  draw(cris,180,380,'Crispy','Grilled',`${cris.length} chicken dishes sold both ways`,`Every dish drops: ${d3.min(dC)} to ${d3.max(dC)} cal`);
+  const dL = ls.map(([a,b])=>a.cal-b.cal), dS = ls.map(([a,b])=>a.sugar-b.sugar);
+  draw(ls,740,940,'Large','Small',`${ls.length} drinks sold in Small and Large`,`Median: ${d3.median(dL)} cal and ${d3.median(dS)}g sugar`,'Flat lines: diet sodas, coffee, iced tea');
+})();
+
+/* ---------- 7: three clusters ---------- */
+(function(){
+  const s = svg('c7',1170,540);
+  const sugar = DATA.filter(d=>d.sugar>50), salt = DATA.filter(d=>!isDrink(d)&&d.sodium>=1150);
+  const flagged = new Set([...sugar,...salt].map(d=>d.item));
+  const none = DATA.filter(d=>!flagged.has(d.item));
+  const groups=[[sugar,PINK,'Sugar over 50g',`${sugar.length} items, all in a cup`],[salt,BLUE,'Sodium 1,150mg+',`${salt.length} items, all food`],[none,GREY,'No flag',`${none.length} items`]];
+  groups.forEach(([items,c,t,sub],i)=>{
+    const cx = 250+i*335;
+    const dia = 24*Math.sqrt(items.length)+14;
+    const root = d3.hierarchy({children:items}).sum(d=>Math.max(80,d.cal||0));
+    d3.pack().size([dia,dia]).padding(2)(root);
+    const g = s.append('g').attr('transform',`translate(${cx-dia/2},${330-dia/2})`);
+    g.selectAll('circle').data(root.leaves()).join('circle').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>Math.max(1.5,d.r-.5)).attr('fill',c);
+    s.append('text').attr('x',cx).attr('y',60).attr('text-anchor','middle').attr('class','ann-t').attr('font-size',24).text(t);
+    s.append('text').attr('x',cx).attr('y',88).attr('text-anchor','middle').attr('class','ann-s').text(sub);
+  });
+})();
+
+/* ---------- 8: flagged ball ---------- */
+(function(){
+  const s = svg('c8',200,200);
+  const root = d3.hierarchy({children:DATA}).sum(d=>Math.max(60,d.cal||0));
+  d3.pack().size([200,200]).padding(1)(root);
+  s.selectAll('circle').data(root.leaves()).join('circle').attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',d=>Math.max(1,d.r-.3))
+    .attr('fill',d=>d.data.sugar>50?PINK:(!isDrink(d.data)&&d.data.sodium>=1150)?BLUE:GREY);
+})();
+
+/* ---------- 9: arc ---------- */
+(function(){
+  const s = svg('c9',1130,430);
+  const pts=[[40,330],[300,210],[560,110],[820,170],[1090,250]];
+  s.append('path').attr('d',d3.line().curve(d3.curveCatmullRom.alpha(.6))(pts)).attr('fill','none').attr('stroke',INK).attr('stroke-width',3);
+  const labels=[['SETTING + HOOK','1'],['RISING ACTION','2'],['THE FINDING · AHA','3'],['SOLUTION','4 · 5 · 6 · 7'],['NEXT STEPS','8']];
+  pts.forEach(([x,y],i)=>{
+    s.append('circle').attr('cx',x).attr('cy',y).attr('r',i===2?12:8).attr('fill',i===2?PINK:INK);
+    const anchor = i===0?'start':i===4?'end':'middle';
+    s.append('text').attr('x',x).attr('y',y-26).attr('text-anchor',anchor).attr('class','n').attr('fill',i===2?PINK:INK).text(labels[i][0]);
+    s.append('text').attr('x',x).attr('y',y+34).attr('text-anchor',anchor).attr('class','n').attr('fill',MUTED).text('slide '+labels[i][1]);
+  });
+  s.append('text').attr('x',0).attr('y',420).attr('class','ann-s').text('Story arc: Brent Dykes, Effective Data Storytelling · Highlight palette: Session 3 · Hero framework: Session 7');
+})();
+
+/* ---------- navigation ---------- */
+const slides=[...document.querySelectorAll('.slide')], N=slides.length;
+let i=0;
+const prog=document.getElementById('progress');
+for(let k=0;k<N;k++){ const d=document.createElement('div'); d.className='seg'; prog.appendChild(d); }
+const pn=document.createElement('span'); pn.className='n'; prog.appendChild(pn);
+const notes=document.getElementById('notes'), nsp=document.getElementById('notes-sp'), ncl=document.getElementById('notes-cl'), nbtn=document.getElementById('notesbtn');
+function show(k){
+  i=Math.max(0,Math.min(N-1,k));
+  slides.forEach((s,j)=>s.classList.toggle('active',j===i));
+  prog.querySelectorAll('.seg').forEach((s,j)=>s.classList.toggle('on',j<=i));
+  pn.textContent=`${i+1} / ${N}`;
+  nsp.textContent=NOTES[i][0]; ncl.innerHTML='Course link · '+NOTES[i][1];
+  document.getElementById('footer').hidden = (i===N-1);
+  try{ localStorage.setItem('sugar-v2-slide',String(i)); }catch(e){}
+}
+function toggleNotes(){ notes.hidden=!notes.hidden; nbtn.setAttribute('aria-pressed',String(!notes.hidden)); }
+document.addEventListener('keydown',e=>{
+  if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();show(i+1);}
+  else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();show(i-1);}
+  else if(e.key==='Home')show(0); else if(e.key==='End')show(N-1);
+  else if(e.key.toLowerCase()==='n')toggleNotes();
+});
+nbtn.addEventListener('click',toggleNotes);
+const vp=document.getElementById('viewport');
+vp.addEventListener('click',e=>{ if(e.target.closest('#notesbtn'))return; const r=vp.getBoundingClientRect(); show(e.clientX-r.left>r.width/2?i+1:i-1); });
+let tx=null; vp.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+vp.addEventListener('touchend',e=>{ if(tx===null)return; const dx=e.changedTouches[0].clientX-tx; if(Math.abs(dx)>40)show(dx<0?i+1:i-1); tx=null; });
+function fit(){ const sc=Math.min(window.innerWidth/1920,window.innerHeight/1080); document.getElementById('stage').style.transform=`scale(${sc})`; }
+window.addEventListener('resize',fit); fit();
+let start=0; try{ const v=parseInt(localStorage.getItem('sugar-v2-slide')); if(!isNaN(v))start=v; }catch(e){}
+show(start);
+</script>
