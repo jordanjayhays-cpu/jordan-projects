@@ -427,5 +427,6 @@ def build(fname, theme, beats):
       .replace('/*THEME*/', json.dumps({k:v for k,v in t.items() if k!='fonts'})).replace('/*BEATS*/', beats).replace('/*DATA*/', DATA))
     (HERE / fname).write_text(html); print(fname, len(html), 'bytes')
 
-build('whats-in-your-cup-v4.html', 'paper', BEATS_CUP)
-build('healthy-makes-money-v4.html', 'navy', BEATS_MONEY)
+if __name__=='__main__':
+    build('whats-in-your-cup-v4.html', 'paper', BEATS_CUP)
+    build('healthy-makes-money-v4.html', 'navy', BEATS_MONEY)
