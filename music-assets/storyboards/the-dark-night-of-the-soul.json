@@ -1,0 +1,94 @@
+{
+ "track": "The Dark Night of the Soul",
+ "slug": "the-dark-night-of-the-soul",
+ "premise": "A descent. The figure walks down out of the light until there is none, stays there long enough that the dark stops being an emergency, and is changed by it rather than rescued from it.",
+ "spine": "LIGHT, falling then barely returning. It opens at dusk and goes to almost nothing by the middle, and the last shot is not sunrise. The song refuses to console, so the film must not resolve into brightness either.",
+ "continuity": [
+  "The figure is ALWAYS back-to-camera and silhouetted. Identity is shape, never face.",
+  "One motif recurs and must be recognisable: the GROUND falling away, as steps, as slope, as a hole. The descent is literal in every act.",
+  "No door, no exit, no distant light to walk toward. Nothing in frame promises relief."
+ ],
+ "timing_note": "Ten shots across the 30-second teaser, about three seconds each. Shot 6 is the floor of the descent and should land near 'you cry to the heavens, but silence returns'.",
+ "shots": [
+  {
+   "n": 1,
+   "act": "I. THE EDGE",
+   "size": "WIDE",
+   "light": 6,
+   "count": 1,
+   "desc": "A hooded figure stands at the lip of a vast shallow basin in the ground, seen from behind, late dusk light raking across the rim."
+  },
+  {
+   "n": 2,
+   "act": "I. THE EDGE",
+   "size": "MEDIUM",
+   "light": 5,
+   "count": 1,
+   "desc": "The figure has started down a long shallow flight of stone steps cut into the slope, still high up, the bottom not visible."
+  },
+  {
+   "n": 3,
+   "act": "II. THE FALL",
+   "size": "DETAIL",
+   "light": 4,
+   "count": 1,
+   "desc": "Close on the stone steps themselves, worn smooth, descending away into deepening haze. The hem of a dark robe is just leaving the top of frame."
+  },
+  {
+   "n": 4,
+   "act": "II. THE FALL",
+   "size": "WIDE",
+   "light": 3,
+   "count": 1,
+   "desc": "The figure far below now, tiny against enormous sheer walls of rock that rise out of frame on every side. The sky is a small pale shape overhead."
+  },
+  {
+   "n": 5,
+   "act": "II. THE FALL",
+   "size": "MEDIUM",
+   "light": 2,
+   "count": 1,
+   "desc": "The figure standing still, facing away, the walls close on both sides. The last of the light is behind and above, not ahead."
+  },
+  {
+   "n": 6,
+   "act": "III. THE FLOOR",
+   "size": "WIDE",
+   "light": 0,
+   "count": 1,
+   "desc": "Almost total blackness. Only the faintest teal rim-light traces the top of a hood and one shoulder. Nothing else in frame is legible at all."
+  },
+  {
+   "n": 7,
+   "act": "III. THE FLOOR",
+   "size": "DETAIL",
+   "light": 1,
+   "count": 1,
+   "desc": "Extreme close on a hand resting flat against wet black rock, barely lit, completely still, as if listening through the stone."
+  },
+  {
+   "n": 8,
+   "act": "IV. THE STAY",
+   "size": "MEDIUM",
+   "light": 1,
+   "count": 1,
+   "desc": "The figure seated on the ground at the very bottom, back to camera, head level. Not collapsed and not praying. Simply staying."
+  },
+  {
+   "n": 9,
+   "act": "IV. THE STAY",
+   "size": "DETAIL",
+   "light": 2,
+   "count": 1,
+   "desc": "Close on bare earth beside the figure where a single pale shoot has pushed up through the black ground, catching what little light there is."
+  },
+  {
+   "n": 10,
+   "act": "V. CHANGED",
+   "size": "WIDE",
+   "light": 3,
+   "count": 1,
+   "desc": "The figure standing again at the bottom of the basin, seen from behind, facing the long climb. The light above is weak and grey, nowhere near dawn."
+  }
+ ]
+}
