@@ -24,6 +24,8 @@ rep("@media (prefers-reduced-motion:no-preference){.slide.active .chart{animatio
 .tslide.blue .thuge{color:var(--blue)}.tslide.blue .trule{background:var(--blue)}
 .tcap{font-size:21px;fill:var(--muted)}
 .progress .seg{width:22px}
+.src2{position:absolute;left:110px;bottom:34px;width:1700px;font-size:14px;line-height:1.4;color:var(--muted)}
+.src2 b{color:var(--ink)}
 @media (prefers-reduced-motion:no-preference){.slide.active .chart{animation:fade .35s ease-out}}""")
 
 # ---------- slides ----------
@@ -167,11 +169,11 @@ NOTES = r'''const NOTES = [
  ["(Transition, ten seconds.) Part three: salt. Forty-eight dishes. Each blue dot is one dish with half a day of salt in a single serving. All of them are food.", "<b>Kate Strachnyi, ColorWise:</b> blue for salt, pink for sugar, never swapped"],
  ["Food barely carries sugar. But forty-eight dishes hold half a day's sodium. The more calories on the plate, the saltier. Forty nuggets: a day and a half of salt.", "<b>Session 7, Challenger lesson:</b> no jargon, say it in words · <b>Kate Strachnyi, ColorWise:</b> blue/pink is colourblind-safe"],
  ["Four measures instead of a ban. Small as the default drink. Sugar warning at fifty grams. Sodium warning at eleven-fifty. Grilled listed first. Together they touch 110 items and leave 150 alone. (Read only the Measure column.)", "<b>Nathan Yau, Visualize This:</b> unit charts make counts felt"],
- ["What this data cannot tell us: one chain, US menu, no sales volumes, thresholds are ours. Sources on screen. We built the charts with D3 and the dashboard in Looker Studio, with AI assistance.", "<b>Rubric:</b> limitations and sources stated · <b>Session 9 & 10:</b> honesty about the data"],
+ ["Three rules, then three real orders. Small cup by default: twenty-one grams less sugar on the median drink. Grilled instead of crispy: eighty to one-sixty calories off every chicken dish. Plain coffee instead of flavoured: the syrup alone is eight cubes. Nothing new on the menu.", "<b>Session 7:</b> solution before the examples · <b>Session 2, Gestalt:</b> three equal columns, one idea each"],
  ["Example one, the Big Mac meal. Sixteen cubes of sugar. Look where they sit: two in the burger, none in the fries, fourteen in the cup. Keep the Big Mac. Small fries, Diet Coke. Two cubes, three hundred fewer calories.", "<b>Knaflic:</b> before/after side by side · <b>Yau:</b> unit cubes under each item · <b>Session 2:</b> proximity, the cubes sit under the item they belong to"],
  ["Example two, the crispy chicken meal. Same sixteen cubes, same cup. Grilled instead of crispy is on the menu already: one hundred and sixty calories off the sandwich alone. With small fries and a Diet Coke, the meal nearly halves.", "<b>Session 7:</b> make the solution concrete · the 'grilled listed first' measure in one picture"],
  ["Example three, breakfast. The caramel latte is twelve cubes before you add any food. A plain latte is four. Swap sausage with egg for an Egg McMuffin and you save another hundred and fifty calories. The coffee counter is where the sugar hides.", "<b>Session 3:</b> pink fill means sugar inside, nothing else is coloured · <b>Rosling:</b> an object the audience can picture"],
- ["We are asking for one decision: a six-month pilot, two or three chains, Small as the default drink. Measure what people actually order. Then decide on a ban. Thank you. Questions.", "<b>Session 7:</b> resolution = one decision to ask for · <b>Brent Dykes:</b> next steps"]
+ ["Back to the question we started with. Two hundred and sixty dots: sixty-two pink, forty-eight blue, one hundred and fifty untouched. Our ask is one decision: a six-month Small-by-default pilot with two or three chains. Limits are on screen: one chain, one country, no sales data. Thank you. Questions.", "<b>Session 7:</b> resolution = one decision · callback to the title (Duarte) · limitations stated for the rubric"],
 ];'''
 html = html.replace(m.group(0), NOTES)
 
@@ -343,6 +345,37 @@ rep("/* ---------- navigation ---------- */", r"""/* ---------- new: 4b calories
     s.append('line').attr('x1',0).attr('x2',1170).attr('y1',455).attr('y2',455).attr('stroke',INK).attr('stroke-width',1.5);
     document.getElementById(id+'-saved').textContent = Math.round(B.sug/4)-Math.round(A.sug/4);
   });
+  /* rules slide */
+  (function(){
+    const s = svg('rules');
+    const byName = new Map(DATA.map(d=>[d.item,d]));
+    const Ls = DATA.filter(d=>sizeTag(d)==='Large'), smallMap = new Map(DATA.filter(d=>sizeTag(d)==='Small').map(d=>[base(d),d]));
+    const ls = Ls.map(l=>{ const sm=smallMap.get(base(l)); return sm?[l,sm]:null; }).filter(Boolean);
+    const dS = d3.median(ls.map(([a,b])=>a.sugar-b.sugar));
+    const cris = DATA.filter(d=>/Crispy/.test(d.item)).map(c=>{ const g=byName.get(c.item.replace('Crispy','Grilled')); return g?[c,g]:null; }).filter(Boolean);
+    const dC = cris.map(([a,b])=>a.cal-b.cal);
+    const car = get('Caramel Latte (Medium)'), lat = get('Latte (Medium)');
+    const cols = [
+      {t:'1 · Small cup by default', n:`−${Math.round(dS)}g sugar`, sub:`median, ${ls.length} drinks sold Small and Large`, a:g=>ICON.cup(g,0,0,true), b:g=>{ const gg=g.append('g').attr('transform','scale(.72)'); ICON.cup(gg,0,0,true); }},
+      {t:'2 · Grilled listed first', n:`−${d3.min(dC)} to −${d3.max(dC)} cal`, sub:`every one of ${cris.length} chicken dishes`, a:g=>ICON.chicken(g,0,0,true), b:g=>ICON.chicken(g,0,0,false)},
+      {t:'3 · Plain coffee, not syrup', n:`−${car.sugar-lat.sugar}g sugar`, sub:`${Math.round((car.sugar-lat.sugar)/4)} cubes, one medium latte`, a:g=>ICON.latte(g,0,0,true), b:g=>ICON.latte(g,0,0,false)}
+    ];
+    cols.forEach((c,i)=>{
+      const x = 195+i*390;
+      s.append('text').attr('x',x).attr('y',60).attr('text-anchor','middle').attr('class','ann-t').attr('font-size',26).text(c.t);
+      s.append('line').attr('x1',x-170).attr('x2',x+170).attr('y1',84).attr('y2',84).attr('stroke',INK).attr('stroke-width',6);
+      const ga = s.append('g').attr('transform',`translate(${x},${415})`); c.a(ga);
+      s.append('circle').attr('cx',x-150).attr('cy',130).attr('r',9).attr('fill',GREYD);
+      s.append('text').attr('x',x-132).attr('y',137).attr('class','ann-s').attr('font-size',16).attr('font-weight',700).attr('letter-spacing','.12em').attr('fill',INK).text('WHAT PEOPLE ORDER');
+      s.append('path').attr('d',`M ${x} 445 L ${x} 490`).attr('stroke',GOLD).attr('stroke-width',5);
+      s.append('polygon').attr('points',`${x-14},484 ${x+14},484 ${x},506`).attr('fill',GOLD);
+      s.append('circle').attr('cx',x-150).attr('cy',545).attr('r',9).attr('fill',GOLD);
+      s.append('text').attr('x',x-132).attr('y',552).attr('class','ann-s').attr('font-size',16).attr('font-weight',700).attr('letter-spacing','.12em').attr('fill',INK).text('ORDER THIS INSTEAD');
+      const gb = s.append('g').attr('transform',`translate(${x},${790})`); c.b(gb);
+      s.append('text').attr('x',x).attr('y',880).attr('text-anchor','middle').attr('font-size',54).attr('font-weight',900).attr('letter-spacing','-.03em').attr('fill',GOLD).text(c.n);
+      s.append('text').attr('x',x).attr('y',912).attr('text-anchor','middle').attr('class','ann-s').text(c.sub);
+    });
+  })();
 })();
 
 /* ---------- transitions: replayable visuals ---------- */
@@ -392,6 +425,24 @@ REPLAY.t2 = function(){
     .transition().delay(dur(150+cubes*70)).duration(dur(400)).attr('opacity',1);
   s.append('text').attr('x',x0+C/2).attr('y',820).attr('text-anchor','middle').attr('class','tcap').text('1 cube = 4g');
 };
+REPLAY.t4 = function(){
+  d3.select('#t4').selectAll('*').remove();
+  const s = d3.select('#t4').append('svg').attr('viewBox','0 0 1100 940');
+  const root = d3.hierarchy({children:DATA}).sum(d=>Math.max(60,d.cal||0));
+  d3.pack().size([700,700]).padding(3)(root);
+  const flag = d => d.sugar>50?PINK:(!isDrink(d)&&d.sodium>=1150)?BLUE:GREY;
+  const g = s.append('g').attr('transform','translate(200,40)');
+  g.selectAll('circle').data(root.leaves()).join('circle')
+    .attr('cx',d=>d.x).attr('cy',d=>d.y).attr('r',0).attr('fill',d=>flag(d.data))
+    .transition().delay((d,i)=>dur(i*4)).duration(dur(420)).ease(d3.easeBackOut.overshoot(1.4)).attr('r',d=>d.r);
+  const nS=DATA.filter(d=>d.sugar>50).length, nB=DATA.filter(d=>!isDrink(d)&&d.sodium>=1150).length, nG=DATA.length-nS-nB;
+  [[PINK,nS,'sugar, all in a cup'],[BLUE,nB,'salt, all on a plate'],[GREY,nG,'untouched by either']].forEach(([c,n,t],i)=>{
+    const x=200+i*300;
+    s.append('circle').attr('cx',x).attr('cy',820).attr('r',10).attr('fill',c);
+    s.append('text').attr('x',x+22).attr('y',828).attr('class','ann-t').attr('font-size',26).attr('fill',c===GREY?INK:c).text(n);
+    s.append('text').attr('x',x+22).attr('y',856).attr('class','tcap').attr('font-size',18).text(t);
+  });
+};
 REPLAY.t3 = function(){
   d3.select('#t3').selectAll('*').remove();
   const s = d3.select('#t3').append('svg').attr('viewBox','0 0 1100 940');
@@ -415,6 +466,44 @@ REPLAY.t3 = function(){
 rep("  document.getElementById('footer').hidden = (i===N-1);\n  try{ localStorage.setItem('sugar-v2-slide',String(i)); }catch(e){}",
     "  const cur = slides[i];\n  document.getElementById('footer').hidden = (i===N-1) || cur.classList.contains('tslide');\n  const tv = cur.querySelector('.tviz'); if(tv && REPLAY[tv.id]) REPLAY[tv.id]();\n  try{ localStorage.setItem('sugar-v3-slide',String(i)); }catch(e){}")
 rep("localStorage.getItem('sugar-v2-slide')", "localStorage.getItem('sugar-v3-slide')")
+
+# ---------- replace slide 13 (limits) with "three rules", and the closer ----------
+m = re.search(r"\n<!-- 8 -->\n<section class=\"slide\" data-i=\"7\">.*?</section>\n", html, re.S); assert m
+RULES = """
+<!-- rules -->
+<section class="slide" data-i="0">
+  <div class="panel">
+    <div class="eyebrow">Part 3 · What to order · <b>Three rules</b></div>
+    <div class="bar" style="margin-top:18px"></div>
+    <h1 class="sm">Three rules that work on any order</h1>
+    <p class="lede">No new menu needed. Pick the small cup, the grilled option and the plain coffee. The next three slides show what that does to real orders.</p>
+    <div class="stat"><span class="lbl">Rules</span><span class="num">3</span></div>
+    <div class="key">
+      <div class="kh">KEY</div>
+      <div class="row"><span class="sw" style="background:var(--grey-deep)"></span><span>What people order</span></div>
+      <div class="row"><span class="sw" style="background:var(--gold)"></span><span>Order this instead</span></div>
+      <div class="row"><span class="sw sq" style="background:var(--pink)"></span><span>Pink fill = sugar inside</span></div>
+      <div class="howto">Numbers come from the pairs in this dataset: 43 drinks sold Small and Large, 13 chicken dishes sold crispy and grilled, lattes sold plain and flavoured.</div>
+    </div>
+  </div>
+  <div class="chart" id="rules"></div>
+</section>
+"""
+html = html.replace(m.group(0), "\n" + RULES)
+m = re.search(r"\n<!-- closer -->\n<section class=\"slide\" data-i=\"8\">.*?</section>\n", html, re.S); assert m
+CLOSER = """
+<!-- closer -->
+<section class="slide tslide" data-i="0">
+  <div class="tnum">After the meal · Thank you</div>
+  <div class="trule"></div>
+  <h1 class="thuge" style="font-size:118px;width:640px">Would you like sugar with that?</h1>
+  <p class="tlede" style="top:600px"><strong>Our ask: a six-month Small-by-default pilot, two or three chains.</strong> Regulate the cup, not the counter. Thank you. Questions welcome.</p>
+  <div class="twho">Group 3 · IE IMBA Data Fluency</div>
+  <div class="tviz" id="t4"></div>
+  <div class="src2"><b>Data:</b> Nutrition Facts for McDonald's Menu, Kaggle (US menu, 260 items) · <b>Thresholds:</b> WHO sugars guideline (2015), NYC sodium warning rule · <b>What the data cannot tell us:</b> one chain, one country, no sales volumes · <b>Tools:</b> Looker Studio and D3.js, built with AI assistance (Claude); analysis and recommendations by Group 3</div>
+</section>
+"""
+html = html.replace(m.group(0), "\n" + CLOSER)
 
 # renumber data-i in DOM order
 k = [-1]
