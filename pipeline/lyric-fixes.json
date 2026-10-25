@@ -333,5 +333,19 @@
    "now": "and where do they lead?",
    "why": "a shepherd leads a flock; 'where do they leave' is a mishearing of 'lead'."
   }
+ ],
+ "this-is-water": [
+  {
+   "i": 0,
+   "was": "It's in the bottom",
+   "now": "It's in the boredom",
+   "why": "the track is David Foster Wallace's This Is Water; boredom and dread are the speech's own words."
+  },
+  {
+   "i": 1,
+   "was": "in the dead and check",
+   "now": "in the dread and check",
+   "why": "same line: 'in the dread and the checkout lines'."
+  }
  ]
 }
