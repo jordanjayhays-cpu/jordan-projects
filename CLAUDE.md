@@ -8,6 +8,8 @@ the board (`agent_tasks` on Supabase `neurodashboards`), token discipline, opera
 where every project lives.
 
 Rules that apply here:
+- **Diagnosis → ACH.** Competing hypotheses, scored by what discriminates between them,
+  ranked by fewest inconsistencies. Refute, do not confirm. Full method in `mission-control/CLAUDE.md`.
 - File deliverables in the matching project folder; create it if missing.
 - Anything only Jordan can do → task on `agent_tasks` assigned `jordan`. If it is not on the
   board, it does not exist.
