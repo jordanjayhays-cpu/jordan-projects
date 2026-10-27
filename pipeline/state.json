@@ -75,9 +75,10 @@
   "First Step, Last Breathe",
   "Denial of Death",
   "Who Knows?",
-  "Observers & Shadows"
+  "Observers & Shadows",
+  "Awaken the Soul"
  ],
- "last_scheduled_date": "2026-10-31",
+ "last_scheduled_date": "2026-11-01",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -190,6 +191,7 @@
   "2026-10-28": "first-step-last-breathe",
   "2026-10-29": "denial-of-death",
   "2026-10-30": "who-knows",
-  "2026-10-31": "observers-shadows"
+  "2026-10-31": "observers-shadows",
+  "2026-11-01": "awaken-the-soul"
  }
 }
