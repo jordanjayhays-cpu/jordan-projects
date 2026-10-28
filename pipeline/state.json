@@ -76,9 +76,10 @@
   "Denial of Death",
   "Who Knows?",
   "Observers & Shadows",
-  "Awaken the Soul"
+  "Awaken the Soul",
+  "Pain"
  ],
- "last_scheduled_date": "2026-11-01",
+ "last_scheduled_date": "2026-11-02",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -192,6 +193,7 @@
   "2026-10-29": "denial-of-death",
   "2026-10-30": "who-knows",
   "2026-10-31": "observers-shadows",
-  "2026-11-01": "awaken-the-soul"
+  "2026-11-01": "awaken-the-soul",
+  "2026-11-02": "pain"
  }
 }
