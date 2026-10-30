@@ -363,5 +363,19 @@
    "now": "It's death in the core,",
    "why": "the line answers 'Freud said sex, but Becker said no': it is death at the core, not 'his death'."
   }
+ ],
+ "who-knows": [
+  {
+   "i": 15,
+   "was": "But the sun stays home,",
+   "now": "But the son stays home,",
+   "why": "the farmer's SON stays home because of the broken leg, and so misses the draft. Homophone."
+  },
+  {
+   "i": 21,
+   "was": "the flow of the dow,",
+   "now": "the flow of the Tao,",
+   "why": "the Tao, not the Dow Jones. Same mishearing already fixed on uncarved-block."
+  }
  ]
 }
