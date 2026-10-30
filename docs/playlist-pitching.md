@@ -72,6 +72,37 @@ Search is also capped at 10 results per call and 1,000 deep, and development
 mode apps share a quota that answers `429 QUOTA_EXCEEDED`. The harvester stops
 cleanly on that and resumes next run, so a full sweep may take a few days.
 
+## Finding curators without Spotify credentials
+
+The API route above needs a Premium account and a dev app. There is a second
+route that needs neither, and it was the one that actually produced the first
+list.
+
+Search engines have already crawled Spotify's public playlist pages, and the
+**snippet they store is the playlist description**. So a curator who wrote
+"submit your music: someone@gmail.com" into their description has had that
+indexed, and it can be searched directly.
+
+The query shape that works:
+
+    site:open.spotify.com playlist <genre words> "gmail.com" submit your music
+
+Two things learned the hard way:
+
+- `inurl:` does not constrain reliably here and returns academic papers.
+  `site:open.spotify.com` does work.
+- Stacking `OR` operators collapses the result set to almost nothing. Broad and
+  simple beats clever. One narrow query returned a single podcast; the broad one
+  returned fourteen usable playlists.
+- Results include `/show/` podcast pages as well as `/playlist/` ones. Discard
+  the podcasts by eye.
+
+Coverage is patchy, because it depends on what the index happens to hold. It
+will not enumerate a niche the way the API can. Use it for a first list and for
+niches the API sweep misses.
+
+Output of the first pass: `music-assets/playlists/targets-round-1.md`.
+
 ## The pitch
 
 One curator, one email, one track. Never a bcc list.
