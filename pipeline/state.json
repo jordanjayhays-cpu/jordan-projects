@@ -78,9 +78,10 @@
   "Observers & Shadows",
   "Awaken the Soul",
   "Pain",
-  "Candy Story Paradox"
+  "Candy Story Paradox",
+  "Who Speaks for You?"
  ],
- "last_scheduled_date": "2026-11-03",
+ "last_scheduled_date": "2026-11-04",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -196,6 +197,7 @@
   "2026-10-31": "observers-shadows",
   "2026-11-01": "awaken-the-soul",
   "2026-11-02": "pain",
-  "2026-11-03": "candy-story-paradox"
+  "2026-11-03": "candy-story-paradox",
+  "2026-11-04": "who-speaks-for-you"
  }
 }
