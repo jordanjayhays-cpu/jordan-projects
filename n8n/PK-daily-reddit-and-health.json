@@ -1,0 +1,226 @@
+{
+  "name": "PK — Daily Reddit + Health Check",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "30 9 * * *"
+            }
+          ]
+        }
+      },
+      "id": "a1000000-0000-4000-8000-000000000001",
+      "name": "Daily 09:30 UTC",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-460, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.postiz.com/public/v1/posts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "startDate",
+              "value": "={{ $now.minus(3, 'days').toUTC().toFormat(\"yyyy-MM-dd'T'HH:mm:ss'Z'\") }}"
+            },
+            {
+              "name": "endDate",
+              "value": "={{ $now.toUTC().toFormat(\"yyyy-MM-dd'T'HH:mm:ss'Z'\") }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{ $env.POSTIZ_KEY }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": false
+            }
+          }
+        }
+      },
+      "id": "a1000000-0000-4000-8000-000000000002",
+      "name": "Get recent posts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-240, 300],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "jsCode": "// Decide what needs doing today.\n// State: which track slugs have already been link-posted to Reddit.\nconst store = $getWorkflowStaticData('global');\nstore.redditPosted = store.redditPosted || [];\n\nconst body = $input.first().json;\nconst posts = Array.isArray(body) ? body : (body.posts || []);\n\nconst slugify = (s) => s.toLowerCase().replace(/[^\\w\\s-]/g, '').trim().replace(/\\s+/g, '-');\n\n// 1. newest published YouTube videos, oldest-first, not yet on Reddit\nconst yts = posts\n  .filter(p => p?.integration?.providerIdentifier === 'youtube' && p.state === 'PUBLISHED' && p.releaseURL)\n  .sort((a, b) => (a.publishDate || '').localeCompare(b.publishDate || ''));\n\nlet pending = null;\nfor (const y of yts) {\n  let title = '';\n  try {\n    const st = typeof y.settings === 'string' ? JSON.parse(y.settings) : (y.settings || {});\n    title = (st.title || '').split(' — Philosophical King')[0].trim();\n  } catch (e) { /* ignore */ }\n  if (!title) continue;\n  const slug = slugify(title);\n  if (!store.redditPosted.includes(slug)) {\n    pending = { title, slug, url: y.releaseURL };\n    break;\n  }\n}\n\n// 2. anything that failed to publish today (Facebook excluded - known Meta restriction)\nconst today = new Date().toISOString().slice(0, 10);\nconst failures = posts\n  .filter(p => p.state === 'ERROR'\n    && (p.publishDate || '').slice(0, 10) === today\n    && p?.integration?.providerIdentifier !== 'facebook')\n  .map(p => ({ platform: p.integration.providerIdentifier, id: p.id, group: p.group }));\n\n// 3. everything that did publish today, for the digest\nconst published = posts\n  .filter(p => p.state === 'PUBLISHED' && (p.publishDate || '').slice(0, 10) === today)\n  .map(p => `${p.integration.providerIdentifier}: ${p.releaseURL || 'ok'}`);\n\nreturn [{ json: { pending, failures, published, hasPending: !!pending, hasFailures: failures.length > 0 } }];"
+      },
+      "id": "a1000000-0000-4000-8000-000000000003",
+      "name": "Work out what is needed",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-20, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cond-pending",
+              "leftValue": "={{ $json.hasPending }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000004",
+      "name": "Track needs Reddit?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mcp.postiz.com/mcp",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.POSTIZ_KEY }}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json, text/event-stream"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'integrationList', arguments: {} } }) }}",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000005",
+      "name": "Get channels",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [420, 200],
+      "retryOnFail": true,
+      "maxTries": 3
+    },
+    {
+      "parameters": {
+        "jsCode": "// Build the Reddit link post: title = track name, body = one human sentence, url = the live Short.\nconst channels = JSON.parse($input.first().json.result.content[0].text).output;\nconst reddit = channels.find(c => c.platform === 'reddit');\nif (!reddit) { throw new Error('No Reddit channel connected in Postiz'); }\n\nconst { pending } = $('Work out what is needed').first().json;\n\n// One-sentence descriptions. Add new tracks here, or leave blank for the fallback line.\nconst DESCRIPTIONS = {\n  'the-cave': \"Plato said we're prisoners watching shadows and calling them the world. Turning around hurts. That's the track.\",\n  'fugazi': 'Fake watches, fake feeds, fake fronts — a track about learning to smell what is fugazi.',\n  'the-filter': 'Between you and reality sits a stack of filters — your senses, your feed, your habits. This is about what does not get through.'\n};\nconst body = DESCRIPTIONS[pending.slug] || `One idea, one song: ${pending.title}.`;\n\n// fire 10 minutes from now, UTC\nconst when = new Date(Date.now() + 10 * 60 * 1000).toISOString().slice(0, 16) + ':00';\n\nconst payload = {\n  jsonrpc: '2.0', id: 1, method: 'tools/call',\n  params: {\n    name: 'integrationSchedulePostTool',\n    arguments: {\n      socialPost: [{\n        integrationId: reddit.id,\n        isPremium: false,\n        date: when,\n        shortLink: false,\n        type: 'schedule',\n        postsAndComments: [{ content: `<p>${body}</p>`, attachments: [] }],\n        settings: [{\n          key: 'subreddit',\n          value: [{ value: {\n            subreddit: '/r/u_PhilosophicalKingM',\n            title: pending.title.slice(0, 290),\n            type: 'link',\n            url: pending.url,\n            is_flair_required: false\n          } }]\n        }]\n      }]\n    }\n  }\n};\n\nreturn [{ json: { payload, slug: pending.slug, title: pending.title, when } }];"
+      },
+      "id": "a1000000-0000-4000-8000-000000000006",
+      "name": "Build Reddit post",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [640, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://mcp.postiz.com/mcp",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $env.POSTIZ_KEY }}"
+            },
+            {
+              "name": "Accept",
+              "value": "application/json, text/event-stream"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.payload) }}",
+        "options": {}
+      },
+      "id": "a1000000-0000-4000-8000-000000000007",
+      "name": "Schedule Reddit post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [860, 200],
+      "retryOnFail": true,
+      "maxTries": 3
+    },
+    {
+      "parameters": {
+        "jsCode": "// Only record the track as done if Postiz accepted it.\nconst res = $input.first().json;\nconst isError = res?.result?.isError === true;\nconst built = $('Build Reddit post').first().json;\n\nif (!isError) {\n  const store = $getWorkflowStaticData('global');\n  store.redditPosted = store.redditPosted || [];\n  store.redditPosted.push(built.slug);\n  if (store.redditPosted.length > 200) store.redditPosted = store.redditPosted.slice(-200);\n}\n\nreturn [{ json: {\n  reddit: isError ? `FAILED: ${built.title}` : `scheduled ${built.title} for ${built.when} UTC -> ${built.slug}`,\n  ok: !isError\n} }];"
+      },
+      "id": "a1000000-0000-4000-8000-000000000008",
+      "name": "Remember it posted",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1080, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Daily digest — swap this node for Gmail / Telegram / Slack to actually receive it.\nlet reddit = 'nothing pending';\ntry { reddit = $('Remember it posted').first().json.reddit; } catch (e) { /* no reddit branch ran */ }\n\nconst { published, failures } = $('Work out what is needed').first().json;\n\nconst lines = [\n  `Published today (${published.length}):`,\n  ...published.map(p => `  - ${p}`),\n  `Reddit: ${reddit}`,\n  failures.length\n    ? `NEEDS ATTENTION — ${failures.length} failed: ${failures.map(f => f.platform).join(', ')}`\n    : 'No failures.'\n];\n\nreturn [{ json: { summary: lines.join('\\n'), needsAttention: failures.length > 0 } }];"
+      },
+      "id": "a1000000-0000-4000-8000-000000000009",
+      "name": "Daily summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1300, 300]
+    }
+  ],
+  "connections": {
+    "Daily 09:30 UTC": {
+      "main": [[{ "node": "Get recent posts", "type": "main", "index": 0 }]]
+    },
+    "Get recent posts": {
+      "main": [[{ "node": "Work out what is needed", "type": "main", "index": 0 }]]
+    },
+    "Work out what is needed": {
+      "main": [[{ "node": "Track needs Reddit?", "type": "main", "index": 0 }]]
+    },
+    "Track needs Reddit?": {
+      "main": [
+        [{ "node": "Get channels", "type": "main", "index": 0 }],
+        [{ "node": "Daily summary", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get channels": {
+      "main": [[{ "node": "Build Reddit post", "type": "main", "index": 0 }]]
+    },
+    "Build Reddit post": {
+      "main": [[{ "node": "Schedule Reddit post", "type": "main", "index": 0 }]]
+    },
+    "Schedule Reddit post": {
+      "main": [[{ "node": "Remember it posted", "type": "main", "index": 0 }]]
+    },
+    "Remember it posted": {
+      "main": [[{ "node": "Daily summary", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

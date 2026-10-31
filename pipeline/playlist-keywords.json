@@ -1,0 +1,41 @@
+{
+  "_comment": "Search vocabulary for the playlist harvester, derived from the PK catalogue: philosophy, stoicism, eastern thought, critical theory, mortality, consciousness, delivered as rap. Edit freely; every line is one /search query. Keep them as a curator would name a playlist, not as a genre tag.",
+  "core": [
+    "conscious hip hop",
+    "conscious rap",
+    "underground hip hop",
+    "indie hip hop",
+    "lyrical hip hop",
+    "rap with meaning",
+    "deep rap",
+    "thoughtful hip hop",
+    "intelligent hip hop",
+    "backpack rap"
+  ],
+  "concept": [
+    "stoicism",
+    "stoic",
+    "philosophy",
+    "philosophical",
+    "existentialism",
+    "deep thoughts",
+    "music that makes you think",
+    "mindfulness hip hop",
+    "spoken word",
+    "poetry and rap",
+    "wisdom",
+    "self improvement music",
+    "motivational rap",
+    "growth mindset"
+  ],
+  "mood": [
+    "lofi hip hop",
+    "chill rap",
+    "late night rap",
+    "study rap",
+    "focus hip hop",
+    "introspective",
+    "reflective",
+    "meditative hip hop"
+  ]
+}
