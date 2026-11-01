@@ -89,9 +89,18 @@ def main():
         err = sorted(plat(p) for p in ps if p.get("state") == "ERROR")
         queued = {plat(p) for p in ps if p.get("state") == "QUEUE"}
         missing = sorted(expected - pub - set(err) - queued)
+        # The platform's own rejection text. Reddit failed silently for
+        # seventeen days because nothing ever printed this, and the whole time
+        # the API was returning "that community doesn't exist" in plain words.
+        # A failure that does not say why costs far more than one that does.
+        why = {}
+        for p in ps:
+            if p.get("state") == "ERROR" and p.get("error"):
+                why.setdefault(plat(p), p["error"])
         notes = []
         if err:
-            notes.append("ERROR: " + ", ".join(err))
+            notes.append("ERROR: " + ", ".join(
+                f"{c} ({why[c]})" if c in why else c for c in err))
         if missing:
             notes.append("MISSING: " + ", ".join(missing))
         flag = "  <-- " + "; ".join(notes) if notes else ""
