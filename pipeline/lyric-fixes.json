@@ -391,5 +391,25 @@
    "now": "defined, measured in memes",
    "why": "'observed to find measured' does not parse; 'defined' is the word."
   }
+ ],
+ "pain": [
+  {
+   "i": 1,
+   "was": "private doubts that your highlight,",
+   "now": "private doubts that your highlight reel",
+   "why": "Whisper split 'reel' into the next segment and heard it as 'real'. 'highlight reel' is the phrase."
+  },
+  {
+   "i": 2,
+   "was": "real fakes, the ad-sell",
+   "now": "fakes, the ads sell",
+   "why": "'reel' belongs to segment 1; 'the ad-sell ease' is 'the ads sell ease', which pairs with 'the truth sells out' in the next line."
+  },
+  {
+   "i": 15,
+   "was": "That's how winds begin.",
+   "now": "That's how wins begin.",
+   "why": "'winds begin' is meaningless; 'wins' is the payoff of 'no shortcut, no cheat'."
+  }
  ]
 }
