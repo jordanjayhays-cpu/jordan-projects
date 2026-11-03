@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PEPE Energía Flow</title>
+<meta name="description" content="La energía de PEPE Energía como mil partículas que se reordenan mientras se desplaza la página: fuentes, plantas, horas, coste, carbono y plan.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#0D0E12; --bg2:#15171D; --ink:#F2EFE6; --muted:#9A9CA8; --line:#2A2D36;
+  --orange:#FF8A1F; --slate:#8E9BB3; --green:#4ADE80; --red:#FF4D4D; --gold:#FFD166;
+  --sans:'Space Grotesk',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{ --bg:#0D0E12; --bg2:#15171D; --ink:#F2EFE6; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+a{color:inherit}
+
+/* top bar */
+.bar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--muted);background:linear-gradient(var(--bg) 60%,transparent);pointer-events:none}
+.bar b{color:var(--orange);font-weight:600}
+.bar .r{color:var(--gold);border:1px solid rgba(255,209,102,.4);padding:3px 8px;border-radius:3px}
+
+/* progress rail */
+.rail{position:fixed;left:max(14px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);z-index:30;display:flex;flex-direction:column;gap:10px}
+.rail a{width:8px;height:8px;border-radius:50%;background:var(--line);display:block;position:relative;transition:background .25s,transform .25s}
+.rail a.on{background:var(--orange);transform:scale(1.4)}
+.rail a span{position:absolute;left:16px;top:-5px;font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+.rail a:hover span{opacity:1}
+@media(max-width:900px){.rail{display:none}}
+
+/* layout */
+.wrap{display:grid;grid-template-columns:minmax(0,42fr) minmax(0,58fr);max-width:1440px;margin:0 auto}
+.steps{padding:0 24px 0 56px}
+.step{min-height:92vh;display:flex;align-items:center;padding:12vh 0}
+.step .card{max-width:470px;opacity:.35;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
+.step.on .card{opacity:1;transform:none}
+.k{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.k b{color:var(--orange);font-weight:600}
+h1,h2{margin:0;font-weight:700;letter-spacing:-.025em;line-height:1.05;text-wrap:balance}
+h1{font-size:clamp(40px,5.2vw,68px)}
+h2{font-size:clamp(28px,3vw,40px)}
+h1 em,h2 em{font-style:normal;color:var(--orange)}
+h2 em.r{color:var(--red)} h2 em.g{color:var(--green)} h2 em.s{color:var(--slate)}
+.card p{font-size:16.5px;color:#CFCDC4;margin:16px 0 0;max-width:46ch}
+.card p b{color:var(--ink)}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px;margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
+.n .v{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.n .v.o{color:var(--orange)}.n .v.r{color:var(--red)}.n .v.g{color:var(--green)}.n .v.s{color:var(--slate)}
+.n .l{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:5px;letter-spacing:.04em}
+.how{font-family:var(--mono);font-size:12px;color:var(--muted);border-left:2px solid var(--orange);padding:4px 12px;margin-top:20px;line-height:1.5}
+.decide{margin-top:22px;display:grid;gap:10px}
+.decide>div{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;font-size:15px;line-height:1.4}
+.decide>div>div{min-width:0}
+.decide i{width:26px;height:26px;border-radius:50%;background:var(--orange);color:#111;font-style:normal;font-weight:700;display:grid;place-items:center;font-size:13px}
+.decide b{display:block}.decide span{color:var(--muted);font-size:13.5px}
+.scrollhint{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:28px;display:flex;gap:10px;align-items:center}
+.scrollhint i{display:inline-block;width:1px;height:28px;background:var(--muted);animation:drop 1.6s ease-in-out infinite}
+@keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+.gfx{position:sticky;top:0;height:100vh;height:100svh}
+.gfx canvas{display:block;width:100%;height:100%}
+.gfx .legend{position:absolute;right:22px;bottom:22px;display:flex;gap:16px;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:rgba(13,14,18,.6);padding:6px 10px;border-radius:4px;backdrop-filter:blur(4px)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:0}
+
+@media(max-width:900px){
+  .wrap{grid-template-columns:1fr}
+  .gfx{order:-1;position:sticky;top:0;height:52svh;z-index:5;background:var(--bg)}
+  .steps{padding:0 16px 40px}
+  .step{min-height:0;padding:6vh 0 4vh;align-items:flex-start}
+  .step .card{background:rgba(21,23,29,.92);border:1px solid var(--line);border-radius:8px;padding:18px;max-width:none;opacity:1;transform:none}
+  .card p{font-size:15px}
+  h1{font-size:34px} h2{font-size:24px}
+  .gfx .legend{bottom:8px;right:8px;gap:10px;font-size:10.5px}
+  .bar{font-size:10.5px;padding:10px 12px}
+}
+@media(prefers-reduced-motion:reduce){.scrollhint i{animation:none}.step .card{transition:none}}
+
+footer{max-width:1440px;margin:0 auto;padding:30px 56px 70px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.6;border-top:1px solid var(--line)}
+footer b{color:var(--ink);font-weight:500}
+@media(max-width:900px){footer{padding:24px 16px 60px}}
+</style>
+</head>
+<body>
+
+<div class="bar"><span><b>PEPE</b> ENERGÍA · FLOW · 2025</span><span class="r">DATOS DE DEMOSTRACIÓN</span></div>
+<nav class="rail" id="rail"></nav>
+
+<div class="wrap">
+  <div class="steps" id="steps">
+
+    <section class="step" data-step="0"><div class="card">
+      <div class="k"><b>Un punto = 43 MWh</b> · mil puntos = un año</div>
+      <h1>Esto es toda la energía que PEPE gastó en 2025.</h1>
+      <p><b>42.680 MWh</b> en seis plantas, <b>5,12 millones de euros</b> y <b>18.420 toneladas</b> de CO₂. Cada punto es la energía de unas 13 viviendas durante un año. Vamos a seguirlos.</p>
+      <div class="scrollhint"><i></i> desplácese para ordenar los puntos</div>
+    </div></section>
+
+    <section class="step" data-step="1"><div class="card">
+      <div class="k"><b>1 · de dónde viene</b></div>
+      <h2>Dos de cada tres puntos son <em>electricidad de red</em>. Los verdes no llegan a uno de cada diez.</h2>
+      <p>El gas natural calienta las plantas industriales. La renovable propia, solar en cubierta, es el <b>9,5%</b>: el sector está en el 15% y los mejores en el 35%.</p>
+      <div class="nums"><div class="n"><div class="v o">28.450</div><div class="l">MWh ELECTRICIDAD · 66,7%</div></div><div class="n"><div class="v s">10.170</div><div class="l">MWh GAS · 23,8%</div></div><div class="n"><div class="v g">4.060</div><div class="l">MWh RENOVABLE · 9,5%</div></div></div>
+    </div></section>
+
+    <section class="step" data-step="2"><div class="card">
+      <div class="k"><b>2 · a dónde va</b></div>
+      <h2>Tres plantas industriales se llevan siete de cada diez puntos. <em class="r">Sólo Madrid gasta más que en 2024.</em></h2>
+      <p>Valencia es la mayor, con el 28%. Madrid Industrial es la única que sube, <b>+2,3%</b>, mientras el grupo baja un 8,3%. Las dos logísticas bajan más de un 12%.</p>
+      <div class="nums"><div class="n"><div class="v">11.940</div><div class="l">VALENCIA · −9,2%</div></div><div class="n"><div class="v r">8.750</div><div class="l">MADRID IND. · +2,3%</div></div><div class="n"><div class="v g">4.120</div><div class="l">SEVILLA · −15,1%</div></div></div>
+    </div></section>
+
+    <section class="step" data-step="3"><div class="card">
+      <div class="k"><b>3 · por metro cuadrado</b></div>
+      <h2>Mismos puntos, repartidos por superficie: <em class="g">las logísticas son grandes y vacías</em>, las industriales pequeñas y densas.</h2>
+      <p>Cada caja es una planta a escala de sus metros cuadrados. Zaragoza tiene el doble de superficie que Madrid y la mitad de puntos: <b>387 frente a 994 kWh por m²</b>. La media del sector industrial es 1.050.</p>
+      <div class="how">Lectura: cuanto más apretados los puntos, más energía por metro. La densidad es lo que compara el sector.</div>
+    </div></section>
+
+    <section class="step" data-step="4"><div class="card">
+      <div class="k"><b>4 · cuándo</b></div>
+      <h2>Entre semana los puntos se amontonan de <em>9 a 16 h</em>. De noche nunca bajan de cero.</h2>
+      <p>Perfil de un día laborable en Valencia. Un día de fin de semana consume cuatro veces menos: los apagados funcionan. Pero la base nocturna, <b>330 kW que no se apagan</b>, suma todo el año y esconde compresores y luces sin horario.</p>
+      <div class="nums"><div class="n"><div class="v o">2.400</div><div class="l">kW PICO · 9 Y 15 H</div></div><div class="n"><div class="v s">330</div><div class="l">kW BASE NOCTURNA</div></div><div class="n"><div class="v">4 a 1</div><div class="l">LABORABLE / FIN DE SEMANA</div></div></div>
+    </div></section>
+
+    <section class="step" data-step="5"><div class="card">
+      <div class="k"><b>5 · lo que cuesta</b></div>
+      <h2>Cada punto vale 5.120 €. <em class="r">Estos 42 son el sobrecoste</em> frente al sector.</h2>
+      <p>PEPE paga <b>120 € por MWh</b>; la media del sector, 115. Cinco euros por megavatio son <b>213.000 € al año</b>: contratos sin renegociar desde 2023, penalizaciones por energía reactiva en Madrid y ningún PPA renovable.</p>
+      <div class="nums"><div class="n"><div class="v">5,12 M€</div><div class="l">FACTURA 2025 · −4,1%</div></div><div class="n"><div class="v r">213 K€</div><div class="l">SOBRECOSTE ANUAL</div></div><div class="n"><div class="v">14,5%</div><div class="l">DE LA FACTURACIÓN</div></div></div>
+    </div></section>
+
+    <section class="step" data-step="6"><div class="card">
+      <div class="k"><b>6 · lo que emite</b></div>
+      <h2>Los puntos verdes no emiten nada. <em>Los naranjas emiten el 63%</em> del CO₂, aunque la electricidad parezca limpia.</h2>
+      <p>18.420 toneladas en 2025: <b>11.590 de la electricidad de red</b> (alcance 2) y 6.830 del gas (alcance 1). Descarbonizar es cambiar el color de los puntos naranjas, no apagar calderas. La senda SBTi pedía 18.847 este año: PEPE va 427 toneladas por delante, pero el ritmo exigido se acelera.</p>
+      <div class="nums"><div class="n"><div class="v o">11.590</div><div class="l">tCO₂ ALCANCE 2</div></div><div class="n"><div class="v s">6.830</div><div class="l">tCO₂ ALCANCE 1</div></div><div class="n"><div class="v g">0</div><div class="l">tCO₂ RENOVABLE</div></div></div>
+    </div></section>
+
+    <section class="step" data-step="7"><div class="card">
+      <div class="k"><b>7 · lo que se escapó</b></div>
+      <h2>Ocho puntos se fueron por la ventana: <em class="r">14 anomalías, 340 MWh, 40.800 €.</em></h2>
+      <p>Un compresor en continuo una noche de diciembre, una válvula de caldera abierta 72 horas en Valencia, y un almacén en Madrid iluminado las 24 horas <b>que sigue abierto</b> a 2.640 € al mes. Las tres críticas se detectaron con más de 48 horas de retraso.</p>
+      <div class="nums"><div class="n"><div class="v r">14</div><div class="l">ANOMALÍAS · 90 DÍAS</div></div><div class="n"><div class="v r">1</div><div class="l">CRÍTICA ABIERTA · MADRID</div></div><div class="n"><div class="v g">82%</div><div class="l">RESUELTAS</div></div></div>
+    </div></section>
+
+    <section class="step" data-step="8"><div class="card">
+      <div class="k"><b>8 · el plan · ahorro</b></div>
+      <h2>Con las ocho palancas, <em class="g">tres de cada diez puntos desaparecen</em> para 2028.</h2>
+      <p>Variadores de frecuencia en los motores de Valencia y Barcelona, LED con sensores en todas las plantas, caldera de condensación, BMS en oficinas. Escenario optimista: <b>29.800 MWh en 2028</b>, un 30% menos. Sin el plan, el escenario conservador sólo baja un 11%.</p>
+      <div class="nums"><div class="n"><div class="v g">−30%</div><div class="l">MWh EN 2028 · OPTIMISTA</div></div><div class="n"><div class="v">1,2 M€</div><div class="l">INVERSIÓN TOTAL</div></div><div class="n"><div class="v g">680 K€</div><div class="l">AHORRO AL AÑO</div></div></div>
+    </div></section>
+
+    <section class="step" data-step="9"><div class="card">
+      <div class="k"><b>9 · el plan · renovable</b></div>
+      <h2>Y de los que quedan, <em class="g">cuatro de cada diez se vuelven verdes</em>: PPA eólico y solar en Madrid.</h2>
+      <p>El PPA de 5 MW cubre el 30% de la electricidad a 78 €/MWh y no necesita capital. La solar de Madrid, 450 kWp, cierra el único cero del grupo. La renovable pasa del <b>9,5% al 40%</b>, en línea con la senda SBTi 2028.</p>
+      <div class="nums"><div class="n"><div class="v g">40%</div><div class="l">RENOVABLE EN 2028</div></div><div class="n"><div class="v">120 K€</div><div class="l">AHORRO PPA · SIN CAPEX</div></div><div class="n"><div class="v">450 kWp</div><div class="l">SOLAR MADRID</div></div></div>
+    </div></section>
+
+    <section class="step" data-step="10"><div class="card">
+      <div class="k"><b>decisión</b></div>
+      <h2>Aprobar tres palancas en el primer trimestre de 2026.</h2>
+      <div class="decide">
+        <div><i>1</i><div><b>Firmar el PPA eólico de 5 MW.</b><span>Sin capex. 120.000 € al año. Retorno inmediato.</span></div></div>
+        <div><i>2</i><div><b>Variadores de frecuencia en Valencia y Barcelona.</b><span>180.000 €. 110.000 € al año. Retorno en 1,6 años.</span></div></div>
+        <div><i>3</i><div><b>Solar de 450 kWp en Madrid Industrial.</b><span>320.000 €. 95.000 € al año. Cierra el hueco renovable.</span></div></div>
+      </div>
+      <p style="margin-top:22px">Resultado en 2028 si el plan completo entra a tiempo: <b>un 30% menos de energía y un 35% menos de CO₂</b>.</p>
+    </div></section>
+
+  </div>
+
+  <div class="gfx" id="gfx">
+    <canvas id="cv"></canvas>
+    <div class="legend" id="legend"><span><i style="background:var(--orange)"></i>Electricidad</span><span><i style="background:var(--slate)"></i>Gas</span><span><i style="background:var(--green)"></i>Renovable</span></div>
+  </div>
+</div>
+
+<footer>
+  <b>Datos:</b> conjunto de demostración de PEPE Energía (febrero 2026), idénticos a las versiones 4 y 5 del panel. Un punto equivale a 42,68 MWh; los recuentos por punto están redondeados. <b>Referencias:</b> IDAE, Eurostat, AENOR. <b>2026 a 2028:</b> escenarios del plan, no datos observados. <b>Equivalencia doméstica:</b> 3.200 kWh por vivienda y año (orden de magnitud, no dato oficial). <b>Técnica:</b> lienzo con mil partículas reordenadas por desplazamiento; sin librerías de gráficos. Rediseño sobre el trabajo original de fiovana DataLens.
+</footer>
+
+<script>
+/* ============ data (unchanged) ============ */
+const UNIT=42.68; // MWh per particle
+const PLANTS=[
+ {id:'val',name:'Valencia',short:'VAL',type:'ind',mwh:11940,yoy:-9.2,elec:7950,gas:3100,ren:890,m2:12500,kwhm2:955,solar:420},
+ {id:'bcn',name:'Barcelona',short:'BCN',type:'ind',mwh:9890,yoy:-7.1,elec:6320,gas:2850,ren:720,m2:10200,kwhm2:970,solar:350},
+ {id:'mad',name:'Madrid Ind.',short:'MAD',type:'ind',mwh:8750,yoy:2.3,elec:5680,gas:2420,ren:650,m2:8800,kwhm2:994,solar:0},
+ {id:'zar',name:'Zaragoza',short:'ZAR',type:'log',mwh:5800,yoy:-12.4,elec:3950,gas:980,ren:870,m2:15000,kwhm2:387,solar:520},
+ {id:'sev',name:'Sevilla',short:'SEV',type:'log',mwh:4120,yoy:-15.1,elec:2870,gas:620,ren:630,m2:11000,kwhm2:375,solar:380},
+ {id:'ofi',name:'Oficinas',short:'OFI',type:'ofi',mwh:2180,yoy:-4.5,elec:1680,gas:200,ren:300,m2:3200,kwhm2:681,solar:85}
+];
+const PROFILE=[400,380,350,340,330,350,650,1800,2200,2400,2300,2200,1900,2100,2300,2400,2200,1800,1200,900,700,600,500,420];
+const TOTAL=42680, COST_PER=UNIT*120, OVER=Math.round(213000/COST_PER); // 42
+const ANOM=Math.round(340/UNIT); // 8
+const KEEP2028=29800, REN2028=.40;
+
+/* ============ colours ============ */
+const CSS=getComputedStyle(document.documentElement), cv=n=>CSS.getPropertyValue(n).trim();
+const hex=h=>{const n=parseInt(h.slice(1),16);return [(n>>16)&255,(n>>8)&255,n&255];};
+const COL={elec:hex(cv('--orange')),gas:hex(cv('--slate')),ren:hex(cv('--green')),red:hex(cv('--red')),dim:[70,72,82],gold:hex(cv('--gold')),ink:hex(cv('--ink'))};
+const INK=cv('--ink'),MU=cv('--muted'),OR=cv('--orange'),GN=cv('--green'),RD=cv('--red'),SL=cv('--slate'),LINE=cv('--line');
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============ particles ============ */
+const P=[];
+PLANTS.forEach(p=>{ ['elec','gas','ren'].forEach(src=>{ const n=Math.round(p[src]/UNIT); for(let i=0;i<n;i++) P.push({plant:p.id,src,x:0,y:0,tx:0,ty:0,c:[...COL[src]],tc:[...COL[src]],a:0,ta:1,r:2.6,lag:.06+Math.random()*.06,seed:Math.random()*Math.PI*2}); }); });
+const N=P.length;
+// shuffle once so colours mix in the hero, but keep a stable order per plant/source for layouts
+const ORDER=d3shuffle(P.map((_,i)=>i));
+function d3shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const byPlant=id=>P.filter(p=>p.plant===id);
+
+/* ============ canvas ============ */
+const canvas=document.getElementById('cv'), ctx=canvas.getContext('2d');
+let W=0,H=0,DPR=1, labels=[], shapes=[], step=0, t0=performance.now();
+function resize(){ const b=canvas.getBoundingClientRect(); DPR=Math.min(2,window.devicePixelRatio||1); W=b.width; H=b.height; canvas.width=W*DPR; canvas.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); LAYOUT[step](); }
+window.addEventListener('resize',()=>{clearTimeout(window._rt);window._rt=setTimeout(resize,120);});
+
+/* helpers: fill particles into a grid inside a rect, bottom-up */
+function fillGrid(list,x0,y0,w,h,cell,fromBottom=true){
+  const cols=Math.max(1,Math.floor(w/cell)); list.forEach((p,i)=>{ const c=i%cols, r=Math.floor(i/cols); p.tx=x0+c*cell+cell/2+(cols*cell<w?(w-cols*cell)/2:0); p.ty=fromBottom?y0+h-r*cell-cell/2:y0+r*cell+cell/2; }); }
+function scatterIn(list,x0,y0,w,h,seedShift=0){ list.forEach((p,i)=>{ const s=p.seed+seedShift; p.tx=x0+((Math.sin(s*12.9898)*43758.5453)%1+1)%1*w; p.ty=y0+((Math.sin(s*78.233)*43758.5453)%1+1)%1*h; }); }
+function setAll(c,a=1){ P.forEach(p=>{p.tc=[...c];p.ta=a;}); }
+function bySrc(){ P.forEach(p=>{p.tc=[...COL[p.src]];p.ta=1;}); }
+const fmt=n=>n.toLocaleString('es-ES');
+const mob=()=>W<700;
+
+/* ============ layouts ============ */
+const LAYOUT={
+ 0(){ // hero: big soft disc, colours mixed
+   labels=[];shapes=[]; bySrc();
+   const R=Math.min(W,H)*0.36, cx=W/2, cy=H/2;
+   ORDER.forEach((idx,i)=>{ const p=P[idx]; const u=(i+0.5)/N; const r=R*Math.sqrt(u); const th=i*2.399963; p.tx=cx+r*Math.cos(th); p.ty=cy+r*Math.sin(th); });
+   labels.push({x:cx,y:cy+R+34,t:'42.680 MWh · 2025 · 1.000 puntos',s:13,c:MU,al:'center',mono:true});
+ },
+ 1(){ // sources: three columns
+   labels=[];shapes=[]; bySrc();
+   const srcs=[['elec','Electricidad de red',28450,'66,7%'],['gas','Gas natural',10170,'23,8%'],['ren','Renovable propia',4060,'9,5%']];
+   const cell=mob()?7:9, colW=cell*(mob()?8:10), gap=Math.min(W*0.14,120), total=3*colW+2*gap, x0=(W-total)/2, base=H*0.78;
+   srcs.forEach(([s,name,v,pct],i)=>{ const list=P.filter(p=>p.src===s); const x=x0+i*(colW+gap); const rows=Math.ceil(list.length/(colW/cell)); fillGrid(list,x,base-rows*cell,colW,rows*cell,cell);
+     labels.push({x:x+colW/2,y:base+26,t:name,s:13,c:INK,al:'center'}); labels.push({x:x+colW/2,y:base+46,t:fmt(v)+' MWh · '+pct,s:12,c:MU,al:'center',mono:true});
+     labels.push({x:x+colW/2,y:base-rows*cell-14,t:list.length+' puntos',s:12,c:s==='elec'?OR:s==='gas'?SL:GN,al:'center',mono:true}); });
+   shapes.push({k:'line',x1:x0-20,x2:x0+total+20,y1:base+4,y2:base+4,c:LINE});
+ },
+ 2(){ // plants: six columns, Madrid red
+   labels=[];shapes=[]; bySrc();
+   const cell=mob()?6:8, colW=cell*(mob()?5:7), gap=mob()?14:28, total=6*colW+5*gap, x0=(W-total)/2, base=H*0.78;
+   PLANTS.forEach((pl,i)=>{ const list=byPlant(pl.id); const x=x0+i*(colW+gap); const rows=Math.ceil(list.length/(colW/cell)); fillGrid(list,x,base-rows*cell,colW,rows*cell,cell);
+     if(pl.id==='mad') list.forEach(p=>p.tc=[...COL.red]);
+     labels.push({x:x+colW/2,y:base+22,t:mob()?pl.short:pl.name,s:12.5,c:pl.id==='mad'?RD:INK,al:'center'});
+     labels.push({x:x+colW/2,y:base+40,t:(pl.yoy>0?'+':'−')+Math.abs(pl.yoy).toLocaleString('es-ES')+'%',s:12,c:pl.yoy>0?RD:GN,al:'center',mono:true});
+     labels.push({x:x+colW/2,y:base-rows*cell-12,t:fmt(pl.mwh),s:11.5,c:MU,al:'center',mono:true}); });
+   shapes.push({k:'line',x1:x0-20,x2:x0+total+20,y1:base+4,y2:base+4,c:LINE});
+   labels.push({x:x0+total+14,y:base+40,t:'← vs 2024',s:11,c:MU,al:'left',mono:true});
+ },
+ 3(){ // density: boxes scaled by m²
+   labels=[];shapes=[]; bySrc();
+   const totalM2=PLANTS.reduce((s,p)=>s+p.m2,0); const pad=mob()?10:22; const availW=W-2*pad-5*pad; const boxH=Math.min(H*0.46,320); const y0=H*0.5-boxH/2; let x=pad;
+   PLANTS.forEach(pl=>{ const w=availW*pl.m2/totalM2; const list=byPlant(pl.id); scatterIn(list,x+4,y0+4,w-8,boxH-8);
+     if(pl.id==='mad') list.forEach(p=>p.tc=[...COL.red]);
+     shapes.push({k:'rect',x:x,y:y0,w:w,h:boxH,c:pl.type==='log'?GN:pl.id==='mad'?RD:LINE});
+     labels.push({x:x+w/2,y:y0-14,t:mob()?pl.short:pl.name,s:12.5,c:pl.id==='mad'?RD:INK,al:'center'});
+     labels.push({x:x+w/2,y:y0+boxH+20,t:fmt(pl.kwhm2),s:14,c:pl.type==='log'?GN:pl.id==='mad'?RD:INK,al:'center',mono:true});
+     labels.push({x:x+w/2,y:y0+boxH+38,t:'kWh/m²',s:10.5,c:MU,al:'center',mono:true});
+     if(!mob()) labels.push({x:x+w/2,y:y0+boxH+56,t:fmt(pl.m2)+' m²',s:10.5,c:MU,al:'center',mono:true});
+     x+=w+pad; });
+   labels.push({x:W/2,y:y0-44,t:mob()?'ancho = m² · sector industrial: 1.050 kWh/m²':'ancho de la caja = metros cuadrados · media del sector industrial: 1.050 kWh/m²',s:11.5,c:MU,al:'center',mono:true});
+ },
+ 4(){ // hours: 24 columns by weekday profile
+   labels=[];shapes=[]; bySrc();
+   const sum=PROFILE.reduce((a,b)=>a+b,0); const counts=PROFILE.map(v=>Math.round(v/sum*N)); let diff=N-counts.reduce((a,b)=>a+b,0); counts[9]+=diff;
+   const cell=mob()?5:7, gap=mob()?2:4, colW=cell*(mob()?3:4), x0=(W-(24*(colW+gap)-gap))/2, base=H*0.74;
+   let k=0; const shuffled=ORDER.map(i=>P[i]);
+   for(let h=0;h<24;h++){ const list=shuffled.slice(k,k+counts[h]); k+=counts[h]; const x=x0+h*(colW+gap); const rows=Math.ceil(list.length/(colW/cell)); fillGrid(list,x,base-rows*cell,colW,rows*cell,cell);
+     if(h<6||h>=22) list.forEach(p=>p.tc=[...COL.dim]);
+     if(h%3===0) labels.push({x:x+colW/2,y:base+20,t:h+'h',s:11,c:MU,al:'center',mono:true}); }
+   shapes.push({k:'line',x1:x0-10,x2:x0+24*(colW+gap),y1:base+4,y2:base+4,c:LINE});
+   const xa=x0+9*(colW+gap), xb=x0+17*(colW+gap)-gap; shapes.push({k:'bracket',x1:xa,x2:xb,y:base-Math.ceil(counts[9]/(colW/cell))*cell-26,c:OR});
+   labels.push({x:(xa+xb)/2,y:base-Math.ceil(counts[9]/(colW/cell))*cell-36,t:'pico 9 a 16 h · 2.400 kW',s:12.5,c:OR,al:'center'});
+   labels.push({x:x0+3*(colW+gap),y:base-Math.ceil(counts[2]/(colW/cell))*cell-16,t:'base nocturna',s:11.5,c:MU,al:'center',mono:true});
+   labels.push({x:W/2,y:H*0.14,t:'Un día laborable en Valencia, hora a hora',s:14,c:INK,al:'center'});
+ },
+ 5(){ // cost: block, last 42 red
+   labels=[];shapes=[]; setAll(COL.dim,.9);
+   const cell=mob()?7:9, cols=mob()?25:40, w=cols*cell, rows=Math.ceil(N/cols), h=rows*cell, x0=(W-w)/2, y0=H/2-h/2;
+   const list=ORDER.map(i=>P[i]); fillGrid(list,x0,y0,w,h,cell,false);
+   list.slice(0,N-OVER).forEach(p=>p.tc=[...COL.gold]); list.slice(N-OVER).forEach(p=>{p.tc=[...COL.red];p.ta=1;});
+   shapes.push({k:'rect',x:x0-6,y:y0-6,w:w+12,h:h+12,c:LINE});
+   labels.push({x:x0,y:y0-18,t:mob()?'5,12 M€ · 5.120 € por punto':'5,12 M€ · 1.000 puntos · 5.120 € cada uno',s:12,c:MU,al:'left',mono:true});
+   const lastRows=Math.ceil(OVER/cols); labels.push({x:x0+w+14,y:y0+h-lastRows*cell/2+4,t:OVER+' puntos = 213.000 €',s:13,c:RD,al:'left'});
+   if(mob()) labels[labels.length-1]={x:x0+w,y:y0+h+20,t:OVER+' puntos rojos = 213.000 € de sobrecoste',s:12,c:RD,al:'right'};
+   else labels.push({x:x0+w+14,y:y0+h-lastRows*cell/2+22,t:'5 € por MWh sobre el sector',s:11.5,c:MU,al:'left',mono:true});
+ },
+ 6(){ // emissions: two piles by scope, renewables faded
+   labels=[];shapes=[]; bySrc();
+   const elec=P.filter(p=>p.src==='elec'), gas=P.filter(p=>p.src==='gas'), ren=P.filter(p=>p.src==='ren');
+   const cell=mob()?7:9, base=H*0.72; const wE=cell*(mob()?12:16), wG=cell*(mob()?8:10), gap=mob()?26:70; const total=wE+wG+gap; const x0=(W-total)/2;
+   const rE=Math.ceil(elec.length/(wE/cell)); fillGrid(elec,x0,base-rE*cell,wE,rE*cell,cell);
+   const rG=Math.ceil(gas.length/(wG/cell)); fillGrid(gas,x0+wE+gap,base-rG*cell,wG,rG*cell,cell);
+   const wR=cell*(mob()?8:10); const rR=Math.ceil(ren.length/(wR/cell)); fillGrid(ren,W/2-wR/2,base+40,wR,rR*cell,cell,false); ren.forEach(p=>{p.ta=.35;});
+   labels.push({x:x0+wE/2,y:base-rE*cell-30,t:'11.590 tCO₂',s:16,c:OR,al:'center'}); labels.push({x:x0+wE/2,y:base-rE*cell-12,t:'alcance 2 · electricidad · 63%',s:11.5,c:MU,al:'center',mono:true});
+   labels.push({x:x0+wE+gap+wG/2,y:base-rG*cell-30,t:'6.830 tCO₂',s:16,c:SL,al:'center'}); labels.push({x:x0+wE+gap+wG/2,y:base-rG*cell-12,t:'alcance 1 · gas · 37%',s:11.5,c:MU,al:'center',mono:true});
+   labels.push({x:W/2,y:base+40+rR*cell+18,t:'renovable · 0 tCO₂',s:11.5,c:GN,al:'center',mono:true});
+   shapes.push({k:'line',x1:x0-20,x2:x0+total+20,y1:base+4,y2:base+4,c:LINE});
+   labels.push({x:W/2,y:H*0.12,t:'18.420 tCO₂ en 2025 · −11,2% frente a 2024',s:14,c:INK,al:'center'});
+ },
+ 7(){ // anomalies: 8 escape
+   labels=[];shapes=[]; setAll(COL.dim,.75);
+   const cell=mob()?7:9, cols=mob()?25:36, w=cols*cell; const list=ORDER.map(i=>P[i]); const keep=list.slice(0,N-ANOM), out=list.slice(N-ANOM);
+   const rows=Math.ceil(keep.length/cols), h=rows*cell, x0=mob()?(W-w)/2:W*0.08, y0=H/2-h/2; fillGrid(keep,x0,y0,w,h,cell,false);
+   const ox=mob()?W/2:x0+w+W*0.12, oy=mob()?y0+h+60:H/2-ANOM*14/2;
+   out.forEach((p,i)=>{ p.tc=[...COL.red]; p.ta=1; p.tx=mob()?ox-ANOM*14/2+i*14+7:ox; p.ty=mob()?oy:oy+i*14; });
+   labels.push({x:mob()?ox:ox+16,y:mob()?oy+28:oy-16,t:'8 puntos · 340 MWh · 40.800 €',s:13,c:RD,al:mob()?'center':'left'});
+   labels.push({x:mob()?ox:ox+16,y:mob()?oy+46:oy+ANOM*14+10,t:'3 críticas · 1 sigue abierta',s:11.5,c:MU,al:mob()?'center':'left',mono:true});
+   shapes.push({k:'rect',x:x0-6,y:y0-6,w:w+12,h:h+12,c:LINE});
+   labels.push({x:x0,y:y0-18,t:'consumo previsto',s:12,c:MU,al:'left',mono:true});
+ },
+ 8(){ // plan: 30% fall away
+   labels=[];shapes=[]; bySrc();
+   const cell=mob()?6:8, colW=cell*(mob()?5:7), gap=mob()?14:28, total=6*colW+5*gap, x0=(W-total)/2, base=H*0.70;
+   const keepFrac=KEEP2028/TOTAL;
+   PLANTS.forEach((pl,i)=>{ const list=byPlant(pl.id); const nKeep=Math.round(list.length*keepFrac); const keep=list.slice(0,nKeep), gone=list.slice(nKeep);
+     const x=x0+i*(colW+gap); const rows=Math.ceil(keep.length/(colW/cell)); fillGrid(keep,x,base-rows*cell,colW,rows*cell,cell);
+     const rowsG=Math.ceil(gone.length/(colW/cell)); fillGrid(gone,x,base+30,colW,rowsG*cell,cell,false); gone.forEach(p=>{p.tc=[...COL.dim];p.ta=.35;});
+     labels.push({x:x+colW/2,y:base-rows*cell-12,t:mob()?pl.short:pl.name,s:12,c:INK,al:'center'}); });
+   shapes.push({k:'line',x1:x0-20,x2:x0+total+20,y1:base+4,y2:base+4,c:LINE});
+   labels.push({x:x0-20,y:base+22,t:'↓ 303 puntos · 12.880 MWh menos',s:12.5,c:GN,al:'left'});
+   labels.push({x:W/2,y:H*0.12,t:'2028, escenario optimista: 29.800 MWh',s:14,c:INK,al:'center'});
+ },
+ 9(){ // plan: 40% of remaining turn green
+   LAYOUT[8](); labels=labels.filter(l=>!/puntos ·/.test(l.t)&&!/2028/.test(l.t));
+   const keepFrac=KEEP2028/TOTAL; let greened=0;
+   PLANTS.forEach(pl=>{ const list=byPlant(pl.id); const nKeep=Math.round(list.length*keepFrac); const keep=list.slice(0,nKeep); const nG=Math.round(nKeep*REN2028); keep.slice(0,nG).forEach(p=>p.tc=[...COL.ren]); keep.slice(nG).forEach(p=>p.tc=[...COL.dim]); greened+=nG; });
+   const base=H*0.70;
+   labels.push({x:W/2,y:H*0.12,t:'2028: 40% renovable · PPA eólico + solar',s:14,c:INK,al:'center'});
+   labels.push({x:W/2,y:base+22,t:greened+' puntos verdes · del 9,5% al 40%',s:12.5,c:GN,al:'center'});
+ },
+ 10(){ // particles form "−30%"
+   labels=[];shapes=[];
+   const pts=textPoints('−30%',Math.min(W*0.26,H*0.42)); const list=ORDER.map(i=>P[i]);
+   list.forEach((p,i)=>{ const q=pts[i%pts.length]; p.tx=q[0]+(i>=pts.length?(Math.random()-.5)*3:0); p.ty=q[1]; p.tc=i<Math.round(N*0.4)?[...COL.ren]:[...COL.gold]; p.ta=1; });
+   labels.push({x:W/2,y:H*0.5+Math.min(W*0.26,H*0.42)*0.62,t:'energía en 2028 con el plan completo · −35% de CO₂',s:13,c:MU,al:'center',mono:true});
+ }
+};
+/* sample points from text drawn offscreen */
+function textPoints(txt,size){
+  const oc=document.createElement('canvas'); oc.width=W; oc.height=H; const o=oc.getContext('2d');
+  o.fillStyle='#fff'; o.font=`700 ${size}px ${cv('--sans')}`; o.textAlign='center'; o.textBaseline='middle'; o.fillText(txt,W/2,H/2);
+  const img=o.getImageData(0,0,W,H).data, pts=[]; const st=Math.max(3,Math.round(size/26));
+  for(let y=0;y<H;y+=st) for(let x=0;x<W;x+=st){ if(img[(y*W+x)*4+3]>128) pts.push([x,y]); }
+  // thin to about N points, deterministic
+  if(pts.length>N){ const k=pts.length/N; const out=[]; for(let i=0;i<N;i++) out.push(pts[Math.floor(i*k)]); return out; }
+  return pts;
+}
+
+/* ============ render loop ============ */
+function frame(now){
+  const t=(now-t0)/1000;
+  ctx.clearRect(0,0,W,H);
+  // shapes
+  shapes.forEach(s=>{ ctx.strokeStyle=s.c; ctx.lineWidth=1.2; if(s.k==='rect'){ctx.strokeRect(s.x,s.y,s.w,s.h);} else if(s.k==='line'){ctx.beginPath();ctx.moveTo(s.x1,s.y1);ctx.lineTo(s.x2,s.y2);ctx.stroke();} else if(s.k==='bracket'){ctx.beginPath();ctx.moveTo(s.x1,s.y+8);ctx.lineTo(s.x1,s.y);ctx.lineTo(s.x2,s.y);ctx.lineTo(s.x2,s.y+8);ctx.stroke();} });
+  // particles
+  const drift=step===0&&!RM;
+  for(let i=0;i<N;i++){ const p=P[i]; const k=RM?1:p.lag;
+    let tx=p.tx, ty=p.ty; if(drift){ tx+=Math.sin(t*0.8+p.seed)*4; ty+=Math.cos(t*0.6+p.seed*1.3)*4; }
+    p.x+=(tx-p.x)*k; p.y+=(ty-p.y)*k; p.a+=(p.ta-p.a)*k;
+    p.c[0]+=(p.tc[0]-p.c[0])*k; p.c[1]+=(p.tc[1]-p.c[1])*k; p.c[2]+=(p.tc[2]-p.c[2])*k;
+    ctx.fillStyle=`rgba(${p.c[0]|0},${p.c[1]|0},${p.c[2]|0},${p.a.toFixed(3)})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.283); ctx.fill(); }
+  // labels
+  labels.forEach(l=>{ ctx.fillStyle=l.c; ctx.font=`${l.mono?'500':'600'} ${l.s}px ${l.mono?cv('--mono'):cv('--sans')}`; ctx.textAlign=l.al; ctx.textBaseline='middle'; ctx.fillText(l.t,l.x,l.y); });
+  requestAnimationFrame(frame);
+}
+
+/* ============ scroll steps ============ */
+const steps=[...document.querySelectorAll('.step')];
+const names=['Inicio','Fuentes','Plantas','Por m²','Horas','Coste','Carbono','Anomalías','Ahorro','Renovable','Decisión'];
+const rail=document.getElementById('rail');
+steps.forEach((s,i)=>{ const a=document.createElement('a'); a.href='#'; a.innerHTML=`<span>${names[i]}</span>`; a.onclick=e=>{e.preventDefault(); s.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});}; rail.appendChild(a); });
+function setStep(i){ if(i===step&&steps[i].classList.contains('on'))return; step=i; steps.forEach((s,j)=>s.classList.toggle('on',j===i)); rail.querySelectorAll('a').forEach((a,j)=>a.classList.toggle('on',j===i)); LAYOUT[i](); document.getElementById('legend').style.opacity=(i===5||i===7||i===10)?0:1; }
+const io=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) setStep(+e.target.dataset.step); }); },{rootMargin:window.innerWidth<900?'-55% 0px -25% 0px':'-45% 0px -45% 0px',threshold:0});
+steps.forEach(s=>io.observe(s));
+// init: particles start from the top edge so the first layout is an arrival
+resize(); P.forEach(p=>{p.x=W/2+(Math.random()-.5)*W*0.6;p.y=-20-Math.random()*H*0.5;p.a=0;});
+setStep(0); requestAnimationFrame(frame);
+</script>
+</body>
+</html>
