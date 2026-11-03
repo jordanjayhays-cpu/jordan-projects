@@ -411,5 +411,19 @@
    "now": "That's how wins begin.",
    "why": "'winds begin' is meaningless; 'wins' is the payoff of 'no shortcut, no cheat'."
   }
+ ],
+ "candy-story-paradox": [
+  {
+   "i": 4,
+   "was": "soon they'll learn that wants",
+   "now": "soon they'll learn that want's",
+   "why": "'that wants to leash' is ungrammatical. Two lines earlier the kitten has 'no leash'; the turn is that wanting IS the leash, so it reads 'want's a leash'."
+  },
+  {
+   "i": 5,
+   "was": "to leash The craving that",
+   "now": "a leash. The craving that",
+   "why": "second half of the same line, see segment 4."
+  }
  ]
 }
