@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Vecinos Felices Presupuesto</title>
+<meta name="description" content="Evolución del presupuesto de la comunidad Vecinos Felices, ejercicio 26-27, en cuatro preguntas: cómo vamos, en qué partidas, cuándo se gasta y qué decidir.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#F4F3EF; --card:#FFFFFF; --line:#E4E1DA; --muted:#6B6761; --muted2:#9A958C; --ink:#1A1A1A;
+  --orange:#F57C00; --orange-soft:#FFE6C7; --orange-deep:#C96300;
+  --green:#2E7D32; --green-soft:#DCEFDD; --red:#D32F2F; --red-soft:#FBE0E0;
+  --grey:#C9C5BD; --grey-deep:#8F8A82; --grey-soft:#ECEAE5;
+  --sans:'Montserrat',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif; --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+:root:not([data-theme="light"]){ @media (prefers-color-scheme:dark){ --bg:#F4F3EF; } }
+:root[data-theme="dark"]{ --bg:#F4F3EF; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+button,input,select{font-family:inherit}
+.top{position:sticky;top:0;z-index:50;background:var(--ink);color:#fff;border-bottom:4px solid var(--orange)}
+.top .in{max-width:1240px;margin:0 auto;padding:12px 16px 0;display:flex;flex-direction:column;gap:10px}
+.brand{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:16px;font-weight:700}
+.brand h1 b{color:var(--orange);font-weight:800}
+.brand h1 span{color:#C9C5BD;font-weight:500}
+.badge{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:#F5B679;border:1px solid rgba(245,124,0,.45);padding:3px 8px;border-radius:3px}
+.navrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:10px;flex-wrap:wrap}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:none;background:transparent;border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:4px;padding:7px 12px;font-size:12.5px;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center;transition:background .15s,border-color .15s,transform .08s}
+.nav button:active{transform:scale(.97)}
+.nav button .n{font-family:var(--mono);font-size:11px;color:#F5B679}
+.nav button.active{background:var(--orange);border-color:var(--orange)}
+.nav button.active .n{color:#fff}
+.month{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11.5px;color:#C9C5BD;letter-spacing:.06em}
+.month b{color:#fff;font-weight:700;min-width:70px}
+.month input[type=range]{width:180px;-webkit-appearance:none;appearance:none;height:22px;background:transparent}
+.month input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:3px;background:rgba(255,255,255,.25)}
+.month input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--orange);margin-top:-5.5px;cursor:pointer;box-shadow:0 0 0 3px rgba(245,124,0,.3)}
+.month input[type=range]::-moz-range-track{height:5px;border-radius:3px;background:rgba(255,255,255,.25)}
+.month input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--orange);border:0}
+.main{max-width:1240px;margin:0 auto;padding:20px 16px 50px}
+.view{display:none}.view.active{display:block}
+.view.active>*{animation:rise .45s cubic-bezier(.2,.75,.2,1) both}
+.view.active>*:nth-child(2){animation-delay:60ms}.view.active>*:nth-child(3){animation-delay:120ms}.view.active>*:nth-child(4){animation-delay:180ms}.view.active>*:nth-child(5){animation-delay:240ms}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.view.active>*{animation:none}}
+.lead{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:22px;align-items:end;margin-bottom:16px}
+@media(max-width:820px){.lead{grid-template-columns:1fr}}
+.k{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lead h2{margin:6px 0 10px;font-size:clamp(23px,2.8vw,34px);line-height:1.12;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.lead h2 em{font-style:normal;color:var(--orange)} .lead h2 em.g{color:var(--green)} .lead h2 em.r{color:var(--red)}
+.lead p{margin:0;font-size:15px;color:var(--muted);max-width:62ch}
+.lead .so{font-size:13px;color:var(--muted2);border-left:3px solid var(--orange);padding:4px 12px;margin:0}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--ink);padding:14px 16px 12px;border-radius:6px}
+.kpi.focus{border-top-color:var(--orange)}.kpi.good{border-top-color:var(--green)}.kpi.bad{border-top-color:var(--red)}
+.kpi .v{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:14px;font-weight:600;color:var(--muted);margin-left:4px;letter-spacing:0}
+.kpi .l{font-size:12.5px;font-weight:600;margin-top:6px}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:2px}.kpi .s b{font-weight:700}
+.grid{display:grid;gap:14px;margin-bottom:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g21{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}.g12{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+@media(max-width:900px){.g2,.g21,.g12{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px 18px 14px;min-width:0}
+.card h3{margin:0;font-size:15.5px;font-weight:800;line-height:1.3;letter-spacing:-.01em;text-wrap:balance}
+.card h3 em{font-style:normal;color:var(--orange)}.card h3 em.r{color:var(--red)}.card h3 em.g{color:var(--green)}
+.card .sub{font-size:12.5px;color:var(--muted);margin:3px 0 10px}
+.card .note{font-size:11.5px;color:var(--muted2);margin-top:8px;line-height:1.4}.card .note b{color:var(--muted);font-weight:600}
+.ch{position:relative;width:100%}.ch svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--sans)}
+.ax text{font-size:11px;fill:var(--muted)}.ax line,.ax path{stroke:var(--line)}
+.lbl{font-size:12px;font-weight:600;fill:var(--ink)}.lbl.m{fill:var(--muted);font-weight:500}
+.ann{font-size:12px;font-weight:700;fill:var(--ink)}.ann.s{font-weight:500;fill:var(--muted)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:5px}.legend i.ln{height:3px;width:18px;vertical-align:3px}.legend i.tk{width:3px;height:14px;vertical-align:-3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px}
+.chips span{font-size:11.5px;color:var(--muted);font-weight:600;margin-right:4px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:4px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.chip:active{transform:scale(.96)}.chip:hover{border-color:var(--orange);color:var(--orange-deep)}.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+table.tb{width:100%;border-collapse:collapse;font-size:12.5px}
+.tb th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:6px 10px 8px 0;border-bottom:3px solid var(--ink);cursor:pointer;user-select:none;white-space:nowrap}
+.tb th.num,.tb td.num{text-align:right;font-variant-numeric:tabular-nums}
+.tb th[data-dir="asc"]::after{content:" ▲";font-size:9px}.tb th[data-dir="desc"]::after{content:" ▼";font-size:9px}
+.tb td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+.tb tr.grp td{background:var(--grey-soft);font-weight:700}
+.tb .code{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.bullet{display:inline-block;position:relative;width:120px;height:10px;background:var(--grey-soft);border-radius:2px;vertical-align:middle;margin-right:8px}
+.bullet i{position:absolute;left:0;top:0;bottom:0;background:var(--grey-deep);border-radius:2px}
+.bullet i.o{background:var(--orange)}.bullet i.r{background:var(--red)}
+.bullet u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+.pill{font-family:var(--mono);font-size:10.5px;padding:2px 7px;border-radius:3px;background:var(--grey-soft);color:var(--ink);white-space:nowrap}
+.pill.g{background:var(--green-soft);color:var(--green)}.pill.r{background:var(--red-soft);color:var(--red)}.pill.o{background:var(--orange-soft);color:var(--orange-deep)}
+.decide{background:var(--ink);color:#fff;border-radius:6px;padding:20px 22px;margin-bottom:14px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px;align-items:start}
+@media(max-width:900px){.decide{grid-template-columns:1fr}}
+.decide .k{color:#F5B679}.decide h3{margin:6px 0 0;font-size:23px;line-height:1.15;font-weight:800;letter-spacing:-.02em}
+.decide ol{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.decide li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.4}
+.decide li .n{width:30px;height:30px;border-radius:50%;background:var(--orange);color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+.decide li b{display:block}.decide li span{color:#D9D5CD;font-size:13px}
+.gantt{display:grid;grid-template-columns:minmax(180px,1fr) repeat(12,minmax(0,1fr));gap:4px 0;font-size:12px;align-items:center}
+.gantt .h{font-family:var(--mono);font-size:10.5px;color:var(--muted);text-align:center;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+.gantt .r{padding:6px 8px 6px 0;border-bottom:1px solid var(--line);line-height:1.3}
+.gantt .r small{display:block;color:var(--muted);font-size:11px}
+.gantt .bar{height:14px;border-radius:3px;background:var(--orange);margin:0 1px}
+.gantt .bar.done{background:var(--green)}.gantt .bar.later{background:var(--grey)}
+.gantt .cell{height:100%;border-bottom:1px solid var(--line);display:flex;align-items:center}
+@media(max-width:900px){.gantt{font-size:11px;grid-template-columns:minmax(120px,1fr) repeat(12,minmax(0,1fr))}}
+.foot{max-width:1240px;margin:0 auto;padding:18px 16px 40px;font-size:12px;color:var(--muted);line-height:1.55;border-top:1px solid var(--line)}
+.foot b{color:var(--ink)}
+#tip{position:fixed;z-index:60;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;line-height:1.4;padding:8px 10px;border-radius:4px;max-width:280px;opacity:0;transition:opacity .12s;transform:translate(-50%,calc(-100% - 12px))}
+#tip b{color:#F5B679}
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <div class="brand"><h1><b>fiovana</b> · Vecinos Felices <span>· presupuesto 26-27</span></h1><span class="badge">v11 · DATOS DE DEMOSTRACIÓN</span></div>
+  <div class="navrow">
+    <nav class="nav" id="nav">
+      <button class="active" data-v="v1"><span class="n">1</span>Cómo vamos</button>
+      <button data-v="v2"><span class="n">2</span>Partidas</button>
+      <button data-v="v3"><span class="n">3</span>Cuándo se gasta</button>
+      <button data-v="v4"><span class="n">4</span>Qué decidir</button>
+    </nav>
+    <div class="month"><span>MES CERRADO</span><input type="range" id="mes" min="1" max="12" value="8" aria-label="Mes cerrado"><b id="mes-l">Mes 8 de 12</b></div>
+  </div>
+</div></header>
+
+<main class="main">
+
+<section class="view active" id="v1">
+  <div class="lead">
+    <div><div class="k">1 · Cómo vamos · a mes <span id="m1">8</span></div>
+      <h2 id="h1"></h2>
+      <p id="p1"></p></div>
+    <p class="so">Cómo leer: el presupuesto operativo son 108.094 €. El fondo de reserva, 10.027 €, se guarda aparte y no se toca. Mueva el mes en la barra superior para ver cualquier punto del ejercicio.</p>
+  </div>
+  <div class="kpis" id="k1"></div>
+  <div class="grid g21">
+    <div class="card"><h3 id="t-cum"></h3><div class="sub">Gasto acumulado en euros, mes a mes, frente a la línea recta del presupuesto y al calendario de pagos previsto</div><div class="ch" id="c-cum"></div><div class="legend"><span><i style="background:var(--orange)"></i>Gastado</span><span><i class="ln" style="background:var(--grey-deep)"></i>Si se gastara igual cada mes</span><span><i class="ln" style="background:var(--orange);opacity:.45"></i>Calendario previsto</span></div></div>
+    <div class="card"><h3 id="t-grp"></h3><div class="sub">Por grupo: barra = gastado hasta el mes; raya negra = presupuesto anual; marca gris = lo que tocaría a estas alturas</div><div class="ch" id="c-grp"></div></div>
+  </div>
+  <div class="card"><h3 id="t-month"></h3><div class="sub">Gasto de cada mes por grupo, en euros. Los meses aún no cerrados se muestran en claro, según el calendario previsto.</div><div class="ch" id="c-month"></div><div class="legend" id="lg-month"></div></div>
+</section>
+
+<section class="view" id="v2">
+  <div class="lead">
+    <div><div class="k">2 · Partidas · 26 conceptos</div>
+      <h2 id="h2"></h2>
+      <p>Un pago anual al 100% en enero no es una alarma: es el seguro. Una partida mensual por encima de lo que toca a estas alturas, sí. La tabla distingue las dos cosas.</p></div>
+    <p class="so">Estado: <b>Pago anual</b> se paga de una vez. <b>Estacional</b> se concentra en unos meses (piscina en verano, calderas en invierno). <b>Adelantada</b> va más de un 15% por encima de lo esperado a este mes. <b>Sobre presupuesto</b> ya supera el total del año.</p>
+  </div>
+  <div class="chips" id="grp-chips"><span>Grupo:</span></div>
+  <div class="card"><h3>Todas las partidas, ordenables</h3><div class="sub">Barra: gastado hasta el mes sobre el presupuesto anual. Raya: lo que tocaría a este mes para una partida mensual.</div><div style="overflow-x:auto"><table class="tb" id="tb"></table></div></div>
+</section>
+
+<section class="view" id="v3">
+  <div class="lead">
+    <div><div class="k">3 · Cuándo se gasta · estacionalidad</div>
+      <h2 id="h3"></h2>
+      <p id="p3"></p></div>
+    <p class="so">La comunidad cobra la misma cuota cada mes, pero no gasta lo mismo cada mes. La diferencia es la caja. Aquí se ve cuánto baja y cuándo.</p>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>Gasto mensual frente a la cuota fija</h3><div class="sub">Barras: gasto de cada mes. Línea: cuota mensual si el presupuesto operativo se cobra a partes iguales.</div><div class="ch" id="c-fee"></div></div>
+    <div class="card"><h3 id="t-cash"></h3><div class="sub">Cuotas cobradas menos gasto acumulado, mes a mes. Por debajo de cero, la comunidad adelanta dinero.</div><div class="ch" id="c-cash"></div></div>
+  </div>
+  <div class="card"><h3>Cuatro partidas marcan el calendario</h3><div class="sub">Gasto mensual en euros; cada panel tiene su propia escala</div><div class="ch" id="c-seas"></div></div>
+</section>
+
+<section class="view" id="v4">
+  <div class="lead">
+    <div><div class="k">4 · Qué decidir · seis palancas</div>
+      <h2>Seis palancas suman entre <em class="g">7.100 y 13.300 € al año</em>. Dos de ellas, electricidad y piscina, son más de la mitad.</h2>
+      <p>El presupuesto operativo son 2.702 € por vivienda y año, 225 € al mes con 40 viviendas. El ahorro medio del plan serían unos 21 € al mes por vivienda.</p></div>
+    <p class="so">Las cifras de ahorro son rangos estimados por el administrador, no ofertas recibidas. El número de viviendas, 40, es un supuesto del modelo.</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi good"><div class="v">7,1<small>a 13,3 K€</small></div><div class="l">Ahorro anual estimado</div><div class="s">6 a 11% del presupuesto operativo</div></div>
+    <div class="kpi focus"><div class="v">225<small>€/mes</small></div><div class="l">Cuota por vivienda hoy</div><div class="s">108.094 € entre 40 viviendas y 12 meses</div></div>
+    <div class="kpi"><div class="v">204<small>€/mes</small></div><div class="l">Cuota con el ahorro medio</div><div class="s">10.200 € al año menos</div></div>
+    <div class="kpi bad"><div class="v">270<small>€/mes</small></div><div class="l">Cuota con margen del 20%</div><div class="s">Escenario de seguridad que propone el administrador</div></div>
+  </div>
+  <div class="grid g21">
+    <div class="card"><h3>Electricidad primero: <em>el mayor ahorro con la menor obra</em></h3><div class="sub">Ahorro anual estimado por palanca, rango mínimo a máximo, en euros</div><div class="ch" id="c-lev"></div></div>
+    <div class="card"><h3>Lo que cambia en la cuota</h3><div class="sub">Euros al mes por vivienda, tres escenarios</div><div class="ch" id="c-quota"></div></div>
+  </div>
+  <div class="decide">
+    <div><div class="k">PARA LA JUNTA</div><h3>Tres acuerdos para el primer trimestre.</h3></div>
+    <ol>
+      <li><span class="n">1</span><div><b>Pedir tres ofertas de suministro eléctrico.</b><span>Las tres partidas de luz suman más de 28.000 € al año. Ahorro estimado: 2.800 a 4.200 €.</span></div></li>
+      <li><span class="n">2</span><div><b>Pedir tres ofertas del seguro multirriesgo antes de la renovación.</b><span>2.800 € al año, pagados de una vez en enero. Ahorro estimado: 300 a 600 €.</span></div></li>
+      <li><span class="n">3</span><div><b>Aprobar cuotas estacionales.</b><span>Cobrar algo más de mayo a septiembre, cuando la piscina y el agua disparan el gasto, y evitar que la caja baje en verano.</span></div></li>
+    </ol>
+  </div>
+  <div class="card"><h3>Hoja de ruta de 12 meses, doce acciones</h3><div class="sub">Mes de inicio y fin de cada acción. Verde: ya debería estar hecha a mes cerrado. Naranja: en curso. Gris: pendiente.</div><div class="gantt" id="gantt"></div></div>
+</section>
+
+</main>
+
+<footer class="foot"><b>Datos:</b> presupuesto 26-27 de la comunidad Vecinos Felices, 118.121,14 € en 26 partidas y 5 grupos (conjunto de demostración de DataLens, v10). <b>Cambios respecto a la v10:</b> los importes mensuales siguen el calendario de pagos previsto sin ruido aleatorio, así cada carga muestra lo mismo; se ha retirado el detalle de facturas con proveedores ficticios. <b>Supuestos:</b> 40 viviendas; ahorros de las palancas estimados por el administrador. <b>Construido con</b> D3.js sobre el trabajo original de fiovana DataLens.</footer>
+<div id="tip"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+/* ===== data (v10, without the random jitter and the invented invoices) ===== */
+const GROUPS=[
+ {id:1,name:'Generales',items:[
+  {code:'6220001',desc:'Servicio de limpieza',budget:21780,m:[1815,1815,1815,1815,1815,1815,1815,1815,1815,1815,1815,1815]},
+  {code:'6220080',desc:'Desinfección y desratización',budget:1028,m:[0,0,257,0,0,257,0,0,257,0,0,257],kind:'trim'},
+  {code:'6230001',desc:'Honorarios administración',budget:5924.16,m:[493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68]},
+  {code:'6230003',desc:'Fotocopias y suplidos',budget:200,m:[15,18,12,20,15,22,10,18,15,20,18,12]},
+  {code:'6230004',desc:'Protección de datos',budget:70,m:[70,0,0,0,0,0,0,0,0,0,0,0],kind:'anual'},
+  {code:'6250001',desc:'Seguro multirriesgo',budget:2800,m:[2800,0,0,0,0,0,0,0,0,0,0,0],kind:'anual'}]},
+ {id:2,name:'Viviendas',items:[
+  {code:'6220020',desc:'Mantenimiento de ascensores',budget:15972,m:[1331,1331,1331,1331,1331,1331,1331,1331,1331,1331,1331,1331]},
+  {code:'6220030',desc:'Mantenimiento grupo de presión',budget:1742.4,m:[145.2,145.2,145.2,145.2,145.2,145.2,145.2,145.2,145.2,145.2,145.2,145.2]},
+  {code:'6220301',desc:'Sala de calderas',budget:4283.4,m:[0,0,0,0,535.43,535.43,535.43,535.43,535.43,535.43,535.43,0],kind:'estacional'},
+  {code:'6220302',desc:'Luz de calderas',budget:1800,m:[250,220,200,120,80,50,40,45,80,180,250,280],kind:'estacional'},
+  {code:'6220305',desc:'Sistemas anti-incendios',budget:850,m:[0,0,0,425,0,0,0,0,0,425,0,0],kind:'trim'},
+  {code:'6280001',desc:'Suministro eléctrico viviendas',budget:20200,m:[1580,1620,1550,1480,1650,1820,2100,2150,1780,1600,1520,1480]},
+  {code:'6280020',desc:'Suministro de agua viviendas',budget:800,m:[60,55,58,62,70,85,90,88,72,65,55,50]}]},
+ {id:3,name:'Trasteros y garajes',items:[
+  {code:'6220048',desc:'Mantenimiento incendios finca',budget:1068,m:[89,89,89,89,89,89,89,89,89,89,89,89]},
+  {code:'6220050',desc:'Mantenimiento puertas de garaje',budget:720,m:[60,60,60,60,60,60,60,60,60,60,60,60]},
+  {code:'6280005',desc:'Suministro eléctrico garaje',budget:5580,m:[420,430,440,450,460,480,520,530,490,470,450,420]},
+  {code:'6280025',desc:'Suministro de agua garajes',budget:1000,m:[75,70,72,78,85,95,110,105,90,80,72,68]},
+  {code:'6310002',desc:'Tasa de paso de carruajes',budget:1000,m:[1000,0,0,0,0,0,0,0,0,0,0,0],kind:'anual'}]},
+ {id:4,name:'Ocio',items:[
+  {code:'6220015',desc:'Conservación comunidad',budget:800,m:[65,60,70,68,72,70,65,68,62,70,65,60]},
+  {code:'6220060',desc:'Mantenimiento piscinas',budget:11876.15,m:[0,0,0,350,890,1850,2800,3200,2100,650,0,0],kind:'estacional'},
+  {code:'6220062',desc:'Reposiciones y averías piscina',budget:400.4,m:[0,0,0,0,45,80,120,95,55,0,0,0],kind:'estacional'},
+  {code:'6220103',desc:'Reparación electricistas',budget:200,m:[0,0,0,50,0,0,50,0,0,50,0,50]},
+  {code:'6220104',desc:'Reparaciones varias',budget:1300,m:[80,60,90,120,150,130,110,100,120,80,110,90]},
+  {code:'6280007',desc:'Suministro eléctrico finca',budget:3200,m:[220,210,230,250,280,320,380,390,310,260,230,210]},
+  {code:'6280027',desc:'Suministro de agua finca',budget:3500,m:[200,180,220,280,350,420,480,490,380,260,200,170],kind:'estacional'}]},
+ {id:5,name:'Fondo de reserva',reserve:true,items:[
+  {code:'6240001',desc:'Fondo de reserva',budget:10026.63,m:[0,0,0,0,0,0,0,0,0,0,0,0],kind:'reserva'}]}
+];
+// v10 rule: if the planned calendar exceeds the budget, scale it to 97% of budget
+GROUPS.forEach(g=>g.items.forEach(it=>{ const t=d3.sum(it.m); if(t>it.budget){ const k=it.budget/t*0.97; it.m=it.m.map(v=>Math.round(v*k*100)/100); } }));
+const OPS=GROUPS.filter(g=>!g.reserve), ITEMS=OPS.flatMap(g=>g.items.map(it=>({...it,g}))), RESERVE=10026.63;
+const BUDGET=d3.sum(ITEMS,d=>d.budget), TOTAL=BUDGET+RESERVE, HOMES=40, FEE=BUDGET/12;
+const M12=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const LEVERS=[{n:'Renegociar electricidad',lo:2800,hi:4200},{n:'Optimizar piscina',lo:1500,hi:2500},{n:'Auditoría energética',lo:1200,hi:3000},{n:'Mantenimiento preventivo',lo:800,hi:1800},{n:'Contadores inteligentes',lo:500,hi:1200},{n:'Renegociar seguro',lo:300,hi:600}];
+const ROAD=[['Panel de control mensual','Administrador + Junta',1,1],['Tres ofertas de electricidad','Presidente + Administrador',1,2],['Tres ofertas de seguro','Administrador',1,2],['Auditoría energética','Junta + auditora',3,4],['Cubiertas térmicas de piscina','Comité de ocio + proveedor',3,5],['Plan de mantenimiento preventivo','Administrador + técnicos',4,6],['Contadores inteligentes','Administrador + instaladora',6,8],['Alertas de consumo anómalo','Instaladora + Administrador',7,9],['Cuotas estacionales','Administrador + Junta',7,8],['Comparativa de costes por m²','Presidente + Administrador',9,10],['Medidas de la auditoría','Comité técnico + proveedores',9,11],['Presupuesto del siguiente ejercicio','Administrador + Junta',11,12]];
+
+/* ===== helpers ===== */
+const ES=d3.formatLocale({decimal:',',thousands:'.',grouping:[3],currency:['','€']});
+const f0=ES.format(','), f1=ES.format(',.1f'), eur=v=>f0(Math.round(v))+' €';
+const C=getComputedStyle(document.documentElement), col=n=>C.getPropertyValue(n).trim();
+const INK=col('--ink'),OR=col('--orange'),ORS=col('--orange-soft'),GN=col('--green'),RD=col('--red'),GR=col('--grey'),GRD=col('--grey-deep'),GRS=col('--grey-soft'),MU=col('--muted'),LINE=col('--line');
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches, dur=ms=>RM?0:ms;
+const tip=d3.select('#tip'); const showTip=(ev,h)=>tip.html(h).style('left',ev.clientX+'px').style('top',ev.clientY+'px').style('opacity',1); const hideTip=()=>tip.style('opacity',0);
+function svgIn(id,h,pad={t:10,r:16,b:30,l:44}){ const el=document.getElementById(id); el.innerHTML=''; const W=Math.max(280,el.clientWidth); const s=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${h}`); return {s,W,H:h,iw:W-pad.l-pad.r,ih:h-pad.t-pad.b,pad,g:s.append('g').attr('transform',`translate(${pad.l},${pad.t})`)}; }
+const spentTo=(it,m)=>d3.sum(it.m.slice(0,m)), gSpent=(g,m)=>d3.sum(g.items,it=>spentTo(it,m)), gBudget=g=>d3.sum(g.items,it=>it.budget);
+const monthTotal=m=>d3.sum(ITEMS,it=>it.m[m]);
+let MES=8, cur='v1', grpFilter=null;
+
+/* ===== view 1 ===== */
+function v1(){
+  const S=d3.sum(ITEMS,it=>spentTo(it,MES)), lin=BUDGET*MES/12, plan=d3.sum(ITEMS,it=>d3.sum(it.m)), pct=S/BUDGET*100, dev=S-lin;
+  document.getElementById('m1').textContent=MES;
+  const ahead=dev>0;
+  document.getElementById('h1').innerHTML=`A mes ${MES}, la comunidad ha gastado <em>${eur(S)}</em>, el ${f0(Math.round(pct))}% del presupuesto operativo. ${Math.abs(dev)<BUDGET*0.02?'Va <em class="g">en línea</em> con lo previsto.':ahead?`Va <em class="r">${eur(dev)} por delante</em> de la línea recta, por la temporada de piscina.`:`Va <em class="g">${eur(-dev)} por debajo</em> de la línea recta.`}`;
+  document.getElementById('p1').textContent=`Si el resto del año sigue el calendario de pagos previsto, el ejercicio cerrará en ${eur(plan)}: el ${f0(Math.round(plan/BUDGET*100))}% del presupuesto operativo, con ${eur(BUDGET-plan)} sin gastar. El fondo de reserva de ${eur(RESERVE)} queda intacto.`;
+  document.getElementById('k1').innerHTML=`
+    <div class="kpi focus"><div class="v">${eur(S)}</div><div class="l">Gastado a mes ${MES}</div><div class="s"><b>${f1(pct)}%</b> del presupuesto operativo</div></div>
+    <div class="kpi"><div class="v">${eur(lin)}</div><div class="l">Lo que tocaría a estas alturas</div><div class="s">${MES} de 12 meses, a partes iguales</div></div>
+    <div class="kpi ${plan<=BUDGET?'good':'bad'}"><div class="v">${eur(plan)}</div><div class="l">Cierre previsto</div><div class="s"><b>${f0(Math.round(plan/BUDGET*100))}%</b> · quedan ${eur(BUDGET-plan)}</div></div>
+    <div class="kpi"><div class="v">${eur(RESERVE)}</div><div class="l">Fondo de reserva</div><div class="s">Intacto, como exige la ley de propiedad horizontal</div></div>`;
+  // cumulative
+  document.getElementById('t-cum').innerHTML=`El gasto se adelanta a la línea recta en verano <em>y vuelve a ella en otoño</em>`;
+  { const {g,iw,ih}=svgIn('c-cum',300,{t:16,r:70,b:28,l:62});
+    const x=d3.scalePoint().domain(d3.range(0,13)).range([0,iw]), y=d3.scaleLinear().domain([0,BUDGET*1.05]).range([ih,0]);
+    g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(v=>f0(v/1000)+' K€')).call(a=>a.select('.domain').remove());
+    g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickFormat(i=>i===0?'':M12[i-1]).tickSize(0)).call(a=>a.select('.domain').remove());
+    const cumPlan=[0]; for(let m=0;m<12;m++) cumPlan.push(cumPlan[m]+monthTotal(m));
+    const line=d3.line().x((d,i)=>x(i)).y(d=>y(d));
+    g.append('line').attr('x1',x(0)).attr('y1',y(0)).attr('x2',x(12)).attr('y2',y(BUDGET)).attr('stroke',GRD).attr('stroke-width',2).attr('stroke-dasharray','6 5');
+    g.append('path').datum(cumPlan).attr('d',line).attr('fill','none').attr('stroke',OR).attr('stroke-width',2).attr('opacity',.4).attr('stroke-dasharray','3 4');
+    const p=g.append('path').datum(cumPlan.slice(0,MES+1)).attr('d',line).attr('fill','none').attr('stroke',OR).attr('stroke-width',3.5);
+    const L=p.node().getTotalLength(); p.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().duration(dur(900)).attr('stroke-dashoffset',0);
+    g.append('circle').attr('cx',x(MES)).attr('cy',y(S)).attr('r',6).attr('fill',OR).attr('stroke','#fff').attr('stroke-width',2);
+    g.append('text').attr('x',x(MES)+(MES>9?-10:10)).attr('y',y(S)-12).attr('text-anchor',MES>9?'end':'start').attr('class','ann').text(eur(S));
+    g.append('text').attr('x',x(MES)+(MES>9?-10:10)).attr('y',y(S)+4).attr('text-anchor',MES>9?'end':'start').attr('class','ann s').text(`frente a ${eur(lin)} en línea recta`);
+    g.append('text').attr('x',iw+6).attr('y',y(BUDGET)-10).attr('class','lbl m').attr('font-size',11).text('presupuesto '+f0(Math.round(BUDGET/1000))+' K€');
+    g.append('text').attr('x',iw+6).attr('y',y(cumPlan[12])+20).attr('class','lbl').attr('fill',OR).attr('font-size',11).text('cierre '+f0(Math.round(cumPlan[12]/1000))+' K€');
+    g.append('rect').attr('width',iw).attr('height',ih).attr('fill','transparent').on('mousemove',ev=>{const [mx]=d3.pointer(ev);const i=Math.max(1,Math.min(12,Math.round(mx/x.step())));showTip(ev,`<b>${M12[i-1]}</b> acumulado ${eur(cumPlan[i])}${i>MES?' (previsto)':''}<br>línea recta ${eur(BUDGET*i/12)}`);}).on('mouseleave',hideTip);
+  }
+  // groups bullets
+  const over=OPS.filter(g=>gSpent(g,MES)>gBudget(g)*MES/12*1.1);
+  document.getElementById('t-grp').innerHTML=over.length?`<em>${over.map(g=>g.name).join(' y ')}</em> ${over.length>1?'van':'va'} por delante de lo que toca; el resto, en línea`:`Los cuatro grupos van <em class="g">en línea</em> con lo que toca a mes ${MES}`;
+  { const {g,iw,ih}=svgIn('c-grp',300,{t:6,r:70,b:6,l:130});
+    const y=d3.scaleBand().domain(OPS.map(d=>d.name)).range([0,ih]).padding(.4), x=d3.scaleLinear().domain([0,d3.max(OPS,gBudget)*1.05]).range([0,iw]);
+    OPS.forEach((gr,i)=>{ const B=gBudget(gr), Sg=gSpent(gr,MES), pr=B*MES/12, yy=y(gr.name), ahead=Sg>pr*1.1;
+      g.append('text').attr('x',-10).attr('y',yy+y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').text(gr.name);
+      g.append('rect').attr('x',0).attr('y',yy).attr('height',y.bandwidth()).attr('width',x(B)).attr('fill',GRS).attr('rx',2);
+      g.append('rect').attr('x',0).attr('y',yy).attr('height',y.bandwidth()).attr('width',0).attr('fill',ahead?OR:GRD).attr('rx',2).on('mousemove',ev=>showTip(ev,`<b>${gr.name}</b> gastado ${eur(Sg)} de ${eur(B)}<br>a estas alturas tocarían ${eur(pr)}`)).on('mouseleave',hideTip).transition().delay(dur(i*60)).duration(dur(600)).attr('width',x(Sg));
+      g.append('line').attr('x1',x(pr)).attr('x2',x(pr)).attr('y1',yy-3).attr('y2',yy+y.bandwidth()+3).attr('stroke',GRD).attr('stroke-width',2);
+      g.append('line').attr('x1',x(B)).attr('x2',x(B)).attr('y1',yy-5).attr('y2',yy+y.bandwidth()+5).attr('stroke',INK).attr('stroke-width',3);
+      g.append('text').attr('x',x(B)+8).attr('y',yy+y.bandwidth()/2+4).attr('class','lbl').attr('font-weight',700).attr('fill',ahead?OR:INK).text(f0(Math.round(Sg/B*100))+'%');
+    });
+  }
+  // monthly stacked
+  const peak=d3.maxIndex(d3.range(12).map(monthTotal)), low=d3.minIndex(d3.range(12).map(monthTotal));
+  document.getElementById('t-month').innerHTML=`${M12[peak]} es el mes más caro, <em>${f1(monthTotal(peak)/monthTotal(low))} veces</em> ${M12[low]}: la piscina y el agua en verano, las calderas en invierno`;
+  { const {g,iw,ih}=svgIn('c-month',280,{t:14,r:10,b:26,l:56});
+    const x=d3.scaleBand().domain(M12).range([0,iw]).padding(.28), y=d3.scaleLinear().domain([0,d3.max(d3.range(12),monthTotal)*1.1]).range([ih,0]);
+    g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(v=>f0(v/1000)+' K€')).call(a=>a.select('.domain').remove());
+    g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+    const cols=[OR,GRD,GR,'#B8860B']; // ocio in a dark gold so it reads as 'the seasonal one'
+    const order=[OPS[3],OPS[0],OPS[1],OPS[2]]; const cmap={Ocio:OR,Generales:GRD,Viviendas:GR,'Trasteros y garajes':'#A39E95'};
+    d3.range(12).forEach(m=>{ let acc=0; order.forEach((gr,j)=>{ const v=d3.sum(gr.items,it=>it.m[m]); g.append('rect').attr('x',x(M12[m])).attr('width',x.bandwidth()).attr('y',y(acc)).attr('height',0).attr('fill',cmap[gr.name]).attr('opacity',m<MES?1:.35).on('mousemove',ev=>showTip(ev,`<b>${M12[m]} · ${gr.name}</b> ${eur(v)}<br>total del mes ${eur(monthTotal(m))}${m>=MES?' (previsto)':''}`)).on('mouseleave',hideTip).transition().delay(dur(m*30+j*80)).duration(dur(400)).attr('y',y(acc+v)).attr('height',y(acc)-y(acc+v)); acc+=v; }); });
+    g.append('text').attr('x',x(M12[peak])+x.bandwidth()/2).attr('y',y(monthTotal(peak))-8).attr('text-anchor','middle').attr('class','ann').text(eur(monthTotal(peak)));
+    g.append('text').attr('x',x(M12[low])+x.bandwidth()/2).attr('y',y(monthTotal(low))-8).attr('text-anchor','middle').attr('class','ann s').text(eur(monthTotal(low)));
+    if(MES<12) g.append('line').attr('x1',x(M12[MES])-x.step()*.14).attr('x2',x(M12[MES])-x.step()*.14).attr('y1',0).attr('y2',ih).attr('stroke',INK).attr('stroke-dasharray','3 3');
+    document.getElementById('lg-month').innerHTML=Object.entries(cmap).map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join('')+'<span><i style="background:var(--orange);opacity:.35"></i>Meses previstos</span>';
+  }
+}
+
+/* ===== view 2 ===== */
+function status(it){ const S=spentTo(it,MES), pct=S/it.budget, pr=MES/12;
+  if(pct>1.0001) return ['Sobre presupuesto','r']; if(it.kind==='anual') return ['Pago anual','']; if(it.kind==='trim') return ['Pago periódico','']; if(it.kind==='estacional') return ['Estacional','o']; if(pct>pr+.15) return ['Adelantada','o']; return ['En línea','g']; }
+function v2(){
+  const flagged=ITEMS.filter(it=>{const s=status(it)[0];return s==='Adelantada'||s==='Sobre presupuesto';});
+  document.getElementById('h2').innerHTML=flagged.length?`A mes ${MES}, <em class="r">${flagged.length} partida${flagged.length>1?'s':''}</em> van por delante de lo que toca: ${flagged.map(f=>f.desc.toLowerCase()).join(', ')}.`:`A mes ${MES}, <em class="g">ninguna partida mensual</em> va por delante de lo que toca. Las que marcan 100% son pagos anuales.`;
+  const wrap=document.getElementById('grp-chips'); wrap.querySelectorAll('.chip').forEach(c=>c.remove());
+  [['Todos',null],...OPS.map(g=>[g.name,g.id])].forEach(([n,id])=>{ const b=document.createElement('button'); b.className='chip'+(grpFilter===id?' on':''); b.textContent=n; b.onclick=()=>{grpFilter=id;v2();}; wrap.appendChild(b); });
+  const cols=[{k:'desc',l:'Partida'},{k:'gname',l:'Grupo'},{k:'budget',l:'Presupuesto',num:1},{k:'spent',l:`Gastado a mes ${MES}`,num:1},{k:'pct',l:'Ejecutado',num:1},{k:'st',l:'Estado'}];
+  const rows=ITEMS.filter(it=>!grpFilter||it.g.id===grpFilter).map(it=>{const spent=spentTo(it,MES);const [st,cls]=status(it);return {...it,gname:it.g.name,spent,pct:spent/it.budget*100,st,cls};});
+  const t=document.getElementById('tb'); t._sort=t._sort||{k:'pct',dir:'desc'};
+  function render(){ const {k,dir}=t._sort; rows.sort((a,b)=>{const va=a[k],vb=b[k];const r=typeof va==='number'?va-vb:String(va).localeCompare(String(vb),'es');return dir==='asc'?r:-r;});
+    t.innerHTML='<thead><tr>'+cols.map(c=>`<th class="${c.num?'num':''}" data-k="${c.k}" ${c.k===k?`data-dir="${dir}"`:''}>${c.l}</th>`).join('')+'</tr></thead><tbody>'+rows.map(r=>`<tr><td><div>${r.desc}</div><div class="code">${r.code}</div></td><td>${r.gname}</td><td class="num">${eur(r.budget)}</td><td class="num"><span class="bullet"><i class="${r.cls==='r'?'r':r.cls==='o'?'o':''}" style="width:${Math.min(100,r.pct)}%"></i>${r.kind?'':`<u style="left:${MES/12*100}%"></u>`}</span>${eur(r.spent)}</td><td class="num" style="font-weight:700;color:${r.cls==='r'?RD:r.cls==='o'?col('--orange-deep'):INK}">${f0(Math.round(r.pct))}%</td><td><span class="pill ${r.cls}">${r.st}</span></td></tr>`).join('')+'</tbody>';
+    t.querySelectorAll('th').forEach(th=>th.onclick=()=>{const kk=th.dataset.k; if(t._sort.k===kk)t._sort.dir=t._sort.dir==='asc'?'desc':'asc'; else t._sort={k:kk,dir:typeof rows[0][kk]==='number'?'desc':'asc'}; render();}); }
+  render();
+}
+
+/* ===== view 3 ===== */
+function v3(){
+  const cash=[]; let c=0; for(let m=0;m<12;m++){ c+=FEE-monthTotal(m); cash.push(c); }
+  const minI=d3.minIndex(cash), minV=cash[minI];
+  document.getElementById('h3').innerHTML=`Con la cuota fija, la caja baja hasta <em class="${minV<0?'r':''}">${eur(minV)}</em> en ${M12[minI]}: la comunidad adelanta el verano y lo recupera en otoño.`;
+  document.getElementById('p3').textContent=`La cuota operativa son ${eur(FEE)} al mes. De mayo a septiembre el gasto supera la cuota todos los meses; de octubre a marzo queda por debajo. Una cuota estacional, algo mayor en verano, evitaría tirar de caja o de fondo.`;
+  { const {g,iw,ih}=svgIn('c-fee',260,{t:14,r:10,b:26,l:56});
+    const x=d3.scaleBand().domain(M12).range([0,iw]).padding(.3), y=d3.scaleLinear().domain([0,d3.max(d3.range(12),monthTotal)*1.1]).range([ih,0]);
+    g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(v=>f0(v/1000)+' K€')).call(a=>a.select('.domain').remove());
+    g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+    d3.range(12).forEach((m,i)=>{ const v=monthTotal(m); g.append('rect').attr('x',x(M12[m])).attr('width',x.bandwidth()).attr('y',ih).attr('height',0).attr('rx',2).attr('fill',v>FEE?OR:GRD).on('mousemove',ev=>showTip(ev,`<b>${M12[m]}</b> gasto ${eur(v)} · cuota ${eur(FEE)}<br>${v>FEE?'sale '+eur(v-FEE)+' de caja':'quedan '+eur(FEE-v)}`)).on('mouseleave',hideTip).transition().delay(dur(i*40)).duration(dur(500)).attr('y',y(v)).attr('height',ih-y(v)); });
+    g.append('line').attr('x1',0).attr('x2',iw).attr('y1',y(FEE)).attr('y2',y(FEE)).attr('stroke',INK).attr('stroke-width',2).attr('stroke-dasharray','6 4');
+    g.append('text').attr('x',iw).attr('y',y(FEE)-8).attr('text-anchor','end').attr('class','ann').text('cuota fija · '+eur(FEE)+' al mes');
+  }
+  document.getElementById('t-cash').innerHTML=`La caja toca fondo en <em>${M12[minI]}</em>`;
+  { const {g,iw,ih}=svgIn('c-cash',260,{t:14,r:10,b:26,l:56});
+    const x=d3.scalePoint().domain(M12).range([0,iw]).padding(.5), y=d3.scaleLinear().domain([Math.min(0,d3.min(cash))*1.2,Math.max(0,d3.max(cash))*1.2]).range([ih,0]);
+    g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(v=>f0(v/1000)+' K€')).call(a=>a.select('.domain').remove());
+    g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+    g.append('line').attr('x1',0).attr('x2',iw).attr('y1',y(0)).attr('y2',y(0)).attr('stroke',INK).attr('stroke-width',1.5);
+    const area=d3.area().x((d,i)=>x(M12[i])).y0(y(0)).y1(d=>y(d)).curve(d3.curveMonotoneX);
+    g.append('path').datum(cash).attr('d',area).attr('fill',d3.min(cash)<0?col('--red-soft'):GRS).attr('opacity',.8);
+    const line=d3.line().x((d,i)=>x(M12[i])).y(d=>y(d)).curve(d3.curveMonotoneX);
+    const p=g.append('path').datum(cash).attr('d',line).attr('fill','none').attr('stroke',d3.min(cash)<0?RD:GRD).attr('stroke-width',3); const L=p.node().getTotalLength(); p.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().duration(dur(900)).attr('stroke-dashoffset',0);
+    g.append('circle').attr('cx',x(M12[minI])).attr('cy',y(minV)).attr('r',6).attr('fill',minV<0?RD:GRD).attr('stroke','#fff').attr('stroke-width',2);
+    g.append('text').attr('x',x(M12[minI])+12).attr('y',y(minV)+4).attr('text-anchor','start').attr('class','ann').attr('fill',minV<0?RD:INK).text(eur(minV));
+    g.append('text').attr('x',x('Dic')).attr('y',y(cash[11])-10).attr('text-anchor','end').attr('class','ann s').text('cierre '+eur(cash[11]));
+  }
+  { const el=document.getElementById('c-seas'); el.innerHTML=''; const W=Math.max(280,el.clientWidth), cols=W>700?4:2, cw=W/cols, ch=140; const s=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${Math.ceil(4/cols)*ch}`);
+    [['6220060','Piscina'],['6220301','Sala de calderas'],['6280001','Luz viviendas'],['6280027','Agua finca']].forEach(([code,name],i)=>{ const it=ITEMS.find(d=>d.code===code); const gx=(i%cols)*cw, gy=Math.floor(i/cols)*ch, pad={l:14,r:14,t:30,b:22}, iw=cw-pad.l-pad.r, ih=ch-pad.t-pad.b; const g=s.append('g').attr('transform',`translate(${gx+pad.l},${gy+pad.t})`);
+      const x=d3.scaleBand().domain(M12).range([0,iw]).padding(.25), y=d3.scaleLinear().domain([0,d3.max(it.m)*1.1]).range([ih,0]);
+      g.append('text').attr('y',-12).attr('class','lbl').text(name); g.append('text').attr('x',iw).attr('y',-12).attr('text-anchor','end').attr('class','lbl m').attr('font-size',10.5).text('máx. '+eur(d3.max(it.m)));
+      g.append('line').attr('x1',0).attr('x2',iw).attr('y1',ih).attr('y2',ih).attr('stroke',LINE);
+      g.selectAll('rect').data(it.m).join('rect').attr('x',(d,m)=>x(M12[m])).attr('width',x.bandwidth()).attr('y',ih).attr('height',0).attr('fill',(d,m)=>m<MES?OR:GR).transition().delay(dur(i*80)).duration(dur(600)).attr('y',d=>y(d)).attr('height',d=>ih-y(d));
+      ['Ene','Jul','Dic'].forEach(m=>g.append('text').attr('x',x(m)+x.bandwidth()/2).attr('y',ih+13).attr('text-anchor','middle').attr('class','lbl m').attr('font-size',10).text(m)); });
+  }
+}
+
+/* ===== view 4 ===== */
+function v4(){
+  { const {g,iw,ih}=svgIn('c-lev',260,{t:6,r:90,b:28,l:190});
+    const y=d3.scaleBand().domain(LEVERS.map(d=>d.n)).range([0,ih]).padding(.45), x=d3.scaleLinear().domain([0,4500]).range([0,iw]);
+    g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).ticks(5).tickFormat(v=>f0(v)+' €').tickSize(-ih)).call(a=>a.select('.domain').remove());
+    LEVERS.forEach((l,i)=>{ const yy=y(l.n)+y.bandwidth()/2; g.append('text').attr('x',-10).attr('y',yy+4).attr('text-anchor','end').attr('class','lbl').text(l.n);
+      g.append('line').attr('x1',x(l.lo)).attr('x2',x(l.lo)).attr('y1',yy).attr('y2',yy).attr('stroke',i<2?OR:GRD).attr('stroke-width',8).attr('stroke-linecap','round').transition().delay(dur(i*70)).duration(dur(600)).attr('x2',x(l.hi));
+      g.append('text').attr('x',x(l.hi)+10).attr('y',yy+4).attr('class','lbl m').attr('font-size',11.5).text(`${f0(l.lo)} a ${f0(l.hi)}`); });
+  }
+  { const {g,iw,ih}=svgIn('c-quota',260,{t:20,r:10,b:40,l:10});
+    const d=[['Hoy',BUDGET/HOMES/12,GRD],['Con ahorro medio',(BUDGET-10200)/HOMES/12,GN],['Con margen 20%',BUDGET*1.2/HOMES/12,RD]];
+    const x=d3.scaleBand().domain(d.map(e=>e[0])).range([0,iw]).padding(.35), y=d3.scaleLinear().domain([0,300]).range([ih,0]);
+    g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+    d.forEach(([n,v,c],i)=>{ g.append('rect').attr('x',x(n)).attr('width',x.bandwidth()).attr('y',ih).attr('height',0).attr('rx',2).attr('fill',c).transition().delay(dur(i*80)).duration(dur(600)).attr('y',y(v)).attr('height',ih-y(v)); g.append('text').attr('x',x(n)+x.bandwidth()/2).attr('y',y(v)-8).attr('text-anchor','middle').attr('class','ann').text(f0(Math.round(v))+' €'); });
+    g.append('text').attr('x',0).attr('y',-8).attr('class','lbl m').text('€ al mes por vivienda · 40 viviendas');
+  }
+  const gt=document.getElementById('gantt'); gt.innerHTML='<div class="h" style="text-align:left">Acción</div>'+M12.map(m=>`<div class="h">${m}</div>`).join('')+ROAD.map(([n,o,a,b])=>`<div class="r">${n}<small>${o}</small></div>`+d3.range(1,13).map(m=>`<div class="cell">${m>=a&&m<=b?`<div class="bar ${b<=MES?'done':a<=MES?'':'later'}" style="width:100%"></div>`:''}</div>`).join('')).join('');
+}
+
+/* ===== nav & month ===== */
+const DRAW={v1,v2,v3,v4};
+function show(v){ cur=v; document.querySelectorAll('.view').forEach(s=>s.classList.toggle('active',s.id===v)); document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v)); window.scrollTo({top:0,behavior:'smooth'}); requestAnimationFrame(()=>DRAW[v]()); try{localStorage.setItem('vf-v11',v);}catch(e){} }
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.v)));
+const mes=document.getElementById('mes'); mes.addEventListener('input',()=>{ MES=+mes.value; document.getElementById('mes-l').textContent=`Mes ${MES} de 12`; DRAW[cur](); });
+let rt; window.addEventListener('resize',()=>{clearTimeout(rt); rt=setTimeout(()=>DRAW[cur](),150);});
+document.addEventListener('keydown',e=>{ if(e.target.closest('input'))return; const ks=Object.keys(DRAW),i=ks.indexOf(cur); if(e.key==='ArrowRight'&&i<3)show(ks[i+1]); if(e.key==='ArrowLeft'&&i>0)show(ks[i-1]); });
+let start='v1'; try{const v=localStorage.getItem('vf-v11'); if(v&&DRAW[v])start=v;}catch(e){}
+show(start);
+</script>
+</body>
+</html>

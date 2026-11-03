@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fiovana — Dashboard Propuesta Dashboards Analíticos</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#1A1A1A;--darkGray:#2D2D2D;--midGray:#4A4A4A;--gray:#757575;
+  --lightGray:#E0E0E0;--offWhite:#F5F5F5;--white:#FFFFFF;
+  --orange:#F57C00;--orangeLight:#FF9800;--orangeDark:#E65100;--orangePale:#FFF3E0;
+  --green:#43A047;--red:#E53935;
+  --text:#1A1A1A;--textLight:#757575;--border:#E0E0E0;
+  --shadow:0 2px 12px rgba(0,0,0,0.06);--shadowHover:0 6px 24px rgba(0,0,0,0.12);
+}
+body{font-family:'Montserrat',sans-serif;background:var(--offWhite);color:var(--text);line-height:1.6}
+
+.header{background:var(--black);color:#fff;padding:1.4rem 2rem .8rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.3)}
+.header::after{content:'';display:block;height:4px;background:var(--orange);position:absolute;bottom:0;left:0;right:0}
+.header-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+.header h1{font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
+.header h1 span{color:var(--orange);font-weight:800}
+.header-badge{background:rgba(245,124,0,0.12);border:1px solid rgba(245,124,0,0.3);padding:.25rem .7rem;border-radius:4px;font-size:.7rem;color:var(--orange);font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+.header-nav{display:flex;gap:.35rem;margin-top:.7rem;flex-wrap:wrap}
+.header-nav button{background:transparent;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.55);padding:.35rem .85rem;border-radius:4px;cursor:pointer;font-size:.75rem;font-family:inherit;font-weight:500;transition:all .2s;letter-spacing:.02em}
+.header-nav button:hover{background:rgba(245,124,0,0.1);color:var(--orange);border-color:var(--orange)}
+.header-nav button.active{background:var(--orange);color:var(--black);border-color:var(--orange);font-weight:700}
+
+.main{max-width:1400px;margin:0 auto;padding:1.5rem}
+.section{display:none;animation:fadeIn .35s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--white);border-radius:8px;padding:1.5rem;box-shadow:var(--shadow);transition:box-shadow .3s,transform .3s;border:1px solid var(--border)}
+.card:hover{box-shadow:var(--shadowHover);transform:translateY(-1px)}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem}
+.kpi{text-align:center;padding:1.2rem;border-top:3px solid var(--orange)}
+.kpi-value{font-size:2rem;font-weight:800;line-height:1.1}
+.kpi-label{font-size:.72rem;color:var(--textLight);margin-top:.3rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.kpi-sub{font-size:.68rem;color:var(--gray);margin-top:.15rem}
+.kpi .orange{color:var(--orange)}.kpi .green{color:var(--green)}.kpi .dark{color:var(--darkGray)}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+.plan-card{position:relative;overflow:hidden;padding:0}
+.plan-header{padding:1.1rem 1.5rem;color:#fff;text-align:center}
+.plan-header h3{font-size:1rem;font-weight:700;margin-bottom:.15rem}
+.plan-header .plan-emoji{font-size:1.6rem;margin-bottom:.2rem}
+.plan-body{padding:1.5rem}
+.plan-price{font-size:1.8rem;font-weight:800;text-align:center;color:var(--text)}
+.plan-price-sub{font-size:.72rem;color:var(--textLight);text-align:center;margin-bottom:1rem}
+.plan-features{list-style:none;padding:0}
+.plan-features li{padding:.35rem 0;font-size:.82rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
+.plan-features li:last-child{border:none}
+.plan-features .check{color:var(--orange);font-weight:800;flex-shrink:0}
+.plan-footer{background:var(--offWhite);padding:.7rem 1.5rem;text-align:center;font-size:.78rem;color:var(--textLight)}
+.plan-footer strong{color:var(--orange)}
+
+.essential .plan-header{background:var(--gray)}
+.professional .plan-header{background:var(--midGray)}
+.enterprise .plan-header{background:var(--orange)}
+.ondemand .plan-header{background:var(--darkGray)}
+
+.comp-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.8rem}
+.comp-table th{background:var(--darkGray);color:#fff;padding:.6rem .5rem;text-align:center;font-weight:600}
+.comp-table th:first-child{text-align:left;border-radius:6px 0 0 0}
+.comp-table th:last-child{border-radius:0 6px 0 0}
+.comp-table td{padding:.5rem .5rem;border-bottom:1px solid var(--border);text-align:center}
+.comp-table td:first-child{text-align:left;font-weight:500}
+.comp-table tr:nth-child(even){background:var(--offWhite)}
+.comp-table tr:hover{background:#FFF8E1}
+.comp-table .yes{color:var(--green);font-weight:700}
+.comp-table .no{color:#BDBDBD}
+.comp-table .price-row{background:var(--orangePale) !important;font-weight:700}
+
+.process-timeline{display:flex;gap:0;position:relative;padding:1rem 0}
+.process-step{flex:1;text-align:center;position:relative;padding:0 .5rem}
+.step-num{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:1.1rem;margin:0 auto .8rem;position:relative;z-index:2}
+.step-num::after{content:'';position:absolute;top:50%;left:100%;width:calc(100% + 2rem);height:3px;background:var(--lightGray);z-index:1}
+.process-step:last-child .step-num::after{display:none}
+.step-title{font-weight:700;font-size:.88rem;margin-bottom:.35rem}
+.step-desc{font-size:.76rem;color:var(--textLight);line-height:1.5}
+
+.adv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+.adv-item{display:flex;gap:1rem;align-items:flex-start;padding:1rem}
+.adv-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.adv-item h4{font-size:.88rem;margin-bottom:.15rem;font-weight:700}
+.adv-item p{font-size:.78rem;color:var(--textLight)}
+
+.bench-bar{margin:.6rem 0}
+.bench-label{font-size:.78rem;font-weight:500;margin-bottom:.2rem;display:flex;justify-content:space-between}
+.bench-track{background:var(--lightGray);border-radius:4px;height:26px;overflow:hidden}
+.bench-fill{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.68rem;color:#fff;font-weight:700;transition:width 1s ease}
+
+.cond-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:700px){.cond-grid{grid-template-columns:1fr}}
+.cond-item{display:flex;gap:.8rem;padding:1rem;border-left:3px solid var(--orange)}
+.cond-item .cond-icon{font-size:1.2rem;flex-shrink:0}
+.cond-item h4{font-size:.83rem;margin-bottom:.12rem;font-weight:700}
+.cond-item p{font-size:.78rem;color:var(--textLight)}
+
+.highlight-box{background:var(--black);color:#fff;border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;border-left:4px solid var(--orange)}
+.highlight-box .hl-icon{font-size:1.8rem;flex-shrink:0}
+.highlight-box p{font-size:.88rem;line-height:1.6;opacity:.9}
+.highlight-box strong{color:var(--orange)}
+
+.section-title{font-size:1.2rem;font-weight:800;margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem;color:var(--text)}
+.section-title .num{background:var(--orange);color:#fff;width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;flex-shrink:0}
+
+.stat-card{text-align:center;border-top:3px solid var(--orange);padding:1.2rem}
+.stat-card .stat-icon{font-size:1.8rem;margin-bottom:.4rem}
+.stat-card .stat-val{font-size:1.7rem;font-weight:800;color:var(--orange)}
+.stat-card .stat-label{font-size:.8rem;color:var(--textLight);margin-top:.2rem}
+
+@media(max-width:600px){
+  .header h1{font-size:1.1rem}.kpi-value{font-size:1.4rem}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .process-timeline{flex-direction:column;gap:1.5rem}
+  .step-num::after{display:none}.plan-price{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <h1><span>fiovana</span> · Dashboards Analíticos Interactivos</h1>
+    <span class="header-badge">v1.0 · Feb 2026 · Confidencial</span>
+  </div>
+  <nav class="header-nav" id="nav">
+    <button class="active" data-section="overview">Resumen</button>
+    <button data-section="benchmark">Benchmark</button>
+    <button data-section="plans">Planes</button>
+    <button data-section="compare">Comparativa</button>
+    <button data-section="maintenance">Mantenimiento</button>
+    <button data-section="process">Proceso</button>
+    <button data-section="advantages">Ventajas</button>
+    <button data-section="conditions">Condiciones</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <!-- ====== OVERVIEW ====== -->
+  <div class="section active" id="overview">
+    <div class="kpi-row">
+      <div class="card kpi"><div class="kpi-value orange">4</div><div class="kpi-label">Planes Disponibles</div><div class="kpi-sub">Essential · Professional · Enterprise · On-Demand</div></div>
+      <div class="card kpi"><div class="kpi-value green">€1.000</div><div class="kpi-label">Desde (creación)</div><div class="kpi-sub">+ IVA · Pago único</div></div>
+      <div class="card kpi"><div class="kpi-value dark">5–25</div><div class="kpi-label">Días de entrega</div><div class="kpi-sub">Según complejidad del proyecto</div></div>
+      <div class="card kpi"><div class="kpi-value orange">0€</div><div class="kpi-label">Licencias recurrentes</div><div class="kpi-sub">HTML standalone · Propiedad total</div></div>
+    </div>
+    <div class="highlight-box">
+      <div class="hl-icon">🚀</div>
+      <p>Servicio productizado de creación de <strong>Dashboards Analíticos Interactivos en formato HTML</strong>, diseñados para transformar datos operativos en herramientas de inteligencia de negocio accionables. Sin licencias, sin servidor, propiedad total del cliente.</p>
+    </div>
+    <div class="section-title"><span class="num">✦</span> Capacidades Clave</div>
+    <div class="adv-grid" style="margin-bottom:1.5rem">
+      <div class="card adv-item"><div class="adv-icon" style="background:var(--orangePale)">📊</div><div><h4>Visualización Multidimensional</h4><p>TreeMaps, Heatmaps, Radar, Scatter, Bubble y más gráficos avanzados</p></div></div>
+      <div class="card adv-item"><div class="adv-icon" style="background:var(--orangePale)">🔍</div><div><h4>Análisis Comparativo</h4><p>Tablas interactivas filtradas y semáforos automáticos por entidad</p></div></div>
+      <div class="card adv-item"><div class="adv-icon" style="background:var(--orangePale)">🎯</div><div><h4>Motor de Scoring (IRI)</h4><p>Índice de Rendimiento Integral con ponderación configurable</p></div></div>
+      <div class="card adv-item"><div class="adv-icon" style="background:var(--orangePale)">💡</div><div><h4>Mejores Prácticas</h4><p>Identificación de correlaciones data-driven entre variables</p></div></div>
+      <div class="card adv-item"><div class="adv-icon" style="background:var(--orangePale)">🤖</div><div><h4>Recomendaciones Automatizadas</h4><p>Estrategias basadas en los datos reales del cliente</p></div></div>
+      <div class="card adv-item"><div class="adv-icon" style="background:var(--orangePale)">🔒</div><div><h4>HTML Standalone</h4><p>Sin servidor, sin dependencias, funciona offline. Propiedad total</p></div></div>
+    </div>
+  </div>
+
+  <!-- ====== BENCHMARK ====== -->
+  <div class="section" id="benchmark">
+    <div class="section-title"><span class="num">02</span> Benchmark de Mercado</div>
+    <div class="grid-2" style="margin-bottom:1.5rem">
+      <div class="card">
+        <h4 style="margin-bottom:1rem;color:var(--textLight);font-size:.85rem;font-weight:600">Comparativa de precios del sector</h4>
+        <div class="bench-bar"><div class="bench-label"><span>Dashboard custom completo</span><span style="color:var(--red);font-weight:700">$30K – $200K+</span></div><div class="bench-track"><div class="bench-fill" style="width:0;background:var(--red)" data-width="95">$200K+</div></div></div>
+        <div class="bench-bar"><div class="bench-label"><span>Plataformas SaaS BI (anual)</span><span style="color:var(--orangeDark);font-weight:700">$35K – $150K+</span></div><div class="bench-track"><div class="bench-fill" style="width:0;background:var(--orangeDark)" data-width="75">$150K+</div></div></div>
+        <div class="bench-bar"><div class="bench-label"><span>Frontend interactivo</span><span style="color:var(--orange);font-weight:700">$10K – $50K</span></div><div class="bench-track"><div class="bench-fill" style="width:0;background:var(--orange)" data-width="45">$50K</div></div></div>
+        <div class="bench-bar"><div class="bench-label"><span>Freelancers (Toptal/Arc)</span><span style="color:var(--midGray);font-weight:700">~$32K equiv.</span></div><div class="bench-track"><div class="bench-fill" style="width:0;background:var(--midGray)" data-width="35">~$32K</div></div></div>
+        <div class="bench-bar"><div class="bench-label"><span>Consultoría datos España</span><span style="color:var(--gray);font-weight:700">€1K – €5K</span></div><div class="bench-track"><div class="bench-fill" style="width:0;background:var(--gray)" data-width="15">€5K</div></div></div>
+        <div class="bench-bar"><div class="bench-label"><span style="font-weight:800;color:var(--green)">★ Nuestro servicio</span><span style="color:var(--green);font-weight:800">€1K – €4.5K</span></div><div class="bench-track"><div class="bench-fill" style="width:0;background:var(--green)" data-width="12">€4.5K</div></div></div>
+      </div>
+      <div class="card">
+        <h4 style="margin-bottom:.8rem;font-size:.85rem;font-weight:600">Posicionamiento de precios (€)</h4>
+        <canvas id="chartBenchmark" height="250"></canvas>
+      </div>
+    </div>
+    <div class="highlight-box">
+      <div class="hl-icon">💰</div>
+      <p>Producto final <strong>listo para usar</strong> (HTML standalone) sin costes recurrentes de licencia, sin dependencia de plataformas, y con <strong>propiedad total del cliente</strong>. Ventaja competitiva significativa frente a soluciones SaaS de <strong>€35.000+/año</strong>.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-bottom:.8rem;font-size:.9rem;font-weight:700">Detalle del Benchmark</h4>
+      <table class="comp-table"><thead><tr><th style="text-align:left">Referencia</th><th>Rango de Precios</th><th>Tipo</th><th>Fuente</th></tr></thead>
+      <tbody>
+        <tr><td>Dashboard custom completo</td><td>$30.000 – $200.000+</td><td>Desarrollo a medida</td><td>Abbacus Technologies</td></tr>
+        <tr><td>Frontend interactivo</td><td>$10.000 – $50.000</td><td>Visualización avanzada</td><td>Abbacus Technologies</td></tr>
+        <tr><td>Freelance DataViz (día)</td><td>$800/día (~$100/h)</td><td>Data Viz Society</td><td>3iap / DVS Survey</td></tr>
+        <tr><td>Firma especializada DataViz</td><td>$200–$300/hora</td><td>Consultoría + desarrollo</td><td>3iap</td></tr>
+        <tr><td>Plataformas SaaS BI</td><td>$35.000 – $150.000+/año</td><td>Licencia + usuarios</td><td>Sisense / Looker / Tableau</td></tr>
+        <tr><td>Freelancers (Toptal/Arc)</td><td>$60 – $100+/hora</td><td>Desarrollo por horas</td><td>Arc.dev / Toptal</td></tr>
+        <tr><td>Consultoría datos España</td><td>€1.000 – €5.000</td><td>Diagnóstico + plan</td><td>Vasieddmaak Consulting</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <!-- ====== PLANS ====== -->
+  <div class="section" id="plans">
+    <div class="section-title"><span class="num">03</span> Catálogo de Planes</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.2rem;margin-bottom:1.5rem">
+      <div class="card plan-card essential"><div class="plan-header"><div class="plan-emoji">📊</div><h3>ESSENTIAL</h3><div style="font-size:.75rem;opacity:.85">Dashboard operativo básico</div></div><div class="plan-body"><div class="plan-price">€1.000</div><div class="plan-price-sub">+ IVA · Pago único</div><ul class="plan-features"><li><span class="check">✓</span> Hasta 2 pestañas analíticas interactivas</li><li><span class="check">✓</span> Hasta 8 gráficos (barras, líneas, donuts, tablas)</li><li><span class="check">✓</span> Filtros básicos por categoría o periodo</li><li><span class="check">✓</span> Tabla resumen con semáforos (3 colores)</li><li><span class="check">✓</span> Hasta 3 fuentes de datos</li><li><span class="check">✓</span> Responsive (escritorio + tablet)</li><li><span class="check">✓</span> Entrega: 5-7 días laborables</li><li><span class="check">✓</span> 2 rondas de revisión</li></ul></div><div class="plan-footer">Mantenimiento: <strong>€400/mes</strong></div></div>
+      <div class="card plan-card professional"><div class="plan-header"><div class="plan-emoji">📈</div><h3>PROFESSIONAL</h3><div style="font-size:.75rem;opacity:.85">Análisis multidimensional</div></div><div class="plan-body"><div class="plan-price">€2.500</div><div class="plan-price-sub">+ IVA · Pago único</div><ul class="plan-features"><li><span class="check">✓</span> Hasta 4 pestañas analíticas interactivas</li><li><span class="check">✓</span> Hasta 15 gráficos incl. heatmaps y treemaps</li><li><span class="check">✓</span> Filtros múltiples combinables</li><li><span class="check">✓</span> Tablas con ordenación y semáforos automáticos</li><li><span class="check">✓</span> Análisis comparativo entre entidades</li><li><span class="check">✓</span> Hasta 4 fuentes de datos</li><li><span class="check">✓</span> Entrega: 10-15 días laborables</li><li><span class="check">✓</span> 3 rondas de revisión</li></ul></div><div class="plan-footer">Mantenimiento: <strong>€650/mes</strong></div></div>
+      <div class="card plan-card enterprise"><div class="plan-header"><div class="plan-emoji">🏆</div><h3>ENTERPRISE</h3><div style="font-size:.75rem;opacity:.85">Scoring, correlaciones, recomendaciones</div></div><div class="plan-body"><div class="plan-price">€4.500</div><div class="plan-price-sub">+ IVA · Pago único</div><ul class="plan-features"><li><span class="check">✓</span> Hasta 7 pestañas analíticas interactivas</li><li><span class="check">✓</span> Hasta 20 gráficos incl. radar, scatter, bubble</li><li><span class="check">✓</span> Motor de Scoring/Ranking (tipo IRI)</li><li><span class="check">✓</span> Análisis de correlaciones entre variables</li><li><span class="check">✓</span> Mejores prácticas automatizadas</li><li><span class="check">✓</span> Recomendaciones estratégicas por datos</li><li><span class="check">✓</span> Entrega: 15-25 días laborables</li><li><span class="check">✓</span> 4 rondas de revisión</li></ul></div><div class="plan-footer">Mantenimiento: <strong>€1.200/mes</strong></div></div>
+      <div class="card plan-card ondemand"><div class="plan-header"><div class="plan-emoji">🔧</div><h3>ON-DEMAND</h3><div style="font-size:.75rem;opacity:.85">Presupuesto a la medida</div></div><div class="plan-body"><div class="plan-price">Desde €1.500</div><div class="plan-price-sub">+ IVA · Pago único</div><ul class="plan-features"><li><span class="check">✓</span> Alcance 100% personalizado</li><li><span class="check">✓</span> Sin límite de pestañas ni gráficos</li><li><span class="check">✓</span> Cualquier visualización del catálogo</li><li><span class="check">✓</span> Integración de lógica de negocio específica</li><li><span class="check">✓</span> Simuladores, calculadoras, generadores</li><li><span class="check">✓</span> Ampliación progresiva (módulos)</li><li><span class="check">✓</span> Plazo acordado según alcance</li><li><span class="check">✓</span> Rondas de revisión según contrato</li></ul></div><div class="plan-footer">Mantenimiento: <strong>Desde €450/mes</strong></div></div>
+    </div>
+  </div>
+
+  <!-- ====== COMPARE ====== -->
+  <div class="section" id="compare">
+    <div class="section-title"><span class="num">04</span> Tabla Comparativa de Planes</div>
+    <div class="card" style="overflow-x:auto;margin-bottom:1.5rem">
+      <table class="comp-table"><thead><tr><th>Característica</th><th>📊 Essential</th><th>📈 Professional</th><th>🏆 Enterprise</th><th>🔧 On-Demand</th></tr></thead>
+      <tbody>
+        <tr><td>Pestañas</td><td>Hasta 2</td><td>Hasta 4</td><td>Hasta 7</td><td>Sin límite</td></tr>
+        <tr><td>Gráficos</td><td>Hasta 8</td><td>Hasta 15</td><td>Hasta 20</td><td>Sin límite</td></tr>
+        <tr><td>Fuentes de datos</td><td>3</td><td>4</td><td>6</td><td>Sin límite</td></tr>
+        <tr><td>Filtros interactivos</td><td>Básicos</td><td>Múltiples</td><td>Avanzados</td><td>A medida</td></tr>
+        <tr><td>Semáforos / Alertas</td><td class="yes">✓ Básico</td><td class="yes">✓ Avanzado</td><td class="yes">✓ Multi-nivel</td><td>A medida</td></tr>
+        <tr><td>Heatmaps / TreeMaps</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td>Opcional</td></tr>
+        <tr><td>Radar / Scatter</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td>Opcional</td></tr>
+        <tr><td>Motor Scoring (IRI)</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td>Opcional</td></tr>
+        <tr><td>Correlaciones</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td>Opcional</td></tr>
+        <tr><td>Recomendaciones auto.</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td>Opcional</td></tr>
+        <tr><td>Responsive</td><td>Desktop+Tablet</td><td>Desktop+Tablet</td><td>Desktop+Tablet</td><td>A medida</td></tr>
+        <tr><td>Branding corporativo</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Rondas de revisión</td><td>2</td><td>3</td><td>4</td><td>Ilimitadas*</td></tr>
+        <tr><td>Plazo entrega</td><td>5-7 días</td><td>10-15 días</td><td>15-25 días</td><td>Según alcance</td></tr>
+        <tr class="price-row"><td><strong>Creación (€+IVA)</strong></td><td><strong>€ 1.000</strong></td><td><strong>€ 2.500</strong></td><td><strong>€ 4.500</strong></td><td><strong>Desde € 1.500</strong></td></tr>
+        <tr class="price-row"><td><strong>Mant. mensual</strong></td><td><strong>€ 400/mes</strong></td><td><strong>€ 650/mes</strong></td><td><strong>€ 1.200/mes</strong></td><td><strong>Desde € 450/mes</strong></td></tr>
+      </tbody></table>
+    </div>
+    <div class="grid-2">
+      <div class="card"><h4 style="margin-bottom:.8rem;font-size:.9rem;font-weight:700">📊 Precio de Creación por Plan (€)</h4><canvas id="chartPrices" height="220"></canvas></div>
+      <div class="card"><h4 style="margin-bottom:.8rem;font-size:.9rem;font-weight:700">📈 Mantenimiento Mensual (€/mes)</h4><canvas id="chartMaint" height="220"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ====== MAINTENANCE ====== -->
+  <div class="section" id="maintenance">
+    <div class="section-title"><span class="num">05</span> Mantenimiento y Actualización</div>
+    <div class="highlight-box" style="margin-bottom:1.5rem"><div class="hl-icon">🔄</div><p>El cliente envía ficheros actualizados (Excel/PowerPoint/PDF) y recibe el dashboard regenerado dentro del <strong>SLA contratado</strong>. Actualizaciones semanales (4/mes).</p></div>
+    <div class="card" style="overflow-x:auto;margin-bottom:1.5rem">
+      <table class="comp-table"><thead><tr><th>Concepto</th><th>📊 Essential</th><th>📈 Professional</th><th>🏆 Enterprise</th><th>🔧 On-Demand</th></tr></thead>
+      <tbody>
+        <tr><td>Frecuencia</td><td>Semanal</td><td>Semanal</td><td>Semanal</td><td>Acordada</td></tr>
+        <tr><td>Actualización datos</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+        <tr><td>Ajustes menores/semana</td><td>0</td><td>1</td><td>2</td><td>Según contrato</td></tr>
+        <tr><td>SLA respuesta</td><td>48h</td><td>24h</td><td style="color:var(--green);font-weight:700">12h</td><td>Acordado</td></tr>
+        <tr><td>Canal comunicación</td><td>Email</td><td>Email + Chat</td><td>Email + Chat + Call</td><td>A definir</td></tr>
+        <tr class="price-row"><td><strong>Precio mensual (+IVA)</strong></td><td><strong>€ 400</strong></td><td><strong>€ 650</strong></td><td><strong>€ 1.200</strong></td><td><strong>Desde € 350</strong></td></tr>
+      </tbody></table>
+    </div>
+    <div class="grid-2">
+      <div class="card"><h4 style="margin-bottom:.8rem;font-size:.9rem;font-weight:700">SLA de Respuesta (horas)</h4><canvas id="chartSLA" height="200"></canvas></div>
+      <div class="card">
+        <h4 style="margin-bottom:.8rem;font-size:.9rem;font-weight:700">Resumen Mantenimiento</h4>
+        <div class="grid-3" style="margin:0;gap:.8rem">
+          <div class="stat-card card" style="padding:.8rem"><div class="stat-icon">⏱️</div><div class="stat-val">4</div><div class="stat-label">Actualizaciones/mes</div></div>
+          <div class="stat-card card" style="padding:.8rem"><div class="stat-icon">⚡</div><div class="stat-val">12h</div><div class="stat-label">SLA mín. (Enterprise)</div></div>
+          <div class="stat-card card" style="padding:.8rem"><div class="stat-icon">📅</div><div class="stat-val">3</div><div class="stat-label">Meses mín. compromiso</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== PROCESS ====== -->
+  <div class="section" id="process">
+    <div class="section-title"><span class="num">06</span> Proceso de Trabajo</div>
+    <div class="card" style="margin-bottom:1.5rem;padding:2rem">
+      <div class="process-timeline">
+        <div class="process-step"><div class="step-num" style="background:var(--orange)">1</div><div class="step-title">Briefing Inicial</div><div class="step-desc">Reunión (30-60 min). Definición de KPIs, fuentes, usuarios y selección del plan.</div></div>
+        <div class="process-step"><div class="step-num" style="background:var(--midGray)">2</div><div class="step-title">Envío de Datos</div><div class="step-desc">Ficheros (Excel, PPT, PDF) con estructura y reglas de negocio. Validación de calidad.</div></div>
+        <div class="process-step"><div class="step-num" style="background:var(--darkGray)">3</div><div class="step-title">Desarrollo</div><div class="step-desc">Dashboard HTML interactivo. Iteraciones compartidas para feedback y revisión.</div></div>
+        <div class="process-step"><div class="step-num" style="background:var(--green)">4</div><div class="step-title">Entrega Final</div><div class="step-desc">Fichero HTML standalone sin dependencias. Propiedad total del cliente.</div></div>
+        <div class="process-step"><div class="step-num" style="background:var(--orange)">5</div><div class="step-title">Mantenimiento</div><div class="step-desc">Servicio recurrente mensual opcional. Datos actualizados según SLA.</div></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card"><h4 style="margin-bottom:.8rem;font-size:.9rem;font-weight:700">📋 Plazos de Entrega (días laborables)</h4><canvas id="chartTimeline" height="200"></canvas></div>
+      <div class="card"><h4 style="margin-bottom:.8rem;font-size:.9rem;font-weight:700">📝 Rondas de Revisión por Plan</h4><canvas id="chartRevisions" height="200"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ====== ADVANTAGES ====== -->
+  <div class="section" id="advantages">
+    <div class="section-title"><span class="num">07</span> Ventajas Competitivas</div>
+    <div class="card" style="overflow-x:auto;margin-bottom:1.5rem">
+      <table class="comp-table"><thead><tr><th style="text-align:left">Aspecto</th><th style="background:var(--orange)">✓ Nuestro Dashboard</th><th>Plataformas SaaS</th><th>Freelancers</th></tr></thead>
+      <tbody>
+        <tr><td>Licencias</td><td class="yes">Sin licencias recurrentes</td><td style="color:var(--red)">€35K-150K+/año</td><td>Variable</td></tr>
+        <tr><td>Propiedad</td><td class="yes">Total del cliente</td><td style="color:var(--red)">Dependencia proveedor</td><td class="yes">Normalmente sí</td></tr>
+        <tr><td>Infraestructura</td><td class="yes">HTML standalone</td><td style="color:var(--red)">Requiere cloud</td><td>Depende</td></tr>
+        <tr><td>Offline</td><td class="yes">Funciona offline</td><td style="color:var(--red)">Requiere internet</td><td>Raramente</td></tr>
+        <tr><td>Personalización</td><td class="yes">Ilimitada</td><td style="color:var(--red)">Limitada al SaaS</td><td class="yes">Sin metodología</td></tr>
+        <tr><td>Motor de scoring</td><td class="yes">Propio incluido</td><td style="color:var(--red)">Desarrollo adicional</td><td class="no">No incluido</td></tr>
+        <tr><td>Recomendaciones</td><td class="yes">Data-driven</td><td style="color:var(--red)">Solo visualización</td><td class="no">Solo visualización</td></tr>
+        <tr><td>Curva aprendizaje</td><td class="yes">Sin curva</td><td style="color:var(--red)">Formación necesaria</td><td>Variable</td></tr>
+        <tr class="price-row"><td><strong>Coste creación</strong></td><td style="color:var(--green)"><strong>Desde €1.000</strong></td><td style="color:var(--red)"><strong>Desde €35.000/año</strong></td><td><strong>€5.000-32.000</strong></td></tr>
+      </tbody></table>
+    </div>
+    <div class="card"><h4 style="margin-bottom:.8rem;font-size:.9rem;font-weight:700">💰 Coste Comparativo a 1 Año — Creación + 12 meses mantenimiento (€)</h4><canvas id="chartCostCompare" height="240"></canvas></div>
+  </div>
+
+  <!-- ====== CONDITIONS ====== -->
+  <div class="section" id="conditions">
+    <div class="section-title"><span class="num">08</span> Condiciones Comerciales</div>
+    <div class="cond-grid" style="margin-bottom:1.5rem">
+      <div class="card cond-item"><div class="cond-icon">💶</div><div><h4>Moneda</h4><p>Euros (€). Precios netos + IVA (21%).</p></div></div>
+      <div class="card cond-item"><div class="cond-icon">🤝</div><div><h4>Pago — Creación</h4><p>50% al inicio + 50% a la entrega final.</p></div></div>
+      <div class="card cond-item"><div class="cond-icon">📅</div><div><h4>Pago — Mantenimiento</h4><p>Facturación mensual anticipada. Mínimo: 3 meses.</p></div></div>
+      <div class="card cond-item"><div class="cond-icon">🔐</div><div><h4>Propiedad Intelectual</h4><p>Dashboard = propiedad plena del cliente. Sin restricciones de uso.</p></div></div>
+      <div class="card cond-item"><div class="cond-icon">🛡️</div><div><h4>Confidencialidad</h4><p>Datos bajo acuerdo de confidencialidad (NDA si requerido).</p></div></div>
+      <div class="card cond-item"><div class="cond-icon">⏹️</div><div><h4>Cancelación</h4><p>Preaviso de 30 días naturales para cancelar mantenimiento.</p></div></div>
+      <div class="card cond-item"><div class="cond-icon">📄</div><div><h4>Validez de la Oferta</h4><p>60 días naturales desde la fecha del documento.</p></div></div>
+      <div class="card cond-item"><div class="cond-icon">➕</div><div><h4>Ampliaciones</h4><p>Funcionalidades adicionales según tarifa On-Demand.</p></div></div>
+    </div>
+    <div class="highlight-box"><div class="hl-icon">📌</div><p><strong>Resumen:</strong> Creación desde <strong>€1.000</strong> (pago 50/50) · Mantenimiento desde <strong>€400/mes</strong> (mínimo 3 meses) · Propiedad total del cliente · NDA disponible · Oferta válida 60 días</p></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// Plugin: Show values on all charts
+const valuesPlugin = {
+  id: 'valuesOnTop',
+  afterDatasetsDraw(chart) {
+    const {ctx} = chart;
+    chart.data.datasets.forEach((ds, di) => {
+      const meta = chart.getDatasetMeta(di);
+      if (!meta.hidden) meta.data.forEach((el, i) => {
+        const val = ds.data[i];
+        if (val == null) return;
+        ctx.save();
+        ctx.font = 'bold 11px Montserrat';
+        ctx.fillStyle = '#1A1A1A';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        if (chart.config.options.indexAxis === 'y') {
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(val.toLocaleString('es-ES') + ' €', el.x + 6, el.y);
+        } else {
+          ctx.fillText(val.toLocaleString('es-ES'), el.x, el.y - 6);
+        }
+        ctx.restore();
+      });
+    });
+  }
+};
+Chart.register(valuesPlugin);
+
+// Nav
+document.querySelectorAll('.header-nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.header-nav button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.section).classList.add('active');
+    setTimeout(initCharts, 150);
+  });
+});
+
+// Animate bars
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.querySelectorAll('.bench-fill').forEach(bar => {
+    const w = bar.dataset.width; bar.style.width = '0%'; setTimeout(() => bar.style.width = w + '%', 100);
+  }); });
+}, {threshold: 0.3});
+document.querySelectorAll('.bench-bar').forEach(b => observer.observe(b));
+
+const O = '#F57C00', OD = '#E65100', MG = '#4A4A4A', DG = '#2D2D2D', GR = '#757575', GN = '#43A047', RD = '#E53935';
+let instances = {};
+
+function initCharts() {
+  Object.values(instances).forEach(c => c && c.destroy());
+  instances = {};
+  const baseOpts = {responsive:true, plugins:{legend:{display:false}, valuesOnTop:true}};
+
+  // Benchmark
+  const be = document.getElementById('chartBenchmark');
+  if (be && be.offsetParent !== null) {
+    instances.bench = new Chart(be, {type:'bar',data:{
+      labels:['Dashboard\ncustom','SaaS BI\n(anual)','Frontend\ninteractivo','Freelancers','Consultoría\nEspaña','★ Nuestro\nservicio'],
+      datasets:[{data:[200000,150000,50000,32000,5000,4500],backgroundColor:[RD,OD,O,MG,GR,GN],borderRadius:6,borderSkipped:false}]
+    },options:{...baseOpts,scales:{y:{ticks:{callback:v=>'€'+v.toLocaleString('es-ES')},grid:{color:'#E0E0E0'}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+  }
+
+  // Prices
+  const pe = document.getElementById('chartPrices');
+  if (pe && pe.offsetParent !== null) {
+    instances.prices = new Chart(pe, {type:'bar',data:{
+      labels:['Essential','Professional','Enterprise','On-Demand'],
+      datasets:[{data:[1000,2500,4500,1500],backgroundColor:[GR,MG,O,DG],borderRadius:6,borderSkipped:false}]
+    },options:{...baseOpts,scales:{y:{ticks:{callback:v=>'€'+v.toLocaleString('es-ES')},grid:{color:'#E0E0E0'}},x:{grid:{display:false}}}}});
+  }
+
+  // Maintenance
+  const me = document.getElementById('chartMaint');
+  if (me && me.offsetParent !== null) {
+    instances.maint = new Chart(me, {type:'bar',data:{
+      labels:['Essential','Professional','Enterprise','On-Demand'],
+      datasets:[{data:[400,650,1200,450],backgroundColor:[GR,MG,O,DG],borderRadius:6,borderSkipped:false}]
+    },options:{...baseOpts,scales:{y:{ticks:{callback:v=>'€'+v+'/mes'},grid:{color:'#E0E0E0'}},x:{grid:{display:false}}}}});
+  }
+
+  // SLA
+  const se = document.getElementById('chartSLA');
+  if (se && se.offsetParent !== null) {
+    instances.sla = new Chart(se, {type:'bar',data:{
+      labels:['Essential','Professional','Enterprise'],
+      datasets:[{data:[48,24,12],backgroundColor:[GR,MG,O],borderRadius:6,borderSkipped:false}]
+    },options:{...baseOpts,scales:{y:{ticks:{callback:v=>v+'h'},grid:{color:'#E0E0E0'}},x:{grid:{display:false}}}}});
+  }
+
+  // Timeline
+  const te = document.getElementById('chartTimeline');
+  if (te && te.offsetParent !== null) {
+    instances.timeline = new Chart(te, {type:'bar',data:{
+      labels:['Essential','Professional','Enterprise'],
+      datasets:[
+        {label:'Mínimo',data:[5,10,15],backgroundColor:'rgba(245,124,0,0.35)',borderRadius:6,borderSkipped:false},
+        {label:'Máximo',data:[7,15,25],backgroundColor:O,borderRadius:6,borderSkipped:false}
+      ]
+    },options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:{family:'Montserrat',size:11}}},valuesOnTop:true},scales:{y:{grid:{color:'#E0E0E0'}},x:{grid:{display:false}}}}});
+  }
+
+  // Revisions
+  const re = document.getElementById('chartRevisions');
+  if (re && re.offsetParent !== null) {
+    instances.rev = new Chart(re, {type:'doughnut',data:{
+      labels:['Essential (2)','Professional (3)','Enterprise (4)'],
+      datasets:[{data:[2,3,4],backgroundColor:[GR,MG,O],borderWidth:0,hoverOffset:8}]
+    },options:{responsive:true,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:{family:'Montserrat',size:11}}},valuesOnTop:false,tooltip:{callbacks:{label:ctx=>ctx.label+': '+ctx.raw+' rondas'}}}}});
+  }
+
+  // Cost comparison
+  const ce = document.getElementById('chartCostCompare');
+  if (ce && ce.offsetParent !== null) {
+    instances.cost = new Chart(ce, {type:'bar',data:{
+      labels:['Essential\n(creación+mant.)','Professional\n(creación+mant.)','Enterprise\n(creación+mant.)','SaaS BI\n(mínimo/año)','Freelancer\n(mín. proyecto)'],
+      datasets:[{data:[5800,10300,18900,35000,5000],backgroundColor:[O,O,O,RD,GR],borderRadius:6,borderSkipped:false}]
+    },options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},valuesOnTop:true},scales:{x:{ticks:{callback:v=>'€'+v.toLocaleString('es-ES')},grid:{color:'#E0E0E0'}},y:{grid:{display:false},ticks:{font:{size:10,family:'Montserrat'}}}}}});
+  }
+}
+
+setTimeout(initCharts, 300);
+</script>
+</body>
+</html>

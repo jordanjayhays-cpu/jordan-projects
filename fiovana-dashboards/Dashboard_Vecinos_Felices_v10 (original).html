@@ -1,0 +1,2453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>fiovana · Dashboard Evolución del Presupuesto — Vecinos Felices</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--black:#1A1A1A;--darkGray:#2D2D2D;--midGray:#4A4A4A;--gray:#757575;
+--lightGray:#E0E0E0;--offWhite:#F5F5F5;--white:#FFFFFF;
+--orange:#F57C00;--orangeLight:#FF9800;--orangeDark:#E65100;--orangePale:#FFF3E0;
+--green:#43A047;--greenLight:#66BB6A;--red:#E53935;--redLight:#EF5350;
+--yellow:#FFA000;--blue:#1565C0;--purple:#7B1FA2;--teal:#00897B;
+--text:#1A1A1A;--textLight:#757575;--border:#E0E0E0;
+--shadow:0 2px 12px rgba(0,0,0,0.06);--shadowHover:0 6px 24px rgba(0,0,0,0.12);
+}
+body{font-family:'Montserrat',sans-serif;background:var(--offWhite);color:var(--text);line-height:1.6;font-size:14px;transition:background .4s,color .4s}
+
+/* DARK MODE */
+body.dark{--offWhite:#121212;--white:#1E1E1E;--text:#E0E0E0;--textLight:#9E9E9E;--border:#333;--shadow:0 2px 12px rgba(0,0,0,0.3);--shadowHover:0 6px 24px rgba(0,0,0,0.5);--lightGray:#333;background:#121212;color:#E0E0E0}
+body.dark .header{background:#0A0A0A}
+body.dark .card{background:rgba(30,30,30,0.85);border-color:#333;backdrop-filter:blur(8px)}
+body.dark .budget-table th{background:#111}
+body.dark .budget-table .group-row{background:rgba(245,124,0,0.08)!important}
+body.dark .budget-table .total-row{background:#000!important}
+body.dark .filter-bar{background:#1a1a1a;border-color:#333}
+body.dark .filter-bar select{background:#222;color:#ddd;border-color:#444}
+body.dark .highlight-box{background:#0a0a0a}
+body.dark .heatmap-table th{background:#111}
+body.dark .warning-box{background:rgba(30,30,30,0.9);border-color:#444}
+body.dark .warning-box.danger{background:rgba(229,57,53,0.08);border-color:#C62828}
+body.dark .warning-box.success{background:rgba(67,160,71,0.08);border-color:#2E7D32}
+body.dark .warning-box.info{background:rgba(21,101,192,0.08);border-color:#1565C0}
+body.dark .rec-section{background:linear-gradient(135deg,#0a0a0a,#1a1a1a)}
+body.dark .summary-item{background:#1a1a1a;border-color:#333}
+body.dark .header-nav button{background:#222;color:#ccc;border-color:#444;box-shadow:0 2px 6px rgba(0,0,0,0.3)}
+body.dark .header-nav button:hover{background:rgba(245,124,0,0.15);color:var(--orange);border-color:var(--orange)}
+body.dark .header-nav button.active{background:var(--orange);color:#fff;border-color:var(--orangeDark)}
+
+/* DARK MODE TOGGLE */
+.dm-toggle{position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;width:48px;height:48px;border-radius:50%;background:var(--black);border:2px solid var(--orange);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 20px rgba(245,124,0,0.3);transition:all .3s}
+.dm-toggle:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(245,124,0,0.5)}
+body.dark .dm-toggle{background:#222}
+
+/* HEADER */
+.header{background:var(--black);color:#fff;padding:1.2rem 2rem .8rem;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.3)}
+.header::after{content:'';display:block;height:4px;background:linear-gradient(90deg,var(--orange),var(--orangeLight),var(--orange));position:absolute;bottom:0;left:0;right:0}
+.header-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.8rem}
+.header h1{font-size:1.25rem;font-weight:700;letter-spacing:-.01em}
+.header h1 span{color:var(--orange);font-weight:900}
+.header-badge{background:rgba(245,124,0,0.12);border:1px solid rgba(245,124,0,0.3);padding:.25rem .7rem;border-radius:4px;font-size:.65rem;color:var(--orange);font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+
+/* NAV BUTTONS - BIGGER WHITE/ORANGE */
+.header-nav{display:flex;gap:.45rem;margin-top:.8rem;flex-wrap:wrap;padding-bottom:.2rem}
+.header-nav button{
+  background:var(--white);color:var(--black);
+  border:2px solid var(--lightGray);
+  padding:.55rem 1.1rem;border-radius:6px;cursor:pointer;
+  font-size:.82rem;font-family:inherit;font-weight:600;
+  transition:all .25s ease;letter-spacing:.01em;white-space:nowrap;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+.header-nav button:hover{background:var(--orangePale);color:var(--orangeDark);border-color:var(--orange);transform:translateY(-1px);box-shadow:0 4px 12px rgba(245,124,0,0.2)}
+.header-nav button.active{background:var(--orange);color:#fff;border-color:var(--orangeDark);font-weight:800;box-shadow:0 4px 16px rgba(245,124,0,0.35);transform:translateY(-1px)}
+
+/* LAYOUT */
+.main{max-width:1500px;margin:0 auto;padding:1.2rem}
+.section{display:none;animation:fadeIn .35s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:10px;padding:1.2rem;box-shadow:var(--shadow);transition:box-shadow .3s,transform .3s,opacity .5s;border:1px solid var(--border);margin-bottom:1rem;opacity:0;animation:cardEnter .5s ease forwards}
+.card:hover{box-shadow:var(--shadowHover);transform:translateY(-2px)}
+.card h4{font-size:.85rem;font-weight:700;margin-bottom:.5rem}
+
+/* STAGGER CARD ENTRANCE */
+@keyframes cardEnter{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.kpi-row .card:nth-child(1){animation-delay:.05s}
+.kpi-row .card:nth-child(2){animation-delay:.12s}
+.kpi-row .card:nth-child(3){animation-delay:.19s}
+.kpi-row .card:nth-child(4){animation-delay:.26s}
+.kpi-row .card:nth-child(5){animation-delay:.33s}
+.grid-2 .card:nth-child(1){animation-delay:.06s}
+.grid-2 .card:nth-child(2){animation-delay:.16s}
+
+/* GAUGE RING KPI */
+.kpi-gauge{position:relative;display:flex;flex-direction:column;align-items:center;padding:1rem .6rem;border-top:none!important}
+.gauge-ring{position:relative;width:96px;height:96px;margin-bottom:.35rem}
+.gauge-ring svg{transform:rotate(-90deg);width:96px;height:96px}
+.gauge-ring circle{fill:none;stroke-width:7;stroke-linecap:round}
+.gauge-ring .gauge-bg{stroke:var(--lightGray)}
+.gauge-ring .gauge-fill{transition:stroke-dashoffset 1.8s cubic-bezier(.4,0,.2,1)}
+.gauge-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.gauge-center .gauge-pct{font-size:1.1rem;font-weight:900;line-height:1}
+.gauge-center .gauge-sub{font-size:.5rem;opacity:.5;margin-top:.1rem;font-weight:600}
+
+/* SPARKLINE */
+.sparkline{display:block;margin:4px auto 0}
+.sparkline polyline{fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.sparkline .spark-area{stroke:none;opacity:.15}
+
+/* FISCAL YEAR PROGRESS */
+.fy-progress{background:rgba(255,255,255,0.85);backdrop-filter:blur(10px);border:1px solid var(--border);border-radius:10px;padding:.8rem 1.2rem;margin-bottom:1rem}
+.fy-top{display:flex;align-items:center;gap:1rem;margin-bottom:.3rem}
+.fy-label{font-size:.72rem;font-weight:700;color:var(--textLight);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.fy-track{flex:1;height:24px;background:var(--lightGray);border-radius:12px;overflow:hidden;position:relative}
+.fy-fill{height:100%;border-radius:12px;background:linear-gradient(90deg,var(--green),var(--orangeLight),var(--orange));position:relative;transition:width 2s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.6rem;color:#fff;font-weight:800;text-shadow:0 1px 3px rgba(0,0,0,0.3)}
+.fy-fill::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(255,255,255,0.25) 0%,transparent 60%);border-radius:12px}
+.fy-months{display:flex;justify-content:space-between;padding:.1rem .2rem;font-size:.52rem;color:var(--gray);font-weight:500}
+.fy-months span{flex:1;text-align:center;padding:.1rem 0;border-radius:3px;transition:all .2s}
+.fy-months span.fy-current{color:var(--orange);font-weight:800;background:var(--orangePale)}
+.fy-months span.fy-past{color:var(--green);font-weight:600}
+.fy-pct{font-size:.82rem;font-weight:800;color:var(--orange);white-space:nowrap;min-width:45px;text-align:right}
+
+/* PULSE GLOW FOR CRITICAL */
+
+/* DETAIL EXPENSE TABLE */
+.detail-expense-table{font-size:.72rem}
+.detail-expense-table th{background:var(--darkGray)!important;font-size:.68rem;padding:.45rem .4rem;white-space:nowrap}
+.detail-month-header td{background:linear-gradient(90deg,var(--orangePale),rgba(255,243,224,0.3))!important;font-weight:800!important;font-size:.78rem!important;color:var(--orangeDark)!important;padding:.55rem .6rem!important;letter-spacing:.02em;border-bottom:2px solid var(--orange)!important}
+.detail-row td{padding:.35rem .4rem;font-size:.68rem;border-bottom:1px solid rgba(224,224,224,0.5)}
+.detail-row:hover td{background:rgba(245,124,0,0.04)}
+.detail-subtotal td{background:rgba(245,124,0,0.06)!important;border-top:1px solid var(--orange)!important;padding:.4rem .4rem}
+.detail-grand-total td{background:var(--black)!important;color:#fff!important;padding:.55rem .5rem;border:none!important}
+.detail-grand-total td:nth-child(7){color:var(--orangeLight)!important}
+.det-paid{display:inline-block;background:rgba(67,160,71,0.12);color:var(--green);font-size:.58rem;font-weight:700;padding:.15rem .4rem;border-radius:3px;letter-spacing:.02em}
+.det-pending{display:inline-block;background:rgba(229,57,53,0.1);color:var(--red);font-size:.58rem;font-weight:700;padding:.15rem .4rem;border-radius:3px;letter-spacing:.02em;animation:pulseGlow 3s ease-in-out infinite}
+body.dark .detail-month-header td{background:linear-gradient(90deg,rgba(245,124,0,0.12),rgba(245,124,0,0.03))!important;color:var(--orange)!important}
+body.dark .detail-subtotal td{background:rgba(245,124,0,0.05)!important}
+body.dark .detail-grand-total td{background:#000!important}
+body.dark .detail-row:hover td{background:rgba(245,124,0,0.06)}
+body.dark .det-paid{background:rgba(67,160,71,0.15)}
+body.dark .det-pending{background:rgba(229,57,53,0.15)}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(229,57,53,0.3)}50%{box-shadow:0 0 14px 4px rgba(229,57,53,0.2)}}
+.warning-box.danger{animation:pulseGlow 3s ease-in-out infinite}
+
+/* SMOOTH SECTION CHANGE */
+.section.active{animation:sectionIn .45s cubic-bezier(.25,.46,.45,.94) forwards}
+@keyframes sectionIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* DARK MODE TOGGLE */
+.dm-toggle{position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;width:48px;height:48px;border-radius:50%;background:var(--black);border:2px solid var(--orange);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 20px rgba(245,124,0,0.3);transition:all .3s}
+.dm-toggle:hover{transform:scale(1.12);box-shadow:0 6px 28px rgba(245,124,0,0.5)}
+body.dark .dm-toggle{background:#1a1a1a}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;margin-bottom:1rem}
+.kpi{text-align:center;padding:1rem;border-top:3px solid var(--orange)}
+.kpi-value{font-size:1.6rem;font-weight:800;line-height:1.1}
+.kpi-label{font-size:.68rem;color:var(--textLight);margin-top:.2rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em}
+.kpi-sub{font-size:.62rem;color:var(--gray);margin-top:.1rem}
+.orange{color:var(--orange)}.green{color:var(--green)}.red{color:var(--red)}.dark{color:var(--darkGray)}.yellow{color:var(--yellow)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem}
+.section-title{font-size:1.05rem;font-weight:800;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;color:var(--text)}
+.section-title .num{background:var(--orange);color:#fff;width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+.highlight-box{background:var(--black);color:#fff;border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem;display:flex;align-items:center;gap:.8rem;border-left:4px solid var(--orange)}
+.highlight-box .hl-icon{font-size:1.4rem;flex-shrink:0}
+.highlight-box p{font-size:.82rem;line-height:1.5;opacity:.9}
+.highlight-box strong{color:var(--orange)}
+.filter-bar{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;margin-bottom:.8rem;padding:.6rem .8rem;background:var(--offWhite);border-radius:6px;border:1px solid var(--border)}
+.filter-bar label{font-size:.72rem;font-weight:600;color:var(--textLight);text-transform:uppercase;letter-spacing:.05em}
+.filter-bar select{font-family:inherit;font-size:.78rem;padding:.3rem .5rem;border:1px solid var(--border);border-radius:4px;background:#fff;cursor:pointer}
+.filter-bar button{font-family:inherit;font-size:.72rem;padding:.3rem .8rem;border:1px solid var(--orange);border-radius:4px;background:var(--orange);color:#fff;cursor:pointer;font-weight:600;transition:all .2s}
+.filter-bar button:hover{background:var(--orangeDark)}
+
+/* TABLES */
+.budget-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.72rem}
+.budget-table th{background:var(--darkGray);color:#fff;padding:.45rem .35rem;text-align:center;font-weight:600;position:sticky;top:0;z-index:2;white-space:nowrap}
+.budget-table th:first-child{text-align:left;min-width:50px}
+.budget-table th:nth-child(2){text-align:left;min-width:180px}
+.budget-table td{padding:.35rem .35rem;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap}
+.budget-table td:first-child{text-align:center;font-weight:600;color:var(--gray);font-size:.68rem}
+.budget-table td:nth-child(2){text-align:left;font-weight:500}
+.budget-table tr:nth-child(even){background:rgba(245,245,245,0.5)}
+.budget-table tr:hover{background:#FFF8E1}
+.budget-table .group-row{background:var(--orangePale)!important;font-weight:700}
+.budget-table .group-row td{border-top:2px solid var(--orange);color:var(--darkGray)}
+.budget-table .total-row{background:var(--black)!important;color:#fff;font-weight:800}
+.budget-table .total-row td{color:#fff;border-top:3px solid var(--orange)}
+.budget-table .pct-cell{font-weight:700;font-size:.7rem}
+.table-scroll{overflow-x:auto;max-height:600px;overflow-y:auto;border-radius:6px;border:1px solid var(--border)}
+
+/* WARNINGS */
+.warning-box{background:#FFF3E0;border:1px solid var(--orange);border-left:4px solid var(--orange);border-radius:6px;padding:.8rem 1rem;margin-bottom:.6rem}
+.warning-box.danger{background:#FFEBEE;border-color:var(--red)}
+.warning-box.success{background:#E8F5E9;border-color:var(--green)}
+.warning-box.info{background:#E3F2FD;border-color:var(--blue)}
+.warning-box h4{font-size:.82rem;margin-bottom:.2rem;display:flex;align-items:center;gap:.4rem}
+.warning-box p{font-size:.76rem;color:var(--textLight);line-height:1.5}
+.analysis-section{margin-top:1rem}
+.analysis-section h3{font-size:.92rem;font-weight:700;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+.pct-bar{height:20px;background:var(--lightGray);border-radius:10px;overflow:hidden;margin:.3rem 0}
+.pct-fill{height:100%;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#fff;font-weight:700;transition:width .8s ease}
+.chart-container{position:relative;height:300px}
+.chart-container.tall{height:380px}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.6rem;margin:.6rem 0}
+.summary-item{text-align:center;padding:.8rem .5rem;border-radius:6px;background:var(--offWhite);border:1px solid var(--border)}
+.summary-item .s-val{font-size:1.2rem;font-weight:800}
+.summary-item .s-lbl{font-size:.65rem;color:var(--textLight);text-transform:uppercase;font-weight:600;margin-top:.1rem}
+
+/* TREEMAP */
+.treemap-container{position:relative;width:100%;min-height:320px;border-radius:6px;overflow:hidden}
+.tm-cell{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid #fff;border-radius:4px;cursor:default;transition:all .2s;overflow:hidden;padding:4px}
+.tm-cell:hover{filter:brightness(1.1);z-index:2;box-shadow:0 4px 16px rgba(0,0,0,0.3)}
+.tm-cell .tm-label{font-size:.65rem;font-weight:700;color:#fff;text-align:center;text-shadow:0 1px 3px rgba(0,0,0,0.5);line-height:1.2;word-break:break-word}
+.tm-cell .tm-value{font-size:.72rem;font-weight:800;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5)}
+
+/* HEATMAP */
+.heatmap-table{width:100%;border-collapse:separate;border-spacing:2px;font-size:.7rem}
+.heatmap-table th{background:var(--darkGray);color:#fff;padding:.4rem .3rem;text-align:center;font-weight:600;font-size:.65rem;border-radius:3px}
+.heatmap-table th:first-child{text-align:left;min-width:140px}
+.heatmap-table td{padding:.35rem .25rem;text-align:center;border-radius:3px;font-weight:600;font-size:.65rem;transition:all .2s}
+.heatmap-table td:first-child{text-align:left;background:var(--offWhite);font-weight:600;color:var(--text)}
+.heatmap-table td:hover{transform:scale(1.05);box-shadow:0 2px 8px rgba(0,0,0,0.2)}
+
+/* RECOMMENDATIONS */
+.rec-section{background:linear-gradient(135deg,var(--black) 0%,var(--darkGray) 100%);border-radius:12px;padding:2rem;margin-top:1.5rem;color:#fff}
+.rec-section h2{font-size:1.15rem;font-weight:800;margin-bottom:1.2rem;color:var(--orange);display:flex;align-items:center;gap:.5rem}
+.rec-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.rec-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:1.1rem;border-left:4px solid var(--orange)}
+.rec-card h4{font-size:.85rem;font-weight:700;margin-bottom:.4rem;color:var(--orange);display:flex;align-items:center;gap:.3rem}
+.rec-card p{font-size:.76rem;opacity:.85;line-height:1.6}
+.rec-card ul{list-style:none;padding:0;margin:.4rem 0 0}
+.rec-card ul li{font-size:.74rem;padding:.25rem 0;opacity:.85;display:flex;align-items:flex-start;gap:.35rem;line-height:1.4}
+.rec-card ul li::before{content:'▸';color:var(--orange);font-weight:800;flex-shrink:0}
+.lever-bar{margin:.5rem 0}
+.lever-label{display:flex;justify-content:space-between;font-size:.72rem;font-weight:600;margin-bottom:.15rem}
+.lever-track{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden}
+.lever-fill{height:100%;border-radius:4px;transition:width 1s ease}
+
+
+/* ROADMAP GANTT */
+.gantt-wrap{overflow-x:auto}
+.gantt-table{width:100%;border-collapse:separate;border-spacing:0;font-size:.72rem;min-width:900px}
+.gantt-table th{background:var(--darkGray);color:#fff;padding:.5rem .4rem;text-align:center;font-weight:600;font-size:.68rem}
+.gantt-table th:first-child{text-align:left;min-width:220px}
+.gantt-table th:nth-child(2){min-width:70px}
+.gantt-table td{padding:.4rem .3rem;border-bottom:1px solid var(--border);text-align:center;position:relative;height:36px}
+.gantt-table td:first-child{text-align:left;font-weight:600;font-size:.72rem;white-space:nowrap}
+.gantt-table td:nth-child(2){font-size:.65rem;color:var(--textLight);text-align:center}
+.gantt-table tr:nth-child(even){background:rgba(245,245,245,0.4)}
+.gantt-table tr:hover{background:#FFF8E1}
+.gantt-bar{position:absolute;top:6px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,0.3);min-width:8px;z-index:1;transition:all .3s}
+.gantt-bar:hover{filter:brightness(1.15);box-shadow:0 3px 12px rgba(0,0,0,0.25);transform:scaleY(1.1)}
+.gantt-milestone{position:absolute;top:8px;width:20px;height:20px;transform:rotate(45deg);border-radius:3px;z-index:2}
+.gantt-phase-row td{background:rgba(245,124,0,0.06)!important;border-top:2px solid var(--orange)}
+.gantt-phase-row td:first-child{font-weight:800;color:var(--orange);font-size:.76rem}
+.roadmap-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.8rem;padding:.5rem 0}
+.roadmap-legend-item{display:flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:500}
+.roadmap-legend-item .dot{width:14px;height:14px;border-radius:3px;flex-shrink:0}
+
+/* DATALENS BADGE */
+.datalens-bar{background:linear-gradient(90deg,#1A1A1A 0%,#2D2D2D 100%);padding:.35rem 2rem;display:flex;justify-content:center;align-items:center;gap:.6rem;border-bottom:1px solid rgba(245,124,0,0.2)}
+.datalens-bar .dl-logo{display:flex;align-items:center;gap:.4rem}
+.datalens-bar .dl-icon{width:20px;height:20px;border-radius:4px;background:linear-gradient(135deg,var(--orange),var(--orangeLight));display:flex;align-items:center;justify-content:center}
+.datalens-bar .dl-icon svg{width:12px;height:12px}
+.datalens-bar .dl-text{font-size:.65rem;color:rgba(255,255,255,0.5);font-weight:500;letter-spacing:.06em}
+.datalens-bar .dl-text strong{color:var(--orange);font-weight:700}
+
+/* SECTION BACKGROUNDS - full coverage, visible watermark */
+.section{position:relative;min-height:100vh}
+.section::before{content:'';position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;opacity:0.07;background-repeat:repeat;background-position:center center;background-size:50%;filter:grayscale(100%)}
+.section::after{content:'';position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;background:radial-gradient(ellipse at center,transparent 40%,var(--offWhite) 100%)}
+.section>*{position:relative;z-index:1}
+.section:not(.active)::before,.section:not(.active)::after{display:none}
+
+/* SECTION FOOTER */
+.section-footer{background:linear-gradient(90deg,#1A1A1A 0%,#2D2D2D 100%);padding:.65rem 2rem;display:flex;justify-content:center;align-items:center;gap:.6rem;border-radius:8px;margin-top:2rem;box-shadow:0 2px 12px rgba(0,0,0,0.15);border-top:3px solid var(--orange)}
+.section-footer .sf-logo{display:flex;align-items:center;gap:.4rem}
+.section-footer .sf-icon{width:18px;height:18px;border-radius:4px;background:linear-gradient(135deg,var(--orange),var(--orangeLight));display:flex;align-items:center;justify-content:center}
+.section-footer .sf-icon svg{width:11px;height:11px}
+.section-footer .sf-text{font-size:.68rem;color:rgba(255,255,255,0.5);font-weight:500;letter-spacing:.06em}
+.section-footer .sf-text strong{color:var(--orange);font-weight:700}
+
+#overview::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect x='80' y='200' width='80' height='300' rx='8' fill='%23333'/%3E%3Crect x='200' y='120' width='80' height='380' rx='8' fill='%23555'/%3E%3Crect x='320' y='250' width='80' height='250' rx='8' fill='%23333'/%3E%3Crect x='440' y='80' width='80' height='420' rx='8' fill='%23555'/%3E%3Crect x='560' y='180' width='80' height='320' rx='8' fill='%23333'/%3E%3Crect x='680' y='150' width='80' height='350' rx='8' fill='%23555'/%3E%3Ccircle cx='400' cy='200' r='120' fill='none' stroke='%23444' stroke-width='12'/%3E%3Ccircle cx='400' cy='200' r='120' fill='none' stroke='%23777' stroke-width='12' stroke-dasharray='200 555'/%3E%3Cline x1='60' y1='500' x2='780' y2='500' stroke='%23444' stroke-width='3'/%3E%3Cline x1='80' y1='60' x2='80' y2='520' stroke='%23444' stroke-width='3'/%3E%3C/svg%3E");
+}
+#group1::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect x='250' y='150' width='300' height='350' rx='12' fill='none' stroke='%23555' stroke-width='8'/%3E%3Crect x='290' y='200' width='60' height='60' rx='4' fill='%23444'/%3E%3Crect x='370' y='200' width='60' height='60' rx='4' fill='%23444'/%3E%3Crect x='450' y='200' width='60' height='60' rx='4' fill='%23444'/%3E%3Crect x='290' y='290' width='60' height='60' rx='4' fill='%23444'/%3E%3Crect x='370' y='290' width='60' height='60' rx='4' fill='%23444'/%3E%3Crect x='450' y='290' width='60' height='60' rx='4' fill='%23444'/%3E%3Crect x='355' y='390' width='90' height='110' rx='6' fill='%23444'/%3E%3Cpolygon points='400,80 220,160 580,160' fill='none' stroke='%23555' stroke-width='8'/%3E%3Ccircle cx='150' cy='450' r='40' fill='none' stroke='%23444' stroke-width='6'/%3E%3Cpath d='M130,450 L150,430 L170,460 L150,440' fill='none' stroke='%23444' stroke-width='4'/%3E%3Crect x='620' y='350' width='100' height='6' rx='3' fill='%23444'/%3E%3Crect x='620' y='370' width='80' height='6' rx='3' fill='%23444'/%3E%3Crect x='620' y='390' width='90' height='6' rx='3' fill='%23444'/%3E%3C/svg%3E");
+}
+#group2::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect x='150' y='200' width='200' height='280' rx='8' fill='none' stroke='%23555' stroke-width='6'/%3E%3Cpolygon points='250,120 130,210 370,210' fill='none' stroke='%23555' stroke-width='6'/%3E%3Crect x='200' y='260' width='40' height='40' rx='3' fill='%23444'/%3E%3Crect x='260' y='260' width='40' height='40' rx='3' fill='%23444'/%3E%3Crect x='200' y='340' width='40' height='40' rx='3' fill='%23444'/%3E%3Crect x='260' y='340' width='40' height='40' rx='3' fill='%23444'/%3E%3Crect x='220' y='420' width='60' height='60' rx='4' fill='%23444'/%3E%3Crect x='450' y='180' width='200' height='300' rx='8' fill='none' stroke='%23555' stroke-width='6'/%3E%3Cpolygon points='550,100 430,190 670,190' fill='none' stroke='%23555' stroke-width='6'/%3E%3Crect x='490' y='240' width='40' height='40' rx='3' fill='%23444'/%3E%3Crect x='560' y='240' width='40' height='40' rx='3' fill='%23444'/%3E%3Crect x='490' y='320' width='40' height='40' rx='3' fill='%23444'/%3E%3Crect x='560' y='320' width='40' height='40' rx='3' fill='%23444'/%3E%3Crect x='520' y='400' width='60' height='80' rx='4' fill='%23444'/%3E%3Crect x='80' y='200' width='30' height='100' rx='4' fill='%23444'/%3E%3Crect x='80' y='310' width='30' height='8' rx='4' fill='%23555'/%3E%3C/svg%3E");
+}
+#group3::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect x='100' y='150' width='600' height='350' rx='12' fill='none' stroke='%23555' stroke-width='8'/%3E%3Crect x='140' y='250' width='160' height='120' rx='8' fill='none' stroke='%23444' stroke-width='5'/%3E%3Ccircle cx='190' cy='370' r='25' fill='none' stroke='%23444' stroke-width='5'/%3E%3Ccircle cx='260' cy='370' r='25' fill='none' stroke='%23444' stroke-width='5'/%3E%3Crect x='160' y='280' width='120' height='50' rx='6' fill='%23444'/%3E%3Crect x='400' y='250' width='160' height='120' rx='8' fill='none' stroke='%23444' stroke-width='5'/%3E%3Ccircle cx='450' cy='370' r='25' fill='none' stroke='%23444' stroke-width='5'/%3E%3Ccircle cx='520' cy='370' r='25' fill='none' stroke='%23444' stroke-width='5'/%3E%3Crect x='420' y='280' width='120' height='50' rx='6' fill='%23444'/%3E%3Crect x='300' y='160' width='200' height='60' rx='6' fill='none' stroke='%23555' stroke-width='4'/%3E%3Ctext x='400' y='198' text-anchor='middle' font-size='28' font-weight='bold' fill='%23444' font-family='sans-serif'%3EP%3C/text%3E%3Cline x1='100' y1='430' x2='700' y2='430' stroke='%23555' stroke-width='3' stroke-dasharray='12 8'/%3E%3C/svg%3E");
+}
+#group4::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Cellipse cx='400' cy='350' rx='250' ry='120' fill='none' stroke='%23555' stroke-width='8'/%3E%3Cellipse cx='400' cy='350' rx='200' ry='95' fill='none' stroke='%23444' stroke-width='4'/%3E%3Cpath d='M200,300 Q250,250 300,300' fill='none' stroke='%23555' stroke-width='5'/%3E%3Cpath d='M450,280 Q500,230 550,280' fill='none' stroke='%23555' stroke-width='5'/%3E%3Cpath d='M320,290 Q370,240 420,290' fill='none' stroke='%23444' stroke-width='4'/%3E%3Ccircle cx='200' cy='180' r='60' fill='none' stroke='%23555' stroke-width='6'/%3E%3Cline x1='200' y1='120' x2='200' y2='100' stroke='%23444' stroke-width='4'/%3E%3Cline x1='200' y1='240' x2='200' y2='260' stroke='%23444' stroke-width='4'/%3E%3Cline x1='140' y1='180' x2='120' y2='180' stroke='%23444' stroke-width='4'/%3E%3Cline x1='260' y1='180' x2='280' y2='180' stroke='%23444' stroke-width='4'/%3E%3Crect x='580' y='160' width='120' height='160' rx='8' fill='none' stroke='%23444' stroke-width='5'/%3E%3Crect x='600' y='180' width='35' height='35' rx='3' fill='%23444'/%3E%3Crect x='645' y='180' width='35' height='35' rx='3' fill='%23444'/%3E%3Crect x='620' y='260' width='40' height='60' rx='3' fill='%23444'/%3E%3C/svg%3E");
+}
+#group5::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Crect x='250' y='180' width='300' height='280' rx='16' fill='none' stroke='%23555' stroke-width='10'/%3E%3Crect x='280' y='160' width='240' height='40' rx='8' fill='%23444'/%3E%3Ccircle cx='400' cy='340' r='60' fill='none' stroke='%23555' stroke-width='8'/%3E%3Ccircle cx='400' cy='340' r='30' fill='%23444'/%3E%3Crect x='390' y='300' width='20' height='30' rx='4' fill='%23555'/%3E%3Crect x='150' y='420' width='500' height='12' rx='6' fill='%23444'/%3E%3Crect x='120' y='440' width='560' height='12' rx='6' fill='%23555'/%3E%3Ccircle cx='150' cy='250' r='30' fill='none' stroke='%23444' stroke-width='4'/%3E%3Ctext x='150' y='258' text-anchor='middle' font-size='22' font-weight='bold' fill='%23444' font-family='sans-serif'%3E€%3C/text%3E%3Ccircle cx='650' cy='250' r='30' fill='none' stroke='%23444' stroke-width='4'/%3E%3Ctext x='650' y='258' text-anchor='middle' font-size='22' font-weight='bold' fill='%23444' font-family='sans-serif'%3E€%3C/text%3E%3C/svg%3E");
+}
+#palancas::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'%3E%3Ccircle cx='300' cy='250' r='100' fill='none' stroke='%23555' stroke-width='8'/%3E%3Ccircle cx='300' cy='250' r='70' fill='none' stroke='%23444' stroke-width='5'/%3E%3Ccircle cx='300' cy='250' r='40' fill='none' stroke='%23555' stroke-width='4'/%3E%3Ccircle cx='300' cy='250' r='12' fill='%23444'/%3E%3Cpath d='M540,200 L540,140 L570,140 L570,180 L600,180 L600,140 L630,140 L630,200' fill='none' stroke='%23555' stroke-width='6'/%3E%3Ccircle cx='585' cy='260' r='65' fill='none' stroke='%23444' stroke-width='6'/%3E%3Crect x='570' y='225' width='30' height='70' rx='4' fill='%23444'/%3E%3Crect x='555' y='240' width='60' height='8' rx='4' fill='%23555'/%3E%3Cline x1='100' y1='450' x2='700' y2='450' stroke='%23444' stroke-width='3'/%3E%3Ccircle cx='150' cy='450' r='8' fill='%23555'/%3E%3Ccircle cx='270' cy='420' r='8' fill='%23555'/%3E%3Ccircle cx='390' cy='390' r='8' fill='%23555'/%3E%3Ccircle cx='510' cy='370' r='8' fill='%23555'/%3E%3Ccircle cx='630' cy='360' r='8' fill='%23555'/%3E%3Cpath d='M150,450 Q210,435 270,420 Q330,405 390,390 Q450,380 510,370 Q570,365 630,360' fill='none' stroke='%23555' stroke-width='4'/%3E%3Cpolygon points='300,250 310,230 320,250 310,240' fill='%23555'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   RESPONSIVE v9 — TABLET / MOBILE / TOUCH / PRINT
+   ================================================================ */
+
+/* ===== TABLET (601–900px) ===== */
+@media(max-width:900px){
+  .grid-2,.grid-3,.rec-grid{grid-template-columns:1fr}
+  .main{padding:.7rem}
+  .header{padding:.9rem 1rem .6rem}
+  .header h1{font-size:1.05rem}
+  .chart-container{height:250px}
+  .chart-container.tall{height:310px}
+  .kpi-row{grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:.55rem}
+  .summary-grid{grid-template-columns:repeat(auto-fit,minmax(115px,1fr))}
+  .fy-months{font-size:.44rem}
+  .treemap-container{min-height:250px}
+  .gantt-table{min-width:760px}
+  .rec-section{padding:1.3rem}
+}
+
+/* ===== MOBILE (max 600px) ===== */
+@media(max-width:600px){
+  /* HEADER */
+  .header{padding:.55rem .65rem .3rem}
+  .header h1{font-size:.78rem;line-height:1.2}
+  .header-badge{font-size:.46rem;padding:.1rem .3rem}
+  .header-top{gap:.25rem}
+  .header::after{height:2px}
+
+  /* NAV: horizontal scroll strip */
+  .header-nav{
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    gap:.22rem;
+    margin-top:.35rem;
+    padding-bottom:.25rem;
+    scrollbar-width:none;
+    -ms-overflow-style:none
+  }
+  .header-nav::-webkit-scrollbar{display:none}
+  .header-nav button{
+    padding:.4rem .6rem;
+    font-size:.62rem;
+    flex-shrink:0;
+    min-height:44px;
+    border-width:1.5px;
+    border-radius:5px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06)
+  }
+  .header-nav button.active{
+    box-shadow:0 2px 8px rgba(245,124,0,0.25)
+  }
+
+  /* LAYOUT */
+  .main{padding:.4rem}
+  .card{padding:.55rem;border-radius:7px;margin-bottom:.45rem}
+  .card h4{font-size:.7rem}
+  .section-title{font-size:.82rem;gap:.3rem}
+  .section-title .num{width:20px;height:20px;font-size:.58rem;border-radius:4px}
+  .grid-2,.grid-3,.rec-grid{grid-template-columns:1fr;gap:.45rem}
+
+  /* KPI GAUGES */
+  .kpi-row{grid-template-columns:1fr 1fr;gap:.3rem}
+  .kpi{padding:.45rem .15rem}
+  .kpi-value{font-size:.88rem}
+  .kpi-label{font-size:.48rem;letter-spacing:.02em}
+  .kpi-sub{font-size:.42rem}
+  .kpi-gauge{padding:.35rem .12rem}
+  .gauge-ring{width:56px;height:56px}
+  .gauge-ring svg{width:56px;height:56px}
+  .gauge-ring circle{stroke-width:5}
+  .gauge-center .gauge-pct{font-size:.7rem}
+  .gauge-center .gauge-sub{font-size:.35rem}
+  svg.sparkline{max-width:50px;height:13px!important}
+
+  /* FISCAL YEAR */
+  .fy-progress{padding:.3rem .45rem}
+  .fy-top{gap:.3rem}
+  .fy-label{font-size:.5rem}
+  .fy-track{height:13px}
+  .fy-fill{font-size:.4rem;padding-right:3px}
+  .fy-months{display:none}
+  .fy-pct{font-size:.6rem;min-width:auto}
+
+  /* HIGHLIGHT BOX */
+  .highlight-box{padding:.45rem .55rem;gap:.25rem}
+  .highlight-box .hl-icon{font-size:.85rem}
+  .highlight-box p{font-size:.64rem;line-height:1.3}
+
+  /* FILTERS: vertical stack */
+  .filter-bar{flex-direction:column;gap:.25rem;padding:.35rem;align-items:stretch}
+  .filter-bar label{font-size:.54rem;margin:0}
+  .filter-bar select{
+    width:100%;padding:.38rem .35rem;font-size:.76rem;
+    min-height:44px;border-radius:5px;
+    -webkit-appearance:menulist;appearance:menulist
+  }
+  .filter-bar button{
+    width:100%;padding:.42rem;font-size:.68rem;
+    min-height:44px;border-radius:5px
+  }
+  .filter-bar span{font-size:.54rem;text-align:center;display:block}
+
+  /* TABLES */
+  .table-scroll{max-height:340px;-webkit-overflow-scrolling:touch}
+  .budget-table{font-size:.54rem}
+  .budget-table th{padding:.22rem .12rem;font-size:.48rem}
+  .budget-table th:first-child{min-width:28px}
+  .budget-table th:nth-child(2){min-width:85px}
+  .budget-table td{padding:.18rem .1rem;font-size:.52rem}
+
+  /* DETAIL TABLES */
+  .detail-expense-table{font-size:.52rem}
+  .detail-expense-table th{font-size:.44rem;padding:.18rem .08rem}
+  .detail-row td{padding:.14rem .08rem;font-size:.48rem}
+  .detail-month-header td{font-size:.6rem!important;padding:.25rem .3rem!important}
+  .det-paid,.det-pending{font-size:.42rem;padding:.06rem .18rem}
+  .detail-subtotal td{padding:.25rem .2rem}
+  .detail-grand-total td{padding:.3rem .2rem}
+
+  /* HEATMAP */
+  .heatmap-table{font-size:.48rem;border-spacing:1px}
+  .heatmap-table th{font-size:.42rem;padding:.14rem .06rem}
+  .heatmap-table th:first-child{min-width:55px}
+  .heatmap-table td{font-size:.42rem;padding:.1rem .05rem}
+
+  /* CHARTS */
+  .chart-container{height:185px}
+  .chart-container.tall{height:235px}
+
+  /* SUMMARY */
+  .summary-grid{grid-template-columns:1fr 1fr;gap:.25rem}
+  .summary-item{padding:.3rem .15rem}
+  .summary-item .s-val{font-size:.8rem}
+  .summary-item .s-lbl{font-size:.44rem}
+
+  /* TREEMAP */
+  .treemap-container{min-height:175px;height:175px!important}
+  .tm-cell .tm-label{font-size:.4rem}
+  .tm-cell .tm-value{font-size:.44rem}
+  .tm-cell{border-width:1px;padding:1px}
+
+  /* ROADMAP */
+  .gantt-wrap{-webkit-overflow-scrolling:touch}
+  .gantt-table{min-width:580px;font-size:.52rem}
+  .gantt-table th{font-size:.44rem;padding:.18rem .08rem}
+  .gantt-table th:first-child{min-width:90px}
+  .gantt-bar{font-size:.36rem;height:15px;top:3px}
+  .roadmap-legend{gap:.4rem}
+  .roadmap-legend-item{font-size:.55rem}
+  .roadmap-legend-item .dot{width:11px;height:11px}
+
+  /* RECOMMENDATIONS */
+  .rec-section{padding:.7rem;border-radius:7px}
+  .rec-section h2{font-size:.8rem}
+  .rec-card{padding:.55rem}
+  .rec-card h4{font-size:.68rem}
+  .rec-card p,.rec-card ul li{font-size:.6rem}
+  .lever-label{font-size:.54rem}
+  .lever-track{height:6px}
+
+  /* WARNINGS */
+  .warning-box{padding:.35rem .45rem;margin-bottom:.25rem}
+  .warning-box h4{font-size:.66rem}
+  .warning-box p{font-size:.6rem}
+
+  /* MISC */
+  .pct-bar{height:12px}
+  .pct-fill{font-size:.42rem}
+  .analysis-section h3{font-size:.74rem}
+  .datalens-bar{padding:.18rem .5rem}
+  .dl-text{font-size:.46rem}
+  .section-footer{padding:.28rem .55rem;margin-top:.7rem}
+  .section-footer .sf-text{font-size:.48rem}
+  .dm-toggle{width:34px;height:34px;bottom:.5rem;right:.5rem;font-size:.8rem}
+  .section::before{opacity:.03!important}
+  .section{min-height:auto}
+}
+
+/* ===== VERY SMALL (max 400px) ===== */
+@media(max-width:400px){
+  .header h1{font-size:.66rem}
+  .header-badge{display:none}
+  .kpi-row{grid-template-columns:1fr}
+  .gauge-ring{width:46px;height:46px}
+  .gauge-ring svg{width:46px;height:46px}
+  .gauge-center .gauge-pct{font-size:.6rem}
+  .summary-grid{grid-template-columns:1fr}
+  .header-nav button{font-size:.54rem;padding:.28rem .38rem;min-height:40px}
+  .treemap-container{min-height:140px;height:140px!important}
+}
+
+/* ===== TOUCH: disable sticky hover ===== */
+@media(hover:none) and (pointer:coarse){
+  .card:hover{transform:none;box-shadow:var(--shadow)}
+  .heatmap-table td:hover{transform:none;box-shadow:none}
+  .budget-table tr:hover{background:inherit}
+  .detail-row:hover td{background:transparent}
+  .header-nav button:hover{transform:none;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+  .tm-cell:hover{filter:none;box-shadow:none}
+  .gantt-bar:hover{filter:none;box-shadow:none;transform:none}
+  .dm-toggle:hover{transform:none;box-shadow:0 4px 20px rgba(245,124,0,0.3)}
+}
+
+/* ===== PRINT ===== */
+@media print{
+  .header{position:static}
+  .header-nav,.dm-toggle,.datalens-bar,.section-footer{display:none!important}
+  .filter-bar button{display:none}
+  .section{display:block!important;page-break-inside:avoid;min-height:auto!important}
+  .section::before,.section::after{display:none!important}
+  .card{break-inside:avoid;box-shadow:none;border:1px solid #ccc;opacity:1!important;animation:none!important;backdrop-filter:none}
+  body{font-size:10pt;background:#fff}
+}
+
+</style>
+</head>
+<body>
+
+<div class="datalens-bar">
+  <div class="dl-logo">
+    <div class="dl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M3 20h18M6 16v4M10 12v8M14 8v12M18 4v16"/></svg></div>
+    <span class="dl-text">Realizado con <strong>DataLens</strong></span>
+  </div>
+</div>
+
+<div class="header">
+<div class="header-top">
+  <h1><span>fiovana</span> · Evolución del Presupuesto — "Vecinos Felices"</h1>
+  <span class="header-badge">Ejercicio 26-27 · Dashboard Interactivo</span>
+</div>
+<nav class="header-nav" id="nav"></nav>
+</div>
+<div class="main" id="mainContent"></div>
+<button class="dm-toggle" id="dmToggle" title="Modo oscuro / claro">🌙</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ============ CHART VALUE LABELS PLUGIN ============
+var valuesPlugin = {
+  id:'valuesOnTop',
+  afterDatasetsDraw:function(chart){
+    var ctx = chart.ctx;
+    chart.data.datasets.forEach(function(ds,di){
+      var meta = chart.getDatasetMeta(di);
+      if(meta.hidden) return;
+      if(chart.config.type==='doughnut'||chart.config.type==='pie'||chart.config.type==='polarArea') return;
+      meta.data.forEach(function(el,i){
+        var val = ds.data[i];
+        if(val==null||val===0) return;
+        ctx.save();
+        ctx.font = 'bold 9px Montserrat';
+        ctx.fillStyle = '#1A1A1A';
+        if(chart.options.indexAxis==='y'){
+          ctx.textAlign='left';ctx.textBaseline='middle';
+          var txt = typeof val==='number'&&val>100?val.toLocaleString('es-ES',{maximumFractionDigits:0}):val.toLocaleString('es-ES',{maximumFractionDigits:1});
+          ctx.fillText(txt,el.x+4,el.y);
+        } else {
+          ctx.textAlign='center';ctx.textBaseline='bottom';
+          var txt = typeof val==='number'&&val>100?val.toLocaleString('es-ES',{maximumFractionDigits:0}):val.toLocaleString('es-ES',{maximumFractionDigits:1});
+          ctx.fillText(txt,el.x,el.y-4);
+        }
+        ctx.restore();
+      });
+    });
+  }
+};
+
+var doughnutLabelsPlugin = {
+  id:'doughnutLabels',
+  afterDatasetsDraw:function(chart){
+    if(chart.config.type!=='doughnut'&&chart.config.type!=='pie') return;
+    var ctx = chart.ctx;
+    var meta = chart.getDatasetMeta(0);
+    meta.data.forEach(function(arc,i){
+      var val = chart.data.datasets[0].data[i];
+      if(!val) return;
+      var pos = arc.tooltipPosition();
+      ctx.save();
+      ctx.font='bold 9px Montserrat';
+      ctx.fillStyle='#1A1A1A';
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+      var total = chart.data.datasets[0].data.reduce(function(a,b){return a+b},0);
+      var pct = (val/total*100).toFixed(1)+'%';
+      ctx.fillText(pct,pos.x,pos.y);
+      ctx.restore();
+    });
+  }
+};
+
+Chart.register(valuesPlugin, doughnutLabelsPlugin);
+
+// ============ DATA MODEL ============
+var MONTHS=['Mes 1','Mes 2','Mes 3','Mes 4','Mes 5','Mes 6','Mes 7','Mes 8','Mes 9','Mes 10','Mes 11','Mes 12'];
+var MONTH_SHORT=['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12'];
+
+var GROUPS=[
+  {id:1,name:'GENERALES',icon:'🏢',color:'#F57C00',colorLight:'#FFB74D',items:[
+    {code:'6220001',desc:'Servicio de limpieza de viviendas',budget:21780.00},
+    {code:'6220080',desc:'Desinfección y desratización',budget:1028.00},
+    {code:'6230001',desc:'Honorarios administración',budget:5924.16},
+    {code:'6230003',desc:'Fotocopias y suplidos',budget:200.00},
+    {code:'6230004',desc:'Protección de datos',budget:70.00},
+    {code:'6250001',desc:'Seguro multirriesgo',budget:2800.00}
+  ]},
+  {id:2,name:'VIVIENDAS',icon:'🏠',color:'#1565C0',colorLight:'#64B5F6',items:[
+    {code:'6220020',desc:'Manto. de ascensores',budget:15972.00},
+    {code:'6220030',desc:'Manto. grupo de presión',budget:1742.40},
+    {code:'6220301',desc:'Sala de calderas',budget:4283.40},
+    {code:'6220302',desc:'Luz calderas',budget:1800.00},
+    {code:'6220305',desc:'Sistemas anti-incendios',budget:850.00},
+    {code:'6280001',desc:'Suministros eléctricos viviendas',budget:20200.00},
+    {code:'6280020',desc:'Suministro de agua viviendas',budget:800.00}
+  ]},
+  {id:3,name:'TRASTEROS Y GARAJES',icon:'🚗',color:'#43A047',colorLight:'#81C784',items:[
+    {code:'6220048',desc:'Manto. S. Incendios Finca',budget:1068.00},
+    {code:'6220050',desc:'Manto. puertas de garaje',budget:720.00},
+    {code:'6280005',desc:'Suministros eléctricos garaje',budget:5580.00},
+    {code:'6280025',desc:'Suministro de agua garajes',budget:1000.00},
+    {code:'6310002',desc:'Tasa de paso de carruajes',budget:1000.00}
+  ]},
+  {id:4,name:'OCIO',icon:'🏊',color:'#AB47BC',colorLight:'#CE93D8',items:[
+    {code:'6220015',desc:'Conservación y manto. comunidad',budget:800.00},
+    {code:'6220060',desc:'Manto. piscinas',budget:11876.15},
+    {code:'6220062',desc:'Reposiciones y averías piscina',budget:400.40},
+    {code:'6220103',desc:'Reparación electricistas',budget:200.00},
+    {code:'6220104',desc:'Reparaciones varias',budget:1300.00},
+    {code:'6280007',desc:'Suministros eléctricos finca',budget:3200.00},
+    {code:'6280027',desc:'Suministro de agua finca',budget:3500.00}
+  ]},
+  {id:5,name:'FONDO DE RESERVA',icon:'🏦',color:'#FF8F00',colorLight:'#FFB74D',items:[
+    {code:'6240001',desc:'Fondo de reserva',budget:10026.63}
+  ]}
+];
+
+var TOTAL_BUDGET=118121.14;
+
+// Generate monthly data with realistic patterns
+function generateMonthlyData(){
+  var patterns={
+    '6220001':[1815,1815,1815,1815,1815,1815,1815,1815,1815,1815,1815,1815],
+    '6220080':[0,0,257,0,0,257,0,0,257,0,0,257],
+    '6230001':[493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68,493.68],
+    '6230003':[15,18,12,20,15,22,10,18,15,20,18,12],
+    '6230004':[70,0,0,0,0,0,0,0,0,0,0,0],
+    '6250001':[2800,0,0,0,0,0,0,0,0,0,0,0],
+    '6220020':[1331,1331,1331,1331,1331,1331,1331,1331,1331,1331,1331,1331],
+    '6220030':[145.20,145.20,145.20,145.20,145.20,145.20,145.20,145.20,145.20,145.20,145.20,145.20],
+    '6220301':[0,0,0,0,535.43,535.43,535.43,535.43,535.43,535.43,535.43,0],
+    '6220302':[250,220,200,120,80,50,40,45,80,180,250,280],
+    '6220305':[0,0,0,425,0,0,0,0,0,425,0,0],
+    '6280001':[1580,1620,1550,1480,1650,1820,2100,2150,1780,1600,1520,1480],
+    '6280020':[60,55,58,62,70,85,90,88,72,65,55,50],
+    '6220048':[89,89,89,89,89,89,89,89,89,89,89,89],
+    '6220050':[60,60,60,60,60,60,60,60,60,60,60,60],
+    '6280005':[420,430,440,450,460,480,520,530,490,470,450,420],
+    '6280025':[75,70,72,78,85,95,110,105,90,80,72,68],
+    '6310002':[1000,0,0,0,0,0,0,0,0,0,0,0],
+    '6220015':[65,60,70,68,72,70,65,68,62,70,65,60],
+    '6220060':[0,0,0,350,890,1850,2800,3200,2100,650,0,0],
+    '6220062':[0,0,0,0,45,80,120,95,55,0,0,0],
+    '6220103':[0,0,0,50,0,0,50,0,0,50,0,50],
+    '6220104':[80,60,90,120,150,130,110,100,120,80,110,90],
+    '6280007':[220,210,230,250,280,320,380,390,310,260,230,210],
+    '6280027':[200,180,220,280,350,420,480,490,380,260,200,170],
+    '6240001':[0,0,0,0,0,0,0,0,0,0,0,0]
+  };
+  GROUPS.forEach(function(g){
+    g.items.forEach(function(item){
+      var p=patterns[item.code];
+      if(p){
+        item.monthly=p.slice();
+        if(['6230004','6250001','6310002','6220305'].indexOf(item.code)===-1){
+          item.monthly=item.monthly.map(function(v){
+            if(v===0)return 0;
+            return Math.round(v*(0.97+Math.random()*0.06)*100)/100;
+          });
+        }
+      }else{
+        var m=item.budget/12;item.monthly=[];
+        for(var i=0;i<12;i++)item.monthly.push(Math.round(m*100)/100);
+      }
+      var total=item.monthly.reduce(function(a,b){return a+b},0);
+      if(total>item.budget){
+        var ratio=item.budget/total*0.97;
+        item.monthly=item.monthly.map(function(v){return Math.round(v*ratio*100)/100});
+      }
+      item.totalSpent=Math.round(item.monthly.reduce(function(a,b){return a+b},0)*100)/100;
+      item.remaining=Math.round((item.budget-item.totalSpent)*100)/100;
+      item.pctUsed=item.budget>0?Math.round(item.totalSpent/item.budget*10000)/100:0;
+    });
+    g.totalBudget=Math.round(g.items.reduce(function(a,i){return a+i.budget},0)*100)/100;
+    g.monthlyTotals=[];
+    for(var m=0;m<12;m++){var s=0;g.items.forEach(function(i){s+=i.monthly[m]});g.monthlyTotals.push(Math.round(s*100)/100)}
+    g.totalSpent=Math.round(g.monthlyTotals.reduce(function(a,b){return a+b},0)*100)/100;
+    g.remaining=Math.round((g.totalBudget-g.totalSpent)*100)/100;
+    g.pctUsed=g.totalBudget>0?Math.round(g.totalSpent/g.totalBudget*10000)/100:0;
+  });
+}
+generateMonthlyData();
+
+// ============ DETAILED EXPENSE LINE ITEMS GENERATOR ============
+var EXPENSE_CATALOG={
+  '6220001':{
+    providers:['Limpiezas Hermanos García S.L.','ServiClean Madrid','Multiservicios Brillo Neto'],
+    lines:[
+      {desc:'Servicio mensual limpieza portales y zonas comunes',pct:[0.55,0.65]},
+      {desc:'Limpieza cristales zonas comunes y accesos',pct:[0.12,0.18]},
+      {desc:'Limpieza garajes y trasteros (niveles -1 y -2)',pct:[0.15,0.20]},
+      {desc:'Limpieza especial escaleras y pasillos',pct:[0.05,0.12]}
+    ],docTypes:['Factura','Factura mensual']
+  },
+  '6220080':{
+    providers:['Anticimex Iberia S.A.','Rentokil Initial España','ISS Facility Services'],
+    lines:[
+      {desc:'Tratamiento DDD trimestral zonas comunes',pct:[0.40,0.55]},
+      {desc:'Desinsectación cuarto basuras y alcantarillado',pct:[0.20,0.35]},
+      {desc:'Desratización perimetral y garaje subterráneo',pct:[0.15,0.30]},
+      {desc:'Control de plagas preventivo jardines',pct:[0.05,0.15]}
+    ],docTypes:['Factura trimestral','Factura servicio']
+  },
+  '6230001':{
+    providers:['Gesahbox Administración de Fincas S.L.'],
+    lines:[
+      {desc:'Honorarios mensuales administración de fincas',pct:[0.85,0.92]},
+      {desc:'Gestión incidencias y reclamaciones mes corriente',pct:[0.08,0.15]}
+    ],docTypes:['Factura mensual']
+  },
+  '6230003':{
+    providers:['Copistería DigitalPrint','Correos y Telégrafos','Office Depot España'],
+    lines:[
+      {desc:'Fotocopias actas y convocatorias junta propietarios',pct:[0.25,0.40]},
+      {desc:'Envíos certificados y burofax a propietarios',pct:[0.20,0.40]},
+      {desc:'Material de papelería y sobres para comunicaciones',pct:[0.10,0.25]},
+      {desc:'Impresión tablón de anuncios y circulares',pct:[0.10,0.20]}
+    ],docTypes:['Factura','Recibo','Ticket']
+  },
+  '6230004':{
+    providers:['Audidat Protección de Datos S.L.'],
+    lines:[
+      {desc:'Cuota anual servicio adaptación RGPD y LOPD comunidad',pct:[1.0,1.0]}
+    ],docTypes:['Factura anual']
+  },
+  '6250001':{
+    providers:['Mapfre Seguros de Comunidades','Zurich Insurance España'],
+    lines:[
+      {desc:'Prima anual seguro multirriesgo comunidad propietarios',pct:[0.70,0.78]},
+      {desc:'Cobertura responsabilidad civil zonas comunes',pct:[0.15,0.22]},
+      {desc:'Suplemento cobertura daños por agua y cristales',pct:[0.05,0.12]}
+    ],docTypes:['Póliza anual','Recibo prima']
+  },
+  '6220020':{
+    providers:['ThyssenKrupp Elevadores España','Otis Elevator Company','Schindler S.A.'],
+    lines:[
+      {desc:'Mantenimiento mensual ascensor Portal A (cab. 1)',pct:[0.30,0.38]},
+      {desc:'Mantenimiento mensual ascensor Portal B (cab. 2)',pct:[0.30,0.38]},
+      {desc:'Mantenimiento mensual ascensor Portal C (cab. 3)',pct:[0.25,0.32]},
+      {desc:'Recambio pulsadores / botonera y piezas desgaste',pct:[0.02,0.08]}
+    ],docTypes:['Factura mensual','Parte de trabajo']
+  },
+  '6220030':{
+    providers:['Instalaciones Hidráulicas Pérez S.L.','Bombas Grundfos España'],
+    lines:[
+      {desc:'Mantenimiento mensual grupo de presión viviendas',pct:[0.65,0.80]},
+      {desc:'Revisión válvulas antirretorno y presostatos',pct:[0.15,0.25]},
+      {desc:'Control presión y caudal en cuadro de bombeo',pct:[0.05,0.15]}
+    ],docTypes:['Factura mensual','Parte de revisión']
+  },
+  '6220301':{
+    providers:['Naturgy Mantenimiento Industrial','Repsol Hogar Servicios','Gas Madrid Instalaciones S.L.'],
+    lines:[
+      {desc:'Revisión mensual sala calderas y quemadores',pct:[0.35,0.45]},
+      {desc:'Mantenimiento circuito calefacción y ACS comunitario',pct:[0.25,0.35]},
+      {desc:'Control análisis de combustión y emisiones caldera',pct:[0.12,0.20]},
+      {desc:'Limpieza y purga circuito hidráulico calefacción',pct:[0.08,0.18]}
+    ],docTypes:['Factura servicio','Certificado revisión']
+  },
+  '6220302':{
+    providers:['Iberdrola Clientes S.A.','Endesa Energía S.A.','Repsol Electricidad'],
+    lines:[
+      {desc:'Consumo eléctrico cuarto de calderas (CUPS ES0031...)',pct:[0.60,0.75]},
+      {desc:'Consumo bombas recirculación calefacción central',pct:[0.18,0.30]},
+      {desc:'Término de potencia contratada sala calderas',pct:[0.05,0.15]}
+    ],docTypes:['Factura eléctrica','Recibo suministro']
+  },
+  '6220305':{
+    providers:['Chubb Ibérica S.L.','Securitas Direct España','Siemens Fire Safety'],
+    lines:[
+      {desc:'Revisión semestral sistemas detección incendios viviendas',pct:[0.35,0.50]},
+      {desc:'Mantenimiento BIEs, extintores portátiles y señalización',pct:[0.25,0.35]},
+      {desc:'Revisión central de alarma de incendios y detectores',pct:[0.20,0.30]}
+    ],docTypes:['Factura semestral','Certificado mantenimiento']
+  },
+  '6280001':{
+    providers:['Iberdrola Clientes S.A.','Endesa Energía S.A.','TotalEnergies España'],
+    lines:[
+      {desc:'Factura eléctrica zonas comunes Portal A (CUPS ES0031A)',pct:[0.28,0.38]},
+      {desc:'Factura eléctrica zonas comunes Portal B (CUPS ES0031B)',pct:[0.25,0.35]},
+      {desc:'Consumo alumbrado exterior y viales comunitarios',pct:[0.15,0.25]},
+      {desc:'Factura eléctrica cuadro general escaleras y pasillos',pct:[0.10,0.18]},
+      {desc:'Término potencia contratada zonas comunes viviendas',pct:[0.05,0.10]}
+    ],docTypes:['Factura eléctrica','Recibo suministro']
+  },
+  '6280020':{
+    providers:['Canal de Isabel II S.A.','Aqualia Gestión Integral del Agua'],
+    lines:[
+      {desc:'Consumo agua zonas comunes viviendas (contador general)',pct:[0.55,0.70]},
+      {desc:'Canon saneamiento y depuración aguas residuales',pct:[0.15,0.30]},
+      {desc:'Cuota servicio abastecimiento agua viviendas',pct:[0.10,0.20]}
+    ],docTypes:['Factura bimestral','Recibo agua']
+  },
+  '6220048':{
+    providers:['Chubb Ibérica S.L.','Securitas Direct España','Extintores Madrid Centro'],
+    lines:[
+      {desc:'Mantenimiento mensual sistema detección incendios finca',pct:[0.45,0.60]},
+      {desc:'Revisión extintores polvo ABC garaje y trasteros',pct:[0.20,0.35]},
+      {desc:'Mantenimiento BIEs y bocas de incendio equipadas',pct:[0.12,0.25]}
+    ],docTypes:['Factura mensual','Parte de mantenimiento']
+  },
+  '6220050':{
+    providers:['Puertas Automáticas ERREKA S.A.','Manusa Door Systems','Roper Industrial'],
+    lines:[
+      {desc:'Mantenimiento mensual puerta motorizada garaje principal',pct:[0.45,0.60]},
+      {desc:'Mantenimiento puerta secundaria acceso garaje nivel -2',pct:[0.30,0.45]},
+      {desc:'Revisión fotocélulas, mandos y sistema de seguridad',pct:[0.05,0.15]}
+    ],docTypes:['Factura mensual','Parte de trabajo']
+  },
+  '6280005':{
+    providers:['Iberdrola Clientes S.A.','Endesa Energía S.A.','Naturgy Energy Group'],
+    lines:[
+      {desc:'Consumo eléctrico garaje nivel -1 (iluminación y ventilación)',pct:[0.30,0.40]},
+      {desc:'Consumo eléctrico garaje nivel -2 (iluminación y ventilación)',pct:[0.28,0.38]},
+      {desc:'Consumo sistema ventilación forzada garajes (extractores)',pct:[0.15,0.25]},
+      {desc:'Término potencia contratada garajes subterráneos',pct:[0.05,0.12]}
+    ],docTypes:['Factura eléctrica','Recibo suministro']
+  },
+  '6280025':{
+    providers:['Canal de Isabel II S.A.','Aqualia Gestión Integral del Agua'],
+    lines:[
+      {desc:'Consumo agua limpieza garajes y zonas trasteros',pct:[0.50,0.65]},
+      {desc:'Canon saneamiento garajes subterráneos',pct:[0.20,0.35]},
+      {desc:'Cuota fija servicio agua trasteros y garajes',pct:[0.10,0.20]}
+    ],docTypes:['Factura bimestral','Recibo agua']
+  },
+  '6310002':{
+    providers:['Ayuntamiento de Madrid — Recaudación Tributaria'],
+    lines:[
+      {desc:'Tasa municipal anual por entrada y paso de carruajes (vado)',pct:[1.0,1.0]}
+    ],docTypes:['Recibo tributario anual']
+  },
+  '6220015':{
+    providers:['Jardinería El Oasis Verde S.L.','Multiservicios ComunitariosPlus','Ferretería Industrial López'],
+    lines:[
+      {desc:'Material y productos de jardinería zonas comunes',pct:[0.30,0.45]},
+      {desc:'Reparación mobiliario urbano exterior (bancos, farolas)',pct:[0.20,0.35]},
+      {desc:'Conservación y pintura elementos comunes exteriores',pct:[0.15,0.30]},
+      {desc:'Reposición señalización interior y exterior finca',pct:[0.05,0.15]}
+    ],docTypes:['Factura','Ticket compra','Albarán']
+  },
+  '6220060':{
+    providers:['Piscinas Aqua-Gest S.L.','Socorrismo y Salvamento LifePool','CTX Professional Pool Care'],
+    lines:[
+      {desc:'Servicio socorrista titulado temporada piscina comunitaria',pct:[0.30,0.42]},
+      {desc:'Tratamiento y análisis calidad del agua (cloro, pH, turbidez)',pct:[0.18,0.28]},
+      {desc:'Productos químicos: cloro, floculante, algicida, regulador pH',pct:[0.12,0.20]},
+      {desc:'Mantenimiento depuradora y sistema de filtración arena/vidrio',pct:[0.10,0.18]},
+      {desc:'Limpieza y mantenimiento vaso de piscina y solarium',pct:[0.05,0.12]}
+    ],docTypes:['Factura servicio','Factura mensual','Albarán material']
+  },
+  '6220062':{
+    providers:['Piscinas Aqua-Gest S.L.','Instalaciones Hidráulicas Pérez S.L.','Reparaciones Express Pool'],
+    lines:[
+      {desc:'Reparación bomba recirculación piscina comunitaria',pct:[0.30,0.50]},
+      {desc:'Sustitución elementos de filtración y juntas depuradora',pct:[0.20,0.40]},
+      {desc:'Reparación liner/gresite y sellado fisuras vaso piscina',pct:[0.15,0.35]},
+      {desc:'Recambio válvulas y accesorios circuito hidráulico',pct:[0.05,0.20]}
+    ],docTypes:['Factura reparación','Parte de avería']
+  },
+  '6220103':{
+    providers:['Electricidad Industrial Martínez S.L.','MR Electricistas 24h','Instalaciones Eléctricas Vega'],
+    lines:[
+      {desc:'Reparación cuadro eléctrico general zonas comunes',pct:[0.35,0.55]},
+      {desc:'Sustitución luminarias LED averiadas en zonas exteriores',pct:[0.25,0.45]},
+      {desc:'Revisión y reparación circuito alumbrado emergencia',pct:[0.10,0.25]}
+    ],docTypes:['Factura reparación','Parte de trabajo urgente']
+  },
+  '6220104':{
+    providers:['Fontanería Rápida González','Cerrajería 24h SOS Llaves','Reformas y Pinturas DEcor','Albañilería Construcciones Ruiz'],
+    lines:[
+      {desc:'Reparación avería fontanería zonas comunes (tubería, grifo)',pct:[0.20,0.35]},
+      {desc:'Servicio cerrajería: cambio bombín, apertura emergencia',pct:[0.12,0.25]},
+      {desc:'Trabajos albañilería: parcheado, relleno grietas, sellados',pct:[0.15,0.30]},
+      {desc:'Pintura y retoques paredes zonas comunes y garaje',pct:[0.10,0.25]},
+      {desc:'Reparaciones varias: carpintería, cristalería, canalones',pct:[0.08,0.20]}
+    ],docTypes:['Factura reparación','Parte de trabajo','Presupuesto aceptado']
+  },
+  '6280007':{
+    providers:['Iberdrola Clientes S.A.','Endesa Energía S.A.','Repsol Electricidad'],
+    lines:[
+      {desc:'Consumo eléctrico alumbrado jardines y zonas ocio',pct:[0.30,0.42]},
+      {desc:'Factura eléctrica piscina (depuradora, iluminación vaso)',pct:[0.22,0.35]},
+      {desc:'Consumo alumbrado pistas deportivas y área infantil',pct:[0.15,0.25]},
+      {desc:'Término potencia contratada zonas comunes exteriores',pct:[0.05,0.12]}
+    ],docTypes:['Factura eléctrica','Recibo suministro']
+  },
+  '6280027':{
+    providers:['Canal de Isabel II S.A.','Aqualia Gestión Integral del Agua'],
+    lines:[
+      {desc:'Consumo agua riego automático jardines comunitarios',pct:[0.35,0.50]},
+      {desc:'Consumo agua llenado/reposición piscina comunitaria',pct:[0.20,0.35]},
+      {desc:'Consumo agua fuente ornamental y zonas ajardinadas',pct:[0.10,0.22]},
+      {desc:'Canon saneamiento y depuración zonas exteriores finca',pct:[0.08,0.18]}
+    ],docTypes:['Factura bimestral','Recibo agua']
+  },
+  '6240001':{
+    providers:[],
+    lines:[],docTypes:[]
+  }
+};
+
+var DETAIL_EXPENSES=[];
+var DETAIL_PROVIDERS={};
+
+function generateDetailExpenses(){
+  DETAIL_EXPENSES=[];
+  DETAIL_PROVIDERS={};
+  var invoiceNum=20260001;
+  var monthNames=['May','Jun','Jul','Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr'];
+  var monthYears=['2026','2026','2026','2026','2026','2026','2026','2026','2027','2027','2027','2027'];
+  var dayRanges=[[1,28],[1,28],[1,28],[1,28],[1,28],[1,28],[1,28],[1,28],[1,28],[1,28],[1,28],[1,28]];
+  
+  GROUPS.forEach(function(g){
+    if(!DETAIL_PROVIDERS[g.id])DETAIL_PROVIDERS[g.id]={};
+    g.items.forEach(function(item){
+      var cat=EXPENSE_CATALOG[item.code];
+      if(!cat||cat.lines.length===0)return;
+      
+      for(var m=0;m<12;m++){
+        var monthAmt=item.monthly[m];
+        if(monthAmt<=0)continue;
+        
+        // Determine how many line items for this month
+        var numLines=cat.lines.length;
+        if(numLines>3 && monthAmt<100) numLines=Math.min(numLines,2);
+        if(numLines>4 && monthAmt<200) numLines=Math.min(numLines,3);
+        
+        // Generate proportions that sum to 1
+        var proportions=[];
+        var remainPct=1.0;
+        for(var li=0;li<numLines;li++){
+          var line=cat.lines[li];
+          var minPct=line.pct[0];
+          var maxPct=line.pct[1];
+          if(li===numLines-1){
+            proportions.push(Math.max(remainPct,0));
+          }else{
+            var p=minPct+Math.random()*(maxPct-minPct);
+            p=Math.min(p,remainPct-0.01*(numLines-li-1));
+            proportions.push(Math.max(p,0.01));
+            remainPct-=p;
+          }
+        }
+        // Normalize
+        var sumP=proportions.reduce(function(a,b){return a+b},0);
+        if(sumP>0)proportions=proportions.map(function(p){return p/sumP});
+        
+        // Calculate amounts and adjust to sum exactly
+        var amounts=proportions.map(function(p){return Math.round(monthAmt*p*100)/100});
+        var diffRound=Math.round((monthAmt-amounts.reduce(function(a,b){return a+b},0))*100)/100;
+        amounts[0]=Math.round((amounts[0]+diffRound)*100)/100;
+        
+        // Generate line items
+        var day=Math.floor(Math.random()*25)+1;
+        for(var li=0;li<numLines;li++){
+          if(amounts[li]<=0)continue;
+          var line=cat.lines[li];
+          var provIdx=Math.floor(Math.random()*cat.providers.length);
+          var prov=cat.providers[provIdx];
+          var docType=cat.docTypes[Math.floor(Math.random()*cat.docTypes.length)];
+          var dateStr=(day+li>28?28:day+li).toString().padStart(2,'0')+'/'+monthNames[m]+'/'+monthYears[m];
+          var refNum='FV-'+(invoiceNum++);
+          
+          DETAIL_EXPENSES.push({
+            groupId:g.id,
+            code:item.code,
+            desc:item.desc,
+            lineDesc:line.desc,
+            provider:prov,
+            amount:amounts[li],
+            month:m,
+            monthLabel:MONTHS[m],
+            date:dateStr,
+            docType:docType,
+            ref:refNum,
+            status:Math.random()>0.08?'Pagado':'Pendiente'
+          });
+          
+          // Track unique providers per group
+          if(!DETAIL_PROVIDERS[g.id][prov])DETAIL_PROVIDERS[g.id][prov]=true;
+        }
+      }
+    });
+  });
+  
+  // Sort by group, month, code
+  DETAIL_EXPENSES.sort(function(a,b){
+    if(a.groupId!==b.groupId)return a.groupId-b.groupId;
+    if(a.month!==b.month)return a.month-b.month;
+    if(a.code!==b.code)return a.code<b.code?-1:1;
+    return 0;
+  });
+}
+generateDetailExpenses();
+
+// Provider dropdown population and detail table rendering done after DOM build (see below)
+
+// ============ DETAIL EXPENSES RENDER ============
+function renderDetailTable(gId,filterMonth,filterCode,filterProv){
+  var rows=DETAIL_EXPENSES.filter(function(e){
+    if(e.groupId!==gId)return false;
+    if(filterMonth!=='all'&&e.month!==+filterMonth)return false;
+    if(filterCode!=='all'&&e.code!==filterCode)return false;
+    if(filterProv!=='all'&&e.provider!==filterProv)return false;
+    return true;
+  });
+  
+  var wrap=document.getElementById('detailTable'+gId);
+  var counter=document.getElementById('detCount'+gId);
+  if(!wrap)return;
+  
+  var totalFiltered=rows.reduce(function(a,r){return a+r.amount},0);
+  if(counter)counter.textContent=rows.length+' registros · Total: '+fmt(totalFiltered)+' €';
+  
+  if(rows.length===0){
+    wrap.innerHTML='<div style="text-align:center;padding:2rem;color:var(--textLight);font-size:.82rem">Sin gastos para los filtros seleccionados</div>';
+    return;
+  }
+  
+  var t='<table class="budget-table detail-expense-table"><thead><tr>';
+  t+='<th style="width:72px">Fecha</th>';
+  t+='<th style="width:70px">Ref.</th>';
+  t+='<th style="width:68px">Partida</th>';
+  t+='<th style="min-width:200px;text-align:left">Concepto detallado</th>';
+  t+='<th style="min-width:160px;text-align:left">Proveedor</th>';
+  t+='<th style="width:80px">Tipo doc.</th>';
+  t+='<th style="width:80px;text-align:right">Importe €</th>';
+  t+='<th style="width:65px">Estado</th>';
+  t+='</tr></thead><tbody>';
+  
+  var currentMonth=-1;
+  var monthSubtotal=0;
+  var monthCount=0;
+  
+  rows.forEach(function(r,idx){
+    // Month header rows
+    if(r.month!==currentMonth){
+      if(currentMonth>=0){
+        t+='<tr class="detail-subtotal"><td colspan="6" style="text-align:right;font-weight:700;font-size:.7rem">Subtotal '+MONTHS[currentMonth]+' ('+monthCount+' apuntes)</td>';
+        t+='<td style="text-align:right;font-weight:800;color:var(--orange)">'+fmt(monthSubtotal)+'</td><td></td></tr>';
+      }
+      currentMonth=r.month;
+      monthSubtotal=0;
+      monthCount=0;
+      t+='<tr class="detail-month-header"><td colspan="8">📅 '+MONTHS[r.month]+'</td></tr>';
+    }
+    monthSubtotal+=r.amount;
+    monthCount++;
+    
+    var statusClass=r.status==='Pagado'?'det-paid':'det-pending';
+    t+='<tr class="detail-row">';
+    t+='<td style="font-size:.65rem;white-space:nowrap">'+r.date+'</td>';
+    t+='<td style="font-size:.62rem;color:var(--gray);font-family:monospace">'+r.ref+'</td>';
+    t+='<td style="font-size:.62rem;font-weight:600">'+r.code+'</td>';
+    t+='<td style="text-align:left;font-size:.68rem;line-height:1.3">'+r.lineDesc+'</td>';
+    t+='<td style="text-align:left;font-size:.65rem;color:var(--textLight)">'+r.provider+'</td>';
+    t+='<td style="font-size:.62rem">'+r.docType+'</td>';
+    t+='<td style="text-align:right;font-weight:700;font-size:.72rem">'+fmt(r.amount)+'</td>';
+    t+='<td><span class="'+statusClass+'">'+r.status+'</span></td>';
+    t+='</tr>';
+  });
+  
+  // Last month subtotal
+  if(currentMonth>=0){
+    t+='<tr class="detail-subtotal"><td colspan="6" style="text-align:right;font-weight:700;font-size:.7rem">Subtotal '+MONTHS[currentMonth]+' ('+monthCount+' apuntes)</td>';
+    t+='<td style="text-align:right;font-weight:800;color:var(--orange)">'+fmt(monthSubtotal)+'</td><td></td></tr>';
+  }
+  
+  // Grand total
+  t+='<tr class="detail-grand-total"><td colspan="6" style="text-align:right;font-weight:800;font-size:.75rem">TOTAL FILTRADO ('+rows.length+' apuntes)</td>';
+  t+='<td style="text-align:right;font-weight:900;font-size:.8rem;color:var(--orange)">'+fmt(totalFiltered)+'</td><td></td></tr>';
+  
+  t+='</tbody></table>';
+  wrap.innerHTML=t;
+}
+
+function filterDetail(gId){
+  var m=document.getElementById('detMes'+gId).value;
+  var c=document.getElementById('detPart'+gId).value;
+  var p=document.getElementById('detProv'+gId).value;
+  renderDetailTable(gId,m,c,p);
+}
+function resetDetail(gId){
+  document.getElementById('detMes'+gId).value='all';
+  document.getElementById('detPart'+gId).value='all';
+  document.getElementById('detProv'+gId).value='all';
+  renderDetailTable(gId,'all','all','all');
+}
+
+// Detail tables rendered after DOM build (see below)
+
+var totalSpentAll=Math.round(GROUPS.reduce(function(a,g){return a+g.totalSpent},0)*100)/100;
+var totalRemainingAll=Math.round((TOTAL_BUDGET-totalSpentAll)*100)/100;
+var pctUsedAll=Math.round(totalSpentAll/TOTAL_BUDGET*10000)/100;
+var monthlyTotalsAll=[];
+for(var mm=0;mm<12;mm++){var ss=0;GROUPS.forEach(function(g){ss+=g.monthlyTotals[mm]});monthlyTotalsAll.push(Math.round(ss*100)/100)}
+
+// ============ UTILITIES ============
+function fmt(n){return n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fmtK(n){return n>=1000?(n/1000).toFixed(1)+'K':n.toFixed(0)}
+function fmtPct(n){return n.toFixed(1)+'%'}
+function pctColor(pct){return pct>=95?'var(--red)':pct>=80?'var(--yellow)':pct>=60?'var(--orange)':'var(--green)'}
+function pctColorHex(pct){return pct>=95?'#E53935':pct>=80?'#FFA000':pct>=60?'#F57C00':'#43A047'}
+function statusIcon(pct){return pct>=95?'🔴':pct>=80?'🟡':pct>=60?'🟠':'🟢'}
+
+// Heatmap color: intensity 0..1 => green..yellow..orange..red
+function heatColor(val,max){
+  if(val===0)return'#F5F5F5';
+  var ratio=Math.min(val/max,1);
+  if(ratio<0.25)return'rgba(67,160,71,'+(0.15+ratio*2)+')';
+  if(ratio<0.5)return'rgba(255,160,0,'+(0.2+ratio*1.2)+')';
+  if(ratio<0.75)return'rgba(245,124,0,'+(0.3+ratio*0.8)+')';
+  return'rgba(229,57,53,'+(0.4+ratio*0.6)+')';
+}
+
+// ============ NAV ============
+var tabs=[{id:'overview',label:'📊 Resumen General'}];
+GROUPS.forEach(function(g){tabs.push({id:'group'+g.id,label:g.icon+' G'+g.id+': '+g.name})});
+tabs.push({id:'palancas',label:'🎯 Palancas y Roadmap'});
+
+var navEl=document.getElementById('nav');
+tabs.forEach(function(t,i){
+  var btn=document.createElement('button');
+  btn.textContent=t.label;
+  btn.dataset.section=t.id;
+  if(i===0)btn.className='active';
+  btn.onclick=function(){
+    document.querySelectorAll('.header-nav button').forEach(function(b){b.classList.remove('active')});
+    document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});
+    btn.classList.add('active');
+    document.getElementById(t.id).classList.add('active');
+    setTimeout(function(){renderCharts();renderPalancasCharts();renderScenarioCharts();renderAllTreemaps()},250);
+  };
+  navEl.appendChild(btn);
+});
+
+// ============ BUILD HTML ============
+var mainEl=document.getElementById('mainContent');
+var html='';
+
+// ======== OVERVIEW ========
+html+='<div class="section active" id="overview">';
+
+// Fiscal year progress bar
+var fyMonthNow=8; // simulate we're in month 8 of 12
+var fyPct=Math.round(fyMonthNow/12*100);
+html+='<div class="fy-progress"><div class="fy-top"><span class="fy-label">Ejercicio 26-27</span>';
+html+='<div class="fy-track"><div class="fy-fill" style="width:0%" data-fy-width="'+fyPct+'">'+fyPct+'%</div></div>';
+html+='<span class="fy-pct">Mes '+fyMonthNow+'/12</span></div>';
+html+='<div class="fy-months">';
+for(var fm=1;fm<=12;fm++){
+  var cls=fm<fyMonthNow?'fy-past':(fm===fyMonthNow?'fy-current':'');
+  html+='<span class="'+cls+'">M'+fm+'</span>';
+}
+html+='</div></div>';
+
+// GAUGE KPIs
+var circumference=Math.round(2*Math.PI*40);
+function gaugeKPI(value,label,sub,pct,color,sparkData){
+  var offset=Math.round(circumference*(1-Math.min(pct,100)/100));
+  var h='<div class="card kpi kpi-gauge">';
+  h+='<div class="gauge-ring"><svg viewBox="0 0 96 96"><circle class="gauge-bg" cx="48" cy="48" r="40"/>';
+  h+='<circle class="gauge-fill" cx="48" cy="48" r="40" stroke="'+color+'" style="stroke-dasharray:'+circumference+';stroke-dashoffset:'+circumference+'" data-offset="'+offset+'"/>';
+  h+='</svg><div class="gauge-center"><div class="gauge-pct" style="color:'+color+'" data-count="'+pct+'">0</div><div class="gauge-sub">'+sub+'</div></div></div>';
+  h+='<div class="kpi-label">'+label+'</div>';
+  h+='<div class="kpi-sub" style="font-weight:700;color:'+color+';font-size:.72rem">'+value+'</div>';
+  // sparkline
+  if(sparkData){
+    h+='<svg class="sparkline" width="80" height="22" viewBox="0 0 80 22">';
+    var pts=[];var maxS=Math.max.apply(null,sparkData);var minS=Math.min.apply(null,sparkData);
+    sparkData.forEach(function(v,i){
+      var x=(i/(sparkData.length-1))*78+1;
+      var y=maxS>minS?20-(v-minS)/(maxS-minS)*18+1:11;
+      pts.push(x.toFixed(1)+','+y.toFixed(1));
+    });
+    h+='<polyline class="spark-area" points="1,21 '+pts.join(' ')+' 79,21" fill="'+color+'"/>';
+    h+='<polyline points="'+pts.join(' ')+'" stroke="'+color+'"/>';
+    h+='</svg>';
+  }
+  h+='</div>';
+  return h;
+}
+
+html+='<div class="kpi-row">';
+html+=gaugeKPI(fmt(TOTAL_BUDGET)+' €','Presupuesto Aprobado','TOTAL',100,'#F57C00',null);
+html+=gaugeKPI(fmt(totalSpentAll)+' €','Total Gastado','ejecutado',pctUsedAll,pctColorHex(pctUsedAll),monthlyTotalsAll);
+html+=gaugeKPI(fmt(totalRemainingAll)+' €','Restante','disponible',100-pctUsedAll,'#43A047',null);
+var avgSparkData=[];var cumAvg=0;monthlyTotalsAll.forEach(function(v,i){cumAvg+=v;avgSparkData.push(Math.round(cumAvg/(i+1)*100)/100)});
+html+=gaugeKPI(fmt(Math.round(totalSpentAll/12*100)/100)+' €/mes','Media Mensual','promedio',Math.round(totalSpentAll/12/(TOTAL_BUDGET/12)*100),'#2D2D2D',avgSparkData);
+// Groups gauge
+var groupsPctFilled=GROUPS.filter(function(g){return g.pctUsed>0}).length;
+html+=gaugeKPI(GROUPS.length+' grupos','Estructura','25 partidas',Math.round(groupsPctFilled/GROUPS.length*100),'#1565C0',null);
+html+='</div>';
+
+html+='<div class="highlight-box"><div class="hl-icon">📋</div><p>Dashboard de control presupuestario de la Comunidad <strong>"Vecinos Felices"</strong>. Ejercicio 01/05/2026 al 30/04/2027. Presupuesto total: <strong>'+fmt(TOTAL_BUDGET)+' €</strong>.</p></div>';
+
+// Filters + table
+html+='<div class="card"><div class="filter-bar" id="overviewFilter"><label>Desde:</label><select id="ovFrom">';
+MONTHS.forEach(function(m,i){html+='<option value="'+i+'">'+m+'</option>'});
+html+='</select><label>Hasta:</label><select id="ovTo">';
+MONTHS.forEach(function(m,i){html+='<option value="'+i+'"'+(i===11?' selected':'')+'>'+m+'</option>'});
+html+='</select><button onclick="filterOverview()">Aplicar</button><button onclick="resetFilter(\'ov\')" style="background:var(--midGray);border-color:var(--midGray)">Reset</button></div>';
+html+='<div class="table-scroll" id="overviewTableWrap"></div></div>';
+
+// Summary cards
+html+='<div class="section-title"><span class="num">📊</span> Resumen por Grupos</div>';
+html+='<div class="summary-grid" id="groupSummaryCards"></div>';
+
+// Charts row 1
+html+='<div class="grid-2">';
+html+='<div class="card"><h4>🍩 Distribución Presupuesto por Grupo</h4><div class="chart-container"><canvas id="chartGroupDist"></canvas></div></div>';
+html+='<div class="card"><h4>📊 Presupuesto vs Gastado por Grupo</h4><div class="chart-container"><canvas id="chartGroupComp"></canvas></div></div>';
+html+='</div>';
+
+// Charts row 2 - Trend + Stacked
+html+='<div class="grid-2">';
+html+='<div class="card"><h4>📈 Tendencia Gasto Acumulado vs Presupuesto Lineal</h4><div class="chart-container"><canvas id="chartTrendAll"></canvas></div></div>';
+html+='<div class="card"><h4>📊 Gasto Mensual por Grupo (Stacked)</h4><div class="chart-container"><canvas id="chartMonthlyStack"></canvas></div></div>';
+html+='</div>';
+
+// Charts row 3 - % execution + Polar
+html+='<div class="grid-2">';
+html+='<div class="card"><h4>🎯 % Ejecución por Grupo</h4><div class="chart-container"><canvas id="chartGroupPct"></canvas></div></div>';
+html+='<div class="card"><h4>📉 Variación Mensual del Gasto (MoM %)</h4><div class="chart-container"><canvas id="chartMoM"></canvas></div></div>';
+html+='</div>';
+
+// TREEMAP with filters
+html+='<div class="card"><h4>🗺️ TreeMap — Distribución del Gasto por Partida</h4>';
+html+='<div class="filter-bar" id="tmFilterBar">';
+html+='<label>Grupo:</label><select id="tmGroupFilter"><option value="all">Todos los Grupos</option>';
+GROUPS.forEach(function(g){html+='<option value="'+g.id+'">G'+g.id+': '+g.name+'</option>'});
+html+='</select>';
+html+='<label>Partida:</label><select id="tmItemFilter"><option value="all">Todas las Partidas</option>';
+GROUPS.forEach(function(g){g.items.forEach(function(i){html+='<option value="'+i.code+'" data-group="'+g.id+'">'+i.code+' — '+i.desc+'</option>'})});
+html+='</select>';
+html+='<label>Desde:</label><select id="tmFromMonth">';
+MONTHS.forEach(function(m,i){html+='<option value="'+i+'">'+m+'</option>'});
+html+='</select><label>Hasta:</label><select id="tmToMonth">';
+MONTHS.forEach(function(m,i){html+='<option value="'+i+'"'+(i===11?' selected':'')+'>'+m+'</option>'});
+html+='</select>';
+html+='<label>Mostrar:</label><select id="tmMetric"><option value="spent">Gastado</option><option value="budget">Presupuesto</option><option value="remaining">Restante</option><option value="pct">% Ejecución</option></select>';
+html+='<button onclick="applyTreemapFilter()">Aplicar</button><button onclick="resetTreemapFilter()" style="background:var(--midGray);border-color:var(--midGray)">Reset</button>';
+html+='</div>';
+html+='<div class="treemap-container" id="treemapOverview" style="height:360px"></div></div>';
+
+// HEATMAP
+html+='<div class="card"><h4>🌡️ Mapa de Calor — Gasto Mensual por Grupo (€)</h4><div class="table-scroll" id="heatmapOverview"></div></div>';
+
+// Charts row 4
+html+='<div class="grid-2">';
+html+='<div class="card"><h4>📊 Top 10 Partidas por Gasto Total</h4><div class="chart-container tall"><canvas id="chartTop10"></canvas></div></div>';
+html+='<div class="card"><h4>🎯 Desviación vs Presupuesto Lineal por Mes</h4><div class="chart-container tall"><canvas id="chartDeviation"></canvas></div></div>';
+html+='</div>';
+
+// Analysis
+html+='<div class="analysis-section"><h3>📋 Análisis General y Alertas</h3><div id="overviewAnalysis"></div></div>';
+html+='</div>'; // end overview
+
+// ======== GROUP TABS ========
+GROUPS.forEach(function(g){
+  html+='<div class="section" id="group'+g.id+'">';
+  // KPIs
+  html+='<div class="kpi-row">';
+  html+='<div class="card kpi" style="border-top-color:'+g.color+'"><div class="kpi-value" style="color:'+g.color+'">'+fmt(g.totalBudget)+' €</div><div class="kpi-label">Presupuesto Grupo</div><div class="kpi-sub">'+fmtPct(g.totalBudget/TOTAL_BUDGET*100)+' del total</div></div>';
+  html+='<div class="card kpi" style="border-top-color:'+g.color+'"><div class="kpi-value '+(g.pctUsed>=90?'red':g.pctUsed>=75?'yellow':'green')+'">'+fmt(g.totalSpent)+' €</div><div class="kpi-label">Total Gastado</div><div class="kpi-sub">'+fmtPct(g.pctUsed)+' ejecutado</div></div>';
+  html+='<div class="card kpi" style="border-top-color:'+g.color+'"><div class="kpi-value green">'+fmt(g.remaining)+' €</div><div class="kpi-label">Restante</div><div class="kpi-sub">'+fmtPct(100-g.pctUsed)+' disponible</div></div>';
+  html+='<div class="card kpi" style="border-top-color:'+g.color+'"><div class="kpi-value dark">'+g.items.length+'</div><div class="kpi-label">Partidas</div><div class="kpi-sub">'+statusIcon(g.pctUsed)+' '+(g.pctUsed>=90?'Crítico':g.pctUsed>=75?'Atención':'Normal')+'</div></div>';
+  html+='</div>';
+
+  // Execution bar
+  html+='<div class="card" style="padding:.8rem 1rem"><div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:600;margin-bottom:.2rem"><span>Ejecución presupuestaria del grupo</span><span style="color:'+pctColorHex(g.pctUsed)+'">'+fmtPct(g.pctUsed)+'</span></div><div class="pct-bar"><div class="pct-fill" style="width:'+Math.min(g.pctUsed,100)+'%;background:'+pctColorHex(g.pctUsed)+'">'+fmtPct(g.pctUsed)+'</div></div></div>';
+
+  // Filters + table
+  html+='<div class="card"><div class="filter-bar"><label>Desde:</label><select id="g'+g.id+'From">';
+  MONTHS.forEach(function(m,i){html+='<option value="'+i+'">'+m+'</option>'});
+  html+='</select><label>Hasta:</label><select id="g'+g.id+'To">';
+  MONTHS.forEach(function(m,i){html+='<option value="'+i+'"'+(i===11?' selected':'')+'>'+m+'</option>'});
+  html+='</select><button onclick="filterGroup('+g.id+')">Aplicar</button><button onclick="resetFilter(\'g'+g.id+'\')" style="background:var(--midGray);border-color:var(--midGray)">Reset</button></div>';
+  html+='<div class="table-scroll" id="groupTable'+g.id+'"></div></div>';
+
+  // Summary table
+  html+='<div class="card"><h4>📅 Resumen Mensual — Grupo '+g.id+': '+g.name+'</h4><div class="table-scroll" id="groupSummary'+g.id+'"></div></div>';
+
+  // DETAIL EXPENSES
+  html+='<div class="card"><h4>📝 Detalle de Gastos — Grupo '+g.id+': '+g.name+'</h4>';
+  html+='<div class="filter-bar">';
+  html+='<label>Mes:</label><select id="detMes'+g.id+'"><option value="all">Todos los meses</option>';
+  MONTHS.forEach(function(m,i){html+='<option value="'+i+'">'+m+'</option>'});
+  html+='</select>';
+  html+='<label>Partida:</label><select id="detPart'+g.id+'"><option value="all">Todas las partidas</option>';
+  g.items.forEach(function(it){html+='<option value="'+it.code+'">'+it.code+' — '+it.desc+'</option>'});
+  html+='</select>';
+  html+='<label>Proveedor:</label><select id="detProv'+g.id+'"><option value="all">Todos</option></select>';
+  html+='<button onclick="filterDetail('+g.id+')">Filtrar</button>';
+  html+='<button onclick="resetDetail('+g.id+')" style="background:var(--midGray);border-color:var(--midGray)">Reset</button>';
+  html+='<span id="detCount'+g.id+'" style="font-size:.68rem;color:var(--textLight);margin-left:auto"></span>';
+  html+='</div>';
+  html+='<div class="table-scroll" style="max-height:500px" id="detailTable'+g.id+'"></div></div>';
+
+  // Charts row 1
+  html+='<div class="grid-2">';
+  html+='<div class="card"><h4>📊 Presupuesto vs Gastado por Partida</h4><div class="chart-container"><canvas id="chartG'+g.id+'Comp"></canvas></div></div>';
+  html+='<div class="card"><h4>🎯 % Ejecución por Partida</h4><div class="chart-container"><canvas id="chartG'+g.id+'Pct"></canvas></div></div>';
+  html+='</div>';
+
+  // Charts row 2
+  html+='<div class="grid-2">';
+  html+='<div class="card"><h4>📈 Tendencia Mensual (Gasto + Acumulado)</h4><div class="chart-container"><canvas id="chartG'+g.id+'Trend"></canvas></div></div>';
+  html+='<div class="card"><h4>⚖️ Peso del Grupo vs Total Comunidad</h4><div class="chart-container"><canvas id="chartG'+g.id+'Weight"></canvas></div></div>';
+  html+='</div>';
+
+  // Charts row 3 - Distribution pie + Radar
+  html+='<div class="grid-2">';
+  html+='<div class="card"><h4>🍩 Distribución del Gasto dentro del Grupo</h4><div class="chart-container"><canvas id="chartG'+g.id+'Pie"></canvas></div></div>';
+  html+='<div class="card"><h4>📉 Gasto Mensual vs Media del Grupo</h4><div class="chart-container"><canvas id="chartG'+g.id+'VsAvg"></canvas></div></div>';
+  html+='</div>';
+
+  // Heatmap for group
+  html+='<div class="card"><h4>🌡️ Mapa de Calor — Gasto Mensual por Partida (€)</h4><div class="table-scroll" id="heatmapG'+g.id+'"></div></div>';
+
+  // TreeMap for group
+  html+='<div class="card"><h4>🗺️ TreeMap — Distribución del Gasto dentro del Grupo</h4><div class="treemap-container" id="treemapG'+g.id+'" style="height:280px"></div></div>';
+
+  // Analysis
+  html+='<div class="analysis-section"><h3>'+g.icon+' Análisis del Grupo '+g.id+': '+g.name+'</h3><div id="analysisG'+g.id+'"></div></div>';
+  html+='</div>';
+});
+
+// ======== PALANCAS Y ROADMAP TAB ========
+html+='<div class="section" id="palancas">';
+
+// KPIs summary
+html+='<div class="kpi-row">';
+html+='<div class="card kpi"><div class="kpi-value orange">'+fmt(TOTAL_BUDGET)+' €</div><div class="kpi-label">Presupuesto Total</div><div class="kpi-sub">Base de cálculo</div></div>';
+html+='<div class="card kpi"><div class="kpi-value green">7.100 – 13.300 €</div><div class="kpi-label">Ahorro Potencial</div><div class="kpi-sub">6 – 11% del presupuesto</div></div>';
+html+='<div class="card kpi"><div class="kpi-value dark">6</div><div class="kpi-label">Palancas Identificadas</div><div class="kpi-sub">Priorizadas por impacto</div></div>';
+html+='<div class="card kpi"><div class="kpi-value orange">12</div><div class="kpi-label">Meses de Roadmap</div><div class="kpi-sub">Plan de implementación</div></div>';
+html+='</div>';
+
+html+='<div class="highlight-box"><div class="hl-icon">🎯</div><p>Panel de <strong>Tendencias, Recomendaciones, Palancas de Ejecución</strong> y <strong>Roadmap de Implementación</strong> para optimizar la gestión presupuestaria de la comunidad. Las acciones están priorizadas por impacto económico y facilidad de implementación.</p></div>';
+
+// Container for dynamic content
+html+='<div id="palancasContent"></div>';
+
+// Roadmap Gantt
+html+='<div class="section-title"><span class="num">📅</span> Roadmap de Implementación (12 Meses)</div>';
+html+='<div class="card" style="padding:1.5rem"><div id="roadmapGantt"></div></div>';
+
+// Roadmap detail table
+html+='<div class="card"><h4>📋 Detalle de Acciones del Roadmap</h4><div class="table-scroll" id="roadmapTable"></div></div>';
+
+// Roadmap chart
+html+='<div class="grid-2">';
+html+='<div class="card"><h4>📊 Ahorro Acumulado Estimado por Mes</h4><div class="chart-container"><canvas id="chartSavingsTrend"></canvas></div></div>';
+html+='<div class="card"><h4>🎯 Distribución de Ahorro por Palanca</h4><div class="chart-container"><canvas id="chartSavingsDist"></canvas></div></div>';
+html+='</div>';
+
+html+='<div class="grid-2">';
+html+='<div class="card"><h4>⏱️ Esfuerzo vs Impacto por Palanca</h4><div class="chart-container"><canvas id="chartEffortImpact"></canvas></div></div>';
+html+='<div class="card"><h4>📈 Proyección Presupuesto con Optimización</h4><div class="chart-container"><canvas id="chartProjection"></canvas></div></div>';
+html+='</div>';
+
+// SCENARIOS SECTION
+html+='<div class="section-title"><span class="num">📐</span> Escenarios de Ajuste Presupuestario y Cuota</div>';
+html+='<div class="highlight-box"><div class="hl-icon">💰</div><p>Análisis de escenarios para cubrir el presupuesto con un <strong>margen de seguridad del 20%</strong>, incluyendo posibles incrementos de partidas y su impacto en la cuota mensual por vivienda.</p></div>';
+html+='<div id="scenariosContent"></div>';
+html+='<div class="grid-2">';
+html+='<div class="card"><h4>📊 Comparativa de Cuota Mensual por Escenario</h4><div class="chart-container"><canvas id="chartScenarioQuota"></canvas></div></div>';
+html+='<div class="card"><h4>📈 Presupuesto por Escenario (con margen 20%)</h4><div class="chart-container"><canvas id="chartScenarioBudget"></canvas></div></div>';
+html+='</div>';
+html+='<div class="card"><h4>🌡️ Mapa de Calor — Impacto en Cuota por Escenario y Grupo</h4><div class="table-scroll" id="scenarioHeatmap"></div></div>';
+
+html+='</div>'; // end palancas
+
+// ======== RECOMMENDATIONS SECTION (appended to overview) ========
+// We'll add it via JS after rendering
+mainEl.innerHTML=html;
+
+// ============ TABLE BUILDERS ============
+function buildBudgetTable(items,fromM,toM,showGroupRows){
+  var t='<table class="budget-table"><thead><tr><th>Código</th><th>Concepto</th><th>Ppto.</th>';
+  for(var m=fromM;m<=toM;m++)t+='<th>'+MONTH_SHORT[m]+'</th>';
+  t+='<th>Acum.</th><th>Rest.</th><th>% Ejec.</th></tr></thead><tbody>';
+  var allItems=[];
+  if(showGroupRows){
+    GROUPS.forEach(function(g){
+      g.items.forEach(function(i){allItems.push({item:i,group:g})});
+      allItems.push({groupTotal:g});
+    });
+  }else{items.forEach(function(i){allItems.push({item:i})})}
+
+  allItems.forEach(function(entry){
+    if(entry.groupTotal){
+      var g=entry.groupTotal;var acc=0;for(var m=fromM;m<=toM;m++)acc+=g.monthlyTotals[m];acc=Math.round(acc*100)/100;
+      var rem=Math.round((g.totalBudget-acc)*100)/100;var pct=g.totalBudget>0?Math.round(acc/g.totalBudget*10000)/100:0;
+      t+='<tr class="group-row"><td></td><td>TOTAL G'+g.id+': '+g.name+'</td><td style="text-align:right">'+fmt(g.totalBudget)+'</td>';
+      for(var m=fromM;m<=toM;m++)t+='<td>'+fmt(g.monthlyTotals[m])+'</td>';
+      t+='<td style="font-weight:800">'+fmt(acc)+'</td><td>'+fmt(rem)+'</td><td class="pct-cell" style="color:'+pctColorHex(pct)+'">'+statusIcon(pct)+' '+fmtPct(pct)+'</td></tr>';
+    }else{
+      var item=entry.item;var acc=0;for(var m=fromM;m<=toM;m++)acc+=item.monthly[m];acc=Math.round(acc*100)/100;
+      var rem=Math.round((item.budget-acc)*100)/100;var pct=item.budget>0?Math.round(acc/item.budget*10000)/100:0;
+      t+='<tr><td>'+item.code+'</td><td>'+item.desc+'</td><td style="text-align:right;font-weight:600">'+fmt(item.budget)+'</td>';
+      for(var m=fromM;m<=toM;m++)t+='<td>'+(item.monthly[m]>0?fmt(item.monthly[m]):'—')+'</td>';
+      t+='<td style="font-weight:700">'+fmt(acc)+'</td><td style="color:'+(rem<0?'var(--red)':'var(--green)')+'">'+fmt(rem)+'</td>';
+      t+='<td class="pct-cell" style="color:'+pctColorHex(pct)+'">'+fmtPct(pct)+'</td></tr>';
+    }
+  });
+  if(showGroupRows){
+    var tAcc=0;GROUPS.forEach(function(g){for(var m=fromM;m<=toM;m++)tAcc+=g.monthlyTotals[m]});tAcc=Math.round(tAcc*100)/100;
+    var tRem=Math.round((TOTAL_BUDGET-tAcc)*100)/100;var tPct=Math.round(tAcc/TOTAL_BUDGET*10000)/100;
+    t+='<tr class="total-row"><td></td><td>TOTAL PRESUPUESTO</td><td style="text-align:right">'+fmt(TOTAL_BUDGET)+'</td>';
+    for(var m=fromM;m<=toM;m++){var mT=0;GROUPS.forEach(function(g){mT+=g.monthlyTotals[m]});t+='<td>'+fmt(Math.round(mT*100)/100)+'</td>'}
+    t+='<td style="font-weight:900">'+fmt(tAcc)+'</td><td>'+fmt(tRem)+'</td><td class="pct-cell">'+fmtPct(tPct)+'</td></tr>';
+  }
+  return t+'</tbody></table>';
+}
+
+function buildSummaryTable(group){
+  var t='<table class="budget-table"><thead><tr><th style="min-width:160px;text-align:left" colspan="2">Partida</th>';
+  MONTHS.forEach(function(m,i){t+='<th>'+MONTH_SHORT[i]+'</th>'});
+  t+='<th>Total</th></tr></thead><tbody>';
+  group.items.forEach(function(item){
+    t+='<tr><td colspan="2" style="text-align:left;font-size:.67rem">'+item.desc+'</td>';
+    item.monthly.forEach(function(v){t+='<td>'+(v>0?fmt(v):'—')+'</td>'});
+    t+='<td style="font-weight:700">'+fmt(item.totalSpent)+'</td></tr>';
+  });
+  t+='<tr class="group-row"><td colspan="2" style="text-align:left">TOTAL GRUPO</td>';
+  group.monthlyTotals.forEach(function(v){t+='<td style="font-weight:700">'+fmt(v)+'</td>'});
+  t+='<td style="font-weight:800">'+fmt(group.totalSpent)+'</td></tr></tbody></table>';
+  return t;
+}
+
+function renderOverviewTable(f,t){document.getElementById('overviewTableWrap').innerHTML=buildBudgetTable([],f,t,true)}
+function renderGroupTable(gId,f,t){document.getElementById('groupTable'+gId).innerHTML=buildBudgetTable(GROUPS[gId-1].items,f,t,false)}
+function filterOverview(){var f=+document.getElementById('ovFrom').value,t=+document.getElementById('ovTo').value;if(f>t){var x=f;f=t;t=x}renderOverviewTable(f,t)}
+function filterGroup(gId){var f=+document.getElementById('g'+gId+'From').value,t=+document.getElementById('g'+gId+'To').value;if(f>t){var x=f;f=t;t=x}renderGroupTable(gId,f,t)}
+function resetFilter(p){document.getElementById(p+'From').value='0';document.getElementById(p+'To').value='11';if(p==='ov')renderOverviewTable(0,11);else renderGroupTable(+p.replace('g',''),0,11)}
+
+renderOverviewTable(0,11);
+GROUPS.forEach(function(g){renderGroupTable(g.id,0,11);document.getElementById('groupSummary'+g.id).innerHTML=buildSummaryTable(g)});
+
+// Populate provider dropdowns (DOM now exists)
+GROUPS.forEach(function(g){
+  var sel=document.getElementById('detProv'+g.id);
+  if(!sel||!DETAIL_PROVIDERS[g.id])return;
+  var provs=Object.keys(DETAIL_PROVIDERS[g.id]).sort();
+  provs.forEach(function(p){
+    var opt=document.createElement('option');
+    opt.value=p;opt.textContent=p;
+    sel.appendChild(opt);
+  });
+});
+// Initial render of all detail expense tables
+GROUPS.forEach(function(g){renderDetailTable(g.id,'all','all','all')});
+
+// Group summary cards
+var cardsH='';
+GROUPS.forEach(function(g){
+  // Build sparkline SVG
+  var sparkSvg='<svg class="sparkline" width="100%" height="24" viewBox="0 0 80 22" preserveAspectRatio="none">';
+  var pts=[];var maxS=Math.max.apply(null,g.monthlyTotals);var minS=Math.min.apply(null,g.monthlyTotals);
+  g.monthlyTotals.forEach(function(v,i){
+    var x=(i/11)*78+1;
+    var y=maxS>minS?20-(v-minS)/(maxS-minS)*18+1:11;
+    pts.push(x.toFixed(1)+','+y.toFixed(1));
+  });
+  sparkSvg+='<polyline class="spark-area" points="1,21 '+pts.join(' ')+' 79,21" fill="'+g.color+'"/>';
+  sparkSvg+='<polyline points="'+pts.join(' ')+'" stroke="'+g.color+'"/></svg>';
+
+  cardsH+='<div class="summary-item" style="border-top:3px solid '+g.color+'"><div style="font-size:.7rem;font-weight:700;color:'+g.color+'">'+g.icon+' G'+g.id+'</div>';
+  cardsH+='<div class="s-val" style="color:'+pctColorHex(g.pctUsed)+'">'+fmtPct(g.pctUsed)+'</div>';
+  cardsH+='<div class="s-lbl">'+fmt(g.totalSpent)+' / '+fmt(g.totalBudget)+' €</div>';
+  cardsH+='<div class="pct-bar" style="height:10px;margin-top:.3rem"><div class="pct-fill" style="width:'+Math.min(g.pctUsed,100)+'%;background:'+pctColorHex(g.pctUsed)+';font-size:0"></div></div>';
+  cardsH+=sparkSvg;
+  cardsH+='</div>';
+});
+document.getElementById('groupSummaryCards').innerHTML=cardsH;
+
+// ============ TREEMAP RENDERER ============
+function renderTreemap(containerId,data,totalVal){
+  // data = [{label, value, color}]
+  var container=document.getElementById(containerId);
+  if(!container)return;
+  var W=container.offsetWidth||800,H=container.offsetHeight||320;
+  // Sort descending
+  data.sort(function(a,b){return b.value-a.value});
+  // Squarified treemap algorithm (simplified)
+  var rects=squarify(data.map(function(d){return d.value}),0,0,W,H);
+  var h='';
+  data.forEach(function(d,i){
+    var r=rects[i];if(!r)return;
+    var showLabel=r.w>50&&r.h>35;
+    var showVal=r.w>40&&r.h>25;
+    h+='<div class="tm-cell" style="left:'+r.x+'px;top:'+r.y+'px;width:'+r.w+'px;height:'+r.h+'px;background:'+d.color+'" title="'+d.label+': '+fmt(d.value)+' € ('+fmtPct(d.value/totalVal*100)+')">';
+    if(showLabel)h+='<div class="tm-label">'+d.label+'</div>';
+    if(showVal)h+='<div class="tm-value">'+fmtK(d.value)+' €</div>';
+    h+='</div>';
+  });
+  container.innerHTML=h;
+}
+
+function squarify(values,x,y,w,h){
+  var total=values.reduce(function(a,b){return a+b},0);
+  if(total===0||values.length===0)return[];
+  var rects=[];var remaining=values.slice();
+  layoutStrip(remaining,total,x,y,w,h,rects);
+  return rects;
+}
+
+function layoutStrip(values,total,x,y,w,h,rects){
+  if(values.length===0)return;
+  if(values.length===1){rects.push({x:x,y:y,w:w,h:h});return}
+  var vertical=h>w;
+  var sum=values.reduce(function(a,b){return a+b},0);
+  if(vertical){
+    var offset=y;
+    values.forEach(function(v){
+      var cellH=sum>0?(v/sum)*h:0;
+      rects.push({x:x,y:offset,w:w,h:cellH});
+      offset+=cellH;
+    });
+  }else{
+    var offset=x;
+    values.forEach(function(v){
+      var cellW=sum>0?(v/sum)*w:0;
+      rects.push({x:offset,y:y,w:cellW,h:h});
+      offset+=cellW;
+    });
+  }
+}
+
+// ============ HEATMAP RENDERER ============
+function renderHeatmap(containerId,rows,maxVal){
+  // rows = [{label, values:[12 numbers]}]
+  var t='<table class="heatmap-table"><thead><tr><th>Concepto</th>';
+  MONTH_SHORT.forEach(function(m){t+='<th>'+m+'</th>'});
+  t+='<th>Total</th></tr></thead><tbody>';
+  rows.forEach(function(r){
+    t+='<tr><td>'+r.label+'</td>';
+    var rowTotal=0;
+    r.values.forEach(function(v){
+      rowTotal+=v;
+      var bg=heatColor(v,maxVal);
+      var txtCol=v/maxVal>0.5?'#fff':'#1A1A1A';
+      t+='<td style="background:'+bg+';color:'+txtCol+'">'+(v>0?fmt(v):'—')+'</td>';
+    });
+    t+='<td style="background:var(--darkGray);color:#fff;font-weight:700">'+fmt(Math.round(rowTotal*100)/100)+'</td></tr>';
+  });
+  t+='</tbody></table>';
+  document.getElementById(containerId).innerHTML=t;
+}
+
+// ============ RENDER HEATMAPS ============
+function renderAllHeatmaps(){
+  // Overview heatmap by groups
+  var maxVal=Math.max.apply(null,GROUPS.map(function(g){return Math.max.apply(null,g.monthlyTotals)}));
+  var rows=GROUPS.map(function(g){return{label:g.icon+' G'+g.id+': '+g.name,values:g.monthlyTotals}});
+  renderHeatmap('heatmapOverview',rows,maxVal);
+
+  // Group heatmaps
+  GROUPS.forEach(function(g){
+    var gMax=Math.max.apply(null,g.items.map(function(i){return Math.max.apply(null,i.monthly)}));
+    var gRows=g.items.map(function(i){return{label:i.desc,values:i.monthly}});
+    renderHeatmap('heatmapG'+g.id,gRows,gMax);
+  });
+}
+
+// ============ RENDER TREEMAPS ============
+var itemColors=['#F57C00','#E65100','#FF9800','#1565C0','#1976D2','#42A5F5','#43A047','#66BB6A','#2E7D32','#AB47BC','#CE93D8','#7B1FA2','#FF8F00','#FFB74D','#F57C00','#00897B','#00695C','#26A69A','#D32F2F','#EF5350','#C62828','#5C6BC0','#7986CB','#3F51B5','#795548'];
+
+function renderOverviewTreemap(groupFilter,itemFilter,fromM,toM,metric){
+  groupFilter=groupFilter||'all';itemFilter=itemFilter||'all';
+  fromM=(fromM!=null)?fromM:0;toM=(toM!=null)?toM:11;
+  metric=metric||'spent';
+
+  var tmData=[];var ci=0;var totalRef=0;
+  GROUPS.forEach(function(g){
+    if(groupFilter!=='all'&&g.id!==+groupFilter){ci+=g.items.length;return;}
+    g.items.forEach(function(item){
+      if(itemFilter!=='all'&&item.code!==itemFilter){ci++;return;}
+      var val=0;
+      if(metric==='spent'){
+        for(var m=fromM;m<=toM;m++) val+=item.monthly[m];
+        val=Math.round(val*100)/100;
+      }else if(metric==='budget'){
+        val=item.budget;
+      }else if(metric==='remaining'){
+        var spent=0;for(var m=fromM;m<=toM;m++) spent+=item.monthly[m];
+        val=Math.round((item.budget-spent)*100)/100;
+        if(val<0)val=0;
+      }else if(metric==='pct'){
+        var spent=0;for(var m=fromM;m<=toM;m++) spent+=item.monthly[m];
+        val=item.budget>0?Math.round(spent/item.budget*10000)/100:0;
+      }
+      if(val>0){
+        tmData.push({label:item.desc,value:val,color:itemColors[ci%itemColors.length]});
+        totalRef+=val;
+      }
+      ci++;
+    });
+  });
+  if(tmData.length===0){
+    document.getElementById('treemapOverview').innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--gray);font-size:.85rem">Sin datos para los filtros seleccionados</div>';
+    return;
+  }
+  renderTreemap('treemapOverview',tmData,totalRef);
+}
+
+function applyTreemapFilter(){
+  var gf=document.getElementById('tmGroupFilter').value;
+  var itf=document.getElementById('tmItemFilter').value;
+  var fm=+document.getElementById('tmFromMonth').value;
+  var tm=+document.getElementById('tmToMonth').value;
+  var met=document.getElementById('tmMetric').value;
+  if(fm>tm){var x=fm;fm=tm;tm=x;}
+  renderOverviewTreemap(gf,itf,fm,tm,met);
+}
+
+function resetTreemapFilter(){
+  document.getElementById('tmGroupFilter').value='all';
+  document.getElementById('tmItemFilter').value='all';
+  document.getElementById('tmFromMonth').value='0';
+  document.getElementById('tmToMonth').value='11';
+  document.getElementById('tmMetric').value='spent';
+  renderOverviewTreemap('all','all',0,11,'spent');
+}
+
+// Filter cascading: when group changes, filter items dropdown
+(function(){
+  var gSel=document.getElementById('tmGroupFilter');
+  if(gSel){
+    gSel.addEventListener('change',function(){
+      var val=gSel.value;
+      var iSel=document.getElementById('tmItemFilter');
+      var opts=iSel.querySelectorAll('option');
+      opts.forEach(function(o){
+        if(o.value==='all'){o.style.display='';return;}
+        if(val==='all')o.style.display='';
+        else o.style.display=(o.dataset.group===val)?'':'none';
+      });
+      iSel.value='all';
+    });
+  }
+})();
+
+function renderAllTreemaps(){
+  // Overview treemap with current filter state
+  renderOverviewTreemap();
+
+  // Group treemaps
+  GROUPS.forEach(function(g){
+    var gData=g.items.map(function(item,i){
+      var shades=[g.color,g.colorLight,g.color+'CC',g.colorLight+'CC',g.color+'99',g.colorLight+'99',g.color+'77'];
+      return{label:item.desc,value:item.totalSpent,color:shades[i%shades.length]};
+    });
+    renderTreemap('treemapG'+g.id,gData,g.totalSpent);
+  });
+}
+
+// ============ CHARTS ============
+var CI={};
+var fontO={family:'Montserrat',size:10};
+var groupColors=GROUPS.map(function(g){return g.color});
+
+function renderCharts(){
+  Object.keys(CI).forEach(function(k){if(CI[k])CI[k].destroy()});
+  CI={};
+  var bOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},valuesOnTop:true}};
+
+  // === OVERVIEW CHARTS ===
+  var el;
+
+  // Group Distribution Doughnut
+  el=document.getElementById('chartGroupDist');
+  if(el&&el.offsetParent!==null){
+    CI.gDist=new Chart(el,{type:'doughnut',data:{
+      labels:GROUPS.map(function(g){return'G'+g.id+': '+g.name}),
+      datasets:[{data:GROUPS.map(function(g){return g.totalBudget}),backgroundColor:groupColors,borderWidth:2,borderColor:'#fff',hoverOffset:8}]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{usePointStyle:true,pointStyle:'circle',font:fontO,padding:8}},doughnutLabels:true,valuesOnTop:false,tooltip:{callbacks:{label:function(ctx){return ctx.label+': '+fmt(ctx.raw)+' € ('+fmtPct(ctx.raw/TOTAL_BUDGET*100)+')';}}}}}});
+  }
+
+  // Budget vs Spent
+  el=document.getElementById('chartGroupComp');
+  if(el&&el.offsetParent!==null){
+    CI.gComp=new Chart(el,{type:'bar',data:{
+      labels:GROUPS.map(function(g){return'G'+g.id}),
+      datasets:[
+        {label:'Presupuesto',data:GROUPS.map(function(g){return g.totalBudget}),backgroundColor:'rgba(245,124,0,0.2)',borderColor:'#F57C00',borderWidth:2,borderRadius:4},
+        {label:'Gastado',data:GROUPS.map(function(g){return g.totalSpent}),backgroundColor:GROUPS.map(function(g){return g.pctUsed>=90?'rgba(229,57,53,0.7)':g.pctUsed>=75?'rgba(255,160,0,0.7)':'rgba(67,160,71,0.7)'}),borderRadius:4}
+      ]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},valuesOnTop:true},scales:{y:{ticks:{callback:function(v){return fmtK(v)+'€'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:fontO},grid:{display:false}}}}});
+  }
+
+  // Cumulative Trend
+  el=document.getElementById('chartTrendAll');
+  if(el&&el.offsetParent!==null){
+    var cumD=[];var c=0;monthlyTotalsAll.forEach(function(v){c+=v;cumD.push(Math.round(c*100)/100)});
+    var budL=[];for(var m=0;m<12;m++)budL.push(Math.round(TOTAL_BUDGET/12*(m+1)*100)/100);
+    CI.tAll=new Chart(el,{type:'line',data:{
+      labels:MONTHS,
+      datasets:[
+        {label:'Gasto Acumulado',data:cumD,borderColor:'#F57C00',backgroundColor:'rgba(245,124,0,0.1)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:'#F57C00',borderWidth:2},
+        {label:'Presupuesto Lineal',data:budL,borderColor:'#43A047',borderDash:[6,4],borderWidth:2,pointRadius:0,fill:false}
+      ]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},valuesOnTop:false},scales:{y:{ticks:{callback:function(v){return fmtK(v)+'€'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:fontO},grid:{display:false}}}}});
+  }
+
+  // Monthly Stacked
+  el=document.getElementById('chartMonthlyStack');
+  if(el&&el.offsetParent!==null){
+    CI.mStack=new Chart(el,{type:'bar',data:{
+      labels:MONTHS,
+      datasets:GROUPS.map(function(g){return{label:'G'+g.id,data:g.monthlyTotals,backgroundColor:g.color+'CC',borderRadius:2}})
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},valuesOnTop:false},scales:{y:{stacked:true,ticks:{callback:function(v){return fmtK(v)+'€'},font:fontO},grid:{color:'#eee'}},x:{stacked:true,ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+  }
+
+  // % Execution by group (horizontal bar)
+  el=document.getElementById('chartGroupPct');
+  if(el&&el.offsetParent!==null){
+    CI.gPct=new Chart(el,{type:'bar',data:{
+      labels:GROUPS.map(function(g){return g.icon+' G'+g.id+': '+g.name}),
+      datasets:[{data:GROUPS.map(function(g){return g.pctUsed}),backgroundColor:GROUPS.map(function(g){return pctColorHex(g.pctUsed)}),borderRadius:4}]
+    },options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},valuesOnTop:true,tooltip:{callbacks:{label:function(ctx){return fmtPct(ctx.raw)}}}},scales:{x:{max:110,ticks:{callback:function(v){return v+'%'},font:fontO},grid:{color:'#eee'}},y:{ticks:{font:fontO},grid:{display:false}}}}});
+  }
+
+  // MoM variation
+  el=document.getElementById('chartMoM');
+  if(el&&el.offsetParent!==null){
+    var momData=[];
+    for(var m=1;m<12;m++){
+      var prev=monthlyTotalsAll[m-1];
+      var curr=monthlyTotalsAll[m];
+      momData.push(prev>0?Math.round((curr-prev)/prev*10000)/100:0);
+    }
+    CI.mom=new Chart(el,{type:'bar',data:{
+      labels:MONTHS.slice(1),
+      datasets:[{data:momData,backgroundColor:momData.map(function(v){return v>=0?'rgba(229,57,53,0.6)':'rgba(67,160,71,0.6)'}),borderRadius:4}]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},valuesOnTop:true,tooltip:{callbacks:{label:function(ctx){return(ctx.raw>=0?'+':'')+ctx.raw.toFixed(1)+'%'}}}},scales:{y:{ticks:{callback:function(v){return v+'%'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+  }
+
+  // Top 10 items by spend
+  el=document.getElementById('chartTop10');
+  if(el&&el.offsetParent!==null){
+    var allI=[];GROUPS.forEach(function(g){g.items.forEach(function(i){allI.push({d:i.desc.length>25?i.desc.substring(0,25)+'…':i.desc,v:i.totalSpent,c:g.color})})});
+    allI.sort(function(a,b){return b.v-a.v});
+    var top10=allI.slice(0,10);
+    CI.top10=new Chart(el,{type:'bar',data:{
+      labels:top10.map(function(i){return i.d}),
+      datasets:[{data:top10.map(function(i){return i.v}),backgroundColor:top10.map(function(i){return i.c+'CC'}),borderRadius:4}]
+    },options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},valuesOnTop:true},scales:{x:{ticks:{callback:function(v){return fmtK(v)+'€'},font:fontO},grid:{color:'#eee'}},y:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+  }
+
+  // Deviation vs linear budget
+  el=document.getElementById('chartDeviation');
+  if(el&&el.offsetParent!==null){
+    var linM=TOTAL_BUDGET/12;
+    var devData=monthlyTotalsAll.map(function(v){return Math.round((v-linM)*100)/100});
+    CI.dev=new Chart(el,{type:'bar',data:{
+      labels:MONTHS,
+      datasets:[{label:'Desviación vs media',data:devData,backgroundColor:devData.map(function(v){return v>0?'rgba(229,57,53,0.6)':'rgba(67,160,71,0.6)'}),borderRadius:4}]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},valuesOnTop:true},scales:{y:{ticks:{callback:function(v){return(v>=0?'+':'')+fmtK(v)+'€'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+  }
+
+  // === GROUP CHARTS ===
+  GROUPS.forEach(function(g){
+    // Budget vs Spent per item
+    el=document.getElementById('chartG'+g.id+'Comp');
+    if(el&&el.offsetParent!==null){
+      var horiz=g.items.length>4;
+      CI['g'+g.id+'c']=new Chart(el,{type:'bar',data:{
+        labels:g.items.map(function(i){return i.desc.length>22?i.desc.substring(0,22)+'…':i.desc}),
+        datasets:[
+          {label:'Presupuesto',data:g.items.map(function(i){return i.budget}),backgroundColor:'rgba(200,200,200,0.5)',borderColor:'#999',borderWidth:1,borderRadius:3},
+          {label:'Gastado',data:g.items.map(function(i){return i.totalSpent}),backgroundColor:g.color+'AA',borderRadius:3}
+        ]
+      },options:{responsive:true,maintainAspectRatio:false,indexAxis:horiz?'y':'x',plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},valuesOnTop:true},scales:{x:{ticks:{callback:function(v){return typeof v==='number'?fmtK(v)+'€':v},font:{family:'Montserrat',size:8}},grid:{color:'#eee'}},y:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+    }
+
+    // % execution per item
+    el=document.getElementById('chartG'+g.id+'Pct');
+    if(el&&el.offsetParent!==null){
+      CI['g'+g.id+'p']=new Chart(el,{type:'bar',data:{
+        labels:g.items.map(function(i){return i.desc.length>22?i.desc.substring(0,22)+'…':i.desc}),
+        datasets:[{data:g.items.map(function(i){return i.pctUsed}),backgroundColor:g.items.map(function(i){return pctColorHex(i.pctUsed)}),borderRadius:4}]
+      },options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},valuesOnTop:true,tooltip:{callbacks:{label:function(ctx){return fmtPct(ctx.raw)}}}},scales:{x:{max:110,ticks:{callback:function(v){return v+'%'},font:fontO},grid:{color:'#eee'}},y:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+    }
+
+    // Monthly trend with combo
+    el=document.getElementById('chartG'+g.id+'Trend');
+    if(el&&el.offsetParent!==null){
+      var cumG=[];var cc=0;g.monthlyTotals.forEach(function(v){cc+=v;cumG.push(Math.round(cc*100)/100)});
+      var bL=[];for(var m=0;m<12;m++)bL.push(Math.round(g.totalBudget/12*(m+1)*100)/100);
+      CI['g'+g.id+'t']=new Chart(el,{type:'line',data:{
+        labels:MONTHS,
+        datasets:[
+          {label:'Gasto Mensual',data:g.monthlyTotals,borderColor:g.color,backgroundColor:g.color+'20',type:'bar',borderRadius:3,order:2},
+          {label:'Acumulado',data:cumG,borderColor:'#E65100',backgroundColor:'rgba(230,81,0,0.08)',fill:true,tension:.3,pointRadius:3,borderWidth:2,order:1},
+          {label:'Ppto. Lineal',data:bL,borderColor:'#43A047',borderDash:[5,3],borderWidth:1.5,pointRadius:0,fill:false,order:0}
+        ]
+      },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},valuesOnTop:false},scales:{y:{ticks:{callback:function(v){return fmtK(v)+'€'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+    }
+
+    // Weight doughnut
+    el=document.getElementById('chartG'+g.id+'Weight');
+    if(el&&el.offsetParent!==null){
+      CI['g'+g.id+'w']=new Chart(el,{type:'doughnut',data:{
+        labels:['G'+g.id+': '+g.name,'Resto'],
+        datasets:[{data:[g.totalBudget,TOTAL_BUDGET-g.totalBudget],backgroundColor:[g.color,'#E0E0E0'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]
+      },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},doughnutLabels:true,valuesOnTop:false,tooltip:{callbacks:{label:function(ctx){return ctx.label+': '+fmt(ctx.raw)+' €'}}}}}});
+    }
+
+    // Distribution pie within group
+    el=document.getElementById('chartG'+g.id+'Pie');
+    if(el&&el.offsetParent!==null){
+      var shades=['#F57C00','#1565C0','#43A047','#AB47BC','#FF8F00','#00897B','#D32F2F','#5C6BC0','#795548','#607D8B'];
+      CI['g'+g.id+'pie']=new Chart(el,{type:'pie',data:{
+        labels:g.items.map(function(i){return i.desc.length>20?i.desc.substring(0,20)+'…':i.desc}),
+        datasets:[{data:g.items.map(function(i){return i.totalSpent}),backgroundColor:shades.slice(0,g.items.length),borderWidth:2,borderColor:'#fff',hoverOffset:6}]
+      },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{usePointStyle:true,pointStyle:'circle',font:{family:'Montserrat',size:8},padding:6}},doughnutLabels:true,valuesOnTop:false,tooltip:{callbacks:{label:function(ctx){return ctx.label+': '+fmt(ctx.raw)+' € ('+fmtPct(ctx.raw/g.totalSpent*100)+')'}}}}}});
+    }
+
+    // Monthly vs average
+    el=document.getElementById('chartG'+g.id+'VsAvg');
+    if(el&&el.offsetParent!==null){
+      var avg=g.totalSpent/12;
+      var avgLine=[];for(var m=0;m<12;m++)avgLine.push(Math.round(avg*100)/100);
+      CI['g'+g.id+'avg']=new Chart(el,{type:'line',data:{
+        labels:MONTHS,
+        datasets:[
+          {label:'Gasto Mensual',data:g.monthlyTotals,borderColor:g.color,backgroundColor:g.color+'15',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:g.color,borderWidth:2},
+          {label:'Media',data:avgLine,borderColor:'#E53935',borderDash:[6,3],borderWidth:2,pointRadius:0,fill:false}
+        ]
+      },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},valuesOnTop:false},scales:{y:{ticks:{callback:function(v){return fmtK(v)+'€'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+    }
+  });
+}
+
+// ============ ANALYSIS ============
+function generateAnalysis(){
+  var aH='';
+  if(pctUsedAll>=90)aH+='<div class="warning-box danger"><h4>🔴 Alerta Crítica: Presupuesto casi agotado</h4><p>Se ha ejecutado el '+fmtPct(pctUsedAll)+' del presupuesto. Quedan '+fmt(totalRemainingAll)+' €. Evaluar derrama extraordinaria.</p></div>';
+  else if(pctUsedAll>=75)aH+='<div class="warning-box"><h4>🟡 Atención: Nivel elevado</h4><p>'+fmtPct(pctUsedAll)+' ejecutado. Monitorizar partidas con mayor desviación.</p></div>';
+  else aH+='<div class="warning-box success"><h4>🟢 Estado Normal</h4><p>Ejecución al '+fmtPct(pctUsedAll)+'. Margen de '+fmt(totalRemainingAll)+' € sobre '+fmt(TOTAL_BUDGET)+' €.</p></div>';
+
+  GROUPS.forEach(function(g){
+    if(g.pctUsed>=90)aH+='<div class="warning-box danger"><h4>🔴 G'+g.id+' ('+g.name+'): '+fmtPct(g.pctUsed)+'</h4><p>Casi agotado. Restan '+fmt(g.remaining)+' €.</p></div>';
+    else if(g.pctUsed>=80)aH+='<div class="warning-box"><h4>🟡 G'+g.id+' ('+g.name+'): '+fmtPct(g.pctUsed)+'</h4><p>Ejecución elevada. Monitorizar.</p></div>';
+  });
+
+  var allI=[];GROUPS.forEach(function(g){g.items.forEach(function(i){allI.push({item:i,group:g})})});
+  allI.sort(function(a,b){return b.item.pctUsed-a.item.pctUsed});
+  aH+='<div class="warning-box info"><h4>📊 Top 5 Partidas por % Ejecución</h4><p>';
+  for(var i=0;i<Math.min(5,allI.length);i++){
+    var it=allI[i];
+    aH+=statusIcon(it.item.pctUsed)+' <strong>'+it.item.desc+'</strong> (G'+it.group.id+'): '+fmtPct(it.item.pctUsed)+' — '+fmt(it.item.totalSpent)+' / '+fmt(it.item.budget)+' €<br>';
+  }
+  aH+='</p></div>';
+
+  var avgM=totalSpentAll/12;var maxM=Math.max.apply(null,monthlyTotalsAll);var maxMi=monthlyTotalsAll.indexOf(maxM);
+  var minM=Math.min.apply(null,monthlyTotalsAll);var minMi=monthlyTotalsAll.indexOf(minM);
+  aH+='<div class="warning-box success"><h4>📈 Tendencia</h4><p>Media mensual: <strong>'+fmt(Math.round(avgM*100)/100)+' €</strong>. Pico: <strong>'+MONTHS[maxMi]+'</strong> ('+fmt(maxM)+' €). Mínimo: <strong>'+MONTHS[minMi]+'</strong> ('+fmt(minM)+' €). Estacionalidad marcada por piscina (verano) y calefacción (invierno).</p></div>';
+
+  document.getElementById('overviewAnalysis').innerHTML=aH;
+
+  // Group analysis
+  GROUPS.forEach(function(g){
+    var ga='';
+    if(g.pctUsed>=90)ga+='<div class="warning-box danger"><h4>🔴 Estado Crítico</h4><p>Ejecutado '+fmtPct(g.pctUsed)+' de '+fmt(g.totalBudget)+' €. Solo quedan '+fmt(g.remaining)+' €. Congelar gastos no esenciales.</p></div>';
+    else if(g.pctUsed>=80)ga+='<div class="warning-box"><h4>🟡 Atención</h4><p>Ejecución al '+fmtPct(g.pctUsed)+'. Monitorizar.</p></div>';
+    else ga+='<div class="warning-box success"><h4>🟢 Normal</h4><p>'+fmtPct(g.pctUsed)+' ejecutado. Margen: '+fmt(g.remaining)+' €.</p></div>';
+
+    g.items.forEach(function(item){
+      if(item.pctUsed>=95)ga+='<div class="warning-box danger"><h4>🔴 '+item.desc+': '+fmtPct(item.pctUsed)+'</h4><p>Casi agotada. Restan '+fmt(item.remaining)+' €.</p></div>';
+      else if(item.pctUsed>=85)ga+='<div class="warning-box"><h4>🟡 '+item.desc+': '+fmtPct(item.pctUsed)+'</h4><p>Ejecución elevada.</p></div>';
+    });
+
+    var mxM=Math.max.apply(null,g.monthlyTotals);var mxMi=g.monthlyTotals.indexOf(mxM);
+    var mnM=Math.min.apply(null,g.monthlyTotals);var mnMi=g.monthlyTotals.indexOf(mnM);
+    ga+='<div class="warning-box success"><h4>📈 Tendencia</h4><p>Media: <strong>'+fmt(Math.round(g.totalSpent/12*100)/100)+' €/mes</strong>. Pico: <strong>'+MONTHS[mxMi]+'</strong> ('+fmt(mxM)+' €). Mínimo: <strong>'+MONTHS[mnMi]+'</strong> ('+fmt(mnM)+' €). ';
+    if(g.id===1)ga+='Estable salvo pagos anuales (seguro, datos).';
+    else if(g.id===2)ga+='Estacionalidad por calefacción y consumo eléctrico.';
+    else if(g.id===3)ga+='Distribución regular.';
+    else if(g.id===4)ga+='Fuerte estacionalidad por piscina (Meses 5-9).';
+    else ga+='Fondo de Reserva: no se ejecuta gasto, dotación intacta conforme a normativa.';
+    ga+='</p></div>';
+    ga+='<div class="warning-box info"><h4>⚖️ Peso</h4><p>'+fmtPct(g.totalBudget/TOTAL_BUDGET*100)+' del presupuesto total ('+fmt(g.totalBudget)+' de '+fmt(TOTAL_BUDGET)+' €).</p></div>';
+
+    document.getElementById('analysisG'+g.id).innerHTML=ga;
+  });
+}
+
+// ============ PALANCAS, RECOMMENDATIONS & ROADMAP ============
+function buildRecommendations(){
+  var criticalItems=[];GROUPS.forEach(function(g){g.items.forEach(function(i){if(i.pctUsed>=85)criticalItems.push({item:i,group:g})})});
+  criticalItems.sort(function(a,b){return b.item.pctUsed-a.item.pctUsed});
+
+  var h='<div class="rec-section" style="margin-top:0;margin-bottom:1rem">';
+  h+='<h2>🎯 Tendencias, Recomendaciones y Palancas de Ejecución</h2>';
+  h+='<div class="rec-grid">';
+
+  // TENDENCIAS
+  h+='<div class="rec-card"><h4>📈 Tendencias Identificadas</h4><ul>';
+  h+='<li>La estacionalidad es el principal driver: G4 (Ocio/Piscina) concentra el <strong>'+fmtPct(GROUPS[3].totalBudget/TOTAL_BUDGET*100)+'</strong> del presupuesto con pico en verano</li>';
+  h+='<li>Suministros eléctricos (G1+G2+G3+G4) son la partida de mayor peso con más de <strong>'+fmt(GROUPS[1].items[5].totalSpent+GROUPS[2].items[2].totalSpent+GROUPS[3].items[2].totalSpent)+' €</strong></li>';
+  h+='<li>Gasto medio mensual: <strong>'+fmt(Math.round(totalSpentAll/12*100)/100)+' €</strong>, variación de hasta ±40% entre pico y valle</li>';
+  h+='<li>Partidas fijas (ascensores, limpieza, administración) son estables y predecibles</li>';
+  h+='<li>Fondo de Reserva (10.026,63 €) intacto conforme a la LPH: no se ejecuta gasto salvo acuerdo extraordinario</li>';
+  h+='</ul></div>';
+
+  // RECOMENDACIONES
+  h+='<div class="rec-card"><h4>💡 Recomendaciones Estratégicas</h4><ul>';
+  h+='<li><strong>Renegociar suministro eléctrico:</strong> partidas 6280001/6280005/6280007 suman >28.000 €/año</li>';
+  h+='<li><strong>Optimizar piscina:</strong> bombas de alta eficiencia y cubiertas térmicas</li>';
+  h+='<li><strong>Presupuesto estacional:</strong> cuotas no lineales, mayor aportación mayo-septiembre</li>';
+  h+='<li><strong>Auditoría energética:</strong> diagnóstico profesional de iluminación, ascensores y calderas</li>';
+  h+='<li><strong>Revisar seguro multirriesgo:</strong> comparar con 3+ aseguradoras antes de renovación</li>';
+  h+='<li><strong>Plan mantenimiento preventivo:</strong> evitar reparaciones de emergencia</li>';
+  h+='</ul></div>';
+
+  // PALANCAS
+  h+='<div class="rec-card"><h4>⚙️ Palancas de Ejecución</h4><ul>';
+  h+='<li><strong>Control mensual con semáforos:</strong> revisión mensual, acción correctiva si >80%</li>';
+  h+='<li><strong>Reserva contingencia 5%:</strong> ~'+fmt(Math.round(TOTAL_BUDGET*0.05*100)/100)+' € como colchón</li>';
+  h+='<li><strong>Reasignación dinámica:</strong> si partida <70% al mes 9, reasignar excedente</li>';
+  h+='<li><strong>Fraccionamiento pagos anuales:</strong> seguro y tasas trimestrales</li>';
+  h+='<li><strong>Benchmark comunidades:</strong> comparativa costes/m² con similares</li>';
+  h+='<li><strong>Contadores inteligentes:</strong> detección temprana de fugas y anomalías</li>';
+  h+='</ul></div>';
+  h+='</div>';
+
+  // IMPACT BARS
+  h+='<div style="margin-top:1.2rem"><h4 style="color:var(--orange);font-size:.9rem;font-weight:700;margin-bottom:.8rem">📊 Potencial de Impacto por Palanca</h4>';
+  var levers=[
+    {name:'Renegociación eléctrica',impact:85,saving:'2.800 – 4.200 €/año',color:'#43A047'},
+    {name:'Optimización piscina',impact:70,saving:'1.500 – 2.500 €/año',color:'#1565C0'},
+    {name:'Auditoría energética',impact:60,saving:'1.200 – 3.000 €/año',color:'#AB47BC'},
+    {name:'Mantenimiento preventivo',impact:55,saving:'800 – 1.800 €/año',color:'#F57C00'},
+    {name:'Renegociación seguro',impact:45,saving:'300 – 600 €/año',color:'#FF8F00'},
+    {name:'Contadores inteligentes',impact:40,saving:'500 – 1.200 €/año',color:'#00897B'}
+  ];
+  levers.forEach(function(l){
+    h+='<div class="lever-bar"><div class="lever-label"><span>'+l.name+'</span><span style="color:'+l.color+'">'+l.saving+' (impacto: '+l.impact+'%)</span></div>';
+    h+='<div class="lever-track"><div class="lever-fill" style="width:'+l.impact+'%;background:'+l.color+'"></div></div></div>';
+  });
+  h+='</div>';
+
+  // Summary box
+  h+='<div style="margin-top:1.2rem;padding:1.2rem;background:rgba(245,124,0,0.1);border:1px solid rgba(245,124,0,0.3);border-radius:8px">';
+  h+='<h4 style="color:var(--orange);font-size:.9rem;font-weight:700;margin-bottom:.5rem">🏆 Resumen de Oportunidades</h4>';
+  h+='<p style="font-size:.8rem;opacity:.9;line-height:1.7">Aplicando las 6 palancas, ahorro potencial de <strong style="color:var(--orange)">7.100 – 13.300 €/año</strong> (6 – 11% del total). Prioridad: renegociación eléctrica + optimización piscina aportan >50% del ahorro.</p>';
+  h+='</div>';
+
+  // Critical items
+  if(criticalItems.length>0){
+    h+='<div style="margin-top:1rem;padding:1rem;background:rgba(229,57,53,0.1);border:1px solid rgba(229,57,53,0.3);border-radius:8px">';
+    h+='<h4 style="color:#E53935;font-size:.85rem;font-weight:700;margin-bottom:.4rem">⚠️ Partidas en Zona de Riesgo (>85% ejecución)</h4>';
+    h+='<p style="font-size:.78rem;opacity:.9;line-height:1.6">';
+    criticalItems.forEach(function(ci){
+      h+='🔴 <strong>'+ci.item.desc+'</strong> (G'+ci.group.id+'): '+fmtPct(ci.item.pctUsed)+' — Quedan <strong>'+fmt(ci.item.remaining)+' €</strong><br>';
+    });
+    h+='</p></div>';
+  }
+  h+='</div>';
+
+  document.getElementById('palancasContent').innerHTML=h;
+}
+
+// ============ ROADMAP ============
+function buildRoadmap(){
+  // Define roadmap actions
+  var actions=[
+    {phase:'FASE 1: QUICK WINS (Mes 1-3)',items:[
+      {id:'A1',name:'Implantar dashboard de control mensual',owner:'Administrador + Junta',start:1,end:1,color:'#F57C00',type:'task',
+       needs:'Acceso a datos mensuales, reunión de kick-off con administrador',
+       deliverable:'Dashboard operativo con revisión mensual programada'},
+      {id:'A2',name:'Solicitar ofertas suministro eléctrico (3+ comercializadoras)',owner:'Presidente + Administrador',start:1,end:2,color:'#43A047',type:'task',
+       needs:'Facturas últimos 12 meses, datos CUPS de todos los contadores',
+       deliverable:'Cuadro comparativo de ofertas con ahorro estimado'},
+      {id:'A3',name:'Solicitar ofertas seguro multirriesgo (3+ aseguradoras)',owner:'Administrador',start:1,end:2,color:'#FF8F00',type:'task',
+       needs:'Póliza vigente, inventario de bienes asegurados, siniestralidad',
+       deliverable:'Comparativa de coberturas y precios'},
+      {id:'M1',name:'🏁 Decisión cambio eléctrica + seguro',owner:'Junta Directiva',start:3,end:3,color:'#E53935',type:'milestone',
+       needs:'Cuadros comparativos de A2 y A3, convocatoria junta extraordinaria si necesario',
+       deliverable:'Acta de aprobación con nuevos proveedores seleccionados'},
+    ]},
+    {phase:'FASE 2: OPTIMIZACIÓN OPERATIVA (Mes 3-6)',items:[
+      {id:'A4',name:'Contratar auditoría energética profesional',owner:'Junta + Empresa auditoría',start:3,end:4,color:'#AB47BC',type:'task',
+       needs:'Presupuesto aprobado (est. 800-1.500 €), acceso a instalaciones',
+       deliverable:'Informe de auditoría con medidas priorizadas'},
+      {id:'A5',name:'Evaluar e instalar cubiertas térmicas piscina',owner:'Comité Ocio + Proveedor',start:3,end:5,color:'#1565C0',type:'task',
+       needs:'Medidas del vaso, presupuesto de 3 proveedores, aprobación junta',
+       deliverable:'Cubierta instalada antes de temporada de baño'},
+      {id:'A6',name:'Diseñar plan de mantenimiento preventivo anual',owner:'Administrador + Técnicos',start:4,end:6,color:'#F57C00',type:'task',
+       needs:'Histórico de averías 3 años, fichas técnicas equipos, calendario actual',
+       deliverable:'Calendario preventivo con proveedores y frecuencias'},
+      {id:'M2',name:'🏁 Auditoría completada + plan preventivo aprobado',owner:'Junta Directiva',start:6,end:6,color:'#E53935',type:'milestone',
+       needs:'Informes de A4 y A6 finalizados',
+       deliverable:'Plan de acción aprobado con presupuesto asignado'},
+    ]},
+    {phase:'FASE 3: TRANSFORMACIÓN DIGITAL (Mes 6-9)',items:[
+      {id:'A7',name:'Instalar contadores inteligentes (agua + electricidad)',owner:'Administrador + Empresa instaladora',start:6,end:8,color:'#00897B',type:'task',
+       needs:'Presupuesto aprobado (est. 2.000-4.000 €), permisos comunidad, acceso a cuartos técnicos',
+       deliverable:'Contadores instalados con sistema de lectura remota'},
+      {id:'A8',name:'Implementar sistema de alertas de consumo anómalo',owner:'Empresa instaladora + Administrador',start:7,end:9,color:'#00897B',type:'task',
+       needs:'Contadores inteligentes operativos, definición de umbrales',
+       deliverable:'Sistema de alertas automáticas vía email/SMS'},
+      {id:'A9',name:'Implantar cuotas estacionales (presupuesto no lineal)',owner:'Administrador + Junta',start:7,end:8,color:'#FF8F00',type:'task',
+       needs:'Análisis de estacionalidad (disponible en este dashboard), aprobación en junta',
+       deliverable:'Nuevo cuadro de cuotas mensuales aprobado'},
+      {id:'M3',name:'🏁 Infraestructura digital operativa',owner:'Junta Directiva',start:9,end:9,color:'#E53935',type:'milestone',
+       needs:'Verificación de funcionamiento de contadores y alertas',
+       deliverable:'Acta de recepción del sistema'},
+    ]},
+    {phase:'FASE 4: CONSOLIDACIÓN Y BENCHMARK (Mes 9-12)',items:[
+      {id:'A10',name:'Solicitar benchmark de costes/m² al administrador',owner:'Presidente + Administrador',start:9,end:10,color:'#5C6BC0',type:'task',
+       needs:'Datos de al menos 3 comunidades similares (tamaño, servicios, zona)',
+       deliverable:'Informe comparativo con posicionamiento y oportunidades'},
+      {id:'A11',name:'Evaluar implementación de medidas de auditoría energética',owner:'Comité Técnico + Proveedores',start:9,end:11,color:'#AB47BC',type:'task',
+       needs:'Informe de auditoría (A4), presupuestos de ejecución, aprobación junta',
+       deliverable:'Medidas implementadas (LED, variadores, aislamientos)'},
+      {id:'A12',name:'Revisar y ajustar presupuesto siguiente ejercicio',owner:'Administrador + Junta',start:11,end:12,color:'#F57C00',type:'task',
+       needs:'Datos reales del ejercicio, ahorros conseguidos, nuevo benchmark',
+       deliverable:'Propuesta de presupuesto optimizado para 2027-2028'},
+      {id:'M4',name:'🏁 Cierre de ciclo y planificación nuevo ejercicio',owner:'Junta General Ordinaria',start:12,end:12,color:'#E53935',type:'milestone',
+       needs:'Todos los informes consolidados, cuentas del ejercicio',
+       deliverable:'Presupuesto nuevo ejercicio aprobado con optimizaciones'},
+    ]}
+  ];
+
+  // Build Gantt chart
+  var g='<div class="gantt-wrap"><table class="gantt-table"><thead><tr><th>Acción</th><th>Responsable</th>';
+  for(var m=1;m<=12;m++) g+='<th>M'+m+'</th>';
+  g+='</tr></thead><tbody>';
+
+  actions.forEach(function(phase){
+    g+='<tr class="gantt-phase-row"><td colspan="14">'+phase.phase+'</td></tr>';
+    phase.items.forEach(function(item){
+      g+='<tr><td>'+item.name+'</td><td>'+item.owner+'</td>';
+      for(var m=1;m<=12;m++){
+        g+='<td style="position:relative">';
+        if(m>=item.start && m<=item.end){
+          if(item.type==='milestone'){
+            g+='<div class="gantt-milestone" style="background:'+item.color+';left:calc(50% - 10px)" title="'+item.name+'"></div>';
+          } else {
+            var isStart=(m===item.start);var isEnd=(m===item.end);
+            var bRadius=isStart&&isEnd?'4px':(isStart?'4px 0 0 4px':(isEnd?'0 4px 4px 0':'0'));
+            var left=isStart?'2px':'0';var right=isEnd?'2px':'0';
+            g+='<div class="gantt-bar" style="background:'+item.color+';left:'+left+';right:'+right+';border-radius:'+bRadius+'" title="'+item.name+' (M'+item.start+'-M'+item.end+')">';
+            if(isStart && (item.end-item.start)>=1) g+=item.id;
+            g+='</div>';
+          }
+        }
+        g+='</td>';
+      }
+      g+='</tr>';
+    });
+  });
+  g+='</tbody></table></div>';
+
+  // Legend
+  g+='<div class="roadmap-legend">';
+  g+='<div class="roadmap-legend-item"><div class="dot" style="background:#F57C00"></div>Gestión / Control</div>';
+  g+='<div class="roadmap-legend-item"><div class="dot" style="background:#43A047"></div>Energía eléctrica</div>';
+  g+='<div class="roadmap-legend-item"><div class="dot" style="background:#1565C0"></div>Piscina</div>';
+  g+='<div class="roadmap-legend-item"><div class="dot" style="background:#AB47BC"></div>Auditoría energética</div>';
+  g+='<div class="roadmap-legend-item"><div class="dot" style="background:#FF8F00"></div>Seguros / Cuotas</div>';
+  g+='<div class="roadmap-legend-item"><div class="dot" style="background:#00897B"></div>Digitalización</div>';
+  g+='<div class="roadmap-legend-item"><div class="dot" style="background:#5C6BC0"></div>Benchmark</div>';
+  g+='<div class="roadmap-legend-item"><div class="dot" style="background:#E53935;border-radius:50%"></div>Hito / Decisión</div>';
+  g+='</div>';
+
+  document.getElementById('roadmapGantt').innerHTML=g;
+
+  // Build detail table
+  var t='<table class="budget-table"><thead><tr><th style="min-width:30px">ID</th><th style="min-width:200px">Acción</th><th>Meses</th><th style="min-width:140px">Responsable</th><th style="min-width:220px">¿Qué se necesita?</th><th style="min-width:200px">Entregable</th></tr></thead><tbody>';
+  actions.forEach(function(phase){
+    t+='<tr class="group-row"><td colspan="6" style="font-weight:800;color:var(--orange)">'+phase.phase+'</td></tr>';
+    phase.items.forEach(function(item){
+      var isMilestone=item.type==='milestone';
+      t+='<tr'+(isMilestone?' style="background:#FFF3E0"':'')+'>';
+      t+='<td style="text-align:center;font-weight:700;color:'+(isMilestone?'#E53935':item.color)+'">'+item.id+'</td>';
+      t+='<td style="text-align:left;font-weight:'+(isMilestone?'700':'500')+'">'+item.name+'</td>';
+      t+='<td style="text-align:center;font-weight:600">M'+item.start+(item.start!==item.end?' – M'+item.end:'')+'</td>';
+      t+='<td style="text-align:left;font-size:.68rem">'+item.owner+'</td>';
+      t+='<td style="text-align:left;font-size:.67rem">'+item.needs+'</td>';
+      t+='<td style="text-align:left;font-size:.67rem">'+item.deliverable+'</td>';
+      t+='</tr>';
+    });
+  });
+  t+='</tbody></table>';
+  document.getElementById('roadmapTable').innerHTML=t;
+}
+
+// ============ PALANCAS CHARTS ============
+function renderPalancasCharts(){
+  var el,fontO={family:'Montserrat',size:10};
+
+  // Savings trend (cumulative estimated savings by month)
+  el=document.getElementById('chartSavingsTrend');
+  if(el&&el.offsetParent!==null){
+    // Estimated monthly savings ramp-up
+    var savingsMonthly=[0,150,300,600,750,900,1050,1100,1100,1100,1100,1100];
+    var savingsCum=[];var sc=0;savingsMonthly.forEach(function(v){sc+=v;savingsCum.push(sc)});
+    if(CI.savTrend)CI.savTrend.destroy();
+    CI.savTrend=new Chart(el,{type:'line',data:{
+      labels:MONTHS,
+      datasets:[
+        {label:'Ahorro Mensual',data:savingsMonthly,borderColor:'#43A047',backgroundColor:'rgba(67,160,71,0.15)',type:'bar',borderRadius:4,order:2},
+        {label:'Ahorro Acumulado',data:savingsCum,borderColor:'#F57C00',backgroundColor:'rgba(245,124,0,0.08)',fill:true,tension:.3,pointRadius:4,pointBackgroundColor:'#F57C00',borderWidth:2.5,order:1}
+      ]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},valuesOnTop:true},scales:{y:{ticks:{callback:function(v){return v.toLocaleString('es-ES')+' €'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+  }
+
+  // Savings distribution by lever (doughnut)
+  el=document.getElementById('chartSavingsDist');
+  if(el&&el.offsetParent!==null){
+    if(CI.savDist)CI.savDist.destroy();
+    CI.savDist=new Chart(el,{type:'doughnut',data:{
+      labels:['Renegoc. eléctrica','Optim. piscina','Auditoría energét.','Mant. preventivo','Renegoc. seguro','Contadores intel.'],
+      datasets:[{data:[3500,2000,2100,1300,450,850],backgroundColor:['#43A047','#1565C0','#AB47BC','#F57C00','#FF8F00','#00897B'],borderWidth:2,borderColor:'#fff',hoverOffset:8}]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{usePointStyle:true,pointStyle:'circle',font:{family:'Montserrat',size:9},padding:6}},doughnutLabels:true,valuesOnTop:false,tooltip:{callbacks:{label:function(ctx){return ctx.label+': '+ctx.raw.toLocaleString('es-ES')+' €/año'}}}}}});
+  }
+
+  // Effort vs Impact scatter
+  el=document.getElementById('chartEffortImpact');
+  if(el&&el.offsetParent!==null){
+    if(CI.effImp)CI.effImp.destroy();
+    var scatterData=[
+      {x:2,y:85,label:'Renegoc. eléctrica'},
+      {x:5,y:70,label:'Optim. piscina'},
+      {x:4,y:60,label:'Auditoría energética'},
+      {x:3,y:55,label:'Mant. preventivo'},
+      {x:1,y:45,label:'Renegoc. seguro'},
+      {x:7,y:40,label:'Contadores intel.'}
+    ];
+    var scColors=['#43A047','#1565C0','#AB47BC','#F57C00','#FF8F00','#00897B'];
+    CI.effImp=new Chart(el,{type:'bubble',data:{
+      datasets:scatterData.map(function(d,i){return{label:d.label,data:[{x:d.x,y:d.y,r:12}],backgroundColor:scColors[i]+'AA',borderColor:scColors[i],borderWidth:2}})
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:{family:'Montserrat',size:8},padding:6}},valuesOnTop:false,tooltip:{callbacks:{label:function(ctx){return ctx.dataset.label+' — Esfuerzo: '+ctx.raw.x+'/10, Impacto: '+ctx.raw.y+'%'}}}},scales:{x:{title:{display:true,text:'Esfuerzo de implementación (1=bajo, 10=alto)',font:{family:'Montserrat',size:9,weight:'bold'}},min:0,max:10,ticks:{font:fontO},grid:{color:'#eee'}},y:{title:{display:true,text:'Impacto potencial (%)',font:{family:'Montserrat',size:9,weight:'bold'}},min:0,max:100,ticks:{callback:function(v){return v+'%'},font:fontO},grid:{color:'#eee'}}}}});
+  }
+
+  // Projection: budget with vs without optimization
+  el=document.getElementById('chartProjection');
+  if(el&&el.offsetParent!==null){
+    if(CI.proj)CI.proj.destroy();
+    var cumNoOpt=[];var c1=0;monthlyTotalsAll.forEach(function(v){c1+=v;cumNoOpt.push(Math.round(c1*100)/100)});
+    // With optimization: gradual savings kicking in
+    var savingsM=[0,0,0,150,300,500,700,850,950,1000,1050,1100];
+    var cumOpt=[];var c2=0;
+    monthlyTotalsAll.forEach(function(v,i){c2+=(v-savingsM[i]);cumOpt.push(Math.round(c2*100)/100)});
+    var budLine=[];for(var m=0;m<12;m++)budLine.push(Math.round(TOTAL_BUDGET/12*(m+1)*100)/100);
+    CI.proj=new Chart(el,{type:'line',data:{
+      labels:MONTHS,
+      datasets:[
+        {label:'Sin optimización',data:cumNoOpt,borderColor:'#E53935',borderWidth:2,tension:.3,pointRadius:3,pointBackgroundColor:'#E53935',fill:false},
+        {label:'Con optimización',data:cumOpt,borderColor:'#43A047',backgroundColor:'rgba(67,160,71,0.08)',borderWidth:2.5,tension:.3,pointRadius:4,pointBackgroundColor:'#43A047',fill:true},
+        {label:'Presupuesto',data:budLine,borderColor:'#F57C00',borderDash:[6,4],borderWidth:2,pointRadius:0,fill:false}
+      ]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},valuesOnTop:false},scales:{y:{ticks:{callback:function(v){return fmtK(v)+' €'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+  }
+}
+
+// ============ SCENARIOS ============
+function buildScenarios(){
+  var NUM_VIVIENDAS=40; // assumed number of units
+  var MARGIN=0.20; // 20% safety margin
+
+  // Scenario definitions
+  var scenarios=[
+    {
+      id:'actual',name:'Actual (Ejercicio 26-27)',
+      desc:'Presupuesto aprobado sin cambios',
+      adjustments:{},color:'#757575'
+    },
+    {
+      id:'conservador',name:'Conservador (+5%)',
+      desc:'Incremento del 5% en suministros y mantenimiento para cubrir inflación y desgaste',
+      adjustments:{'6280001':0.05,'6280005':0.05,'6280007':0.05,'6220001':0.05,'6220020':0.05,'6220060':0.05},color:'#43A047'
+    },
+    {
+      id:'moderado',name:'Moderado (+10%)',
+      desc:'Incremento del 10% en suministros, mantenimiento y reparaciones. Incluye posibles subidas de tarifas energéticas',
+      adjustments:{'6280001':0.10,'6280005':0.10,'6280007':0.10,'6280020':0.10,'6280025':0.10,'6280027':0.10,'6220001':0.05,'6220020':0.08,'6220060':0.10,'6220104':0.15,'6250001':0.08},color:'#F57C00'
+    },
+    {
+      id:'pesimista',name:'Pesimista (+20%)',
+      desc:'Subida del 20% en energía, 15% en mantenimiento, 10% en seguros. Escenario de crisis energética o derrama por avería mayor',
+      adjustments:{'6280001':0.20,'6280005':0.20,'6280007':0.20,'6280020':0.15,'6280025':0.15,'6280027':0.20,'6220001':0.10,'6220020':0.15,'6220030':0.10,'6220060':0.15,'6220104':0.25,'6220301':0.15,'6250001':0.10,'6220302':0.20},color:'#E53935'
+    },
+    {
+      id:'optimizado',name:'Optimizado (con palancas)',
+      desc:'Aplicación de todas las palancas de ahorro identificadas: -15% eléctrica, -10% piscina, -8% seguro',
+      adjustments:{'6280001':-0.15,'6280005':-0.15,'6280007':-0.15,'6220060':-0.10,'6250001':-0.08},color:'#1565C0'
+    }
+  ];
+
+  // Calculate each scenario
+  var results=scenarios.map(function(sc){
+    var totalBudget=0;
+    var groupBreakdown=[];
+    GROUPS.forEach(function(g){
+      var gTotal=0;
+      g.items.forEach(function(item){
+        var adj=sc.adjustments[item.code]||0;
+        var newBudget=Math.round(item.budget*(1+adj)*100)/100;
+        gTotal+=newBudget;
+      });
+      groupBreakdown.push({gId:g.id,gName:g.name,total:Math.round(gTotal*100)/100});
+      totalBudget+=gTotal;
+    });
+    totalBudget=Math.round(totalBudget*100)/100;
+    var withMargin=Math.round(totalBudget*(1+MARGIN)*100)/100;
+    var quotaAnnual=Math.round(withMargin/NUM_VIVIENDAS*100)/100;
+    var quotaMonthly=Math.round(quotaAnnual/12*100)/100;
+    var diff=Math.round((totalBudget-TOTAL_BUDGET)*100)/100;
+    var diffPct=TOTAL_BUDGET>0?Math.round(diff/TOTAL_BUDGET*10000)/100:0;
+    return{
+      scenario:sc,totalBudget:totalBudget,withMargin:withMargin,
+      quotaAnnual:quotaAnnual,quotaMonthly:quotaMonthly,
+      diff:diff,diffPct:diffPct,groupBreakdown:groupBreakdown
+    };
+  });
+
+  // Build HTML
+  var h='';
+
+  // KPIs for scenarios
+  h+='<div class="kpi-row" style="margin-bottom:1rem">';
+  h+='<div class="card kpi"><div class="kpi-value dark">'+NUM_VIVIENDAS+'</div><div class="kpi-label">Viviendas</div><div class="kpi-sub">Base para cálculo de cuota</div></div>';
+  h+='<div class="card kpi"><div class="kpi-value orange">20%</div><div class="kpi-label">Margen Seguridad</div><div class="kpi-sub">Sobre presupuesto calculado</div></div>';
+  h+='<div class="card kpi"><div class="kpi-value green">'+fmt(results[0].quotaMonthly)+' €</div><div class="kpi-label">Cuota Actual/mes</div><div class="kpi-sub">Con margen 20% (por vivienda)</div></div>';
+  h+='<div class="card kpi"><div class="kpi-value red">'+fmt(results[3].quotaMonthly)+' €</div><div class="kpi-label">Cuota Pesimista/mes</div><div class="kpi-sub">Escenario más desfavorable</div></div>';
+  h+='</div>';
+
+  // Scenarios comparison table
+  h+='<div class="card"><h4>📋 Comparativa de Escenarios</h4><div class="table-scroll">';
+  h+='<table class="budget-table"><thead><tr><th style="min-width:160px;text-align:left">Escenario</th><th>Presupuesto Base</th><th>Variación vs Actual</th><th>Con Margen 20%</th><th>Cuota Anual/Viv.</th><th>Cuota Mensual/Viv.</th><th>Δ Cuota vs Actual</th></tr></thead><tbody>';
+  results.forEach(function(r,i){
+    var isBase=(i===0);
+    var quotaDiff=Math.round((r.quotaMonthly-results[0].quotaMonthly)*100)/100;
+    h+='<tr'+(isBase?' style="background:var(--offWhite);font-weight:600"':'')+'>';
+    h+='<td style="text-align:left"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:'+r.scenario.color+';margin-right:6px"></span>'+r.scenario.name+'</td>';
+    h+='<td style="font-weight:700">'+fmt(r.totalBudget)+' €</td>';
+    h+='<td style="color:'+(r.diff>0?'var(--red)':r.diff<0?'var(--green)':'var(--gray)')+';font-weight:600">'+(r.diff>=0?'+':'')+fmt(r.diff)+' € ('+(r.diffPct>=0?'+':'')+r.diffPct+'%)</td>';
+    h+='<td style="font-weight:700;color:var(--orange)">'+fmt(r.withMargin)+' €</td>';
+    h+='<td>'+fmt(r.quotaAnnual)+' €</td>';
+    h+='<td style="font-weight:800;font-size:.82rem">'+fmt(r.quotaMonthly)+' €</td>';
+    h+='<td style="color:'+(quotaDiff>0?'var(--red)':quotaDiff<0?'var(--green)':'var(--gray)')+';font-weight:700">'+(isBase?'—':(quotaDiff>=0?'+':'')+fmt(quotaDiff)+' €/mes')+'</td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table></div></div>';
+
+  // Scenario detail cards
+  h+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem;margin-bottom:1rem">';
+  results.forEach(function(r){
+    h+='<div class="card" style="border-top:3px solid '+r.scenario.color+';padding:1rem">';
+    h+='<div style="font-size:.82rem;font-weight:700;color:'+r.scenario.color+';margin-bottom:.3rem">'+r.scenario.name+'</div>';
+    h+='<div style="font-size:.72rem;color:var(--textLight);margin-bottom:.6rem;line-height:1.4">'+r.scenario.desc+'</div>';
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem">';
+    h+='<div style="text-align:center;padding:.4rem;background:var(--offWhite);border-radius:4px"><div style="font-size:1rem;font-weight:800;color:'+r.scenario.color+'">'+fmt(r.withMargin)+'</div><div style="font-size:.58rem;color:var(--textLight);text-transform:uppercase;font-weight:600">€ con margen</div></div>';
+    h+='<div style="text-align:center;padding:.4rem;background:var(--offWhite);border-radius:4px"><div style="font-size:1rem;font-weight:800;color:'+r.scenario.color+'">'+fmt(r.quotaMonthly)+'</div><div style="font-size:.58rem;color:var(--textLight);text-transform:uppercase;font-weight:600">€/mes/viv.</div></div>';
+    h+='</div>';
+    // Group breakdown mini-bars
+    h+='<div style="margin-top:.5rem">';
+    r.groupBreakdown.forEach(function(gb){
+      var origG=GROUPS[gb.gId-1];
+      var pct=r.withMargin>0?(gb.total/r.totalBudget*100):0;
+      h+='<div style="display:flex;align-items:center;gap:.3rem;margin:.15rem 0;font-size:.62rem"><span style="min-width:18px;font-weight:700;color:'+origG.color+'">G'+gb.gId+'</span>';
+      h+='<div style="flex:1;height:6px;background:var(--lightGray);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+origG.color+';border-radius:3px"></div></div>';
+      h+='<span style="min-width:50px;text-align:right;font-weight:600">'+fmt(gb.total)+'</span></div>';
+    });
+    h+='</div></div>';
+  });
+  h+='</div>';
+
+  document.getElementById('scenariosContent').innerHTML=h;
+
+  // Scenario heatmap: groups x scenarios
+  var hmH='<table class="heatmap-table"><thead><tr><th>Grupo</th>';
+  scenarios.forEach(function(sc){hmH+='<th style="background:'+sc.color+'">'+sc.name.split('(')[0].trim()+'</th>'});
+  hmH+='</tr></thead><tbody>';
+  for(var gi=0;gi<GROUPS.length;gi++){
+    var g=GROUPS[gi];
+    hmH+='<tr><td>'+g.icon+' G'+g.id+': '+g.name+'</td>';
+    var maxGV=0;
+    results.forEach(function(r){if(r.groupBreakdown[gi].total>maxGV)maxGV=r.groupBreakdown[gi].total});
+    results.forEach(function(r){
+      var v=r.groupBreakdown[gi].total;
+      var ratio=maxGV>0?v/maxGV:0;
+      var bg=ratio<0.7?'rgba(67,160,71,'+(0.2+ratio*0.5)+')':ratio<0.85?'rgba(255,160,0,'+(0.3+ratio*0.4)+')':'rgba(229,57,53,'+(0.3+ratio*0.5)+')';
+      var txtC=ratio>0.6?'#fff':'#1A1A1A';
+      hmH+='<td style="background:'+bg+';color:'+txtC+';font-weight:600">'+fmt(v)+' €</td>';
+    });
+    hmH+='</tr>';
+  }
+  // Total row
+  hmH+='<tr style="background:var(--darkGray)"><td style="color:#fff;font-weight:700">TOTAL (con margen 20%)</td>';
+  results.forEach(function(r){hmH+='<td style="background:var(--black);color:var(--orange);font-weight:800">'+fmt(r.withMargin)+' €</td>'});
+  hmH+='</tr>';
+  // Quota row
+  hmH+='<tr style="background:var(--orangePale)"><td style="font-weight:700;color:var(--orange)">CUOTA MENSUAL/VIV.</td>';
+  results.forEach(function(r){hmH+='<td style="font-weight:800;color:'+r.scenario.color+'">'+fmt(r.quotaMonthly)+' €</td>'});
+  hmH+='</tr></tbody></table>';
+  document.getElementById('scenarioHeatmap').innerHTML=hmH;
+
+  // Store results for charts
+  window._scenarioResults=results;
+}
+
+function renderScenarioCharts(){
+  var results=window._scenarioResults;
+  if(!results)return;
+  var fontO={family:'Montserrat',size:10};
+  var el;
+
+  // Quota comparison bar
+  el=document.getElementById('chartScenarioQuota');
+  if(el&&el.offsetParent!==null){
+    if(CI.scQuota)CI.scQuota.destroy();
+    CI.scQuota=new Chart(el,{type:'bar',data:{
+      labels:results.map(function(r){return r.scenario.name.split('(')[0].trim()}),
+      datasets:[{
+        label:'Cuota Mensual/Viv. (€)',
+        data:results.map(function(r){return r.quotaMonthly}),
+        backgroundColor:results.map(function(r){return r.scenario.color+'CC'}),
+        borderRadius:6
+      }]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},valuesOnTop:true},scales:{y:{ticks:{callback:function(v){return v+' €'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+  }
+
+  // Budget comparison grouped bar
+  el=document.getElementById('chartScenarioBudget');
+  if(el&&el.offsetParent!==null){
+    if(CI.scBudget)CI.scBudget.destroy();
+    CI.scBudget=new Chart(el,{type:'bar',data:{
+      labels:results.map(function(r){return r.scenario.name.split('(')[0].trim()}),
+      datasets:[
+        {label:'Presupuesto Base',data:results.map(function(r){return r.totalBudget}),backgroundColor:'rgba(117,117,117,0.3)',borderColor:'#757575',borderWidth:1,borderRadius:4},
+        {label:'Con Margen 20%',data:results.map(function(r){return r.withMargin}),backgroundColor:results.map(function(r){return r.scenario.color+'AA'}),borderRadius:4}
+      ]
+    },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,pointStyle:'circle',font:fontO}},valuesOnTop:true},scales:{y:{ticks:{callback:function(v){return fmtK(v)+' €'},font:fontO},grid:{color:'#eee'}},x:{ticks:{font:{family:'Montserrat',size:8}},grid:{display:false}}}}});
+  }
+}
+
+// ============ INIT ============
+generateAnalysis();
+buildRecommendations();
+buildRoadmap();
+buildScenarios();
+setTimeout(function(){
+  renderCharts();
+  renderPalancasCharts();
+  renderScenarioCharts();
+  renderAllHeatmaps();
+  renderAllTreemaps();
+},500);
+
+// Re-render treemaps on resize
+var resizeTimer;
+window.addEventListener('resize',function(){
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(function(){renderAllTreemaps()},300);
+});
+
+// ============ INJECT SECTION FOOTERS ============
+(function(){
+  var footerHTML='<div class="section-footer"><div class="sf-logo"><div class="sf-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M3 20h18M6 16v4M10 12v8M14 8v12M18 4v16"/></svg></div><span class="sf-text">Realizado con <strong>DataLens</strong></span></div></div>';
+  document.querySelectorAll('.section').forEach(function(sec){
+    var footer=document.createElement('div');
+    footer.innerHTML=footerHTML;
+    sec.appendChild(footer.firstChild);
+  });
+})();
+
+// ============ DARK MODE TOGGLE ============
+(function(){
+  var toggle=document.getElementById('dmToggle');
+  if(!toggle)return;
+  var isDark=false;
+  toggle.addEventListener('click',function(){
+    isDark=!isDark;
+    document.body.classList.toggle('dark',isDark);
+    toggle.textContent=isDark?'☀️':'🌙';
+    toggle.title=isDark?'Modo claro':'Modo oscuro';
+    // Re-render charts with new colors
+    setTimeout(function(){renderCharts();renderPalancasCharts();renderScenarioCharts()},300);
+  });
+})();
+
+// ============ ANIMATE GAUGES + COUNTERS ============
+function animateGauges(){
+  // Gauge rings
+  document.querySelectorAll('.gauge-fill').forEach(function(el){
+    var target=el.getAttribute('data-offset');
+    if(target!=null){
+      el.style.strokeDashoffset=el.style.strokeDasharray; // reset
+      setTimeout(function(){el.style.strokeDashoffset=target},100);
+    }
+  });
+  // Counter animation
+  document.querySelectorAll('.gauge-pct[data-count]').forEach(function(el){
+    var target=parseFloat(el.getAttribute('data-count'));
+    var duration=1500;
+    var start=0;
+    var startTime=null;
+    function step(timestamp){
+      if(!startTime)startTime=timestamp;
+      var progress=Math.min((timestamp-startTime)/duration,1);
+      var eased=1-Math.pow(1-progress,3); // ease out cubic
+      var current=Math.round(eased*target*10)/10;
+      el.textContent=current.toFixed(1)+'%';
+      if(progress<1) requestAnimationFrame(step);
+      else el.textContent=target.toFixed(1)+'%';
+    }
+    requestAnimationFrame(step);
+  });
+  // Fiscal year fill
+  document.querySelectorAll('.fy-fill[data-fy-width]').forEach(function(el){
+    var w=el.getAttribute('data-fy-width');
+    setTimeout(function(){el.style.width=w+'%'},200);
+  });
+}
+setTimeout(animateGauges,600);
+
+// Re-animate on tab switch
+var origTabClick=null;
+document.querySelectorAll('.header-nav button').forEach(function(btn){
+  var origHandler=btn.onclick;
+  btn.onclick=function(){
+    origHandler.call(this);
+    setTimeout(animateGauges,400);
+  };
+});
+</script>
+</body>
+</html>
