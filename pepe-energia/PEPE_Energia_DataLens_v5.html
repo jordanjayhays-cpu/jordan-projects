@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PEPE Energía DataLens</title>
+<meta name="description" content="Dashboard de eficiencia energética de PEPE Energía, rediseñado con principios de visualización de datos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* ---------- tokens: one focus colour (orange), one "good" (green), one "alert" (red), everything else grey ---------- */
+:root{
+  --ink:#1A1A1A; --paper:#F4F3EF; --card:#FFFFFF; --line:#E4E1DA; --muted:#6B6761; --muted2:#9A958C;
+  --orange:#F57C00; --orange-soft:#FFE6C7; --orange-deep:#C96300;
+  --green:#2E7D32; --green-soft:#DCEFDD;
+  --red:#D32F2F; --red-soft:#FBE0E0;
+  --grey:#C9C5BD; --grey-deep:#8F8A82; --grey-soft:#ECEAE5;
+  --sans:'Montserrat',-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+:root:not([data-theme="light"]){ @media (prefers-color-scheme:dark){ --ink:#1A1A1A; --paper:#F4F3EF; } }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased;
+  padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+button{font-family:inherit}
+
+/* ---------- header ---------- */
+.top{position:sticky;top:0;z-index:50;background:var(--ink);color:#fff;border-bottom:4px solid var(--orange)}
+.top .in{max-width:1280px;margin:0 auto;padding:12px 16px 0;display:flex;flex-direction:column;gap:10px}
+.brand{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand h1{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.brand h1 b{color:var(--orange);font-weight:800}
+.brand .badge{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:#F5B679;border:1px solid rgba(245,124,0,.45);padding:3px 8px;border-radius:3px}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:10px}
+.nav::-webkit-scrollbar{display:none}
+.nav button{flex:none;background:transparent;border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:4px;padding:7px 12px;font-size:12.5px;font-weight:600;cursor:pointer;display:flex;gap:8px;align-items:center;transition:background .15s,border-color .15s,transform .08s}
+.nav button:active{transform:scale(.97)}
+.nav button .n{font-family:var(--mono);font-size:11px;color:#F5B679}
+.nav button:hover{border-color:var(--orange)}
+.nav button.active{background:var(--orange);border-color:var(--orange);color:#fff}
+.nav button.active .n{color:#fff}
+
+/* ---------- layout ---------- */
+.main{max-width:1280px;margin:0 auto;padding:20px 16px 60px}
+.view{display:none}
+.view.active{display:block}
+.view.active>*{animation:rise .5s cubic-bezier(.2,.75,.2,1) both}
+.view.active>*:nth-child(2){animation-delay:60ms}.view.active>*:nth-child(3){animation-delay:120ms}.view.active>*:nth-child(4){animation-delay:180ms}.view.active>*:nth-child(5){animation-delay:240ms}.view.active>*:nth-child(6){animation-delay:300ms}.view.active>*:nth-child(7){animation-delay:360ms}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.view.active>*{animation:none}}
+
+.lead{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:end;margin-bottom:18px}
+.lead .k{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lead h2{margin:6px 0 10px;font-size:clamp(24px,3vw,36px);line-height:1.1;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.lead h2 em{font-style:normal;color:var(--orange)}
+.lead p{margin:0;font-size:15px;color:var(--muted);max-width:60ch}
+.lead .so{font-size:13px;color:var(--muted2);border-left:3px solid var(--orange);padding:4px 12px;margin:0}
+@media(max-width:820px){.lead{grid-template-columns:1fr}}
+
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--ink);padding:14px 16px 12px;border-radius:6px}
+.kpi.focus{border-top-color:var(--orange)}.kpi.good{border-top-color:var(--green)}.kpi.bad{border-top-color:var(--red)}
+.kpi .v{font-size:30px;font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:4px}
+.kpi .l{font-size:12.5px;font-weight:600;margin-top:6px}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:2px}
+.kpi .s b{font-weight:700}
+.kpi .s .up{color:var(--red)}.kpi .s .down{color:var(--green)}
+
+.grid{display:grid;gap:14px;margin-bottom:14px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g21{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}.g12{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+@media(max-width:900px){.g2,.g3,.g21,.g12{grid-template-columns:1fr}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:16px 18px 14px;min-width:0}
+.card h3{margin:0;font-size:15.5px;font-weight:800;line-height:1.3;letter-spacing:-.01em;text-wrap:balance}
+.card h3 em{font-style:normal;color:var(--orange)}
+.card h3 em.r{color:var(--red)}.card h3 em.g{color:var(--green)}
+.card .sub{font-size:12.5px;color:var(--muted);margin:3px 0 10px}
+.card .note{font-size:11.5px;color:var(--muted2);margin-top:8px;line-height:1.4}
+.card .note b{color:var(--muted);font-weight:600}
+.ch{position:relative;width:100%}
+.ch svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--sans)}
+.ax text{font-size:11px;fill:var(--muted)}
+.ax line,.ax path{stroke:var(--line)}
+.lbl{font-size:12px;font-weight:600;fill:var(--ink)}
+.lbl.m{fill:var(--muted);font-weight:500}
+.ann{font-size:12px;font-weight:700;fill:var(--ink)}
+.ann.s{font-weight:500;fill:var(--muted)}
+.dim{opacity:.22}
+[data-plant]{transition:opacity .25s ease}
+
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px}
+.chips span{font-size:11.5px;color:var(--muted);font-weight:600;margin-right:4px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:4px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;transform:translateZ(0)}
+.chip:active{transform:scale(.96)}
+.chip:hover{border-color:var(--orange);color:var(--orange-deep)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip.on.red{background:var(--red);border-color:var(--red)}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin-right:5px}
+.legend i.ln{height:3px;width:18px;vertical-align:3px}
+
+table.tb{width:100%;border-collapse:collapse;font-size:13px}
+.tb th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:6px 10px 8px 0;border-bottom:3px solid var(--ink);cursor:pointer;user-select:none;white-space:nowrap}
+.tb th.num,.tb td.num{text-align:right;font-variant-numeric:tabular-nums}
+.tb th:hover{color:var(--ink)}
+.tb th[data-dir="asc"]::after{content:" ▲";font-size:9px}.tb th[data-dir="desc"]::after{content:" ▼";font-size:9px}
+.tb td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line);vertical-align:middle;transition:background .2s}
+.tb tr.hl td{background:var(--orange-soft)}
+.tb tr.alert td:first-child{color:var(--red);font-weight:700}
+.tb .bar{display:inline-block;height:9px;background:var(--grey);border-radius:2px;vertical-align:middle;margin-right:8px}
+.tb .bar.o{background:var(--orange)}.tb .bar.r{background:var(--red)}
+.tb .pill{font-family:var(--mono);font-size:11px;padding:2px 7px;border-radius:3px;background:var(--grey-soft);color:var(--ink)}
+.tb .pill.g{background:var(--green-soft);color:var(--green)}.tb .pill.r{background:var(--red-soft);color:var(--red)}.tb .pill.o{background:var(--orange-soft);color:var(--orange-deep)}
+
+.alist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:900px){.alist{grid-template-columns:1fr}}
+.al{border:1px solid var(--line);border-left:5px solid var(--grey-deep);border-radius:4px;padding:10px 12px;font-size:13px;background:var(--card)}
+.al.crit{border-left-color:var(--red)}.al.open{background:var(--red-soft)}
+.al .t{font-weight:700;display:flex;justify-content:space-between;gap:8px}
+.al .t .st{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted);white-space:nowrap}
+.al.open .t .st{color:var(--red);font-weight:700}
+.al p{margin:4px 0 0;color:var(--muted);font-size:12.5px;line-height:1.45}
+.al p b{color:var(--ink)}
+
+.decide{background:var(--ink);color:#fff;border-radius:6px;padding:20px 22px;margin-bottom:14px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px;align-items:start}
+@media(max-width:900px){.decide{grid-template-columns:1fr}}
+.decide .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:#F5B679}
+.decide h3{margin:6px 0 0;font-size:24px;line-height:1.15;font-weight:800;letter-spacing:-.02em}
+.decide ol{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.decide li{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start;font-size:14px;line-height:1.4}
+.decide li .n{width:30px;height:30px;border-radius:50%;background:var(--orange);color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+.decide li b{display:block}
+.decide li span{color:#D9D5CD;font-size:13px}
+
+.road{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;position:relative;margin-top:8px}
+@media(max-width:900px){.road{grid-template-columns:1fr;gap:10px}}
+.road::before{content:'';position:absolute;left:0;right:0;top:11px;height:3px;background:var(--line)}
+@media(max-width:900px){.road::before{display:none}}
+.rs{position:relative;padding:28px 10px 0 0;font-size:12.5px}
+.rs::before{content:'';position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;background:var(--orange);border:4px solid var(--card);box-shadow:0 0 0 2px var(--orange)}
+.rs.done::before{background:var(--green);box-shadow:0 0 0 2px var(--green)}
+.rs.later::before{background:var(--grey);box-shadow:0 0 0 2px var(--grey)}
+.rs b{display:block;font-size:13.5px}
+.rs .m{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+
+.foot{max-width:1280px;margin:0 auto;padding:18px 16px 40px;font-size:12px;color:var(--muted);line-height:1.5;border-top:1px solid var(--line)}
+.foot b{color:var(--ink)}
+
+/* tooltip */
+#tip{position:fixed;z-index:60;pointer-events:none;background:var(--ink);color:#fff;font-size:12px;line-height:1.4;padding:8px 10px;border-radius:4px;max-width:260px;opacity:0;transition:opacity .12s;transform:translate(-50%,calc(-100% - 12px))}
+#tip b{color:#F5B679}
+
+/* chat */
+.chat-toggle{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:max(18px,env(safe-area-inset-bottom,0px));width:52px;height:52px;border-radius:50%;background:var(--orange);color:#fff;border:0;font-size:22px;cursor:pointer;z-index:70;box-shadow:0 6px 18px rgba(245,124,0,.35);transition:transform .15s}
+.chat-toggle:hover{transform:scale(1.06)}.chat-toggle:active{transform:scale(.95)}
+.chat{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(max(18px,env(safe-area-inset-bottom,0px)) + 62px);width:min(360px,calc(100vw - 36px));background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,.18);z-index:70;display:none;flex-direction:column;overflow:hidden}
+.chat.open{display:flex;animation:rise .25s ease both}
+.chat .h{background:var(--ink);color:#fff;padding:10px 14px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center}
+.chat .h button{background:none;border:0;color:#fff;font-size:16px;cursor:pointer;opacity:.75}
+.chat .b{padding:12px;display:flex;flex-direction:column;gap:8px;max-height:320px;overflow:auto;min-height:160px}
+.msg{max-width:88%;padding:8px 11px;border-radius:8px;font-size:12.5px;line-height:1.45}
+.msg.u{background:var(--orange-soft);align-self:flex-end}
+.msg.b{background:var(--grey-soft);align-self:flex-start}
+.chat .i{display:flex;gap:6px;padding:10px;border-top:1px solid var(--line)}
+.chat .i input{flex:1;border:1px solid var(--line);border-radius:4px;padding:8px 10px;font-size:13px;font-family:inherit}
+.chat .i button{background:var(--orange);color:#fff;border:0;border-radius:4px;padding:8px 12px;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="in">
+  <div class="brand">
+    <h1><b>PEPE</b> Energía · DataLens <span style="font-weight:500;color:#C9C5BD">· eficiencia energética 2025</span></h1>
+    <span class="badge">v5 · DATOS DE DEMOSTRACIÓN</span>
+  </div>
+  <nav class="nav" id="nav">
+    <button class="active" data-v="v1"><span class="n">1</span>Resumen</button>
+    <button data-v="v2"><span class="n">2</span>Plantas</button>
+    <button data-v="v3"><span class="n">3</span>Cuándo</button>
+    <button data-v="v4"><span class="n">4</span>Anomalías</button>
+    <button data-v="v5"><span class="n">5</span>Carbono y coste</button>
+    <button data-v="v6"><span class="n">6</span>Qué hacer</button>
+  </nav>
+</div></header>
+
+<main class="main">
+
+<!-- ================= V1 RESUMEN ================= -->
+<section class="view active" id="v1">
+  <div class="lead">
+    <div>
+      <div class="k">1 · Resumen · dónde está el problema</div>
+      <h2>PEPE consumió un 8% menos en 2025. <em>Una sola planta subió: Madrid Industrial.</em></h2>
+      <p>Seis plantas, 42.680 MWh y una factura de 5,12 M€. Las plantas logísticas marcan el estándar; la industrial de Madrid concentra la subida de consumo, las anomalías y el hueco renovable.</p>
+    </div>
+    <p class="so">Cómo leer este panel: cada gráfico tiene una frase de titular. El naranja marca el foco, el gris es contexto, el rojo señala una alerta y el verde un objetivo o una mejora.</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi focus"><div class="v" data-count="42680">0<small>MWh</small></div><div class="l">Consumo total 2025</div><div class="s"><b class="down">−8,3%</b> frente a 2024</div></div>
+    <div class="kpi"><div class="v">5,12<small>M€</small></div><div class="l">Coste energético</div><div class="s"><b class="down">−4,1%</b> · 120 €/MWh, sector 115</div></div>
+    <div class="kpi"><div class="v" data-count="18420">0<small>tCO₂</small></div><div class="l">Huella de carbono, alcance 1+2</div><div class="s"><b class="down">−11,2%</b> frente a 2024</div></div>
+    <div class="kpi bad"><div class="v">9,5<small>%</small></div><div class="l">Energía renovable propia</div><div class="s">Sector <b>15%</b> · mejor de su clase 35%</div></div>
+  </div>
+  <div class="grid g21">
+    <div class="card"><h3>El consumo bajó todos los meses de 2025, <em>salvo en diciembre</em></h3><div class="sub">MWh por mes, 2025 frente a 2024, seis plantas</div><div class="ch" id="c-monthly"></div><div class="note"><b>Lectura:</b> la distancia entre las dos líneas es el ahorro. En diciembre desaparece: 2.650 MWh frente a 2.600.</div></div>
+    <div class="card"><h3>Madrid Industrial es la única planta que consume <em class="r">más que en 2024</em></h3><div class="sub">MWh 2025 por planta y variación anual</div><div class="ch" id="c-plants"></div><div class="note">Pase el ratón por una planta para seguirla en todos los gráficos.</div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>Las plantas logísticas gastan <em class="g">un 60% menos por metro cuadrado</em></h3><div class="sub">kWh por m² en 2025, con la media del sector y el mejor de su clase</div><div class="ch" id="c-kwhm2"></div><div class="note"><b>Referencia sectorial:</b> IDAE, Eurostat y AENOR para industria similar en España.</div></div>
+    <div class="card"><h3>Dos tercios de la energía son electricidad de red; <em>la renovable propia no llega al 10%</em></h3><div class="sub">Mix energético 2025 por planta, en % del consumo de cada una</div><div class="ch" id="c-mix"></div><div class="legend"><span><i style="background:var(--orange)"></i>Electricidad de red</span><span><i style="background:var(--grey-deep)"></i>Gas natural</span><span><i style="background:var(--green)"></i>Renovable propia</span></div></div>
+  </div>
+</section>
+
+<!-- ================= V2 PLANTAS ================= -->
+<section class="view" id="v2">
+  <div class="lead">
+    <div>
+      <div class="k">2 · Plantas · la comparación</div>
+      <h2>Mismo grupo, dos modelos: <em>las logísticas rinden como las mejores del sector, las industriales no.</em></h2>
+      <p>Zaragoza y Sevilla combinan más solar, edificios más nuevos y menos carga térmica. Madrid Industrial no tiene solar, sube en consumo y acumula 5 de las 14 anomalías.</p>
+    </div>
+    <p class="so">Seleccione una planta para resaltarla en toda la página. El resto queda en gris, no desaparece: así se mantiene la comparación.</p>
+  </div>
+  <div class="chips" id="plant-chips"><span>Planta:</span></div>
+  <div class="card" style="margin-bottom:14px">
+    <h3>Ficha por planta, ordenable por cualquier columna</h3><div class="sub">Haga clic en una cabecera para ordenar. La barra es el consumo; el color del score va de rojo (bajo) a verde (alto).</div>
+    <div style="overflow-x:auto"><table class="tb" id="tb-plants"></table></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>Todas bajan a lo largo del año; <em class="r">Madrid baja menos y parte más alto por m²</em></h3><div class="sub">Consumo mensual 2025 por planta, MWh. Cada panel tiene su propia escala; el rótulo indica el máximo.</div><div class="ch" id="c-small"></div></div>
+    <div class="card"><h3>Cuanta más potencia solar instalada, <em class="g">mejor score de eficiencia</em></h3><div class="sub">kWp de solar instalada frente a score de eficiencia (0 a 100), una marca por planta</div><div class="ch" id="c-solar"></div><div class="note"><b>Cuidado:</b> son seis puntos y la relación es sugerente, no una prueba. Las logísticas también tienen menos carga térmica.</div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>Solar: <em>Madrid Industrial es la única planta a cero</em>, con 450 kWp de potencial en cubierta</h3><div class="sub">kWp instalados frente a potencial estimado por planta</div><div class="ch" id="c-solarpot"></div></div>
+    <div class="card"><h3>Consumo frente a objetivo: <em class="r">tres industriales por encima</em>, dos logísticas por debajo</h3><div class="sub">MWh reales 2025 frente al objetivo anual por planta; la marca es el objetivo</div><div class="ch" id="c-target"></div></div>
+  </div>
+</section>
+
+<!-- ================= V3 CUÁNDO ================= -->
+<section class="view" id="v3">
+  <div class="lead">
+    <div>
+      <div class="k">3 · Cuándo · el patrón horario</div>
+      <h2>El pico es de 9 a 16 h entre semana. <em>La sorpresa está en la noche:</em> la base nunca baja de 0,5 MWh.</h2>
+      <p>Un ratio laborable/fin de semana de 4 a 1 dice que los apagados funcionan. La base nocturna, no: equipos en espera y compresores sin horario explican una parte de las anomalías.</p>
+    </div>
+    <p class="so">Una sola escala de color, de claro a oscuro, en la misma familia que el foco. Sin semáforos: aquí no hay bueno ni malo, hay más y menos.</p>
+  </div>
+  <div class="chips" id="hm-chips"><span>Planta:</span><button class="chip on" data-p="val">Valencia</button><button class="chip" data-p="bcn">Barcelona</button><button class="chip" data-p="mad">Madrid Ind.</button></div>
+  <div class="card" style="margin-bottom:14px"><h3 id="hm-title">Valencia: el consumo se concentra de <em>9 a 16 h, de lunes a viernes</em></h3><div class="sub">MWh medios por hora y día de la semana</div><div class="ch" id="c-heat"></div><div class="note"><b>Lectura:</b> siga una fila de izquierda a derecha para ver el día; compare el bloque sábado y domingo con el resto.</div></div>
+  <div class="grid g2">
+    <div class="card"><h3>Un día laborable tipo consume <em>cuatro veces</em> un día de fin de semana</h3><div class="sub">Perfil de carga, kW por hora, Valencia</div><div class="ch" id="c-profile"></div></div>
+    <div class="card"><h3>De lunes a viernes el consumo es casi plano; <em>el viernes baja un 4%</em></h3><div class="sub">MWh por día de la semana, Valencia</div><div class="ch" id="c-dow"></div></div>
+  </div>
+</section>
+
+<!-- ================= V4 ANOMALÍAS ================= -->
+<section class="view" id="v4">
+  <div class="lead">
+    <div>
+      <div class="k">4 · Anomalías · 90 días</div>
+      <h2>14 anomalías costaron 340 MWh y 40.800 €. <em class="r" style="color:var(--red)">Una sigue abierta</em> y suma 2.640 € al mes.</h2>
+      <p>Tres incidentes críticos concentran el 75% del sobreconsumo. Los tres se detectaron con más de 48 horas de retraso; con sensores y alertas, ese tiempo cae a menos de 2 horas.</p>
+    </div>
+    <p class="so">El rojo se reserva para lo crítico y lo abierto. Todo lo resuelto se muestra en gris, aunque fuera grave: la decisión que hay que tomar hoy es sobre lo que sigue abierto.</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="v">14</div><div class="l">Anomalías en 90 días</div><div class="s">3 críticas · 5 altas · 6 medias</div></div>
+    <div class="kpi focus"><div class="v">+340<small>MWh</small></div><div class="l">Sobreconsumo estimado</div><div class="s"><b>40.800 €</b> de impacto</div></div>
+    <div class="kpi bad"><div class="v">1</div><div class="l">Crítica abierta</div><div class="s">Madrid Ind. · iluminación 24/7 · <b>+22 MWh/mes</b></div></div>
+    <div class="kpi good"><div class="v">82<small>%</small></div><div class="l">Resueltas</div><div class="s">12 de 14 cerradas en menos de 7 días</div></div>
+  </div>
+  <div class="grid g12">
+    <div class="card"><h3>Madrid Industrial acumula <em class="r">5 de las 14</em> anomalías</h3><div class="sub">Anomalías por planta, últimos 90 días</div><div class="ch" id="c-anomplant"></div></div>
+    <div class="card"><h3>El pico nocturno del 23 de diciembre: <em class="r">3,2 veces</em> la media de noche</h3><div class="sub">Consumo horario de Madrid Industrial, semana tipo en kW, con los dos picos detectados y el umbral de alerta</div><div class="ch" id="c-spikes"></div><div class="note"><b>Nota:</b> perfil tipo laborable y fin de semana; la versión anterior usaba ruido aleatorio, que cambiaba en cada carga.</div></div>
+  </div>
+  <div class="card" style="margin-bottom:14px"><h3>Registro de anomalías: <em class="r">la de iluminación en Madrid sigue abierta</em></h3><div class="sub">Las seis más relevantes de las 14. Rojo: crítica. Fondo rojo: abierta.</div>
+    <div class="alist">
+      <div class="al crit open"><div class="t">Madrid Industrial · Iluminación 24/7 <span class="st">CRÍTICA · ABIERTA · desde 02-ene</span></div><p>Zona de almacén sin corte automático. Causa: sensor de presencia averiado. <b>+22 MWh/mes, 2.640 €/mes.</b></p></div>
+      <div class="al crit"><div class="t">Madrid Industrial · Pico nocturno <span class="st">CRÍTICA · RESUELTA · 23-dic</span></div><p>Consumo eléctrico 3,2 veces la media nocturna. Causa: compresor HVAC en continuo por fallo de termostato. <b>+48 MWh, 5.760 €.</b></p></div>
+      <div class="al crit"><div class="t">Valencia · Fuga térmica <span class="st">CRÍTICA · RESUELTA · 15-nov</span></div><p>Gas natural +67% durante 72 h. Causa: válvula de caldera abierta en circuito secundario. <b>+120 MWh, 9.600 €.</b></p></div>
+      <div class="al"><div class="t">Valencia · Pico de potencia a las 8:00 <span class="st">ALTA · EN REVISIÓN</span></div><p>Tres líneas arrancan a la vez: 2.650 kW frente a 2.800 contratados. <b>Riesgo de penalización.</b></p></div>
+      <div class="al"><div class="t">Madrid Oficinas · HVAC en fin de semana <span class="st">ALTA · RESUELTA</span></div><p>Climatización activa sábados y domingos sin ocupación. <b>~15 MWh/mes.</b> Reprogramado en el BMS.</p></div>
+      <div class="al"><div class="t">Barcelona · Consumo en espera elevado <span class="st">MEDIA · EN INVESTIGACIÓN</span></div><p>Base nocturna un 18% sobre lo esperado. Posibles equipos sin apagar. <b>~8 MWh/mes.</b></p></div>
+    </div>
+  </div>
+  <div class="card"><h3>Las críticas aparecen desde noviembre, <em>una al mes</em></h3><div class="sub">Anomalías por mes y severidad</div><div class="ch" id="c-anommonth"></div><div class="legend"><span><i style="background:var(--red)"></i>Crítica</span><span><i style="background:var(--orange)"></i>Alta</span><span><i style="background:var(--grey)"></i>Media</span></div></div>
+</section>
+
+<!-- ================= V5 CARBONO Y COSTE ================= -->
+<section class="view" id="v5">
+  <div class="lead">
+    <div>
+      <div class="k">5 · Carbono y coste · lo que vale</div>
+      <h2>18.420 tCO₂ y 5,12 M€. <em>El 63% de las emisiones viene de la electricidad de red</em>: descarbonizar es cambiar el mix.</h2>
+      <p>PEPE va por delante del sector en intensidad de carbono y ESG, pero paga 5 €/MWh más que la media, unos 213.000 € al año, y sigue por debajo de la senda SBTi para 2026.</p>
+    </div>
+    <p class="so">Dos colores para dos alcances: naranja para la electricidad (alcance 2), gris para gas y combustibles (alcance 1). Los objetivos van siempre en verde.</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi focus"><div class="v" data-count="18420">0<small>tCO₂</small></div><div class="l">Emisiones 2025, alcance 1+2</div><div class="s"><b class="down">−11,2%</b> frente a 2024</div></div>
+    <div class="kpi"><div class="v">63<small>%</small></div><div class="l">Alcance 2, electricidad</div><div class="s">11.590 tCO₂ · alcance 1: 6.830</div></div>
+    <div class="kpi good"><div class="v">52,1</div><div class="l">tCO₂ por M€ facturado</div><div class="s">Sector <b>62</b> · mejor de su clase 35</div></div>
+    <div class="kpi bad"><div class="v">+5<small>€/MWh</small></div><div class="l">Sobre la media del sector</div><div class="s">120 frente a 115 · <b>≈213.000 €/año</b></div></div>
+  </div>
+  <div class="grid g21">
+    <div class="card"><h3>Las emisiones caen, pero <em class="r">2025 queda por debajo de la senda SBTi</em> y el plan base la recupera en 2026</h3><div class="sub">tCO₂ por año: real, objetivo SBTi y previsión base del plan de palancas</div><div class="ch" id="c-traj"></div></div>
+    <div class="card"><h3>Valencia emite más que cualquier otra, <em>y en todas pesa más la electricidad</em></h3><div class="sub">tCO₂ 2025 por planta y alcance</div><div class="ch" id="c-scope"></div><div class="legend"><span><i style="background:var(--orange)"></i>Alcance 2 · electricidad</span><span><i style="background:var(--grey-deep)"></i>Alcance 1 · gas y combustibles</span></div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>La factura baja con el consumo; <em>la electricidad es dos tercios del coste cada mes</em></h3><div class="sub">Coste mensual 2025 en miles de euros, por tipo de energía</div><div class="ch" id="c-cost"></div><div class="legend"><span><i style="background:var(--orange)"></i>Electricidad</span><span><i style="background:var(--grey-deep)"></i>Gas natural</span><span><i style="background:var(--grey)"></i>Otros</span></div></div>
+    <div class="card"><h3>PEPE paga menos cada año, <em>pero el sector baja al mismo ritmo</em>: el hueco de 5 € no se cierra</h3><div class="sub">Coste medio en €/MWh, 2022 a 2025</div><div class="ch" id="c-eurmwh"></div></div>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>Frente al sector, PEPE gana en 4 de 6 indicadores; <em class="r">pierde en renovable y en precio</em></h3><div class="sub">Cada fila tiene su propia escala. Naranja: PEPE. Gris: media del sector. Verde: mejor de su clase.</div><div class="ch" id="c-bench"></div></div>
+    <div class="card"><h3>ESG 72 sobre 100: <em>lo ambiental tira, lo social queda atrás</em></h3><div class="sub">Puntuación por dimensión, 2024 frente a 2025, y objetivo 2026 de los indicadores clave</div><div class="ch" id="c-esg"></div><div style="overflow-x:auto;margin-top:10px"><table class="tb" id="tb-esg"></table></div></div>
+  </div>
+</section>
+
+<!-- ================= V6 QUÉ HACER ================= -->
+<section class="view" id="v6">
+  <div class="lead">
+    <div>
+      <div class="k">6 · Qué hacer · las palancas</div>
+      <h2>Ocho palancas, 1,2 M€ de inversión y <em>680.000 € al año</em> de ahorro. Tres de ellas se pagan en menos de dos años.</h2>
+      <p>El PPA eólico no necesita capital y es el mayor ahorro. Los variadores de frecuencia y el LED se amortizan antes de dos años. La solar en Madrid tarda más, pero cierra el único hueco renovable del grupo.</p>
+    </div>
+    <p class="so">Un gráfico de inversión frente a ahorro con líneas de retorno a 1, 2 y 3 años. Lo que está arriba a la izquierda, primero.</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi good"><div class="v">680<small>K€/año</small></div><div class="l">Ahorro potencial</div><div class="s">Con las ocho palancas aplicadas</div></div>
+    <div class="kpi"><div class="v">1,2<small>M€</small></div><div class="l">Inversión total</div><div class="s">Capex acumulado 2026 a 2028</div></div>
+    <div class="kpi focus"><div class="v">2,1<small>años</small></div><div class="l">Retorno medio</div><div class="s">ROI medio 47%</div></div>
+    <div class="kpi good"><div class="v">−35<small>%</small></div><div class="l">Emisiones en 2028</div><div class="s">Objetivo alcanzable con el plan completo</div></div>
+  </div>
+  <div class="grid g21">
+    <div class="card"><h3>Arriba a la izquierda, lo que más rinde por euro: <em>PPA, variadores y LED</em></h3><div class="sub">Inversión (miles de euros) frente a ahorro anual (miles de euros). Las líneas marcan el retorno a 1, 2 y 3 años. Color: retorno en menos de 2 años (verde), de 2 a 3 (naranja), más (gris).</div><div class="ch" id="c-levers"></div></div>
+    <div class="card"><h3>Ordenadas por ahorro anual</h3><div class="sub">Miles de euros al año; el rótulo indica el retorno</div><div class="ch" id="c-leverbars"></div></div>
+  </div>
+  <div class="decide">
+    <div><div class="k">DECISIÓN PARA EL COMITÉ</div><h3>Aprobar las tres primeras palancas en el primer trimestre de 2026.</h3></div>
+    <ol>
+      <li><span class="n">1</span><div><b>Firmar el PPA eólico de 5 MW.</b><span>Sin capex. 120.000 € al año a precio fijo de 78 €/MWh. Cubre el 30% de la electricidad y recorta el riesgo de mercado.</span></div></li>
+      <li><span class="n">2</span><div><b>Instalar variadores de frecuencia en Valencia y Barcelona.</b><span>180.000 € de inversión, 110.000 € al año, retorno en 1,6 años.</span></div></li>
+      <li><span class="n">3</span><div><b>Solar de 450 kWp en Madrid Industrial.</b><span>320.000 €, 95.000 € al año. Retorno de 3,4 años, pero cierra el hueco renovable y baja el score más bajo del grupo.</span></div></li>
+    </ol>
+  </div>
+  <div class="grid g2">
+    <div class="card"><h3>Con el plan completo, el consumo cae un 30% en 2028; <em>sin él, un 11%</em></h3><div class="sub">MWh por año, tres escenarios. Los años con asterisco son previsión.</div><div class="ch" id="c-forecast"></div></div>
+    <div class="card"><h3>La renovable propia llega al 40% en 2028 <em class="g">si la solar y el PPA entran a tiempo</em></h3><div class="sub">% de energía renovable, real y previsto, frente a la senda SBTi</div><div class="ch" id="c-renew"></div></div>
+  </div>
+  <div class="card"><h3>Hoja de ruta 2026 a 2028</h3><div class="sub">Cinco fases; la inversión y el ahorro anual son acumulados por fase</div>
+    <div class="road">
+      <div class="rs done"><b>T1 2026 · Quick wins</b>LED, sensores IoT, BMS<div class="m">205 K€ → 132 K€/año</div></div>
+      <div class="rs"><b>T2 2026 · Solar y variadores</b>Madrid 450 kWp + VFD<div class="m">500 K€ → 205 K€/año</div></div>
+      <div class="rs"><b>T3 2026 · Contratos y PPA</b>PPA 5 MW + caldera de condensación<div class="m">120 K€ → 175 K€/año</div></div>
+      <div class="rs later"><b>T4 2026 · Optimización</b>Factor de potencia + BMS con IA<div class="m">80 K€ → 50 K€/año</div></div>
+      <div class="rs later"><b>2027+ · Escala</b>Batería y neutralidad en carbono<div class="m">295 K€ → 118 K€/año</div></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <b>Datos:</b> conjunto de demostración (dummy) de PEPE Energía, febrero de 2026; cifras idénticas a la versión 4 del panel. <b>Referencias sectoriales:</b> IDAE, Eurostat y AENOR. <b>Previsiones 2026 a 2028:</b> escenarios del plan, no datos observados. <b>Límites:</b> seis plantas, un año completo, sin datos de producción por línea. <b>Construido con</b> D3.js; rediseño sobre el trabajo original de fiovana DataLens. Principios aplicados: un mensaje por gráfico, paleta de realce, agrupación por proximidad y región, etiquetas directas, arco narrativo.
+</footer>
+
+<div id="tip"></div>
+<button class="chat-toggle" id="chat-toggle" title="Asistente de datos" aria-label="Abrir asistente">💬</button>
+<div class="chat" id="chat">
+  <div class="h"><span><b style="color:#F5B679">PEPE</b> Energía · asistente de datos</span><button id="chat-close" aria-label="Cerrar">✕</button></div>
+  <div class="b" id="chat-body"><div class="msg b">Pregúnteme por consumo, plantas, emisiones, costes, anomalías, ESG o palancas. Respondo solo con los datos de este panel.</div></div>
+  <div class="i"><input id="chat-in" type="text" placeholder="Por ejemplo: ¿qué pasa en Madrid?"><button id="chat-send">Enviar</button></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+/* ======================= DATA (unchanged from v4) ======================= */
+const M12=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+const PLANTS=[
+ {id:'val',name:'Valencia',type:'Industrial',mwh:11940,pct:28.0,yoy:-9.2,elec:7950,gas:3100,ren:890,kwhm2:955,kwhu:3.4,m2:12500,emp:185,solar:420,solarPot:600,score:73,anom:4,rating:'B+',co2s1:2480,co2s2:3240,cost:1430,obj:11500,
+  monthly:[1050,980,940,880,830,920,970,1010,910,950,890,680]},
+ {id:'bcn',name:'Barcelona',type:'Industrial',mwh:9890,pct:23.2,yoy:-7.1,elec:6320,gas:2850,ren:720,kwhm2:970,kwhu:3.6,m2:10200,emp:142,solar:350,solarPot:500,score:76,anom:2,rating:'B',co2s1:2280,co2s2:2580,cost:1185,obj:9500,
+  monthly:[870,810,780,730,690,760,800,830,755,790,740,565]},
+ {id:'mad',name:'Madrid Ind.',type:'Industrial',mwh:8750,pct:20.5,yoy:2.3,elec:5680,gas:2420,ren:650,kwhm2:994,kwhu:3.9,m2:8800,emp:120,solar:0,solarPot:450,score:58,anom:5,rating:'C+',co2s1:1940,co2s2:2320,cost:1050,obj:8200,
+  monthly:[770,720,695,650,615,680,720,750,680,710,665,510]},
+ {id:'zar',name:'Zaragoza',type:'Logística',mwh:5800,pct:13.6,yoy:-12.4,elec:3950,gas:980,ren:870,kwhm2:387,kwhu:3.1,m2:15000,emp:68,solar:520,solarPot:650,score:88,anom:0,rating:'A-',co2s1:785,co2s2:1610,cost:696,obj:5900,
+  monthly:[510,475,460,430,405,450,475,495,447,467,438,335]},
+ {id:'sev',name:'Sevilla',type:'Logística',mwh:4120,pct:9.7,yoy:-15.1,elec:2870,gas:620,ren:630,kwhm2:375,kwhu:2.8,m2:11000,emp:52,solar:380,solarPot:480,score:92,anom:0,rating:'A',co2s1:500,co2s2:1170,cost:494,obj:4200,
+  monthly:[362,338,326,305,288,319,336,350,317,331,311,237]},
+ {id:'ofi',name:'Madrid Oficinas',type:'Oficinas',mwh:2180,pct:5.1,yoy:-4.5,elec:1680,gas:200,ren:300,kwhm2:681,kwhu:null,m2:3200,emp:210,solar:85,solarPot:150,score:68,anom:3,rating:'B',co2s1:160,co2s2:680,cost:265,obj:2100,
+  monthly:[192,179,173,162,153,169,178,186,168,176,165,126]}
+];
+const MONTHLY={y2025:[4100,3800,3650,3400,3200,3580,3750,3900,3520,3680,3450,2650],y2024:[4500,4200,4050,3750,3550,3900,4100,4250,3850,4020,3780,2600]};
+const BENCH={kwhm2:{sector:1050,best:780}};
+const HM={
+ val:[[0.8,0.7,0.6,0.5,0.5,0.6,1.2,2.4,2.8,2.9,2.7,2.6,2.3,2.5,2.7,2.8,2.6,2.2,1.5,1.1,0.9,0.8,0.8,0.7],[0.8,0.7,0.6,0.5,0.5,0.6,1.3,2.5,2.9,3.0,2.8,2.7,2.4,2.6,2.8,2.9,2.7,2.3,1.6,1.2,1.0,0.9,0.8,0.7],[0.7,0.7,0.6,0.5,0.5,0.6,1.2,2.5,2.9,3.0,2.8,2.7,2.4,2.6,2.8,2.9,2.6,2.2,1.5,1.1,0.9,0.8,0.7,0.7],[0.7,0.6,0.6,0.5,0.5,0.6,1.2,2.4,2.8,2.9,2.7,2.6,2.3,2.5,2.7,2.8,2.5,2.1,1.4,1.0,0.9,0.8,0.7,0.7],[0.7,0.6,0.5,0.5,0.5,0.6,1.1,2.3,2.7,2.8,2.6,2.5,2.2,2.4,2.6,2.7,2.4,2.0,1.3,1.0,0.8,0.7,0.7,0.6],[0.4,0.3,0.3,0.3,0.3,0.3,0.3,0.4,0.5,0.6,0.7,0.7,0.6,0.5,0.5,0.4,0.4,0.3,0.3,0.3,0.3,0.3,0.3,0.3],[0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.4,0.4,0.5,0.5,0.4,0.4,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3]],
+ bcn:[[0.6,0.5,0.5,0.4,0.4,0.5,1.0,2.0,2.4,2.5,2.3,2.2,1.9,2.1,2.3,2.4,2.2,1.8,1.2,0.9,0.7,0.6,0.6,0.5],[0.6,0.5,0.5,0.4,0.4,0.5,1.1,2.1,2.5,2.6,2.4,2.3,2.0,2.2,2.4,2.5,2.3,1.9,1.3,1.0,0.8,0.7,0.6,0.6],[0.6,0.5,0.5,0.4,0.4,0.5,1.0,2.1,2.5,2.6,2.4,2.3,2.0,2.2,2.4,2.5,2.2,1.8,1.2,0.9,0.7,0.6,0.6,0.5],[0.6,0.5,0.4,0.4,0.4,0.5,1.0,2.0,2.4,2.5,2.3,2.2,1.9,2.1,2.3,2.4,2.1,1.7,1.1,0.8,0.7,0.6,0.5,0.5],[0.5,0.5,0.4,0.4,0.4,0.5,0.9,1.9,2.3,2.4,2.2,2.1,1.8,2.0,2.2,2.3,2.0,1.6,1.0,0.8,0.6,0.5,0.5,0.5],[0.3,0.3,0.3,0.2,0.2,0.2,0.3,0.3,0.4,0.5,0.5,0.5,0.4,0.4,0.3,0.3,0.3,0.3,0.2,0.2,0.2,0.2,0.2,0.2],[0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.3,0.3,0.4,0.4,0.3,0.3,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2,0.2]],
+ mad:[[0.7,0.6,0.5,0.5,0.5,0.5,0.9,1.8,2.2,2.4,2.3,2.2,1.9,2.1,2.3,2.4,2.2,1.9,1.3,1.0,0.8,0.7,0.7,0.6],[0.7,0.6,0.6,0.5,0.5,0.5,1.0,1.9,2.3,2.5,2.4,2.3,2.0,2.2,2.4,2.5,2.3,2.0,1.4,1.1,0.9,0.8,0.7,0.7],[0.7,0.6,0.5,0.5,0.5,0.5,0.9,1.9,2.3,2.5,2.3,2.2,2.0,2.2,2.4,2.5,2.2,1.9,1.3,1.0,0.8,0.7,0.7,0.6],[0.6,0.6,0.5,0.5,0.5,0.5,0.9,1.8,2.2,2.4,2.2,2.1,1.9,2.1,2.3,2.4,2.1,1.8,1.2,0.9,0.8,0.7,0.6,0.6],[0.6,0.5,0.5,0.5,0.5,0.5,0.8,1.7,2.1,2.3,2.1,2.0,1.8,2.0,2.2,2.3,2.0,1.7,1.1,0.8,0.7,0.6,0.6,0.5],[0.5,0.4,0.4,0.4,0.4,0.4,0.4,0.5,0.6,0.7,0.8,0.8,0.7,0.6,0.5,0.5,0.4,0.4,0.4,0.4,0.4,0.4,0.4,0.4],[0.4,0.3,0.3,0.3,0.3,0.3,0.3,0.4,0.4,0.5,0.6,0.6,0.5,0.4,0.4,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3,0.3]]
+};
+const HM_NAMES={val:'Valencia',bcn:'Barcelona',mad:'Madrid Ind.'};
+const DAYS=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+const PROFILE={lab:[400,380,350,340,330,350,650,1800,2200,2400,2300,2200,1900,2100,2300,2400,2200,1800,1200,900,700,600,500,420],fin:[300,280,270,260,260,260,280,320,400,500,600,580,500,420,380,340,320,300,280,270,270,260,260,260]};
+const DOW=[11.2,11.5,11.3,11.0,10.8,3.2,2.5];
+const ANOM_MONTH=[{m:'Oct',crit:0,alta:1,media:2},{m:'Nov',crit:1,alta:2,media:1},{m:'Dic',crit:1,alta:1,media:2},{m:'Ene',crit:1,alta:1,media:1}];
+const TRAJ={years:['2022','2023','2024','2025','2026*','2027*','2028*'],real:[24200,22500,20740,18420,null,null,null],sbti:[24200,22264,20485,18847,17339,15952,14676],base:[null,null,null,18420,16210,14260,11970]};
+const COST={elec:[310,285,275,255,240,270,282,295,265,278,260,200],gas:[120,112,105,95,85,98,105,110,100,105,95,75],otros:[50,48,45,45,45,47,48,50,45,47,45,35]};
+const EURMWH={years:['2022','2023','2024','2025'],pepe:[145,135,125,120],sector:[140,130,120,115]};
+const BENCHROWS=[
+ {k:'kWh por m² (industrial)',pepe:973,sector:1050,best:780,lowGood:true,fmt:v=>f0(v)},
+ {k:'kWh por unidad producida',pepe:3.42,sector:3.80,best:2.90,lowGood:true,fmt:v=>f2(v)},
+ {k:'% renovable',pepe:9.5,sector:15,best:35,lowGood:false,fmt:v=>f1(v)+'%'},
+ {k:'tCO₂ por M€ facturado',pepe:52.1,sector:62,best:35,lowGood:true,fmt:v=>f1(v)},
+ {k:'€ por MWh',pepe:120,sector:115,best:95,lowGood:true,fmt:v=>f0(v)+' €'},
+ {k:'Score ESG (0 a 100)',pepe:72,sector:58,best:89,lowGood:false,fmt:v=>f0(v)}
+];
+const ESG={dims:[{d:'Ambiental',y24:72,y25:78},{d:'Social',y24:60,y25:65},{d:'Gobernanza',y24:68,y25:73},{d:'Global',y24:63,y25:72}],
+ rows:[['A','Emisiones tCO₂eq','20.740','18.420','−11,2%','16.210','En línea'],['A','% energía renovable','7,2%','9,5%','+2,3 pp','18%','Bajo objetivo'],['A','Residuos reciclados','62%','71%','+9 pp','80%','Progreso'],['A','Consumo de agua, m³','45.200','41.800','−7,5%','38.000','Progreso'],['S','Accidentabilidad (LTIR)','2,8','1,9','−32%','1,5','Progreso'],['S','Diversidad, % mujeres','28%','32%','+4 pp','38%','Progreso'],['S','Horas de formación por empleado','24','32','+33%','40','En línea'],['G','Score de cumplimiento','68','73','+5 pts','80','Progreso'],['G','Transparencia del reporte','71%','82%','+11 pp','90%','En línea']]};
+const LEVERS=[
+ {n:'PPA eólico 5 MW',inv:0,sav:120,pay:0,imp:'Medio'},
+ {n:'Variadores de frecuencia',inv:180,sav:110,pay:1.6,imp:'Alto'},
+ {n:'Solar Madrid 450 kWp',inv:320,sav:95,pay:3.4,imp:'Alto'},
+ {n:'Iluminación LED',inv:85,sav:65,pay:1.3,imp:'Alto'},
+ {n:'Caldera de condensación',inv:120,sav:55,pay:2.2,imp:'Medio'},
+ {n:'Sensores IoT + panel',inv:75,sav:45,pay:1.7,imp:'Medio'},
+ {n:'Factor de potencia',inv:35,sav:28,pay:1.3,imp:'Medio'},
+ {n:'BMS oficinas',inv:45,sav:22,pay:2.0,imp:'Bajo'}
+];
+const FC={years:['2023','2024','2025','2026*','2027*','2028*'],opt:[48200,46560,42680,37560,33200,29800],base:[48200,46560,42680,39200,36400,34100],cons:[48200,46560,42680,40800,39200,38000]};
+const REN={years:['2023','2024','2025','2026*','2027*','2028*'],real:[5.8,7.2,9.5,18,28,40],sbti:[5.8,10,15,22,30,40]};
+
+/* ======================= helpers ======================= */
+const ES=d3.formatLocale({decimal:',',thousands:'.',grouping:[3],currency:['','€']});
+const f0=ES.format(','), f1=ES.format(',.1f'), f2=ES.format(',.2f');
+const fs=v=>(v>0?'+':'−')+f1(Math.abs(v))+'%';
+const C=getComputedStyle(document.documentElement), col=n=>C.getPropertyValue(n).trim();
+const INK=col('--ink'),OR=col('--orange'),ORS=col('--orange-soft'),GN=col('--green'),RD=col('--red'),GR=col('--grey'),GRD=col('--grey-deep'),GRS=col('--grey-soft'),MU=col('--muted'),LINE=col('--line');
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const dur=ms=>RM?0:ms;
+const tip=d3.select('#tip');
+function showTip(ev,html){ tip.html(html).style('left',ev.clientX+'px').style('top',ev.clientY+'px').style('opacity',1); }
+function hideTip(){ tip.style('opacity',0); }
+function svgIn(id,h,pad={t:10,r:16,b:30,l:40}){
+  const el=document.getElementById(id); el.innerHTML='';
+  const W=Math.max(280,el.clientWidth), H=h;
+  const s=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${H}`).attr('role','img');
+  return {s,W,H,iw:W-pad.l-pad.r,ih:H-pad.t-pad.b,pad,g:s.append('g').attr('transform',`translate(${pad.l},${pad.t})`)};
+}
+const state={plant:null};
+function highlight(id){
+  state.plant=id;
+  document.querySelectorAll('[data-plant]').forEach(el=>el.classList.toggle('dim',!!id&&el.dataset.plant!==id));
+  document.querySelectorAll('#plant-chips .chip').forEach(c=>c.classList.toggle('on',(c.dataset.p||'')===(id||'')));
+  document.querySelectorAll('#tb-plants tr[data-plant]').forEach(tr=>tr.classList.toggle('hl',tr.dataset.plant===id));
+}
+const byId=Object.fromEntries(PLANTS.map(p=>[p.id,p]));
+const plantColor=p=>p.id==='mad'?RD:GRD;
+
+/* ======================= V1 ======================= */
+function cMonthly(){
+  const {g,iw,ih}=svgIn('c-monthly',300,{t:16,r:60,b:28,l:44});
+  const x=d3.scalePoint().domain(M12).range([0,iw]), y=d3.scaleLinear().domain([0,4600]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(f0)).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickValues(iw<520?M12.filter((m,i)=>i%2===0):M12).tickSize(0)).call(a=>a.select('.domain').remove());
+  const line=d3.line().x((d,i)=>x(M12[i])).y(d=>y(d)).curve(d3.curveMonotoneX);
+  // savings band
+  const area=d3.area().x((d,i)=>x(M12[i])).y0((d,i)=>y(MONTHLY.y2025[i])).y1((d,i)=>y(MONTHLY.y2024[i])).curve(d3.curveMonotoneX);
+  g.append('path').datum(MONTHLY.y2024).attr('d',area).attr('fill',ORS).attr('opacity',0).transition().delay(dur(600)).duration(dur(500)).attr('opacity',.8);
+  [['y2024',GR,'2024'],['y2025',OR,'2025']].forEach(([k,c,lab],j)=>{
+    const p=g.append('path').datum(MONTHLY[k]).attr('d',line).attr('fill','none').attr('stroke',c).attr('stroke-width',j?3.5:2.5);
+    const L=p.node().getTotalLength(); p.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().duration(dur(1100)).ease(d3.easeCubicOut).attr('stroke-dashoffset',0);
+    g.append('text').attr('x',iw+10).attr('y',y(MONTHLY[k][11])+(j?-6:14)).attr('class','lbl').attr('fill',c).attr('font-weight',800).text(lab);
+  });
+  // annotation Dec
+  g.append('circle').attr('cx',x('Dic')).attr('cy',y(2650)).attr('r',5).attr('fill',OR).attr('stroke','#fff').attr('stroke-width',2);
+  g.append('text').attr('x',x('Dic')-8).attr('y',y(2650)+34).attr('text-anchor','end').attr('class','ann').text('Diciembre: 2.650 frente a 2.600');
+  g.append('text').attr('x',x('Dic')-8).attr('y',y(2650)+50).attr('text-anchor','end').attr('class','ann s').text('el ahorro desaparece');
+  g.append('text').attr('x',x('Jul')).attr('y',y(3950)-10).attr('text-anchor','middle').attr('class','ann s').text('ahorro frente a 2024');
+  g.append('text').attr('x',-36).attr('y',-6).attr('class','lbl m').text('MWh');
+  // hover
+  const hov=g.append('g').style('display','none'); hov.append('line').attr('y1',0).attr('y2',ih).attr('stroke',INK).attr('stroke-dasharray','3 3');
+  g.append('rect').attr('width',iw).attr('height',ih).attr('fill','transparent').on('mousemove',ev=>{ const [mx]=d3.pointer(ev); const i=Math.round(mx/x.step()); const xi=x(M12[i]); hov.style('display',null).attr('transform',`translate(${xi},0)`); showTip(ev,`<b>${M12[i]} 2025</b> ${f0(MONTHLY.y2025[i])} MWh<br>2024: ${f0(MONTHLY.y2024[i])} MWh<br>Diferencia: ${f0(MONTHLY.y2025[i]-MONTHLY.y2024[i])}`); }).on('mouseleave',()=>{hov.style('display','none');hideTip();});
+}
+function cPlants(){
+  const {g,iw,ih}=svgIn('c-plants',300,{t:6,r:70,b:6,l:110});
+  const data=[...PLANTS].sort((a,b)=>b.mwh-a.mwh);
+  const y=d3.scaleBand().domain(data.map(d=>d.name)).range([0,ih]).padding(.28), x=d3.scaleLinear().domain([0,12500]).range([0,iw-60]);
+  const row=g.selectAll('g.r').data(data).join('g').attr('class','r').attr('data-plant',d=>d.id).attr('transform',d=>`translate(0,${y(d.name)})`).style('cursor','pointer')
+    .on('mouseenter',(ev,d)=>{highlight(d.id);showTip(ev,`<b>${d.name}</b> ${f0(d.mwh)} MWh · ${f1(d.pct)}% del grupo<br>Frente a 2024: ${fs(d.yoy)}`);}).on('mouseleave',()=>{highlight(null);hideTip();});
+  row.append('text').attr('x',-10).attr('y',y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').attr('fill',d=>d.id==='mad'?RD:INK).text(d=>d.name);
+  row.append('rect').attr('height',y.bandwidth()).attr('width',0).attr('fill',plantColor).attr('rx',2).transition().delay((d,i)=>dur(i*60)).duration(dur(700)).ease(d3.easeCubicOut).attr('width',d=>x(d.mwh));
+  row.append('text').attr('x',d=>x(d.mwh)+8).attr('y',y.bandwidth()/2+4).attr('class','lbl').attr('font-weight',500).attr('fill',MU).text(d=>f0(d.mwh)).attr('opacity',0).transition().delay(dur(600)).duration(dur(300)).attr('opacity',1);
+  row.append('text').attr('x',iw+66).attr('y',y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').attr('fill',d=>d.yoy>0?RD:GN).attr('font-weight',800).text(d=>fs(d.yoy));
+  g.append('text').attr('x',iw+66).attr('y',-0).attr('text-anchor','end').attr('class','lbl m').attr('font-size',10).text('vs 2024');
+}
+function cKwhm2(){
+  const {g,iw,ih}=svgIn('c-kwhm2',300,{t:26,r:20,b:24,l:110});
+  const data=[...PLANTS].sort((a,b)=>b.kwhm2-a.kwhm2);
+  const y=d3.scaleBand().domain(data.map(d=>d.name)).range([0,ih]).padding(.5), x=d3.scaleLinear().domain([0,1150]).range([0,iw]);
+  [[BENCH.kwhm2.sector,'Media del sector · 1.050',GRD,-12],[BENCH.kwhm2.best,'Mejor de su clase · 780',GN,ih+18]].forEach(([v,t,c,ty])=>{
+    g.append('line').attr('x1',x(v)).attr('x2',x(v)).attr('y1',-6).attr('y2',ih+4).attr('stroke',c).attr('stroke-width',1.5).attr('stroke-dasharray','5 4');
+    g.append('text').attr('x',x(v)).attr('y',ty).attr('text-anchor','middle').attr('class','ann').attr('fill',c).attr('font-size',11).text(t);
+  });
+  const row=g.selectAll('g.r').data(data).join('g').attr('class','r').attr('data-plant',d=>d.id).attr('transform',d=>`translate(0,${y(d.name)+y.bandwidth()/2})`).style('cursor','pointer')
+    .on('mouseenter',(ev,d)=>{highlight(d.id);showTip(ev,`<b>${d.name}</b> ${f0(d.kwhm2)} kWh/m²<br>${f0(d.m2)} m² · ${d.type}`);}).on('mouseleave',()=>{highlight(null);hideTip();});
+  row.append('text').attr('x',-10).attr('y',4).attr('text-anchor','end').attr('class','lbl').attr('fill',d=>d.id==='mad'?RD:INK).text(d=>d.name);
+  row.append('line').attr('x1',0).attr('x2',0).attr('stroke',GR).attr('stroke-width',2).transition().delay((d,i)=>dur(i*50)).duration(dur(600)).attr('x2',d=>x(d.kwhm2));
+  row.append('circle').attr('cx',0).attr('r',7).attr('fill',d=>d.type==='Logística'?GN:plantColor(d)).attr('stroke','#fff').attr('stroke-width',2).transition().delay((d,i)=>dur(i*50)).duration(dur(600)).ease(d3.easeCubicOut).attr('cx',d=>x(d.kwhm2));
+  row.append('text').attr('y',4).attr('class','lbl').attr('font-weight',500).attr('fill',MU).attr('x',d=>x(d.kwhm2)+13).text(d=>f0(d.kwhm2)).attr('opacity',0).transition().delay(dur(650)).duration(dur(300)).attr('opacity',1);
+}
+function cMix(){
+  const {g,iw,ih}=svgIn('c-mix',290,{t:6,r:50,b:6,l:110});
+  const y=d3.scaleBand().domain(PLANTS.map(d=>d.name)).range([0,ih]).padding(.3), x=d3.scaleLinear().domain([0,100]).range([0,iw]);
+  const row=g.selectAll('g.r').data(PLANTS).join('g').attr('class','r').attr('data-plant',d=>d.id).attr('transform',d=>`translate(0,${y(d.name)})`)
+    .on('mouseenter',(ev,d)=>{highlight(d.id);showTip(ev,`<b>${d.name}</b><br>Electricidad ${f0(d.elec)} MWh · Gas ${f0(d.gas)} · Renovable ${f0(d.ren)}`);}).on('mouseleave',()=>{highlight(null);hideTip();});
+  row.append('text').attr('x',-10).attr('y',y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').text(d=>d.name);
+  row.each(function(d){
+    const tot=d.elec+d.gas+d.ren, segs=[['elec',OR],['gas',GRD],['ren',GN]]; let acc=0;
+    segs.forEach(([k,c],j)=>{ const w=d[k]/tot*100; d3.select(this).append('rect').attr('x',x(acc)).attr('height',y.bandwidth()).attr('width',0).attr('fill',c).transition().delay(dur(j*150)).duration(dur(600)).attr('width',x(w)-x(0)); acc+=w; });
+    d3.select(this).append('text').attr('x',iw+8).attr('y',y.bandwidth()/2+4).attr('class','lbl').attr('fill',GN).attr('font-weight',800).text(f1(d.ren/tot*100)+'%');
+  });
+  g.append('text').attr('x',iw+8).attr('y',-0).attr('class','lbl m').attr('font-size',10).text('renov.');
+}
+
+/* ======================= V2 ======================= */
+function buildChips(){
+  const wrap=document.getElementById('plant-chips');
+  const all=document.createElement('button'); all.className='chip on'; all.textContent='Todas'; all.dataset.p=''; all.onclick=()=>highlight(null); wrap.appendChild(all);
+  PLANTS.forEach(p=>{ const b=document.createElement('button'); b.className='chip'+(p.id==='mad'?' red':''); b.textContent=p.name; b.dataset.p=p.id; b.onclick=()=>highlight(state.plant===p.id?null:p.id); wrap.appendChild(b); });
+}
+function buildTable(){
+  const cols=[{k:'name',l:'Planta'},{k:'type',l:'Tipo'},{k:'mwh',l:'MWh 2025',num:1},{k:'pct',l:'% grupo',num:1},{k:'yoy',l:'vs 2024',num:1},{k:'kwhm2',l:'kWh/m²',num:1},{k:'solar',l:'Solar kWp',num:1},{k:'score',l:'Score',num:1},{k:'anom',l:'Anomalías 90d',num:1},{k:'rating',l:'Rating'}];
+  const t=document.getElementById('tb-plants'); let sortK='mwh',dir='desc';
+  const scoreCol=d3.scaleLinear().domain([55,75,95]).range([RD,OR,GN]);
+  function render(){
+    const rows=[...PLANTS].sort((a,b)=>{ const va=a[sortK],vb=b[sortK]; const r=typeof va==='number'?va-vb:String(va).localeCompare(String(vb),'es'); return dir==='asc'?r:-r; });
+    t.innerHTML='<thead><tr>'+cols.map(c=>`<th class="${c.num?'num':''}" data-k="${c.k}" ${c.k===sortK?`data-dir="${dir}"`:''}>${c.l}</th>`).join('')+'</tr></thead><tbody>'+
+      rows.map(p=>`<tr data-plant="${p.id}" class="${p.id==='mad'?'alert':''}${state.plant===p.id?' hl':''}"><td>${p.name}</td><td>${p.type}</td><td class="num"><span class="bar ${p.id==='mad'?'r':''}" style="width:${p.mwh/12000*90}px"></span>${f0(p.mwh)}</td><td class="num">${f1(p.pct)}%</td><td class="num" style="color:${p.yoy>0?RD:GN};font-weight:700">${fs(p.yoy)}</td><td class="num">${f0(p.kwhm2)}</td><td class="num">${p.solar===0?'<span class="pill r">0</span>':f0(p.solar)}</td><td class="num"><span class="pill" style="background:${scoreCol(p.score)}22;color:${scoreCol(p.score)}">${p.score}</span></td><td class="num">${p.anom===0?'<span class="pill g">0</span>':p.anom}</td><td><span class="pill ${/^A/.test(p.rating)?'g':/^C/.test(p.rating)?'r':'o'}">${p.rating}</span></td></tr>`).join('')+'</tbody>';
+    t.querySelectorAll('th').forEach(th=>th.onclick=()=>{ const k=th.dataset.k; if(sortK===k) dir=dir==='asc'?'desc':'asc'; else {sortK=k;dir=typeof PLANTS[0][k]==='number'?'desc':'asc';} render(); });
+    t.querySelectorAll('tr[data-plant]').forEach(tr=>{ tr.onmouseenter=()=>highlight(tr.dataset.plant); tr.onmouseleave=()=>highlight(null); });
+  }
+  render();
+}
+function cSmall(){
+  const el=document.getElementById('c-small'); el.innerHTML='';
+  const W=Math.max(280,el.clientWidth), cols=W>520?3:2, cw=W/cols, ch=124, rows=Math.ceil(PLANTS.length/cols);
+  const s=d3.select(el).append('svg').attr('viewBox',`0 0 ${W} ${rows*ch}`);
+  PLANTS.forEach((p,i)=>{
+    const gx=(i%cols)*cw, gy=Math.floor(i/cols)*ch, pad={l:12,r:14,t:30,b:22}, iw=cw-pad.l-pad.r, ih=ch-pad.t-pad.b;
+    const g=s.append('g').attr('transform',`translate(${gx+pad.l},${gy+pad.t})`).attr('data-plant',p.id).style('cursor','pointer')
+      .on('mouseenter',ev=>{highlight(p.id);showTip(ev,`<b>${p.name}</b> máx. ${f0(d3.max(p.monthly))} MWh (${M12[d3.maxIndex(p.monthly)]}) · mín. ${f0(d3.min(p.monthly))} (${M12[d3.minIndex(p.monthly)]})`);}).on('mouseleave',()=>{highlight(null);hideTip();});
+    const x=d3.scalePoint().domain(M12).range([0,iw]), y=d3.scaleLinear().domain([0,d3.max(p.monthly)*1.05]).range([ih,0]);
+    g.append('text').attr('y',-10).attr('class','lbl').attr('fill',p.id==='mad'?RD:INK).text(p.name);
+    g.append('text').attr('x',iw).attr('y',-10).attr('text-anchor','end').attr('class','lbl m').attr('font-size',10.5).text('máx. '+f0(d3.max(p.monthly)));
+    g.append('line').attr('x1',0).attr('x2',iw).attr('y1',ih).attr('y2',ih).attr('stroke',LINE);
+    const line=d3.line().x((d,j)=>x(M12[j])).y(d=>y(d)).curve(d3.curveMonotoneX);
+    const path=g.append('path').datum(p.monthly).attr('d',line).attr('fill','none').attr('stroke',p.id==='mad'?RD:OR).attr('stroke-width',2.2);
+    const L=path.node().getTotalLength(); path.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().delay(dur(i*80)).duration(dur(900)).attr('stroke-dashoffset',0);
+    g.append('circle').attr('cx',x('Dic')).attr('cy',y(p.monthly[11])).attr('r',3.5).attr('fill',p.id==='mad'?RD:OR);
+    ['Ene','Dic'].forEach(m=>g.append('text').attr('x',x(m)).attr('y',ih+11).attr('text-anchor',m==='Ene'?'start':'end').attr('class','lbl m').attr('font-size',10).text(m));
+  });
+}
+function cSolar(){
+  const {g,iw,ih}=svgIn('c-solar',300,{t:14,r:20,b:34,l:44});
+  const x=d3.scaleLinear().domain([-20,600]).range([0,iw]), y=d3.scaleLinear().domain([50,100]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw)).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).ticks(6).tickSize(0)).call(a=>a.select('.domain').remove());
+  g.append('text').attr('x',iw).attr('y',ih+30).attr('text-anchor','end').attr('class','lbl m').text('Solar instalada, kWp');
+  g.append('text').attr('x',-38).attr('y',-4).attr('class','lbl m').text('Score');
+  const d=g.selectAll('g.p').data(PLANTS).join('g').attr('class','p').attr('data-plant',p=>p.id).style('cursor','pointer')
+    .on('mouseenter',(ev,p)=>{highlight(p.id);showTip(ev,`<b>${p.name}</b> ${p.solar} kWp · score ${p.score}`);}).on('mouseleave',()=>{highlight(null);hideTip();});
+  d.append('circle').attr('cx',p=>x(p.solar)).attr('cy',p=>y(p.score)).attr('r',0).attr('fill',p=>p.id==='mad'?RD:p.type==='Logística'?GN:GRD).attr('stroke','#fff').attr('stroke-width',2).transition().delay((p,i)=>dur(i*70)).duration(dur(500)).ease(d3.easeBackOut).attr('r',9);
+  d.append('text').attr('x',p=>x(p.solar)+(p.id==='zar'?-13:13)).attr('y',p=>y(p.score)+4).attr('text-anchor',p=>p.id==='zar'?'end':'start').attr('class','lbl').text(p=>p.name);
+}
+function cSolarPot(){
+  const {g,iw,ih}=svgIn('c-solarpot',280,{t:6,r:60,b:6,l:110});
+  const y=d3.scaleBand().domain(PLANTS.map(d=>d.name)).range([0,ih]).padding(.35), x=d3.scaleLinear().domain([0,700]).range([0,iw]);
+  const row=g.selectAll('g.r').data(PLANTS).join('g').attr('class','r').attr('data-plant',d=>d.id).attr('transform',d=>`translate(0,${y(d.name)})`)
+    .on('mouseenter',(ev,d)=>{highlight(d.id);showTip(ev,`<b>${d.name}</b> ${d.solar} kWp instalados de ${d.solarPot} posibles`);}).on('mouseleave',()=>{highlight(null);hideTip();});
+  row.append('text').attr('x',-10).attr('y',y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').attr('fill',d=>d.id==='mad'?RD:INK).text(d=>d.name);
+  row.append('rect').attr('height',y.bandwidth()).attr('width',d=>x(d.solarPot)).attr('fill','none').attr('stroke',GR).attr('stroke-dasharray','4 3').attr('rx',2);
+  row.append('rect').attr('height',y.bandwidth()).attr('width',0).attr('fill',GN).attr('rx',2).transition().delay((d,i)=>dur(i*60)).duration(dur(700)).attr('width',d=>x(d.solar));
+  row.append('text').attr('x',d=>x(d.solarPot)+8).attr('y',y.bandwidth()/2+4).attr('class','lbl').attr('font-weight',500).attr('fill',MU).text(d=>`${d.solar} de ${d.solarPot}`);
+  g.append('text').attr('x',x(0)).attr('y',ih+4).attr('class','lbl m').attr('font-size',10).text('');
+}
+function cTarget(){
+  const {g,iw,ih}=svgIn('c-target',280,{t:6,r:70,b:6,l:110});
+  const y=d3.scaleBand().domain(PLANTS.map(d=>d.name)).range([0,ih]).padding(.35), x=d3.scaleLinear().domain([0,12500]).range([0,iw]);
+  const row=g.selectAll('g.r').data(PLANTS).join('g').attr('class','r').attr('data-plant',d=>d.id).attr('transform',d=>`translate(0,${y(d.name)})`)
+    .on('mouseenter',(ev,d)=>{highlight(d.id);showTip(ev,`<b>${d.name}</b> real ${f0(d.mwh)} · objetivo ${f0(d.obj)} MWh`);}).on('mouseleave',()=>{highlight(null);hideTip();});
+  row.append('text').attr('x',-10).attr('y',y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').text(d=>d.name);
+  row.append('rect').attr('height',y.bandwidth()).attr('width',0).attr('fill',d=>d.mwh>d.obj?RD:GN).attr('rx',2).attr('opacity',.85).transition().delay((d,i)=>dur(i*60)).duration(dur(700)).attr('width',d=>x(d.mwh));
+  row.append('line').attr('x1',d=>x(d.obj)).attr('x2',d=>x(d.obj)).attr('y1',-4).attr('y2',y.bandwidth()+4).attr('stroke',INK).attr('stroke-width',3);
+  row.append('text').attr('x',d=>x(Math.max(d.mwh,d.obj))+10).attr('y',y.bandwidth()/2+4).attr('class','lbl').attr('font-weight',700).attr('fill',d=>d.mwh>d.obj?RD:GN).text(d=>(d.mwh>d.obj?'+':'−')+f0(Math.abs(d.mwh-d.obj)));
+}
+
+/* ======================= V3 ======================= */
+let hmPlant='val';
+function cHeat(){
+  const data=HM[hmPlant];
+  const {g,iw,ih}=svgIn('c-heat',268,{t:22,r:10,b:22,l:40});
+  const x=d3.scaleBand().domain(d3.range(24)).range([0,iw]).padding(.08), y=d3.scaleBand().domain(DAYS).range([0,ih]).padding(.12);
+  const c=d3.scaleSequential(d3.interpolateRgb('#FFF4E5','#B45309')).domain([0,3]);
+  d3.range(0,24,3).forEach(h=>g.append('text').attr('x',x(h)+x.bandwidth()/2).attr('y',-8).attr('text-anchor','middle').attr('class','lbl m').attr('font-size',10.5).text(h+'h'));
+  DAYS.forEach(d=>g.append('text').attr('x',-8).attr('y',y(d)+y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').attr('font-size',11.5).text(d));
+  const cells=[]; data.forEach((row,di)=>row.forEach((v,h)=>cells.push({d:DAYS[di],h,v})));
+  g.selectAll('rect').data(cells).join('rect').attr('x',d=>x(d.h)).attr('y',d=>y(d.d)).attr('width',x.bandwidth()).attr('height',y.bandwidth()).attr('rx',2).attr('fill',d=>c(d.v)).attr('opacity',0)
+    .on('mousemove',(ev,d)=>showTip(ev,`<b>${d.d} ${d.h}:00</b> ${f1(d.v)} MWh`)).on('mouseleave',hideTip)
+    .transition().delay(d=>dur(d.h*18+DAYS.indexOf(d.d)*40)).duration(dur(300)).attr('opacity',1);
+  // peak box (Gestalt: common region)
+  g.append('rect').attr('x',x(9)-2).attr('y',y('Lun')-2).attr('width',x(16)+x.bandwidth()-x(9)+4).attr('height',y('Vie')+y.bandwidth()-y('Lun')+4).attr('fill','none').attr('stroke',INK).attr('stroke-width',2).attr('rx',3).attr('opacity',0).transition().delay(dur(900)).duration(dur(400)).attr('opacity',1);
+  g.append('text').attr('x',(x(9)+x(16)+x.bandwidth())/2).attr('y',ih+16).attr('text-anchor','middle').attr('class','ann').attr('font-size',11.5).text('▲ pico de 9 a 16 h, lunes a viernes');
+  const title=document.getElementById('hm-title'); const peak=d3.max(data.flat()), base=d3.min(data.slice(0,5).map(r=>d3.min(r)));
+  title.innerHTML=`${HM_NAMES[hmPlant]}: el consumo se concentra de <em>9 a 16 h, de lunes a viernes</em>, con un pico de ${f1(peak)} MWh y una base nocturna de ${f1(base)}`;
+}
+function cProfile(){
+  const {g,iw,ih}=svgIn('c-profile',260,{t:14,r:88,b:28,l:48});
+  const x=d3.scaleLinear().domain([0,23]).range([0,iw]), y=d3.scaleLinear().domain([0,2600]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(4).tickSize(-iw).tickFormat(f0)).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickValues([0,6,12,18,23]).tickFormat(v=>v+'h').tickSize(0)).call(a=>a.select('.domain').remove());
+  g.append('text').attr('x',-42).attr('y',-4).attr('class','lbl m').text('kW');
+  const line=d3.line().x((d,i)=>x(i)).y(d=>y(d)).curve(d3.curveMonotoneX);
+  [['lab',OR,'Laborable'],['fin',GRD,'Fin de semana']].forEach(([k,c,lab])=>{
+    const p=g.append('path').datum(PROFILE[k]).attr('d',line).attr('fill','none').attr('stroke',c).attr('stroke-width',3);
+    const L=p.node().getTotalLength(); p.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().duration(dur(1000)).attr('stroke-dashoffset',0);
+    g.append('text').attr('x',iw+8).attr('y',y(PROFILE[k][23])+4).attr('class','lbl').attr('fill',c).attr('font-weight',800).text(lab);
+  });
+  g.append('text').attr('x',x(9.5)).attr('y',y(2400)-10).attr('text-anchor','middle').attr('class','ann').text('2.400 kW a las 9 y a las 15 h');
+  g.append('text').attr('x',x(0.5)).attr('y',y(300)+20).attr('class','ann s').text('base nocturna 330 kW');
+  g.append('rect').attr('width',iw).attr('height',ih).attr('fill','transparent').on('mousemove',ev=>{const [mx]=d3.pointer(ev);const h=Math.round(x.invert(mx));showTip(ev,`<b>${h}:00</b> laborable ${f0(PROFILE.lab[h])} kW · fin de semana ${f0(PROFILE.fin[h])} kW`);}).on('mouseleave',hideTip);
+}
+function cDow(){
+  const {g,iw,ih}=svgIn('c-dow',260,{t:24,r:10,b:26,l:10});
+  const x=d3.scaleBand().domain(DAYS).range([0,iw]).padding(.3), y=d3.scaleLinear().domain([0,13]).range([ih,0]);
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+  g.selectAll('rect').data(DOW).join('rect').attr('x',(d,i)=>x(DAYS[i])).attr('width',x.bandwidth()).attr('y',ih).attr('height',0).attr('rx',2).attr('fill',(d,i)=>i<5?OR:GRD)
+    .on('mousemove',(ev,d)=>showTip(ev,`${f1(d)} MWh`)).on('mouseleave',hideTip)
+    .transition().delay((d,i)=>dur(i*60)).duration(dur(600)).ease(d3.easeCubicOut).attr('y',d=>y(d)).attr('height',d=>ih-y(d));
+  g.selectAll('text.v').data(DOW).join('text').attr('class','lbl').attr('x',(d,i)=>x(DAYS[i])+x.bandwidth()/2).attr('y',d=>y(d)-6).attr('text-anchor','middle').text(d=>f1(d)).attr('opacity',0).transition().delay(dur(600)).duration(dur(300)).attr('opacity',1);
+  g.append('text').attr('x',x('Sáb')+x.bandwidth()).attr('y',y(3.2)-26).attr('text-anchor','middle').attr('class','ann s').text('ratio 4 a 1');
+  g.append('text').attr('x',0).attr('y',-10).attr('class','lbl m').text('MWh por día');
+}
+
+/* ======================= V4 ======================= */
+function cAnomPlant(){
+  const {g,iw,ih}=svgIn('c-anomplant',250,{t:6,r:30,b:6,l:110});
+  const data=[...PLANTS].sort((a,b)=>b.anom-a.anom);
+  const y=d3.scaleBand().domain(data.map(d=>d.name)).range([0,ih]).padding(.3), x=d3.scaleLinear().domain([0,6]).range([0,iw]);
+  const row=g.selectAll('g.r').data(data).join('g').attr('class','r').attr('data-plant',d=>d.id).attr('transform',d=>`translate(0,${y(d.name)})`).on('mouseenter',(ev,d)=>highlight(d.id)).on('mouseleave',()=>highlight(null));
+  row.append('text').attr('x',-10).attr('y',y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').attr('fill',d=>d.id==='mad'?RD:INK).text(d=>d.name);
+  row.each(function(d){ for(let k=0;k<d.anom;k++) d3.select(this).append('rect').attr('x',x(k)+3).attr('width',x(1)-6).attr('height',y.bandwidth()).attr('rx',3).attr('fill',d.id==='mad'?RD:GRD).attr('opacity',0).transition().delay(dur(k*90)).duration(dur(300)).attr('opacity',1); });
+  row.append('text').attr('x',d=>x(d.anom)+8).attr('y',y.bandwidth()/2+4).attr('class','lbl').attr('fill',d=>d.anom===0?GN:INK).text(d=>d.anom===0?'ninguna':d.anom);
+}
+function cSpikes(){
+  const {g,iw,ih}=svgIn('c-spikes',250,{t:16,r:16,b:28,l:48});
+  const hours=d3.range(168); const base=hours.map(h=>{const d=Math.floor(h/24),hd=h%24;return d<5?PROFILE.lab[hd]:PROFILE.fin[hd];});
+  base[23+24*1]=3200; base[24*3+2]=2800; // Tue 23h, Thu 02h
+  const x=d3.scaleLinear().domain([0,167]).range([0,iw]), y=d3.scaleLinear().domain([0,3400]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(4).tickSize(-iw).tickFormat(f0)).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickValues(d3.range(0,168,24)).tickFormat(v=>DAYS[v/24]).tickSize(0)).call(a=>a.select('.domain').remove());
+  g.append('text').attr('x',-42).attr('y',-4).attr('class','lbl m').text('kW');
+  g.append('line').attr('x1',0).attr('x2',iw).attr('y1',y(2400)).attr('y2',y(2400)).attr('stroke',RD).attr('stroke-dasharray','5 4');
+  g.append('text').attr('x',iw).attr('y',y(2400)-6).attr('text-anchor','end').attr('class','ann').attr('fill',RD).attr('font-size',11).text('umbral de alerta 2.400 kW');
+  const line=d3.line().x((d,i)=>x(i)).y(d=>y(d));
+  const p=g.append('path').datum(base).attr('d',line).attr('fill','none').attr('stroke',GRD).attr('stroke-width',1.6);
+  const L=p.node().getTotalLength(); p.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().duration(dur(1400)).ease(d3.easeLinear).attr('stroke-dashoffset',0);
+  [[47,3200,'Mar 23 h · 3.200 kW'],[74,2800,'Jue 2 h · 2.800 kW']].forEach(([h,v,t])=>{
+    g.append('circle').attr('cx',x(h)).attr('cy',y(v)).attr('r',0).attr('fill',RD).transition().delay(dur(1200)).duration(dur(400)).ease(d3.easeBackOut).attr('r',6);
+    g.append('text').attr('x',x(h)+10).attr('y',y(v)+4).attr('class','ann').attr('fill',RD).attr('font-size',11.5).text(t).attr('opacity',0).transition().delay(dur(1300)).duration(dur(300)).attr('opacity',1);
+  });
+}
+function cAnomMonth(){
+  const {g,iw,ih}=svgIn('c-anommonth',220,{t:10,r:10,b:26,l:30});
+  const x=d3.scaleBand().domain(ANOM_MONTH.map(d=>d.m)).range([0,iw]).padding(.45), y=d3.scaleLinear().domain([0,5]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw)).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+  const keys=[['media',GR],['alta',OR],['crit',RD]];
+  ANOM_MONTH.forEach((d,i)=>{ let acc=0; keys.forEach(([k,c],j)=>{ const h=d[k]; g.append('rect').attr('x',x(d.m)).attr('width',x.bandwidth()).attr('y',y(acc)).attr('height',0).attr('fill',c).transition().delay(dur(i*80+j*120)).duration(dur(400)).attr('y',y(acc+h)).attr('height',y(acc)-y(acc+h)); acc+=h; }); g.append('text').attr('x',x(d.m)+x.bandwidth()/2).attr('y',y(acc)-6).attr('text-anchor','middle').attr('class','lbl').text(acc); });
+}
+
+/* ======================= V5 ======================= */
+function cTraj(){
+  const {g,iw,ih}=svgIn('c-traj',300,{t:16,r:110,b:28,l:52});
+  const x=d3.scalePoint().domain(TRAJ.years).range([0,iw]), y=d3.scaleLinear().domain([10000,26000]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(f0)).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+  g.append('text').attr('x',-46).attr('y',-4).attr('class','lbl m').text('tCO₂');
+  g.append('rect').attr('x',x('2025')).attr('y',0).attr('width',iw-x('2025')).attr('height',ih).attr('fill',GRS).attr('opacity',.6);
+  g.append('text').attr('x',x('2025')+8).attr('y',14).attr('class','ann s').attr('font-size',11).text('previsión');
+  const line=d3.line().defined(d=>d!=null).x((d,i)=>x(TRAJ.years[i])).y(d=>y(d)).curve(d3.curveMonotoneX);
+  [['sbti',GN,'Senda SBTi','5 4'],['base',OR,'Plan base','3 3'],['real',INK,'Real',null]].forEach(([k,c,lab,dash])=>{
+    const p=g.append('path').datum(TRAJ[k]).attr('d',line).attr('fill','none').attr('stroke',c).attr('stroke-width',k==='real'?3.5:2.5);
+    if(dash) p.attr('stroke-dasharray',dash); else { const L=p.node().getTotalLength(); p.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().duration(dur(1100)).attr('stroke-dashoffset',0); }
+    const last=TRAJ[k].map((v,i)=>[v,i]).filter(d=>d[0]!=null).pop();
+    g.append('text').attr('x',x(TRAJ.years[last[1]])+8).attr('y',y(last[0])+4).attr('class','lbl').attr('fill',c).attr('font-weight',800).text(lab);
+  });
+  g.append('circle').attr('cx',x('2025')).attr('cy',y(18420)).attr('r',6).attr('fill',RD).attr('stroke','#fff').attr('stroke-width',2);
+  g.append('path').attr('d',`M ${x('2025')-6} ${y(18420)+6} L ${x('2025')-30} ${y(18420)+58}`).attr('stroke',RD).attr('stroke-width',1.5).attr('fill','none');
+  g.append('text').attr('x',x('2025')-34).attr('y',y(18420)+66).attr('text-anchor','end').attr('class','ann').attr('fill',RD).text('2025: 18.420 frente a 18.847');
+  g.append('text').attr('x',x('2025')-34).attr('y',y(18420)+82).attr('text-anchor','end').attr('class','ann s').text('427 tCO₂ por debajo de la senda');
+}
+function cScope(){
+  const {g,iw,ih}=svgIn('c-scope',300,{t:6,r:60,b:6,l:110});
+  const data=[...PLANTS].sort((a,b)=>(b.co2s1+b.co2s2)-(a.co2s1+a.co2s2));
+  const y=d3.scaleBand().domain(data.map(d=>d.name)).range([0,ih]).padding(.3), x=d3.scaleLinear().domain([0,6000]).range([0,iw]);
+  const row=g.selectAll('g.r').data(data).join('g').attr('class','r').attr('data-plant',d=>d.id).attr('transform',d=>`translate(0,${y(d.name)})`)
+    .on('mouseenter',(ev,d)=>{highlight(d.id);showTip(ev,`<b>${d.name}</b> ${f0(d.co2s1+d.co2s2)} tCO₂<br>Alcance 2: ${f0(d.co2s2)} · alcance 1: ${f0(d.co2s1)}`);}).on('mouseleave',()=>{highlight(null);hideTip();});
+  row.append('text').attr('x',-10).attr('y',y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').text(d=>d.name);
+  row.append('rect').attr('height',y.bandwidth()).attr('width',0).attr('fill',OR).attr('rx',2).transition().delay((d,i)=>dur(i*50)).duration(dur(600)).attr('width',d=>x(d.co2s2));
+  row.append('rect').attr('height',y.bandwidth()).attr('x',d=>x(d.co2s2)).attr('width',0).attr('fill',GRD).attr('rx',2).transition().delay((d,i)=>dur(i*50+500)).duration(dur(500)).attr('width',d=>x(d.co2s1));
+  row.append('text').attr('x',d=>x(d.co2s1+d.co2s2)+8).attr('y',y.bandwidth()/2+4).attr('class','lbl').attr('font-weight',500).attr('fill',MU).text(d=>f0(d.co2s1+d.co2s2));
+}
+function cCost(){
+  const {g,iw,ih}=svgIn('c-cost',280,{t:14,r:10,b:26,l:40});
+  const x=d3.scaleBand().domain(M12).range([0,iw]).padding(.3), y=d3.scaleLinear().domain([0,520]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw)).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+  g.append('text').attr('x',-34).attr('y',-4).attr('class','lbl m').text('K€');
+  M12.forEach((m,i)=>{ let acc=0; [['elec',OR],['gas',GRD],['otros',GR]].forEach(([k,c],j)=>{ const v=COST[k][i]; g.append('rect').attr('x',x(m)).attr('width',x.bandwidth()).attr('y',y(acc)).attr('height',0).attr('fill',c).on('mousemove',ev=>showTip(ev,`<b>${m}</b> total ${f0(COST.elec[i]+COST.gas[i]+COST.otros[i])} K€<br>Electricidad ${COST.elec[i]} · gas ${COST.gas[i]} · otros ${COST.otros[i]}`)).on('mouseleave',hideTip).transition().delay(dur(i*40+j*150)).duration(dur(500)).attr('y',y(acc+v)).attr('height',y(acc)-y(acc+v)); acc+=v; }); });
+  g.append('text').attr('x',x('Ene')).attr('y',y(480)-8).attr('class','ann').text('480');
+  g.append('text').attr('x',x('Dic')+x.bandwidth()/2).attr('y',y(310)-8).attr('text-anchor','middle').attr('class','ann').text('310');
+}
+function cEurMwh(){
+  const {g,iw,ih}=svgIn('c-eurmwh',280,{t:16,r:70,b:28,l:40});
+  const x=d3.scalePoint().domain(EURMWH.years).range([0,iw]).padding(.3), y=d3.scaleLinear().domain([100,150]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(v=>v+' €')).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+  const line=d3.line().x((d,i)=>x(EURMWH.years[i])).y(d=>y(d));
+  [['sector',GRD,'Sector'],['pepe',OR,'PEPE']].forEach(([k,c,lab])=>{
+    const p=g.append('path').datum(EURMWH[k]).attr('d',line).attr('fill','none').attr('stroke',c).attr('stroke-width',3);
+    const L=p.node().getTotalLength(); p.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().duration(dur(1000)).attr('stroke-dashoffset',0);
+    g.selectAll('c'+k).data(EURMWH[k]).join('circle').attr('cx',(d,i)=>x(EURMWH.years[i])).attr('cy',d=>y(d)).attr('r',4.5).attr('fill',c).attr('stroke','#fff').attr('stroke-width',2);
+    g.selectAll('t'+k).data(EURMWH[k]).join('text').attr('x',(d,i)=>x(EURMWH.years[i])).attr('y',d=>y(d)+(k==='pepe'?-10:18)).attr('text-anchor','middle').attr('class','lbl').attr('fill',c).attr('font-size',11.5).text(d=>d);
+    g.append('text').attr('x',iw+10).attr('y',y(EURMWH[k][3])+4).attr('class','lbl').attr('fill',c).attr('font-weight',800).text(lab);
+  });
+  g.append('line').attr('x1',x('2025')).attr('x2',x('2025')).attr('y1',y(120)).attr('y2',y(115)).attr('stroke',RD).attr('stroke-width',3);
+  g.append('text').attr('x',x('2025')-14).attr('y',y(110)).attr('text-anchor','end').attr('class','ann').attr('fill',RD).text('+5 € por MWh · 213.000 €/año');
+}
+function cBench(){
+  const {g,iw,ih}=svgIn('c-bench',370,{t:10,r:24,b:10,l:150});
+  const y=d3.scaleBand().domain(BENCHROWS.map(d=>d.k)).range([0,ih]).padding(.45);
+  BENCHROWS.forEach((r,i)=>{
+    const vals=[r.pepe,r.sector,r.best]; const x=d3.scaleLinear().domain([0,d3.max(vals)*1.15]).range([0,iw]); const yy=y(r.k)+y.bandwidth()/2;
+    g.append('text').attr('x',-10).attr('y',yy+4).attr('text-anchor','end').attr('class','lbl').text(r.k);
+    g.append('line').attr('x1',0).attr('x2',iw).attr('y1',yy).attr('y2',yy).attr('stroke',LINE).attr('stroke-width',2);
+    const better=r.lowGood?r.pepe<r.sector:r.pepe>r.sector;
+    g.append('line').attr('x1',x(r.sector)).attr('x2',x(r.sector)).attr('y1',yy).attr('y2',yy).attr('stroke',better?GN:RD).attr('stroke-width',6).attr('opacity',.5).transition().delay(dur(i*80)).duration(dur(600)).attr('x2',x(r.pepe));
+    [[r.best,GN,7],[r.sector,GRD,7],[r.pepe,OR,9]].forEach(([v,c,rad])=>g.append('circle').attr('cx',x(v)).attr('cy',yy).attr('r',0).attr('fill',c).attr('stroke','#fff').attr('stroke-width',2).transition().delay(dur(i*80)).duration(dur(500)).ease(d3.easeBackOut).attr('r',rad));
+    g.append('text').attr('x',x(r.pepe)).attr('y',yy-13).attr('text-anchor','middle').attr('class','lbl').attr('fill',OR).attr('font-size',11.5).text(r.fmt(r.pepe));
+    g.append('text').attr('x',x(r.sector)).attr('y',yy+22).attr('text-anchor','middle').attr('class','lbl m').attr('font-size',10.5).text(r.fmt(r.sector));
+    g.append('text').attr('x',x(r.best)).attr('y',yy+22).attr('text-anchor','middle').attr('class','lbl').attr('fill',GN).attr('font-size',10.5).text(r.fmt(r.best));
+  });
+}
+function cEsg(){
+  const {g,iw,ih}=svgIn('c-esg',150,{t:6,r:50,b:6,l:90});
+  const y=d3.scaleBand().domain(ESG.dims.map(d=>d.d)).range([0,ih]).padding(.4), x=d3.scaleLinear().domain([0,100]).range([0,iw]);
+  ESG.dims.forEach((d,i)=>{ const yy=y(d.d)+y.bandwidth()/2;
+    g.append('text').attr('x',-10).attr('y',yy+4).attr('text-anchor','end').attr('class','lbl').attr('font-weight',d.d==='Global'?800:600).text(d.d);
+    g.append('line').attr('x1',0).attr('x2',iw).attr('y1',yy).attr('y2',yy).attr('stroke',LINE);
+    g.append('line').attr('x1',x(d.y24)).attr('x2',x(d.y24)).attr('y1',yy).attr('y2',yy).attr('stroke',OR).attr('stroke-width',4).transition().delay(dur(i*80)).duration(dur(600)).attr('x2',x(d.y25));
+    g.append('circle').attr('cx',x(d.y24)).attr('cy',yy).attr('r',5).attr('fill',GR);
+    g.append('circle').attr('cx',x(d.y25)).attr('cy',yy).attr('r',6).attr('fill',OR).attr('stroke','#fff').attr('stroke-width',2);
+    g.append('text').attr('x',x(d.y25)+12).attr('y',yy+4).attr('class','lbl').text(`${d.y25}`).append('tspan').attr('class','lbl m').attr('font-weight',500).text(` (${d.y24} en 2024)`);
+  });
+  const t=document.getElementById('tb-esg');
+  t.innerHTML='<thead><tr><th>Dim.</th><th>Indicador</th><th class="num">2024</th><th class="num">2025</th><th class="num">Var.</th><th class="num">Obj. 2026</th><th>Estado</th></tr></thead><tbody>'+ESG.rows.map(r=>`<tr><td><span class="pill">${r[0]}</span></td><td>${r[1]}</td><td class="num">${r[2]}</td><td class="num"><b>${r[3]}</b></td><td class="num">${r[4]}</td><td class="num">${r[5]}</td><td><span class="pill ${r[6]==='En línea'?'g':r[6]==='Bajo objetivo'?'r':'o'}">${r[6]}</span></td></tr>`).join('')+'</tbody>';
+}
+
+/* ======================= V6 ======================= */
+function cLevers(){
+  const {g,iw,ih}=svgIn('c-levers',340,{t:16,r:30,b:34,l:48});
+  const x=d3.scaleLinear().domain([-10,360]).range([0,iw]), y=d3.scaleLinear().domain([0,140]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw)).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).ticks(6).tickSize(0)).call(a=>a.select('.domain').remove());
+  g.append('text').attr('x',iw).attr('y',ih+30).attr('text-anchor','end').attr('class','lbl m').text('Inversión, K€');
+  g.append('text').attr('x',-42).attr('y',-4).attr('class','lbl m').text('Ahorro, K€/año');
+  [[1,'1 año'],[2,'2 años'],[3,'3 años']].forEach(([k,t])=>{ const xe=Math.min(350,140*k); g.append('line').attr('x1',x(0)).attr('y1',y(0)).attr('x2',x(xe)).attr('y2',y(xe/k)).attr('stroke',GR).attr('stroke-dasharray','4 4'); g.append('text').attr('x',x(xe)+4).attr('y',y(xe/k)-4).attr('class','ann s').attr('font-size',11).text(t); });
+  const r=d3.scaleSqrt().domain([0,120]).range([4,18]);
+  const d=g.selectAll('g.l').data(LEVERS).join('g').attr('class','l').style('cursor','pointer')
+    .on('mousemove',(ev,l)=>showTip(ev,`<b>${l.n}</b><br>Inversión ${l.inv} K€ · ahorro ${l.sav} K€/año<br>Retorno: ${l.pay===0?'inmediato':f1(l.pay)+' años'} · impacto ${l.imp}`)).on('mouseleave',hideTip);
+  d.append('circle').attr('cx',l=>x(l.inv)).attr('cy',l=>y(l.sav)).attr('r',0).attr('fill',l=>l.pay<2?GN:l.pay<3?OR:GRD).attr('opacity',.9).attr('stroke','#fff').attr('stroke-width',2).transition().delay((l,i)=>dur(i*80)).duration(dur(600)).ease(d3.easeBackOut).attr('r',l=>r(l.sav));
+  d.append('text').attr('x',l=>x(l.inv)+r(l.sav)+5).attr('y',l=>y(l.sav)+4).attr('class','lbl').attr('font-size',11.5).text(l=>l.n);
+}
+function cLeverBars(){
+  const {g,iw,ih}=svgIn('c-leverbars',340,{t:6,r:104,b:6,l:150});
+  const data=[...LEVERS].sort((a,b)=>b.sav-a.sav);
+  const y=d3.scaleBand().domain(data.map(d=>d.n)).range([0,ih]).padding(.3), x=d3.scaleLinear().domain([0,130]).range([0,iw]);
+  const row=g.selectAll('g.r').data(data).join('g').attr('class','r').attr('transform',d=>`translate(0,${y(d.n)})`);
+  row.append('text').attr('x',-10).attr('y',y.bandwidth()/2+4).attr('text-anchor','end').attr('class','lbl').attr('font-size',11.5).text(d=>d.n);
+  row.append('rect').attr('height',y.bandwidth()).attr('width',0).attr('rx',2).attr('fill',d=>d.pay<2?GN:d.pay<3?OR:GRD).transition().delay((d,i)=>dur(i*60)).duration(dur(600)).attr('width',d=>x(d.sav));
+  row.append('text').attr('x',d=>x(d.sav)+8).attr('y',y.bandwidth()/2+4).attr('class','lbl').attr('font-size',11.5).text(d=>`${d.sav} · ${d.pay===0?'inmediato':f1(d.pay)+' a'}`);
+}
+function cForecast(){
+  const {g,iw,ih}=svgIn('c-forecast',280,{t:16,r:100,b:28,l:52});
+  const x=d3.scalePoint().domain(FC.years).range([0,iw]), y=d3.scaleLinear().domain([25000,50000]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(f0)).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+  g.append('rect').attr('x',x('2025')).attr('y',0).attr('width',iw-x('2025')).attr('height',ih).attr('fill',GRS).attr('opacity',.6);
+  const line=d3.line().x((d,i)=>x(FC.years[i])).y(d=>y(d)).curve(d3.curveMonotoneX);
+  [['cons',GRD,'Conservador · −11%'],['base',OR,'Base · −20%'],['opt',GN,'Optimista · −30%']].forEach(([k,c,lab])=>{
+    const p=g.append('path').datum(FC[k]).attr('d',line).attr('fill','none').attr('stroke',c).attr('stroke-width',k==='base'?3.5:2.5);
+    const L=p.node().getTotalLength(); p.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().duration(dur(1100)).attr('stroke-dashoffset',0);
+    g.append('text').attr('x',iw+8).attr('y',y(FC[k][5])+4).attr('class','lbl').attr('fill',c).attr('font-weight',800).attr('font-size',11.5).text(lab);
+  });
+  g.append('text').attr('x',-46).attr('y',-4).attr('class','lbl m').text('MWh');
+}
+function cRenew(){
+  const {g,iw,ih}=svgIn('c-renew',280,{t:16,r:90,b:28,l:40});
+  const x=d3.scalePoint().domain(REN.years).range([0,iw]), y=d3.scaleLinear().domain([0,45]).range([ih,0]);
+  g.append('g').attr('class','ax').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(v=>v+'%')).call(a=>a.select('.domain').remove());
+  g.append('g').attr('class','ax').attr('transform',`translate(0,${ih})`).call(d3.axisBottom(x).tickSize(0)).call(a=>a.select('.domain').remove());
+  g.append('rect').attr('x',x('2025')).attr('y',0).attr('width',iw-x('2025')).attr('height',ih).attr('fill',GRS).attr('opacity',.6);
+  const line=d3.line().x((d,i)=>x(REN.years[i])).y(d=>y(d)).curve(d3.curveMonotoneX);
+  [['sbti',GRD,'Senda SBTi','5 4'],['real',GN,'Plan PEPE',null]].forEach(([k,c,lab,dash])=>{
+    const p=g.append('path').datum(REN[k]).attr('d',line).attr('fill','none').attr('stroke',c).attr('stroke-width',3); if(dash)p.attr('stroke-dasharray',dash); else{const L=p.node().getTotalLength(); p.attr('stroke-dasharray',L).attr('stroke-dashoffset',L).transition().duration(dur(1100)).attr('stroke-dashoffset',0);}
+    g.append('text').attr('x',iw+8).attr('y',y(REN[k][5])+(k==='sbti'?16:-4)).attr('class','lbl').attr('fill',c).attr('font-weight',800).attr('font-size',11.5).text(lab);
+  });
+  g.append('circle').attr('cx',x('2025')).attr('cy',y(9.5)).attr('r',6).attr('fill',RD).attr('stroke','#fff').attr('stroke-width',2);
+  g.append('text').attr('x',x('2025')+10).attr('y',y(9.5)+16).attr('class','ann').attr('fill',RD).text('2025: 9,5% frente a 15% en la senda');
+}
+
+/* ======================= nav, resize, counters, chat ======================= */
+const DRAW={v1:[cMonthly,cPlants,cKwhm2,cMix],v2:[cSmall,cSolar,cSolarPot,cTarget],v3:[cHeat,cProfile,cDow],v4:[cAnomPlant,cSpikes,cAnomMonth],v5:[cTraj,cScope,cCost,cEurMwh,cBench,cEsg],v6:[cLevers,cLeverBars,cForecast,cRenew]};
+let cur='v1';
+function countUp(view){ view.querySelectorAll('[data-count]').forEach(el=>{ const n=+el.dataset.count, small=el.querySelector('small'); const t=d3.timer(e=>{ const k=Math.min(1,e/dur(900)||1); el.firstChild.textContent=f0(Math.round(n*d3.easeCubicOut(k))); if(k>=1)t.stop(); }); }); }
+function show(v){
+  cur=v;
+  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('active',s.id===v));
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
+  window.scrollTo({top:0,behavior:'smooth'});
+  requestAnimationFrame(()=>{ DRAW[v].forEach(f=>f()); countUp(document.getElementById(v)); highlight(state.plant); });
+  try{localStorage.setItem('pepe-v5-view',v);}catch(e){}
+}
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.v)));
+document.addEventListener('keydown',e=>{ if(e.target.closest('input,textarea'))return; const ks=Object.keys(DRAW), i=ks.indexOf(cur); if(e.key==='ArrowRight'&&i<ks.length-1)show(ks[i+1]); if(e.key==='ArrowLeft'&&i>0)show(ks[i-1]); });
+let rt; window.addEventListener('resize',()=>{clearTimeout(rt); rt=setTimeout(()=>{DRAW[cur].forEach(f=>f()); highlight(state.plant);},150);});
+document.querySelectorAll('#hm-chips .chip').forEach(c=>c.addEventListener('click',()=>{ document.querySelectorAll('#hm-chips .chip').forEach(x=>x.classList.remove('on')); c.classList.add('on'); hmPlant=c.dataset.p; cHeat(); }));
+buildChips(); buildTable();
+let start='v1'; try{ const v=localStorage.getItem('pepe-v5-view'); if(v&&DRAW[v])start=v; }catch(e){}
+show(start);
+
+/* chat: answers only from the figures on this page (kept from v4, wording tightened) */
+const FACTS={
+  empresa:'PEPE Energía opera 6 plantas: 3 industriales, 2 logísticas y 1 de oficinas.',
+  consumo:'Consumo 2025: 42.680 MWh (−8,3% frente a 2024). Electricidad 28.450 MWh (66,7%), gas natural 10.170 (23,8%), renovable propia 4.060 (9,5%).',
+  plantas:'Valencia 11.940 MWh (28%), Barcelona 9.890 (23,2%), Madrid Ind. 8.750 (20,5%), Zaragoza 5.800 (13,6%), Sevilla 4.120 (9,7%), Oficinas 2.180 (5,1%).',
+  eficiencia:'Score medio 78,2. Sevilla 92, Zaragoza 88, Barcelona 76, Valencia 73, Oficinas 68, Madrid Ind. 58. kWh por unidad: PEPE 3,42, sector 3,80, mejor de su clase 2,90.',
+  emisiones:'Emisiones 2025: 18.420 tCO₂eq (−11,2%). Alcance 1: 6.830. Alcance 2: 11.590. Intensidad: 52,1 tCO₂ por M€ (sector 62).',
+  costes:'Coste 2025: 5,12 M€ (−4,1%, ahorro de 219.000 €). 120 €/MWh frente a 115 del sector: unos 213.000 € al año de sobrecoste. 14,5% de la facturación.',
+  anomalias:'14 anomalías en 90 días: 3 críticas, 5 altas, 6 medias. Sobreconsumo +340 MWh (40.800 €). 82% resueltas. Una crítica sigue abierta en Madrid Ind. (iluminación 24/7, +22 MWh al mes).',
+  esg:'ESG 72 sobre 100 (A−): ambiental 78, social 65, gobernanza 73. +9 puntos frente a 2024.',
+  renovable:'Renovable propia 9,5% (sector 15%, mejor de su clase 35%). Solar: Valencia 420 kWp, Barcelona 350, Madrid Ind. 0, Zaragoza 520, Sevilla 380, Oficinas 85.',
+  palancas:'8 palancas: 1,2 M€ de inversión, 680.000 € al año de ahorro, retorno medio 2,1 años. Mayores ahorros: PPA eólico (120.000 €/año, sin capex), variadores (110.000), solar Madrid (95.000).',
+  benchmark:'Frente al sector: kWh/m² 973 vs 1.050, renovable 9,5% vs 15%, tCO₂/M€ 52,1 vs 62, €/MWh 120 vs 115, ESG 72 vs 58.',
+  madrid:'Madrid Industrial: score 58 (el más bajo), consumo +2,3% (la única que sube), sin solar, factor de potencia 0,84, 5 anomalías, 994 kWh/m², rating C+.',
+  valencia:'Valencia: 11.940 MWh (28%), score 73, solar 420 kWp, 5.720 tCO₂, 4 anomalías, rating B+.',
+  sevilla:'Sevilla: 4.120 MWh (9,7%), score 92 (el mejor), solar 380 kWp, 375 kWh/m² (el mejor), rating A.',
+  zaragoza:'Zaragoza: 5.800 MWh (13,6%), score 88, solar 520 kWp (la mayor), −12,4% frente a 2024, rating A−.',
+  barcelona:'Barcelona: 9.890 MWh (23,2%), score 76, solar 350 kWp, −7,1% frente a 2024, rating B.'
+};
+function answer(q){
+  q=q.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const r=[]; const has=(...ws)=>ws.some(w=>q.includes(w));
+  if(has('madrid'))r.push(FACTS.madrid); if(has('valencia'))r.push(FACTS.valencia); if(has('sevilla'))r.push(FACTS.sevilla); if(has('zaragoza'))r.push(FACTS.zaragoza); if(has('barcelona'))r.push(FACTS.barcelona);
+  if(has('consumo','mwh','energia','electr'))r.push(FACTS.consumo); if(has('planta','instalacion'))r.push(FACTS.plantas); if(has('eficien','score','rendimiento'))r.push(FACTS.eficiencia);
+  if(has('emision','co2','carbon','huella'))r.push(FACTS.emisiones); if(has('coste','precio','gasto','factura','euro','dinero'))r.push(FACTS.costes); if(has('anomal','alerta','inciden'))r.push(FACTS.anomalias);
+  if(has('esg','social','gobernanza','ambiental','sostenib'))r.push(FACTS.esg); if(has('renovable','solar','fotovolt'))r.push(FACTS.renovable); if(has('palanca','mejora','recomend','accion','inversion','ahorro'))r.push(FACTS.palancas);
+  if(has('benchmark','sector','compar'))r.push(FACTS.benchmark); if(has('empresa','pepe','quien','que es'))r.push(FACTS.empresa);
+  if(has('resumen','general','todo','panorama'))r.push(FACTS.empresa,FACTS.consumo,FACTS.emisiones,FACTS.costes);
+  if(!r.length) return 'No tengo ese dato en el panel. Puedo responder sobre consumo, plantas, eficiencia, emisiones, costes, anomalías, ESG, renovables, comparativa sectorial y palancas.';
+  return [...new Set(r)].join(' ');
+}
+const chat=document.getElementById('chat'), body=document.getElementById('chat-body'), inp=document.getElementById('chat-in');
+function msg(t,u){ const d=document.createElement('div'); d.className='msg '+(u?'u':'b'); d.textContent=t; body.appendChild(d); body.scrollTop=body.scrollHeight; }
+function send(){ const q=inp.value.trim(); if(!q)return; msg(q,true); inp.value=''; setTimeout(()=>msg(answer(q),false),350); }
+document.getElementById('chat-toggle').onclick=()=>{chat.classList.toggle('open'); if(chat.classList.contains('open'))inp.focus();};
+document.getElementById('chat-close').onclick=()=>chat.classList.remove('open');
+document.getElementById('chat-send').onclick=send; inp.addEventListener('keydown',e=>{if(e.key==='Enter')send();});
+</script>
+</body>
+</html>
