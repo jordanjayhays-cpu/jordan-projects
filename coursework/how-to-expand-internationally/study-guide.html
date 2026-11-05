@@ -290,6 +290,11 @@ footer{margin-top:56px;font-size:13px;color:var(--muted);border-top:1px solid va
 h3.flash,h4.flash{border-radius:4px}
 @media (max-width:640px){.rt-row{grid-template-columns:1fr auto;grid-template-areas:"name n" "bar bar" "link link"}.rt-name{grid-area:name}.rt-bar{grid-area:bar}.rt-n{grid-area:n}.rt-row a{grid-area:link}}
 
+.tctl{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:13px;color:var(--fg-2)}
+.tctl label{display:flex;gap:8px;align-items:center;font-weight:600;color:var(--fg)}
+.tctl select{font:14px var(--sans);padding:6px 8px;border:1px solid var(--axis);border-radius:6px;background:var(--surface);color:var(--fg);max-width:260px}
+.tctl .hint{color:var(--muted);font-weight:400}
+.tctl select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 /* tabs */
 .tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--navy);border-top:1px solid rgba(255,255,255,.1);box-shadow:0 2px 10px rgba(0,0,0,.15)}
 .tabs .in{max-width:1180px;margin:0 auto;display:flex;gap:2px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
@@ -814,7 +819,8 @@ button.ghost:hover{background:var(--surface)}
 
 <div class="testwrap" id="tab-test" hidden>
   <div class="testhead">
-    <div><h2>Practice exam</h2><div class="kick">Every version draws 40 of the <span class="bankn">130</span> questions in the bank, balanced across every session and case, with question order and answer order shuffled. Answers mark themselves. When you finish, the attempt is saved and a study room opens with every miss explained and linked to the section to re-read.</div><div class="ver">Version <span id="vseed">0000</span> · <span id="vmeta">40 questions</span></div></div>
+    <div><h2>Practice exam</h2><div class="kick">Every version draws 40 of the <span class="bankn">130</span> questions in the bank, balanced across every session and case, with question order and answer order shuffled. Answers mark themselves. When you finish, the attempt is saved and a study room opens with every miss explained and linked to the section to re-read.</div><div class="ver">Version <span id="vseed">0000</span> · <span id="vmeta">40 questions</span></div>
+    <div class="tctl"><label>Questions per version <select id="nsel"><option value="40">40, exam length</option><option value="80">80</option><option value="all">All in the pool</option></select></label><label>Topic <select id="tsel"><option value="">All topics, balanced</option></select></label><span class="hint">Pick a topic to drill every question on it. "New version" applies the choice.</span></div></div>
     <div class="btns"><button type="button" class="ghost" id="finish">Finish and save</button><button type="button" class="pri" id="newver">New version</button></div>
   </div>
   <div class="result" id="result" hidden><div class="big"><span id="rsc">0</span><small>/ <span id="rn">40</span></small></div><div><p><b id="rmsg"></b></p><p id="rsub"></p></div></div>
@@ -1313,17 +1319,20 @@ function fmt(n){return n.toLocaleString('en-US')}
   q(T6,'By 2025, emerging markets were forecast to account for what share of midmarket women\'s apparel sales?',['28 percent','45 percent','55 percent','74 percent'],2,'Up from 26 percent in 2004; in luxury only 28 percent by 2025.','c-zara');
   q(T6,'Inditex\'s second largest brand by 2017 sales after Zara was:',['Massimo Dutti','Pull&Bear','Bershka','Stradivarius'],2,'Bershka EUR 2,227m, Massimo Dutti 1,765m, Pull&Bear 1,747m, Stradivarius 1,480m.','c-zara');
   /* ---- engine ---- */
-  const N=40,KEY='hei_attempts_v2';
+  let N=40;const KEY='hei_attempts_v2';
   const root=document.getElementById('quizroot'),sc=document.getElementById('sc'),sub=document.getElementById('scsub'),pg=document.getElementById('pg');
   const vs=document.getElementById('vseed'),vs2=document.getElementById('vseed2'),res=document.getElementById('result'),room=document.getElementById('room');
   document.querySelectorAll('.bankn').forEach(e=>e.textContent=B.length);
   const TOPICS=[...new Set(B.map(x=>x.t))];
-  let seed=0,items=[],correct=0,answered=0,saved=false,startedAt=0,mode='exam';
+  let seed=0,items=[],correct=0,answered=0,saved=false,startedAt=0,mode='exam',curTopic='';
+  const tsel=document.getElementById('tsel'),nsel=document.getElementById('nsel');TOPICS.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t+' ('+B.filter(x=>x.t===t).length+')';tsel.appendChild(o)});
+  function nWanted(pool){const v=nsel.value;const size=pool?pool.length:B.length;return v==='all'?size:Math.min(+v,size)}
   function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
   function shuffle(arr,r){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
   function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
   function store(list){try{localStorage.setItem(KEY,JSON.stringify(list))}catch(e){}}
   function draw(r){ /* stratified: every topic gets its proportional share, then full shuffle */
+    if(N>=B.length)return shuffle(B,r);
     const byT={};B.forEach(x=>(byT[x.t]=byT[x.t]||[]).push(x));
     const quota={};let used=0;const rem=[];
     TOPICS.forEach(t=>{const exact=N*byT[t].length/B.length;quota[t]=Math.floor(exact);used+=quota[t];rem.push([t,exact-quota[t]])});
@@ -1331,14 +1340,14 @@ function fmt(n){return n.toLocaleString('en-US')}
     let pick=[];TOPICS.forEach(t=>{pick=pick.concat(shuffle(byT[t],r).slice(0,quota[t]))});
     return shuffle(pick,r);
   }
-  function build(s,pool){
-    seed=s;const r=rng(seed);mode=pool?'drill':'exam';
-    const pick=pool?shuffle(pool.map(id=>B[id]),r):draw(r);
+  function build(s,pool,m,topic){
+    seed=s;const r=rng(seed);mode=m||(pool?'drill':'exam');curTopic=topic||'';
+    const pick=pool?shuffle(pool.map(id=>B[id]),r).slice(0,mode==='topic'?nWanted(pool):pool.length):draw(r);
     items=pick.map(q=>{const idx=shuffle(q.o.map((_,i)=>i),r);return{id:q.id,t:q.t,txt:q.txt,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a),e:q.e,r:q.r,done:false,ok:false,pick:-1}});
     correct=0;answered=0;saved=false;startedAt=Date.now();res.hidden=true;room.hidden=true;room.innerHTML='';
     const fbtn=document.getElementById('finish');fbtn.disabled=false;fbtn.textContent='Finish and save';
     const label=mode==='drill'?'Drill':String(seed).padStart(4,'0');vs.textContent=label;vs2.textContent=label;
-    document.getElementById('vmeta').textContent=mode==='drill'?`${items.length} questions you missed · answers shuffled`:`${N} of ${B.length} questions · balanced across every session · order and answers shuffled`;
+    document.getElementById('vmeta').textContent=mode==='drill'?`${items.length} questions you missed · answers shuffled`:mode==='topic'?`${items.length} questions on ${curTopic} · order and answers shuffled`:`${items.length} of ${B.length} questions · balanced across every session · order and answers shuffled`;
     root.innerHTML='';
     items.forEach((q,qi)=>{const idx=qi+1;const d=document.createElement('div');d.className='q';d.id='qcard'+qi;
       const opts=q.o.map((o,i)=>`<label><input type="radio" name="q${seed}_${idx}" id="q${seed}_${idx}o${i}" value="${i}"><span>${o}</span></label>`).join('');
@@ -1356,10 +1365,10 @@ function fmt(n){return n.toLocaleString('en-US')}
     items.forEach((q,i)=>{if(!q.done){q.done=true;const d=document.getElementById('qcard'+i);d.classList.add('done');d.querySelectorAll('label').forEach((l,j)=>{if(j===q.a)l.classList.add('right');l.querySelector('input').disabled=true});const fb=d.querySelector('.fb');fb.hidden=false;fb.innerHTML='Not answered. Correct answer: '+q.o[q.a]+'<span class="why">'+q.e+'</span>';fb.className='fb no'}});
     const missed=items.filter(q=>!q.ok).map(q=>q.id);
     const pct=Math.round(correct/n*100);
-    if(mode==='exam'){const list=load();list.push({t:Date.now(),seed:seed,score:correct,n:n,missed:missed,asked:items.map(q=>q.id)});store(list)}
+    if(mode!=='drill'){const list=load();list.push({t:Date.now(),seed:seed,score:correct,n:n,topic:curTopic,missed:missed,asked:items.map(q=>q.id)});store(list)}
     document.getElementById('rsc').textContent=correct;document.getElementById('rn').textContent=n;
     document.getElementById('rmsg').textContent=pct>=90?'Exam ready.':pct>=75?'Close. Work the study room below, then take a new version.':'Not yet. Open the study room below: it lists every miss with the answer and the section to re-read.';
-    document.getElementById('rsub').textContent=(mode==='drill'?'Drill · ':`Version ${String(seed).padStart(4,'0')} · `)+`${pct}% · ${answered} of ${n} answered`+(mode==='exam'?' · saved to this browser.':' · drills are not saved.');
+    document.getElementById('rsub').textContent=(mode==='drill'?'Drill · ':`Version ${String(seed).padStart(4,'0')}${curTopic?' · '+curTopic:''} · `)+`${pct}% · ${answered} of ${n} answered`+(mode!=='drill'?' · saved to this browser.':' · drills are not saved.');
     res.hidden=false;renderRoom(missed);res.scrollIntoView({behavior:'smooth',block:'start'});
     upd();renderHist();
   }
@@ -1379,10 +1388,10 @@ function fmt(n){return n.toLocaleString('en-US')}
   }
   function renderHist(){const list=load();const n=list.length;document.getElementById('tab-attempts').textContent=n+(n===1?' attempt':' attempts');
     document.getElementById('histempty').hidden=n>0;document.getElementById('histtbl').hidden=n===0;const tb=document.getElementById('histbody');tb.innerHTML='';
-    list.slice().reverse().forEach((a,i)=>{const pct=Math.round(a.score/a.n*100);const d=new Date(a.t);const tr=document.createElement('tr');if(a.seed===seed&&saved&&mode==='exam')tr.className='cur';
-      tr.innerHTML=`<td>${n-i}</td><td>${d.toLocaleDateString(undefined,{day:'numeric',month:'short'})} ${d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</td><td class="num">${String(a.seed).padStart(4,'0')}</td><td class="n">${a.score} / ${a.n} <span class="pct ${pct>=75?'g':'b'}">${pct}%</span></td><td><div class="mini"><i style="width:${pct}%"></i></div></td><td><a href="#test" class="re" data-seed="${a.seed}">Retake</a></td>`;
+    list.slice().reverse().forEach((a,i)=>{const pct=Math.round(a.score/a.n*100);const d=new Date(a.t);const tr=document.createElement('tr');if(a.seed===seed&&saved&&mode!=='drill')tr.className='cur';
+      tr.innerHTML=`<td>${n-i}</td><td>${d.toLocaleDateString(undefined,{day:'numeric',month:'short'})} ${d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</td><td class="num">${String(a.seed).padStart(4,'0')}${a.topic?'<br><span style="font-family:var(--sans);font-size:12px;color:var(--muted)">'+a.topic+'</span>':''}</td><td class="n">${a.score} / ${a.n} <span class="pct ${pct>=75?'g':'b'}">${pct}%</span></td><td><div class="mini"><i style="width:${pct}%"></i></div></td><td><a href="#test" class="re" data-seed="${a.seed}" data-topic="${a.topic||''}" data-n="${a.n}">Retake</a></td>`;
       tb.appendChild(tr)});
-    tb.querySelectorAll('a.re').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();build(+a.dataset.seed);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})}));
+    tb.querySelectorAll('a.re').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();retake(+a.dataset.seed,a.dataset.topic,+a.dataset.n);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})}));
     /* weak spots across attempts */
     const weak=document.getElementById('weak');const cnt={},tot={},qm={};
     list.forEach(a=>{(a.asked||[]).forEach(id=>{const t=B[id]&&B[id].t;if(!t)return;tot[t]=(tot[t]||0)+1});(a.missed||[]).forEach(id=>{const t=B[id]&&B[id].t;if(!t)return;cnt[t]=(cnt[t]||0)+1;qm[id]=(qm[id]||0)+1})});
@@ -1397,7 +1406,9 @@ function fmt(n){return n.toLocaleString('en-US')}
     weak.querySelectorAll('a[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();goStudy(a.dataset.go)}));
     const da=weak.querySelector('#drillall');if(da)da.addEventListener('click',()=>{build(1+Math.floor(Math.random()*9999),allMissed);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})});
   }
-  document.getElementById('newver').addEventListener('click',()=>{build(1+Math.floor(Math.random()*9999));document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})});
+  function startNew(s){const topic=tsel.value;if(topic){const pool=B.filter(x=>x.t===topic).map(x=>x.id);build(s,pool,'topic',topic)}else{N=nWanted(null);build(s)}}
+  function retake(s,topic,n){const v=[...nsel.options].find(o=>o.value===String(n))?String(n):(n>=B.length?'all':nsel.value);nsel.value=v;tsel.value=topic&&TOPICS.includes(topic)?topic:'';startNew(s)}
+  document.getElementById('newver').addEventListener('click',()=>{startNew(1+Math.floor(Math.random()*9999));document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})});
   document.getElementById('finish').addEventListener('click',()=>{if(answered===0){const b=document.getElementById('finish');b.textContent='Answer at least one question first';setTimeout(()=>b.textContent='Finish and save',2500);return}finish()});
   document.getElementById('clearhist').addEventListener('click',()=>{const b=document.getElementById('clearhist');if(b.dataset.arm){store([]);delete b.dataset.arm;b.textContent='Clear history';renderHist()}else{b.dataset.arm='1';b.textContent='Tap again to clear';setTimeout(()=>{delete b.dataset.arm;b.textContent='Clear history'},3000)}});
   build(1+Math.floor(Math.random()*9999));
