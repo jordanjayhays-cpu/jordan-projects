@@ -106,7 +106,7 @@ Neira's rule: never walk into a board meeting saying "we should expand" without 
 **Three analyses in the home country**
 
 1. **External analysis: Porter's five forces.** Objectives: how attractive is the industry, what are the key success factors, what is changing, are we in the right business before going abroad. Apply it in three steps: identify the industry, identify the players, analyze each force in sequence. Ask of each force: is it strong enough to reduce or eliminate industry profits?
-   - Substitutes: equivalent function (Audi Q5 vs Land Rover; high-speed train vs bus; pizza vs burger; Amazon vs El Corte Inglés). Low substitution: newspapers, gasoline, cigarettes.
+   - Substitutes: products with equivalent function. High substitution on the slide: newspapers, travel agencies, urban transport, Audi Q5 vs Land Rover, pizza vs burger, Amazon vs El Corte Inglés. Low substitution: gasoline, cigarettes, high-speed train vs bus, orange juice vs cola, cement in Madrid vs Paris.
    - Potential entrants, barriers: capital requirements (Boeing and Airbus vs apps), economies of scale (A380 needed about 400 units to break even on about USD 18 billion), absolute cost advantage (Aramco, Intel learning curve), product differentiation (cosmetics high, low-cost airlines low), access to distribution (Mercadona shelf space), government and legal barriers (traffic rights), retaliation (airline price cuts).
    - Rivalry: seller concentration (Gillette; Coke and Pepsi duopoly compete on marketing), differentiation (restaurants vs petrol stations), excess capacity and exit barriers (seaside hotels in winter), fixed vs variable cost (automotive).
    - Buyer power: price sensitivity (importance of the product in cost, buyer competition, differentiation) and bargaining power (size and concentration, information such as Booking and Kayak, vertical integration: Zara makes its own clothes unlike Gap and H&M).
@@ -114,7 +114,7 @@ Neira's rule: never walk into a board meeting saying "we should expand" without 
    - Class addition: define industry boundaries first; disruption is an extra angle.
 
 2. **Internal analysis: how are we competing, is the strategy proven?**
-   - Porter generic strategies: cost leadership whole market (Walmart), differentiation whole market (Apple), cost focus (Lidl, Aldi), differentiation focus (Ferrari, Porsche, Tesla).
+   - Porter generic strategies, as printed on the slides: cost leadership whole market (Amazon), differentiation whole market (Apple), cost focus (Lidl), differentiation focus (Ferrari). In class Neira also named Walmart, Aldi, Porsche and Tesla. The two competitive advantages: cost advantage is a similar product at lower cost; differentiation advantage is a price premium from a unique product.
    - Ansoff matrix, only two levers: what is sold and to whom.
      - Market penetration: existing product, existing market. Only in a growing unsaturated market. Aims: hold or grow share, dominate growth markets, restructure a mature market by aggressive pricing, raise usage. Lowest risk (new locations, organic growth).
      - Product development: new product, existing market, usually with a trusted brand (Coke flavors, McDonald's salads).
@@ -361,3 +361,86 @@ See Part B4. Remember: Star TV (News Corp paid USD 825 million 1993-95, lost abo
 - German banking pillars: case says three; Aguirre listed four. If an option says three pillars, that is the case answer.
 - Plamar exchange rate: the deck annex converts at about 1,380 VEB per USD (0.00072 USD per VEB); the Session 14 recording mentions 7.1. The USD figures (70k cash, 152k receivables, 447k assets) are the ones to remember.
 - Session 13: no deck or recording. UNSURE what was covered. Check Canvas.
+
+
+---
+
+# APPENDIX: What the slide images add (every slide read as an image, 5 Nov 2026)
+
+The first version of this guide was built from the text layer of the decks. Every slide of every deck and every case exhibit was then read as an image. This appendix lists what only the pictures contained, plus the corrections that pass produced. The HTML version carries the same material inside each chapter.
+
+## Corrections to the body above
+- Cost leadership example on the slide is Amazon, not Walmart (Walmart was said in class). Cost focus example is Lidl; Aldi was said in class.
+- Substitutes table: newspapers, travel agencies and urban transport are high substitution; gasoline and cigarettes are low (fixed above).
+- The corruption index shown is Transparency International 2020, 180 countries, not 2017 with 170.
+- Asia-Pacific share of world growth: the slide caption says 78.7 percent; the chart beside it totals about 64 percent for Asia including Japan and Oceania.
+- Leeson's loss appears three ways in the deck: GBP 827 million, USD 1.4 billion, and GBP 862 million in a press cutting.
+- Plamar sales: slide 19 shows 331 million bolívares; slide 20 uses 472,944 thousand; the case income statement totals 452.9 million including exports.
+
+## Session 5 (benefits)
+- Saturated market defined: demand fully satisfied. Only ways to sell more: substitute or replace the existing product, take share from competitors, innovate into an unsaturated or new market.
+- Product life cycle: introduction, growth, maturity, decline. Internationalization extends products at maturity.
+- Picture examples: MetroCompost plant in Hai Duong, Vietnam (2011, 29,500 t/yr); Celsa Group / Global Steel Wire (fill capacity); Singapore (small home market); Ford S-Max supplier map, Big Four and global banks, top 10 ad agencies (serving global customers); Starbucks (knowledge integration); October 2019 US tariffs on Spanish cava, cheese, olive oil (entry barriers); Kodak vs Fujifilm, Michelin vs Goodyear (offense as defense); a port terminal (strategic asset).
+
+## Session 6 (readiness)
+- Two competitive advantages: cost advantage = similar product at lower cost; differentiation advantage = price premium from a unique product. Matrix axes: competitive advantage (costs, differentiation) by market scope (entire, a segment). Definitions: cost leadership "be the most competitive company in cost in the entire market" (Amazon); differentiation "be a distinctive company recognized for its uniqueness, quality or personality" (Apple); cost focus "be very competitive in cost in a particular product or niche" (Lidl); differentiation focus "have a differentiated product or market niche" (Ferrari).
+- Five forces summary slide determinants: entry = capital requirements, economies of scale, absolute cost advantages, product differentiation, access to distribution, legal barriers, retaliation. Rivalry = concentration, diversity of competitors, differentiation, excess capacity and exit barriers, cost conditions. Substitutes = propensity to substitute, relative prices and performance. Buyer power = price sensitivity plus bargaining power (size and concentration, switching costs, information, backward integration). Forces lettered a substitutes, b entrants, c rivalry, d buyers, e suppliers.
+- Ansoff pictures: penetration = Aldi, Domino's; product development = Coca-Cola variants, McSalad; market development = Starbucks and Kellogg's in China; diversification = iPod.
+- RBV chain: resources (tangible, intangible) must be heterogeneous and immobile and have VRIO attributes to give advantage. The Disney example is the logo on the slide.
+
+## Session 7 (where)
+- Five-stage funnel: earliest screening (start from the company; URBAR's website shown), preliminary screening (macro, PESTEL), second screening (distance, CAGE), in-depth screening (Porter plus detailed market analysis), final selection (competitive advantage equation). Earliest, preliminary and second = country macro specifics; in-depth = country industry specifics.
+- CAGE boxes on the deck: Cultural; Administrative and political; Geographic; Economic/wealth.
+- Corruption Perceptions Index 2020, 180 countries: Denmark and New Zealand 88; Finland, Singapore, Sweden, Switzerland 85; Germany 80; UK 77; US 67; Spain 62; China 42; India 40; Brazil 38; Mexico 31; Russia 30; Guatemala 25; Venezuela 15; Somalia and South Sudan 12.
+- Coface Country Risk Assessment Map, January 2018, 160 countries. Scale A1 very low, A2 low, A3 satisfactory, A4 reasonable, B fairly high, C high, D very high, E extreme. Upgrades that month: Brazil B, Greece B, Netherlands A1, Singapore A2, South Korea A2, Ukraine C. Downgrade: Saudi Arabia C.
+- Ghemawat industry sensitivity: most culturally sensitive are meat, cereals, edible products, tobacco, office machines; least are optical goods, road vehicles, cork and wood, metalworking machinery, electricity. Electricity is highly sensitive to administrative and geographic distance but not cultural. Country portfolio chart key: Japan 1, Germany 15, Canada 18, Mexico 19; after adjustment Canada largest, Mexico second.
+
+## Session 9 (how)
+- Largest sogo shoshas, 2019 market value: Mitsubishi USD 42.5bn, Mitsui 27.7, Itochu 27.5, Sumitomo 17.9, Marubeni 12.3, Toyota Tsusho 11.6, Sojitz 4.3.
+- Pictures: URBAR (distributor); motorway and dam (turnkey); refuse truck and recycling plant (concessions); GAP and the Boeing 787 supplier map (subcontracting); Olayan Coca-Cola bottling (licensing); National Geographic store (licensing terms: worldwide brand rights with approval, annual fee, percentage of sales); Red Bull, Starbucks with Spotify, Uber with Spotify (co-marketing); Apple Watch Nike+, Philadelphia Milka, Santander Iberia card, Reebok x Bershka, McFlurry M&Ms and Kit Kat (co-branding); McDonald's, Pizza Hut, Burger King, KFC, Domino's, Arby's, A&W, Wendy's, Es Teler 77 (franchising).
+- Combined chain: National Geographic Society (Washington) licenses the Spanish company, which franchises store operators.
+- Self-driving car alliances: Google and Ford (automaker plus tech); BMW, Audi, Daimler and GM, Honda (automakers); GM and Lyft, Volvo and Uber (carmaker plus ride-sharing); Toyota and MIT, Nissan and NASA (academic or government); Autoliv and Nissin (suppliers); Baidu and Continental, NVIDIA and Bosch (supplier plus tech). Non-equity alliance example: General Kinematics (Chicago) with URBAR (Spain).
+- Slide 32 ties alliances to the readiness question of whether the firm can "acquire or obtain" missing resources.
+
+## Sessions 3-4 (risk and macro, Coface charts)
+- Oil chokepoints, share of total supply / maritime oil trade: Malacca 23/31, Hormuz 21/27, Suez 9/11, Bab el-Mandeb 8/11, Cape of Good Hope 6/8, Danish Straits 5/6, Turkish Straits 3/4, Panama 2/3.
+- Hormuz 2025 share of global seaborne flows: fertilizer 33 percent, methanol 32, crude 31, minerals 24, NGLs 23, LNG 19. Exports through the strait about 19 mb/d; rerouting about 3.5 (Saudi East-West 3, Fujairah 0.5); 11.8 at risk. Transits fell from 80 to 115 ships a day to under 10 in March 2026.
+- Coface alternative scenario (energy +50 percent): global growth 2.1 percent, Europe 0.5, US 1.8; inflation up 1.5 points; stagflation; insolvencies fastest in Asia. Fragile ceasefire after six weeks; IEA members released 400 million barrels.
+- EU gas storage in 2026 fell to about 28 to 30 percent by late March. Electricity from gas: Ireland 48 percent, Italy 44, Greece 37, Netherlands 36, EU 16, France 4 (68 percent nuclear).
+- Inflation peaks 2022: UK 11.1, eurozone 10.6, US 9. Policy rate peaks: Fed 5.5, BoE 5.25, ECB 4.0; ECB negative 2014 to 2022.
+- Euro area imports from China peaked about USD 550bn (2022) versus exports 240bn. Europe's producer prices 129 (2019 = 100) versus China about 100. Cost gaps: 50 to 60 percent rubber, plastics, apparel; 30 to 40 vehicles, metals, chemicals; 20 to 30 machinery.
+- "Reciprocal" tariffs: US bilateral deficit divided by the country's exports to the US, 10 percent floor; EU 235/606 = 38.8, shown 39 charged, 20 discounted; China 67/34; Vietnam 90/46; Japan 46/24; UK, Brazil, Australia 10/10. Observed US tariff on manufactured goods 2.3 percent (Jan 2025) to 11.7 (Oct 2025).
+- Foreign-currency corporate debt Q2 2018: Turkey about 36 percent of GDP, Hungary 33, Chile 32; China 7, India 8.
+- Patents 2023 (WIPO PCT): China 69,610, US 55,678, Japan 48,879, Korea 22,288, Germany 16,916; Huawei 6,494 top applicant, CATL up 576 percent.
+- Asia's share of world GDP at PPP crossed 50 percent around 2020. Regional contribution to growth next ten years: Asia ex Japan 62.4 percent, North America 9.0, Western Europe 6.3.
+- Globalization "a force for good": Vietnam 91, Philippines 85, India 83; UK 46, US 40, France 37.
+- World real GDP growth: 2020 minus 2.8, 2021 6.4, 2022 3.3, 2023 2.8, 2024 2.7, 2025f 2.4. 2025f: US 1.5, Germany 0.2, Spain 2.6, China 4.3, India 5.9, Brazil 2.0.
+- PESTEL table: Politics = government type and policy, funding and grants; Economy = inflation and interest rates, labour and energy costs; Social = population, education, media, lifestyle, culture; Technology = emerging tech, web, ICT; Legal = regulations, standards, employment law; Environment = weather, green and ethical issues, pollution, waste, recycling.
+- Unicorns 2017: Uber USD 68bn, Didi 50bn, Xiaomi 46bn, Airbnb 29.3bn, SpaceX 21.2bn, Spotify 8.5bn. Brazil Economist covers: "Brazil takes off" 2009, "Has Brazil blown it?" 2013, "The betrayal of Brazil" 2016.
+
+## Session 11 (currency)
+- Big Mac index, 30 Jan 2013, US USD 4.37 base: Norway 7.84 (+79 percent), Switzerland 7.12 (+63), Brazil 5.64 (+29), Canada 5.39, euro area 4.88 (+12), Britain 4.25 (−3), Japan 3.51 (−20), Mexico 2.90, China 2.57 (−41), Russia 2.43, Hong Kong 2.19 (−50), South Africa 2.03, India 1.67 (−62, Maharaja Mac). PPP comparison.
+- Bloomberg FRD screen, EUR/USD 27 Jan 2003: spot 1.0858/1.0860; forward points negative at every tenor (1M −13.9, 3M −40.25, 6M −75.6, 1Y −128.7, 2Y −163 pips), euro at a forward discount; 1Y forward 1.0729. Spreads widen with tenor.
+- S&P screenshot: four ratings per issuer (long and short term, local and foreign currency); the entity shown A / A-1, outlook stable.
+- Covers: Rickards, "Currency Wars"; The Economist 17 Feb 2007 "The end of the cash era".
+
+## Session 12 (Germany case exhibits)
+- 2002: private commercial banks 354 institutions, 28.4 percent of assets (Big Four 16); public savings banks and Landesbanken 547, 36 percent; cooperatives 1,621, 8.7 percent; specialized banks 71, 26.9 percent.
+- Bank credit share of liabilities falls with firm size: about 40 percent under five employees, 8 percent above 100.
+- ROE of all German banks: 19.3 percent (1998) to 4.4 (2002); large banks negative in 2002. ROA 0.21 percent versus US 1.77. Insolvencies 25,530 (1996) to 37,700 (2002).
+- Hidden champions: Krones 70 percent world share (labeling machines), Brita 85 (water filters), Hohner 85 (harmonicas), Webasto 50 (sunroofs).
+- In 1990, 85 percent of large listed industrial firms had a holder above 25 percent; a bank was the largest holder in under 6 percent. Household share ownership 47 percent (1950) to 17 (2000).
+
+## Session 14 (Plamar slides 5 and 20 to 22, thousand bolívares)
+- Cash gap model: inventory day 0, supplier paid day 30, buyer invoiced day 60, buyer pays day 120: 90-day gap closed by receivables financing.
+- Current: cash 97,724; receivables 203,711; DSO 155, DIO 141, DPO 189, CCC 107 days; tied-up capital 141,010; gross margin 24.8 percent, operating 5.1, net 3.8; no long-term debt; equity 56 percent.
+- Scenario 1, tighten the cycle to 90 days: CCC and tied-up capital down 16.2 percent; cash freed 22,774; cash 120,498.
+- Scenario 2, factor receivables at 85 percent: cash 279,616; receivables 28,080; synthetic DSO 21 days; liabilities unchanged.
+- Scenario 3, capital increase of 25,000: share capital 108,779; cash 304,616; total assets 646,563; liabilities 42 percent of financing.
+- Days use a 360-day year. Units: slides in thousands of bolívares; capital requirement quoted as USD 300,000.
+- Plamar annex: 82 percent of Venezuela's plastics industry in the centre; seals 27 percent of the market, packaging 18, construction 16; imports of plastic manufactures USD 36m (1990) to 205m (1999) against flat exports near 40m; Venezuela fifth in Latin America in raw-material consumption (291,785 t).
+
+## Zara exhibits
+- McKinsey Emerging 440: households 330m (2010) to 521m (2025); income USD 7.9tn to 20.2tn, twice the pace; above-70,000 segment grows 8 percent a year.
+- Women's apparel growth 3.3 percent (2004 to 2010) to 4.8 (2010 to 2025); emerging markets 55 percent of midmarket and 28 percent of luxury by 2025.
+- Inditex 2017 brands: Zara EUR 16,620m, Bershka 2,227m, Massimo Dutti 1,765m, Pull&Bear 1,747m, Stradivarius 1,480m, Zara Home 830m, Oysho 570m, Uterque 97m; net cash EUR 6.4bn.
