@@ -260,6 +260,36 @@ button:disabled{opacity:.55;cursor:default}
 footer{margin-top:56px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;max-width:none}
 
 
+/* study room */
+.room{margin:18px 0 26px}
+.room-head h3{font-size:24px;margin:0}
+.room-head p{color:var(--fg-2);margin:6px 0 14px;max-width:none}
+.room-topics{background:var(--surface);border-radius:10px;box-shadow:var(--shadow);padding:14px 18px;margin:0 0 14px}
+.rt-title{font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.rt-row{display:grid;grid-template-columns:minmax(140px,1.3fr) 2fr auto auto;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.rt-row:last-child{border-bottom:0}
+.rt-name{font-weight:600;color:var(--fg)}
+.rt-bar{height:8px;background:var(--grid);border-radius:4px;overflow:hidden}
+.rt-bar i{display:block;height:100%;background:var(--critical);border-radius:4px}
+.rt-row.ok .rt-bar i{background:var(--good)}
+.rt-n{font-variant-numeric:tabular-nums;color:var(--fg-2);white-space:nowrap;font-size:13px}
+.rt-row a{font-size:13px;white-space:nowrap}
+.room-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:0 0 14px;font-size:13px;color:var(--fg-2)}
+.rcard{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:14px 18px;margin:10px 0;border-left:4px solid var(--critical)}
+.rcard.small{border-left-color:var(--flag)}
+.rcard .rq{font-weight:600;line-height:1.45;margin:2px 0 10px}
+.rcard .ra{display:grid;grid-template-columns:92px 1fr;gap:10px;font-size:14px;padding:4px 0}
+.rcard .ra .k{font:600 10.5px/1.6 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rcard .ra .wrong{color:var(--critical);text-decoration:line-through;text-decoration-thickness:1px}
+.rcard .ra .right{color:var(--good);font-weight:600}
+.rcard .rw{font-size:14px;color:var(--fg-2);margin:8px 0 10px;padding:10px 12px;background:var(--surface-2);border-radius:6px;line-height:1.5}
+.rcard a{font-size:13px;font-weight:600}
+.q .fb .why{display:block;font-weight:400;color:var(--fg-2);margin-top:6px;line-height:1.5}
+.flash{animation:flashbg 2.4s ease-out}
+@keyframes flashbg{0%{background:var(--flag-wash);box-shadow:0 0 0 8px var(--flag-wash)}100%{background:transparent;box-shadow:0 0 0 8px transparent}}
+h3.flash,h4.flash{border-radius:4px}
+@media (max-width:640px){.rt-row{grid-template-columns:1fr auto;grid-template-areas:"name n" "bar bar" "link link"}.rt-name{grid-area:name}.rt-bar{grid-area:bar}.rt-n{grid-area:n}.rt-row a{grid-area:link}}
+
 /* tabs */
 .tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--navy);border-top:1px solid rgba(255,255,255,.1);box-shadow:0 2px 10px rgba(0,0,0,.15)}
 .tabs .in{max-width:1180px;margin:0 auto;display:flex;gap:2px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
@@ -328,7 +358,7 @@ button.ghost:hover{background:var(--surface)}
     <div><div class="k">Exam</div><div class="v">Fri 6 Nov<small>2026, in person</small></div></div>
     <div><div class="k">Format</div><div class="v">40 MCQ<small>Aguirre: questions come from the cases</small></div></div>
     <div><div class="k">Professors</div><div class="v">Neira · Aguirre<small>Strategy sessions 5 to 9 · Risk sessions 3, 4, 10 to 14</small></div></div>
-    <div><div class="k">On this page</div><div class="v">25 · 6 · 50<small>Top facts · charts · practice questions</small></div></div>
+    <div><div class="k">On this page</div><div class="v">25 · 6 · <span class="bankn">130</span><small>Top facts · charts · questions in the test bank</small></div></div>
   </div>
   <div class="flags"><span class="lab">Flagged in class</span><span class="chip">Factoring</span><span class="chip">Why Guatemala</span><span class="chip">Plamar's balance sheet</span><span class="chip">Investment grade</span><span class="chip">Malaysia and the IMF</span></div>
 </div></div>
@@ -391,7 +421,7 @@ button.ghost:hover{background:var(--surface)}
 <section class="ch" id="neira">
 <div class="ch-head"><div class="n">02</div><div><h2>Neira's half: the strategy of going abroad</h2><div class="kick">A five-step arc: global trends, benefits and reasons, are we ready, where, how. The decks are numbered S6 "Ready" and S7 "Where", but he taught Where on 28 Sep before Ready on 2 Oct.</div></div></div>
 
-<h3>Global trends <span class="who">Sessions 1-2, 5-6</span></h3>
+<h3 id="s-trends">Global trends <span class="who">Sessions 1-2, 5-6</span></h3>
 <ul>
 <li>About half of today's Fortune 500 will be gone in 7 years; almost 90 percent of the 1955 list is gone.</li>
 <li>Three drivers of disruption: technology (enabler), demographics (silent force), globalization (amplifier). Combinatory technology stacks open tools (Amazon Go). Tesla analyzes about 15 percent of the data it captures.</li>
@@ -402,7 +432,7 @@ button.ghost:hover{background:var(--surface)}
 <li>Growth is shifting to Southeast Asia, Africa, China and India. Incumbents fail through cultural resistance, not missing data (Kodak, Blockbuster, Nokia).</li>
 </ul>
 
-<h3>Benefits and reasons to internationalize <span class="who">Session 5</span></h3>
+<h3 id="s-benefits">Benefits and reasons to internationalize <span class="who">Session 5</span></h3>
 <p>Five drivers on the deck plus one shared bucket. The exam question is usually "which of these is a home-market reason" or "which example goes with which reason".</p>
 <div class="tbl"><table>
 <tr><th>Bucket</th><th>Reasons</th><th>Examples used in class</th></tr>
@@ -414,7 +444,7 @@ button.ghost:hover{background:var(--surface)}
 <tr><td>Scale and scope</td><td>Scale lowers unit cost and earns ROI on big projects. Scope shares tangible (labs, distribution) and intangible (brand, reputation) resources, or transfers management capabilities</td><td>National Geographic licensing its brand to merchandise and stores</td></tr>
 </table></div>
 
-<h3>Ready to internationalize? <span class="who">Session 6</span></h3>
+<h3 id="s-ready">Ready to internationalize? <span class="who">Session 6</span></h3>
 <p>Strategy is not a goal ("be number 1"), not a single action ("merge"), and not vision or values. It is how you compete and what advantage you base it on. Readiness is three analyses done at home.</p>
 <h4>1. External: Porter's five forces</h4>
 <p>Identify the industry, identify the players, analyze each force in order, and ask of each whether it is strong enough to erase industry profit. Entry barriers: capital (Boeing and Airbus), scale (the A380 needed about 400 units to break even), absolute cost advantage (Aramco, Intel), differentiation (cosmetics high, low-cost airlines low), distribution access (Mercadona shelves), legal barriers (traffic rights), retaliation. Buyer power rises with concentration, information (Booking, Kayak) and vertical integration (Zara makes its own clothes). Class addition: define industry boundaries first; disruption is an extra angle.</p>
@@ -440,7 +470,7 @@ button.ghost:hover{background:var(--surface)}
 </div>
 <p>Costly to imitate comes from time, causal ambiguity and social complexity. Organization means systems, processes, structure and culture. Class addition on funding realism: plan 6 to 18 months of ramp-up before profit and hold cash for capex and working capital. "Spreadsheets can say anything, reality cannot."</p>
 
-<h3>Where? International market selection <span class="who">Session 7</span></h3>
+<h3 id="s-where">Where? International market selection <span class="who">Session 7</span></h3>
 <p>Process: strategic analysis, set main goals (SMART and a little flexible), select potential markets, set country-specific goals, entry strategy, implementation. Ghemawat's warning opens the deck: companies routinely exaggerate the attractiveness of foreign markets. Górecka: selecting foreign markets is one of the most critical decisions in entry strategy.</p>
 <div class="funnel">
   <div><b>Preliminary screening</b> · macro view with PESTEL · about 200 countries down to 8 to 12</div>
@@ -465,7 +495,7 @@ button.ghost:hover{background:var(--surface)}
 
 <p><b>Country portfolio analysis is flawed.</b> It plots per-capita income against penetration with bubbles for market size, so it counts only potential sales and ignores the cost of distance. Tricon (Pizza Hut, Taco Bell, KFC) ranked Mexico 16th of 20 on CPA; adjusting for distance from Dallas, a shared border and a trade agreement moved it to 2nd. Star TV assumed Asian elites wanted English programming and that satellite beat geography; it lost about USD 500m and triggered a Chinese ban after Murdoch called satellite TV a threat to totalitarian regimes. A survey of multinationals in China: 54 percent did worse than planned, 62 percent had overestimated market potential.</p>
 
-<h3>How? Country entry alternatives <span class="who">Session 9</span></h3>
+<h3 id="s-how">How? Country entry alternatives <span class="who">Session 9</span></h3>
 <p>Four levels, chosen by resource commitment, risk, return and the speed you need.</p>
 <div class="ladder">
   <div class="scale"><span>Low commitment, risk, return</span><span>High</span></div>
@@ -481,7 +511,7 @@ button.ghost:hover{background:var(--surface)}
 <section class="ch" id="aguirre">
 <div class="ch-head"><div class="n">03</div><div><h2>Aguirre's half: the risks of being abroad</h2><div class="kick">Aguirre works at Coface, a trade credit insurer in over 60 countries, and has taught at IE since 1998. His sessions move from political and macro risk to credit crises, currency, ratings and banking, and trade finance. His exam questions come from the four Harvard and IE cases.</div></div></div>
 
-<h3>Managing risk and the shifting wealth of nations <span class="who">Sessions 3-4</span></h3>
+<h3 id="s-risk">Managing risk and the shifting wealth of nations <span class="who">Sessions 3-4</span></h3>
 <ul>
 <li><b>Allies become enemies.</b> Iran and Iraq swapped roles between 1979 (embassy seized, hostages 444 days), the 1980s, 1990 (Kuwait), 2003 and 2025. Political risk is not only emerging markets: Iberdrola's 80-turbine US project cancelled in Dec 2025; Naturgy expropriated in Colombia.</li>
 <li><b>Developed versus developing</b> threshold about USD 10,000 GDP per capita. China and Japan are the world's biggest lenders. Japan: debt over 220 percent of GDP held at home, first rate rise in 35 years in 2025.</li>
@@ -491,10 +521,10 @@ button.ghost:hover{background:var(--surface)}
 <li><b>Mankiw's ten principles</b>, summarized on the deck as: trade can make everyone better off, and living standards depend on productivity. Corporates are read by balance sheet and P&amp;L, countries by balance of payments plus GDP.</li>
 <li><b>Numbers to recognize:</b> Asia-Pacific about 78 percent of world GDP growth 2016 to 2026; China, Germany and the US are the three biggest exporters; 1.52bn tourist arrivals in 2025, Spain 96.8m; Spain built 700,000 flats in 2007 and 70,000 in 2008 (non-productive investment versus Korea's R&amp;D and education).</li>
 </ul>
-<h4>The ICC international contract</h4>
+<h4 id="s-contract">The ICC international contract</h4>
 <p>Eight points: parties (often including distributors), object, transport, terms of payment, guarantees of payment, courts, legislation, risks. The three transaction risks are transport, currency and credit. Use the destination country's courts; London arbitration only for big claims. Pro forma invoices need buyer approval. Cuba's average payment term is 360 days. Letters of credit, governed by the ICC, cover about 44 percent of corporate international trade. Reading: Peter Bernstein, <i>Against the Gods</i>.</p>
 
-<h3>The Asian financial crisis <span class="who">Session 10</span></h3>
+<h3 id="s-asia">The Asian financial crisis <span class="who">Session 10</span></h3>
 <div class="grid3">
   <div><b>Government causes</b>Fixed exchange rates; current account deficits; weak regulation and control.</div>
   <div><b>Company and market causes</b>Too many financial firms; dependence on short-term foreign funds; currency speculation; overpriced assets.</div>
@@ -531,7 +561,7 @@ button.ghost:hover{background:var(--surface)}
 <p><b>High rates as medicine (deck):</b> Korea's 30 percent interbank rate caused bankruptcies, destroyed confidence and accelerated outflows until the IMF relented; Thailand starved firms of cash, the market fell 75 percent and 600,000 foreign workers went home; Indonesia saw defaults, inflation, riots and Suharto's exit; Malaysia rejected the IMF, pegged deposit rates to leading banks and suffered least.</p>
 <p><b>Asian Tigers versus BRICS:</b> the Tigers (Hong Kong, Singapore, Taiwan, Korea) were small, export-led after import substitution, US-dependent, with GNI per capita of about USD 8,000 to 23,000 in 1993 to 1995. The BRICs are large and diversified (Brazil cars and minerals, Russia oil and arms, India IT, China manufacturing). In 2008 Singapore and Taiwan were unscathed, Korea had NPLs and a crash, Hong Kong speculative attacks; BRIC markets fell then recovered from 2009. Class view: a simultaneous BRICS default is unlikely; risk is country by country. Sovereign debt treatments: Argentina-Russia (default, credit crunch), Turkey-Brazil (long fiscal adjustment, late public payments), India-Lebanon (banks hold the debt, crowding out).</p>
 
-<h3>Currency risk <span class="who">Session 11</span></h3>
+<h3 id="s-currency">Currency risk <span class="who">Session 11</span></h3>
 <p>Floating currencies are set by supply and demand, more efficient and more volatile. Fixed or pegged currencies need reserves covering the currency in circulation; pegs to the dollar have on average ended badly because only the Fed prints dollars. Convertibility is the ease of buying, selling or exchanging a currency (UN criteria in Top 25). There are 182 official currencies for 193 UN members. A currency future is a standardized exchange-traded contract, usually against USD in units like EUR 125,000, mostly closed before delivery. A forward is the over-the-counter bank hedge. Rising interest rates attract savings and appreciate the currency. The Big Mac Index is purchasing power parity shorthand. S&amp;P, Moody's and Fitch remain the only credible rating agencies.</p>
 
 <div class="calc" id="fwd">
@@ -551,7 +581,7 @@ button.ghost:hover{background:var(--surface)}
   <div class="fn">Defaults are the 8 Oct 2026 class example: EUR/GBP spot 0.8479, EURIBOR 180d 3.013 percent, SONIA 180d 3.732 percent, forward for 8 Apr 2027. Set both rates equal and the forward returns to spot.</div>
 </div>
 
-<h3>Credit ratings and German banking <span class="who">Session 12</span></h3>
+<h3 id="s-ratings">Credit ratings and German banking <span class="who">Session 12</span></h3>
 <p>Investment grade is BBB- and above. In 2012 CaixaBank, Sabadell and Bankinter fell below it when Spain neared default; Santander and BBVA kept it through global diversification. Public banks carry their sovereign's rating. The German case then asks whether a century-old relationship-banking system had to change.</p>
 <div class="tbl"><table>
 <tr><th>Relationship (German) banking</th><th>Capital-market (Anglo-Saxon) banking</th></tr>
@@ -568,7 +598,7 @@ button.ghost:hover{background:var(--surface)}
 <li><b>Downturn 2002:</b> every big commercial bank except Deutsche posted losses; Ackermann floated a state bad bank; Schröder promised a Mittelstand bank. Closing line: banks lend you an umbrella when it is sunny and take it back when it rains.</li>
 </ul>
 
-<h3>Trade finance and factoring <span class="who">Session 14</span></h3>
+<h3 id="s-factoring">Trade finance and factoring <span class="who">Session 14</span></h3>
 <p>Factoring gives liquidity up to 90 percent of invoice value, debtor risk cover up to 100 percent, off-balance-sheet treatment and better ratios, and professional collections. The factor sets a credit limit per debtor, buys the guaranteed invoices, withholds a reserve for credit notes and pays the fundable amount up to the client's funding limit. Three misconceptions on the deck: it is too expensive (cheaper than running collections yourself), only weak companies use it (now a mainstream product), you lose control of clients (the relationship is professionalized). It ties you to one bank. Listed corporates factor at quarter-end to dress ratios; fintechs offer non-recourse lines of USD 100 to 200m with 25 staff; Coface insures the banks that buy receivables. Cash conversion cycle: cut DSO, trim idle inventory, stretch DPO; permanent current assets need long-term funding.</p>
 
 <figure>
@@ -716,21 +746,23 @@ button.ghost:hover{background:var(--surface)}
 
 <div class="testwrap" id="tab-test" hidden>
   <div class="testhead">
-    <div><h2>Practice exam</h2><div class="kick">Every version draws 40 of the 50 questions, shuffles the question order across all topics and shuffles the answer order, so you learn the facts, not the positions. Answers mark themselves; the attempt saves automatically when you finish.</div><div class="ver">Version <span id="vseed">0000</span> · 40 questions · answers shuffled</div></div>
+    <div><h2>Practice exam</h2><div class="kick">Every version draws 40 of the <span class="bankn">130</span> questions in the bank, balanced across every session and case, with question order and answer order shuffled. Answers mark themselves. When you finish, the attempt is saved and a study room opens with every miss explained and linked to the section to re-read.</div><div class="ver">Version <span id="vseed">0000</span> · <span id="vmeta">40 questions</span></div></div>
     <div class="btns"><button type="button" class="ghost" id="finish">Finish and save</button><button type="button" class="pri" id="newver">New version</button></div>
   </div>
-  <div class="result" id="result" hidden><div class="big"><span id="rsc">0</span><small>/ 40</small></div><div><p><b id="rmsg"></b></p><p id="rsub"></p></div></div>
+  <div class="result" id="result" hidden><div class="big"><span id="rsc">0</span><small>/ <span id="rn">40</span></small></div><div><p><b id="rmsg"></b></p><p id="rsub"></p></div></div>
   <div class="quizbar">
-    <div class="score"><span id="sc">0</span> / 40 <small id="scsub">0 answered</small></div>
+    <div class="score"><span id="sc">0</span> / <span id="scn">40</span> <small id="scsub">0 answered</small></div>
     <div class="prog"><i id="pg"></i></div>
     <span class="vb">v<span id="vseed2">0000</span></span>
   </div>
+  <div class="room" id="room" hidden></div>
   <div id="quizroot"></div>
   <div class="hist" id="hist">
     <div class="hh"><h3>Your attempts</h3><button type="button" class="ghost" id="clearhist">Clear history</button></div>
     <p class="empty" id="histempty">No saved attempts yet. Finish a version and it appears here. Saved in this browser only.</p>
     <div class="tbl" id="histtbl" hidden><table><thead><tr><th>#</th><th>When</th><th>Version</th><th class="n">Score</th><th></th><th></th></tr></thead><tbody id="histbody"></tbody></table></div>
   </div>
+  <div class="hist" id="weak" hidden></div>
 </div>
 <div class="tip" id="tip"></div>
 <script>
@@ -743,6 +775,7 @@ button.ghost:hover{background:var(--surface)}
   document.querySelectorAll('a.totest').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('test',true);location.hash='test'}));
   function route(){if(location.hash==='#test'){show('test',false)}else{show('study',false);const id=location.hash.slice(1);const el=id&&document.getElementById(id);if(el)el.scrollIntoView()}}
   window.addEventListener('hashchange',route);route();
+  document.addEventListener('showtab',e=>show(e.detail,false));
   const links=[...document.querySelectorAll('.rail a:not(.totest)')];const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
   if(!('IntersectionObserver' in window)||!secs.length)return;
   const set=id=>links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));
@@ -897,109 +930,334 @@ function fmt(n){return n.toLocaleString('en-US')}
     d.addEventListener('click',tog);d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog()}});root.appendChild(d)});
 })();
 
-/* Quiz: seeded versions, 40 of 50, shuffled options, saved attempts */
+/* Quiz: 130-question bank across every session, stratified 40-question versions, study room for misses */
 (function(){
-  const Q=[
-  ['Plamar and factoring',[
-  ['In June 2003 Plamar\'s estimated cost for a plant abroad producing 300,000 handles and 300,000 seals a month was:',['USD 100,000','USD 300,000','USD 1 million','USD 3 million'],1],
-  ['On Plamar\'s 31 Dec 2002 balance sheet, accounts receivable were roughly what share of total assets?',['One tenth','One fifth','One third','One half'],2],
-  ['Converted at the rate used in class, Plamar\'s cash in hand was approximately:',['USD 7,000','USD 70,000','USD 700,000','USD 97 million'],1],
-  ['The decisive reason given in class for choosing Guatemala was:',['Largest plastics market in the region','Free trade agreement with Mexico giving access to the US','Shared currency with Venezuela','Lowest corporate tax in Latin America'],1],
-  ['Brazil was dismissed as Plamar\'s destination mainly because:',['It had no plastics industry','Lula had just taken office and the market was too big and expensive for Plamar\'s funds','Portuguese language','It banned foreign plastics firms'],1],
-  ['Factoring without recourse means:',['The seller must buy back unpaid invoices','The factor absorbs the debtor\'s default risk and receivables leave the balance sheet','Only one invoice is financed at a time','The bank charges no fee'],1],
-  ['The main difference between discounting and factoring is:',['Discounting is cheaper','Factoring covers the whole receivables book; discounting is bill by bill and always with recourse','Factoring requires a letter of credit','Discounting is only for exports'],1],
-  ['Factoring works best for an SME whose:',['Debtors are high quality','Debtors are small and fragmented','Sales are in cash','Receivables are overdue'],0],
-  ['Plamar\'s typical sources of finance before 2003 were:',['Bank loans and bonds','Venture capital','Suppliers and own cash flow','Government grants'],2],
-  ['Why did banks refuse Plamar loans?',['Lack of guarantees or collateral','The company was loss-making','It had no export sales','Venezuelan law forbade SME lending'],0],
-  ['About what share of Plamar\'s annual sales fell between September and December, and why?',['20 percent, school season','50 percent, Venezuelans paint homes before Christmas','75 percent, harvest','10 percent, holidays'],1],
-  ['Plamar\'s first export customer was in:',['Guatemala','Bolivia','The Dominican Republic','Brazil'],2],
-  ['Typical factoring cost mentioned in class:',['0.1 percent','1 to 2 percent of receivables','10 percent','25 percent'],1]]],
-  ['Asian financial crisis',[
-  ['The first warning sign in the HBS chronology (5 Feb 1997) was:',['Thailand floating the baht','Somprasong Land missing a USD 3.1 million interest payment','Korea\'s IMF request','Suharto\'s resignation'],1],
-  ['When Thailand floated the baht on 2 July 1997 it immediately fell about:',['5 percent','15 percent','50 percent','75 percent'],1],
-  ['The two policy measures finance ministries used in response to the crisis were:',['Lower rates and float currencies','Raise interest rates and peg currencies to the US dollar','Capital controls and devaluation','Nationalization and tariffs'],1],
-  ['Which country was the only one in IMF history to reject IMF aid?',['Thailand','Indonesia','Malaysia','South Korea'],2],
-  ['Korea\'s December 1997 IMF-led package was initially:',['USD 16 billion','USD 23 billion','USD 40 billion','USD 55 billion'],3],
-  ['"Original sin" refers to:',['Corruption in emerging markets','Borrowing in a hard currency rather than your own','Running a current account deficit','Fixed exchange rates'],1],
-  ['In Korea, IMF conditions pushed short-term interbank rates to about:',['5 percent','10 percent','30 percent','100 percent'],2],
-  ['When a company is liquidated, who is paid first according to class?',['Suppliers','Employees','Banks','Government (taxes and social security)'],3],
-  ['The Thai stock market fell approximately how much during the crisis (deck figure)?',['25 percent','50 percent','75 percent','90 percent'],2],
-  ['A rise in non-performing loans is best described as:',['A lagging indicator of recovery','An early warning of a liquidity crisis','A sign of strong lending','Irrelevant to country risk'],1]]],
-  ['Société Générale and currency risk',[
-  ['Société Générale\'s loss attributed to Kerviel\'s unauthorized trades was:',['EUR 1.4 billion','EUR 2 billion','EUR 4.9 billion','EUR 7.2 billion'],2],
-  ['How many alerts did control agents receive about Kerviel\'s activity between late 2006 and early 2008?',['7','24','74','947'],2],
-  ['Kerviel\'s background that helped him evade controls was:',['He was a former auditor','He started in the middle office','He was a Polytechnique graduate','He ran the compliance department'],1],
-  ['The DLP desk\'s authorized net risk limit was:',['EUR 125 million','EUR 1.25 billion','EUR 5 billion','EUR 50 billion'],0],
-  ['Which control did Kerviel avoid by taking only four days off in 2007?',['Daily position reports','The mandatory two-week vacation that lets someone else run the book','Eurex reporting','Basel II capital charges'],1],
-  ['The anomaly that finally exposed the fraud came from:',['A Eurex letter','A Cooke ratio check on eight forwards with a fictitious counterparty','A whistleblower','The annual audit'],1],
-  ['Nick Leeson\'s losses that sank Barings in 1995 were about:',['GBP 82 million','GBP 827 million','GBP 8.2 billion','GBP 4.9 billion'],1],
-  ['With spot EUR/GBP 0.8479, EURIBOR 3.013 percent and SONIA 3.732 percent for 180 days, the forward is approximately:',['0.8449','0.8479','0.8509','0.8809'],2],
-  ['If the two currencies\' interest rates are identical, the forward rate:',['Is below spot','Equals spot','Is above spot','Cannot be calculated'],1],
-  ['Which of these is NOT one of the UN criteria for a freely convertible currency?',['Residents and non-residents may buy unlimited foreign currency','No central bank authorization is needed','The currency is traded internationally and widely used','The currency is backed by gold'],3],
-  ['Which currency is NOT fully convertible?',['Swiss franc','Chinese yuan','Japanese yen','Canadian dollar'],1],
-  ['The exporter\'s core lesson from the SocGen case is:',['Hire more traders','Never speculate on currency; hedge every open position with a forward','Use only US dollars','Avoid derivatives entirely'],1],
-  ['Banks make money on FX mainly from:',['Predicting rates','The bid-ask spread','Government subsidies','Currency futures'],1]]],
-  ['Ratings and German banking',[
-  ['Investment grade on the S&P scale is:',['A- and above','BBB- and above','BB+ and above','AA and above'],1],
-  ['The Basel minimum capital ratio is:',['4 percent','8 percent','10 percent','20 percent'],1],
-  ['The three pillars of Basel II are:',['Credit, market, operational risk','Minimum capital, supervisory review, market disclosure','Banks, insurers, regulators','Equity, debt, hybrids'],1],
-  ['The German Mittelstand\'s "Achilles\' heel" according to the case is:',['Low exports','Thin equity base','Too many patents','High wages'],1],
-  ['Which was NOT one of the July 2002 Basel Committee concessions?',['Loans under EUR 1 million treated as retail','Lower risk weights for firms with EUR 1 to 50 million turnover','No long-term surcharge for firms up to EUR 500 million','Abolition of the 8 percent ratio'],3],
-  ['Negative working capital is normal for which type of company?',['A carmaker','A supermarket','A shipbuilder','An airline manufacturer'],1],
-  ['German state guarantees for Landesbanken and Sparkassen were agreed to be phased out after:',['2001','2003','2005','2010'],2]]],
-  ['Neira\'s frameworks and Zara',[
-  ['In the Ansoff matrix, offering an existing product in a new geography is:',['Market penetration','Product development','Market development','Diversification'],2],
-  ['A resource that is valuable and rare but easy to imitate gives:',['Competitive disadvantage','Competitive parity','Temporary competitive advantage','Sustained competitive advantage'],2],
-  ['According to Frankel and Rose (cited by Ghemawat), a colony-colonizer relationship increases trade by about:',['80 percent','200 percent','340 percent','900 percent'],3],
-  ['Star TV\'s biggest mistakes in Asia were ignoring which two CAGE dimensions?',['Geographic and economic','Cultural and administrative','Economic and cultural','Geographic and administrative'],1],
-  ['The fastest form of international expansion on the entry-mode deck is:',['Licensing','Franchising','Greenfield subsidiary','Export department'],1],
-  ['Which statement about a branch versus a subsidiary is correct?',['A branch has its own legal entity','A subsidiary\'s liabilities extend to the parent','A branch is not a separate legal entity and its liabilities extend to the parent','A branch can carry out different activities from the parent'],2],
-  ['Zara\'s replenishment rate and advertising spend as a share of revenue are approximately:',['28 percent and 3.5 percent','2.8 percent and 0.3 percent','17 percent and 4.2 percent','0.3 percent and 15 percent'],1]]]];
+  const REF={top25:'Top 25 facts','s-trends':'Global trends','s-benefits':'Benefits and reasons','s-ready':'Ready to internationalize','s-where':'Where: market selection','s-how':'How: entry modes','c-zara':'Zara case file','c-ghemawat':'Distance Still Matters','s-risk':'Managing risk (sessions 3-4)','s-contract':'ICC contract','s-asia':'Asian financial crisis','c-asia':'Asian crisis chronology','s-currency':'Currency risk','c-socgen':'Société Générale case file','s-ratings':'Ratings and German banking','c-germany':'Banking on Germany case file','s-factoring':'Trade finance and factoring','c-plamar':'Plamar case file'};
+  const B=[];function q(t,txt,o,a,e,r){B.push({id:B.length,t,txt,o,a,e,r})}
+  /* ---- Global trends (sessions 1-2, 5-6) ---- */
+  const T1='Global trends';
+  q(T1,'According to session 1, what share of today\'s Fortune 500 companies is expected to be gone in seven years?',['About 10 percent','About 25 percent','About 50 percent','About 90 percent'],2,'Half of today\'s list is expected to disappear in 7 years; almost 90 percent of the 1955 list is already gone. The point: disruption is accelerating.','s-trends');
+  q(T1,'The three primary drivers of industry disruption in the course are:',['Technology, demographics, globalization','Regulation, capital, talent','Interest rates, tariffs, oil','Platforms, data, AI'],0,'Technology is the enabler, demographics the silent force, globalization the amplifier.','s-trends');
+  q(T1,'In Neira\'s framing, which driver is called "the amplifier"?',['Technology','Demographics','Globalization','Urbanization'],2,'Globalization amplifies disruption: trade wars and protectionism spread within 24 hours and emerging-market competitors win on price.','s-trends');
+  q(T1,'Amazon Go was used in class as an example of:',['A platform that owns no assets','Combinatory technology stacking computer vision, deep learning and sensor fusion','Urbanization driving demand','A failed incumbent'],1,'Modern technologies are open and combine easily, which is why cycles are now monthly rather than once a century.','s-trends');
+  q(T1,'Roughly what share of global GDP is generated around cities?',['30 to 40 percent','50 to 60 percent','80 to 85 percent','Close to 100 percent'],2,'Cities attract talent and ideas; Asia holds over half of the 32 megacities, with 41 expected by 2030.','s-trends');
+  q(T1,'What share of internet users buy across borders, per session 5?',['About 12 percent','About 35 percent','About 50 percent','About 80 percent'],0,'Distance still matters online: only 12 percent buy cross-border and cross-border e-commerce is about USD 700 billion, around 8 percent of the population.','s-trends');
+  q(T1,'Alibaba owning no warehouses, Airbnb no hotels and Uber no taxis illustrates what advantage for internationalization?',['Asset-light models expand abroad faster','Vertical integration lowers cost','Economies of scale in manufacturing','Government incentives'],0,'Asset-light platforms built on a technology stack rather than product-specific assets can enter new markets quickly.','s-trends');
+  q(T1,'Why did Kodak, Blockbuster and Nokia fail, according to the class?',['They lacked the data','Cultural resistance stopped them acting on data they had','Regulation blocked them','They expanded abroad too early'],1,'All three had the information; the failure was cultural. The lesson: disrupt yourself before someone else does.','s-trends');
+  q(T1,'McKinsey, cited in session 1: what share of international purchasing decisions is driven by lower price?',['20 percent','40 percent','60 percent','80 percent'],2,'Emerging-market competitors produce decent quality at a fraction of European prices; Chinese car brands took about 15 percent of Spain\'s market in five years.','s-trends');
+  q(T1,'Which regions were named as leading the next wave of growth and half of urban growth?',['Southeast Asia, Africa, China and India','North America and Western Europe','Russia and Central Asia','Latin America and the Gulf'],0,'Growth is shifting; these four regions are expected to host about 50 percent of urban growth.','s-trends');
+  /* ---- Benefits and reasons (session 5) ---- */
+  const T2='Benefits and reasons';
+  q(T2,'IDE Technologies making snow for ski resorts in both Switzerland and South Africa illustrates which reason to internationalize?',['Leveling out seasonal fluctuations in demand','Access to raw materials','First-mover advantage','Avoiding tariffs'],0,'Operating in both hemispheres keeps revenue steady; ham and cava at Christmas and a Tanzanian fintech in tourist season were the other seasonality examples.','s-benefits');
+  q(T2,'IKEA entering Japan "to expose ourselves to the toughest competition in the world" is an example of:',['Serving global customers','Learning benefits','Tax reasons','Excess capacity'],1,'Learning benefits: ideas, technologies and knowledge gained from being in a foreign market, which need a global knowledge infrastructure to spread.','s-benefits');
+  q(T2,'Netflix opening an office in France to build ties with producers and sales agents illustrates:',['Building trust and partnerships with local players','Extending the product life cycle','Resource seeking','Reacting to a competitor'],0,'The deck lists investing in rewarding relationships with foreign partners and building trust with local players as a foreign-market reason.','s-benefits');
+  q(T2,'"Offense as defense" in the competition bucket means:',['Lowering prices at home','Entering a rival\'s home market, usually in retaliation, to force it to spend resources there','Buying the competitor','Lobbying for tariffs'],1,'The objective is to make the competitor allocate more resources to defending its own market.','s-benefits');
+  q(T2,'Economies of scope are savings that come from:',['Producing more units of one product','Producing multiple products with the same resource or capability','Lower wages abroad','Government subsidies'],1,'Scope shares tangible resources like distribution networks or intangible ones like a global brand; scale is about volume of one product.','s-benefits');
+  q(T2,'Which of these is a HOME-market reason to internationalize?',['Saturation of the domestic market','Serving global customers','Access to strategic assets abroad','A pull effect from high foreign demand'],0,'Home-market push reasons: small market, slow growth, saturation, seasonality, excess capacity, regulation, recession, diversification.','s-benefits');
+  q(T2,'Uber in Spain appears on the deck as an example of which reason?',['Changes in regulation','Economies of scale','Access to talent','Learning benefits'],0,'Regulation changes, tax reasons and government incentives are the bucket that applies to both home and foreign markets.','s-benefits');
+  q(T2,'According to the session 5 deck, H&M opening in India in 2017 after Zara entered in 2010 is an example of:',['A follower move reacting to a competitor','First-mover advantage','Economies of scope','Serving global customers'],0,'Zara\'s profits in India signalled the market worked; H&M followed. Note the recording reversed the order; trust the deck.','s-benefits');
+  q(T2,'A steel wire rod producer that needs about 85 percent utilization to stay above break-even internationalizes mainly to:',['Fill excess capacity','Reduce currency risk','Access technology','Follow a competitor'],0,'Orders from abroad keep plants above the threshold where fixed costs are covered.','s-benefits');
+  q(T2,'National Geographic licensing its brand to clothing and stores in Spain, London and Panama illustrates:',['Economies of scope through an intangible resource','Economies of scale in printing','Tax arbitrage','A turnkey project'],0,'A globally recognized brand is an intangible resource shared across businesses: scope, not scale.','s-benefits');
+  q(T2,'The "pull effect" on the deck refers to:',['Countries where there is high demand for the offering','Government incentives to export','Competitors pulling out of a market','Currency appreciation'],0,'Consumer goods, food, healthcare and housing were the examples of high-demand categories.','s-benefits');
+  /* ---- Ready (session 6) ---- */
+  const T3='Ready: Porter, Ansoff, VRIO';
+  q(T3,'In session 6, strategy is defined as:',['The company\'s goals, such as being number one','A single action such as a merger','How the firm competes and the competitive advantage it is based on','The vision and values statement'],2,'Strategy is different from goals, from a particular action and from vision or values. It answers how we will be unique.','s-ready');
+  q(T3,'The three analyses that determine readiness to internationalize are:',['External, internal, resources and capabilities','Cost, revenue, profit','Legal, fiscal, cultural','Product, price, place'],0,'External uses Porter\'s five forces; internal uses generic strategies and Ansoff; resources use RBV and VRIO.','s-ready');
+  q(T3,'The first step in applying Porter\'s five forces, per the deck and the class, is:',['Rank competitors by size','Identify the industry and its boundaries','Calculate market share','Survey customers'],1,'Identify the industry, identify the players, then analyze each force in sequence. Blurry boundaries misclassify competitors and customers.','s-ready');
+  q(T3,'The A380 needing roughly 400 units to break even on about USD 18 billion of development is an example of which entry barrier?',['Economies of scale','Access to distribution','Government barriers','Retaliation'],0,'Large indivisible investments that must be amortized over big volumes deter entrants.','s-ready');
+  q(T3,'Mercadona limiting which brands appear on its shelves is an example of:',['Capital requirements','Access to distribution channels as a barrier','Product differentiation','Absolute cost advantage'],1,'Consumer goods depend on retailer shelf space; the internet has reduced but not removed this barrier.','s-ready');
+  q(T3,'Zara making most of its own clothes, unlike Gap and H&M, appears in the five forces deck as an example of:',['Vertical integration affecting bargaining power','Product differentiation','Exit barriers','Substitutes'],0,'Doing it yourself rather than depending on suppliers changes the balance of power in the input market.','s-ready');
+  q(T3,'Ferrari and Porsche are examples of which generic strategy?',['Cost leadership','Differentiation focus','Cost focus','Market penetration'],1,'Walmart is cost leadership, Apple differentiation, Lidl and Aldi cost focus, Ferrari and Porsche differentiation focus.','s-ready');
+  q(T3,'Coca-Cola adding new flavors for its existing customers is which Ansoff strategy?',['Market penetration','Product development','Market development','Diversification'],1,'New product, existing market, usually leaning on a trusted brand.','s-ready');
+  q(T3,'Market penetration is only possible when:',['The market is growing and not yet saturated','The company has a patent','Competitors have left','Prices are rising'],0,'Penetration aims to hold or grow share, dominate growth markets, restructure a mature market by pricing, or raise usage.','s-ready');
+  q(T3,'Diversification in the Ansoff matrix is mainly justified by:',['Economies of scope from applying existing capabilities to new products and markets','Lower taxes','First-mover advantage','Currency hedging'],0,'Alphabet and Samsung were the examples; it is the most complex and risky cell.','s-ready');
+  q(T3,'Under the resource-based view, which resources are the main source of sustainable advantage and why?',['Tangible assets, because they can be bought','Intangible assets, because they are heterogeneous and immobile','Financial assets, because they are liquid','Physical assets, because they are visible'],1,'Brand, know-how and culture cannot be bought in markets or moved between firms quickly.','s-ready');
+  q(T3,'In VRIO, a resource that is valuable but not rare gives:',['Competitive disadvantage','Competitive parity','Temporary advantage','Sustained advantage'],1,'The ladder: not valuable = disadvantage; not rare = parity; imitable = temporary; not organized = unexploited; all four = sustained.','s-ready');
+  q(T3,'"Costly to imitate" in VRIO comes from:',['Low prices','Time, causal ambiguity and social complexity','Patents only','Government protection'],1,'Resources built over long periods, whose causes are hard to see, or embedded in culture are hard to copy.','s-ready');
+  q(T3,'How long a ramp-up before profitability did Neira say to plan for when entering a new country?',['1 to 3 months','6 to 18 months','3 to 5 years','No ramp-up if the plan is good'],1,'Hold enough funding for capex and working capital through that period. "Spreadsheets can say anything, reality cannot."','s-ready');
+  q(T3,'Disney\'s enduring affection among generations of fans is used in the deck as an example of:',['A tangible resource','An intangible resource','A capability in operations','An entry barrier'],1,'Theme parks and studios are tangible; the affection for its characters is the intangible resource that sustains advantage.','s-ready');
+  /* ---- Where (session 7 + Ghemawat) ---- */
+  const T4='Where: CAGE and selection';
+  q(T4,'Who said "companies routinely exaggerate the attractiveness of foreign markets and that can lead to expensive mistakes"?',['Michael Porter','Pankaj Ghemawat','Dorota Górecka','Igor Ansoff'],1,'The quote opens the Where deck and the article Distance Still Matters.','s-where');
+  q(T4,'Who is quoted saying that selecting foreign markets is one of the most critical decisions in international entry strategy?',['Dorota Górecka','Pankaj Ghemawat','Jay Barney','Pete Bassi'],0,'The Górecka quote closes the key takeaways slide.','s-where');
+  q(T4,'In the market-selection process, SMART goals are:',['Specific, Measurable, Achievable, Relevant, Time-limited','Simple, Modern, Agile, Realistic, Tested','Strategic, Marketable, Affordable, Rapid, Tangible','Sales, Margin, Assets, Revenue, Turnover'],0,'Goals also need some flexibility as priorities change, as during COVID.','s-where');
+  q(T4,'Which tool belongs to the preliminary (macro) screening stage?',['PESTEL','CAGE','Porter\'s five forces','VRIO'],0,'PESTEL first, CAGE second, Porter plus detailed market analysis in-depth, then the competitive advantage equation.','s-where');
+  q(T4,'The competitive advantage equation says advantage is achieved when:',['Company resources and capabilities match country specifics and industry success factors','Prices are below competitors','The market is the largest available','Government incentives exist'],0,'All three must align; strength in one cannot compensate for weakness in another.','s-where');
+  q(T4,'Administrative and political distance most affects products that governments see as:',['Vital to national security, such as telecommunications','Low value-to-weight, such as cement','High in linguistic content, such as TV','Income-sensitive, such as cars'],0,'Also national champions (aerospace), staples, entitlements, large employers, natural resources and high sunk-cost industries.','s-where');
+  q(T4,'Geographic distance matters most for which product?',['Cement','Television programming','Luxury cars','Software'],0,'Heavy or bulky goods, fragile or perishable goods, and services needing communication links or local supervision are most sensitive.','s-where');
+  q(T4,'Japanese consumers preferring small cars and appliances is an example of which CAGE dimension?',['Cultural distance','Administrative distance','Geographic distance','Economic distance'],0,'Social norms shape product features; consumer durables and food are especially culture-sensitive.','s-where');
+  q(T4,'Cars are the Ghemawat example for which dimension of distance?',['Economic distance, because demand varies with income','Geographic distance','Cultural distance','Administrative distance'],0,'Economic distance also matters where labor costs differ (garments) and where scale and standardization matter (mobile phones).','s-where');
+  q(T4,'Per Frankel and Rose, a common language raises bilateral trade by about:',['50 percent','200 percent','340 percent','900 percent'],1,'Border +80, ocean access +50, language +200, common colonizer +190, polity +300, bloc +330, currency +340, colony-colonizer +900.','s-where');
+  q(T4,'Trade between countries 5,000 miles apart is roughly what fraction of trade between countries 1,000 miles apart?',['80 percent','50 percent','20 percent','5 percent'],2,'A 1 percent increase in physical distance cuts trade about 1.1 percent.','c-ghemawat');
+  q(T4,'Star TV\'s losses in Asia between 1996 and 1999 came to about:',['USD 50 million','USD 141 million','USD 500 million','USD 825 million'],2,'USD 141 million was the fiscal 1999 loss alone; USD 825 million was what News Corp paid for Star.','c-ghemawat');
+  q(T4,'After adjusting country portfolio analysis for distance, Tricon\'s ranking of Mexico moved from:',['2nd to 16th','16th to 2nd','20th to 10th','1st to 5th'],1,'Proximity to Dallas, a shared border and a trade agreement with the US transformed the opportunity.','c-ghemawat');
+  q(T4,'In the survey of nearly 100 multinationals in China cited by Ghemawat, what share said performance was worse than planned?',['25 percent','54 percent','62 percent','90 percent'],1,'54 percent worse than planned; 62 percent admitted overestimating market potential.','c-ghemawat');
+  q(T4,'The main flaw of country portfolio analysis is that it:',['Uses too many variables','Focuses on potential sales and ignores the costs and risks created by distance','Ignores GDP','Only works for services'],1,'It plots per-capita income against penetration with bubbles for market size, so big markets always look attractive.','c-ghemawat');
+  q(T4,'Why is Walmart Canada "a carbon copy" while Walmart India would be a different business?',['Replicators of a business model should target economically similar countries','Canada has lower taxes','India bans retail FDI','Canada is larger'],0,'Companies relying on scale and standardization replicate best in similar economies; arbitrageurs like garment makers seek different ones.','c-ghemawat');
+  q(T4,'Which company-specific feature reduces cultural distance, per Ghemawat?',['A large cadre of cosmopolitan managers','A bigger advertising budget','Lower prices','A domestic-only supply chain'],0,'Company characteristics increase or reduce distance; for Tricon, already owning four fifths of its Mexican outlets made Mexico even more attractive.','c-ghemawat');
+  q(T4,'Which of these is a payment method rather than a term of sale in the country-goals checklist?',['Letter of credit','FOB','CIF','Ex Works'],0,'Payment methods: cash in advance, open account, letter of credit. Terms of sale: Ex Works, FOB, CIF.','s-where');
+  q(T4,'India and Pakistan share history, a border and language yet trade almost nothing. Which distance explains it?',['Administrative and political hostility','Geographic','Economic','Cultural'],0,'Ties must be friendly to boost trade; political hostility creates administrative distance.','s-where');
+  q(T4,'The four key takeaways of the Where session include all EXCEPT:',['Systematic analysis beats intuition','Progressive screening saves resources','Alignment between company and market is critical','Always choose the largest market'],3,'The fourth takeaway is the risk-return trade-off: match entry mode to your risk tolerance.','s-where');
+  /* ---- How (session 9) ---- */
+  const T5='How: entry modes';
+  q(T5,'An agent in indirect export:',['Buys the goods and resells them','Sells on commission, does not take title, and the customers belong to the exporter','Owns the customers and demands exclusivity','Manufactures locally under licence'],1,'A representative is a specialized agent for an area or product line. Agents may carry competing products.','s-how');
+  q(T5,'A distributor differs from an agent because a distributor:',['Buys your product, resells it and owns the customer relationship','Works purely on commission','Cannot handle logistics','Is always exclusive to you'],0,'Distributors usually want exclusive territory rights and you lose visibility of end customers and pricing.','s-how');
+  q(T5,'Japan\'s sogo shoshas handle roughly what share of the country\'s exports and imports?',['10 percent of exports, 20 percent of imports','50 percent of exports, 75 percent of imports','75 percent of exports, 50 percent of imports','All foreign trade'],1,'Trading companies give full service but buy on behalf of foreign clients, so they have no loyalty to the exporter.','s-how');
+  q(T5,'An importer or export management company:',['Acts as your export department and may even work under your name','Never handles after-sales service','Requires equity investment','Is a form of FDI'],0,'They know local conditions, handle documentation and customs, may take promotion responsibility and often ask for exclusivity. A low-cost option.','s-how');
+  q(T5,'Lee and Wrangler selling through foreign retail chains under their own brand is an example of:',['Indirect export via agents','Direct export as branded manufacturers','Franchising','A joint venture'],1,'Direct export routes: internet, wholesalers, branded manufacturers, export department.','s-how');
+  q(T5,'An in-house export department makes most sense for:',['Low-value consumer goods','High-technology or high-value B2B products with complex sales, once indirect volume justifies it','Perishable food','Any company at its first export'],1,'The deck ties it to complex industrial sales and to the moment indirect exports grow enough to manage internally.','s-how');
+  q(T5,'Which of these is NOT a contractual agreement on the deck?',['Turnkey project','Licensing','Franchising','Representative office'],3,'Contractual agreements: turnkey, subcontracting, licensing, franchising, strategic alliances and JVs. A representative office is FDI.','s-how');
+  q(T5,'A municipal waste-collection concession is classified under:',['Turnkey projects and concessions','Franchising','Subcontracting','Greenfield FDI'],0,'Turnkey covers complete construction of a plant or infrastructure handed over on completion, plus concessions.','s-how');
+  q(T5,'A McFlurry with Oreo or Meta Ray-Ban glasses are examples of:',['Co-branding: two companies create a new joint product','Co-marketing: joint promotion of two existing products','Franchising','Turnkey'],0,'Co-marketing is joint promotion using each other\'s distribution (Starbucks and Spotify); co-branding creates a new combined product.','s-how');
+  q(T5,'Licensing is especially useful when:',['Import restrictions block other entry modes or the country is sensitive to foreign ownership','You want maximum control of marketing','You have abundant capital','Speed does not matter'],0,'Advantages: low capital. Risks: wrong partner, quality and payment problems, loss of marketing control.','s-how');
+  q(T5,'In franchising, the franchisee provides:',['The standard package of products and systems','Market knowledge, capital and personal involvement in management','The brand and training only','Nothing but a fee'],1,'The franchisor supplies the standard package, systems and management services. It blends skill centralization with operational decentralization.','s-how');
+  q(T5,'Which entry mode did the deck call the fastest system of expansion of all?',['Licensing','Franchising','Greenfield subsidiary','Export department'],1,'Fast, low investment and usually welcomed by governments because it creates local ownership; the risks are local taste and control.','s-how');
+  q(T5,'Which is NOT one of the three features that distinguish strategic alliances from other interfirm relationships?',['Partners depend on each other\'s collaborative effort','Knowledge is exchanged','Trust is central because a contract cannot foresee every risk','One partner must hold a majority stake'],3,'Alliances can be equity JVs or non-equity partnerships; no majority is required.','s-how');
+  q(T5,'Organizational fit in partner selection includes:',['Good chemistry between managers, similar cultures, a valued reputation, compatible decision systems and a common time horizon','Identical products','The same home country','A shared bank'],0,'Strategic fit means complementarity; organizational fit is about people and systems working together.','s-how');
+  q(T5,'A non-equity alliance:',['Forms a new jointly owned company','Involves no exchange of equity, is limited in scope and is easier to dissolve','Is always permanent','Requires a government licence'],1,'Examples: technology exchange, joint R&D, joint product development, joint distribution.','s-how');
+  q(T5,'About what share of strategic alliances fail, and what is the main reason?',['10 percent; regulation','30 percent; currency','60 percent; poor partner selection and lack of trust','90 percent; bad products'],2,'Alliances involve uncertainty, evolve unpredictably and eventually end. Today\'s ally may be tomorrow\'s rival.','s-how');
+  q(T5,'A representative office abroad can:',['Buy and sell directly','Run production','Only carry out marketing and promotional activities on behalf of the parent','Sign contracts as a separate legal entity'],2,'It is a first step for building relationships with customers or suppliers; it cannot conduct production or trade directly.','s-how');
+  q(T5,'Which statement about a branch is correct?',['It is a separate legal entity','Its liabilities extend to the parent company and it performs the same activities as the parent','It can only be 50 percent owned','It is taxed only in the home country'],1,'A subsidiary has its own legal entity, is taxed where formed, can do different activities, and liability is limited to it.','s-how');
+  q(T5,'A greenfield investment\'s main advantages are:',['Speed and immediate market access','Tight control, no risk of losing technology to a competitor, and local job creation','Income from day one','Inheriting an existing customer base'],1,'Disadvantages: lengthy, faces competition before it is set up, and needs research time.','s-how');
+  q(T5,'Cross-border M&A offers which advantage over greenfield?',['No integration problems','Faster start with immediate market access and income from day one','Lower risk of inherited liabilities','Guaranteed employee support'],1,'Disadvantages: reactions of directors and employees, and the acquired firm\'s risks pass to the buyer.','s-how');
+  q(T5,'The four criteria on the deck for choosing an entry mode are:',['Resource commitment, risk, return, time frame or speed','Price, product, place, promotion','Size, growth, share, margin','Tax, tariff, quota, subsidy'],0,'Modes rise in commitment, risk and return from indirect export to FDI; speed is the fourth lens.','s-how');
+  q(T5,'Neira\'s practical first step for many companies testing a new market is:',['Build a factory','Start with an agent or distributor before committing capital','Buy a local competitor','Open a flagship store'],1,'Low commitment first, then move up the ladder once the market is understood.','s-how');
+  /* ---- Zara ---- */
+  const T6='Zara';
+  q(T6,'Zara\'s gross profit margin versus the industry standard in 2017 was approximately:',['38 percent versus 57 percent','57.4 percent versus 38.3 percent','70 percent versus 50 percent','25 percent versus 20 percent'],1,'Industry-leading margins despite manufacturing costs about 20 percent higher than offshore rivals.','c-zara');
+  q(T6,'Zara spends what share of revenue on advertising, against an industry norm of about 3.5 percent?',['0.3 percent','1.5 percent','3.5 percent','4.2 percent'],0,'Stores and window displays are the marketing; 4.2 percent of sales was Gap\'s advertising spend.','c-zara');
+  q(T6,'How quickly can Zara move from a sketch to a product ready for shipment?',['2 to 3 days','10 to 15 days','4 to 6 weeks','Up to 9 months'],1,'Traditional retailers like Gap plan up to nine months ahead of two seasonal launches.','c-zara');
+  q(T6,'Zara\'s replenishment rate is about:',['2.8 percent','12 percent','28 percent','50 percent'],0,'Commercials introduce new items weekly and avoid restocking old ones, creating scarcity.','c-zara');
+  q(T6,'How often does the average Zara customer visit per year, versus a brand-loyal shopper elsewhere?',['4 times versus 17','17 times versus 4.1','12 times versus 12','30 times versus 10'],1,'Fresh stock drives repeat visits; scarcity drives immediate purchase.','c-zara');
+  q(T6,'Who places store inventory orders twice a week at Zara?',['Headquarters planners','Store managers, the third level of "commercials"','External consultants','Regional distributors'],1,'Design-team commercials decide what is made, regional commercials link stores to La Coruña, store managers order and observe customers.','c-zara');
+  q(T6,'Roughly what share of Zara\'s products are manufactured in Spain, Portugal or nearby countries?',['Under 10 percent','About 30 percent','Over 60 percent','100 percent'],2,'Rivals outsource most production to low-cost countries; Zara accepts higher cost for speed and accuracy.','c-zara');
+  q(T6,'CEO Pablo Isla said Zara\'s success is based on:',['Speed above all','Accuracy: understanding what customers want week by week and store by store','Heavy advertising','Lowest prices in the market'],1,'He explicitly rejected the term "fast fashion".','c-zara');
+  q(T6,'Between 2012 and 2017 Inditex\'s store count in Spain:',['Rose from 1,688 to 1,930','Fell from 1,930 to 1,688 while stores abroad rose from 4,079 to 5,787','Stayed flat','Doubled'],1,'This is the home-market saturation reason from session 5 shown in one exhibit.','c-zara');
+  q(T6,'Zara represented what share of Inditex\'s EBIT in 2017?',['About 30 percent','About 50 percent','About 70 percent','100 percent'],2,'EUR 16.62 billion of revenue across 2,251 stores and 70.1 percent of EBIT.','c-zara');
+  q(T6,'Inditex\'s initial public offering took place on:',['23 May 2001','1975','1963','2014'],0,'Ortega started dressmaking in 1963, opened the first Zara in La Coruña in 1975 and listed in 2001.','c-zara');
+  q(T6,'The single largest risk in retail apparel, according to the case, and Zara\'s answer to it are:',['Currency; hedging','The fashion miss; reacting to demand in small batches rather than predicting it','Labor cost; offshoring','Rent; smaller stores'],1,'Misses force markdowns of 30 to 40 percent of inventory by up to 60 percent at specialty retailers.','c-zara');
+  q(T6,'Boohoo, the UK "ultra-fast fashion" competitor:',['Takes nine months from concept to sale','Takes about two weeks from concept to sale and puts over 100 new products online daily','Has lower margins than Gap','Manufactures entirely in Spain'],1,'Boohoo\'s gross margin of 52.8 percent rivals Zara\'s.','c-zara');
+  q(T6,'Why did Zara long refuse a store-wide inventory management system?',['It was too expensive','Counting by hand forced store managers onto the floor to interact with customers','Regulation forbade it','Suppliers refused'],1,'Customer interaction fed the ordering decisions that make the model work.','c-zara');
+  q(T6,'Which capability was NOT one of the three analyzed in the class VRIO of Zara?',['Automated distribution network','Decentralized three-tier commercial system','Vertically integrated supply chain','Heavy celebrity advertising'],3,'Zara barely advertises; the three capabilities all passed valuable, rare, costly to imitate and organized.','c-zara');
+  /* ---- Risk and macro (sessions 3-4) ---- */
+  const T7='Risk, contracts and macro';
+  q(T7,'Which of these is NOT one of the eight points of the ICC international contract template?',['Parties involved','Guarantees of payment','Marketing plan','Governing legislation'],2,'Parties, object, transport, terms of payment, guarantees of payment, courts, legislation, risks.','s-contract');
+  q(T7,'The three core transaction risks named by Aguirre are:',['Transport, currency, credit','Political, legal, fiscal','Price, volume, mix','Interest, inflation, growth'],0,'Transport costs are rising, weak currencies make paying in euros expensive, and 120 to 180 day payment windows carry credit risk.','s-contract');
+  q(T7,'What share of international corporate trade is done with letters of credit, per the class?',['About 10 percent','About 25 percent','About 44 percent','About 90 percent'],2,'Letters of credit are created and governed by the ICC.','s-contract');
+  q(T7,'A "guarantee of payment" differs from a "term of payment" because the guarantee is:',['How many days until payment','A security instrument such as a bank bond or deposit ensuring payment is made','The currency of the invoice','The shipping method'],1,'Term = 120, 180 or 360 days; guarantee = the instrument that secures it.','s-contract');
+  q(T7,'Which courts did Aguirre recommend naming in an international contract?',['The exporter\'s home courts','The destination country\'s courts','Any US court','None, rely on goodwill'],1,'Suing from Spain in India is nearly impossible to enforce; London arbitration is only viable for large claims.','s-contract');
+  q(T7,'Cuba\'s average payment term, cited as an extreme example, is about:',['30 days','90 days','180 days','360 days'],3,'Chronic lack of liquidity and dollars stretches terms.','s-contract');
+  q(T7,'The World Bank threshold used in class to separate developed from developing economies is roughly:',['USD 1,000 GDP per capita','USD 10,000 GDP per capita','USD 50,000 GDP per capita','USD 100,000 GDP per capita'],1,'Japan and China being the biggest lenders shows why "poor country" framing can mislead.','s-risk');
+  q(T7,'The two biggest lenders in the world, per session 4, are:',['The US and the UK','China and Japan','Germany and France','Saudi Arabia and the UAE'],1,'China invests heavily in the US to keep the dollar strong and protect its export model.','s-risk');
+  q(T7,'Which strait carries the largest volume of global trade?',['Hormuz','Malacca','Gibraltar','Bosporus'],1,'Malacca is first, Hormuz second with about 27 percent of maritime trade and roughly 20 million barrels a day.','s-risk');
+  q(T7,'Only about how much of Hormuz\'s oil flow can be rerouted through pipelines?',['3.5 million barrels a day','10 million barrels a day','20 million barrels a day','All of it'],0,'Saudi East-West and UAE Fujairah pipelines together carry about 3.5 mb/d against about 20 mb/d transiting the strait.','s-risk');
+  q(T7,'Which was NOT one of the four risks on the sessions 3-4 deck?',['Emerging-market capital flows and external vulnerability','Commodity prices','Debt','Cyber attacks'],3,'The fourth was freight costs.','s-risk');
+  q(T7,'GDP from the expenditure side equals:',['Consumption + investment + government spending + net exports','Wages + profits + rents','Exports minus imports','Taxes minus transfers'],0,'Balance of payments has current, capital and financial accounts.','s-risk');
+  q(T7,'The PMI indicator is:',['A survey of about 50,000 purchasing managers on expected buying over the next 12 months','A measure of past GDP','A credit rating','An inflation index'],0,'A forward-looking demand indicator.','s-risk');
+  q(T7,'Which country taxes both its exporters and its importers, according to Aguirre?',['Spain','Argentina','Germany','China'],1,'Everywhere else exports are tax-free for the exporter; the importer pays.','s-risk');
+  q(T7,'Spain building 700,000 apartments in 2007 and 70,000 in 2008 was used to illustrate:',['Productive investment','Non-productive investment compared with Korea\'s R&D and education','Export-led growth','Dutch disease'],1,'Real estate does little after it is built; patents and education raise productivity.','s-risk');
+  q(T7,'Mankiw\'s principle "the cost of something is what you give up to get it" describes:',['Inflation','Opportunity cost','Comparative advantage','Marginal cost'],1,'The deck lists all ten principles and summarizes them as: trade makes everyone better off, and living standards depend on productivity.','s-risk');
+  q(T7,'Aguirre works for which type of company?',['An investment bank','A trade credit insurer (Coface)','A rating agency','A shipping line'],1,'Coface operates in over 60 countries; its country-risk tool was demonstrated live.','s-risk');
+  q(T7,'Per session 4, every modern economic crisis since 1945 was resolved through:',['Protectionism','Exports','Currency pegs','Debt forgiveness'],1,'Which is why rising protectionism in 2026 worries him.','s-risk');
+  q(T7,'Iberdrola\'s cancelled 80-turbine US offshore project was used to show that:',['Renewables are unprofitable','Political risk exists in developed countries too, not only in Argentina or Iran','US courts are slow','Spain over-invests abroad'],1,'Naturgy\'s expropriation in Colombia, a country rated low political risk, made the same point.','s-risk');
+  q(T7,'Which book did Aguirre recommend on the history of risk?',['Against the Gods by Peter Bernstein','The Black Swan','Freakonomics','Capital in the Twenty-First Century'],0,'It traces risk management through the history of trade and transport.','s-contract');
+  /* ---- Asian crisis ---- */
+  const T8='Asian financial crisis';
+  q(T8,'The first warning sign in the HBS chronology, on 5 February 1997, was:',['Thailand floating the baht','Somprasong Land missing a USD 3.1 million interest payment','Korea asking the IMF for help','Suharto resigning'],1,'The first Thai firm to miss a foreign debt payment; a textbook red flag.','c-asia');
+  q(T8,'When Thailand floated the baht on 2 July 1997 it immediately fell about:',['5 percent','15 percent','50 percent','75 percent'],1,'The decision followed speculative attacks that had drained reserves.','c-asia');
+  q(T8,'Asian finance ministries, backed by the IMF, responded to the crisis with:',['Lower rates and free floats','Higher interest rates and defense of dollar pegs','Nationalization of banks','Export subsidies'],1,'Both made things worse: rates crushed indebted firms and pegs needed reserves nobody had.','s-asia');
+  q(T8,'Which country was the only one in IMF history to reject IMF aid, and what did it do instead?',['Thailand; devalued','Indonesia; defaulted','Malaysia; capital controls and spending cuts','Korea; raised rates further'],2,'Oil revenues helped Malaysia restore liquidity without IMF conditions.','s-asia');
+  q(T8,'Korea\'s IMF-led rescue announced on 3 December 1997 was initially:',['USD 16 billion','USD 23 billion','USD 40 billion','USD 55 billion'],3,'It rose to USD 58 billion on 23 December, the largest package at the time.','c-asia');
+  q(T8,'The IMF package for Thailand announced on 11 August 1997 was:',['USD 1 billion','USD 16 billion','USD 40 billion','USD 55 billion'],1,'USD 17 billion including China\'s pledge; USD 1 billion was the Philippines in July.','c-asia');
+  q(T8,'Indonesia\'s IMF package of 31 October 1997 started at USD 23 billion and eventually reached:',['USD 25 billion','USD 40 billion','USD 58 billion','USD 100 billion'],1,'Indonesia also closed 16 insolvent banks as a condition.','c-asia');
+  q(T8,'"Original sin" refers to:',['Corruption','Developing countries borrowing in hard currency rather than their own','Fixed exchange rates','Running fiscal deficits'],1,'A stronger dollar or higher US rates automatically increases the debt burden.','s-asia');
+  q(T8,'Under IMF conditions, Korea\'s short-term interbank rate was pushed to about:',['5 percent','12 percent','30 percent','80 percent'],2,'Bankruptcies rose, confidence fell and outflows accelerated until the IMF relented.','s-asia');
+  q(T8,'When a company is liquidated, who is paid first according to Aguirre?',['Suppliers','Employees','Banks','Government, for taxes and social security'],3,'Then banks, then employees; suppliers often receive nothing.','s-asia');
+  q(T8,'The Thai stock market fell approximately how much during the crisis?',['25 percent','50 percent','75 percent','95 percent'],2,'And some 600,000 foreign workers were sent home.','s-asia');
+  q(T8,'A surge in non-performing loans should be read as:',['A sign of healthy lending','An early warning of a liquidity crisis','A lagging indicator','Irrelevant'],1,'February 1997\'s surge in Thai NPLs triggered the wider crisis.','s-asia');
+  q(T8,'On 2 September 1998 Malaysia imposed capital controls. What happened the next day?',['Mahathir resigned','Mahathir fired deputy prime minister Anwar Ibrahim','The ringgit was floated','The IMF approved a loan'],1,'Anwar favored free-market principles and was respected abroad; Mahathir had also blamed Soros for the ringgit\'s fall.','c-asia');
+  q(T8,'Suharto stepped down on 21 May 1998 after how many years in power?',['12','22','32','42'],2,'Following riots in Jakarta sparked by IMF-mandated fuel price increases; Habibie succeeded him.','c-asia');
+  q(T8,'On 22 December 1997 Moody\'s downgraded which three countries to junk status?',['Japan, China, Taiwan','Indonesia, Korea and Thailand','Malaysia, Singapore, Hong Kong','Philippines, Vietnam, India'],1,'Malaysia was cut too but stayed investment grade.','c-asia');
+  q(T8,'On 8 December 1997 Thailand permanently shut down how many of its 58 ailing finance companies?',['6','16','28','56'],3,'A move welcomed by the IMF and investors.','c-asia');
+  q(T8,'Which of these is listed on the deck as a GOVERNMENT cause of the crisis?',['Fixed exchange rates','Currency speculation','Overpriced assets','Dependence on short-term foreign funds'],0,'Government: fixed FX, current account deficits, weak regulation. Companies and market: many financial firms, short-term foreign funds, speculation, overpriced assets.','s-asia');
+  q(T8,'The Asian Tigers\' growth model is described on the deck as:',['Import substitution throughout','Import substitution first, then an outward-looking export model','Resource exports only','Services-led'],1,'The Four Tigers: Hong Kong, Singapore, Taiwan, South Korea.','s-asia');
+  q(T8,'Aguirre\'s view on whether the BRICS could repeat 1997 is that:',['A simultaneous bloc-wide default is likely','It is unlikely because the BRICS are far more diversified; risk is country by country','It has already happened','Only China is at risk'],1,'In 1997 investors treated the Tigers as one unit; the BRICS plus are too heterogeneous for that.','s-asia');
+  q(T8,'The IMF provides:',['Donations','Loans at rates below private banks, with austerity conditions','Grants only to democracies','Currency swaps without conditions'],1,'Countries go to the IMF because they have to; conditions typically include cutting infrastructure, health and education spending.','s-asia');
+  q(T8,'Banks lend out about what share of deposits, which is why mass withdrawals collapse liquidity?',['50 percent','75 percent','97 percent','100 percent'],2,'Hot money that came in chasing returns left just as fast once confidence broke.','s-asia');
+  q(T8,'In the sovereign-debt "treatments" slide, the India-Lebanon treatment means:',['Unilateral default','Deep fiscal adjustment','Banks are "encouraged" to keep holding government debt, crowding out private credit','Currency board'],2,'Argentina-Russia = unilateral default; Turkey-Brazil = long fiscal adjustment with late public payments.','s-asia');
+  q(T8,'Which 2026 parallel with 1997 did Aguirre highlight?',['Oil at USD 20','China and Japan selling US debt for the first time in 20 years while the US 10-year yields over 5 percent','Zero interest rates','A gold standard'],1,'He also flagged that about 60 percent of AI investment is debt-financed in dollars.','s-asia');
+  /* ---- Currency and SocGen ---- */
+  const T9='Currency risk and SocGen';
+  q(T9,'Société Générale\'s loss from Kerviel\'s unauthorized trades was:',['EUR 1.4 billion','EUR 2 billion','EUR 4.9 billion','EUR 7.2 billion'],2,'Plus about EUR 2 billion on subprime; the recording rounded both together to 7.2 billion.','c-socgen');
+  q(T9,'How many alerts about Kerviel\'s activity did control agents receive between late 2006 and early 2008?',['7','24','74','947'],2,'All were closed by following procedure without verifying his explanations.','c-socgen');
+  q(T9,'Kerviel\'s career path that helped him evade controls started in:',['The audit department','The middle office','Compliance','A rating agency'],1,'He knew when checks ran and how to book trades that avoided them.','c-socgen');
+  q(T9,'The net risk limit allocated to the Delta One Listed Products desk was:',['EUR 125 million','EUR 1.25 billion','EUR 12.5 billion','EUR 50 billion'],0,'Gross positions were not limited and intraday directional positions were tolerated.','c-socgen');
+  q(T9,'Which indirect control did Kerviel escape by taking only four days off in 2007?',['Daily P&L review','The mandatory two-week vacation during which someone else runs the book','Eurex reporting','External audit'],1,'His superiors accepted his father\'s death as a reason to waive the rule.','c-socgen');
+  q(T9,'The fraud was finally exposed by:',['A whistleblower','A Cooke ratio anomaly on eight forwards whose supposed counterparty, Deutsche Bank, had no record of them','The annual audit','A press report'],1,'Ernst & Young and Deloitte had reported no concerns in 2007.','c-socgen');
+  q(T9,'Nick Leeson brought down Barings in 1995 with losses of about:',['GBP 82 million','GBP 827 million','GBP 4.9 billion','GBP 8.2 billion'],1,'About USD 1.3 billion; Barings had been founded in 1762.','s-currency');
+  q(T9,'Kweku Adoboli\'s 2011 losses at UBS were about:',['USD 200 million','USD 2 billion','USD 20 billion','USD 49 billion'],1,'The deck lists Leeson 1996 USD 1.4bn, Kerviel 2008 EUR 4.9bn, Adoboli 2011 USD 2bn.','s-currency');
+  q(T9,'With spot EUR/GBP 0.8479, EURIBOR 3.013 percent and SONIA 3.732 percent for 180 days, the forward is approximately:',['0.8449','0.8479','0.8509','0.8809'],2,'Swap points = (3.732 − 3.013) × 180 × 0.8479 ÷ (36,000 + 3.013 × 180) ≈ 0.0030.','s-currency');
+  q(T9,'If both currencies\' interest rates are identical, the forward rate:',['Is above spot','Equals spot','Is below spot','Is undefined'],1,'Swap points are zero when the rate differential is zero.','s-currency');
+  q(T9,'Which is NOT one of the UN criteria for a freely convertible currency?',['Residents and non-residents may buy unlimited foreign currency with it','No special central bank authorization is needed','It is traded internationally and widely used','It is backed by gold reserves'],3,'Modern currency is intrinsically worthless; convertibility is about the absence of controls and active international trading.','s-currency');
+  q(T9,'The Chinese yuan is not fully convertible because:',['It is not traded','The government manages its band and keeps it weak to protect exports','China has no central bank','It is pegged to gold'],1,'Aguirre expects it to become convertible eventually since China is the world\'s biggest lender.','s-currency');
+  q(T9,'The exporter\'s core lesson from the SocGen case is:',['Hire star traders','Never speculate on currency; close or hedge every open position with a forward','Only invoice in dollars','Avoid all derivatives'],1,'Profiting from a currency move once tempts a company to change its business model into speculation.','s-currency');
+  q(T9,'Banks make money on foreign exchange mainly from:',['Predicting rates','The bid-ask spread','Government fees','Printing money'],1,'They buy at the higher rate and sell at the lower; forwards on convertible currencies are cheap because both sides are hedged.','s-currency');
+  q(T9,'In 2007 Kerviel\'s reported proprietary earnings were EUR 25 million. His actual earnings on unauthorized positions were about:',['EUR 25 million','EUR 150 million','EUR 1.5 billion','EUR 49 billion'],2,'His reported earnings were 59 percent of the desk\'s total; colleagues called him the cash machine.','c-socgen');
+  q(T9,'Kerviel\'s largest position, built between 2 and 18 January 2008, was:',['A EUR 10 million short in Allianz','A EUR 30 billion short in DAX futures','A EUR 49 billion long in index futures','A EUR 125 million long in SolarWorld'],2,'The DAX short peaked above EUR 30 billion in July 2007; the January 2008 long was unwound over three days.','c-socgen');
+  q(T9,'How many fictitious offsetting trades did investigators find Kerviel had entered?',['74','115','947','2,266,500'],2,'Plus 115 pairs offset in quantity but not price and 9 fraudulent provision flows.','c-socgen');
+  q(T9,'Société Générale announced the loss and a capital increase of how much on 24 January 2008?',['EUR 1 billion','EUR 2 billion','EUR 5.5 billion','EUR 50 billion'],2,'Annual profit fell from EUR 5.2 billion in 2006 to EUR 600 to 800 million in 2007.','c-socgen');
+  q(T9,'What happened to the Turkish lira in 2005?',['It was pegged to the euro','Six zeros were dropped to create the new lira','It became fully convertible','It was replaced by the dollar'],1,'1 USD was 1,650,000 lira in 2001; 49.22 new lira on 8 October 2026.','s-currency');
+  q(T9,'How many official currencies exist for the 193 UN member states, per the deck?',['About 50','About 120','About 182','193 exactly'],2,'Some countries share currencies; some territories use different ones from the parent country.','s-currency');
+  q(T9,'A fixed exchange rate requires the government to:',['Hold enough reserves of the peg currency to cover its currency in circulation','Ban imports','Raise taxes','Issue bonds abroad'],0,'Pegs to the dollar have on average ended badly because only the Fed prints dollars.','s-currency');
+  q(T9,'A currency future is:',['A bespoke bank contract','A standardized exchange-traded contract, usually against USD, in units such as EUR 125,000, mostly closed before delivery','A spot transaction','A loan'],1,'A forward is the over-the-counter equivalent banks offer as a hedge.','s-currency');
+  q(T9,'The Big Mac Index is a shorthand for:',['Inflation','Purchasing power parity between currencies','Interest rate parity','GDP per capita'],1,'Used in the currency wars slide to show over- and undervaluation.','s-currency');
+  q(T9,'Rising interest rates in a country generally cause its currency to:',['Depreciate','Appreciate, as savings flow in','Stay unchanged','Become non-convertible'],1,'Which is why a 5 percent US 10-year yield pulls capital from Europe and emerging markets.','s-currency');
+  q(T9,'In October 2007, Eurex emailed Kerviel\'s supervisor about:',['A missed payment','The purchase of 6,000 forward contracts within two hours','A forged email','His bonus'],1,'Cordelle said he received 200 to 300 emails a day and had not read it closely; compliance handled the follow-up letters.','c-socgen');
+  q(T9,'Kerviel told the head of SGCIB he had found a "martingale". A martingale strategy means:',['Hedging every position','Doubling the bet after every loss to recover at the first win','Buying only index funds','Arbitrage between exchanges'],1,'Aguirre\'s casino analogy: betting on red again and again while black keeps coming.','c-socgen');
+  q(T9,'Why do non-convertible currency pairs such as Ethiopian birr and Turkish lira cost more to exchange?',['They must be routed through US dollars, doubling fees and risk','They are taxed','Banks refuse them','They have no central bank'],0,'No direct market exists between many non-convertible pairs.','s-currency');
+  /* ---- Ratings and Germany ---- */
+  const T10='Ratings, Basel and German banking';
+  q(T10,'Investment grade on the S&P scale begins at:',['A-','BBB-','BB+','AA'],1,'Below BBB- is speculative grade; use the local-currency, long-term rating.','s-ratings');
+  q(T10,'The Basel minimum ratio of capital to risk-weighted assets is:',['4 percent','8 percent','12 percent','20 percent'],1,'If a bank lends 10,000 it must hold 800 in capital; Basel II kept 8 percent but refined the risk weights.','s-ratings');
+  q(T10,'The three pillars of Basel II are:',['Credit, market and operational risk','Minimum capital, supervisory review, market disclosure','Banks, insurers, regulators','Equity, debt, hybrids'],1,'Credit, market and operational risk are the risk types the accord measures, not the pillars.','s-ratings');
+  q(T10,'The Mittelstand\'s "Achilles\' heel" according to the case is:',['Low exports','A thin equity base, below 20 percent for smaller firms','Too few patents','High wages'],1,'Low equity meant higher risk weights under Basel II and so costlier credit.','c-germany');
+  q(T10,'Which was NOT one of the July 2002 Basel Committee concessions?',['Loans under EUR 1 million treated as retail','Lower risk weights for firms with EUR 1 to 50 million turnover','No long-term surcharge for firms up to EUR 500 million','Abolishing the 8 percent ratio'],3,'The deadline was also moved to January 2007.','c-germany');
+  q(T10,'Negative working capital is normal for which kind of company?',['A carmaker','A supermarket paid in cash that pays suppliers at 180 days','A shipbuilder','A steel mill'],1,'For a carmaker like Porsche it is a red flag; Porsche showed about minus 6.5 and minus 5.3 billion in consecutive quarters.','s-ratings');
+  q(T10,'The EU and Germany agreed to phase out state guarantees for Landesbanken and Sparkassen after:',['2001','2003','2005','2010'],2,'The guarantees gave them AAA or AA+ ratings and loans about 50 basis points cheaper than commercial banks.','c-germany');
+  q(T10,'By official German statistics the Mittelstand comprises firms with:',['Up to 49 employees','Up to 250 employees and EUR 10 million revenue','Up to 499 employees and EUR 50 million revenue','Any family-owned firm regardless of size'],2,'3.6 million firms, 68 percent of workers, 80 percent of apprentices. Qualitatively, independent family firms like Voith with 23,000 staff also count.','c-germany');
+  q(T10,'The three pillars of German banking in the case are:',['Central, regional, local','Public savings banks and Landesbanken, credit cooperatives, private commercial banks','Retail, investment, insurance','Deutsche, Dresdner, Commerzbank'],1,'Aguirre counted four by splitting Landesbanken from Sparkassen; the case says three.','c-germany');
+  q(T10,'The Hausbank relationship is described as accompanying a firm:',['Only at start-up','"From cradle to grave" with long- and short-term loans','Only in crises','Only after an IPO'],1,'40 percent of German firms had an extraordinarily stable relationship with a single bank.','c-germany');
+  q(T10,'In October 2001 Chancellor Schröder said Basel II in its current form was:',['"A great opportunity"','"Not acceptable for Germany"','"Irrelevant to the Mittelstand"','"Too lenient"'],1,'He threatened to veto EU legislation; business federations warmly received the comment.','c-germany');
+  q(T10,'Basel I was agreed in 1988 in response to:',['The Asian crisis','The international debt crisis of the 1980s','The 2008 subprime crisis','The euro launch'],1,'It took effect at the end of 1992; the Asian crisis later showed its limits.','c-germany');
+  q(T10,'Basel III\'s main addition, per the class, was:',['Lower capital ratios','Liquidity buffers of short-term assets to survive a liquidity crisis','Abolishing ratings','State guarantees'],1,'Basel IV is the current standard as of 2026.','s-ratings');
+  q(T10,'German loan margins averaged about 1 percent, compared with roughly:',['0.5 percent in the US','2 to 3.5 percent in Europe and 4 percent in the US','10 percent in the US','Equal levels everywhere'],1,'Intense three-pillar competition made Germany overbanked and unprofitable: "a graveyard for shareholder value".','c-germany');
+  q(T10,'Which of these is one of the five levers through which banks influenced German big business?',['Proxy voting of custodial bearer shares','Setting interest rates for the ECB','Owning the stock exchange','Appointing judges'],0,'Also lending, equity cross-shareholdings, securities issuance and supervisory board seats.','c-germany');
+  q(T10,'Vodafone\'s 2000 hostile takeover of Mannesmann prompted the headline:',['"Long live relationship banking"','"Goodbye to Deutschland AG"','"Basel II is dead"','"The Mittelstand wins"'],1,'Most German takeovers remained friendly transfers of controlling blocks.','c-germany');
+  q(T10,'In 2000, German stock market capitalization relative to GDP was about 66.8 percent, versus roughly what in the US?',['50 percent','100 percent','155 percent','330 percent'],2,'330 percent was Switzerland; the UK was 184 percent.','c-germany');
+  q(T10,'The Neuer Markt, Germany\'s NASDAQ launched in 1997:',['Became larger than NASDAQ','Lost about 95 percent of its value and was closed in September 2002','Still trades today','Was merged into the DAX'],1,'A banker said retail investing had been wiped out for a generation.','c-germany');
+  q(T10,'Which bank did S&P rate AAA shortly before it collapsed in 2008?',['Barings','Lehman Brothers','Bankgesellschaft Berlin','Northern Rock'],1,'Despite the criticism, S&P, Moody\'s and Fitch remain the only credible agencies and S&P is free to use.','s-ratings');
+  q(T10,'In 2012, which Spanish banks fell below investment grade, and which kept it?',['Santander and BBVA fell; CaixaBank kept it','CaixaBank, Sabadell and Bankinter fell; Santander and BBVA kept it through global diversification','All Spanish banks fell','None fell'],1,'Public or domestic banks carry their sovereign\'s rating; Spain was near default in 2012.','s-ratings');
+  q(T10,'Porsche was removed from the Deutsche Börse mid-cap index because it:',['Went bankrupt','Refused to publish quarterly reports','Moved to London','Was bought by Volkswagen'],1,'The Piech family owned 57 percent; its CFO stressed building reserves rather than reporting current profits.','c-germany');
+  q(T10,'KfW\'s innovation for Mittelstand finance was to:',['Lend only in dollars','Buy Mittelstand loans from banks, bundle them and issue AAA-backed collateralized loan obligations','Abolish ratings','Merge the savings banks'],1,'Securitization moved risk off bank balance sheets but required formal ratings most savings banks lacked.','c-germany');
+  q(T10,'Current S&P sovereign ratings cited in class: Germany, Spain and India are respectively:',['AAA, AA-, BBB','AA, A, BB','AAA, BBB, B','A, A, A'],0,'State Bank of India is BBB, investment grade; Société Générale is A.','s-ratings');
+  q(T10,'Per Aguirre, German resistance to Basel II came mainly from:',['Banks','Corporates that wanted relationship lending to continue','The ECB','Rating agencies'],1,'Banks had to comply either way; weak borrower financials meant higher reserves and lower profitability.','s-ratings');
+  /* ---- Plamar and factoring ---- */
+  const T11='Plamar, factoring and trade finance';
+  q(T11,'In June 2003 Plamar\'s estimated cost for a plant abroad producing 300,000 handles and 300,000 seals a month was:',['USD 100,000','USD 300,000','USD 1 million','USD 3 million'],1,'The figure Francisco Sr. quotes in the café discussion, and the number the balance-sheet exercise is built around.','c-plamar');
+  q(T11,'On Plamar\'s 31 December 2002 balance sheet, accounts receivable were roughly what share of total assets?',['One tenth','One fifth','One third','One half'],2,'VEB 211.5 million of 621.6 million; the asset to turn into liquidity.','c-plamar');
+  q(T11,'Converted at the rate used in class, Plamar\'s cash in hand was approximately:',['USD 7,000','USD 70,000','USD 700,000','USD 97 million'],1,'VEB 97.7 million at about 1,380 per dollar. If it were USD 97 million the case would not exist.','c-plamar');
+  q(T11,'The decisive reason given in class for choosing Guatemala was:',['Largest plastics market in the region','A free trade agreement with Mexico giving tariff-free access to the US','A shared currency with Venezuela','The lowest corporate tax in Latin America'],1,'Plus low cost, proximity, a stable currency and inflation about 2 percent.','c-plamar');
+  q(T11,'Brazil was dismissed as Plamar\'s destination mainly because:',['It had no plastics industry','Lula had just taken office and the market was too big and expensive for USD 240,000','Portuguese language','It banned foreign plastics firms'],1,'Plamar did later enter Brazil, along with Costa Rica.','c-plamar');
+  q(T11,'Factoring without recourse means:',['The seller must buy back unpaid invoices','The factor absorbs the debtor\'s default risk and the receivables leave the seller\'s balance sheet','Only one invoice is financed','There is no fee'],1,'With recourse, unpaid invoices return to the seller, so it is effectively a loan.','s-factoring');
+  q(T11,'The main difference between discounting and factoring is:',['Discounting is cheaper','Factoring covers the whole receivables book; discounting is bill by bill and always with recourse','Factoring needs a letter of credit','Discounting is only for exports'],1,'You can discount one bill with one bank and another with a second bank.','s-factoring');
+  q(T11,'Factoring works best for an SME whose:',['Debtors are high quality','Debtors are small and fragmented','Sales are in cash','Receivables are overdue'],0,'Banks lend against debtor quality, not the SME\'s own balance sheet. Plamar\'s debtors included PDVSA.','s-factoring');
+  q(T11,'Before 2003 Plamar financed its operations through:',['Bank loans and bonds','Venture capital','Suppliers and its own cash flow','Government grants'],2,'It started with under USD 5,000 of capital and paid no dividends for four years.','c-plamar');
+  q(T11,'Why did banks refuse Plamar loans?',['Lack of guarantees or collateral','The company was loss-making','It had no exports','Venezuelan law forbade SME lending'],0,'"Banks don\'t like risk": in 2002 and in 2027 they ask for collateral.','c-plamar');
+  q(T11,'About what share of Plamar\'s annual sales fell between September and December, and why?',['20 percent, school season','50 percent, Venezuelans paint their homes before Christmas','75 percent, harvest','10 percent, holidays'],1,'Bags and shrink-wrap were added to smooth the seasonality of seals and handles.','c-plamar');
+  q(T11,'Plamar\'s first export customer was in:',['Guatemala','Bolivia','The Dominican Republic','Brazil'],2,'Through a Venezuelan coatings exporter whose Dominican clients bought handles from the US and seals from Argentina. Guatemala came second, Bolivia third by air freight.','c-plamar');
+  q(T11,'Typical factoring cost mentioned in class:',['0.1 percent','1 to 2 percent of receivables','10 percent','25 percent'],1,'Expensive in low-margin sectors such as steel at 2 to 3 percent margins.','s-factoring');
+  q(T11,'Factoring provides liquidity of up to what share of invoice value?',['25 percent','50 percent','90 percent','150 percent'],2,'The factor withholds a reserve for credit notes and deductions and pays the fundable amount up to the client\'s funding limit.','s-factoring');
+  q(T11,'The "off balance sheet" effect of non-recourse factoring means:',['Receivables are replaced by cash and short-term financing falls, improving ratios','Debt increases','Inventory disappears','Equity is diluted'],0,'Listed corporates use it at quarter-end for exactly this reason.','s-factoring');
+  q(T11,'Plamar\'s first business when it started in 1994 was:',['Metal handles','Cleaning products such as chlorine and bleach','Plastic bags','Shrink-wrap'],1,'Low returns pushed the family back to plastics, starting with a garage extruder repaired with a scrapyard gearbox.','c-plamar');
+  q(T11,'How did Plamar enter metal handles in 1997?',['Bought Vicson','Partnered with Galtreca, a wire maker 600 km away, which taught the process and supplied wire','Imported from the US','Licensed a German design'],1,'Vicson, the leading wire maker, had refused to supply. Brazilian automatic machines later cut the section from 18 to 6 workers.','c-plamar');
+  q(T11,'Plamar\'s domestic market shares in packaging seals and metal handles were about:',['50 and 20 percent','90 and 70 percent','30 and 30 percent','100 and 100 percent'],1,'Seals: 90 percent with seven customers; the only local competitor closed. Handles: 70 percent.','c-plamar');
+  q(T11,'The only domestic supplier of low-density polyethylene for Plamar\'s bags was:',['Galtreca','Vicson','PDVSA, the state oil company','Dow'],2,'Bags faced over 35 competitors; shrink-wrap had excess capacity.','c-plamar');
+  q(T11,'In 2003 Venezuela\'s exchange controls had authorized only USD 100 million since February. The case says that was enough for:',['A year of business','Three days of normal business','Six months','One large import'],1,'GDP was expected to fall 12 percent and 60 percent of manufacturers were set to close.','c-plamar');
+  q(T11,'Oil\'s weight in Venezuela\'s economy per the case: government revenue, exports and GDP were respectively about:',['10, 20, 5 percent','50, 80, 25 percent','80, 50, 25 percent','25, 25, 25 percent'],1,'Dependence on oil prices is why Dutch disease and instability followed.','c-plamar');
+  q(T11,'Francisco Martínez Sr.\'s earlier business failure was:',['A paint factory in Caracas','A plastic bag factory in Granada that went bankrupt in 1991','A bank in Madrid','A farm in Bolivia'],1,'Competition in Spain was far more intense than in Venezuela; he returned with an investor\'s funding.','c-plamar');
+  q(T11,'Guatemala\'s GDP per capita and inflation in the case appendix were about:',['USD 3,646 and 2 percent','USD 5,294 and 8.6 percent','USD 10,000 and 15 percent','USD 1,000 and 30 percent'],0,'USD 5,294 and 8.6 percent were the Dominican Republic\'s figures.','c-plamar');
+  q(T11,'Today Plamar operates in:',['Venezuela only','Guatemala, the Dominican Republic, Brazil and Costa Rica','Spain and Portugal','The United States'],1,'Plamar\'s own retrospective: internationalization saved the company.','c-plamar');
+  q(T11,'A downside of factoring mentioned in class is that it:',['Ties you closely to one bank because it buys all your receivables','Requires an IPO','Is illegal for SMEs','Increases debt'],0,'Sound treasury practice is working with two or three banks.','s-factoring');
+  q(T11,'To shorten the cash conversion cycle, the session 14 deck recommends:',['Lengthen DSO and shorten DPO','Cut DSO, minimize idle inventory and maximize DPO','Hold more inventory','Pay suppliers earlier'],1,'Permanent current assets behave like fixed assets and need long-term financing.','s-factoring');
+  q(T11,'Which family member argued for building a plant in a neighboring country?',['Francisco Sr.','Francisco Jr.','Carlos','Javier'],2,'Francisco Jr. favored exporting harder; the father leaned to domestic investment, acquisitions or waiting.','c-plamar');
+  q(T11,'"Only weak companies use factoring" is presented on the deck as:',['A proven rule','A misconception; factoring is now a professional, mainstream financing solution','True for exporters only','A Basel II requirement'],1,'The other two misconceptions: it is too expensive, and you lose control of your clients.','s-factoring');
+  q(T11,'Why could Plamar\'s 97 million in cash NOT have been US dollars?',['Venezuela banned dollars','With USD 97 million it would never have needed a USD 300,000 loan; the figures are bolívares','Banks only report euros','The case says so explicitly'],1,'Aguirre\'s rule: never assume the currency or the year when reading a balance sheet.','c-plamar');
+  q(T11,'Venezuela\'s collapse was attributed in class to all EXCEPT:',['Price controls that made production unprofitable','Dutch disease from oil revenues','Hyperinflation','Lack of natural resources'],3,'Its only SWOT strength is the world\'s largest oil and gas reserves. Dubai, with similar oil wealth, diversified.','c-plamar');
 
-  const ALL=[];Q.forEach(sec=>sec[1].forEach(q=>ALL.push({sec:sec[0],t:q[0],o:q[1],a:q[2]})));
-  const N=40,KEY='hei_attempts_v1';
+  /* ---- engine ---- */
+  const N=40,KEY='hei_attempts_v2';
   const root=document.getElementById('quizroot'),sc=document.getElementById('sc'),sub=document.getElementById('scsub'),pg=document.getElementById('pg');
-  const vs=document.getElementById('vseed'),vs2=document.getElementById('vseed2'),res=document.getElementById('result');
-  let seed=0,items=[],correct=0,answered=0,saved=false,startedAt=0;
+  const vs=document.getElementById('vseed'),vs2=document.getElementById('vseed2'),res=document.getElementById('result'),room=document.getElementById('room');
+  document.querySelectorAll('.bankn').forEach(e=>e.textContent=B.length);
+  const TOPICS=[...new Set(B.map(x=>x.t))];
+  let seed=0,items=[],correct=0,answered=0,saved=false,startedAt=0,mode='exam';
   function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
   function shuffle(arr,r){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
   function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
   function store(list){try{localStorage.setItem(KEY,JSON.stringify(list))}catch(e){}}
-  function build(s){
-    seed=s;const r=rng(seed);
-    const pick=shuffle(ALL,r).slice(0,N);
-    items=pick.map(q=>{const idx=shuffle(q.o.map((_,i)=>i),r);return{sec:q.sec,t:q.t,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a),done:false,ok:false}});
-    correct=0;answered=0;saved=false;startedAt=Date.now();res.hidden=true;const fbtn=document.getElementById('finish');fbtn.disabled=false;fbtn.textContent='Finish and save';
-    vs.textContent=vs2.textContent=String(seed).padStart(4,'0');
-    root.innerHTML='';let n=0,cur='';
-    items.forEach((q,qi)=>{
-      n++;const idx=n;const d=document.createElement('div');d.className='q';
+  function draw(r){ /* stratified: every topic gets its proportional share, then full shuffle */
+    const byT={};B.forEach(x=>(byT[x.t]=byT[x.t]||[]).push(x));
+    const quota={};let used=0;const rem=[];
+    TOPICS.forEach(t=>{const exact=N*byT[t].length/B.length;quota[t]=Math.floor(exact);used+=quota[t];rem.push([t,exact-quota[t]])});
+    rem.sort((a,b)=>b[1]-a[1]);for(let i=0;used<N;i++,used++)quota[rem[i%rem.length][0]]++;
+    let pick=[];TOPICS.forEach(t=>{pick=pick.concat(shuffle(byT[t],r).slice(0,quota[t]))});
+    return shuffle(pick,r);
+  }
+  function build(s,pool){
+    seed=s;const r=rng(seed);mode=pool?'drill':'exam';
+    const pick=pool?shuffle(pool.map(id=>B[id]),r):draw(r);
+    items=pick.map(q=>{const idx=shuffle(q.o.map((_,i)=>i),r);return{id:q.id,t:q.t,txt:q.txt,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a),e:q.e,r:q.r,done:false,ok:false,pick:-1}});
+    correct=0;answered=0;saved=false;startedAt=Date.now();res.hidden=true;room.hidden=true;room.innerHTML='';
+    const fbtn=document.getElementById('finish');fbtn.disabled=false;fbtn.textContent='Finish and save';
+    const label=mode==='drill'?'Drill':String(seed).padStart(4,'0');vs.textContent=label;vs2.textContent=label;
+    document.getElementById('vmeta').textContent=mode==='drill'?`${items.length} questions you missed · answers shuffled`:`${N} of ${B.length} questions · balanced across every session · order and answers shuffled`;
+    root.innerHTML='';
+    items.forEach((q,qi)=>{const idx=qi+1;const d=document.createElement('div');d.className='q';d.id='qcard'+qi;
       const opts=q.o.map((o,i)=>`<label><input type="radio" name="q${seed}_${idx}" id="q${seed}_${idx}o${i}" value="${i}"><span>${o}</span></label>`).join('');
-      d.innerHTML=`<div class="topic">${q.sec}</div><div class="qt"><span>${String(idx).padStart(2,'0')}</span>${q.t}</div><div class="opts">${opts}</div><div class="fb" hidden></div>`;
-      d.addEventListener('change',e=>{if(q.done)return;const p=+e.target.value;q.done=true;answered++;
+      d.innerHTML=`<div class="topic">${q.t}</div><div class="qt"><span>${String(idx).padStart(2,'0')}</span>${q.txt}</div><div class="opts">${opts}</div><div class="fb" hidden></div>`;
+      d.addEventListener('change',e=>{if(q.done)return;const p=+e.target.value;q.done=true;q.pick=p;answered++;
         d.classList.add('done');d.querySelectorAll('label').forEach((l,i)=>{if(i===q.a)l.classList.add('right');else if(i===p)l.classList.add('wrong');l.querySelector('input').disabled=true});
-        const fb=d.querySelector('.fb');fb.hidden=false;if(p===q.a){correct++;q.ok=true;fb.textContent='Correct';fb.className='fb ok'}else{fb.textContent='Correct answer: '+q.o[q.a];fb.className='fb no'}
-        upd();if(answered===N)finish()});
+        const fb=d.querySelector('.fb');fb.hidden=false;if(p===q.a){correct++;q.ok=true;fb.textContent='Correct';fb.className='fb ok'}else{fb.innerHTML='Correct answer: '+q.o[q.a]+'<span class="why">'+q.e+'</span>';fb.className='fb no'}
+        upd();if(answered===items.length)finish()});
       root.appendChild(d)});
     upd();renderHist();
   }
-  function upd(){sc.textContent=correct;sub.textContent=answered+' answered'+(saved?' · saved':'');pg.style.width=(answered/N*100)+'%'}
+  function upd(){const n=items.length;sc.textContent=correct;document.getElementById('scn').textContent=n;sub.textContent=answered+' answered'+(saved?' · saved':'');pg.style.width=(answered/n*100)+'%'}
   function finish(){if(saved)return;saved=true;const fbtn=document.getElementById('finish');fbtn.disabled=true;fbtn.textContent='Saved';
-    items.forEach(q=>{if(!q.done){q.done=true}});
-    const pct=Math.round(correct/N*100);const list=load();list.push({t:Date.now(),seed:seed,score:correct,n:N,secs:Math.round((Date.now()-startedAt)/1000)});store(list);
-    document.getElementById('rsc').textContent=correct;
-    document.getElementById('rmsg').textContent=pct>=90?'Exam ready.':pct>=75?'Close. Re-read the Top 25 and go again.':'Not yet. Work through the misses below, then take a new version.';
-    document.getElementById('rsub').textContent=`Version ${String(seed).padStart(4,'0')} · ${pct}% · ${answered} of ${N} answered · saved to this browser.`;
-    res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'center'});
-    root.querySelectorAll('.q').forEach((d,i)=>{if(!items[i].ok&&!d.classList.contains('done')){d.classList.add('done');d.querySelectorAll('label').forEach((l,j)=>{if(j===items[i].a)l.classList.add('right');l.querySelector('input').disabled=true});const fb=d.querySelector('.fb');fb.hidden=false;fb.textContent='Not answered. Correct answer: '+items[i].o[items[i].a];fb.className='fb no'}});
+    const n=items.length;
+    items.forEach((q,i)=>{if(!q.done){q.done=true;const d=document.getElementById('qcard'+i);d.classList.add('done');d.querySelectorAll('label').forEach((l,j)=>{if(j===q.a)l.classList.add('right');l.querySelector('input').disabled=true});const fb=d.querySelector('.fb');fb.hidden=false;fb.innerHTML='Not answered. Correct answer: '+q.o[q.a]+'<span class="why">'+q.e+'</span>';fb.className='fb no'}});
+    const missed=items.filter(q=>!q.ok).map(q=>q.id);
+    const pct=Math.round(correct/n*100);
+    if(mode==='exam'){const list=load();list.push({t:Date.now(),seed:seed,score:correct,n:n,missed:missed,asked:items.map(q=>q.id)});store(list)}
+    document.getElementById('rsc').textContent=correct;document.getElementById('rn').textContent=n;
+    document.getElementById('rmsg').textContent=pct>=90?'Exam ready.':pct>=75?'Close. Work the study room below, then take a new version.':'Not yet. Open the study room below: it lists every miss with the answer and the section to re-read.';
+    document.getElementById('rsub').textContent=(mode==='drill'?'Drill · ':`Version ${String(seed).padStart(4,'0')} · `)+`${pct}% · ${answered} of ${n} answered`+(mode==='exam'?' · saved to this browser.':' · drills are not saved.');
+    res.hidden=false;renderRoom(missed);res.scrollIntoView({behavior:'smooth',block:'start'});
     upd();renderHist();
+  }
+  function goStudy(id){const el=document.getElementById(id);if(!el)return;location.hash=id;document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2400)},60)}
+  function renderRoom(missed){
+    room.innerHTML='';room.hidden=false;const n=items.length;
+    const h=document.createElement('div');h.className='room-head';h.innerHTML=`<h3>Study room</h3><p>${missed.length?missed.length+' to review. Each card gives the right answer, why, and the section of the Study tab to re-read.':'Nothing to review in this version. Take a new version to test other questions.'}</p>`;room.appendChild(h);
+    /* what to look for: by topic */
+    const byT={};items.forEach(q=>{byT[q.t]=byT[q.t]||{a:0,m:0};byT[q.t].a++;if(!q.ok)byT[q.t].m++});
+    const rows=Object.entries(byT).sort((x,y)=>(y[1].m/y[1].a)-(x[1].m/x[1].a));
+    const tb=document.createElement('div');tb.className='room-topics';tb.innerHTML='<div class="rt-title">What to look for</div>'+rows.map(([t,v])=>{const p=Math.round(v.m/v.a*100);const ref=B.find(x=>x.t===t).r;return `<div class="rt-row${v.m?'':' ok'}"><span class="rt-name">${t}</span><span class="rt-bar"><i style="width:${p}%"></i></span><span class="rt-n">${v.m} of ${v.a} missed</span><a href="#${ref}" data-go="${ref}">Open chapter</a></div>`}).join('');room.appendChild(tb);
+    if(missed.length){const btn=document.createElement('div');btn.className='room-actions';btn.innerHTML='<button type="button" class="pri" id="drillnow">Drill these '+missed.length+' now</button><span>Builds a short test from only the questions you missed. Drills are not saved to history.</span>';room.appendChild(btn);
+      btn.querySelector('#drillnow').addEventListener('click',()=>{build(1+Math.floor(Math.random()*9999),missed);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})})}
+    items.forEach((q,i)=>{if(q.ok)return;const c=document.createElement('div');c.className='rcard';
+      c.innerHTML=`<div class="topic">${q.t} · Q${String(i+1).padStart(2,'0')}</div><div class="rq">${q.txt}</div><div class="ra"><span class="k">Your answer</span><span class="wrong">${q.pick>=0?q.o[q.pick]:'Not answered'}</span></div><div class="ra"><span class="k">Correct</span><span class="right">${q.o[q.a]}</span></div><div class="rw">${q.e}</div><a href="#${q.r}" data-go="${q.r}">Re-read: ${REF[q.r]||q.r} →</a>`;room.appendChild(c)});
+    room.querySelectorAll('a[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();goStudy(a.dataset.go)}));
   }
   function renderHist(){const list=load();const n=list.length;document.getElementById('tab-attempts').textContent=n+(n===1?' attempt':' attempts');
     document.getElementById('histempty').hidden=n>0;document.getElementById('histtbl').hidden=n===0;const tb=document.getElementById('histbody');tb.innerHTML='';
-    list.slice().reverse().forEach((a,i)=>{const pct=Math.round(a.score/a.n*100);const d=new Date(a.t);const tr=document.createElement('tr');if(a.seed===seed&&saved)tr.className='cur';
-      tr.innerHTML=`<td>${n-i}</td><td>${d.toLocaleDateString(undefined,{day:'numeric',month:'short'})} ${d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</td><td class="num">${String(a.seed).padStart(4,'0')}</td><td class="n">${a.score} / ${a.n} <span class="pct ${pct>=75?'g':'b'}">${pct}%</span></td><td><div class="mini"><i style="width:${pct}%"></i></div></td><td><a href="#test" class="re" data-seed="${a.seed}">Retake this version</a></td>`;
+    list.slice().reverse().forEach((a,i)=>{const pct=Math.round(a.score/a.n*100);const d=new Date(a.t);const tr=document.createElement('tr');if(a.seed===seed&&saved&&mode==='exam')tr.className='cur';
+      tr.innerHTML=`<td>${n-i}</td><td>${d.toLocaleDateString(undefined,{day:'numeric',month:'short'})} ${d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</td><td class="num">${String(a.seed).padStart(4,'0')}</td><td class="n">${a.score} / ${a.n} <span class="pct ${pct>=75?'g':'b'}">${pct}%</span></td><td><div class="mini"><i style="width:${pct}%"></i></div></td><td><a href="#test" class="re" data-seed="${a.seed}">Retake</a></td>`;
       tb.appendChild(tr)});
     tb.querySelectorAll('a.re').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();build(+a.dataset.seed);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})}));
+    /* weak spots across attempts */
+    const weak=document.getElementById('weak');const cnt={},tot={},qm={};
+    list.forEach(a=>{(a.asked||[]).forEach(id=>{const t=B[id]&&B[id].t;if(!t)return;tot[t]=(tot[t]||0)+1});(a.missed||[]).forEach(id=>{const t=B[id]&&B[id].t;if(!t)return;cnt[t]=(cnt[t]||0)+1;qm[id]=(qm[id]||0)+1})});
+    const allMissed=Object.keys(qm).map(Number);
+    if(!list.length){weak.hidden=true;return}
+    weak.hidden=false;
+    const rows=Object.keys(tot).map(t=>[t,cnt[t]||0,tot[t]]).sort((x,y)=>(y[1]/y[2])-(x[1]/x[2]));
+    const top=Object.entries(qm).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    weak.innerHTML=`<div class="hh"><h3>Weak spots across all attempts</h3>${allMissed.length?`<button type="button" class="pri" id="drillall">Drill all ${allMissed.length} missed</button>`:''}</div>`+
+      `<div class="room-topics">${rows.map(([t,m,a])=>{const p=Math.round(m/a*100);const ref=B.find(x=>x.t===t).r;return `<div class="rt-row${m?'':' ok'}"><span class="rt-name">${t}</span><span class="rt-bar"><i style="width:${p}%"></i></span><span class="rt-n">${m} of ${a} missed</span><a href="#${ref}" data-go="${ref}">Open chapter</a></div>`}).join('')}</div>`+
+      (top.length?`<div class="rt-title" style="margin-top:14px">Most missed questions</div>${top.map(([id,c])=>{const q=B[+id];return `<div class="rcard small"><div class="topic">${q.t} · missed ${c}×</div><div class="rq">${q.txt}</div><div class="ra"><span class="k">Correct</span><span class="right">${q.o[q.a]}</span></div><div class="rw">${q.e}</div><a href="#${q.r}" data-go="${q.r}">Re-read: ${REF[q.r]||q.r} →</a></div>`}).join('')}`:'');
+    weak.querySelectorAll('a[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();goStudy(a.dataset.go)}));
+    const da=weak.querySelector('#drillall');if(da)da.addEventListener('click',()=>{build(1+Math.floor(Math.random()*9999),allMissed);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})});
   }
   document.getElementById('newver').addEventListener('click',()=>{build(1+Math.floor(Math.random()*9999));document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})});
   document.getElementById('finish').addEventListener('click',()=>{if(answered===0){const b=document.getElementById('finish');b.textContent='Answer at least one question first';setTimeout(()=>b.textContent='Finish and save',2500);return}finish()});
