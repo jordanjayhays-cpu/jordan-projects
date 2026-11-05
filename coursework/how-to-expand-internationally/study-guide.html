@@ -1,0 +1,786 @@
+<title>How to Expand Internationally</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (68ch) with a sticky section nav; charts sit inside the column at full width.
+   Color grammar: blue = the fact to remember / the focal series, grey = comparison, status colors only for quiz feedback. */
+:root{
+  --bg:#f7f8fa; --surface:#ffffff; --fg:#121826; --fg-2:#4b5566; --muted:#8a92a3;
+  --line:#e3e6ec; --grid:#e8ebf0; --axis:#c6ccd6;
+  --accent:#2a78d6; --accent-ink:#1c5cab; --accent-wash:#e9f1fc;
+  --series-2:#eb6834; --compare:#b8bfcb;
+  --good:#0ca30c; --critical:#d03b3b; --warning:#fab219;
+  --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1319; --surface:#171c24; --fg:#eef1f5; --fg-2:#c2c9d4; --muted:#8a92a3;
+  --line:#2a313c; --grid:#242b35; --axis:#3a4350;
+  --accent:#3987e5; --accent-ink:#86b6ef; --accent-wash:#1a2a40;
+  --series-2:#d95926; --compare:#4a5260; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1319; --surface:#171c24; --fg:#eef1f5; --fg-2:#c2c9d4; --muted:#8a92a3;
+  --line:#2a313c; --grid:#242b35; --axis:#3a4350;
+  --accent:#3987e5; --accent-ink:#86b6ef; --accent-wash:#1a2a40;
+  --series-2:#d95926; --compare:#4a5260; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--sans);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:900px;margin:0 auto;padding-block:0 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--serif);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(28px,4.5vw,40px);font-weight:600}
+h2{font-size:26px;font-weight:600;margin-top:56px;padding-top:24px;border-top:2px solid var(--fg)}
+h3{font-size:19px;font-weight:600;margin-top:32px}
+h4{font-size:16px;font-weight:600;margin-top:20px;font-family:var(--sans)}
+p,li{max-width:68ch}
+p{margin:10px 0}
+ul,ol{padding-left:22px;margin:8px 0}
+li{margin:4px 0}
+li::marker{color:var(--muted)}
+a{color:var(--accent-ink)}
+strong{font-weight:600}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lede{font-size:18px;color:var(--fg-2);max-width:60ch}
+header.hero{padding-block:36px 8px}
+.examline{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:18px;padding:14px 18px;background:var(--accent-wash);border-left:3px solid var(--accent)}
+.examline div{min-width:0}
+.examline .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.examline .v{font-weight:600}
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line);margin:18px -16px 0;padding:8px 16px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+nav.toc::-webkit-scrollbar{display:none}
+nav.toc a{display:inline-block;padding:6px 10px;margin-right:4px;border-radius:999px;color:var(--fg-2);text-decoration:none;font-size:14px;font-weight:500}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--accent-wash);color:var(--accent-ink);outline:none}
+.note{font-size:14px;color:var(--fg-2);border-left:2px solid var(--line);padding:6px 14px;margin:14px 0}
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:18px 0 6px}
+.howto div{background:var(--surface);border:1px solid var(--line);padding:12px 14px;font-size:14px;min-width:0}
+.howto b{display:block;font-weight:600;margin-bottom:2px}
+
+/* Top 25 */
+ol.facts{list-style:none;padding:0;counter-reset:f;display:grid;grid-template-columns:1fr;gap:0}
+ol.facts li{counter-increment:f;max-width:none;display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);margin:0}
+ol.facts li::before{content:counter(f,decimal-leading-zero);font-family:var(--mono);color:var(--accent-ink);font-size:14px;padding-top:3px}
+ol.facts li>div{min-width:0}
+ol.facts b{font-weight:600}
+.num{font-family:var(--mono);font-size:.95em}
+
+/* tables */
+.tbl{overflow-x:auto;margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--fg-2);font-size:12px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--axis)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hl td{background:var(--accent-wash)}
+
+/* figures */
+figure{margin:22px 0;background:var(--surface);border:1px solid var(--line);padding:16px 18px 12px}
+figure .ft{font-weight:600;font-size:16px;margin:0 0 2px;font-family:var(--sans)}
+figure .fs{font-size:13px;color:var(--fg-2);margin:0 0 10px}
+figure svg{display:block;width:100%;height:auto;overflow:visible}
+figure figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+svg text{font-family:var(--sans);fill:var(--fg-2);font-size:12px}
+svg .tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+svg .lab{fill:var(--fg);font-size:12px}
+svg .val{fill:var(--fg);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+svg .grid{stroke:var(--grid);stroke-width:1}
+svg .axis{stroke:var(--axis);stroke-width:1}
+svg .bar{fill:var(--accent)}
+svg .bar.cmp{fill:var(--compare)}
+svg .bar:hover,svg .dot:hover{opacity:.85}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--fg);color:var(--bg);font-size:12px;padding:6px 9px;border-radius:4px;max-width:260px;display:none;line-height:1.35}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--fg-2);margin-bottom:6px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--accent)}
+.legend span.s2::before{background:var(--series-2)}
+.legend span.cmp::before{background:var(--compare)}
+
+/* diagrams */
+.ladder{display:grid;gap:6px;margin:16px 0}
+.ladder .rung{display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:12px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);min-width:0}
+.ladder .rung:nth-child(1){border-left-color:#9ec5f4}.ladder .rung:nth-child(2){border-left-color:#6da7ec}.ladder .rung:nth-child(3){border-left-color:#3987e5}.ladder .rung:nth-child(4){border-left-color:#1c5cab}
+.ladder .rung b{font-weight:600}
+.ladder .rung span{font-size:14px;color:var(--fg-2)}
+.ladder .scale{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+.vrio{display:grid;gap:4px;margin:16px 0;font-size:14px}
+.vrio div{display:grid;grid-template-columns:1fr auto;gap:10px;padding:8px 12px;background:var(--surface);border:1px solid var(--line);min-width:0}
+.vrio div:last-child{background:var(--accent-wash);border-color:var(--accent)}
+.vrio b{font-weight:600}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:14px 0;max-width:620px}
+.grid2 div{background:var(--surface);border:1px solid var(--line);padding:10px 12px;font-size:14px;min-width:0}
+.grid2 div.hl{background:var(--accent-wash);border-color:var(--accent)}
+.grid2 b{display:block;font-weight:600}
+.cage{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:14px 0}
+.cage div{background:var(--surface);border:1px solid var(--line);padding:10px 12px;font-size:14px;min-width:0}
+.cage b{display:block;font-size:22px;font-family:var(--serif);color:var(--accent-ink)}
+.cage small{display:block;color:var(--fg-2);margin-top:4px}
+.timeline{list-style:none;padding:0;margin:14px 0;font-size:14px}
+.timeline li{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:6px 0;border-bottom:1px solid var(--line);max-width:none;margin:0}
+.timeline li .d{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px;white-space:nowrap}
+.timeline li.key .d{color:var(--accent-ink);font-weight:500}
+.timeline li.key{background:linear-gradient(90deg,var(--accent-wash),transparent 70%)}
+.funnel{display:grid;gap:6px;margin:14px 0}
+.funnel div{background:var(--surface);border:1px solid var(--line);padding:9px 12px;font-size:14px;min-width:0}
+.funnel div:nth-child(2){margin-left:6%}.funnel div:nth-child(3){margin-left:12%}.funnel div:nth-child(4){margin-left:18%}
+.funnel b{font-weight:600}
+
+/* calculator */
+.calc{background:var(--surface);border:1px solid var(--line);padding:16px 18px;margin:18px 0}
+.calc .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.calc label{display:block;font-size:12px;color:var(--fg-2);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.calc input{width:100%;font:16px var(--mono);padding:8px 10px;border:1px solid var(--axis);border-radius:4px;background:var(--bg);color:var(--fg);margin-top:4px}
+.calc input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.calc .out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.calc .out .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.calc .out .v{font-size:24px;font-weight:600}
+.calc .out .v.acc{color:var(--accent-ink)}
+.calc .formula{font-family:var(--mono);font-size:13px;color:var(--fg-2);margin-top:10px;overflow-x:auto;white-space:nowrap}
+
+/* case cards */
+.case{margin-top:28px;padding:18px 20px;background:var(--surface);border:1px solid var(--line)}
+.case h3{margin-top:0}
+.case .meta{font-size:13px;color:var(--muted);margin-bottom:8px}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kv div{min-width:0;border-top:2px solid var(--line);padding-top:6px}
+.kv .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.kv .v{font-size:20px;font-weight:600}
+.kv .v small{font-size:12px;font-weight:500;color:var(--fg-2)}
+
+/* flashcards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin:14px 0}
+.card{background:var(--surface);border:1px solid var(--line);padding:12px 14px;cursor:pointer;min-width:0;transition:transform .12s cubic-bezier(.2,.8,.2,1)}
+.card:active{transform:scale(.985)}
+.card .q{font-weight:600;font-size:15px}
+.card .a{margin-top:8px;font-size:14px;color:var(--fg-2);border-top:1px dashed var(--line);padding-top:8px}
+.card .a[hidden]{display:none}
+.card .hint{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* quiz */
+.quizbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 44px);z-index:8;display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);padding:10px 14px;margin:14px 0}
+.quizbar .score{font-size:20px;font-weight:600}
+.quizbar .score small{font-size:13px;color:var(--fg-2);font-weight:500}
+.quizbar .prog{flex:1 1 160px;height:6px;background:var(--grid);border-radius:3px;overflow:hidden;min-width:120px}
+.quizbar .prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s cubic-bezier(.2,.8,.2,1)}
+button{font:14px/1 var(--sans);font-weight:600;padding:9px 14px;border-radius:6px;border:1px solid var(--axis);background:var(--surface);color:var(--fg);cursor:pointer;transition:transform .1s cubic-bezier(.2,.8,.2,1)}
+button:hover{border-color:var(--accent)}
+button:active{transform:scale(.96)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.qsec{margin-top:22px}
+.qsec h4{margin:16px 0 4px;color:var(--fg-2)}
+.q{background:var(--surface);border:1px solid var(--line);padding:12px 14px;margin:8px 0}
+.q .qt{font-weight:600;max-width:none}
+.q .qt span{font-family:var(--mono);color:var(--muted);font-weight:400;margin-right:6px;font-size:13px}
+.q .opts{display:grid;gap:4px;margin-top:8px}
+.q label{display:grid;grid-template-columns:18px 1fr;gap:10px;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:15px;align-items:start}
+.q label:hover{background:var(--accent-wash)}
+.q input{margin:4px 0 0;accent-color:var(--accent)}
+.q.done label{cursor:default}
+.q.done label:hover{background:none}
+.q label.right{background:color-mix(in srgb,var(--good) 14%,transparent)}
+.q label.wrong{background:color-mix(in srgb,var(--critical) 14%,transparent)}
+.q .fb{font-size:13px;margin-top:6px;font-weight:600}
+.q .fb.ok{color:var(--good)}.q .fb.no{color:var(--critical)}
+.q .fb::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:6px}
+
+.disc{font-size:14px}
+.disc li{max-width:none}
+footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:560px){
+  h2{font-size:22px}
+  .ladder .rung{grid-template-columns:1fr}
+  .grid2{grid-template-columns:1fr}
+  .timeline li{grid-template-columns:78px 1fr}
+  ol.facts li{grid-template-columns:34px 1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <div class="eyebrow">IE · Profs. Pablo Neira and Mikel Aguirre · Final exam guide</div>
+  <h1 style="margin-top:8px">How to Expand Internationally</h1>
+  <p class="lede">Everything from sessions 3 to 14, five cases, the Ghemawat article and eleven class recordings, cut down to what a 40-question multiple-choice exam can ask.</p>
+  <div class="examline">
+    <div><div class="k">Exam</div><div class="v">Friday 6 Nov 2026, in person</div></div>
+    <div><div class="k">Format</div><div class="v">40 multiple choice</div></div>
+    <div><div class="k">Aguirre's rule</div><div class="v">Questions come from the cases</div></div>
+    <div><div class="k">Flagged in class</div><div class="v">Factoring, why Guatemala, Plamar's balance sheet, investment grade, Malaysia and the IMF</div></div>
+  </div>
+  <nav class="toc" aria-label="Sections">
+    <a href="#top25">Top 25</a><a href="#neira">Neira: strategy</a><a href="#aguirre">Aguirre: risk</a><a href="#cases">Cases</a><a href="#flash">Flashcards</a><a href="#quiz">Practice exam</a><a href="#disc">Discrepancies</a>
+  </nav>
+  <div class="howto">
+    <div><b>Blue means remember this</b>Every chart has one focal series in blue and comparisons in grey. There is no legend to decode.</div>
+    <div><b>One message per chart</b>The chart title states the takeaway. The subtitle gives units and source.</div>
+    <div><b>Exact values live in tables</b>Charts show shape; the tables and Top 25 carry the numbers an MCQ needs.</div>
+  </div>
+</header>
+
+<!-- ============ TOP 25 ============ -->
+<h2 id="top25">The 25 facts most likely to be tested</h2>
+<p class="note">If you only have an hour, read this list twice and do the practice exam.</p>
+<ol class="facts">
+<li><div><b>Investment grade is BBB- and above</b> on the S&amp;P scale; below is speculative grade. Use the local-currency, long-term rating. Germany AAA, Spain AA-, India and State Bank of India BBB, Société Générale A. S&amp;P rated Lehman AAA shortly before it failed. S&amp;P is free to use.</div></li>
+<li><div><b>Factoring</b> sells your whole receivables book for liquidity up to 90 percent of invoice value. Discounting is bill by bill and always with recourse. <b>Without recourse</b>: the factor takes default risk and receivables leave the balance sheet. <b>With recourse</b>: unpaid invoices come back, so it is a loan. Cost about 1 to 2 percent. Only works with high-quality debtors. Plamar sold to PDVSA.</div></li>
+<li><div><b>Plamar needed about USD 300,000</b> for a plant making 300,000 handles and 300,000 seals a month. Balance sheet 31 Dec 2002: cash VEB 97.7m, receivables 211.5m, total assets 621.6m. At the deck's rate that is USD 70,361 cash, 152,313 receivables, 447,526 assets. Receivables are one third of assets. Ask the currency and the year before reading any balance sheet.</div></li>
+<li><div><b>Why Guatemala:</b> free trade agreement with Mexico and so NAFTA access to the US, low cost, close to Venezuela, stable currency, inflation about 2 percent, GDP per capita USD 3,646. Brazil dismissed: Lula just elected, too big for USD 240,000. Dominican Republic: devalued peso, inflation 8.6 percent. Plamar today operates in Guatemala, the Dominican Republic, Brazil and Costa Rica.</div></li>
+<li><div><b>Asian crisis response:</b> raise interest rates and defend dollar pegs. Both backfired. Korea's interbank rate hit 30 percent; the Thai market fell 75 percent. Do not raise rates when the debt burden is already large.</div></li>
+<li><div><b>Malaysia was the only country in IMF history (since 1944) to reject IMF aid</b>, in 1997. It used capital controls and spending cuts, helped by oil. Mahathir fired Anwar on 2 Sept 1998, a day after imposing the controls.</div></li>
+<li><div><b>Original sin:</b> developing countries borrow in USD or EUR, not their own currency. A stronger dollar or higher US rates grow the debt automatically.</div></li>
+<li><div><b>Trigger of the Asian crisis was loss of confidence.</b> First sign: 5 Feb 1997, Somprasong Land missed a USD 3.1m interest payment. Thailand floated the baht on 2 July 1997; it fell 15 percent at once.</div></li>
+<li><div><b>IMF packages:</b> Thailand USD 16bn (Aug 1997, 17bn with China), Indonesia 23bn rising to 40bn (Oct 1997), Korea 55bn rising to 58bn (Dec 1997). The IMF lends, it does not donate, at rates below private banks but with austerity conditions.</div></li>
+<li><div><b>Société Générale lost EUR 4.9bn</b> on Kerviel's unauthorized trades, announced 24 Jan 2008, plus about 2bn on subprime. About EUR 50bn of positions unwound in three days; EUR 5.5bn capital increase. 74 alerts closed procedurally. He took 4 days of holiday in 2007. He came from the middle office and knew when controls ran.</div></li>
+<li><div><b>Other rogue traders:</b> Nick Leeson, Barings 1995, GBP 827m (USD 1.3bn), a bank founded in 1762. Kweku Adoboli, UBS 2011, USD 2bn.</div></li>
+<li><div><b>The exporter's lesson from SocGen:</b> never speculate on currency. Close or hedge every open position with a forward. Too many controllers means nobody controls.</div></li>
+<li><div><b>Forward formula:</b> swap points = (SONIA minus EURIBOR) x days x spot / (36,000 + EURIBOR x days); forward = spot + swap points. Class example: spot EUR/GBP 0.8479, EURIBOR 3.013 percent, SONIA 3.732 percent, 180 days, forward about 0.8509. Equal rates give forward equal to spot. Banks earn the bid-ask spread.</div></li>
+<li><div><b>Convertible currency</b> (UN, any one of): unlimited purchase of foreign currency by residents and non-residents; no central bank authorization; traded internationally and widely used. Hard: USD, EUR, GBP, JPY, CHF, CAD, AUD, NZD, SEK, DKK, NOK. Not fully convertible: CNY, INR, RUB, TRY. Non-convertible pairs route through USD, doubling fees and risk.</div></li>
+<li><div><b>Turkish lira:</b> 1 USD = 9 TRY in 1966, 1,650,000 in 2001, six zeros dropped in 2005, 18.30 in Sept 2022, 41.82 in Oct 2025, 49.22 on 8 Oct 2026.</div></li>
+<li><div><b>ICC contract, 8 points:</b> parties, object, transport, terms of payment, guarantees of payment, courts, legislation, risks. Three transaction risks: transport, currency, credit. Term of payment is not a guarantee of payment. Letters of credit cover about 44 percent of international trade.</div></li>
+<li><div><b>Basel capital ratio 8 percent</b> of risk-weighted assets (Basel I, 1988). Basel II (June 2001) kept 8 percent, tied weights to borrower quality, three pillars: minimum capital, supervisory review, disclosure. Basel III added liquidity buffers; Basel IV is current. Schröder: "not acceptable for Germany" (Oct 2001). July 2002 fix: loans under EUR 1m as retail, EUR 1 to 50m turnover lower weights, no long-term surcharge up to EUR 500m, deadline Jan 2007.</div></li>
+<li><div><b>Mittelstand:</b> up to 499 employees and EUR 50m revenue (EU SME definition is 250). 3.6m firms, 68 percent of workers, 80 percent of apprentices. Equity below 20 percent for small firms, the Achilles' heel. Hausbank relationship banking versus Anglo-Saxon capital-market banking.</div></li>
+<li><div><b>German banking pillars (case): three.</b> Public (Landesbanken and Sparkassen), cooperatives, private commercial. Aguirre counted four. Loan margins about 1 percent versus 2 to 3.5 in Europe and 4 in the US. State guarantees phased out after 2005.</div></li>
+<li><div><b>Negative working capital</b> is normal for a supermarket and a red flag for a carmaker like Porsche. Main reason firms default. Creditor order in liquidation: government, banks, employees, suppliers.</div></li>
+<li><div><b>CAGE</b> (Ghemawat): Cultural, Administrative, Geographic, Economic. Frankel and Rose: language +200 percent, trading bloc +330, currency +340, colony-colonizer +900, border +80, ocean access +50; 1 percent more distance cuts trade 1.1 percent. Star TV lost about USD 500m. Tricon's Mexico moved from 16th to 2nd.</div></li>
+<li><div><b>Market selection funnel:</b> PESTEL, then CAGE, then Porter plus detailed market analysis, then the competitive advantage equation (company resources and capabilities matched with country specifics and industry success factors; all three must align). Goals must be SMART.</div></li>
+<li><div><b>Readiness</b> is three home-country analyses: external (five forces), internal (generic strategies, Ansoff), resources (RBV, VRIO). Internationalization is Ansoff's market development. Expect 6 to 18 months of ramp-up.</div></li>
+<li><div><b>Entry ladder</b>, low to high commitment: indirect export, direct export, contractual agreements, FDI. Franchising is the fastest. Alliances fail about 60 percent of the time, mainly through poor partner choice and lack of trust. Sogo shoshas handle 50 percent of Japan's exports and 75 percent of imports.</div></li>
+<li><div><b>Zara:</b> 10 to 15 days sketch to shipment, about 12,000 designs a year, stores order twice a week, replenishment 2.8 percent, 17 visits a year versus 4.1, advertising 0.3 percent versus 3.5, prices 15 percent lower, over 60 percent made near Spain, gross margin 57.4 versus 38.3, FY2017 revenue EUR 25.3bn, 7,475 stores, 96 markets, 70.1 percent of Inditex EBIT.</div></li>
+</ol>
+
+<!-- ============ NEIRA ============ -->
+<h2 id="neira">Neira's half: the strategy of going abroad</h2>
+<p>Neira teaches a five-step arc: global trends, benefits and reasons, are we ready, where, how. The decks are numbered S6 "Ready" and S7 "Where", but he taught Where on 28 Sep before Ready on 2 Oct.</p>
+
+<h3>Global trends (sessions 1 to 2, 5 to 6)</h3>
+<ul>
+<li>About half of today's Fortune 500 will be gone in 7 years; almost 90 percent of the 1955 list is gone.</li>
+<li>Three drivers of disruption: technology (enabler), demographics (silent force), globalization (amplifier). Combinatory technology stacks open tools (Amazon Go). Tesla analyzes about 15 percent of the data it captures.</li>
+<li>Cities generate 80 to 85 percent of GDP; Asia has over half of the 32 megacities; 41 by 2030.</li>
+<li>Price drives 60 percent of international purchasing decisions (McKinsey); Chinese car brands took about 15 percent of Spain's market in 5 years.</li>
+<li>Asset-light platforms expand faster: Alibaba owns no warehouses, Airbnb no hotels, Uber no taxis.</li>
+<li>Distance still matters online: only 12 percent of internet users buy cross-border; e-commerce cross-border use is 11 to 15 percent versus about 50 percent for Facebook.</li>
+<li>Growth is shifting to Southeast Asia, Africa, China and India. Incumbents fail through cultural resistance, not missing data (Kodak, Blockbuster, Nokia).</li>
+</ul>
+
+<h3>Benefits and reasons to internationalize (session 5)</h3>
+<p>Five drivers on the deck plus one shared bucket. The exam question is usually "which of these is a home-market reason" or "which example goes with which reason".</p>
+<div class="tbl"><table>
+<tr><th>Bucket</th><th>Reasons</th><th>Examples used in class</th></tr>
+<tr><td><b>Foreign market pull</b></td><td>Growth; resource seeking (supply, sourcing flexibility, technology, quality, cheaper factors, strategic assets, talent); a specific opportunity; partnerships and trust; serving global customers; learning; getting inside entry barriers; demand pull</td><td>PM Guatemala port; Metrocompost Vietnam; General Kinematics JV; Netflix's Paris office; IKEA Japan "toughest competition"; auditors following clients</td></tr>
+<tr><td><b>Home market push</b></td><td>Small market; slow growth; saturation; seasonality; excess capacity; excessive regulation; recession; diversification</td><td>Singapore; Zara in Spain; IDE snowmaking (Switzerland and South Africa); ham and cava at Christmas; steel wire rod at 85 percent utilization; URBAR; Spanish firms to Argentina after 2008</td></tr>
+<tr><td><b>Both markets</b></td><td>Regulation changes; tax; government incentives</td><td>Uber Spain; Northern Ireland tax; ICEX</td></tr>
+<tr><td><b>Product</b></td><td>Extend the life cycle abroad; exploit an exclusive product or technology</td><td>Full-fat milk, cereals, Coke</td></tr>
+<tr><td><b>Competition</b></td><td>Intense at home; weaker abroad; first-mover advantage; follower move; "offense as defense"</td><td>Zara entered India 2010, H&amp;M followed 2017 (deck); enter the rival's home market to tie up its resources</td></tr>
+<tr><td><b>Scale and scope</b></td><td>Scale lowers unit cost and earns ROI on big projects. Scope shares tangible (labs, distribution) and intangible (brand, reputation) resources, or transfers management capabilities</td><td>National Geographic licensing its brand to merchandise and stores</td></tr>
+</table></div>
+
+<h3>Ready to internationalize? (session 6)</h3>
+<p>Strategy is not a goal ("be number 1"), not a single action ("merge"), and not vision or values. It is how you compete and what advantage you base it on. Readiness is three analyses done at home.</p>
+<h4>1. External: Porter's five forces</h4>
+<p>Identify the industry, identify the players, analyze each force in order, and ask of each whether it is strong enough to erase industry profit. Entry barriers: capital (Boeing and Airbus), scale (the A380 needed about 400 units to break even), absolute cost advantage (Aramco, Intel), differentiation (cosmetics high, low-cost airlines low), distribution access (Mercadona shelves), legal barriers (traffic rights), retaliation. Buyer power rises with concentration, information (Booking, Kayak) and vertical integration (Zara makes its own clothes). Class addition: define industry boundaries first; disruption is an extra angle.</p>
+<h4>2. Internal: generic strategies and Ansoff</h4>
+<p>Generic strategies: cost leadership (Walmart), differentiation (Apple), cost focus (Lidl, Aldi), differentiation focus (Ferrari, Porsche, Tesla). Ansoff has two levers only, what is sold and to whom.</p>
+<div class="grid2">
+  <div><b>Market penetration</b>Existing product, existing market. Only in a growing market. New locations, organic growth, lowest risk.</div>
+  <div><b>Product development</b>New product, existing market. Usually on a trusted brand (Coke flavors, McDonald's salads).</div>
+  <div class="hl"><b>Market development</b>Existing product, new market. New segments, new channels, new geographies. This is internationalization (Uber adapting to Spain's VTC licences).</div>
+  <div><b>Diversification</b>New product, new market. Highest risk, justified by economies of scope (Alphabet, Samsung).</div>
+</div>
+<h4>3. Resources and capabilities: RBV and VRIO</h4>
+<p>Look inside for advantage. Tangible assets can be bought, so they confer little. Intangible assets (brand, know-how, culture) are heterogeneous and immobile, so they sustain advantage. Test each with VRIO (Barney):</p>
+<div class="vrio">
+  <div><span>Not <b>valuable</b></span><span>Competitive disadvantage</span></div>
+  <div><span>Valuable, not <b>rare</b></span><span>Competitive parity</span></div>
+  <div><span>Valuable and rare, but easy to <b>imitate</b></span><span>Temporary advantage</span></div>
+  <div><span>Valuable, rare, costly to imitate, not <b>organized</b> to capture value</span><span>Temporary or unexploited advantage</span></div>
+  <div><span>All four</span><span><b>Sustained competitive advantage</b></span></div>
+</div>
+<p>Costly to imitate comes from time, causal ambiguity and social complexity. Organization means systems, processes, structure and culture. Class addition on funding realism: plan 6 to 18 months of ramp-up before profit and hold cash for capex and working capital. "Spreadsheets can say anything, reality cannot."</p>
+
+<h3>Where? International market selection (session 7)</h3>
+<p>Process: strategic analysis, set main goals (SMART and a little flexible), select potential markets, set country-specific goals, entry strategy, implementation. Ghemawat's warning opens the deck: companies routinely exaggerate the attractiveness of foreign markets. Górecka: selecting foreign markets is one of the most critical decisions in entry strategy.</p>
+<div class="funnel">
+  <div><b>Preliminary screening</b> · macro view with PESTEL · about 200 countries down to 8 to 12</div>
+  <div><b>Second screening</b> · the distance approach, CAGE · can we replicate the business there?</div>
+  <div><b>In-depth screening</b> · Porter's five forces in 2 to 3 countries plus detailed market analysis (size, product acceptance, pricing, distribution, promotion)</div>
+  <div><b>Final selection</b> · the competitive advantage equation: company resources and capabilities matched with country specifics and industry success factors. All three must align; one strength cannot cover a weakness.</div>
+</div>
+<p>Cost of entry, resource constraints and the main goals are weighed at every stage.</p>
+
+<div class="cage">
+  <div><b>C</b>Cultural: language, religion, ethnicity, social norms.<small>Most affects TV and media, food, consumer durables (Japan's small cars), wine.</small></div>
+  <div><b>A</b>Administrative: colonial ties, shared currency or bloc, hostility, policy, corruption, weak institutions.<small>Most affects telecoms, aerospace, electricity, drugs, farming, oil and mining, infrastructure.</small></div>
+  <div><b>G</b>Geographic: remoteness, borders, sea access, size, infrastructure, climate, time zones.<small>Most affects cement and steel, fruit and glass, financial services, services needing local supervision.</small></div>
+  <div><b>E</b>Economic: consumer income, cost and quality of resources, inputs, infrastructure, knowledge.<small>Most affects cars, mobile phones, garments, insurance. Replicators want similar economies; arbitrageurs want different ones.</small></div>
+</div>
+
+<figure>
+  <div class="ft">Shared history and institutions move trade far more than distance in miles</div>
+  <div class="fs">Estimated change in bilateral trade for each distance attribute, percent. Frankel and Rose, cited in Ghemawat (2001).</div>
+  <svg id="fr" viewBox="0 0 760 330" role="img" aria-label="Horizontal bar chart of trade effects: colony-colonizer plus 900 percent, common currency plus 340, regional trading bloc plus 330, common polity plus 300, common language plus 200, common colonizer plus 190, common border plus 80, access to ocean plus 50"></svg>
+  <figcaption>Also in the article: a 1 percent rise in physical distance cuts trade about 1.1 percent, and countries 5,000 miles apart trade only 20 percent of what they would at 1,000 miles.</figcaption>
+</figure>
+
+<p><b>Country portfolio analysis is flawed.</b> It plots per-capita income against penetration with bubbles for market size, so it counts only potential sales and ignores the cost of distance. Tricon (Pizza Hut, Taco Bell, KFC) ranked Mexico 16th of 20 on CPA; adjusting for distance from Dallas, a shared border and a trade agreement moved it to 2nd. Star TV assumed Asian elites wanted English programming and that satellite beat geography; it lost about USD 500m and triggered a Chinese ban after Murdoch called satellite TV a threat to totalitarian regimes. A survey of multinationals in China: 54 percent did worse than planned, 62 percent had overestimated market potential.</p>
+
+<h3>How? Country entry alternatives (session 9)</h3>
+<p>Four levels, chosen by resource commitment, risk, return and the speed you need.</p>
+<div class="ladder">
+  <div class="scale"><span>Low commitment, risk and return</span><span>High</span></div>
+  <div class="rung"><b>1. Indirect export</b><span><b>Importer</b> or export management company (acts as your export department, may use your name, low cost). <b>Agent</b> or representative (commission, does not buy, customers stay yours, may carry rivals). <b>Distributor</b> (buys and resells, wants territory exclusivity, owns the customer). <b>Trading company</b> (full service, no loyalty, Japan's sogo shoshas). Do due diligence: expertise, finances, prompt payment, conflicts, references.</span></div>
+  <div class="rung"><b>2. Direct export</b><span>Internet orders leading to localized sites; wholesalers and purchasing groups; branded manufacturers selling through foreign retail chains (Lee, Wrangler); an export department for B2B high-value products once volume justifies it.</span></div>
+  <div class="rung"><b>3. Contractual agreements</b><span><b>Turnkey</b> projects and concessions. <b>Subcontracting</b> (Boeing). <b>Licensing</b> of patents, trademarks, technology: low capital, works behind import barriers, risks wrong partner and quality; co-marketing (joint promotion, Starbucks and Spotify) versus co-branding (a new joint product, Meta Ray-Ban, McFlurry Oreo). <b>Franchising</b>: franchisor gives the package, franchisee gives capital and local knowledge; fastest expansion, control issues. <b>Strategic alliances and JVs</b>: equity JV creates a new company; non-equity alliances are limited in scope and easier to dissolve. About 60 percent fail.</span></div>
+  <div class="rung"><b>4. Foreign direct investment</b><span><b>Representative office</b> (marketing only, cannot buy or sell). <b>Branch</b> (same activities as the parent, no separate legal entity, liabilities reach the parent, 100 percent owned). <b>Subsidiary</b> (own legal entity, taxed locally, activities can differ, liability limited). Build it <b>greenfield</b> (control, no technology leakage, slow) or by <b>cross-border M&amp;A</b> (fast, income from day one, inherited risks and staff reactions).</span></div>
+</div>
+<p><b>Alliance checklist</b> (contract negotiation): agreed objectives, contributions and rewards with penalties, integration with parent strategy, cultural and organizational fit, leverage of complementary strengths, exit strategy, monitoring. Partner selection needs strategic fit (complementarity) and organizational fit (chemistry, similar values, reputation, compatible decision systems, common time horizon). Put duration, notice period of 60 to 90 days, minimum sales and reporting into any intermediary contract. "Today's ally may be tomorrow's rival."</p>
+
+<!-- ============ AGUIRRE ============ -->
+<h2 id="aguirre">Aguirre's half: the risks of being abroad</h2>
+<p>Aguirre works at Coface, a trade credit insurer in over 60 countries, and has taught at IE since 1998. His sessions move from political and macro risk (3 and 4) to credit crises (10), currency (11), ratings and banking (12) and trade finance (14). The exam questions he wrote come from the four Harvard and IE cases.</p>
+
+<h3>Managing risk and the shifting wealth of nations (sessions 3 to 4)</h3>
+<ul>
+<li><b>Allies become enemies.</b> Iran and Iraq swapped roles between 1979 (embassy seized, hostages 444 days), the 1980s, 1990 (Kuwait), 2003 and 2025. Political risk is not only emerging markets: Iberdrola's 80-turbine US project cancelled in Dec 2025; Naturgy expropriated in Colombia.</li>
+<li><b>Developed versus developing</b> threshold about USD 10,000 GDP per capita. China and Japan are the world's biggest lenders. Japan: debt over 220 percent of GDP held at home, first rate rise in 35 years in 2025.</li>
+<li><b>Four risks on the deck:</b> emerging-market capital flows and foreign-currency debt (original sin), commodity prices, debt, freight costs.</li>
+<li><b>Strait of Hormuz:</b> about 20m barrels a day transit; bypass pipelines carry only about 3.5m; about 27 percent of maritime trade; a third of global fertilizer and about 35 percent of aluminum made nearby. Malacca is the biggest strait by volume, Hormuz second.</li>
+<li><b>Macro toolkit:</b> GDP = C + I + G + NX; balance of payments = current, capital and financial accounts; PESTEL; PMI surveys about 50,000 purchasing managers; 2 percent inflation is healthy, Turkey at 30 to 40 percent is not; about 80 percent of loans are variable rate; exports are untaxed for the exporter everywhere except Argentina.</li>
+<li><b>Mankiw's ten principles</b>, summarized on the deck as: trade can make everyone better off, and living standards depend on productivity. Corporates are read by balance sheet and P&amp;L, countries by balance of payments plus GDP.</li>
+<li><b>Numbers to recognize:</b> Asia-Pacific about 78 percent of world GDP growth 2016 to 2026; China, Germany and the US are the three biggest exporters; 1.52bn tourist arrivals in 2025, Spain 96.8m; Spain built 700,000 flats in 2007 and 70,000 in 2008 (non-productive investment versus Korea's R&amp;D and education).</li>
+</ul>
+<h4>The ICC international contract</h4>
+<p>Eight points: parties (often including distributors), object, transport, terms of payment, guarantees of payment, courts, legislation, risks. The three transaction risks are transport, currency and credit. Use the destination country's courts; London arbitration only for big claims. Pro forma invoices need buyer approval. Cuba's average payment term is 360 days. Letters of credit, governed by the ICC, cover about 44 percent of corporate international trade. Reading: Peter Bernstein, <i>Against the Gods</i>.</p>
+
+<h3>The Asian financial crisis (session 10)</h3>
+<div class="grid2" style="max-width:none;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+  <div><b>Government causes</b>Fixed exchange rates; current account deficits; weak regulation and control.</div>
+  <div><b>Company and market causes</b>Too many financial firms; dependence on short-term foreign funds; currency speculation; overpriced assets.</div>
+  <div><b>External causes</b>Governments paralysed by political uncertainty; the region seen as one unit; speculation; IMF conditions.</div>
+</div>
+<p>Class framing: 1992 to 1997 capital poured into economies growing above 9 percent; banks lend out 97 percent of deposits so mass withdrawals collapse liquidity; a surge in non-performing loans is the early warning; ICISA is the credit insurers' association (Allianz, Atradius, AXA). When a company is liquidated the government is paid first, then banks, then employees, then suppliers.</p>
+
+<figure>
+  <div class="ft">Korea's rescue was three and a half times Thailand's</div>
+  <div class="fs">IMF-led packages announced in 1997, USD billions. Lighter bar shows the later enlarged total. HBS chronology 9-708-001.</div>
+  <svg id="imf" viewBox="0 0 760 230" role="img" aria-label="Bar chart: Philippines 1 billion, Thailand 16 rising to 17, Indonesia 23 rising to 40, Korea 55 rising to 58"></svg>
+</figure>
+
+<ul class="timeline">
+  <li class="key"><span class="d">5 Feb 1997</span><span>Somprasong Land misses a USD 3.1m interest payment, the first Thai default.</span></li>
+  <li><span class="d">11 Mar 1997</span><span>100bn baht bailout of finance companies; Camdessus says he sees no crisis.</span></li>
+  <li><span class="d">14 May 1997</span><span>Thailand adopts selective capital controls to defend the baht.</span></li>
+  <li class="key"><span class="d">2 Jul 1997</span><span>Baht floated for the first time since 1984; falls 15 percent immediately.</span></li>
+  <li><span class="d">14 Jul 1997</span><span>Malaysia floats the ringgit. 15 Jul: Kia under bankruptcy protection.</span></li>
+  <li><span class="d">24 Jul 1997</span><span>Mahathir blames George Soros; on 20 Sept calls currency trading "immoral".</span></li>
+  <li class="key"><span class="d">11 Aug 1997</span><span>IMF USD 16bn for Thailand. 14 Aug: Indonesia floats the rupiah.</span></li>
+  <li><span class="d">23 to 28 Oct 1997</span><span>Hong Kong market loses 25 percent; the won starts to fall.</span></li>
+  <li class="key"><span class="d">31 Oct 1997</span><span>IMF USD 23bn for Indonesia (later 40bn); 16 banks closed.</span></li>
+  <li><span class="d">21 Nov 1997</span><span>Korea "swallows its pride" and asks the IMF for USD 20bn.</span></li>
+  <li class="key"><span class="d">3 Dec 1997</span><span>Korea gets USD 55bn (58bn on 23 Dec). 8 Dec: Thailand shuts 56 of 58 finance companies.</span></li>
+  <li><span class="d">22 Dec 1997</span><span>Moody's cuts Indonesia, Korea and Thailand to junk. 23 Dec: Zhu Rongji rules out a yuan devaluation.</span></li>
+  <li><span class="d">23 Jan 1998</span><span>Rupiah loses a third of its value in five days. 28 Jan: Korea rolls USD 24bn into guaranteed loans.</span></li>
+  <li><span class="d">23 Feb 1998</span><span>Indonesia drops the currency board under IMF pressure. 24 Feb: IMF eases Thai conditions.</span></li>
+  <li><span class="d">13 to 21 May 1998</span><span>Riots in Jakarta; Suharto resigns after 32 years, Habibie takes over.</span></li>
+  <li><span class="d">13 to 17 Jun 1998</span><span>Japan in recession for the first time in 23 years; US and Fed buy yen.</span></li>
+  <li class="key"><span class="d">2 Sep 1998</span><span>Malaysia imposes capital controls; Mahathir fires Anwar Ibrahim the next day.</span></li>
+  <li><span class="d">25 Nov 1998</span><span>Camdessus: "the worst of the crisis is now over."</span></li>
+</ul>
+<p><b>High rates as medicine (deck):</b> Korea's 30 percent interbank rate caused bankruptcies, destroyed confidence and accelerated outflows until the IMF relented; Thailand starved firms of cash, the market fell 75 percent and 600,000 foreign workers went home; Indonesia saw defaults, inflation, riots and Suharto's exit; Malaysia rejected the IMF, pegged deposit rates to leading banks and suffered least.</p>
+<p><b>Asian Tigers versus BRICS:</b> the Tigers (Hong Kong, Singapore, Taiwan, Korea) were small, export-led after import substitution, US-dependent, with GNI per capita of about USD 8,000 to 23,000 in 1993 to 1995. The BRICs are large and diversified (Brazil cars and minerals, Russia oil and arms, India IT, China manufacturing). In 2008 Singapore and Taiwan were unscathed, Korea had NPLs and a crash, Hong Kong speculative attacks; BRIC markets fell then recovered from 2009. Class view: a simultaneous BRICS default is unlikely; risk is country by country. Sovereign debt treatments: Argentina-Russia (default, credit crunch), Turkey-Brazil (long fiscal adjustment, late public payments), India-Lebanon (banks hold the debt, crowding out).</p>
+
+<h3>Currency risk (session 11)</h3>
+<p>Floating currencies are set by supply and demand, more efficient and more volatile. Fixed or pegged currencies need reserves covering the currency in circulation; pegs to the dollar have on average ended badly because only the Fed prints dollars. Convertibility is the ease of buying, selling or exchanging a currency (UN criteria in Top 25). There are 182 official currencies for 193 UN members. A currency future is a standardized exchange-traded contract, usually against USD in units like EUR 125,000, mostly closed before delivery. A forward is the over-the-counter bank hedge. Rising interest rates attract savings and appreciate the currency. The Big Mac Index is purchasing power parity shorthand. S&amp;P, Moody's and Fitch remain the only credible rating agencies.</p>
+
+<div class="calc" id="fwd">
+  <div class="eyebrow" style="margin-bottom:8px">Forward rate calculator (the class formula)</div>
+  <div class="row">
+    <div><label for="spot">Spot (quote per 1 base)</label><input id="spot" type="number" step="0.0001" value="0.8479"></div>
+    <div><label for="rbase">Base rate, percent (EURIBOR)</label><input id="rbase" type="number" step="0.001" value="3.013"></div>
+    <div><label for="rquote">Quote rate, percent (SONIA)</label><input id="rquote" type="number" step="0.001" value="3.732"></div>
+    <div><label for="days">Days</label><input id="days" type="number" step="1" value="180"></div>
+  </div>
+  <div class="out">
+    <div><div class="k">Swap points</div><div class="v" id="swap">0.0030</div></div>
+    <div><div class="k">Forward</div><div class="v acc" id="fwdv">0.8509</div></div>
+    <div><div class="k">Reading</div><div class="v" id="fwdr" style="font-size:15px;font-weight:500"></div></div>
+  </div>
+  <div class="formula">swap = (r_quote − r_base) × days × spot ÷ (36,000 + r_base × days)&nbsp;&nbsp;·&nbsp;&nbsp;forward = spot + swap</div>
+  <figcaption style="font-size:12px;color:var(--muted);margin-top:8px">Defaults are the 8 Oct 2026 class example: EUR/GBP spot 0.8479, EURIBOR 180d 3.013 percent, SONIA 180d 3.732 percent, forward for 8 Apr 2027. Set both rates equal and the forward returns to spot.</figcaption>
+</div>
+
+<h3>Credit ratings and German banking (session 12)</h3>
+<p>Investment grade is BBB- and above. In 2012 CaixaBank, Sabadell and Bankinter fell below it when Spain neared default; Santander and BBVA kept it through global diversification. Public banks carry their sovereign's rating. The German case then asks whether a century-old relationship-banking system had to change.</p>
+<div class="tbl"><table>
+<tr><th>Relationship (German) banking</th><th>Capital-market (Anglo-Saxon) banking</th></tr>
+<tr><td>Hausbank accompanies the firm "from cradle to grave"; patient long-term credit; privacy; strong owner control; bank seats on supervisory boards; lending on trust and project quality</td><td>Equity and shareholder value; transparency; external ratings; arm's-length capital markets; analyzes the borrower's numbers, not the project</td></tr>
+<tr><td>Funds firms through downturns; no dilution</td><td>Cheaper for banks; startups with strong clients but weak balance sheets are rejected</td></tr>
+<tr><td>Risk: thin equity, rising NPLs, low bank profitability, pro-cyclical squeeze under ratings</td><td>Risk: short-termism; Enron happened under this system too</td></tr>
+</table></div>
+<ul>
+<li><b>Basel I</b> (1988, in force end 1992): 8 percent capital to risk-weighted assets, a response to the 1980s debt crisis. <b>Basel II</b> (June 2001): same 8 percent, finer risk weights, three pillars, added market and operational risk. Fears: pro-cyclicality, penalizing low-equity SMEs and long-term loans, about 1,000 disclosure items, the power of three US agencies. <b>July 2002 concessions</b> listed in Top 25; deadline moved to Jan 2007. <b>Basel III</b> liquidity buffers; <b>Basel IV</b> current.</li>
+<li><b>Mittelstand:</b> hidden champions, mechanical engineering firms average 154 employees, Voith counts with 23,000 staff because the family owns 93 percent; one third loss-making in 2001; 500,000 successions due; 40 percent of firms rely on one bank; Porsche (Piech family 57 percent) refused quarterly reports and was dropped from the mid-cap index.</li>
+<li><b>Three pillars:</b> Sparkassen and 12 Landesbanken (state guarantees gave AAA or AA+ and 50 basis points cheaper loans, phased out after 2005), cooperatives (DZ Bank backed SAP's 1988 IPO), private commercial banks (Deutsche, Dresdner, Commerzbank, HVB). Overbanked: about 2,915 banks in 1990. "A graveyard for shareholder value" (Merrill Lynch).</li>
+<li><b>Deutschland AG, five bank levers:</b> lending, cross-shareholdings, securities issuance, supervisory board seats, proxy voting of bearer shares (banks voted about 90 percent at the largest 24 firms and rubber-stamped management). 2001 tax reform cut corporate tax to 25 percent and exempted capital gains on stake sales. Vodafone's hostile bid for Mannesmann in 2000 was "goodbye to Deutschland AG."</li>
+<li><b>Capital markets:</b> market cap 66.8 percent of GDP in 2000 versus 154.9 in the US and 330 in Switzerland; corporate bonds only 6 percent of bank loan volume; the Neuer Markt lost about 95 percent and closed in Sept 2002; of 540 listed firms only about 150 traded actively.</li>
+<li><b>Downturn 2002:</b> every big commercial bank except Deutsche posted losses; Ackermann floated a state bad bank; Schröder promised a Mittelstand bank. Closing line: banks lend you an umbrella when it is sunny and take it back when it rains.</li>
+</ul>
+
+<h3>Trade finance and factoring (session 14)</h3>
+<p>Factoring gives liquidity up to 90 percent of invoice value, debtor risk cover up to 100 percent, off-balance-sheet treatment and better ratios, and professional collections. The factor sets a credit limit per debtor, buys the guaranteed invoices, withholds a reserve for credit notes and pays the fundable amount up to the client's funding limit. Three misconceptions on the deck: it is too expensive (cheaper than running collections yourself), only weak companies use it (now a mainstream product), you lose control of clients (the relationship is professionalized). It ties you to one bank. Listed corporates factor at quarter-end to dress ratios; fintechs offer non-recourse lines of USD 100 to 200m with 25 staff; Coface insures the banks that buy receivables. Cash conversion cycle: cut DSO, trim idle inventory, stretch DPO; permanent current assets need long-term funding.</p>
+
+<figure>
+  <div class="ft">Plamar's receivables alone cover half the plant; cash plus receivables cover about three quarters</div>
+  <div class="fs">Assets at 31 Dec 2002 converted at the deck's rate of 0.00072 USD per bolívar, USD thousands. The line marks the USD 300,000 needed. Plamar case Annex 2 and session 14 deck.</div>
+  <svg id="plamar" viewBox="0 0 760 170" role="img" aria-label="Segmented bar of Plamar assets in USD thousands: cash 70, receivables 152, inventories 101, fixed assets 83, investments 41, total 448, with a reference line at 300"></svg>
+  <figcaption>Factoring the receivables (debtors include PDVSA) turns the second segment into cash without adding debt. Banks had refused loans for lack of collateral.</figcaption>
+</figure>
+
+<!-- ============ CASES ============ -->
+<h2 id="cases">The cases, one screen each</h2>
+
+<div class="case" id="c-plamar">
+  <h3>Plamar, C.A.</h3>
+  <div class="meta">IE GE1-015-I, June 2003, written by IE students under Prof. Ganitsky. Session 14. Aguirre's flagged questions: where the money comes from, what factoring is, why that destination, how to read the balance sheet.</div>
+  <div class="kv">
+    <div><div class="k">Founded</div><div class="v">1994</div></div>
+    <div><div class="k">Seals share</div><div class="v">90% <small>7 customers</small></div></div>
+    <div><div class="k">Handles share</div><div class="v">70%</div></div>
+    <div><div class="k">Plant abroad</div><div class="v">USD 300k</div></div>
+    <div><div class="k">Sales Sept to Dec</div><div class="v">~50% <small>Christmas painting</small></div></div>
+    <div><div class="k">Starting capital</div><div class="v">&lt; USD 5k</div></div>
+  </div>
+  <p><b>People.</b> Francisco Martínez Sr. (born 1949 in Linares, chemical engineer from Barcelona Polytechnic) first went to Venezuela in 1969 for a PVC maker, consulted from 1976, founded a recycling and seals business in 1978 that reached 70 percent of the market, sold up in 1989, went bankrupt with a bag factory in Granada in 1991 and returned to Venezuela with an investor. Sons: Francisco Jr. runs administration and operations, Carlos sales and marketing (finishing an MBA in Madrid), Javier technology.</p>
+  <p><b>Business.</b> Started in cleaning products, switched to plastics with a garage extruder repaired with a scrapyard gearbox. Packaging seals for paint containers (the only local rival closed). Metal handles from 1997 after Vicson refused wire and Galtreca, 600 km away, taught them the process; two Brazilian automatic machines cut staff from 18 to 6 and output rose from 50,000 to 300,000 a month. Industrial bags (35 plus competitors, PDVSA the only LDPE supplier) and shrink-wrap were added to smooth seasonality. Sales are personal relationships.</p>
+  <p><b>Money.</b> No dividends for four years; every bank refused credit for lack of guarantees; suppliers and cash flow financed everything. 2002: domestic sales VEB 331m, exports 134m (handles 68m, seals 66m), net earnings 17.8m. Exports began opportunistically through a Venezuelan coatings exporter whose Dominican clients bought handles from the US and seals from Argentina; then Guatemala, then Bolivia by air.</p>
+  <p><b>Venezuela 2003.</b> GDP expected to fall 12 percent; 60 percent of manufacturers closing; only USD 100m of foreign exchange authorized since February, three days of normal business; oil 50 percent of government revenue, 80 percent of exports, 25 percent of GDP. 2002: GDP minus 8.9 percent, bolívar down over 150 percent, unemployment 18 percent, inflation 22.4 percent. Today: about 7m emigrants, hyperinflation above 700 percent, Dutch disease, price controls.</p>
+  <p><b>The four options.</b> Father: invest at home in bags and shrink-wrap or buy distressed rivals, or wait, worst case divest and return to Spain. Francisco Jr.: export harder; handles and seals earn the best margins; US and Argentine rivals ignore small markets; export know-how is an asset. Carlos: a plant in a neighbor country where over 10 prospects want reliable supply; cuts country risk, gives hard currency and bloc access; costs USD 300,000. Class answer: Guatemala.</p>
+  <div class="tbl"><table>
+  <tr><th>Country</th><th class="n">GDP per capita</th><th class="n">Inflation</th><th>Notes from the case appendix</th><th>Verdict in class</th></tr>
+  <tr><td>Brazil</td><td class="n">n/a</td><td class="n">n/a</td><td>Lula took office Jan 2003 with a USD 30bn IMF loan; high rates; weak infrastructure; real devalued 1999</td><td>Too big, too expensive, political risk</td></tr>
+  <tr class="hl"><td>Guatemala</td><td class="n">USD 3,646</td><td class="n">2%</td><td>Growth 3.08 percent a year 1997 to 2001; stable against USD; FTAs with Chile, Panama, Dominican Republic; link to Mexico and so the US</td><td>Chosen</td></tr>
+  <tr><td>Dominican Republic</td><td class="n">USD 5,294</td><td class="n">8.6%</td><td>2001 reforms with peso devaluation; growth under 3 percent; fiscal surplus 1.5 percent; existing customer</td><td>Considered, lacked the trade advantage</td></tr>
+  </table></div>
+</div>
+
+<div class="case" id="c-socgen">
+  <h3>Société Générale (A): The Jérôme Kerviel Affair</h3>
+  <div class="meta">HBS 9-110-029. Session 11. Deck questions: what caused it, could it happen again and how to prevent it, what makes a currency convertible.</div>
+  <div class="kv">
+    <div><div class="k">Loss on Kerviel</div><div class="v">EUR 4.9bn</div></div>
+    <div><div class="k">Alerts ignored</div><div class="v">74</div></div>
+    <div><div class="k">Fictitious trades</div><div class="v">947 <small>+115 pairs, 9 provisions</small></div></div>
+    <div><div class="k">Desk net limit</div><div class="v">EUR 125m</div></div>
+    <div><div class="k">Days off in 2007</div><div class="v">4</div></div>
+    <div><div class="k">Capital raise</div><div class="v">EUR 5.5bn</div></div>
+  </div>
+  <figure style="margin-top:14px">
+    <div class="ft">A junior trader on a EUR 125m desk ran positions four hundred times that limit</div>
+    <div class="fs">Kerviel's unauthorized index futures exposure at selected dates, EUR billions (short positions shown negative). Case text and Exhibit 6.</div>
+    <svg id="kerviel" viewBox="0 0 760 300" role="img" aria-label="Bar chart of Kerviel positions: short 0.85 billion January 2007, short 2.6 February, short 5.6 March, short 30 July, zero December 2007, long 49 January 2008"></svg>
+  </figure>
+  <p><b>Bank.</b> Founded 1864, nationalized 1945, privatized 1987. Daniel Bouton CEO from 1993, chairman 1997, ENA graduate. SGCIB returned 48 percent on equity in 2006 against 26 percent for the group; equity derivatives were about 20 percent of 2007 profit, profitable every quarter since 1993, Equity Derivatives House of the Year in Jan 2008, 18.4 percent of the warrants market. A "soldier-monk" culture of engineers encouraged to take proprietary risk.</p>
+  <p><b>Desk and man.</b> Delta One (products that move one for one with the underlying), head Martial Rouyère; Listed Products desk head Eric Cordelle from April 2007, a structurer who had never managed traders. Kerviel joined in 2000 in the middle office on about EUR 32,000, became a trading assistant in 2002 and a trader in 2005 on turbo warrants (knock-out options). No Grandes Écoles degree; felt an outsider. Salary EUR 48,000, bonus EUR 60,000 for 2006, asked EUR 600,000 for 2007. Reported EUR 25m proprietary earnings in 2007 (59 percent of the desk) against a true EUR 1.5bn; called the "cash machine".</p>
+  <p><b>Concealment.</b> Fictitious offsetting trades cancelled before monthly checks; pairs offset in quantity but not price (SolarWorld 2,266,500 shares at 63 and 53, a fake EUR 22.7m loss); fraudulent provision flows; technical and internal counterparties (ClickOptions); deferred start dates; seven forged emails; other people's computers; a possibly complicit assistant who booked 15 percent of the fake trades.</p>
+  <p><b>Control failures.</b> His supervisor resigned in Jan 2007 and nobody monitored the desk for two and a half months; Kerviel validated his own March earnings. Cordelle managed on trust; Rouyère gave no guidance. 74 alerts were handled by procedure. Eurex emailed in Oct 2007 about 6,000 contracts in two hours and wrote twice in Nov; compliance answered. The two-week vacation rule was waived after his father died. Ernst &amp; Young and Deloitte reported no concerns while Delta One volumes doubled. Gross positions had no limit.</p>
+  <p><b>Discovery.</b> A Basel II Cooke ratio anomaly on eight forwards; the claimed counterparty Deutsche Bank had no record. Summoned on Saturday 19 Jan 2008, he told Jean-Pierre Mustier he had found a "martingale". Maxime Kahn closed about EUR 50bn in three days with AMF permission to delay disclosure. On 24 Jan 2008: EUR 4.9bn plus about 2bn subprime; 2007 profit fell from EUR 5.2bn to 600 to 800m. Kerviel claimed tacit approval because his profits were impossible within his mandate. The French public sided with him.</p>
+</div>
+
+<div class="case" id="c-asia">
+  <h3>Chronology of the Asian Financial Crisis</h3>
+  <div class="meta">HBS 9-708-001. Session 10. The timeline and causes are in Aguirre's section above.</div>
+  <p>Quotes worth recognizing: Jeffrey Sachs, Asian economies went from darlings to pariahs in months. Mahathir called currency trading unnecessary, unproductive and immoral; Soros called him a menace; Robert Rubin called currency trading integral to global trade. Kim Dae Jung: "our warehouse is empty." Mahathir on the IMF: "we found out it has been very damaging." Camdessus praised Thailand's March 1997 bailout and saw "no reason for this crisis to develop further."</p>
+</div>
+
+<div class="case" id="c-germany">
+  <h3>Banking on Germany?</h3>
+  <div class="meta">HBS 9-703-028, 2003. Session 12. Details in Aguirre's section above.</div>
+  <p>Opening voices: Ohoven (20 to 30 percent of Mittelstand firms may not survive), Lichtblau (more equity requires more openness), HVB ("committed to relationships"). Questions the case poses: is something wrong with German banks, why change a system that worked for a century, is Basel II incompatible with relationship banking, should reform be delayed or accelerated. Context: 82m people, third largest economy, "sick man of Europe", reunification at 1:1, deficit 3.7 percent breaching the Stability Pact, ECB focused on price stability, euro appreciation hurting exports. Aguirre's addition: the case is from 2003, six years before the subprime crisis proved Basel's point, and German resistance came from corporates more than banks.</p>
+</div>
+
+<div class="case" id="c-zara">
+  <h3>What Business Is Zara In?</h3>
+  <div class="meta">Ivey W19157, 2019. Neira's graded case, discussed session 9. Zara is Inditex's flagship; the question is whether the model that beat Gap can beat Uniqlo and Boohoo.</div>
+  <div class="kv">
+    <div><div class="k">FY2017 revenue</div><div class="v">EUR 25.3bn</div></div>
+    <div><div class="k">Stores / markets</div><div class="v">7,475 / 96</div></div>
+    <div><div class="k">Sketch to shipment</div><div class="v">10 to 15 days</div></div>
+    <div><div class="k">Designs a year</div><div class="v">~12,000</div></div>
+    <div><div class="k">Zara share of EBIT</div><div class="v">70.1%</div></div>
+    <div><div class="k">Made near Spain</div><div class="v">&gt; 60%</div></div>
+  </div>
+  <figure style="margin-top:14px">
+    <div class="ft">Zara spends a tenth of the industry on advertising and keeps half again the margin</div>
+    <div class="fs">Zara against the industry or main rival on four metrics named in the case. Each panel has its own scale.</div>
+    <div class="legend"><span>Zara</span><span class="cmp">Industry or rival</span></div>
+    <svg id="zara" viewBox="0 0 760 150" role="img" aria-label="Four paired bar panels: gross margin 57.4 versus 38.3 percent; advertising 0.3 versus 3.5 percent of revenue; store visits 17 versus 4.1 a year; sketch to shelf 15 days versus about 270 days for traditional retailers"></svg>
+    <figcaption>Replenishment rate 2.8 percent has no industry comparator in the case; Boohoo matches Zara on margin (52.8 percent) and speed (two weeks).</figcaption>
+  </figure>
+  <figure>
+    <div class="ft">Growth came entirely from abroad while the Spanish estate shrank</div>
+    <div class="fs">Inditex stores by location, 2012 to 2017. Case Exhibit 1.</div>
+    <div class="legend"><span>Abroad</span><span class="s2">Spain</span></div>
+    <svg id="stores" viewBox="0 0 760 260" role="img" aria-label="Two-line chart: stores abroad rose from 4,079 in 2012 to 5,787 in 2017; stores in Spain fell from 1,930 to 1,688"></svg>
+    <figcaption>This is the session 5 "home market saturation" reason in one picture.</figcaption>
+  </figure>
+  <p><b>Story.</b> Amancio Ortega started dressmaking in 1963 aged 16, opened the first Zara in La Coruña (246,000 people) in 1975, 1,000 stores in 17 years, IPO 23 May 2001. Sales grew from EUR 5.67bn in 2004 to 23.34bn in 2017; gross margin 57.4 percent versus an industry 38.3; 593 stores in China by 2014; a USD 280m SoHo store; stores revamped every four to five years; 0.62 net openings a day. Clothes cost about 20 percent more to make than rivals' offshore product and are priced about 15 percent lower.</p>
+  <p><b>Model.</b> Link design to manufacturing and distribution for rapid response, with decentralized decisions. Three levels of "commercials": design teams of four (two product managers, two designers) with authority over design, fabric, quantities and price; regional commercials linking stores to La Coruña; store managers counting stock by hand and ordering twice a week. Small batches test demand; scarcity makes customers buy now. Everything ships from one center fed by 11 factories over 124 miles of underground monorail and reaches stores in two days. CEO Isla rejects "fast fashion": the point is accuracy, store by store, week by week.</p>
+  <p><b>Class VRIO.</b> The automated distribution network (rare, capital-intensive, built since 1975), the three-tier commercial system (culturally embedded, decades of subcontractor relationships), and the vertically integrated supply chain in Spain, Morocco and Portugal all pass valuable, rare and costly to imitate, and the single centralized system organizes them, so the advantage is sustained. The industry's key risk is the fashion miss; Zara reacts instead of predicting. Traditional and Zara-style models can coexist. Competitors: Uniqlo (3,445 stores, "a technology company"), Boohoo (GBP 580m sales, 100 new products a day), Gap (USD 673m advertising, 4.2 percent of sales).</p>
+</div>
+
+<div class="case" id="c-ghemawat">
+  <h3>Distance Still Matters</h3>
+  <div class="meta">Pankaj Ghemawat, HBR Sept 2001. Reading for session 7. Full treatment in Neira's section.</div>
+  <p>Country portfolio analysis counts potential sales and ignores the cost of distance. Distance has four dimensions and each hits industries differently (electricity is sensitive to administrative and geographic distance but not cultural; TV is sensitive to cultural distance; "TV is hardly cement"). The gravity model explains up to two thirds of trade variation. Company features change distance: cosmopolitan managers shrink cultural distance; Tricon already owned four fifths of its Mexican outlets with a 38 percent share. Focused Maytag outperformed far-flung Electrolux and Whirlpool.</p>
+</div>
+
+<!-- ============ FLASHCARDS ============ -->
+<h2 id="flash">Flashcards</h2>
+<p class="note">Tap a card to reveal the answer. Twenty questions; the professors' favorite recall items.</p>
+<div class="cards" id="cards"></div>
+
+<!-- ============ QUIZ ============ -->
+<h2 id="quiz">Practice exam</h2>
+<p>Fifty questions in the style of Friday's paper. Pick an answer and the card marks it immediately. Target 45 of 50.</p>
+<div class="quizbar">
+  <div class="score"><span id="sc">0</span> / 50 <small id="scsub">0 answered</small></div>
+  <div class="prog"><i id="pg"></i></div>
+  <button id="reset" type="button">Reset</button>
+</div>
+<div id="quizroot"></div>
+
+<!-- ============ DISCREPANCIES ============ -->
+<h2 id="disc">Where class and source disagree</h2>
+<ul class="disc">
+<li><b>SocGen loss.</b> The case says EUR 4.9bn from Kerviel plus about 2bn subprime; the session 11 recording summarized it as 7.2bn. Answer 4.9bn for Kerviel.</li>
+<li><b>Zara and H&amp;M in India.</b> The deck says Zara 2010 and H&amp;M followed in 2017; the recording reversed it. Trust the deck.</li>
+<li><b>German banking pillars.</b> The case says three; Aguirre listed four by splitting Landesbanken from Sparkassen.</li>
+<li><b>Plamar's exchange rate.</b> The deck annex uses about 1,380 bolívares per dollar (0.00072 USD per VEB); the recording mentions 7.1. The dollar figures are the same either way.</li>
+<li><b>Session 13.</b> No deck and no recording. Unknown what was covered. Check Canvas.</li>
+<li><b>Sessions 1 to 2 and 12.</b> No decks uploaded; covered here from the recordings and the Germany case.</li>
+</ul>
+
+<footer>Built 5 Nov 2026 from the session decks (S3-4, S5, S6, S7, S9, S10, S11, S14), five cases, the Ghemawat article and eleven Granola class recordings. Charts are drawn to scale from the figures in those sources; where a figure is approximate it says so in the text.</footer>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+(function(){
+const tip=document.getElementById('tip');
+function showTip(e,html){tip.innerHTML=html;tip.style.display='block';moveTip(e)}
+function moveTip(e){const x=Math.min(e.clientX+12,window.innerWidth-280),y=e.clientY+14;tip.style.left=x+'px';tip.style.top=y+'px'}
+function hideTip(){tip.style.display='none'}
+const NS='http://www.w3.org/2000/svg';
+function el(n,a,txt){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e}
+function hov(node,html){node.addEventListener('mouseenter',e=>showTip(e,html));node.addEventListener('mousemove',moveTip);node.addEventListener('mouseleave',hideTip);node.addEventListener('focus',e=>{const r=node.getBoundingClientRect();showTip({clientX:r.left,clientY:r.top},html)});node.addEventListener('blur',hideTip);node.setAttribute('tabindex','0')}
+function fmt(n){return n.toLocaleString('en-US')}
+
+/* 1. Frankel-Rose horizontal bars */
+(function(){
+  const svg=document.getElementById('fr');if(!svg)return;
+  const data=[['Colony-colonizer relationship',900],['Common currency',340],['Common regional trading bloc',330],['Common polity',300],['Common language',200],['Common colonizer',190],['Common border',80],['Access to ocean',50]];
+  const L=230,R=60,T=10,W=760,H=330,bh=24,gap=12;const pw=W-L-R;const max=1000;
+  [0,250,500,750,1000].forEach(v=>{const x=L+pw*v/max;svg.appendChild(el('line',{x1:x,x2:x,y1:T,y2:T+data.length*(bh+gap),class:v?'grid':'axis'}));svg.appendChild(el('text',{x:x,y:T+data.length*(bh+gap)+16,class:'tick','text-anchor':'middle'},'+'+v+'%'))});
+  data.forEach((d,i)=>{const y=T+i*(bh+gap);const w=pw*d[1]/max;
+    const r=el('rect',{x:L,y:y,width:Math.max(w,2),height:bh,rx:0,class:'bar'+(i?' cmp':'')});r.setAttribute('style','rx:0');
+    const p=el('path',{d:`M${L} ${y}h${w-4}a4 4 0 0 1 4 4v${bh-8}a4 4 0 0 1 -4 4H${L}z`,class:'bar'+(i?' cmp':'')});
+    svg.appendChild(p);hov(p,`<b>${d[0]}</b><br>+${d[1]}% trade`);
+    svg.appendChild(el('text',{x:L-10,y:y+bh/2+4,class:'lab','text-anchor':'end'},d[0]));
+    svg.appendChild(el('text',{x:L+w+8,y:y+bh/2+4,class:'val'},'+'+d[1]+'%'));
+  });
+})();
+
+/* 2. IMF packages: initial + enlarged */
+(function(){
+  const svg=document.getElementById('imf');if(!svg)return;
+  const data=[['Philippines (Jul 1997)',1,1],['Thailand (Aug 1997)',16,17],['Indonesia (Oct 1997)',23,40],['Korea (Dec 1997)',55,58]];
+  const L=170,R=70,T=10,W=760,bh=26,gap=14,pw=W-L-R,max=60;
+  const bottom=T+data.length*(bh+gap);
+  [0,20,40,60].forEach(v=>{const x=L+pw*v/max;svg.appendChild(el('line',{x1:x,x2:x,y1:T,y2:bottom,class:v?'grid':'axis'}));svg.appendChild(el('text',{x:x,y:bottom+16,class:'tick','text-anchor':'middle'},'$'+v+'bn'))});
+  data.forEach((d,i)=>{const y=T+i*(bh+gap);const w1=pw*d[1]/max,w2=pw*d[2]/max;
+    if(d[2]>d[1]){const p2=el('path',{d:`M${L+w1+2} ${y}H${L+w2-4}a4 4 0 0 1 4 4v${bh-8}a4 4 0 0 1 -4 4H${L+w1+2}z`});p2.setAttribute('fill','var(--accent)');p2.setAttribute('opacity','0.35');svg.appendChild(p2);hov(p2,`<b>${d[0]}</b><br>Enlarged to USD ${d[2]}bn`)}
+    const p=el('path',{d:d[2]>d[1]?`M${L} ${y}h${w1}v${bh}H${L}z`:`M${L} ${y}h${w1-4}a4 4 0 0 1 4 4v${bh-8}a4 4 0 0 1 -4 4H${L}z`,class:'bar'});svg.appendChild(p);hov(p,`<b>${d[0]}</b><br>Initial package USD ${d[1]}bn`);
+    svg.appendChild(el('text',{x:L-10,y:y+bh/2+4,class:'lab','text-anchor':'end'},d[0]));
+    svg.appendChild(el('text',{x:L+w2+8,y:y+bh/2+4,class:'val'},d[2]>d[1]?`${d[1]} → ${d[2]}`:String(d[1])));
+  });
+})();
+
+/* 3. Plamar segmented bar vs 300k */
+(function(){
+  const svg=document.getElementById('plamar');if(!svg)return;
+  const segs=[['Cash',70.361],['Receivables',152.313],['Inventories',100.553],['Fixed assets',83.219],['Investments',41.080]];
+  const total=segs.reduce((a,s)=>a+s[1],0);const L=20,R=20,W=760,pw=W-L-R,max=500,y=52,h=40;
+  [0,100,200,300,400,500].forEach(v=>{const x=L+pw*v/max;svg.appendChild(el('line',{x1:x,x2:x,y1:y-8,y2:y+h+8,class:'grid'}));svg.appendChild(el('text',{x:x,y:y+h+24,class:'tick','text-anchor':'middle'},v?v+'k':'0'))});
+  let x=L;segs.forEach((s,i)=>{const w=pw*s[1]/max-2;const r=el('rect',{x:x,y:y,width:w,height:h,class:'bar'+(i>1?' cmp':'')});if(i===0)r.setAttribute('opacity','0.6');svg.appendChild(r);hov(r,`<b>${s[0]}</b><br>USD ${fmt(Math.round(s[1]*1000))}<br>${Math.round(s[1]/total*100)}% of assets`);
+    if(w>62){svg.appendChild(el('text',{x:x+w/2,y:y+h/2-2,'text-anchor':'middle',class:'lab',style:'fill:'+(i>1?'var(--fg)':'#fff')+';font-size:11px'},s[0]));svg.appendChild(el('text',{x:x+w/2,y:y+h/2+12,'text-anchor':'middle',style:'fill:'+(i>1?'var(--fg)':'#fff')+';font-size:12px;font-weight:600;font-variant-numeric:tabular-nums'},Math.round(s[1])+'k'))}
+    x+=w+2});
+  const need=L+pw*300/max;const ln=el('line',{x1:need,x2:need,y1:y-18,y2:y+h+10});ln.setAttribute('stroke','var(--fg)');ln.setAttribute('stroke-width','2');svg.appendChild(ln);
+  svg.appendChild(el('text',{x:need+6,y:y-8,class:'val'},'Needed: USD 300k'));
+  svg.appendChild(el('text',{x:L+pw*total/max+6,y:y+h/2+4,class:'val'},'Total '+Math.round(total)+'k'));
+  const sub=el('text',{x:L,y:y+h+46,class:'tick'},'Cash + receivables = USD 223k. Investments (41k) are the small final segment.');svg.appendChild(sub);
+})();
+
+/* 4. Kerviel positions */
+(function(){
+  const svg=document.getElementById('kerviel');if(!svg)return;
+  const data=[['Jan 2007',-0.85],['Feb 2007',-2.6],['Mar 2007',-5.6],['Jul 2007',-30],['Dec 2007',0],['Jan 2008',49]];
+  const L=70,R=20,T=16,B=40,W=760,H=300,pw=W-L-R,ph=H-T-B,min=-40,max=60;
+  const yOf=v=>T+ph*(max-v)/(max-min);
+  [-40,-20,0,20,40,60].forEach(v=>{const y=yOf(v);svg.appendChild(el('line',{x1:L,x2:W-R,y1:y,y2:y,class:v===0?'axis':'grid'}));svg.appendChild(el('text',{x:L-8,y:y+4,class:'tick','text-anchor':'end'},(v>0?'+':'')+v))});
+  const n=data.length,slot=pw/n,bw=Math.min(70,slot*0.6);
+  const lim=yOf(0.125);
+  data.forEach((d,i)=>{const cx=L+slot*i+slot/2;const y0=yOf(0),y1=yOf(d[1]);const top=Math.min(y0,y1),hh=Math.max(Math.abs(y1-y0),2);
+    const r=el('rect',{x:cx-bw/2,y:top,width:bw,height:hh,class:'bar'+(i===n-1?'':' cmp')});if(d[1]<0)r.setAttribute('class','bar');svg.appendChild(r);
+    hov(r,`<b>${d[0]}</b><br>${d[1]===0?'All index positions closed':(d[1]<0?'Short DAX futures EUR '+Math.abs(d[1])+'bn':'Long index futures EUR '+d[1]+'bn')}`);
+    svg.appendChild(el('text',{x:cx,y:H-B+18,class:'tick','text-anchor':'middle'},d[0]));
+    svg.appendChild(el('text',{x:cx,y:d[1]>=0?top-6:top+hh+14,class:'val','text-anchor':'middle'},d[1]===0?'0':(d[1]<0?'−'+Math.abs(d[1]):'+'+d[1])));
+  });
+  const ll=el('line',{x1:L,x2:W-R,y1:lim,y2:lim});ll.setAttribute('stroke','var(--fg)');ll.setAttribute('stroke-width','1');ll.setAttribute('stroke-dasharray','3 3');svg.appendChild(ll);
+  svg.appendChild(el('text',{x:L+6,y:lim-8,class:'tick'},'Desk net limit: EUR 0.125bn (the dashed line, barely above zero)'));
+})();
+
+/* 5. Zara four panels */
+(function(){
+  const svg=document.getElementById('zara');if(!svg)return;
+  const panels=[['Gross margin, %',57.4,38.3,'Zara','Industry',70],['Advertising, % of revenue',0.3,3.5,'Zara','Industry',4],['Store visits per year',17,4.1,'Zara','Brand-loyal shopper',20],['Sketch to shelf, days',15,270,'Zara','Traditional (≈9 months)',300]];
+  const W=760,pw=W/4,T=28,bh=22,gap=8;
+  panels.forEach((p,i)=>{const x0=i*pw+12,w=pw-24,max=p[5];
+    svg.appendChild(el('text',{x:x0,y:14,class:'lab',style:'font-weight:600'},p[0]));
+    [[p[1],p[3],'bar'],[p[2],p[4],'bar cmp']].forEach((b,j)=>{const y=T+j*(bh+gap);const bw=Math.max(w*b[0]/max,2);
+      const r=el('rect',{x:x0,y:y,width:bw,height:bh,class:b[2]});svg.appendChild(r);hov(r,`<b>${b[1]}</b><br>${p[0]}: ${b[0]}`);
+      const inside=bw>70;svg.appendChild(el('text',{x:inside?x0+6:x0+bw+6,y:y+bh/2+4,class:'val',style:inside?'fill:'+(j?'var(--fg)':'#fff'):''},String(b[0])));
+      svg.appendChild(el('text',{x:x0,y:T+2*(bh+gap)+14+j*14,class:'tick'},(j?'Grey: ':'Blue: ')+b[1]));
+    });
+    svg.appendChild(el('line',{x1:x0,x2:x0,y1:T-4,y2:T+2*(bh+gap)-gap+4,class:'axis'}));
+  });
+})();
+
+/* 6. Inditex stores two lines */
+(function(){
+  const svg=document.getElementById('stores');if(!svg)return;
+  const yrs=[2012,2013,2014,2015,2016,2017];const abroad=[4079,4482,4861,5187,5505,5787];const spain=[1930,1858,1822,1826,1787,1688];
+  const L=64,R=90,T=16,B=36,W=760,H=260,pw=W-L-R,ph=H-T-B,min=0,max=6000;
+  const xOf=i=>L+pw*i/(yrs.length-1),yOf=v=>T+ph*(max-v)/(max-min);
+  [0,2000,4000,6000].forEach(v=>{const y=yOf(v);svg.appendChild(el('line',{x1:L,x2:W-R,y1:y,y2:y,class:v?'grid':'axis'}));svg.appendChild(el('text',{x:L-8,y:y+4,class:'tick','text-anchor':'end'},fmt(v)))});
+  yrs.forEach((y,i)=>svg.appendChild(el('text',{x:xOf(i),y:H-B+18,class:'tick','text-anchor':'middle'},y)));
+  [[abroad,'var(--accent)','Abroad'],[spain,'var(--series-2)','Spain']].forEach(s=>{
+    const d=s[0].map((v,i)=>(i?'L':'M')+xOf(i)+' '+yOf(v)).join(' ');const p=el('path',{d:d,fill:'none',stroke:s[1],'stroke-width':2,'stroke-linejoin':'round'});svg.appendChild(p);
+    s[0].forEach((v,i)=>{const c=el('circle',{cx:xOf(i),cy:yOf(v),r:4,fill:s[1],stroke:'var(--surface)','stroke-width':2,class:'dot'});svg.appendChild(c);hov(c,`<b>${s[2]} ${yrs[i]}</b><br>${fmt(v)} stores`)});
+    svg.appendChild(el('text',{x:xOf(5)+10,y:yOf(s[0][5])+4,class:'val'},s[2]+' '+fmt(s[0][5])));
+    svg.appendChild(el('text',{x:xOf(0)-8,y:yOf(s[0][0])+(s[2]==='Spain'?14:-8),class:'tick','text-anchor':'start'},fmt(s[0][0])));
+  });
+})();
+
+/* Forward calculator */
+(function(){
+  const ids=['spot','rbase','rquote','days'];const g=id=>parseFloat(document.getElementById(id).value);
+  function run(){const s=g('spot'),rb=g('rbase'),rq=g('rquote'),d=g('days');if(![s,rb,rq,d].every(Number.isFinite)){return}
+    const swap=(rq-rb)*d*s/(36000+rb*d);const f=s+swap;
+    document.getElementById('swap').textContent=(swap>=0?'+':'')+swap.toFixed(4);document.getElementById('fwdv').textContent=f.toFixed(4);
+    document.getElementById('fwdr').textContent=Math.abs(swap)<1e-9?'Rates equal: forward = spot.':(swap>0?'Quote currency has the higher rate, so the base buys more of it forward.':'Base currency has the higher rate, so it buys less forward.');}
+  ids.forEach(id=>document.getElementById(id).addEventListener('input',run));run();
+})();
+
+/* Flashcards */
+(function(){
+  const cards=[
+  ['What is the floor of investment grade?','BBB- on the S&P scale. Below it is speculative grade.'],
+  ['Four entry-mode levels, low to high commitment?','Indirect export, direct export, contractual agreements, foreign direct investment.'],
+  ['Two measures that made the Asian crisis worse?','Raising interest rates and defending dollar pegs.'],
+  ['Only country ever to reject IMF aid?','Malaysia, 1997. Capital controls, spending cuts, oil revenue.'],
+  ['Who bears default risk in non-recourse factoring?','The factor. Receivables leave the seller\'s balance sheet.'],
+  ['How much did Plamar need and how much liquid value did it have?','USD 300,000 needed; about USD 70,000 cash plus 152,000 receivables.'],
+  ['Why Guatemala over Brazil and the Dominican Republic?','FTA with Mexico and so US access, low cost, proximity, stable currency and 2 percent inflation. Brazil too big and risky under new Lula; the DR had devaluation and 8.6 percent inflation.'],
+  ['Forward formula?','Swap points = (SONIA − EURIBOR) × days × spot ÷ (36,000 + EURIBOR × days). Forward = spot + swap points.'],
+  ['CAGE and one sensitive industry each?','Cultural (TV, food); Administrative (telecoms, aerospace, electricity); Geographic (cement, fruit, financial services); Economic (cars, garments).'],
+  ['Ansoff cell for internationalization?','Market development: existing product, new market.'],
+  ['VRIO ladder?','Not valuable: disadvantage. Not rare: parity. Imitable: temporary. Not organized: unexploited. All four: sustained advantage.'],
+  ['Alerts on Kerviel and his 2007 holidays?','74 alerts; 4 days off.'],
+  ['Basel capital ratio and the disclosure pillar?','8 percent; pillar three.'],
+  ['Three pillars of German banking?','Public savings banks and Landesbanken; cooperatives; private commercial banks.'],
+  ['Eight ICC contract points?','Parties, object, transport, terms of payment, guarantees of payment, courts, legislation, risks.'],
+  ['Share of international trade on letters of credit?','About 44 percent.'],
+  ['Original sin?','Borrowing in a foreign hard currency instead of your own.'],
+  ['Biggest Frankel-Rose trade effect?','Colony-colonizer ties, +900 percent. Then currency +340, bloc +330, language +200.'],
+  ['Zara replenishment rate and visit frequency?','2.8 percent; 17 visits a year versus 4.1.'],
+  ['Fastest entry mode, and why alliances fail?','Franchising; poor partner selection and lack of trust (about 60 percent fail).']];
+  const root=document.getElementById('cards');
+  cards.forEach(c=>{const d=document.createElement('div');d.className='card';d.setAttribute('role','button');d.setAttribute('tabindex','0');d.setAttribute('aria-expanded','false');
+    d.innerHTML=`<div class="q">${c[0]}</div><div class="a" hidden>${c[1]}</div><div class="hint">Tap to reveal</div>`;
+    const tog=()=>{const a=d.querySelector('.a');a.hidden=!a.hidden;d.setAttribute('aria-expanded',String(!a.hidden));d.querySelector('.hint').textContent=a.hidden?'Tap to reveal':'Tap to hide'};
+    d.addEventListener('click',tog);d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog()}});root.appendChild(d)});
+})();
+
+/* Quiz */
+(function(){
+  const Q=[
+  ['Plamar and factoring',[
+  ['In June 2003 Plamar\'s estimated cost for a plant abroad producing 300,000 handles and 300,000 seals a month was:',['USD 100,000','USD 300,000','USD 1 million','USD 3 million'],1],
+  ['On Plamar\'s 31 Dec 2002 balance sheet, accounts receivable were roughly what share of total assets?',['One tenth','One fifth','One third','One half'],2],
+  ['Converted at the rate used in class, Plamar\'s cash in hand was approximately:',['USD 7,000','USD 70,000','USD 700,000','USD 97 million'],1],
+  ['The decisive reason given in class for choosing Guatemala was:',['Largest plastics market in the region','Free trade agreement with Mexico giving access to the US','Shared currency with Venezuela','Lowest corporate tax in Latin America'],1],
+  ['Brazil was dismissed as Plamar\'s destination mainly because:',['It had no plastics industry','Lula had just taken office and the market was too big and expensive for Plamar\'s funds','Portuguese language','It banned foreign plastics firms'],1],
+  ['Factoring without recourse means:',['The seller must buy back unpaid invoices','The factor absorbs the debtor\'s default risk and receivables leave the balance sheet','Only one invoice is financed at a time','The bank charges no fee'],1],
+  ['The main difference between discounting and factoring is:',['Discounting is cheaper','Factoring covers the whole receivables book; discounting is bill by bill and always with recourse','Factoring requires a letter of credit','Discounting is only for exports'],1],
+  ['Factoring works best for an SME whose:',['Debtors are high quality','Debtors are small and fragmented','Sales are in cash','Receivables are overdue'],0],
+  ['Plamar\'s typical sources of finance before 2003 were:',['Bank loans and bonds','Venture capital','Suppliers and own cash flow','Government grants'],2],
+  ['Why did banks refuse Plamar loans?',['Lack of guarantees or collateral','The company was loss-making','It had no export sales','Venezuelan law forbade SME lending'],0],
+  ['About what share of Plamar\'s annual sales fell between September and December, and why?',['20 percent, school season','50 percent, Venezuelans paint homes before Christmas','75 percent, harvest','10 percent, holidays'],1],
+  ['Plamar\'s first export customer was in:',['Guatemala','Bolivia','The Dominican Republic','Brazil'],2],
+  ['Typical factoring cost mentioned in class:',['0.1 percent','1 to 2 percent of receivables','10 percent','25 percent'],1]]],
+  ['Asian financial crisis',[
+  ['The first warning sign in the HBS chronology (5 Feb 1997) was:',['Thailand floating the baht','Somprasong Land missing a USD 3.1 million interest payment','Korea\'s IMF request','Suharto\'s resignation'],1],
+  ['When Thailand floated the baht on 2 July 1997 it immediately fell about:',['5 percent','15 percent','50 percent','75 percent'],1],
+  ['The two policy measures finance ministries used in response to the crisis were:',['Lower rates and float currencies','Raise interest rates and peg currencies to the US dollar','Capital controls and devaluation','Nationalization and tariffs'],1],
+  ['Which country was the only one in IMF history to reject IMF aid?',['Thailand','Indonesia','Malaysia','South Korea'],2],
+  ['Korea\'s December 1997 IMF-led package was initially:',['USD 16 billion','USD 23 billion','USD 40 billion','USD 55 billion'],3],
+  ['"Original sin" refers to:',['Corruption in emerging markets','Borrowing in a hard currency rather than your own','Running a current account deficit','Fixed exchange rates'],1],
+  ['In Korea, IMF conditions pushed short-term interbank rates to about:',['5 percent','10 percent','30 percent','100 percent'],2],
+  ['When a company is liquidated, who is paid first according to class?',['Suppliers','Employees','Banks','Government (taxes and social security)'],3],
+  ['The Thai stock market fell approximately how much during the crisis (deck figure)?',['25 percent','50 percent','75 percent','90 percent'],2],
+  ['A rise in non-performing loans is best described as:',['A lagging indicator of recovery','An early warning of a liquidity crisis','A sign of strong lending','Irrelevant to country risk'],1]]],
+  ['Société Générale and currency risk',[
+  ['Société Générale\'s loss attributed to Kerviel\'s unauthorized trades was:',['EUR 1.4 billion','EUR 2 billion','EUR 4.9 billion','EUR 7.2 billion'],2],
+  ['How many alerts did control agents receive about Kerviel\'s activity between late 2006 and early 2008?',['7','24','74','947'],2],
+  ['Kerviel\'s background that helped him evade controls was:',['He was a former auditor','He started in the middle office','He was a Polytechnique graduate','He ran the compliance department'],1],
+  ['The DLP desk\'s authorized net risk limit was:',['EUR 125 million','EUR 1.25 billion','EUR 5 billion','EUR 50 billion'],0],
+  ['Which control did Kerviel avoid by taking only four days off in 2007?',['Daily position reports','The mandatory two-week vacation that lets someone else run the book','Eurex reporting','Basel II capital charges'],1],
+  ['The anomaly that finally exposed the fraud came from:',['A Eurex letter','A Cooke ratio check on eight forwards with a fictitious counterparty','A whistleblower','The annual audit'],1],
+  ['Nick Leeson\'s losses that sank Barings in 1995 were about:',['GBP 82 million','GBP 827 million','GBP 8.2 billion','GBP 4.9 billion'],1],
+  ['With spot EUR/GBP 0.8479, EURIBOR 3.013 percent and SONIA 3.732 percent for 180 days, the forward is approximately:',['0.8449','0.8479','0.8509','0.8809'],2],
+  ['If the two currencies\' interest rates are identical, the forward rate:',['Is below spot','Equals spot','Is above spot','Cannot be calculated'],1],
+  ['Which of these is NOT one of the UN criteria for a freely convertible currency?',['Residents and non-residents may buy unlimited foreign currency','No central bank authorization is needed','The currency is traded internationally and widely used','The currency is backed by gold'],3],
+  ['Which currency is NOT fully convertible?',['Swiss franc','Chinese yuan','Japanese yen','Canadian dollar'],1],
+  ['The exporter\'s core lesson from the SocGen case is:',['Hire more traders','Never speculate on currency; hedge every open position with a forward','Use only US dollars','Avoid derivatives entirely'],1],
+  ['Banks make money on FX mainly from:',['Predicting rates','The bid-ask spread','Government subsidies','Currency futures'],1]]],
+  ['Ratings and German banking',[
+  ['Investment grade on the S&P scale is:',['A- and above','BBB- and above','BB+ and above','AA and above'],1],
+  ['The Basel minimum capital ratio is:',['4 percent','8 percent','10 percent','20 percent'],1],
+  ['The three pillars of Basel II are:',['Credit, market, operational risk','Minimum capital, supervisory review, market disclosure','Banks, insurers, regulators','Equity, debt, hybrids'],1],
+  ['The German Mittelstand\'s "Achilles\' heel" according to the case is:',['Low exports','Thin equity base','Too many patents','High wages'],1],
+  ['Which was NOT one of the July 2002 Basel Committee concessions?',['Loans under EUR 1 million treated as retail','Lower risk weights for firms with EUR 1 to 50 million turnover','No long-term surcharge for firms up to EUR 500 million','Abolition of the 8 percent ratio'],3],
+  ['Negative working capital is normal for which type of company?',['A carmaker','A supermarket','A shipbuilder','An airline manufacturer'],1],
+  ['German state guarantees for Landesbanken and Sparkassen were agreed to be phased out after:',['2001','2003','2005','2010'],2]]],
+  ['Neira\'s frameworks and Zara',[
+  ['In the Ansoff matrix, offering an existing product in a new geography is:',['Market penetration','Product development','Market development','Diversification'],2],
+  ['A resource that is valuable and rare but easy to imitate gives:',['Competitive disadvantage','Competitive parity','Temporary competitive advantage','Sustained competitive advantage'],2],
+  ['According to Frankel and Rose (cited by Ghemawat), a colony-colonizer relationship increases trade by about:',['80 percent','200 percent','340 percent','900 percent'],3],
+  ['Star TV\'s biggest mistakes in Asia were ignoring which two CAGE dimensions?',['Geographic and economic','Cultural and administrative','Economic and cultural','Geographic and administrative'],1],
+  ['The fastest form of international expansion on the entry-mode deck is:',['Licensing','Franchising','Greenfield subsidiary','Export department'],1],
+  ['Which statement about a branch versus a subsidiary is correct?',['A branch has its own legal entity','A subsidiary\'s liabilities extend to the parent','A branch is not a separate legal entity and its liabilities extend to the parent','A branch can carry out different activities from the parent'],2],
+  ['Zara\'s replenishment rate and advertising spend as a share of revenue are approximately:',['28 percent and 3.5 percent','2.8 percent and 0.3 percent','17 percent and 4.2 percent','0.3 percent and 15 percent'],1]]]];
+  const root=document.getElementById('quizroot');const sc=document.getElementById('sc'),sub=document.getElementById('scsub'),pg=document.getElementById('pg');
+  let n=0,correct=0,answered=0;const total=Q.reduce((a,s)=>a+s[1].length,0);
+  function build(){root.innerHTML='';n=0;correct=0;answered=0;upd();
+    Q.forEach(sec=>{const h=document.createElement('div');h.className='qsec';h.innerHTML=`<h4>${sec[0]}</h4>`;root.appendChild(h);
+      sec[1].forEach(q=>{n++;const idx=n;const d=document.createElement('div');d.className='q';
+        const opts=q[1].map((o,i)=>`<label><input type="radio" name="q${idx}" id="q${idx}o${i}" value="${i}"><span>${o}</span></label>`).join('');
+        d.innerHTML=`<div class="qt"><span>${String(idx).padStart(2,'0')}</span>${q[0]}</div><div class="opts">${opts}</div><div class="fb" hidden></div>`;
+        d.addEventListener('change',e=>{if(d.classList.contains('done'))return;const pick=+e.target.value;d.classList.add('done');answered++;
+          d.querySelectorAll('label').forEach((l,i)=>{if(i===q[2])l.classList.add('right');else if(i===pick)l.classList.add('wrong');l.querySelector('input').disabled=true});
+          const fb=d.querySelector('.fb');fb.hidden=false;if(pick===q[2]){correct++;fb.textContent='Correct';fb.className='fb ok'}else{fb.textContent='Correct answer: '+q[1][q[2]];fb.className='fb no'}upd()});
+        root.appendChild(d)})})}
+  function upd(){sc.textContent=correct;sub.textContent=answered+' answered'+(answered===total?' · finished':'');pg.style.width=(answered/total*100)+'%'}
+  document.getElementById('reset').addEventListener('click',build);build();
+})();
+})();
+</script>
