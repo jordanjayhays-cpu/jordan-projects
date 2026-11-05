@@ -84,9 +84,10 @@
   "Mask On, Mind Off",
   "Guns, Germs and Steel",
   "Chains We Wear",
-  "Whakapapa"
+  "Whakapapa",
+  "Ripples of Karma"
  ],
- "last_scheduled_date": "2026-11-09",
+ "last_scheduled_date": "2026-11-10",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -208,6 +209,7 @@
   "2026-11-06": "mask-on-mind-off",
   "2026-11-07": "guns-germs-and-steel",
   "2026-11-08": "chains-we-wear",
-  "2026-11-09": "whakapapa"
+  "2026-11-09": "whakapapa",
+  "2026-11-10": "ripples-of-karma"
  }
 }
