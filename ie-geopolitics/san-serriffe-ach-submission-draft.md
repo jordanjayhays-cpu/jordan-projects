@@ -16,25 +16,25 @@ We judge it likely (55 to 70%) that San Serriffe retains a small covert biologic
 
 ## 2. Summary: the evidence we found most diagnostic, and why
 
-**Method.** We listed every piece of information in Cases A to D (20 items plus seven pieces of expected but absent evidence), rated each source from 1 (solid) to 5 (doubtful), and marked whether it supports, opposes or is neutral to H1 (programme continues) and H2 (it does not). We set aside everything consistent with both hypotheses and ranked H1 and H2 by the weakness of the evidence against each, not the volume for each.
+**Method.** We followed Heuer's eight-step ACH procedure (Psychology of Intelligence Analysis, 1999, ch. 8). We listed every item in Cases A to D (20 items plus seven pieces of expected but absent evidence), rated each source from 1 (solid) to 5 (doubtful), and worked across the rows to mark each item as supporting, opposing or neutral to H1 (programme continues) and H2 (it does not). We then worked down the columns, set aside everything consistent with both hypotheses, and ranked H1 and H2 by the weakness of the evidence against each. As Heuer notes, a long list of consistent evidence proves nothing.
 
-**What we set aside.** The admitted past programme, the UN-supervised destruction, the President's denials and invitation to inspect, the 510 declared Presidential Guard sites, the dual-use nature of fermentation kit, the Presidential Guard statistics and the surviving VPN are all consistent with both hypotheses. The VPN felt important and is not: a regime that shut its programme would keep a secure network, and the Snowden contact explains the encryption upgrade. The Guard statistics are a search filter, not evidence about whether a programme exists.
+**What we set aside.** The admitted past programme, the UN-supervised destruction, the President's denials and invitation to inspect, the 510 declared Presidential Guard sites, the dual-use nature of fermentation kit, the Guard statistics and the surviving VPN are consistent with both hypotheses. Heuer's medical analogy applies: they show the patient has a temperature, not which illness. The VPN felt important and is not; the Snowden contact explains the encryption upgrade.
 
 **Three items carry the judgement against H2.**
 
-First, the regular and reliable source inside the diplomatic corps reporting that the destruction is not the whole story (credibility 2). This is a tested source with placement, and it is only contradicted by untested ones. Its one vulnerability is independence: if it is fed by the same Durkish network as the dissident reporting, it collapses to credibility 4.
+First, the regular and reliable diplomatic source reporting that destruction is not the whole story (credibility 2). Tested, placed, and contradicted only by untested sources. Its vulnerability is independence: Heuer warns that agreement between correlated sources is deceptive, so if this source draws on the same Durkish network as the dissident reporting, it collapses to credibility 4.
 
-Second, Professor Strangelove's retirement (credibility 1). Open sources and agency records agree he is several years short of retirement age. Under H2 a renowned biochemist stays at the National University. Around his departure sit three anomalies: senior Presidential Guard officers at the party, including the President's military chief of staff; a Palace source briefing the press about his hobbies; and a destination on an isolated stretch of coast. Each has an innocent reading. Together they look like a covert unit standing up.
+Second, Professor Strangelove's retirement (credibility 1). Records agree he is years short of retirement age. Under H2 a renowned biochemist stays at the National University. Around his departure sit three anomalies: Presidential Guard brass at the party, including the President's chief of staff; a Palace source briefing the press on his hobbies; and a destination on an isolated coast. Each has an innocent reading. Together they look like a covert unit standing up.
 
-Third, the Health Department's enhanced-salary advertisements for biochemistry technicians, with embassy confirmation that a number left unexpectedly to further their careers elsewhere (credibility 1 to 2). Under H2 those technicians are traceable abroad. Nobody has traced them. Absent expected evidence counts.
+Third, the Health Department's enhanced-salary advertisements for biochemistry technicians, with embassy confirmation that several left unexpectedly (credibility 1 to 2). Under H2 they are traceable abroad. Nobody has traced them. This is Heuer's dog that did not bark.
 
-Supporting but weaker: the fermenter imports invoiced through a military finance officer, which Bayesian updating moves from 80% to 60% civil; obstruction of the UN team; and the Durkish reporting, which points the same way but carries little weight.
+Supporting but weaker: fermenters invoiced through a military finance officer (Bayesian updating moves civil use from 80% to 60%), obstruction of the UN team, and the Durkish reporting.
 
-**The evidence against H1 is the weakest in the file.** The new untested source and the defecting major both say a covert unit was considered and then stopped. Both are credibility 4. One is unvetted; the other is doubted by the liaison service holding him and is vague on the facility, the one detail that matters. Both tell the story a planted or self-serving source would tell, and the chief of staff who supposedly killed the programme attended the lead scientist's farewell party. The Curveball lesson applies in reverse: a convenient defector story is not a smoking gun for innocence.
+**The evidence against H1 is the weakest in the file.** The untested source and the defecting major both say a unit was considered and stopped. Both are credibility 4; the major is doubted by the service holding him and vague on the facility, the one detail that matters. Heuer's vividness warning applies: a defector's personal story carries more psychological weight than a newspaper advertisement, and less evidential weight. Both tell the story a plant would tell, and the chief of staff who supposedly killed the programme attended the lead scientist's farewell. Heuer adds that the deception hypothesis is unproven, not disproved: a well-run cover story would look exactly like this.
 
-**Result.** H1 carries two weak inconsistencies. H2 carries three strong ones. H1 survives. It passes the common-sense test: motive (two wars, hostile neighbours, coveted oil and minerals), means (dual-use equipment, retained scientists) and opportunity (a country the size of France with officer-class highland compounds).
+**Result.** H1 carries two weak inconsistencies, H2 three strong ones. H1 survives and passes the common-sense test: motive (two wars, coveted oil), means (dual-use kit, retained scientists), opportunity (a country the size of France with secluded officer compounds).
 
-**What would change our mind.** Locating the departed technicians in genuine foreign employment and finding Strangelove verifiably idle on the coast would make H2 the least-inconsistent hypothesis. Those two checks, plus confirming the diplomat source's independence, are our collection priorities. We hold back 30 to 45% for being wrong because the two sources that most contradict us are exactly the ones we cannot yet test.
+**Sensitivity and milestones (Heuer steps 6 to 8).** The judgement rests on three items. If the diplomat proves correlated with the dissidents, or Strangelove's retirement proves medical, we fall to a realistic possibility (25 to 50%). What would flip us to H2: the technicians found in genuine foreign employment and Strangelove verifiably idle on the coast. We hold back 30 to 45% because the sources that most contradict us are the ones we cannot yet test.
 
 ---
 
@@ -90,3 +90,30 @@ Note on A1 to A3 and A7: "not reported" is weak evidence against H1 because coll
 | H2 | 3, 4, 11, 15, 17 | 17 (credibility 1), 15 (1 to 2), 3 (2) |
 
 H1 has the weaker inconsistent evidence and is the surviving hypothesis.
+
+### Sensitivity analysis and milestones (Heuer steps 6 to 8)
+
+**Linchpin items and what happens if each is wrong**
+
+| Linchpin | If wrong or reinterpreted | Effect on judgement |
+|---|---|---|
+| Item 3, diplomatic source | Source is fed by the Durkish network (correlated with item 4). | Items 3 and 4 merge at credibility 4. H1 falls to realistic possibility (25 to 50%). |
+| Item 17, Strangelove early retirement | Health, politics, or forced out. | Items 17 to 19 lose most weight. H1 falls to realistic possibility. |
+| Item 15, departed technicians | They are found in foreign civilian jobs. | Absent-evidence test fails for H1. Combined with the Strangelove reversal, H2 becomes least-inconsistent. |
+| Items 16 and 20, "programme stopped" sources | Either source is validated by an independent channel. | H1 gains a credibility 2 inconsistency. Judgement moves toward even odds. |
+
+**Deception check (Heuer, ch. 8, step 6).** Put yourself in the shoes of a San Serriffen deception planner. Motive: inspections one site at a time, limited UN patience, access to oil technology at stake. Means: a Palace press line, a retirement party, a defector with a tidy story. Opportunity: the UN team is already obstructed locally. The "considered and stopped" narrative is cheap to run and hard to disprove. Heuer: do not reject the deception hypothesis because you see no evidence of it; if deception is planned well, you should not expect to.
+
+**Milestones that would change the probabilities (step 8)**
+
+| Observation | Direction |
+|---|---|
+| Departed technicians located abroad in genuine employment | Toward H2 |
+| Strangelove seen living openly on the coast; dive licence confirmed | Toward H2 |
+| Independent confirmation of the defector's account by a second channel | Toward H2 |
+| Imports of HEPA filtration, negative-pressure kit, driers, or test animals | Toward H1 |
+| New construction or unusual PG movement in the highlands or isolated coast | Toward H1 |
+| Other old-programme scientists unaccounted for | Toward H1 |
+| Diplomatic source shown to be independent of Durkish channels | Toward H1 |
+
+**Biases we tried to guard against (Heuer, ch. 10).** Vividness: the defector and the honey-trapped SIGINT feel more compelling than a job advertisement, and are worth less. Oversensitivity to consistency: three sources agreeing is only three if they are independent. Absence of evidence: "not reported" is weak against H1 until the Case C collection plan has actually been run. Persistence of impressions: the 1991 and 2003 Iraq precedents pull in opposite directions and neither is evidence about San Serriffe.

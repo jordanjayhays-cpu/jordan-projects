@@ -125,4 +125,4 @@ Cromwell's law: keep probability back. The sources that would most change the pi
 - Slides: `9_San_Serriff_V3.0.pdf` (68 slides; two uploaded copies are byte-identical).
 - Cases: A (12 pp, incl. Bayes appendix), B (2 pp, worked answer included), C (1 p, collection plan), D (slides 41 to 46 only, no separate PDF).
 - Granola: Ses. 9 transcript (26 Oct) is the primary record. Ses. 15 (30 Oct) has the assignment clarifications at roughly 68 to 78 minutes. Ses. 14 (29 Oct) covers superforecasting, calibrated language and why the two hypotheses were fixed.
-- Heuer ch. 8: not yet in hand. BOARD item.
+- Heuer ch. 8: full book uploaded 5 Nov (Psychology of Intelligence Analysis, 1999). Ch. 8 read in full; ch. 10 (biases in evaluating evidence) skimmed. Points used in the submission: eight-step procedure, deception hypothesis is unproven not disproved, vividness bias, correlated-source consistency, absence of evidence, 'probably' spans 55 to 85% so state a number.
