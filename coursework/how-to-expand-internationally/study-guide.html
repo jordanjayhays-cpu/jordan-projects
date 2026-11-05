@@ -1,85 +1,132 @@
 <title>How to Expand Internationally</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: one reading column (68ch) with a sticky section nav; charts sit inside the column at full width.
-   Color grammar: blue = the fact to remember / the focal series, grey = comparison, status colors only for quiz feedback. */
+/* Layout: navy masthead, then a two-column shell (sticky chapter rail + 780px reading column).
+   Prose sits on the page plane; data (figures, tables, case files, quiz) sits on white panels.
+   Color grammar: navy = chrome, blue = the fact to remember / focal series, grey = comparison, amber = exam flag. */
 :root{
-  --bg:#f7f8fa; --surface:#ffffff; --fg:#121826; --fg-2:#4b5566; --muted:#8a92a3;
-  --line:#e3e6ec; --grid:#e8ebf0; --axis:#c6ccd6;
-  --accent:#2a78d6; --accent-ink:#1c5cab; --accent-wash:#e9f1fc;
-  --series-2:#eb6834; --compare:#b8bfcb;
-  --good:#0ca30c; --critical:#d03b3b; --warning:#fab219;
-  --serif:"IBM Plex Serif",Georgia,"Times New Roman",serif;
+  --bg:#eef1f6; --surface:#ffffff; --surface-2:#f6f8fb; --fg:#0c1626; --fg-2:#43506a; --muted:#7a8599;
+  --line:#dbe1ea; --grid:#e6eaf1; --axis:#c3cbd8;
+  --navy:#0f2541; --navy-2:#173559; --on-navy:#f3f6fb; --on-navy-2:#b9c6da;
+  --accent:#2a78d6; --accent-ink:#1c5cab; --accent-wash:#e8f0fc;
+  --flag:#f0a63a; --flag-wash:#fdf1dc; --flag-ink:#8a5a0c;
+  --series-2:#eb6834; --compare:#b7bfcc;
+  --good:#0ca30c; --critical:#d03b3b;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(12,22,38,.06),0 8px 24px -16px rgba(12,22,38,.18);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0f1319; --surface:#171c24; --fg:#eef1f5; --fg-2:#c2c9d4; --muted:#8a92a3;
-  --line:#2a313c; --grid:#242b35; --axis:#3a4350;
-  --accent:#3987e5; --accent-ink:#86b6ef; --accent-wash:#1a2a40;
-  --series-2:#d95926; --compare:#4a5260; color-scheme:dark}}
+  --bg:#0c1118; --surface:#151b25; --surface-2:#1b222e; --fg:#eef2f8; --fg-2:#c0c9d8; --muted:#8792a5;
+  --line:#28313f; --grid:#232b37; --axis:#3b4553;
+  --navy:#0a1626; --navy-2:#122540; --on-navy:#f3f6fb; --on-navy-2:#aab8cf;
+  --accent:#3b8ae6; --accent-ink:#8fbbf0; --accent-wash:#172a44;
+  --flag:#e9a43c; --flag-wash:#3a2a10; --flag-ink:#f1c67a;
+  --series-2:#e0632f; --compare:#4b5564;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.6); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0f1319; --surface:#171c24; --fg:#eef1f5; --fg-2:#c2c9d4; --muted:#8a92a3;
-  --line:#2a313c; --grid:#242b35; --axis:#3a4350;
-  --accent:#3987e5; --accent-ink:#86b6ef; --accent-wash:#1a2a40;
-  --series-2:#d95926; --compare:#4a5260; color-scheme:dark}
+  --bg:#0c1118; --surface:#151b25; --surface-2:#1b222e; --fg:#eef2f8; --fg-2:#c0c9d8; --muted:#8792a5;
+  --line:#28313f; --grid:#232b37; --axis:#3b4553;
+  --navy:#0a1626; --navy-2:#122540; --on-navy:#f3f6fb; --on-navy-2:#aab8cf;
+  --accent:#3b8ae6; --accent-ink:#8fbbf0; --accent-wash:#172a44;
+  --flag:#e9a43c; --flag-wash:#3a2a10; --flag-ink:#f1c67a;
+  --series-2:#e0632f; --compare:#4b5564;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.6); color-scheme:dark}
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--sans);margin:0}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.wrap{max-width:900px;margin:0 auto;padding-block:0 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3,h4{font-family:var(--serif);text-wrap:balance;margin:0;line-height:1.2}
-h1{font-size:clamp(28px,4.5vw,40px);font-weight:600}
-h2{font-size:26px;font-weight:600;margin-top:56px;padding-top:24px;border-top:2px solid var(--fg)}
-h3{font-size:19px;font-weight:600;margin-top:32px}
-h4{font-size:16px;font-weight:600;margin-top:20px;font-family:var(--sans)}
-p,li{max-width:68ch}
-p{margin:10px 0}
-ul,ol{padding-left:22px;margin:8px 0}
-li{margin:4px 0}
-li::marker{color:var(--muted)}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--sans);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--navy)}
 a{color:var(--accent-ink)}
-strong{font-weight:600}
-.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
-.lede{font-size:18px;color:var(--fg-2);max-width:60ch}
-header.hero{padding-block:36px 8px}
-.examline{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:18px;padding:14px 18px;background:var(--accent-wash);border-left:3px solid var(--accent)}
-.examline div{min-width:0}
-.examline .k{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
-.examline .v{font-weight:600}
-nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line);margin:18px -16px 0;padding:8px 16px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
-nav.toc::-webkit-scrollbar{display:none}
-nav.toc a{display:inline-block;padding:6px 10px;margin-right:4px;border-radius:999px;color:var(--fg-2);text-decoration:none;font-size:14px;font-weight:500}
-nav.toc a:hover,nav.toc a:focus-visible{background:var(--accent-wash);color:var(--accent-ink);outline:none}
-.note{font-size:14px;color:var(--fg-2);border-left:2px solid var(--line);padding:6px 14px;margin:14px 0}
-.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:18px 0 6px}
-.howto div{background:var(--surface);border:1px solid var(--line);padding:12px 14px;font-size:14px;min-width:0}
-.howto b{display:block;font-weight:600;margin-bottom:2px}
+strong,b{font-weight:600}
+p{margin:10px 0;max-width:66ch}
+ul,ol{padding-left:22px;margin:8px 0;max-width:66ch}
+li{margin:5px 0}
+li::marker{color:var(--accent)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1;font-weight:600}
+h4{font:600 13px/1.3 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink);margin:28px 0 8px}
+.num{font-family:var(--mono)}
 
-/* Top 25 */
-ol.facts{list-style:none;padding:0;counter-reset:f;display:grid;grid-template-columns:1fr;gap:0}
-ol.facts li{counter-increment:f;max-width:none;display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);margin:0}
-ol.facts li::before{content:counter(f,decimal-leading-zero);font-family:var(--mono);color:var(--accent-ink);font-size:14px;padding-top:3px}
-ol.facts li>div{min-width:0}
-ol.facts b{font-weight:600}
-.num{font-family:var(--mono);font-size:.95em}
+/* ---------- masthead ---------- */
+.mast{background:var(--navy);color:var(--on-navy)}
+.mast .in{max-width:1180px;margin:0 auto;padding-block:44px 36px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.mast .eyebrow{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--on-navy-2)}
+.mast h1{font-size:clamp(36px,6vw,64px);margin-top:14px;letter-spacing:-.01em;max-width:14ch;font-variation-settings:"opsz" 144}
+.mast .lede{font-size:clamp(16px,1.6vw,19px);color:var(--on-navy-2);max-width:58ch;margin-top:14px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);margin-top:32px;border-radius:8px;overflow:hidden}
+.stats div{background:var(--navy-2);padding:16px 18px;min-width:0}
+.stats .k{font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--on-navy-2)}
+.stats .v{font:600 clamp(22px,2.4vw,30px)/1.1 var(--display);margin-top:10px;color:var(--on-navy)}
+.stats .v small{display:block;font:500 13px/1.3 var(--sans);color:var(--on-navy-2);margin-top:6px}
+.flags{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.flags .lab{font:600 12px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--on-navy-2);margin-right:4px}
+.flags span.chip{display:inline-block;font:500 13px/1 var(--sans);padding:8px 12px;border-radius:999px;background:var(--flag);color:#1b1200}
+
+/* ---------- shell ---------- */
+.shell{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px;padding-block:0 80px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 66px);align-self:start;padding-top:36px}
+.rail .t{font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.rail a{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:baseline;padding:8px 10px;border-radius:6px;color:var(--fg-2);text-decoration:none;font-size:14px;font-weight:500;border-left:2px solid transparent}
+.rail a i{font:500 12px var(--mono);color:var(--muted);font-style:normal}
+.rail a:hover{background:var(--surface)}
+.rail a.on{background:var(--surface);color:var(--fg);border-left-color:var(--accent);box-shadow:var(--shadow)}
+.rail a.on i{color:var(--accent-ink)}
+.rail .box{margin-top:22px;padding:14px;background:var(--flag-wash);border-radius:8px;font-size:13px;color:var(--flag-ink);line-height:1.45}
+.rail .box b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.mobnav{display:none}
+main{min-width:0;max-width:800px;padding-top:36px}
+
+/* chapter openers */
+.ch{margin-top:72px;scroll-margin-top:24px}
+.ch:first-child{margin-top:0}
+.ch-head{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:end;padding-bottom:16px;border-bottom:2px solid var(--fg);margin-bottom:22px}
+.ch-head .n{font:500 64px/0.85 var(--display);color:var(--accent);font-variation-settings:"opsz" 144;letter-spacing:-.03em}
+.ch-head h2{font-size:clamp(26px,3.4vw,36px)}
+.ch-head .kick{font-size:15px;color:var(--fg-2);margin-top:8px;max-width:60ch}
+h3{font-size:22px;margin-top:40px;padding-top:6px}
+h3 + p{margin-top:8px}
+.who{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:4px;background:var(--accent-wash);color:var(--accent-ink);vertical-align:middle;margin-left:8px}
+
+/* callouts & legend */
+.callout{display:grid;grid-template-columns:4px 1fr;gap:14px;background:var(--surface);border-radius:8px;box-shadow:var(--shadow);margin:18px 0;overflow:hidden}
+.callout::before{content:"";background:var(--flag)}
+.callout div{padding:12px 16px 12px 4px;font-size:15px;color:var(--fg-2)}
+.callout b{color:var(--fg)}
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:22px 0 0}
+.howto div{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:14px 16px;font-size:14px;color:var(--fg-2);min-width:0}
+.howto div b{display:flex;align-items:center;gap:8px;color:var(--fg);margin-bottom:4px}
+.howto div b::before{content:"";width:10px;height:10px;border-radius:2px;background:var(--accent);flex:none}
+.howto div:nth-child(2) b::before{background:var(--compare)}
+.howto div:nth-child(3) b::before{background:var(--flag)}
+
+/* top 25 */
+ol.facts{list-style:none;padding:0;margin:0;counter-reset:f;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:none}
+ol.facts li{counter-increment:f;margin:0;background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:16px 18px 16px 18px;position:relative;min-width:0;font-size:14.5px;line-height:1.55;color:var(--fg-2);border-top:3px solid var(--accent)}
+ol.facts li.a{border-top-color:var(--navy-2)}
+ol.facts li::before{content:counter(f,decimal-leading-zero);font:500 30px/1 var(--display);color:var(--accent);font-variation-settings:"opsz" 144;display:block;margin-bottom:8px}
+ol.facts li.a::before{color:var(--fg-2)}
+ol.facts li b{color:var(--fg);font-weight:600}
+ol.facts li .tag{position:absolute;top:14px;right:14px;font:600 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:4px 6px;border-radius:4px}
 
 /* tables */
-.tbl{overflow-x:auto;margin:14px 0}
-table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
-th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-weight:600;color:var(--fg-2);font-size:12px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--axis)}
+.tbl{overflow-x:auto;margin:16px 0;background:var(--surface);border-radius:8px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-weight:600;color:var(--fg-2);font-size:11px;text-transform:uppercase;letter-spacing:.08em;background:var(--surface-2)}
+td:first-child{font-weight:600;color:var(--fg)}
 td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 tr.hl td{background:var(--accent-wash)}
 
 /* figures */
-figure{margin:22px 0;background:var(--surface);border:1px solid var(--line);padding:16px 18px 12px}
-figure .ft{font-weight:600;font-size:16px;margin:0 0 2px;font-family:var(--sans)}
-figure .fs{font-size:13px;color:var(--fg-2);margin:0 0 10px}
+figure{margin:22px 0;background:var(--surface);border-radius:10px;box-shadow:var(--shadow);padding:18px 20px 14px}
+figure .ft{font:600 17px/1.3 var(--sans);margin:0 0 4px;color:var(--fg)}
+figure .fs{font-size:13px;color:var(--fg-2);margin:0 0 12px;max-width:none}
 figure svg{display:block;width:100%;height:auto;overflow:visible}
-figure figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+figure figcaption{font-size:12.5px;color:var(--muted);margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
 svg text{font-family:var(--sans);fill:var(--fg-2);font-size:12px}
 svg .tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
 svg .lab{fill:var(--fg);font-size:12px}
@@ -90,168 +137,260 @@ svg .bar{fill:var(--accent)}
 svg .bar.cmp{fill:var(--compare)}
 svg .bar:hover,svg .dot:hover{opacity:.85}
 .tip{position:fixed;z-index:20;pointer-events:none;background:var(--fg);color:var(--bg);font-size:12px;padding:6px 9px;border-radius:4px;max-width:260px;display:none;line-height:1.35}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--fg-2);margin-bottom:6px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--fg-2);margin-bottom:8px}
 .legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--accent)}
 .legend span.s2::before{background:var(--series-2)}
 .legend span.cmp::before{background:var(--compare)}
 
 /* diagrams */
-.ladder{display:grid;gap:6px;margin:16px 0}
-.ladder .rung{display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:12px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);min-width:0}
-.ladder .rung:nth-child(1){border-left-color:#9ec5f4}.ladder .rung:nth-child(2){border-left-color:#6da7ec}.ladder .rung:nth-child(3){border-left-color:#3987e5}.ladder .rung:nth-child(4){border-left-color:#1c5cab}
-.ladder .rung b{font-weight:600}
-.ladder .rung span{font-size:14px;color:var(--fg-2)}
-.ladder .scale{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
-.vrio{display:grid;gap:4px;margin:16px 0;font-size:14px}
-.vrio div{display:grid;grid-template-columns:1fr auto;gap:10px;padding:8px 12px;background:var(--surface);border:1px solid var(--line);min-width:0}
-.vrio div:last-child{background:var(--accent-wash);border-color:var(--accent)}
-.vrio b{font-weight:600}
-.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:14px 0;max-width:620px}
-.grid2 div{background:var(--surface);border:1px solid var(--line);padding:10px 12px;font-size:14px;min-width:0}
-.grid2 div.hl{background:var(--accent-wash);border-color:var(--accent)}
-.grid2 b{display:block;font-weight:600}
-.cage{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:14px 0}
-.cage div{background:var(--surface);border:1px solid var(--line);padding:10px 12px;font-size:14px;min-width:0}
-.cage b{display:block;font-size:22px;font-family:var(--serif);color:var(--accent-ink)}
-.cage small{display:block;color:var(--fg-2);margin-top:4px}
-.timeline{list-style:none;padding:0;margin:14px 0;font-size:14px}
-.timeline li{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:6px 0;border-bottom:1px solid var(--line);max-width:none;margin:0}
-.timeline li .d{font-family:var(--mono);font-size:12px;color:var(--muted);padding-top:2px;white-space:nowrap}
+.ansoff{display:grid;grid-template-columns:auto 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:6px;margin:16px 0;max-width:640px;font-size:14px}
+.ansoff .ax{font:600 11px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center;padding:6px}
+.ansoff .ax.v{writing-mode:vertical-rl;transform:rotate(180deg)}
+.ansoff .cell{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:12px 14px;min-width:0;color:var(--fg-2)}
+.ansoff .cell b{display:block;color:var(--fg);margin-bottom:2px}
+.ansoff .cell.hl{background:var(--accent);color:#fff}
+.ansoff .cell.hl b{color:#fff}
+.vrio{display:grid;gap:5px;margin:16px 0;font-size:14px;max-width:680px}
+.vrio div{display:grid;grid-template-columns:1fr auto;gap:12px;padding:10px 14px;background:var(--surface);border-radius:6px;box-shadow:var(--shadow);min-width:0;color:var(--fg-2)}
+.vrio div:nth-child(1){width:68%}.vrio div:nth-child(2){width:76%}.vrio div:nth-child(3){width:84%}.vrio div:nth-child(4){width:92%}
+.vrio div:last-child{background:var(--accent);color:#fff}
+.vrio div:last-child b{color:#fff}
+.vrio b{color:var(--fg)}
+.vrio span:last-child{font-weight:600;white-space:nowrap}
+.cage{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:16px 0}
+.cage div{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:14px 16px;font-size:14px;min-width:0;color:var(--fg-2)}
+.cage b{display:block;font:600 40px/1 var(--display);color:var(--accent);font-variation-settings:"opsz" 144;margin-bottom:6px}
+.cage small{display:block;color:var(--muted);margin-top:6px;font-size:12.5px;padding-top:6px;border-top:1px solid var(--line)}
+.funnel{display:grid;gap:6px;margin:16px 0;max-width:700px}
+.funnel div{background:var(--surface);border-radius:6px;box-shadow:var(--shadow);padding:10px 14px;font-size:14px;min-width:0;color:var(--fg-2);border-left:4px solid var(--accent)}
+.funnel div:nth-child(1){margin-inline:0}.funnel div:nth-child(2){margin-inline:5%}.funnel div:nth-child(3){margin-inline:10%}.funnel div:nth-child(4){margin-inline:15%;background:var(--accent-wash)}
+.funnel b{color:var(--fg)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:16px 0}
+.grid3 div{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:12px 14px;font-size:14px;color:var(--fg-2);min-width:0}
+.grid3 b{display:block;color:var(--fg);margin-bottom:2px}
+.ladder{display:grid;gap:8px;margin:16px 0;position:relative}
+.ladder .rung{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:14px 16px;background:var(--surface);border-radius:8px;box-shadow:var(--shadow);min-width:0;font-size:14px;color:var(--fg-2)}
+.ladder .rung b.t{color:var(--fg);font-size:15px;display:flex;flex-direction:column;gap:4px}
+.ladder .rung b.t i{font:500 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:var(--muted)}
+.ladder .rung:nth-child(1){border-left:5px solid #9ec5f4}.ladder .rung:nth-child(2){border-left:5px solid #6da7ec}.ladder .rung:nth-child(3){border-left:5px solid #3987e5}.ladder .rung:nth-child(4){border-left:5px solid #1c5cab}
+.ladder .scale{display:flex;justify-content:space-between;font:600 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:0 2px}
+.timeline{list-style:none;padding:0;margin:16px 0;font-size:14px;max-width:none;position:relative}
+.timeline::before{content:"";position:absolute;left:103px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.timeline li{display:grid;grid-template-columns:90px 26px 1fr;gap:0 8px;padding:7px 0;margin:0;align-items:start;color:var(--fg-2)}
+.timeline li .d{font:500 12px/1.4 var(--mono);color:var(--muted);text-align:right;padding-top:2px;white-space:nowrap}
+.timeline li .dot{width:26px;display:flex;justify-content:center;padding-top:6px}
+.timeline li .dot::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--surface);border:2px solid var(--axis)}
+.timeline li.key .dot::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-wash)}
 .timeline li.key .d{color:var(--accent-ink);font-weight:500}
-.timeline li.key{background:linear-gradient(90deg,var(--accent-wash),transparent 70%)}
-.funnel{display:grid;gap:6px;margin:14px 0}
-.funnel div{background:var(--surface);border:1px solid var(--line);padding:9px 12px;font-size:14px;min-width:0}
-.funnel div:nth-child(2){margin-left:6%}.funnel div:nth-child(3){margin-left:12%}.funnel div:nth-child(4){margin-left:18%}
-.funnel b{font-weight:600}
+.timeline li.key span:last-child{color:var(--fg);font-weight:500}
 
 /* calculator */
-.calc{background:var(--surface);border:1px solid var(--line);padding:16px 18px;margin:18px 0}
+.calc{background:var(--navy);color:var(--on-navy);border-radius:10px;padding:20px 22px;margin:22px 0}
+.calc .ttl{font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--on-navy-2);margin-bottom:14px}
 .calc .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.calc label{display:block;font-size:12px;color:var(--fg-2);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-.calc input{width:100%;font:16px var(--mono);padding:8px 10px;border:1px solid var(--axis);border-radius:4px;background:var(--bg);color:var(--fg);margin-top:4px}
-.calc input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
-.calc .out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
-.calc .out .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
-.calc .out .v{font-size:24px;font-weight:600}
-.calc .out .v.acc{color:var(--accent-ink)}
-.calc .formula{font-family:var(--mono);font-size:13px;color:var(--fg-2);margin-top:10px;overflow-x:auto;white-space:nowrap}
+.calc label{display:block;font:600 11px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--on-navy-2)}
+.calc input{width:100%;font:17px var(--mono);padding:9px 10px;border:1px solid rgba(255,255,255,.18);border-radius:6px;background:rgba(255,255,255,.06);color:var(--on-navy);margin-top:6px}
+.calc input:focus-visible{outline:2px solid var(--flag);outline-offset:1px}
+.calc .out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.14)}
+.calc .out .k{font:600 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--on-navy-2)}
+.calc .out .v{font:600 30px/1.1 var(--display);margin-top:6px}
+.calc .out .v.acc{color:var(--flag)}
+.calc .out .v.rd{font:500 14px/1.45 var(--sans);color:var(--on-navy-2);margin-top:8px}
+.calc .formula{font:13px var(--mono);color:var(--on-navy-2);margin-top:14px;overflow-x:auto;white-space:nowrap}
+.calc .fn{font-size:12px;color:var(--on-navy-2);margin-top:8px}
 
-/* case cards */
-.case{margin-top:28px;padding:18px 20px;background:var(--surface);border:1px solid var(--line)}
-.case h3{margin-top:0}
-.case .meta{font-size:13px;color:var(--muted);margin-bottom:8px}
-.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
-.kv div{min-width:0;border-top:2px solid var(--line);padding-top:6px}
-.kv .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
-.kv .v{font-size:20px;font-weight:600}
-.kv .v small{font-size:12px;font-weight:500;color:var(--fg-2)}
+/* case files */
+.case{margin-top:26px;background:var(--surface);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}
+.case .bar{background:var(--navy);color:var(--on-navy);padding:16px 22px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline}
+.case .bar h3{margin:0;padding:0;color:var(--on-navy);font-size:24px}
+.case .bar .code{font:500 12px/1 var(--mono);color:var(--on-navy-2)}
+.case .meta{padding:12px 22px;font-size:13.5px;color:var(--fg-2);background:var(--surface-2);border-bottom:1px solid var(--line);max-width:none}
+.case .body{padding:6px 22px 20px}
+.case .body p{max-width:none}
+.case .body figure{margin-inline:0}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0 6px}
+.kv div{min-width:0;background:var(--surface-2);border-radius:6px;padding:10px 12px}
+.kv .k{font:600 10.5px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kv .v{font:600 22px/1.1 var(--display);margin-top:6px;color:var(--fg)}
+.kv .v small{display:block;font:500 12px/1.3 var(--sans);color:var(--fg-2);margin-top:3px}
 
 /* flashcards */
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin:14px 0}
-.card{background:var(--surface);border:1px solid var(--line);padding:12px 14px;cursor:pointer;min-width:0;transition:transform .12s cubic-bezier(.2,.8,.2,1)}
-.card:active{transform:scale(.985)}
-.card .q{font-weight:600;font-size:15px}
-.card .a{margin-top:8px;font-size:14px;color:var(--fg-2);border-top:1px dashed var(--line);padding-top:8px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:16px 0;max-width:none}
+.card{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:14px 16px 12px;cursor:pointer;min-width:0;border-top:3px solid var(--line);transition:transform .14s cubic-bezier(.2,.8,.2,1),border-color .14s}
+.card:hover{border-top-color:var(--accent)}
+.card:active{transform:scale(.98)}
+.card[aria-expanded="true"]{border-top-color:var(--accent)}
+.card .q{font-weight:600;font-size:15px;line-height:1.4}
+.card .a{margin-top:10px;font-size:14px;color:var(--fg-2);border-top:1px dashed var(--line);padding-top:10px;line-height:1.5}
 .card .a[hidden]{display:none}
-.card .hint{font-size:12px;color:var(--muted);margin-top:6px}
+.card .hint{font:600 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);margin-top:12px}
 
 /* quiz */
-.quizbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 44px);z-index:8;display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);padding:10px 14px;margin:14px 0}
-.quizbar .score{font-size:20px;font-weight:600}
-.quizbar .score small{font-size:13px;color:var(--fg-2);font-weight:500}
-.quizbar .prog{flex:1 1 160px;height:6px;background:var(--grid);border-radius:3px;overflow:hidden;min-width:120px}
-.quizbar .prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s cubic-bezier(.2,.8,.2,1)}
-button{font:14px/1 var(--sans);font-weight:600;padding:9px 14px;border-radius:6px;border:1px solid var(--axis);background:var(--surface);color:var(--fg);cursor:pointer;transition:transform .1s cubic-bezier(.2,.8,.2,1)}
-button:hover{border-color:var(--accent)}
+.quizbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:8;display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--navy);color:var(--on-navy);border-radius:10px;padding:12px 16px;margin:18px 0;box-shadow:var(--shadow)}
+.quizbar .score{font:600 28px/1 var(--display)}
+.quizbar .score small{font:500 12px/1 var(--sans);color:var(--on-navy-2);margin-left:8px;letter-spacing:.04em}
+.quizbar .prog{flex:1 1 160px;height:8px;background:rgba(255,255,255,.14);border-radius:4px;overflow:hidden;min-width:120px}
+.quizbar .prog i{display:block;height:100%;width:0;background:var(--flag);transition:width .3s cubic-bezier(.2,.8,.2,1)}
+button{font:600 14px/1 var(--sans);padding:10px 16px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:transparent;color:var(--on-navy);cursor:pointer;transition:transform .1s cubic-bezier(.2,.8,.2,1),background .1s}
+button:hover{background:rgba(255,255,255,.1)}
 button:active{transform:scale(.96)}
-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.qsec{margin-top:22px}
-.qsec h4{margin:16px 0 4px;color:var(--fg-2)}
-.q{background:var(--surface);border:1px solid var(--line);padding:12px 14px;margin:8px 0}
-.q .qt{font-weight:600;max-width:none}
-.q .qt span{font-family:var(--mono);color:var(--muted);font-weight:400;margin-right:6px;font-size:13px}
-.q .opts{display:grid;gap:4px;margin-top:8px}
-.q label{display:grid;grid-template-columns:18px 1fr;gap:10px;padding:6px 8px;border-radius:4px;cursor:pointer;font-size:15px;align-items:start}
-.q label:hover{background:var(--accent-wash)}
+button:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
+button:disabled{opacity:.55;cursor:default}
+.qsec{margin-top:26px}
+.qsec h4{margin:22px 0 8px}
+.q{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:16px 18px;margin:10px 0}
+.q .qt{font-weight:600;max-width:none;line-height:1.45}
+.q .qt span{font:500 12px var(--mono);color:var(--muted);margin-right:8px}
+.q .opts{display:grid;gap:6px;margin-top:12px}
+.q label{display:grid;grid-template-columns:18px 1fr;gap:10px;padding:9px 12px;border-radius:6px;cursor:pointer;font-size:15px;align-items:start;border:1px solid var(--line);background:var(--surface-2);transition:border-color .1s,background .1s}
+.q label:hover{border-color:var(--accent);background:var(--accent-wash)}
 .q input{margin:4px 0 0;accent-color:var(--accent)}
 .q.done label{cursor:default}
-.q.done label:hover{background:none}
-.q label.right{background:color-mix(in srgb,var(--good) 14%,transparent)}
-.q label.wrong{background:color-mix(in srgb,var(--critical) 14%,transparent)}
-.q .fb{font-size:13px;margin-top:6px;font-weight:600}
+.q.done label:hover{background:var(--surface-2);border-color:var(--line)}
+.q label.right,.q.done label.right:hover{background:color-mix(in srgb,var(--good) 12%,var(--surface));border-color:var(--good)}
+.q label.wrong,.q.done label.wrong:hover{background:color-mix(in srgb,var(--critical) 12%,var(--surface));border-color:var(--critical)}
+.q .fb{font-size:13px;margin-top:10px;font-weight:600}
 .q .fb.ok{color:var(--good)}.q .fb.no{color:var(--critical)}
-.q .fb::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:6px}
+.q .fb::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:7px}
 
-.disc{font-size:14px}
-.disc li{max-width:none}
-footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
-@media (max-width:560px){
-  h2{font-size:22px}
-  .ladder .rung{grid-template-columns:1fr}
-  .grid2{grid-template-columns:1fr}
-  .timeline li{grid-template-columns:78px 1fr}
-  ol.facts li{grid-template-columns:34px 1fr}
+.disc{font-size:14.5px;max-width:none;padding:0;list-style:none}
+.disc li{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:12px 16px;margin:8px 0;color:var(--fg-2);border-left:4px solid var(--flag)}
+.disc li b{color:var(--fg)}
+footer{margin-top:56px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;max-width:none}
+
+
+/* tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--navy);border-top:1px solid rgba(255,255,255,.1);box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.tabs .in{max-width:1180px;margin:0 auto;display:flex;gap:2px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.tabs button{border:0;border-radius:0;padding:14px 20px 11px;font:600 15px/1 var(--sans);color:var(--on-navy-2);background:transparent;border-bottom:3px solid transparent;display:flex;gap:8px;align-items:center}
+.tabs button:hover{background:rgba(255,255,255,.06)}
+.tabs button[aria-selected="true"]{color:var(--on-navy);border-bottom-color:var(--flag)}
+.tabs button small{font:500 11px/1 var(--mono);color:var(--on-navy-2);background:rgba(255,255,255,.1);padding:4px 6px;border-radius:4px}
+[hidden]{display:none!important}
+.testwrap{max-width:820px;margin:0 auto;padding-block:36px 80px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.testhead{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;flex-wrap:wrap}
+.testhead h2{font-size:clamp(26px,3.4vw,36px)}
+.testhead .kick{font-size:15px;color:var(--fg-2);margin-top:8px;max-width:60ch}
+.ver{display:inline-flex;align-items:center;gap:8px;font:500 12px/1 var(--mono);color:var(--accent-ink);background:var(--accent-wash);padding:7px 10px;border-radius:999px;margin-top:10px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+button.pri:hover{background:var(--accent-ink)}
+button.ghost{color:var(--fg);border-color:var(--axis)}
+button.ghost:hover{background:var(--surface)}
+.hist{background:var(--surface);border-radius:10px;box-shadow:var(--shadow);padding:16px 20px;margin:22px 0}
+.hist .hh{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.hist h3{margin:0;font-size:19px}
+.hist .empty{font-size:14px;color:var(--muted);margin:10px 0 0}
+.hist table{min-width:0;margin-top:10px}
+.hist td,.hist th{padding:8px 10px}
+.hist td:first-child{font-weight:500;color:var(--fg-2)}
+.hist .pct{display:inline-block;min-width:44px;text-align:right;font-weight:600}
+.hist .pct.g{color:var(--good)}.hist .pct.b{color:var(--critical)}
+.hist tr.cur td{background:var(--accent-wash)}
+.hist .mini{height:6px;background:var(--grid);border-radius:3px;overflow:hidden;width:120px}
+.hist .mini i{display:block;height:100%;background:var(--accent)}
+.hist a.re{font-size:12px}
+.result{background:var(--navy);color:var(--on-navy);border-radius:10px;padding:18px 22px;margin:18px 0;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.result .big{font:600 44px/1 var(--display)}
+.result .big small{font:500 16px/1 var(--sans);color:var(--on-navy-2);margin-left:4px}
+.result p{margin:4px 0;color:var(--on-navy-2);max-width:none;font-size:14px}
+.result b{color:var(--on-navy)}
+.quizbar .vb{font:500 12px/1 var(--mono);color:var(--on-navy-2)}
+@media (max-width:980px){.mobnav{top:calc(env(safe-area-inset-top,0px) + 46px)}}
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr;gap:0}
+  .rail{display:none}
+  .mobnav{display:block;position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -20px;padding:8px 20px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+  .mobnav::-webkit-scrollbar{display:none}
+  .mobnav a{display:inline-block;padding:7px 12px;margin-right:4px;border-radius:999px;color:var(--fg-2);text-decoration:none;font-size:13px;font-weight:600;background:var(--surface);box-shadow:var(--shadow)}
+  main{padding-top:24px}
 }
-@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:640px){
+  ol.facts{grid-template-columns:1fr}
+  .ch-head{grid-template-columns:1fr;gap:4px}
+  .ch-head .n{font-size:44px}
+  .ladder .rung{grid-template-columns:1fr}
+  .ansoff{grid-template-columns:auto 1fr;grid-template-rows:auto}
+  .ansoff .ax.h{display:none}
+  .timeline::before{left:85px}
+  .timeline li{grid-template-columns:72px 26px 1fr}
+  .case .bar,.case .meta,.case .body{padding-inline:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
 </style>
 
-<div class="wrap">
-<header class="hero">
-  <div class="eyebrow">IE · Profs. Pablo Neira and Mikel Aguirre · Final exam guide</div>
-  <h1 style="margin-top:8px">How to Expand Internationally</h1>
+<div class="mast"><div class="in">
+  <div class="eyebrow">IE · How to Expand Internationally: Managing Economic Risks · Final exam guide</div>
+  <h1>How to Expand Internationally</h1>
   <p class="lede">Everything from sessions 3 to 14, five cases, the Ghemawat article and eleven class recordings, cut down to what a 40-question multiple-choice exam can ask.</p>
-  <div class="examline">
-    <div><div class="k">Exam</div><div class="v">Friday 6 Nov 2026, in person</div></div>
-    <div><div class="k">Format</div><div class="v">40 multiple choice</div></div>
-    <div><div class="k">Aguirre's rule</div><div class="v">Questions come from the cases</div></div>
-    <div><div class="k">Flagged in class</div><div class="v">Factoring, why Guatemala, Plamar's balance sheet, investment grade, Malaysia and the IMF</div></div>
+  <div class="stats">
+    <div><div class="k">Exam</div><div class="v">Fri 6 Nov<small>2026, in person</small></div></div>
+    <div><div class="k">Format</div><div class="v">40 MCQ<small>Aguirre: questions come from the cases</small></div></div>
+    <div><div class="k">Professors</div><div class="v">Neira · Aguirre<small>Strategy sessions 5 to 9 · Risk sessions 3, 4, 10 to 14</small></div></div>
+    <div><div class="k">On this page</div><div class="v">25 · 6 · 50<small>Top facts · charts · practice questions</small></div></div>
   </div>
-  <nav class="toc" aria-label="Sections">
-    <a href="#top25">Top 25</a><a href="#neira">Neira: strategy</a><a href="#aguirre">Aguirre: risk</a><a href="#cases">Cases</a><a href="#flash">Flashcards</a><a href="#quiz">Practice exam</a><a href="#disc">Discrepancies</a>
-  </nav>
-  <div class="howto">
-    <div><b>Blue means remember this</b>Every chart has one focal series in blue and comparisons in grey. There is no legend to decode.</div>
-    <div><b>One message per chart</b>The chart title states the takeaway. The subtitle gives units and source.</div>
-    <div><b>Exact values live in tables</b>Charts show shape; the tables and Top 25 carry the numbers an MCQ needs.</div>
-  </div>
-</header>
+  <div class="flags"><span class="lab">Flagged in class</span><span class="chip">Factoring</span><span class="chip">Why Guatemala</span><span class="chip">Plamar's balance sheet</span><span class="chip">Investment grade</span><span class="chip">Malaysia and the IMF</span></div>
+</div></div>
+
+<div class="tabs" role="tablist" aria-label="Study or test"><div class="in">
+  <button type="button" role="tab" id="tab-btn-study" aria-selected="true" aria-controls="tab-study">Study</button>
+  <button type="button" role="tab" id="tab-btn-test" aria-selected="false" aria-controls="tab-test">Test <small id="tab-attempts">0 attempts</small></button>
+</div></div>
+
+<div class="shell" id="tab-study">
+<aside class="rail" aria-label="Chapters">
+  <div class="t">Chapters</div>
+  <a href="#top25"><i>01</i>Top 25 facts</a>
+  <a href="#neira"><i>02</i>Neira: strategy</a>
+  <a href="#aguirre"><i>03</i>Aguirre: risk</a>
+  <a href="#cases"><i>04</i>The cases</a>
+  <a href="#flash"><i>05</i>Flashcards</a>
+  <a href="#disc"><i>06</i>Discrepancies</a>
+  <a href="#test" class="totest"><i>→</i>Practice exam</a>
+  <div class="box"><b>Reading the charts</b>Blue is the fact to remember, grey the comparison, amber an exam flag. Exact numbers sit in the Top 25 and the tables.</div>
+</aside>
+
+<main>
+<nav class="mobnav" aria-label="Chapters"><a href="#top25">Top 25</a><a href="#neira">Neira</a><a href="#aguirre">Aguirre</a><a href="#cases">Cases</a><a href="#flash">Flashcards</a><a href="#disc">Discrepancies</a><a href="#test" class="totest">Practice exam</a></nav>
 
 <!-- ============ TOP 25 ============ -->
-<h2 id="top25">The 25 facts most likely to be tested</h2>
-<p class="note">If you only have an hour, read this list twice and do the practice exam.</p>
+<section class="ch" id="top25">
+<div class="ch-head"><div class="n">01</div><div><h2>The 25 facts most likely to be tested</h2><div class="kick">Dark-topped cards are Aguirre's case material, where the exam questions come from. Blue-topped cards are Neira's frameworks.</div></div></div>
+<div class="callout"><div><b>If you only have an hour:</b> read this list twice, then do the practice exam at the bottom.</div></div>
 <ol class="facts">
-<li><div><b>Investment grade is BBB- and above</b> on the S&amp;P scale; below is speculative grade. Use the local-currency, long-term rating. Germany AAA, Spain AA-, India and State Bank of India BBB, Société Générale A. S&amp;P rated Lehman AAA shortly before it failed. S&amp;P is free to use.</div></li>
-<li><div><b>Factoring</b> sells your whole receivables book for liquidity up to 90 percent of invoice value. Discounting is bill by bill and always with recourse. <b>Without recourse</b>: the factor takes default risk and receivables leave the balance sheet. <b>With recourse</b>: unpaid invoices come back, so it is a loan. Cost about 1 to 2 percent. Only works with high-quality debtors. Plamar sold to PDVSA.</div></li>
-<li><div><b>Plamar needed about USD 300,000</b> for a plant making 300,000 handles and 300,000 seals a month. Balance sheet 31 Dec 2002: cash VEB 97.7m, receivables 211.5m, total assets 621.6m. At the deck's rate that is USD 70,361 cash, 152,313 receivables, 447,526 assets. Receivables are one third of assets. Ask the currency and the year before reading any balance sheet.</div></li>
-<li><div><b>Why Guatemala:</b> free trade agreement with Mexico and so NAFTA access to the US, low cost, close to Venezuela, stable currency, inflation about 2 percent, GDP per capita USD 3,646. Brazil dismissed: Lula just elected, too big for USD 240,000. Dominican Republic: devalued peso, inflation 8.6 percent. Plamar today operates in Guatemala, the Dominican Republic, Brazil and Costa Rica.</div></li>
-<li><div><b>Asian crisis response:</b> raise interest rates and defend dollar pegs. Both backfired. Korea's interbank rate hit 30 percent; the Thai market fell 75 percent. Do not raise rates when the debt burden is already large.</div></li>
-<li><div><b>Malaysia was the only country in IMF history (since 1944) to reject IMF aid</b>, in 1997. It used capital controls and spending cuts, helped by oil. Mahathir fired Anwar on 2 Sept 1998, a day after imposing the controls.</div></li>
-<li><div><b>Original sin:</b> developing countries borrow in USD or EUR, not their own currency. A stronger dollar or higher US rates grow the debt automatically.</div></li>
-<li><div><b>Trigger of the Asian crisis was loss of confidence.</b> First sign: 5 Feb 1997, Somprasong Land missed a USD 3.1m interest payment. Thailand floated the baht on 2 July 1997; it fell 15 percent at once.</div></li>
-<li><div><b>IMF packages:</b> Thailand USD 16bn (Aug 1997, 17bn with China), Indonesia 23bn rising to 40bn (Oct 1997), Korea 55bn rising to 58bn (Dec 1997). The IMF lends, it does not donate, at rates below private banks but with austerity conditions.</div></li>
-<li><div><b>Société Générale lost EUR 4.9bn</b> on Kerviel's unauthorized trades, announced 24 Jan 2008, plus about 2bn on subprime. About EUR 50bn of positions unwound in three days; EUR 5.5bn capital increase. 74 alerts closed procedurally. He took 4 days of holiday in 2007. He came from the middle office and knew when controls ran.</div></li>
-<li><div><b>Other rogue traders:</b> Nick Leeson, Barings 1995, GBP 827m (USD 1.3bn), a bank founded in 1762. Kweku Adoboli, UBS 2011, USD 2bn.</div></li>
-<li><div><b>The exporter's lesson from SocGen:</b> never speculate on currency. Close or hedge every open position with a forward. Too many controllers means nobody controls.</div></li>
-<li><div><b>Forward formula:</b> swap points = (SONIA minus EURIBOR) x days x spot / (36,000 + EURIBOR x days); forward = spot + swap points. Class example: spot EUR/GBP 0.8479, EURIBOR 3.013 percent, SONIA 3.732 percent, 180 days, forward about 0.8509. Equal rates give forward equal to spot. Banks earn the bid-ask spread.</div></li>
-<li><div><b>Convertible currency</b> (UN, any one of): unlimited purchase of foreign currency by residents and non-residents; no central bank authorization; traded internationally and widely used. Hard: USD, EUR, GBP, JPY, CHF, CAD, AUD, NZD, SEK, DKK, NOK. Not fully convertible: CNY, INR, RUB, TRY. Non-convertible pairs route through USD, doubling fees and risk.</div></li>
-<li><div><b>Turkish lira:</b> 1 USD = 9 TRY in 1966, 1,650,000 in 2001, six zeros dropped in 2005, 18.30 in Sept 2022, 41.82 in Oct 2025, 49.22 on 8 Oct 2026.</div></li>
-<li><div><b>ICC contract, 8 points:</b> parties, object, transport, terms of payment, guarantees of payment, courts, legislation, risks. Three transaction risks: transport, currency, credit. Term of payment is not a guarantee of payment. Letters of credit cover about 44 percent of international trade.</div></li>
-<li><div><b>Basel capital ratio 8 percent</b> of risk-weighted assets (Basel I, 1988). Basel II (June 2001) kept 8 percent, tied weights to borrower quality, three pillars: minimum capital, supervisory review, disclosure. Basel III added liquidity buffers; Basel IV is current. Schröder: "not acceptable for Germany" (Oct 2001). July 2002 fix: loans under EUR 1m as retail, EUR 1 to 50m turnover lower weights, no long-term surcharge up to EUR 500m, deadline Jan 2007.</div></li>
-<li><div><b>Mittelstand:</b> up to 499 employees and EUR 50m revenue (EU SME definition is 250). 3.6m firms, 68 percent of workers, 80 percent of apprentices. Equity below 20 percent for small firms, the Achilles' heel. Hausbank relationship banking versus Anglo-Saxon capital-market banking.</div></li>
-<li><div><b>German banking pillars (case): three.</b> Public (Landesbanken and Sparkassen), cooperatives, private commercial. Aguirre counted four. Loan margins about 1 percent versus 2 to 3.5 in Europe and 4 in the US. State guarantees phased out after 2005.</div></li>
-<li><div><b>Negative working capital</b> is normal for a supermarket and a red flag for a carmaker like Porsche. Main reason firms default. Creditor order in liquidation: government, banks, employees, suppliers.</div></li>
-<li><div><b>CAGE</b> (Ghemawat): Cultural, Administrative, Geographic, Economic. Frankel and Rose: language +200 percent, trading bloc +330, currency +340, colony-colonizer +900, border +80, ocean access +50; 1 percent more distance cuts trade 1.1 percent. Star TV lost about USD 500m. Tricon's Mexico moved from 16th to 2nd.</div></li>
-<li><div><b>Market selection funnel:</b> PESTEL, then CAGE, then Porter plus detailed market analysis, then the competitive advantage equation (company resources and capabilities matched with country specifics and industry success factors; all three must align). Goals must be SMART.</div></li>
-<li><div><b>Readiness</b> is three home-country analyses: external (five forces), internal (generic strategies, Ansoff), resources (RBV, VRIO). Internationalization is Ansoff's market development. Expect 6 to 18 months of ramp-up.</div></li>
-<li><div><b>Entry ladder</b>, low to high commitment: indirect export, direct export, contractual agreements, FDI. Franchising is the fastest. Alliances fail about 60 percent of the time, mainly through poor partner choice and lack of trust. Sogo shoshas handle 50 percent of Japan's exports and 75 percent of imports.</div></li>
-<li><div><b>Zara:</b> 10 to 15 days sketch to shipment, about 12,000 designs a year, stores order twice a week, replenishment 2.8 percent, 17 visits a year versus 4.1, advertising 0.3 percent versus 3.5, prices 15 percent lower, over 60 percent made near Spain, gross margin 57.4 versus 38.3, FY2017 revenue EUR 25.3bn, 7,475 stores, 96 markets, 70.1 percent of Inditex EBIT.</div></li>
+<li class="a"><span class="tag">Aguirre</span><b>Investment grade is BBB- and above</b> on the S&amp;P scale; below is speculative grade. Use the local-currency, long-term rating. Germany AAA, Spain AA-, India and State Bank of India BBB, Société Générale A. S&amp;P rated Lehman AAA shortly before it failed. S&amp;P is free to use.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Factoring</b> sells your whole receivables book for liquidity up to 90 percent of invoice value. Discounting is bill by bill and always with recourse. <b>Without recourse</b>: the factor takes default risk and receivables leave the balance sheet. <b>With recourse</b>: unpaid invoices come back, so it is a loan. Cost about 1 to 2 percent. Only works with high-quality debtors. Plamar sold to PDVSA.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Plamar needed about USD 300,000</b> for a plant making 300,000 handles and 300,000 seals a month. Balance sheet 31 Dec 2002: cash VEB 97.7m, receivables 211.5m, total assets 621.6m. At the deck's rate that is USD 70,361 cash, 152,313 receivables, 447,526 assets. Receivables are one third of assets. Ask the currency and the year before reading any balance sheet.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Why Guatemala:</b> free trade agreement with Mexico and so NAFTA access to the US, low cost, close to Venezuela, stable currency, inflation about 2 percent, GDP per capita USD 3,646. Brazil dismissed: Lula just elected, too big for USD 240,000. Dominican Republic: devalued peso, inflation 8.6 percent. Plamar today operates in Guatemala, the Dominican Republic, Brazil and Costa Rica.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Asian crisis response:</b> raise interest rates and defend dollar pegs. Both backfired. Korea's interbank rate hit 30 percent; the Thai market fell 75 percent. Do not raise rates when the debt burden is already large.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Malaysia was the only country in IMF history (since 1944) to reject IMF aid</b>, in 1997. It used capital controls and spending cuts, helped by oil. Mahathir fired Anwar on 2 Sept 1998, a day after imposing the controls.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Original sin:</b> developing countries borrow in USD or EUR, not their own currency. A stronger dollar or higher US rates grow the debt automatically.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Trigger of the Asian crisis was loss of confidence.</b> First sign: 5 Feb 1997, Somprasong Land missed a USD 3.1m interest payment. Thailand floated the baht on 2 July 1997; it fell 15 percent at once.</li>
+<li class="a"><span class="tag">Aguirre</span><b>IMF packages:</b> Thailand USD 16bn (Aug 1997, 17bn with China), Indonesia 23bn rising to 40bn (Oct 1997), Korea 55bn rising to 58bn (Dec 1997). The IMF lends, it does not donate, at rates below private banks but with austerity conditions.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Société Générale lost EUR 4.9bn</b> on Kerviel's unauthorized trades, announced 24 Jan 2008, plus about 2bn on subprime. About EUR 50bn of positions unwound in three days; EUR 5.5bn capital increase. 74 alerts closed procedurally. He took 4 days of holiday in 2007. He came from the middle office and knew when controls ran.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Other rogue traders:</b> Nick Leeson, Barings 1995, GBP 827m (USD 1.3bn), a bank founded in 1762. Kweku Adoboli, UBS 2011, USD 2bn.</li>
+<li class="a"><span class="tag">Aguirre</span><b>The exporter's lesson from SocGen:</b> never speculate on currency. Close or hedge every open position with a forward. Too many controllers means nobody controls.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Forward formula:</b> swap points = (SONIA minus EURIBOR) x days x spot / (36,000 + EURIBOR x days); forward = spot + swap points. Class example: spot EUR/GBP 0.8479, EURIBOR 3.013 percent, SONIA 3.732 percent, 180 days, forward about 0.8509. Equal rates give forward equal to spot. Banks earn the bid-ask spread.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Convertible currency</b> (UN, any one of): unlimited purchase of foreign currency by residents and non-residents; no central bank authorization; traded internationally and widely used. Hard: USD, EUR, GBP, JPY, CHF, CAD, AUD, NZD, SEK, DKK, NOK. Not fully convertible: CNY, INR, RUB, TRY. Non-convertible pairs route through USD, doubling fees and risk.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Turkish lira:</b> 1 USD = 9 TRY in 1966, 1,650,000 in 2001, six zeros dropped in 2005, 18.30 in Sept 2022, 41.82 in Oct 2025, 49.22 on 8 Oct 2026.</li>
+<li class="a"><span class="tag">Aguirre</span><b>ICC contract, 8 points:</b> parties, object, transport, terms of payment, guarantees of payment, courts, legislation, risks. Three transaction risks: transport, currency, credit. Term of payment is not a guarantee of payment. Letters of credit cover about 44 percent of international trade.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Basel capital ratio 8 percent</b> of risk-weighted assets (Basel I, 1988). Basel II (June 2001) kept 8 percent, tied weights to borrower quality, three pillars: minimum capital, supervisory review, disclosure. Basel III added liquidity buffers; Basel IV is current. Schröder: "not acceptable for Germany" (Oct 2001). July 2002 fix: loans under EUR 1m as retail, EUR 1 to 50m turnover lower weights, no long-term surcharge up to EUR 500m, deadline Jan 2007.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Mittelstand:</b> up to 499 employees and EUR 50m revenue (EU SME definition is 250). 3.6m firms, 68 percent of workers, 80 percent of apprentices. Equity below 20 percent for small firms, the Achilles' heel. Hausbank relationship banking versus Anglo-Saxon capital-market banking.</li>
+<li class="a"><span class="tag">Aguirre</span><b>German banking pillars (case): three.</b> Public (Landesbanken and Sparkassen), cooperatives, private commercial. Aguirre counted four. Loan margins about 1 percent versus 2 to 3.5 in Europe and 4 in the US. State guarantees phased out after 2005.</li>
+<li class="a"><span class="tag">Aguirre</span><b>Negative working capital</b> is normal for a supermarket and a red flag for a carmaker like Porsche. Main reason firms default. Creditor order in liquidation: government, banks, employees, suppliers.</li>
+<li><span class="tag">Neira</span><b>CAGE</b> (Ghemawat): Cultural, Administrative, Geographic, Economic. Frankel and Rose: language +200 percent, trading bloc +330, currency +340, colony-colonizer +900, border +80, ocean access +50; 1 percent more distance cuts trade 1.1 percent. Star TV lost about USD 500m. Tricon's Mexico moved from 16th to 2nd.</li>
+<li><span class="tag">Neira</span><b>Market selection funnel:</b> PESTEL, then CAGE, then Porter plus detailed market analysis, then the competitive advantage equation (company resources and capabilities matched with country specifics and industry success factors; all three must align). Goals must be SMART.</li>
+<li><span class="tag">Neira</span><b>Readiness</b> is three home-country analyses: external (five forces), internal (generic strategies, Ansoff), resources (RBV, VRIO). Internationalization is Ansoff's market development. Expect 6 to 18 months of ramp-up.</li>
+<li><span class="tag">Neira</span><b>Entry ladder</b>, low to high commitment: indirect export, direct export, contractual agreements, FDI. Franchising is the fastest. Alliances fail about 60 percent of the time, mainly through poor partner choice and lack of trust. Sogo shoshas handle 50 percent of Japan's exports and 75 percent of imports.</li>
+<li><span class="tag">Neira</span><b>Zara:</b> 10 to 15 days sketch to shipment, about 12,000 designs a year, stores order twice a week, replenishment 2.8 percent, 17 visits a year versus 4.1, advertising 0.3 percent versus 3.5, prices 15 percent lower, over 60 percent made near Spain, gross margin 57.4 versus 38.3, FY2017 revenue EUR 25.3bn, 7,475 stores, 96 markets, 70.1 percent of Inditex EBIT.</li>
 </ol>
+</section>
 
 <!-- ============ NEIRA ============ -->
-<h2 id="neira">Neira's half: the strategy of going abroad</h2>
-<p>Neira teaches a five-step arc: global trends, benefits and reasons, are we ready, where, how. The decks are numbered S6 "Ready" and S7 "Where", but he taught Where on 28 Sep before Ready on 2 Oct.</p>
+<section class="ch" id="neira">
+<div class="ch-head"><div class="n">02</div><div><h2>Neira's half: the strategy of going abroad</h2><div class="kick">A five-step arc: global trends, benefits and reasons, are we ready, where, how. The decks are numbered S6 "Ready" and S7 "Where", but he taught Where on 28 Sep before Ready on 2 Oct.</div></div></div>
 
-<h3>Global trends (sessions 1 to 2, 5 to 6)</h3>
+<h3>Global trends <span class="who">Sessions 1-2, 5-6</span></h3>
 <ul>
 <li>About half of today's Fortune 500 will be gone in 7 years; almost 90 percent of the 1955 list is gone.</li>
 <li>Three drivers of disruption: technology (enabler), demographics (silent force), globalization (amplifier). Combinatory technology stacks open tools (Amazon Go). Tesla analyzes about 15 percent of the data it captures.</li>
@@ -262,29 +401,32 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
 <li>Growth is shifting to Southeast Asia, Africa, China and India. Incumbents fail through cultural resistance, not missing data (Kodak, Blockbuster, Nokia).</li>
 </ul>
 
-<h3>Benefits and reasons to internationalize (session 5)</h3>
+<h3>Benefits and reasons to internationalize <span class="who">Session 5</span></h3>
 <p>Five drivers on the deck plus one shared bucket. The exam question is usually "which of these is a home-market reason" or "which example goes with which reason".</p>
 <div class="tbl"><table>
 <tr><th>Bucket</th><th>Reasons</th><th>Examples used in class</th></tr>
-<tr><td><b>Foreign market pull</b></td><td>Growth; resource seeking (supply, sourcing flexibility, technology, quality, cheaper factors, strategic assets, talent); a specific opportunity; partnerships and trust; serving global customers; learning; getting inside entry barriers; demand pull</td><td>PM Guatemala port; Metrocompost Vietnam; General Kinematics JV; Netflix's Paris office; IKEA Japan "toughest competition"; auditors following clients</td></tr>
-<tr><td><b>Home market push</b></td><td>Small market; slow growth; saturation; seasonality; excess capacity; excessive regulation; recession; diversification</td><td>Singapore; Zara in Spain; IDE snowmaking (Switzerland and South Africa); ham and cava at Christmas; steel wire rod at 85 percent utilization; URBAR; Spanish firms to Argentina after 2008</td></tr>
-<tr><td><b>Both markets</b></td><td>Regulation changes; tax; government incentives</td><td>Uber Spain; Northern Ireland tax; ICEX</td></tr>
-<tr><td><b>Product</b></td><td>Extend the life cycle abroad; exploit an exclusive product or technology</td><td>Full-fat milk, cereals, Coke</td></tr>
-<tr><td><b>Competition</b></td><td>Intense at home; weaker abroad; first-mover advantage; follower move; "offense as defense"</td><td>Zara entered India 2010, H&amp;M followed 2017 (deck); enter the rival's home market to tie up its resources</td></tr>
-<tr><td><b>Scale and scope</b></td><td>Scale lowers unit cost and earns ROI on big projects. Scope shares tangible (labs, distribution) and intangible (brand, reputation) resources, or transfers management capabilities</td><td>National Geographic licensing its brand to merchandise and stores</td></tr>
+<tr><td>Foreign market pull</td><td>Growth; resource seeking (supply, sourcing flexibility, technology, quality, cheaper factors, strategic assets, talent); a specific opportunity; partnerships and trust; serving global customers; learning; getting inside entry barriers; demand pull</td><td>PM Guatemala port; Metrocompost Vietnam; General Kinematics JV; Netflix's Paris office; IKEA Japan "toughest competition"; auditors following clients</td></tr>
+<tr><td>Home market push</td><td>Small market; slow growth; saturation; seasonality; excess capacity; excessive regulation; recession; diversification</td><td>Singapore; Zara in Spain; IDE snowmaking (Switzerland and South Africa); ham and cava at Christmas; steel wire rod at 85 percent utilization; URBAR; Spanish firms to Argentina after 2008</td></tr>
+<tr><td>Both markets</td><td>Regulation changes; tax; government incentives</td><td>Uber Spain; Northern Ireland tax; ICEX</td></tr>
+<tr><td>Product</td><td>Extend the life cycle abroad; exploit an exclusive product or technology</td><td>Full-fat milk, cereals, Coke</td></tr>
+<tr><td>Competition</td><td>Intense at home; weaker abroad; first-mover advantage; follower move; "offense as defense"</td><td>Zara entered India 2010, H&amp;M followed 2017 (deck); enter the rival's home market to tie up its resources</td></tr>
+<tr><td>Scale and scope</td><td>Scale lowers unit cost and earns ROI on big projects. Scope shares tangible (labs, distribution) and intangible (brand, reputation) resources, or transfers management capabilities</td><td>National Geographic licensing its brand to merchandise and stores</td></tr>
 </table></div>
 
-<h3>Ready to internationalize? (session 6)</h3>
+<h3>Ready to internationalize? <span class="who">Session 6</span></h3>
 <p>Strategy is not a goal ("be number 1"), not a single action ("merge"), and not vision or values. It is how you compete and what advantage you base it on. Readiness is three analyses done at home.</p>
 <h4>1. External: Porter's five forces</h4>
 <p>Identify the industry, identify the players, analyze each force in order, and ask of each whether it is strong enough to erase industry profit. Entry barriers: capital (Boeing and Airbus), scale (the A380 needed about 400 units to break even), absolute cost advantage (Aramco, Intel), differentiation (cosmetics high, low-cost airlines low), distribution access (Mercadona shelves), legal barriers (traffic rights), retaliation. Buyer power rises with concentration, information (Booking, Kayak) and vertical integration (Zara makes its own clothes). Class addition: define industry boundaries first; disruption is an extra angle.</p>
 <h4>2. Internal: generic strategies and Ansoff</h4>
 <p>Generic strategies: cost leadership (Walmart), differentiation (Apple), cost focus (Lidl, Aldi), differentiation focus (Ferrari, Porsche, Tesla). Ansoff has two levers only, what is sold and to whom.</p>
-<div class="grid2">
-  <div><b>Market penetration</b>Existing product, existing market. Only in a growing market. New locations, organic growth, lowest risk.</div>
-  <div><b>Product development</b>New product, existing market. Usually on a trusted brand (Coke flavors, McDonald's salads).</div>
-  <div class="hl"><b>Market development</b>Existing product, new market. New segments, new channels, new geographies. This is internationalization (Uber adapting to Spain's VTC licences).</div>
-  <div><b>Diversification</b>New product, new market. Highest risk, justified by economies of scope (Alphabet, Samsung).</div>
+<div class="ansoff">
+  <div></div><div class="ax h">Existing product</div><div class="ax h">New product</div>
+  <div class="ax v">Existing market</div>
+  <div class="cell"><b>Market penetration</b>Only in a growing market. New locations, organic growth, lowest risk.</div>
+  <div class="cell"><b>Product development</b>Usually on a trusted brand (Coke flavors, McDonald's salads).</div>
+  <div class="ax v">New market</div>
+  <div class="cell hl"><b>Market development</b>New segments, new channels, new geographies. This is internationalization (Uber adapting to Spain's VTC licences).</div>
+  <div class="cell"><b>Diversification</b>Highest risk, justified by economies of scope (Alphabet, Samsung).</div>
 </div>
 <h4>3. Resources and capabilities: RBV and VRIO</h4>
 <p>Look inside for advantage. Tangible assets can be bought, so they confer little. Intangible assets (brand, know-how, culture) are heterogeneous and immobile, so they sustain advantage. Test each with VRIO (Barney):</p>
@@ -292,12 +434,12 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
   <div><span>Not <b>valuable</b></span><span>Competitive disadvantage</span></div>
   <div><span>Valuable, not <b>rare</b></span><span>Competitive parity</span></div>
   <div><span>Valuable and rare, but easy to <b>imitate</b></span><span>Temporary advantage</span></div>
-  <div><span>Valuable, rare, costly to imitate, not <b>organized</b> to capture value</span><span>Temporary or unexploited advantage</span></div>
-  <div><span>All four</span><span><b>Sustained competitive advantage</b></span></div>
+  <div><span>Valuable, rare, costly to imitate, not <b>organized</b> to capture value</span><span>Temporary or unexploited</span></div>
+  <div><span>All four</span><span>Sustained competitive advantage</span></div>
 </div>
 <p>Costly to imitate comes from time, causal ambiguity and social complexity. Organization means systems, processes, structure and culture. Class addition on funding realism: plan 6 to 18 months of ramp-up before profit and hold cash for capex and working capital. "Spreadsheets can say anything, reality cannot."</p>
 
-<h3>Where? International market selection (session 7)</h3>
+<h3>Where? International market selection <span class="who">Session 7</span></h3>
 <p>Process: strategic analysis, set main goals (SMART and a little flexible), select potential markets, set country-specific goals, entry strategy, implementation. Ghemawat's warning opens the deck: companies routinely exaggerate the attractiveness of foreign markets. Górecka: selecting foreign markets is one of the most critical decisions in entry strategy.</p>
 <div class="funnel">
   <div><b>Preliminary screening</b> · macro view with PESTEL · about 200 countries down to 8 to 12</div>
@@ -306,7 +448,6 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
   <div><b>Final selection</b> · the competitive advantage equation: company resources and capabilities matched with country specifics and industry success factors. All three must align; one strength cannot cover a weakness.</div>
 </div>
 <p>Cost of entry, resource constraints and the main goals are weighed at every stage.</p>
-
 <div class="cage">
   <div><b>C</b>Cultural: language, religion, ethnicity, social norms.<small>Most affects TV and media, food, consumer durables (Japan's small cars), wine.</small></div>
   <div><b>A</b>Administrative: colonial ties, shared currency or bloc, hostility, policy, corruption, weak institutions.<small>Most affects telecoms, aerospace, electricity, drugs, farming, oil and mining, infrastructure.</small></div>
@@ -323,22 +464,23 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
 
 <p><b>Country portfolio analysis is flawed.</b> It plots per-capita income against penetration with bubbles for market size, so it counts only potential sales and ignores the cost of distance. Tricon (Pizza Hut, Taco Bell, KFC) ranked Mexico 16th of 20 on CPA; adjusting for distance from Dallas, a shared border and a trade agreement moved it to 2nd. Star TV assumed Asian elites wanted English programming and that satellite beat geography; it lost about USD 500m and triggered a Chinese ban after Murdoch called satellite TV a threat to totalitarian regimes. A survey of multinationals in China: 54 percent did worse than planned, 62 percent had overestimated market potential.</p>
 
-<h3>How? Country entry alternatives (session 9)</h3>
+<h3>How? Country entry alternatives <span class="who">Session 9</span></h3>
 <p>Four levels, chosen by resource commitment, risk, return and the speed you need.</p>
 <div class="ladder">
-  <div class="scale"><span>Low commitment, risk and return</span><span>High</span></div>
-  <div class="rung"><b>1. Indirect export</b><span><b>Importer</b> or export management company (acts as your export department, may use your name, low cost). <b>Agent</b> or representative (commission, does not buy, customers stay yours, may carry rivals). <b>Distributor</b> (buys and resells, wants territory exclusivity, owns the customer). <b>Trading company</b> (full service, no loyalty, Japan's sogo shoshas). Do due diligence: expertise, finances, prompt payment, conflicts, references.</span></div>
-  <div class="rung"><b>2. Direct export</b><span>Internet orders leading to localized sites; wholesalers and purchasing groups; branded manufacturers selling through foreign retail chains (Lee, Wrangler); an export department for B2B high-value products once volume justifies it.</span></div>
-  <div class="rung"><b>3. Contractual agreements</b><span><b>Turnkey</b> projects and concessions. <b>Subcontracting</b> (Boeing). <b>Licensing</b> of patents, trademarks, technology: low capital, works behind import barriers, risks wrong partner and quality; co-marketing (joint promotion, Starbucks and Spotify) versus co-branding (a new joint product, Meta Ray-Ban, McFlurry Oreo). <b>Franchising</b>: franchisor gives the package, franchisee gives capital and local knowledge; fastest expansion, control issues. <b>Strategic alliances and JVs</b>: equity JV creates a new company; non-equity alliances are limited in scope and easier to dissolve. About 60 percent fail.</span></div>
-  <div class="rung"><b>4. Foreign direct investment</b><span><b>Representative office</b> (marketing only, cannot buy or sell). <b>Branch</b> (same activities as the parent, no separate legal entity, liabilities reach the parent, 100 percent owned). <b>Subsidiary</b> (own legal entity, taxed locally, activities can differ, liability limited). Build it <b>greenfield</b> (control, no technology leakage, slow) or by <b>cross-border M&amp;A</b> (fast, income from day one, inherited risks and staff reactions).</span></div>
+  <div class="scale"><span>Low commitment, risk, return</span><span>High</span></div>
+  <div class="rung"><b class="t"><i>Level 1</i>Indirect export</b><span><b>Importer</b> or export management company (acts as your export department, may use your name, low cost). <b>Agent</b> or representative (commission, does not buy, customers stay yours, may carry rivals). <b>Distributor</b> (buys and resells, wants territory exclusivity, owns the customer). <b>Trading company</b> (full service, no loyalty, Japan's sogo shoshas). Do due diligence: expertise, finances, prompt payment, conflicts, references.</span></div>
+  <div class="rung"><b class="t"><i>Level 2</i>Direct export</b><span>Internet orders leading to localized sites; wholesalers and purchasing groups; branded manufacturers selling through foreign retail chains (Lee, Wrangler); an export department for B2B high-value products once volume justifies it.</span></div>
+  <div class="rung"><b class="t"><i>Level 3</i>Contractual agreements</b><span><b>Turnkey</b> projects and concessions. <b>Subcontracting</b> (Boeing). <b>Licensing</b> of patents, trademarks, technology: low capital, works behind import barriers, risks wrong partner and quality; co-marketing (joint promotion, Starbucks and Spotify) versus co-branding (a new joint product, Meta Ray-Ban, McFlurry Oreo). <b>Franchising</b>: franchisor gives the package, franchisee gives capital and local knowledge; fastest expansion, control issues. <b>Strategic alliances and JVs</b>: equity JV creates a new company; non-equity alliances are limited in scope and easier to dissolve. About 60 percent fail.</span></div>
+  <div class="rung"><b class="t"><i>Level 4</i>Foreign direct investment</b><span><b>Representative office</b> (marketing only, cannot buy or sell). <b>Branch</b> (same activities as the parent, no separate legal entity, liabilities reach the parent, 100 percent owned). <b>Subsidiary</b> (own legal entity, taxed locally, activities can differ, liability limited). Build it <b>greenfield</b> (control, no technology leakage, slow) or by <b>cross-border M&amp;A</b> (fast, income from day one, inherited risks and staff reactions).</span></div>
 </div>
 <p><b>Alliance checklist</b> (contract negotiation): agreed objectives, contributions and rewards with penalties, integration with parent strategy, cultural and organizational fit, leverage of complementary strengths, exit strategy, monitoring. Partner selection needs strategic fit (complementarity) and organizational fit (chemistry, similar values, reputation, compatible decision systems, common time horizon). Put duration, notice period of 60 to 90 days, minimum sales and reporting into any intermediary contract. "Today's ally may be tomorrow's rival."</p>
+</section>
 
 <!-- ============ AGUIRRE ============ -->
-<h2 id="aguirre">Aguirre's half: the risks of being abroad</h2>
-<p>Aguirre works at Coface, a trade credit insurer in over 60 countries, and has taught at IE since 1998. His sessions move from political and macro risk (3 and 4) to credit crises (10), currency (11), ratings and banking (12) and trade finance (14). The exam questions he wrote come from the four Harvard and IE cases.</p>
+<section class="ch" id="aguirre">
+<div class="ch-head"><div class="n">03</div><div><h2>Aguirre's half: the risks of being abroad</h2><div class="kick">Aguirre works at Coface, a trade credit insurer in over 60 countries, and has taught at IE since 1998. His sessions move from political and macro risk to credit crises, currency, ratings and banking, and trade finance. His exam questions come from the four Harvard and IE cases.</div></div></div>
 
-<h3>Managing risk and the shifting wealth of nations (sessions 3 to 4)</h3>
+<h3>Managing risk and the shifting wealth of nations <span class="who">Sessions 3-4</span></h3>
 <ul>
 <li><b>Allies become enemies.</b> Iran and Iraq swapped roles between 1979 (embassy seized, hostages 444 days), the 1980s, 1990 (Kuwait), 2003 and 2025. Political risk is not only emerging markets: Iberdrola's 80-turbine US project cancelled in Dec 2025; Naturgy expropriated in Colombia.</li>
 <li><b>Developed versus developing</b> threshold about USD 10,000 GDP per capita. China and Japan are the world's biggest lenders. Japan: debt over 220 percent of GDP held at home, first rate rise in 35 years in 2025.</li>
@@ -351,8 +493,8 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
 <h4>The ICC international contract</h4>
 <p>Eight points: parties (often including distributors), object, transport, terms of payment, guarantees of payment, courts, legislation, risks. The three transaction risks are transport, currency and credit. Use the destination country's courts; London arbitration only for big claims. Pro forma invoices need buyer approval. Cuba's average payment term is 360 days. Letters of credit, governed by the ICC, cover about 44 percent of corporate international trade. Reading: Peter Bernstein, <i>Against the Gods</i>.</p>
 
-<h3>The Asian financial crisis (session 10)</h3>
-<div class="grid2" style="max-width:none;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+<h3>The Asian financial crisis <span class="who">Session 10</span></h3>
+<div class="grid3">
   <div><b>Government causes</b>Fixed exchange rates; current account deficits; weak regulation and control.</div>
   <div><b>Company and market causes</b>Too many financial firms; dependence on short-term foreign funds; currency speculation; overpriced assets.</div>
   <div><b>External causes</b>Governments paralysed by political uncertainty; the region seen as one unit; speculation; IMF conditions.</div>
@@ -366,55 +508,55 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
 </figure>
 
 <ul class="timeline">
-  <li class="key"><span class="d">5 Feb 1997</span><span>Somprasong Land misses a USD 3.1m interest payment, the first Thai default.</span></li>
-  <li><span class="d">11 Mar 1997</span><span>100bn baht bailout of finance companies; Camdessus says he sees no crisis.</span></li>
-  <li><span class="d">14 May 1997</span><span>Thailand adopts selective capital controls to defend the baht.</span></li>
-  <li class="key"><span class="d">2 Jul 1997</span><span>Baht floated for the first time since 1984; falls 15 percent immediately.</span></li>
-  <li><span class="d">14 Jul 1997</span><span>Malaysia floats the ringgit. 15 Jul: Kia under bankruptcy protection.</span></li>
-  <li><span class="d">24 Jul 1997</span><span>Mahathir blames George Soros; on 20 Sept calls currency trading "immoral".</span></li>
-  <li class="key"><span class="d">11 Aug 1997</span><span>IMF USD 16bn for Thailand. 14 Aug: Indonesia floats the rupiah.</span></li>
-  <li><span class="d">23 to 28 Oct 1997</span><span>Hong Kong market loses 25 percent; the won starts to fall.</span></li>
-  <li class="key"><span class="d">31 Oct 1997</span><span>IMF USD 23bn for Indonesia (later 40bn); 16 banks closed.</span></li>
-  <li><span class="d">21 Nov 1997</span><span>Korea "swallows its pride" and asks the IMF for USD 20bn.</span></li>
-  <li class="key"><span class="d">3 Dec 1997</span><span>Korea gets USD 55bn (58bn on 23 Dec). 8 Dec: Thailand shuts 56 of 58 finance companies.</span></li>
-  <li><span class="d">22 Dec 1997</span><span>Moody's cuts Indonesia, Korea and Thailand to junk. 23 Dec: Zhu Rongji rules out a yuan devaluation.</span></li>
-  <li><span class="d">23 Jan 1998</span><span>Rupiah loses a third of its value in five days. 28 Jan: Korea rolls USD 24bn into guaranteed loans.</span></li>
-  <li><span class="d">23 Feb 1998</span><span>Indonesia drops the currency board under IMF pressure. 24 Feb: IMF eases Thai conditions.</span></li>
-  <li><span class="d">13 to 21 May 1998</span><span>Riots in Jakarta; Suharto resigns after 32 years, Habibie takes over.</span></li>
-  <li><span class="d">13 to 17 Jun 1998</span><span>Japan in recession for the first time in 23 years; US and Fed buy yen.</span></li>
-  <li class="key"><span class="d">2 Sep 1998</span><span>Malaysia imposes capital controls; Mahathir fires Anwar Ibrahim the next day.</span></li>
-  <li><span class="d">25 Nov 1998</span><span>Camdessus: "the worst of the crisis is now over."</span></li>
+  <li class="key"><span class="d">5 Feb 1997</span><span class="dot"></span><span>Somprasong Land misses a USD 3.1m interest payment, the first Thai default.</span></li>
+  <li><span class="d">11 Mar 1997</span><span class="dot"></span><span>100bn baht bailout of finance companies; Camdessus says he sees no crisis.</span></li>
+  <li><span class="d">14 May 1997</span><span class="dot"></span><span>Thailand adopts selective capital controls to defend the baht.</span></li>
+  <li class="key"><span class="d">2 Jul 1997</span><span class="dot"></span><span>Baht floated for the first time since 1984; falls 15 percent immediately.</span></li>
+  <li><span class="d">14 Jul 1997</span><span class="dot"></span><span>Malaysia floats the ringgit. 15 Jul: Kia under bankruptcy protection.</span></li>
+  <li><span class="d">24 Jul 1997</span><span class="dot"></span><span>Mahathir blames George Soros; on 20 Sept calls currency trading "immoral".</span></li>
+  <li class="key"><span class="d">11 Aug 1997</span><span class="dot"></span><span>IMF USD 16bn for Thailand. 14 Aug: Indonesia floats the rupiah.</span></li>
+  <li><span class="d">23-28 Oct 1997</span><span class="dot"></span><span>Hong Kong market loses 25 percent; the won starts to fall.</span></li>
+  <li class="key"><span class="d">31 Oct 1997</span><span class="dot"></span><span>IMF USD 23bn for Indonesia (later 40bn); 16 banks closed.</span></li>
+  <li><span class="d">21 Nov 1997</span><span class="dot"></span><span>Korea "swallows its pride" and asks the IMF for USD 20bn.</span></li>
+  <li class="key"><span class="d">3 Dec 1997</span><span class="dot"></span><span>Korea gets USD 55bn (58bn on 23 Dec). 8 Dec: Thailand shuts 56 of 58 finance companies.</span></li>
+  <li><span class="d">22 Dec 1997</span><span class="dot"></span><span>Moody's cuts Indonesia, Korea and Thailand to junk. 23 Dec: Zhu Rongji rules out a yuan devaluation.</span></li>
+  <li><span class="d">23 Jan 1998</span><span class="dot"></span><span>Rupiah loses a third of its value in five days. 28 Jan: Korea rolls USD 24bn into guaranteed loans.</span></li>
+  <li><span class="d">23 Feb 1998</span><span class="dot"></span><span>Indonesia drops the currency board under IMF pressure. 24 Feb: IMF eases Thai conditions.</span></li>
+  <li><span class="d">13-21 May 1998</span><span class="dot"></span><span>Riots in Jakarta; Suharto resigns after 32 years, Habibie takes over.</span></li>
+  <li><span class="d">13-17 Jun 1998</span><span class="dot"></span><span>Japan in recession for the first time in 23 years; US and Fed buy yen.</span></li>
+  <li class="key"><span class="d">2 Sep 1998</span><span class="dot"></span><span>Malaysia imposes capital controls; Mahathir fires Anwar Ibrahim the next day.</span></li>
+  <li><span class="d">25 Nov 1998</span><span class="dot"></span><span>Camdessus: "the worst of the crisis is now over."</span></li>
 </ul>
 <p><b>High rates as medicine (deck):</b> Korea's 30 percent interbank rate caused bankruptcies, destroyed confidence and accelerated outflows until the IMF relented; Thailand starved firms of cash, the market fell 75 percent and 600,000 foreign workers went home; Indonesia saw defaults, inflation, riots and Suharto's exit; Malaysia rejected the IMF, pegged deposit rates to leading banks and suffered least.</p>
 <p><b>Asian Tigers versus BRICS:</b> the Tigers (Hong Kong, Singapore, Taiwan, Korea) were small, export-led after import substitution, US-dependent, with GNI per capita of about USD 8,000 to 23,000 in 1993 to 1995. The BRICs are large and diversified (Brazil cars and minerals, Russia oil and arms, India IT, China manufacturing). In 2008 Singapore and Taiwan were unscathed, Korea had NPLs and a crash, Hong Kong speculative attacks; BRIC markets fell then recovered from 2009. Class view: a simultaneous BRICS default is unlikely; risk is country by country. Sovereign debt treatments: Argentina-Russia (default, credit crunch), Turkey-Brazil (long fiscal adjustment, late public payments), India-Lebanon (banks hold the debt, crowding out).</p>
 
-<h3>Currency risk (session 11)</h3>
+<h3>Currency risk <span class="who">Session 11</span></h3>
 <p>Floating currencies are set by supply and demand, more efficient and more volatile. Fixed or pegged currencies need reserves covering the currency in circulation; pegs to the dollar have on average ended badly because only the Fed prints dollars. Convertibility is the ease of buying, selling or exchanging a currency (UN criteria in Top 25). There are 182 official currencies for 193 UN members. A currency future is a standardized exchange-traded contract, usually against USD in units like EUR 125,000, mostly closed before delivery. A forward is the over-the-counter bank hedge. Rising interest rates attract savings and appreciate the currency. The Big Mac Index is purchasing power parity shorthand. S&amp;P, Moody's and Fitch remain the only credible rating agencies.</p>
 
 <div class="calc" id="fwd">
-  <div class="eyebrow" style="margin-bottom:8px">Forward rate calculator (the class formula)</div>
+  <div class="ttl">Forward rate calculator · the class formula</div>
   <div class="row">
     <div><label for="spot">Spot (quote per 1 base)</label><input id="spot" type="number" step="0.0001" value="0.8479"></div>
-    <div><label for="rbase">Base rate, percent (EURIBOR)</label><input id="rbase" type="number" step="0.001" value="3.013"></div>
-    <div><label for="rquote">Quote rate, percent (SONIA)</label><input id="rquote" type="number" step="0.001" value="3.732"></div>
+    <div><label for="rbase">Base rate, % (EURIBOR)</label><input id="rbase" type="number" step="0.001" value="3.013"></div>
+    <div><label for="rquote">Quote rate, % (SONIA)</label><input id="rquote" type="number" step="0.001" value="3.732"></div>
     <div><label for="days">Days</label><input id="days" type="number" step="1" value="180"></div>
   </div>
   <div class="out">
     <div><div class="k">Swap points</div><div class="v" id="swap">0.0030</div></div>
     <div><div class="k">Forward</div><div class="v acc" id="fwdv">0.8509</div></div>
-    <div><div class="k">Reading</div><div class="v" id="fwdr" style="font-size:15px;font-weight:500"></div></div>
+    <div><div class="k">Reading</div><div class="v rd" id="fwdr"></div></div>
   </div>
   <div class="formula">swap = (r_quote − r_base) × days × spot ÷ (36,000 + r_base × days)&nbsp;&nbsp;·&nbsp;&nbsp;forward = spot + swap</div>
-  <figcaption style="font-size:12px;color:var(--muted);margin-top:8px">Defaults are the 8 Oct 2026 class example: EUR/GBP spot 0.8479, EURIBOR 180d 3.013 percent, SONIA 180d 3.732 percent, forward for 8 Apr 2027. Set both rates equal and the forward returns to spot.</figcaption>
+  <div class="fn">Defaults are the 8 Oct 2026 class example: EUR/GBP spot 0.8479, EURIBOR 180d 3.013 percent, SONIA 180d 3.732 percent, forward for 8 Apr 2027. Set both rates equal and the forward returns to spot.</div>
 </div>
 
-<h3>Credit ratings and German banking (session 12)</h3>
+<h3>Credit ratings and German banking <span class="who">Session 12</span></h3>
 <p>Investment grade is BBB- and above. In 2012 CaixaBank, Sabadell and Bankinter fell below it when Spain neared default; Santander and BBVA kept it through global diversification. Public banks carry their sovereign's rating. The German case then asks whether a century-old relationship-banking system had to change.</p>
 <div class="tbl"><table>
 <tr><th>Relationship (German) banking</th><th>Capital-market (Anglo-Saxon) banking</th></tr>
-<tr><td>Hausbank accompanies the firm "from cradle to grave"; patient long-term credit; privacy; strong owner control; bank seats on supervisory boards; lending on trust and project quality</td><td>Equity and shareholder value; transparency; external ratings; arm's-length capital markets; analyzes the borrower's numbers, not the project</td></tr>
-<tr><td>Funds firms through downturns; no dilution</td><td>Cheaper for banks; startups with strong clients but weak balance sheets are rejected</td></tr>
-<tr><td>Risk: thin equity, rising NPLs, low bank profitability, pro-cyclical squeeze under ratings</td><td>Risk: short-termism; Enron happened under this system too</td></tr>
+<tr><td style="font-weight:400;color:var(--fg-2)">Hausbank accompanies the firm "from cradle to grave"; patient long-term credit; privacy; strong owner control; bank seats on supervisory boards; lending on trust and project quality</td><td>Equity and shareholder value; transparency; external ratings; arm's-length capital markets; analyzes the borrower's numbers, not the project</td></tr>
+<tr><td style="font-weight:400;color:var(--fg-2)">Funds firms through downturns; no dilution</td><td>Cheaper for banks; startups with strong clients but weak balance sheets are rejected</td></tr>
+<tr><td style="font-weight:400;color:var(--fg-2)">Risk: thin equity, rising NPLs, low bank profitability, pro-cyclical squeeze under ratings</td><td>Risk: short-termism; Enron happened under this system too</td></tr>
 </table></div>
 <ul>
 <li><b>Basel I</b> (1988, in force end 1992): 8 percent capital to risk-weighted assets, a response to the 1980s debt crisis. <b>Basel II</b> (June 2001): same 8 percent, finer risk weights, three pillars, added market and operational risk. Fears: pro-cyclicality, penalizing low-equity SMEs and long-term loans, about 1,000 disclosure items, the power of three US agencies. <b>July 2002 concessions</b> listed in Top 25; deadline moved to Jan 2007. <b>Basel III</b> liquidity buffers; <b>Basel IV</b> current.</li>
@@ -425,7 +567,7 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
 <li><b>Downturn 2002:</b> every big commercial bank except Deutsche posted losses; Ackermann floated a state bad bank; Schröder promised a Mittelstand bank. Closing line: banks lend you an umbrella when it is sunny and take it back when it rains.</li>
 </ul>
 
-<h3>Trade finance and factoring (session 14)</h3>
+<h3>Trade finance and factoring <span class="who">Session 14</span></h3>
 <p>Factoring gives liquidity up to 90 percent of invoice value, debtor risk cover up to 100 percent, off-balance-sheet treatment and better ratios, and professional collections. The factor sets a credit limit per debtor, buys the guaranteed invoices, withholds a reserve for credit notes and pays the fundable amount up to the client's funding limit. Three misconceptions on the deck: it is too expensive (cheaper than running collections yourself), only weak companies use it (now a mainstream product), you lose control of clients (the relationship is professionalized). It ties you to one bank. Listed corporates factor at quarter-end to dress ratios; fintechs offer non-recourse lines of USD 100 to 200m with 25 staff; Coface insures the banks that buy receivables. Cash conversion cycle: cut DSO, trim idle inventory, stretch DPO; permanent current assets need long-term funding.</p>
 
 <figure>
@@ -434,19 +576,22 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
   <svg id="plamar" viewBox="0 0 760 170" role="img" aria-label="Segmented bar of Plamar assets in USD thousands: cash 70, receivables 152, inventories 101, fixed assets 83, investments 41, total 448, with a reference line at 300"></svg>
   <figcaption>Factoring the receivables (debtors include PDVSA) turns the second segment into cash without adding debt. Banks had refused loans for lack of collateral.</figcaption>
 </figure>
+</section>
 
 <!-- ============ CASES ============ -->
-<h2 id="cases">The cases, one screen each</h2>
+<section class="ch" id="cases">
+<div class="ch-head"><div class="n">04</div><div><h2>The cases, one file each</h2><div class="kick">Plamar, Société Générale, the Asian crisis chronology and Banking on Germany are Aguirre's; Zara and the Ghemawat article are Neira's.</div></div></div>
 
 <div class="case" id="c-plamar">
-  <h3>Plamar, C.A.</h3>
-  <div class="meta">IE GE1-015-I, June 2003, written by IE students under Prof. Ganitsky. Session 14. Aguirre's flagged questions: where the money comes from, what factoring is, why that destination, how to read the balance sheet.</div>
+  <div class="bar"><h3>Plamar, C.A.</h3><span class="code">IE GE1-015-I · June 2003 · Session 14</span></div>
+  <div class="meta">Written by IE students under Prof. Ganitsky. Aguirre's flagged questions: where the money comes from, what factoring is, why that destination, how to read the balance sheet.</div>
+  <div class="body">
   <div class="kv">
     <div><div class="k">Founded</div><div class="v">1994</div></div>
-    <div><div class="k">Seals share</div><div class="v">90% <small>7 customers</small></div></div>
+    <div><div class="k">Seals share</div><div class="v">90%<small>7 customers</small></div></div>
     <div><div class="k">Handles share</div><div class="v">70%</div></div>
     <div><div class="k">Plant abroad</div><div class="v">USD 300k</div></div>
-    <div><div class="k">Sales Sept to Dec</div><div class="v">~50% <small>Christmas painting</small></div></div>
+    <div><div class="k">Sales Sept to Dec</div><div class="v">~50%<small>Christmas painting</small></div></div>
     <div><div class="k">Starting capital</div><div class="v">&lt; USD 5k</div></div>
   </div>
   <p><b>People.</b> Francisco Martínez Sr. (born 1949 in Linares, chemical engineer from Barcelona Polytechnic) first went to Venezuela in 1969 for a PVC maker, consulted from 1976, founded a recycling and seals business in 1978 that reached 70 percent of the market, sold up in 1989, went bankrupt with a bag factory in Granada in 1991 and returned to Venezuela with an investor. Sons: Francisco Jr. runs administration and operations, Carlos sales and marketing (finishing an MBA in Madrid), Javier technology.</p>
@@ -460,20 +605,22 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
   <tr class="hl"><td>Guatemala</td><td class="n">USD 3,646</td><td class="n">2%</td><td>Growth 3.08 percent a year 1997 to 2001; stable against USD; FTAs with Chile, Panama, Dominican Republic; link to Mexico and so the US</td><td>Chosen</td></tr>
   <tr><td>Dominican Republic</td><td class="n">USD 5,294</td><td class="n">8.6%</td><td>2001 reforms with peso devaluation; growth under 3 percent; fiscal surplus 1.5 percent; existing customer</td><td>Considered, lacked the trade advantage</td></tr>
   </table></div>
+  </div>
 </div>
 
 <div class="case" id="c-socgen">
-  <h3>Société Générale (A): The Jérôme Kerviel Affair</h3>
-  <div class="meta">HBS 9-110-029. Session 11. Deck questions: what caused it, could it happen again and how to prevent it, what makes a currency convertible.</div>
+  <div class="bar"><h3>Société Générale (A): The Jérôme Kerviel Affair</h3><span class="code">HBS 9-110-029 · Session 11</span></div>
+  <div class="meta">Deck questions: what caused it, could it happen again and how to prevent it, what makes a currency convertible.</div>
+  <div class="body">
   <div class="kv">
     <div><div class="k">Loss on Kerviel</div><div class="v">EUR 4.9bn</div></div>
     <div><div class="k">Alerts ignored</div><div class="v">74</div></div>
-    <div><div class="k">Fictitious trades</div><div class="v">947 <small>+115 pairs, 9 provisions</small></div></div>
+    <div><div class="k">Fictitious trades</div><div class="v">947<small>+115 pairs, 9 provisions</small></div></div>
     <div><div class="k">Desk net limit</div><div class="v">EUR 125m</div></div>
     <div><div class="k">Days off in 2007</div><div class="v">4</div></div>
     <div><div class="k">Capital raise</div><div class="v">EUR 5.5bn</div></div>
   </div>
-  <figure style="margin-top:14px">
+  <figure>
     <div class="ft">A junior trader on a EUR 125m desk ran positions four hundred times that limit</div>
     <div class="fs">Kerviel's unauthorized index futures exposure at selected dates, EUR billions (short positions shown negative). Case text and Exhibit 6.</div>
     <svg id="kerviel" viewBox="0 0 760 300" role="img" aria-label="Bar chart of Kerviel positions: short 0.85 billion January 2007, short 2.6 February, short 5.6 March, short 30 July, zero December 2007, long 49 January 2008"></svg>
@@ -483,32 +630,38 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
   <p><b>Concealment.</b> Fictitious offsetting trades cancelled before monthly checks; pairs offset in quantity but not price (SolarWorld 2,266,500 shares at 63 and 53, a fake EUR 22.7m loss); fraudulent provision flows; technical and internal counterparties (ClickOptions); deferred start dates; seven forged emails; other people's computers; a possibly complicit assistant who booked 15 percent of the fake trades.</p>
   <p><b>Control failures.</b> His supervisor resigned in Jan 2007 and nobody monitored the desk for two and a half months; Kerviel validated his own March earnings. Cordelle managed on trust; Rouyère gave no guidance. 74 alerts were handled by procedure. Eurex emailed in Oct 2007 about 6,000 contracts in two hours and wrote twice in Nov; compliance answered. The two-week vacation rule was waived after his father died. Ernst &amp; Young and Deloitte reported no concerns while Delta One volumes doubled. Gross positions had no limit.</p>
   <p><b>Discovery.</b> A Basel II Cooke ratio anomaly on eight forwards; the claimed counterparty Deutsche Bank had no record. Summoned on Saturday 19 Jan 2008, he told Jean-Pierre Mustier he had found a "martingale". Maxime Kahn closed about EUR 50bn in three days with AMF permission to delay disclosure. On 24 Jan 2008: EUR 4.9bn plus about 2bn subprime; 2007 profit fell from EUR 5.2bn to 600 to 800m. Kerviel claimed tacit approval because his profits were impossible within his mandate. The French public sided with him.</p>
+  </div>
 </div>
 
 <div class="case" id="c-asia">
-  <h3>Chronology of the Asian Financial Crisis</h3>
-  <div class="meta">HBS 9-708-001. Session 10. The timeline and causes are in Aguirre's section above.</div>
+  <div class="bar"><h3>Chronology of the Asian Financial Crisis</h3><span class="code">HBS 9-708-001 · Session 10</span></div>
+  <div class="meta">The timeline and causes are in Aguirre's chapter above.</div>
+  <div class="body">
   <p>Quotes worth recognizing: Jeffrey Sachs, Asian economies went from darlings to pariahs in months. Mahathir called currency trading unnecessary, unproductive and immoral; Soros called him a menace; Robert Rubin called currency trading integral to global trade. Kim Dae Jung: "our warehouse is empty." Mahathir on the IMF: "we found out it has been very damaging." Camdessus praised Thailand's March 1997 bailout and saw "no reason for this crisis to develop further."</p>
+  </div>
 </div>
 
 <div class="case" id="c-germany">
-  <h3>Banking on Germany?</h3>
-  <div class="meta">HBS 9-703-028, 2003. Session 12. Details in Aguirre's section above.</div>
+  <div class="bar"><h3>Banking on Germany?</h3><span class="code">HBS 9-703-028 · 2003 · Session 12</span></div>
+  <div class="meta">Details in Aguirre's chapter above.</div>
+  <div class="body">
   <p>Opening voices: Ohoven (20 to 30 percent of Mittelstand firms may not survive), Lichtblau (more equity requires more openness), HVB ("committed to relationships"). Questions the case poses: is something wrong with German banks, why change a system that worked for a century, is Basel II incompatible with relationship banking, should reform be delayed or accelerated. Context: 82m people, third largest economy, "sick man of Europe", reunification at 1:1, deficit 3.7 percent breaching the Stability Pact, ECB focused on price stability, euro appreciation hurting exports. Aguirre's addition: the case is from 2003, six years before the subprime crisis proved Basel's point, and German resistance came from corporates more than banks.</p>
+  </div>
 </div>
 
 <div class="case" id="c-zara">
-  <h3>What Business Is Zara In?</h3>
-  <div class="meta">Ivey W19157, 2019. Neira's graded case, discussed session 9. Zara is Inditex's flagship; the question is whether the model that beat Gap can beat Uniqlo and Boohoo.</div>
+  <div class="bar"><h3>What Business Is Zara In?</h3><span class="code">Ivey W19157 · 2019 · Session 9</span></div>
+  <div class="meta">Neira's graded case. Zara is Inditex's flagship; the question is whether the model that beat Gap can beat Uniqlo and Boohoo.</div>
+  <div class="body">
   <div class="kv">
     <div><div class="k">FY2017 revenue</div><div class="v">EUR 25.3bn</div></div>
     <div><div class="k">Stores / markets</div><div class="v">7,475 / 96</div></div>
-    <div><div class="k">Sketch to shipment</div><div class="v">10 to 15 days</div></div>
+    <div><div class="k">Sketch to shipment</div><div class="v">10-15 days</div></div>
     <div><div class="k">Designs a year</div><div class="v">~12,000</div></div>
     <div><div class="k">Zara share of EBIT</div><div class="v">70.1%</div></div>
     <div><div class="k">Made near Spain</div><div class="v">&gt; 60%</div></div>
   </div>
-  <figure style="margin-top:14px">
+  <figure>
     <div class="ft">Zara spends a tenth of the industry on advertising and keeps half again the margin</div>
     <div class="fs">Zara against the industry or main rival on four metrics named in the case. Each panel has its own scale.</div>
     <div class="legend"><span>Zara</span><span class="cmp">Industry or rival</span></div>
@@ -525,31 +678,28 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
   <p><b>Story.</b> Amancio Ortega started dressmaking in 1963 aged 16, opened the first Zara in La Coruña (246,000 people) in 1975, 1,000 stores in 17 years, IPO 23 May 2001. Sales grew from EUR 5.67bn in 2004 to 23.34bn in 2017; gross margin 57.4 percent versus an industry 38.3; 593 stores in China by 2014; a USD 280m SoHo store; stores revamped every four to five years; 0.62 net openings a day. Clothes cost about 20 percent more to make than rivals' offshore product and are priced about 15 percent lower.</p>
   <p><b>Model.</b> Link design to manufacturing and distribution for rapid response, with decentralized decisions. Three levels of "commercials": design teams of four (two product managers, two designers) with authority over design, fabric, quantities and price; regional commercials linking stores to La Coruña; store managers counting stock by hand and ordering twice a week. Small batches test demand; scarcity makes customers buy now. Everything ships from one center fed by 11 factories over 124 miles of underground monorail and reaches stores in two days. CEO Isla rejects "fast fashion": the point is accuracy, store by store, week by week.</p>
   <p><b>Class VRIO.</b> The automated distribution network (rare, capital-intensive, built since 1975), the three-tier commercial system (culturally embedded, decades of subcontractor relationships), and the vertically integrated supply chain in Spain, Morocco and Portugal all pass valuable, rare and costly to imitate, and the single centralized system organizes them, so the advantage is sustained. The industry's key risk is the fashion miss; Zara reacts instead of predicting. Traditional and Zara-style models can coexist. Competitors: Uniqlo (3,445 stores, "a technology company"), Boohoo (GBP 580m sales, 100 new products a day), Gap (USD 673m advertising, 4.2 percent of sales).</p>
+  </div>
 </div>
 
 <div class="case" id="c-ghemawat">
-  <h3>Distance Still Matters</h3>
-  <div class="meta">Pankaj Ghemawat, HBR Sept 2001. Reading for session 7. Full treatment in Neira's section.</div>
+  <div class="bar"><h3>Distance Still Matters</h3><span class="code">Ghemawat · HBR Sept 2001 · Session 7</span></div>
+  <div class="meta">Full treatment in Neira's chapter above.</div>
+  <div class="body">
   <p>Country portfolio analysis counts potential sales and ignores the cost of distance. Distance has four dimensions and each hits industries differently (electricity is sensitive to administrative and geographic distance but not cultural; TV is sensitive to cultural distance; "TV is hardly cement"). The gravity model explains up to two thirds of trade variation. Company features change distance: cosmopolitan managers shrink cultural distance; Tricon already owned four fifths of its Mexican outlets with a 38 percent share. Focused Maytag outperformed far-flung Electrolux and Whirlpool.</p>
+  </div>
 </div>
+</section>
 
 <!-- ============ FLASHCARDS ============ -->
-<h2 id="flash">Flashcards</h2>
-<p class="note">Tap a card to reveal the answer. Twenty questions; the professors' favorite recall items.</p>
+<section class="ch" id="flash">
+<div class="ch-head"><div class="n">05</div><div><h2>Flashcards</h2><div class="kick">Tap a card to reveal the answer. Twenty questions, the professors' favorite recall items.</div></div></div>
 <div class="cards" id="cards"></div>
+</section>
 
-<!-- ============ QUIZ ============ -->
-<h2 id="quiz">Practice exam</h2>
-<p>Fifty questions in the style of Friday's paper. Pick an answer and the card marks it immediately. Target 45 of 50.</p>
-<div class="quizbar">
-  <div class="score"><span id="sc">0</span> / 50 <small id="scsub">0 answered</small></div>
-  <div class="prog"><i id="pg"></i></div>
-  <button id="reset" type="button">Reset</button>
-</div>
-<div id="quizroot"></div>
 
 <!-- ============ DISCREPANCIES ============ -->
-<h2 id="disc">Where class and source disagree</h2>
+<section class="ch" id="disc">
+<div class="ch-head"><div class="n">06</div><div><h2>Where class and source disagree</h2><div class="kick">If an exam option matches the case or deck, prefer it over what was said aloud.</div></div></div>
 <ul class="disc">
 <li><b>SocGen loss.</b> The case says EUR 4.9bn from Kerviel plus about 2bn subprime; the session 11 recording summarized it as 7.2bn. Answer 4.9bn for Kerviel.</li>
 <li><b>Zara and H&amp;M in India.</b> The deck says Zara 2010 and H&amp;M followed in 2017; the recording reversed it. Trust the deck.</li>
@@ -558,11 +708,47 @@ footer{margin-top:48px;font-size:13px;color:var(--muted);border-top:1px solid va
 <li><b>Session 13.</b> No deck and no recording. Unknown what was covered. Check Canvas.</li>
 <li><b>Sessions 1 to 2 and 12.</b> No decks uploaded; covered here from the recordings and the Germany case.</li>
 </ul>
-
 <footer>Built 5 Nov 2026 from the session decks (S3-4, S5, S6, S7, S9, S10, S11, S14), five cases, the Ghemawat article and eleven Granola class recordings. Charts are drawn to scale from the figures in those sources; where a figure is approximate it says so in the text.</footer>
+</section>
+</main>
+</div>
+
+<div class="testwrap" id="tab-test" hidden>
+  <div class="testhead">
+    <div><h2>Practice exam</h2><div class="kick">Every version draws 40 of the 50 questions and shuffles the answer order, so you learn the facts, not the positions. Answers mark themselves; the attempt saves automatically when you finish.</div><div class="ver">Version <span id="vseed">0000</span> · 40 questions · answers shuffled</div></div>
+    <div class="btns"><button type="button" class="ghost" id="finish">Finish and save</button><button type="button" class="pri" id="newver">New version</button></div>
+  </div>
+  <div class="result" id="result" hidden><div class="big"><span id="rsc">0</span><small>/ 40</small></div><div><p><b id="rmsg"></b></p><p id="rsub"></p></div></div>
+  <div class="quizbar">
+    <div class="score"><span id="sc">0</span> / 40 <small id="scsub">0 answered</small></div>
+    <div class="prog"><i id="pg"></i></div>
+    <span class="vb">v<span id="vseed2">0000</span></span>
+  </div>
+  <div id="quizroot"></div>
+  <div class="hist" id="hist">
+    <div class="hh"><h3>Your attempts</h3><button type="button" class="ghost" id="clearhist">Clear history</button></div>
+    <p class="empty" id="histempty">No saved attempts yet. Finish a version and it appears here. Saved in this browser only.</p>
+    <div class="tbl" id="histtbl" hidden><table><thead><tr><th>#</th><th>When</th><th>Version</th><th class="n">Score</th><th></th><th></th></tr></thead><tbody id="histbody"></tbody></table></div>
+  </div>
 </div>
 <div class="tip" id="tip"></div>
-
+<script>
+(function(){
+  const study=document.getElementById('tab-study'),test=document.getElementById('tab-test');
+  const bS=document.getElementById('tab-btn-study'),bT=document.getElementById('tab-btn-test');
+  function show(which,scrollTop){const t=which==='test';study.hidden=t;test.hidden=!t;bS.setAttribute('aria-selected',String(!t));bT.setAttribute('aria-selected',String(t));if(scrollTop)window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})}
+  bS.addEventListener('click',()=>{show('study',true);if(location.hash==='#test')history.replaceState(null,'',' ')});
+  bT.addEventListener('click',()=>{show('test',true);location.hash='test'});
+  document.querySelectorAll('a.totest').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('test',true);location.hash='test'}));
+  function route(){if(location.hash==='#test'){show('test',false)}else{show('study',false);const id=location.hash.slice(1);const el=id&&document.getElementById(id);if(el)el.scrollIntoView()}}
+  window.addEventListener('hashchange',route);route();
+  const links=[...document.querySelectorAll('.rail a:not(.totest)')];const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if(!('IntersectionObserver' in window)||!secs.length)return;
+  const set=id=>links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));
+  const io=new IntersectionObserver(es=>{const v=es.filter(e=>e.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);if(v.length)set(v[0].target.id)},{rootMargin:'-25% 0px -60% 0px',threshold:0});
+  secs.forEach(s=>io.observe(s));set(secs[0].id);
+})();
+</script>
 <script>
 (function(){
 const tip=document.getElementById('tip');
@@ -710,7 +896,7 @@ function fmt(n){return n.toLocaleString('en-US')}
     d.addEventListener('click',tog);d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog()}});root.appendChild(d)});
 })();
 
-/* Quiz */
+/* Quiz: seeded versions, 40 of 50, shuffled options, saved attempts */
 (function(){
   const Q=[
   ['Plamar and factoring',[
@@ -768,19 +954,57 @@ function fmt(n){return n.toLocaleString('en-US')}
   ['The fastest form of international expansion on the entry-mode deck is:',['Licensing','Franchising','Greenfield subsidiary','Export department'],1],
   ['Which statement about a branch versus a subsidiary is correct?',['A branch has its own legal entity','A subsidiary\'s liabilities extend to the parent','A branch is not a separate legal entity and its liabilities extend to the parent','A branch can carry out different activities from the parent'],2],
   ['Zara\'s replenishment rate and advertising spend as a share of revenue are approximately:',['28 percent and 3.5 percent','2.8 percent and 0.3 percent','17 percent and 4.2 percent','0.3 percent and 15 percent'],1]]]];
-  const root=document.getElementById('quizroot');const sc=document.getElementById('sc'),sub=document.getElementById('scsub'),pg=document.getElementById('pg');
-  let n=0,correct=0,answered=0;const total=Q.reduce((a,s)=>a+s[1].length,0);
-  function build(){root.innerHTML='';n=0;correct=0;answered=0;upd();
-    Q.forEach(sec=>{const h=document.createElement('div');h.className='qsec';h.innerHTML=`<h4>${sec[0]}</h4>`;root.appendChild(h);
-      sec[1].forEach(q=>{n++;const idx=n;const d=document.createElement('div');d.className='q';
-        const opts=q[1].map((o,i)=>`<label><input type="radio" name="q${idx}" id="q${idx}o${i}" value="${i}"><span>${o}</span></label>`).join('');
-        d.innerHTML=`<div class="qt"><span>${String(idx).padStart(2,'0')}</span>${q[0]}</div><div class="opts">${opts}</div><div class="fb" hidden></div>`;
-        d.addEventListener('change',e=>{if(d.classList.contains('done'))return;const pick=+e.target.value;d.classList.add('done');answered++;
-          d.querySelectorAll('label').forEach((l,i)=>{if(i===q[2])l.classList.add('right');else if(i===pick)l.classList.add('wrong');l.querySelector('input').disabled=true});
-          const fb=d.querySelector('.fb');fb.hidden=false;if(pick===q[2]){correct++;fb.textContent='Correct';fb.className='fb ok'}else{fb.textContent='Correct answer: '+q[1][q[2]];fb.className='fb no'}upd()});
-        root.appendChild(d)})})}
-  function upd(){sc.textContent=correct;sub.textContent=answered+' answered'+(answered===total?' · finished':'');pg.style.width=(answered/total*100)+'%'}
-  document.getElementById('reset').addEventListener('click',build);build();
+
+  const ALL=[];Q.forEach(sec=>sec[1].forEach(q=>ALL.push({sec:sec[0],t:q[0],o:q[1],a:q[2]})));
+  const N=40,KEY='hei_attempts_v1';
+  const root=document.getElementById('quizroot'),sc=document.getElementById('sc'),sub=document.getElementById('scsub'),pg=document.getElementById('pg');
+  const vs=document.getElementById('vseed'),vs2=document.getElementById('vseed2'),res=document.getElementById('result');
+  let seed=0,items=[],correct=0,answered=0,saved=false,startedAt=0;
+  function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  function shuffle(arr,r){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+  function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+  function store(list){try{localStorage.setItem(KEY,JSON.stringify(list))}catch(e){}}
+  function build(s){
+    seed=s;const r=rng(seed);
+    const pick=shuffle(ALL,r).slice(0,N);
+    const order=Q.map(x=>x[0]);pick.sort((a,b)=>order.indexOf(a.sec)-order.indexOf(b.sec));
+    items=pick.map(q=>{const idx=shuffle(q.o.map((_,i)=>i),r);return{sec:q.sec,t:q.t,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a),done:false,ok:false}});
+    correct=0;answered=0;saved=false;startedAt=Date.now();res.hidden=true;const fbtn=document.getElementById('finish');fbtn.disabled=false;fbtn.textContent='Finish and save';
+    vs.textContent=vs2.textContent=String(seed).padStart(4,'0');
+    root.innerHTML='';let n=0,cur='';
+    items.forEach((q,qi)=>{if(q.sec!==cur){cur=q.sec;const h=document.createElement('div');h.className='qsec';h.innerHTML=`<h4>${cur}</h4>`;root.appendChild(h)}
+      n++;const idx=n;const d=document.createElement('div');d.className='q';
+      const opts=q.o.map((o,i)=>`<label><input type="radio" name="q${seed}_${idx}" id="q${seed}_${idx}o${i}" value="${i}"><span>${o}</span></label>`).join('');
+      d.innerHTML=`<div class="qt"><span>${String(idx).padStart(2,'0')}</span>${q.t}</div><div class="opts">${opts}</div><div class="fb" hidden></div>`;
+      d.addEventListener('change',e=>{if(q.done)return;const p=+e.target.value;q.done=true;answered++;
+        d.classList.add('done');d.querySelectorAll('label').forEach((l,i)=>{if(i===q.a)l.classList.add('right');else if(i===p)l.classList.add('wrong');l.querySelector('input').disabled=true});
+        const fb=d.querySelector('.fb');fb.hidden=false;if(p===q.a){correct++;q.ok=true;fb.textContent='Correct';fb.className='fb ok'}else{fb.textContent='Correct answer: '+q.o[q.a];fb.className='fb no'}
+        upd();if(answered===N)finish()});
+      root.appendChild(d)});
+    upd();renderHist();
+  }
+  function upd(){sc.textContent=correct;sub.textContent=answered+' answered'+(saved?' · saved':'');pg.style.width=(answered/N*100)+'%'}
+  function finish(){if(saved)return;saved=true;const fbtn=document.getElementById('finish');fbtn.disabled=true;fbtn.textContent='Saved';
+    items.forEach(q=>{if(!q.done){q.done=true}});
+    const pct=Math.round(correct/N*100);const list=load();list.push({t:Date.now(),seed:seed,score:correct,n:N,secs:Math.round((Date.now()-startedAt)/1000)});store(list);
+    document.getElementById('rsc').textContent=correct;
+    document.getElementById('rmsg').textContent=pct>=90?'Exam ready.':pct>=75?'Close. Re-read the Top 25 and go again.':'Not yet. Work through the misses below, then take a new version.';
+    document.getElementById('rsub').textContent=`Version ${String(seed).padStart(4,'0')} · ${pct}% · ${answered} of ${N} answered · saved to this browser.`;
+    res.hidden=false;res.scrollIntoView({behavior:'smooth',block:'center'});
+    root.querySelectorAll('.q').forEach((d,i)=>{if(!items[i].ok&&!d.classList.contains('done')){d.classList.add('done');d.querySelectorAll('label').forEach((l,j)=>{if(j===items[i].a)l.classList.add('right');l.querySelector('input').disabled=true});const fb=d.querySelector('.fb');fb.hidden=false;fb.textContent='Not answered. Correct answer: '+items[i].o[items[i].a];fb.className='fb no'}});
+    upd();renderHist();
+  }
+  function renderHist(){const list=load();const n=list.length;document.getElementById('tab-attempts').textContent=n+(n===1?' attempt':' attempts');
+    document.getElementById('histempty').hidden=n>0;document.getElementById('histtbl').hidden=n===0;const tb=document.getElementById('histbody');tb.innerHTML='';
+    list.slice().reverse().forEach((a,i)=>{const pct=Math.round(a.score/a.n*100);const d=new Date(a.t);const tr=document.createElement('tr');if(a.seed===seed&&saved)tr.className='cur';
+      tr.innerHTML=`<td>${n-i}</td><td>${d.toLocaleDateString(undefined,{day:'numeric',month:'short'})} ${d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</td><td class="num">${String(a.seed).padStart(4,'0')}</td><td class="n">${a.score} / ${a.n} <span class="pct ${pct>=75?'g':'b'}">${pct}%</span></td><td><div class="mini"><i style="width:${pct}%"></i></div></td><td><a href="#test" class="re" data-seed="${a.seed}">Retake this version</a></td>`;
+      tb.appendChild(tr)});
+    tb.querySelectorAll('a.re').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();build(+a.dataset.seed);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})}));
+  }
+  document.getElementById('newver').addEventListener('click',()=>{build(1+Math.floor(Math.random()*9999));document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})});
+  document.getElementById('finish').addEventListener('click',()=>{if(answered===0){const b=document.getElementById('finish');b.textContent='Answer at least one question first';setTimeout(()=>b.textContent='Finish and save',2500);return}finish()});
+  document.getElementById('clearhist').addEventListener('click',()=>{const b=document.getElementById('clearhist');if(b.dataset.arm){store([]);delete b.dataset.arm;b.textContent='Clear history';renderHist()}else{b.dataset.arm='1';b.textContent='Tap again to clear';setTimeout(()=>{delete b.dataset.arm;b.textContent='Clear history'},3000)}});
+  build(1+Math.floor(Math.random()*9999));
 })();
 })();
 </script>
