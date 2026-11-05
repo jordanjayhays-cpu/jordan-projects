@@ -295,6 +295,30 @@ h3.flash,h4.flash{border-radius:4px}
 .tctl select{font:14px var(--sans);padding:6px 8px;border:1px solid var(--axis);border-radius:6px;background:var(--surface);color:var(--fg);max-width:260px}
 .tctl .hint{color:var(--muted);font-weight:400}
 .tctl select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+/* notes */
+.unit{display:none}
+.unit.on{display:block}
+.unit h1{font-size:clamp(26px,3.4vw,36px);margin:0 0 8px;padding-top:36px}
+.unit h2{font-size:22px;margin:36px 0 10px;padding-top:0;border-top:0;border-bottom:2px solid var(--fg);padding-bottom:8px}
+.unit h3{font-size:17px;margin:24px 0 6px;font-family:var(--sans);color:var(--accent-ink)}
+.unit h4{margin:16px 0 6px}
+.unit p,.unit li{max-width:72ch}
+.unit ul,.unit ol{margin:6px 0 10px}
+.unit li{margin:3px 0}
+.unit li ul{margin:2px 0 4px}
+.unit .exam{background:var(--flag-wash);border-left:3px solid var(--flag);padding:4px 8px;border-radius:4px;display:inline-block}
+.unit table{min-width:0}
+.unit .tbl{margin:10px 0}
+.unit hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+.unit code{font:13px var(--mono);background:var(--surface-2);padding:1px 4px;border-radius:3px}
+.unit .lede{font-size:16px;color:var(--fg-2)}
+.unit .meta{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+#notes-rail a{display:block;padding:7px 10px;border-radius:6px;color:var(--fg-2);text-decoration:none;font-size:13.5px;font-weight:500;border-left:2px solid transparent;cursor:pointer}
+#notes-rail a:hover{background:var(--surface)}
+#notes-rail a.on{background:var(--surface);color:var(--fg);border-left-color:var(--accent);box-shadow:var(--shadow)}
+#notes-rail a small{display:block;font-size:11px;color:var(--muted);font-weight:400}
+#notes-mobnav a{cursor:pointer}
+#notes-mobnav a.on{background:var(--accent);color:#fff}
 /* tabs */
 .tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--navy);border-top:1px solid rgba(255,255,255,.1);box-shadow:0 2px 10px rgba(0,0,0,.15)}
 .tabs .in{max-width:1180px;margin:0 auto;display:flex;gap:2px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
@@ -370,6 +394,7 @@ button.ghost:hover{background:var(--surface)}
 
 <div class="tabs" role="tablist" aria-label="Study or test"><div class="in">
   <button type="button" role="tab" id="tab-btn-study" aria-selected="true" aria-controls="tab-study">Study</button>
+  <button type="button" role="tab" id="tab-btn-notes" aria-selected="false" aria-controls="tab-notes">Notes <small id="tab-notes-n">complete</small></button>
   <button type="button" role="tab" id="tab-btn-test" aria-selected="false" aria-controls="tab-test">Test <small id="tab-attempts">0 attempts</small></button>
 </div></div>
 
@@ -817,6 +842,17 @@ button.ghost:hover{background:var(--surface)}
 </main>
 </div>
 
+<div class="shell" id="tab-notes" hidden>
+  <aside class="rail" aria-label="Units">
+    <div class="t">Complete notes</div>
+    <div id="notes-rail"></div>
+    <div class="box"><b>How to use</b>Read a unit end to end once, then test it with the topic drill. Lines marked EXAM are things the professor tied to the exam.</div>
+  </aside>
+  <main>
+    <nav class="mobnav" id="notes-mobnav" aria-label="Units"></nav>
+    <div id="notes-root"><!-- NOTES START --><p class="note">Complete notes are being written. Refresh shortly.</p><!-- NOTES END --></div>
+  </main>
+</div>
 <div class="testwrap" id="tab-test" hidden>
   <div class="testhead">
     <div><h2>Practice exam</h2><div class="kick">Every version draws 40 of the <span class="bankn">130</span> questions in the bank, balanced across every session and case, with question order and answer order shuffled. Answers mark themselves. When you finish, the attempt is saved and a study room opens with every miss explained and linked to the section to re-read.</div><div class="ver">Version <span id="vseed">0000</span> · <span id="vmeta">40 questions</span></div>
@@ -841,15 +877,26 @@ button.ghost:hover{background:var(--surface)}
 <div class="tip" id="tip"></div>
 <script>
 (function(){
-  const study=document.getElementById('tab-study'),test=document.getElementById('tab-test');
-  const bS=document.getElementById('tab-btn-study'),bT=document.getElementById('tab-btn-test');
-  function show(which,scrollTop){const t=which==='test';study.hidden=t;test.hidden=!t;bS.setAttribute('aria-selected',String(!t));bT.setAttribute('aria-selected',String(t));if(scrollTop)window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})}
-  bS.addEventListener('click',()=>{show('study',true);if(location.hash==='#test')history.replaceState(null,'',' ')});
-  bT.addEventListener('click',()=>{show('test',true);location.hash='test'});
+  const panes={study:document.getElementById('tab-study'),test:document.getElementById('tab-test'),notes:document.getElementById('tab-notes')};
+  const btns={study:document.getElementById('tab-btn-study'),test:document.getElementById('tab-btn-test'),notes:document.getElementById('tab-btn-notes')};
+  function show(which,scrollTop){Object.keys(panes).forEach(k=>{panes[k].hidden=k!==which;btns[k].setAttribute('aria-selected',String(k===which))});if(scrollTop)window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})}
+  btns.study.addEventListener('click',()=>{show('study',true);if(location.hash==='#test'||location.hash==='#notes')history.replaceState(null,'',' ')});
+  btns.test.addEventListener('click',()=>{show('test',true);location.hash='test'});
+  btns.notes.addEventListener('click',()=>{show('notes',true);location.hash='notes'});
   document.querySelectorAll('a.totest').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('test',true);location.hash='test'}));
-  function route(){if(location.hash==='#test'){show('test',false)}else{show('study',false);const id=location.hash.slice(1);const el=id&&document.getElementById(id);if(el)el.scrollIntoView()}}
+  /* notes unit switcher */
+  (function(){const units=[...document.querySelectorAll('#notes-root .unit')];const rail=document.getElementById('notes-rail'),mob=document.getElementById('notes-mobnav');if(!units.length)return;
+    let cur='';try{cur=localStorage.getItem('hei_notes_unit')||''}catch(e){}
+    function pick(id){units.forEach(u=>u.classList.toggle('on',u.id===id));rail.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.dataset.u===id));mob.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.dataset.u===id));try{localStorage.setItem('hei_notes_unit',id)}catch(e){}}
+    units.forEach(u=>{const t=u.dataset.title,s=u.dataset.sub;const a=document.createElement('a');a.dataset.u=u.id;a.innerHTML=t+(s?'<small>'+s+'</small>':'');a.addEventListener('click',()=>{pick(u.id);window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})});rail.appendChild(a);
+      const m=document.createElement('a');m.dataset.u=u.id;m.textContent=t;m.addEventListener('click',()=>{pick(u.id);window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})});mob.appendChild(m)});
+    pick(units.some(u=>u.id===cur)?cur:units[0].id);
+    document.getElementById('tab-notes-n').textContent=units.length+' units';
+  })();
+  function route(){if(location.hash==='#test'){show('test',false)}else if(location.hash==='#notes'){show('notes',false)}else{show('study',false);const id=location.hash.slice(1);const el=id&&document.getElementById(id);if(el)el.scrollIntoView()}}
   window.addEventListener('hashchange',route);route();
   document.addEventListener('showtab',e=>show(e.detail,false));
+  document.querySelectorAll('.rail a:not(.totest)').forEach(a=>{if(a.closest('#tab-study'))a.addEventListener('click',()=>show('study',false))});
   const links=[...document.querySelectorAll('.rail a:not(.totest)')];const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
   if(!('IntersectionObserver' in window)||!secs.length)return;
   const set=id=>links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));
