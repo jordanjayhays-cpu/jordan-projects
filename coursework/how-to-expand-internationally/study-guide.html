@@ -239,6 +239,7 @@ button:disabled{opacity:.55;cursor:default}
 .qsec{margin-top:26px}
 .qsec h4{margin:22px 0 8px}
 .q{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:16px 18px;margin:10px 0}
+.q .topic{font:600 10.5px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .q .qt{font-weight:600;max-width:none;line-height:1.45}
 .q .qt span{font:500 12px var(--mono);color:var(--muted);margin-right:8px}
 .q .opts{display:grid;gap:6px;margin-top:12px}
@@ -715,7 +716,7 @@ button.ghost:hover{background:var(--surface)}
 
 <div class="testwrap" id="tab-test" hidden>
   <div class="testhead">
-    <div><h2>Practice exam</h2><div class="kick">Every version draws 40 of the 50 questions and shuffles the answer order, so you learn the facts, not the positions. Answers mark themselves; the attempt saves automatically when you finish.</div><div class="ver">Version <span id="vseed">0000</span> · 40 questions · answers shuffled</div></div>
+    <div><h2>Practice exam</h2><div class="kick">Every version draws 40 of the 50 questions, shuffles the question order across all topics and shuffles the answer order, so you learn the facts, not the positions. Answers mark themselves; the attempt saves automatically when you finish.</div><div class="ver">Version <span id="vseed">0000</span> · 40 questions · answers shuffled</div></div>
     <div class="btns"><button type="button" class="ghost" id="finish">Finish and save</button><button type="button" class="pri" id="newver">New version</button></div>
   </div>
   <div class="result" id="result" hidden><div class="big"><span id="rsc">0</span><small>/ 40</small></div><div><p><b id="rmsg"></b></p><p id="rsub"></p></div></div>
@@ -967,15 +968,14 @@ function fmt(n){return n.toLocaleString('en-US')}
   function build(s){
     seed=s;const r=rng(seed);
     const pick=shuffle(ALL,r).slice(0,N);
-    const order=Q.map(x=>x[0]);pick.sort((a,b)=>order.indexOf(a.sec)-order.indexOf(b.sec));
     items=pick.map(q=>{const idx=shuffle(q.o.map((_,i)=>i),r);return{sec:q.sec,t:q.t,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a),done:false,ok:false}});
     correct=0;answered=0;saved=false;startedAt=Date.now();res.hidden=true;const fbtn=document.getElementById('finish');fbtn.disabled=false;fbtn.textContent='Finish and save';
     vs.textContent=vs2.textContent=String(seed).padStart(4,'0');
     root.innerHTML='';let n=0,cur='';
-    items.forEach((q,qi)=>{if(q.sec!==cur){cur=q.sec;const h=document.createElement('div');h.className='qsec';h.innerHTML=`<h4>${cur}</h4>`;root.appendChild(h)}
+    items.forEach((q,qi)=>{
       n++;const idx=n;const d=document.createElement('div');d.className='q';
       const opts=q.o.map((o,i)=>`<label><input type="radio" name="q${seed}_${idx}" id="q${seed}_${idx}o${i}" value="${i}"><span>${o}</span></label>`).join('');
-      d.innerHTML=`<div class="qt"><span>${String(idx).padStart(2,'0')}</span>${q.t}</div><div class="opts">${opts}</div><div class="fb" hidden></div>`;
+      d.innerHTML=`<div class="topic">${q.sec}</div><div class="qt"><span>${String(idx).padStart(2,'0')}</span>${q.t}</div><div class="opts">${opts}</div><div class="fb" hidden></div>`;
       d.addEventListener('change',e=>{if(q.done)return;const p=+e.target.value;q.done=true;answered++;
         d.classList.add('done');d.querySelectorAll('label').forEach((l,i)=>{if(i===q.a)l.classList.add('right');else if(i===p)l.classList.add('wrong');l.querySelector('input').disabled=true});
         const fb=d.querySelector('.fb');fb.hidden=false;if(p===q.a){correct++;q.ok=true;fb.textContent='Correct';fb.className='fb ok'}else{fb.textContent='Correct answer: '+q.o[q.a];fb.className='fb no'}
