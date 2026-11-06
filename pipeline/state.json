@@ -85,9 +85,10 @@
   "Guns, Germs and Steel",
   "Chains We Wear",
   "Whakapapa",
-  "Ripples of Karma"
+  "Ripples of Karma",
+  "All I Know"
  ],
- "last_scheduled_date": "2026-11-10",
+ "last_scheduled_date": "2026-11-11",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -210,6 +211,7 @@
   "2026-11-07": "guns-germs-and-steel",
   "2026-11-08": "chains-we-wear",
   "2026-11-09": "whakapapa",
-  "2026-11-10": "ripples-of-karma"
+  "2026-11-10": "ripples-of-karma",
+  "2026-11-11": "all-i-know"
  }
 }
