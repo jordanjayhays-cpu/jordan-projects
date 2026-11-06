@@ -319,13 +319,54 @@ h3.flash,h4.flash{border-radius:4px}
 #notes-rail a small{display:block;font-size:11px;color:var(--muted);font-weight:400}
 #notes-mobnav a{cursor:pointer}
 #notes-mobnav a.on{background:var(--accent);color:#fff}
+/* search */
+.tabs .in{align-items:center}
+.srch{margin-left:auto;flex:0 1 380px;min-width:0;display:flex;align-items:center;position:relative}
+.srch input{width:100%;font:14px var(--sans);padding:9px 34px 9px 34px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:var(--on-navy);-webkit-appearance:none;appearance:none}
+.srch input::placeholder{color:var(--on-navy-2)}
+.srch input:focus{outline:2px solid var(--flag);outline-offset:1px;background:rgba(255,255,255,.13)}
+.srch svg{position:absolute;left:11px;width:16px;height:16px;stroke:var(--on-navy-2);fill:none;stroke-width:2;stroke-linecap:round;pointer-events:none}
+.srch kbd{position:absolute;right:9px;font:11px var(--mono);color:var(--on-navy-2);border:1px solid rgba(255,255,255,.25);border-radius:4px;padding:1px 6px;pointer-events:none}
+.srch input:focus~kbd,.srch input:not(:placeholder-shown)~kbd{display:none}
+#srch-panel{position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 22px 40px -22px rgba(0,0,0,.5);max-height:calc(100vh - 110px);max-height:calc(100dvh - 110px);overflow:auto;overscroll-behavior:contain}
+#srch-body{max-width:1180px;margin:0 auto;padding-block:14px 26px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.sr-top{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px;color:var(--fg-2)}
+.sr-top b{color:var(--fg)}
+.sr-jump{display:flex;gap:6px;flex-wrap:wrap}
+.sr-jump a,.sr-tips a{font:600 12.5px/1 var(--sans);padding:6px 11px;border-radius:999px;background:var(--surface);color:var(--fg);text-decoration:none;cursor:pointer;box-shadow:var(--shadow);transition:transform .1s cubic-bezier(.2,.8,.2,1)}
+.sr-jump a:active,.sr-tips a:active{transform:scale(.95)}
+.sr-jump a small{color:var(--muted);font-weight:500;margin-left:4px}
+.sr-g h3{font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px;padding:0}
+.sr-g h3 small{font:500 11px var(--mono);margin-left:6px;color:var(--accent-ink)}
+.sr-it{display:block;width:100%;text-align:left;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:6px 0;font:400 14px/1.5 var(--sans);cursor:pointer;transition:transform .1s cubic-bezier(.2,.8,.2,1),border-color .1s}
+.sr-it:hover{background:var(--surface);border-color:var(--accent)}
+.sr-it:active{transform:scale(.99)}
+.sr-it.open{border-radius:8px 8px 0 0;border-color:var(--accent)}
+.sr-path{display:block;font:600 11.5px/1.35 var(--sans);color:var(--accent-ink);margin-bottom:3px}
+.sr-t{display:block;color:var(--fg-2)}
+.sr-ans{display:block;margin-top:5px;color:var(--good);font-weight:600;font-size:13.5px}
+mark{background:color-mix(in srgb,var(--flag) 42%,transparent);color:inherit;border-radius:2px;padding:0 1px}
+mark.hit{background:var(--flag);color:#1b1200}
+.sr-x{background:var(--surface-2);border:1px solid var(--accent);border-top:0;border-radius:0 0 8px 8px;margin:-7px 0 10px;padding:10px 14px 12px;font-size:14px}
+.sr-x ol{margin:2px 0 8px;padding-left:22px;max-width:none}
+.sr-x li{margin:2px 0;color:var(--fg-2)}
+.sr-x li.ok{color:var(--good);font-weight:600}
+.sr-x p{margin:6px 0;max-width:none;color:var(--fg)}
+.sr-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.sr-acts button,.sr-more{font:600 13px/1 var(--sans);padding:9px 12px;border-radius:6px;border:1px solid var(--axis);background:var(--surface);color:var(--fg);cursor:pointer;transition:transform .1s cubic-bezier(.2,.8,.2,1)}
+.sr-acts button:hover,.sr-more:hover{background:var(--accent-wash);border-color:var(--accent)}
+.sr-acts button:active,.sr-more:active{transform:scale(.96)}
+.sr-empty,.sr-tips{color:var(--fg-2);font-size:14px;margin:6px 0 0}
+.sr-tips p{margin:4px 0 10px;max-width:none}
+.sr-tips a{margin:0 6px 8px 0;display:inline-block}
+@media (max-width:640px){.tabs .in>button{padding:14px 9px 11px;font-size:14px}.tabs .in>button small{display:none}.srch{flex:1 1 110px;margin-left:6px}.srch kbd{display:none}.srch input{padding-right:10px}.rt-row a{white-space:normal}}
 /* tabs */
 .tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--navy);border-top:1px solid rgba(255,255,255,.1);box-shadow:0 2px 10px rgba(0,0,0,.15)}
 .tabs .in{max-width:1180px;margin:0 auto;display:flex;gap:2px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-.tabs button{border:0;border-radius:0;padding:14px 20px 11px;font:600 15px/1 var(--sans);color:var(--on-navy-2);background:transparent;border-bottom:3px solid transparent;display:flex;gap:8px;align-items:center}
-.tabs button:hover{background:rgba(255,255,255,.06)}
-.tabs button[aria-selected="true"]{color:var(--on-navy);border-bottom-color:var(--flag)}
-.tabs button small{font:500 11px/1 var(--mono);color:var(--on-navy-2);background:rgba(255,255,255,.1);padding:4px 6px;border-radius:4px}
+.tabs .in>button{border:0;border-radius:0;padding:14px 20px 11px;font:600 15px/1 var(--sans);color:var(--on-navy-2);background:transparent;border-bottom:3px solid transparent;display:flex;gap:8px;align-items:center}
+.tabs .in>button:hover{background:rgba(255,255,255,.06)}
+.tabs .in>button[aria-selected="true"]{color:var(--on-navy);border-bottom-color:var(--flag)}
+.tabs .in>button small{font:500 11px/1 var(--mono);color:var(--on-navy-2);background:rgba(255,255,255,.1);padding:4px 6px;border-radius:4px}
 [hidden]{display:none!important}
 .testwrap{max-width:820px;margin:0 auto;padding-block:36px 80px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 .testhead{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;flex-wrap:wrap}
@@ -370,8 +411,9 @@ button.ghost:hover{background:var(--surface)}
   .ch-head{grid-template-columns:1fr;gap:4px}
   .ch-head .n{font-size:44px}
   .ladder .rung{grid-template-columns:1fr}
-  .ansoff{grid-template-columns:auto 1fr;grid-template-rows:auto}
-  .ansoff .ax.h{display:none}
+  .ansoff{grid-template-columns:1fr;grid-template-rows:auto}
+  .ansoff .ax{display:none}
+  .ansoff .cell{min-width:0}
   .timeline::before{left:85px}
   .timeline li{grid-template-columns:72px 26px 1fr}
   .case .bar,.case .meta,.case .body{padding-inline:16px}
@@ -396,7 +438,9 @@ button.ghost:hover{background:var(--surface)}
   <button type="button" role="tab" id="tab-btn-study" aria-selected="true" aria-controls="tab-study">Study</button>
   <button type="button" role="tab" id="tab-btn-notes" aria-selected="false" aria-controls="tab-notes">Notes <small id="tab-notes-n">complete</small></button>
   <button type="button" role="tab" id="tab-btn-test" aria-selected="false" aria-controls="tab-test">Test <small id="tab-attempts">0 attempts</small></button>
-</div></div>
+  <div class="srch" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg><input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search notes, guide and questions" aria-label="Search notes, guide and questions" aria-controls="srch-panel"><kbd>/</kbd></div>
+</div>
+<div id="srch-panel" hidden><div id="srch-body"></div></div></div>
 
 <div class="shell" id="tab-study">
 <aside class="rail" aria-label="Chapters">
@@ -4626,7 +4670,7 @@ button.ghost:hover{background:var(--surface)}
   /* notes unit switcher */
   (function(){const units=[...document.querySelectorAll('#notes-root .unit')];const rail=document.getElementById('notes-rail'),mob=document.getElementById('notes-mobnav');if(!units.length)return;
     let cur='';try{cur=localStorage.getItem('hei_notes_unit')||''}catch(e){}
-    function pick(id){units.forEach(u=>u.classList.toggle('on',u.id===id));rail.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.dataset.u===id));mob.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.dataset.u===id));try{localStorage.setItem('hei_notes_unit',id)}catch(e){}}
+    window.__pickUnit=function(id){pick(id)};function pick(id){units.forEach(u=>u.classList.toggle('on',u.id===id));rail.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.dataset.u===id));mob.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.dataset.u===id));try{localStorage.setItem('hei_notes_unit',id)}catch(e){}}
     units.forEach(u=>{const t=u.dataset.title,s=u.dataset.sub;const a=document.createElement('a');a.dataset.u=u.id;a.innerHTML=t+(s?'<small>'+s+'</small>':'');a.addEventListener('click',()=>{pick(u.id);window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})});rail.appendChild(a);
       const m=document.createElement('a');m.dataset.u=u.id;m.textContent=t;m.addEventListener('click',()=>{pick(u.id);window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})});mob.appendChild(m)});
     pick(units.some(u=>u.id===cur)?cur:units[0].id);
@@ -7339,6 +7383,7 @@ function fmt(n){return n.toLocaleString('en-US')}
   q(T6,'Regional commercials usually made new test items in small batches for what reason?',['To keep subcontractors busy','To avoid significant markdowns if the items were not popular','To meet Spanish labour rules','To reduce shipping weight'],1,'Small batches let Zara test the market with very little risk and avoid markdowns if items did not sell, driving its industry-leading fashion failure rates.','c-zara');
   q(T6,'What was the case\'s stated rationale for Inditex investing heavily in automation within its manufacturing plants?',['To eliminate subcontractors entirely','To move production to Asia','To achieve mass customization in small batches and break bottlenecks across the supply chain','To cut the advertising budget'],2,'Inditex invested heavily in automation tied to management of the entire supply chain, focused on breaking bottlenecks so it could produce quickly in small batches.','c-zara');
   q(T6,'Some of the Galicia subcontractors mentioned by Bloomberg had worked for Zara since when?',['The 2001 IPO','1963','2004','Its founding in 1975'],3,'Bloomberg noted subcontractors across Galicia, some of whom had worked for the company since Ortega founded it in 1975.','c-zara');
+  window.__QB=B;
   /* ---- engine ---- */
   let N=40;const KEY='hei_attempts_v2';
   const root=document.getElementById('quizroot'),sc=document.getElementById('sc'),sub=document.getElementById('scsub'),pg=document.getElementById('pg');
@@ -7434,5 +7479,96 @@ function fmt(n){return n.toLocaleString('en-US')}
   document.getElementById('clearhist').addEventListener('click',()=>{const b=document.getElementById('clearhist');if(b.dataset.arm){store([]);delete b.dataset.arm;b.textContent='Clear history';renderHist()}else{b.dataset.arm='1';b.textContent='Tap again to clear';setTimeout(()=>{delete b.dataset.arm;b.textContent='Clear history'},3000)}});
   build(1+Math.floor(Math.random()*9999));
 })();
+})();
+</script>
+<script>
+(function(){
+  const inp=document.getElementById('q'),panel=document.getElementById('srch-panel'),body=document.getElementById('srch-body');
+  if(!inp)return;
+  const QB=window.__QB||[];
+  inp.placeholder='Search notes, guide and '+QB.length.toLocaleString('en-US')+' questions';
+  function nk(s){let o='';for(let i=0;i<s.length;i++){const c=s[i];let d=c.normalize('NFD').charAt(0).toLowerCase().charAt(0);o+=d||c}return o}
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  function own(el){const parts=[];(function walk(n){n.childNodes.forEach(c=>{if(c.nodeType===3){const v=c.nodeValue.trim();if(v)parts.push(v)}else if(c.nodeType===1&&!/^(UL|OL|svg|SCRIPT|STYLE)$/i.test(c.tagName)){if(el.tagName==='TR'&&c.tagName==='TD'&&parts.length)parts.push('·');walk(c)}})})(el);
+    return parts.join(' ').replace(/\s+/g,' ').replace(/\s+([,.;:)%])/g,'$1').replace(/\(\s+/g,'(').trim()}
+  let IDX=null;
+  function build(){IDX=[];
+    const sm=document.querySelector('#tab-study main');let h2='',h3='';
+    if(sm)sm.querySelectorAll('h2,h3,h4,p,li,tr,figure .ft,figcaption,.ladder .rung,.cage>div,.funnel>div,.vrio>div,.grid2>div,.grid3>div,.ansoff .cell,.kv>div,.howto>div,.examline>div,.card').forEach(el=>{
+      if(el.closest('svg,nav'))return;if(el.tagName==='TR'&&el.querySelector('th'))return;
+      const t=own(el);if(t.length<3)return;
+      if(el.tagName==='H2'){h2=t;h3=''}else if(el.tagName==='H3'){h3=t}
+      const head=/^H[234]$/.test(el.tagName);
+      IDX.push({g:'guide',el,t,n:nk(t),head,path:['Study',h2,el.tagName==='H2'?'':h3].filter(Boolean).join(' › ')})});
+    document.querySelectorAll('#notes-root .unit').forEach(u=>{let a='',b='';const title=u.dataset.title||'';
+      u.querySelectorAll('h2,h3,h4,p,li,tr').forEach(el=>{if(el.tagName==='TR'&&el.querySelector('th'))return;
+        const t=own(el);if(t.length<3)return;
+        if(el.tagName==='H2'){a=t;b=''}else if(el.tagName==='H3'){b=t}
+        IDX.push({g:'notes',el,t,n:nk(t),unit:u.id,head:/^H[234]$/.test(el.tagName),path:[title,a,el.tagName==='H2'?'':b].filter(Boolean).join(' › ')})})});
+    QB.forEach(q=>{IDX.push({g:'q',q,t:q.txt,n:nk(q.txt+' || '+q.o.join(' | ')+' || '+q.e),path:q.t})});
+  }
+  const LBL={notes:'Complete notes',guide:'Study guide',q:'Questions'},ORDER=['notes','guide','q'];
+  let last=null,lim={},toks=[];
+  function snip(t,len){len=len||230;const n=nk(t);let p=-1;toks.forEach(k=>{const j=n.indexOf(k);if(j>=0&&(p<0||j<p))p=j});
+    let a=0,b=t.length;if(t.length>len){a=Math.max(0,p-70);b=Math.min(t.length,a+len);if(a>0){const sp=t.indexOf(' ',a);if(sp>0&&sp<a+25)a=sp+1}}
+    const sub=t.slice(a,b),ns=n.slice(a,b),rs=[];toks.forEach(k=>{let j=0;while((j=ns.indexOf(k,j))>=0){rs.push([j,j+k.length]);j+=k.length}});
+    rs.sort((x,y)=>x[0]-y[0]);let out='',c=0;rs.forEach(([s,e])=>{if(s<c)return;out+=esc(sub.slice(c,s))+'<mark>'+esc(sub.slice(s,e))+'</mark>';c=e});out+=esc(sub.slice(c));
+    return (a>0?'… ':'')+out+(b<t.length?' …':'')}
+  function tips(){body.innerHTML='<div class="sr-tips"><p>Search every line of the complete notes, the study guide and the question bank. Use quotes for an exact phrase. Press <b>/</b> to search from anywhere, <b>Esc</b> to close, <b>Enter</b> to open the top result.</p>'+['factoring','Malaysia IMF','branch subsidiary','Big Mac','VRIO','Guatemala','Basel II','Kerviel alerts','sogo shosha','CAGE','"cash conversion cycle"','Mittelstand'].map(s=>'<a data-try="'+esc(s)+'">'+esc(s)+'</a>').join('')+'</div>'}
+  function run(){const raw=inp.value.trim();
+    if(raw.length<2){last=null;tips();return}
+    if(!IDX)build();
+    const m=raw.match(/^"(.+)"$/);toks=m?[nk(m[1])]:nk(raw).split(/\s+/).filter(t=>t.length>1||/\d/.test(t));
+    if(!toks.length){tips();return}
+    const pq=nk(raw.replace(/"/g,''));const res={guide:[],notes:[],q:[]};
+    IDX.forEach((r,i)=>{if(!toks.every(t=>r.n.includes(t)))return;let s=0;if(r.n.includes(pq))s+=10;if(r.head)s+=6;s+=Math.max(0,3-r.t.length/250);res[r.g].push({r,s,i})});
+    ORDER.forEach(k=>res[k].sort((a,b)=>b.s-a.s||a.i-b.i));
+    last={raw,res};lim={notes:15,guide:15,q:15};render()}
+  function item(k,x){const r=x.r;
+    if(k==='q'){const q=r.q,src=nk(q.txt);const inQ=toks.some(t=>src.includes(t));
+      return '<button type="button" class="sr-it" data-i="'+x.i+'"><span class="sr-path">Question · '+esc(q.t)+'</span><span class="sr-t">'+snip(q.txt,400)+'</span><span class="sr-ans">Answer: '+esc(q.o[q.a])+'</span>'+(inQ?'':'<span class="sr-t" style="margin-top:4px;font-size:13px">'+snip(q.e,200)+'</span>')+'</button>'}
+    return '<button type="button" class="sr-it" data-i="'+x.i+'"><span class="sr-path">'+esc(r.path)+'</span><span class="sr-t">'+snip(r.t)+'</span></button>'}
+  function render(){const {raw,res}=last;const total=ORDER.reduce((s,k)=>s+res[k].length,0);
+    let h='<div class="sr-top"><span><b>'+total.toLocaleString('en-US')+'</b> results for “'+esc(raw)+'”</span><span class="sr-jump">'+ORDER.map(k=>'<a data-j="'+k+'">'+LBL[k]+'<small>'+res[k].length+'</small></a>').join('')+'</span></div>';
+    if(!total)h+='<p class="sr-empty">No matches. Try fewer words, another spelling, or one key term.</p>';
+    ORDER.forEach(k=>{const arr=res[k];if(!arr.length)return;h+='<section class="sr-g" id="sr-'+k+'"><h3>'+LBL[k]+'<small>'+arr.length+'</small></h3>'+arr.slice(0,lim[k]).map(x=>item(k,x)).join('');
+      if(arr.length>lim[k])h+='<button type="button" class="sr-more" data-more="'+k+'">Show '+Math.min(60,arr.length-lim[k])+' more of '+(arr.length-lim[k])+'</button>';h+='</section>'});
+    body.innerHTML=h}
+  function open(){panel.hidden=false}
+  function close(){panel.hidden=true}
+  let marked=[];
+  function clearMarks(){marked.forEach(m=>{const p=m.parentNode;if(!p)return;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize()});marked=[]}
+  function markIn(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);const nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+    nodes.forEach(nd=>{const t=nd.nodeValue,n=nk(t),rs=[];toks.forEach(k=>{let j=0;while((j=n.indexOf(k,j))>=0){rs.push([j,j+k.length]);j+=k.length}});if(!rs.length)return;rs.sort((a,b)=>a[0]-b[0]);
+      const f=document.createDocumentFragment();let c=0;rs.forEach(([s,e])=>{if(s<c)return;if(s>c)f.appendChild(document.createTextNode(t.slice(c,s)));const m=document.createElement('mark');m.className='hit';m.textContent=t.slice(s,e);f.appendChild(m);marked.push(m);c=e});
+      if(c<t.length)f.appendChild(document.createTextNode(t.slice(c)));nd.parentNode.replaceChild(f,nd)})}
+  function flash(el){el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2500)}
+  function jump(r){close();inp.blur();
+    if(r.g==='notes'){document.dispatchEvent(new CustomEvent('showtab',{detail:'notes'}));if(window.__pickUnit)window.__pickUnit(r.unit)}
+    else document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));
+    if(r.el.classList.contains('card')){const a=r.el.querySelector('.a');if(a)a.hidden=false}
+    requestAnimationFrame(()=>{clearMarks();markIn(r.el);r.el.scrollIntoView({block:'center'});flash(r.el)})}
+  function goSection(id){close();document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));const el=document.getElementById(id);if(el)requestAnimationFrame(()=>{el.scrollIntoView({block:'start'});flash(el)})}
+  function drill(topic){close();const ts=document.getElementById('tsel'),ns=document.getElementById('nsel'),nv=document.getElementById('newver');if(!ts||!nv)return;
+    ts.value=topic;if(ns)ns.value='all';document.dispatchEvent(new CustomEvent('showtab',{detail:'test'}));try{history.replaceState(null,'','#test')}catch(e){}nv.click();window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})}
+  body.addEventListener('click',e=>{const t=e.target.closest('[data-try],[data-j],[data-more],.sr-it,[data-sec],[data-drill]');if(!t)return;
+    if(t.dataset.try){inp.value=t.dataset.try;run();inp.focus();return}
+    if(t.dataset.j){const s=document.getElementById('sr-'+t.dataset.j);if(s)s.scrollIntoView({block:'start',behavior:'smooth'});return}
+    if(t.dataset.more){lim[t.dataset.more]+=60;const y=panel.scrollTop;render();panel.scrollTop=y;return}
+    if(t.dataset.sec){goSection(t.dataset.sec);return}
+    if(t.dataset.drill){drill(t.dataset.drill);return}
+    const r=IDX[+t.dataset.i];if(!r)return;
+    if(r.g!=='q'){jump(r);return}
+    const nx=t.nextElementSibling;if(nx&&nx.classList.contains('sr-x')){nx.remove();t.classList.remove('open');return}
+    const q=r.q;const x=document.createElement('div');x.className='sr-x';
+    x.innerHTML='<ol type="a">'+q.o.map((o,i)=>'<li'+(i===q.a?' class="ok"':'')+'>'+esc(o)+(i===q.a?' (correct)':'')+'</li>').join('')+'</ol><p>'+esc(q.e)+'</p><div class="sr-acts"><button type="button" data-sec="'+esc(q.r)+'">Open the section that explains it</button><button type="button" data-drill="'+esc(q.t)+'">Drill every question on '+esc(q.t)+'</button></div>';
+    t.classList.add('open');t.after(x)});
+  let tm=0;inp.addEventListener('input',()=>{open();clearTimeout(tm);tm=setTimeout(run,110)});
+  inp.addEventListener('focus',()=>{open();if(last&&inp.value.trim().length>=2)render();else run()});
+  inp.addEventListener('keydown',e=>{if(e.key==='Escape'){close();inp.blur()}else if(e.key==='Enter'){e.preventDefault();clearTimeout(tm);run();const f=body.querySelector('.sr-it');if(f)f.click()}});
+  document.addEventListener('keydown',e=>{const tag=(e.target.tagName||'').toLowerCase();const typing=tag==='input'||tag==='textarea'||tag==='select'||e.target.isContentEditable;
+    if((e.key==='/'&&!typing)||((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k')){e.preventDefault();inp.focus();inp.select()}
+    else if(e.key==='Escape'&&!panel.hidden){close();inp.blur()}});
+  document.addEventListener('pointerdown',e=>{if(!panel.hidden&&!e.target.closest('.tabs'))close()});
 })();
 </script>
