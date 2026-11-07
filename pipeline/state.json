@@ -86,9 +86,10 @@
   "Chains We Wear",
   "Whakapapa",
   "Ripples of Karma",
-  "All I Know"
+  "All I Know",
+  "Animal Within"
  ],
- "last_scheduled_date": "2026-11-11",
+ "last_scheduled_date": "2026-11-12",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -212,6 +213,7 @@
   "2026-11-08": "chains-we-wear",
   "2026-11-09": "whakapapa",
   "2026-11-10": "ripples-of-karma",
-  "2026-11-11": "all-i-know"
+  "2026-11-11": "all-i-know",
+  "2026-11-12": "animal-within"
  }
 }
