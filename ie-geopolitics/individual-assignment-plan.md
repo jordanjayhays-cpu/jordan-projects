@@ -60,3 +60,26 @@ Status: planning aid only. The paper itself is Jordan's work alone (see constrai
 - Bullet points in the body.
 - Appendices not referenced in the text.
 - A missing AI disclosure if AI was used.
+
+---
+
+## Slide-cited outline (added 7 Nov, from the two decks)
+
+Decks: `slides/7-humint/` (Beam, Session 7 HUMINT, 79 slides) and `slides/6-tasking-enron/` (Jones, Session 6 Tasking and Enron, 60 slides). Image files are numbered slide-01 to slide-79 and slide-01 to slide-60.
+
+Footnote form: Beam, B., *HUMINT*, Geopolitics for Business People, IE Business School, 2026, slide 36.
+
+| Section | Must answer | Slides to footnote |
+|---|---|---|
+| Opening paragraph | Your role, the client, the constraints, and the one principle you will apply. | HUMINT 78 (what to take away), 27 (HUMINT's role) |
+| 1. Internal targets | Which roles hold the secrets, ranked, and why. Who defends them. | HUMINT 29 (spotting: who has access), 30 to 35 (access is a loose term, can be temporary), 36 to 39 (access, not rank), 73 (IE as an example) |
+| 2. External targets | Which outside organisations supply information or spot insiders. | HUMINT 46 (outsourced HUMINT), 74 (spotting ideas: fake interviews, payday loans, local clubs), 75 (spotting has moved to LinkedIn), 70 (Rippling v Deel) |
+| 3. Covers and pretexts | The fronts and false flags, one per asset. | HUMINT 53 to 55 (false flags: find what motivates them, then pretend to be that), 56 to 57 (false flag organisations, The Trust), 58 (the ambassador's "Cuban" contact) |
+| 4. Assessment and profiling | How you read motive and vulnerability. | HUMINT 40 (assessment and development), 43 to 45 and 47 (motives: MICE, fireplaces, seduction not pressure), 52 (not wanted: mysterious motives), 72 (elicitation: why people talk) |
+| 5. Recruitment | Who recruits whom, the pitch, covert payment. | HUMINT 48 to 51 (recruitment: think seduction, how do you convince someone to marry you), 41 to 42 (the PhD student, the Google insider), 60 to 67 (rate source and information separately) |
+| 6. Exit strategy | How you leave with IE none the wiser. | HUMINT 59 (agent handling), 68 to 69 (termination, revenge, Edward Lee Howard), 70 (how Deel's man was exposed), 78 |
+| Closing paragraph | What this teaches about defending IE. | HUMINT 78; Tasking 4 to 10 (secrets versus mysteries: which IE secrets are actually secret), Tasking 16 onward (Enron: most of it was in public filings) |
+
+Two slides to quote by name in the text: 36 "Access, not rank" and 48 "think seduction". Those are the two ideas the graders will look for.
+
+Word budget for 950 words: opening 80, each section 125, closing 120.
