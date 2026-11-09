@@ -1,0 +1,1168 @@
+<title>Country Economic Analysis</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: navy masthead, then a two-column shell (sticky chapter rail + 780px reading column).
+   Prose sits on the page plane; data (figures, tables, case files, quiz) sits on white panels.
+   Color grammar: navy = chrome, blue = the fact to remember / focal series, grey = comparison, amber = exam flag. */
+:root{
+  --bg:#eef1f6; --surface:#ffffff; --surface-2:#f6f8fb; --fg:#0c1626; --fg-2:#43506a; --muted:#7a8599;
+  --line:#dbe1ea; --grid:#e6eaf1; --axis:#c3cbd8;
+  --navy:#0f2541; --navy-2:#173559; --on-navy:#f3f6fb; --on-navy-2:#b9c6da;
+  --accent:#2a78d6; --accent-ink:#1c5cab; --accent-wash:#e8f0fc;
+  --flag:#f0a63a; --flag-wash:#fdf1dc; --flag-ink:#8a5a0c;
+  --series-2:#eb6834; --compare:#b7bfcc;
+  --good:#0ca30c; --critical:#d03b3b;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --shadow:0 1px 2px rgba(12,22,38,.06),0 8px 24px -16px rgba(12,22,38,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1118; --surface:#151b25; --surface-2:#1b222e; --fg:#eef2f8; --fg-2:#c0c9d8; --muted:#8792a5;
+  --line:#28313f; --grid:#232b37; --axis:#3b4553;
+  --navy:#0a1626; --navy-2:#122540; --on-navy:#f3f6fb; --on-navy-2:#aab8cf;
+  --accent:#3b8ae6; --accent-ink:#8fbbf0; --accent-wash:#172a44;
+  --flag:#e9a43c; --flag-wash:#3a2a10; --flag-ink:#f1c67a;
+  --series-2:#e0632f; --compare:#4b5564;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.6); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1118; --surface:#151b25; --surface-2:#1b222e; --fg:#eef2f8; --fg-2:#c0c9d8; --muted:#8792a5;
+  --line:#28313f; --grid:#232b37; --axis:#3b4553;
+  --navy:#0a1626; --navy-2:#122540; --on-navy:#f3f6fb; --on-navy-2:#aab8cf;
+  --accent:#3b8ae6; --accent-ink:#8fbbf0; --accent-wash:#172a44;
+  --flag:#e9a43c; --flag-wash:#3a2a10; --flag-ink:#f1c67a;
+  --series-2:#e0632f; --compare:#4b5564;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.6); color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:120px}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--sans);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--navy)}
+a{color:var(--accent-ink)}
+strong,b{font-weight:600}
+p{margin:10px 0;max-width:66ch}
+ul,ol{padding-left:22px;margin:8px 0;max-width:66ch}
+li{margin:5px 0}
+li::marker{color:var(--accent)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.1;font-weight:600}
+h4{font:600 13px/1.3 var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink);margin:28px 0 8px}
+.num{font-family:var(--mono)}
+
+/* ---------- masthead ---------- */
+.mast{background:var(--navy);color:var(--on-navy)}
+.mast .in{max-width:1180px;margin:0 auto;padding-block:44px 36px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.mast .eyebrow{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--on-navy-2)}
+.mast h1{font-size:clamp(36px,6vw,64px);margin-top:14px;letter-spacing:-.01em;max-width:14ch;font-variation-settings:"opsz" 144}
+.mast .lede{font-size:clamp(16px,1.6vw,19px);color:var(--on-navy-2);max-width:58ch;margin-top:14px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);margin-top:32px;border-radius:8px;overflow:hidden}
+.stats div{background:var(--navy-2);padding:16px 18px;min-width:0}
+.stats .k{font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--on-navy-2)}
+.stats .v{font:600 clamp(22px,2.4vw,30px)/1.1 var(--display);margin-top:10px;color:var(--on-navy)}
+.stats .v small{display:block;font:500 13px/1.3 var(--sans);color:var(--on-navy-2);margin-top:6px}
+.flags{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.flags .lab{font:600 12px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--on-navy-2);margin-right:4px}
+.flags span.chip{display:inline-block;font:500 13px/1 var(--sans);padding:8px 12px;border-radius:999px;background:var(--flag);color:#1b1200}
+
+/* ---------- shell ---------- */
+.shell{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px;padding-block:0 80px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 66px);align-self:start;padding-top:36px}
+.rail .t{font:600 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.rail a{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:baseline;padding:8px 10px;border-radius:6px;color:var(--fg-2);text-decoration:none;font-size:14px;font-weight:500;border-left:2px solid transparent}
+.rail a i{font:500 12px var(--mono);color:var(--muted);font-style:normal}
+.rail a:hover{background:var(--surface)}
+.rail a.on{background:var(--surface);color:var(--fg);border-left-color:var(--accent);box-shadow:var(--shadow)}
+.rail a.on i{color:var(--accent-ink)}
+.rail .box{margin-top:22px;padding:14px;background:var(--flag-wash);border-radius:8px;font-size:13px;color:var(--flag-ink);line-height:1.45}
+.rail .box b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.mobnav{display:none}
+main{min-width:0;max-width:800px;padding-top:36px}
+
+/* chapter openers */
+.ch{margin-top:72px;scroll-margin-top:24px}
+.ch:first-child{margin-top:0}
+.ch-head{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:end;padding-bottom:16px;border-bottom:2px solid var(--fg);margin-bottom:22px}
+.ch-head .n{font:500 64px/0.85 var(--display);color:var(--accent);font-variation-settings:"opsz" 144;letter-spacing:-.03em}
+.ch-head h2{font-size:clamp(26px,3.4vw,36px)}
+.ch-head .kick{font-size:15px;color:var(--fg-2);margin-top:8px;max-width:60ch}
+h3{font-size:22px;margin-top:40px;padding-top:6px}
+h3 + p{margin-top:8px}
+.who{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:4px;background:var(--accent-wash);color:var(--accent-ink);vertical-align:middle;margin-left:8px}
+
+/* callouts & legend */
+.callout{display:grid;grid-template-columns:4px 1fr;gap:14px;background:var(--surface);border-radius:8px;box-shadow:var(--shadow);margin:18px 0;overflow:hidden}
+.callout::before{content:"";background:var(--flag)}
+.callout div{padding:12px 16px 12px 4px;font-size:15px;color:var(--fg-2)}
+.callout b{color:var(--fg)}
+.howto{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:22px 0 0}
+.howto div{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:14px 16px;font-size:14px;color:var(--fg-2);min-width:0}
+.howto div b{display:flex;align-items:center;gap:8px;color:var(--fg);margin-bottom:4px}
+.howto div b::before{content:"";width:10px;height:10px;border-radius:2px;background:var(--accent);flex:none}
+.howto div:nth-child(2) b::before{background:var(--compare)}
+.howto div:nth-child(3) b::before{background:var(--flag)}
+
+/* top 25 */
+ol.facts{list-style:none;padding:0;margin:0;counter-reset:f;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:none}
+ol.facts li{counter-increment:f;margin:0;background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:16px 18px 16px 18px;position:relative;min-width:0;font-size:14.5px;line-height:1.55;color:var(--fg-2);border-top:3px solid var(--accent)}
+ol.facts li.a{border-top-color:var(--navy-2)}
+ol.facts li::before{content:counter(f,decimal-leading-zero);font:500 30px/1 var(--display);color:var(--accent);font-variation-settings:"opsz" 144;display:block;margin-bottom:8px}
+ol.facts li.a::before{color:var(--fg-2)}
+ol.facts li b{color:var(--fg);font-weight:600}
+ol.facts li .tag{position:absolute;top:14px;right:14px;font:600 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:4px 6px;border-radius:4px}
+
+/* tables */
+.tbl{overflow-x:auto;margin:16px 0;background:var(--surface);border-radius:8px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-weight:600;color:var(--fg-2);font-size:11px;text-transform:uppercase;letter-spacing:.08em;background:var(--surface-2)}
+td:first-child{font-weight:600;color:var(--fg)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.hl td{background:var(--accent-wash)}
+
+/* figures */
+figure{margin:22px 0;background:var(--surface);border-radius:10px;box-shadow:var(--shadow);padding:18px 20px 14px}
+figure .ft{font:600 17px/1.3 var(--sans);margin:0 0 4px;color:var(--fg)}
+figure .fs{font-size:13px;color:var(--fg-2);margin:0 0 12px;max-width:none}
+figure svg{display:block;width:100%;height:auto;overflow:visible}
+figure figcaption{font-size:12.5px;color:var(--muted);margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
+svg text{font-family:var(--sans);fill:var(--fg-2);font-size:12px}
+svg .tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+svg .lab{fill:var(--fg);font-size:12px}
+svg .val{fill:var(--fg);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+svg .grid{stroke:var(--grid);stroke-width:1}
+svg .axis{stroke:var(--axis);stroke-width:1}
+svg .bar{fill:var(--accent)}
+svg .bar.cmp{fill:var(--compare)}
+svg .bar:hover,svg .dot:hover{opacity:.85}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--fg);color:var(--bg);font-size:12px;padding:6px 9px;border-radius:4px;max-width:260px;display:none;line-height:1.35}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--fg-2);margin-bottom:8px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--accent)}
+.legend span.s2::before{background:var(--series-2)}
+.legend span.cmp::before{background:var(--compare)}
+
+/* diagrams */
+.ansoff{display:grid;grid-template-columns:auto 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:6px;margin:16px 0;max-width:640px;font-size:14px}
+.ansoff .ax{font:600 11px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center;padding:6px}
+.ansoff .ax.v{writing-mode:vertical-rl;transform:rotate(180deg)}
+.ansoff .cell{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:12px 14px;min-width:0;color:var(--fg-2)}
+.ansoff .cell b{display:block;color:var(--fg);margin-bottom:2px}
+.ansoff .cell.hl{background:var(--accent);color:#fff}
+.ansoff .cell.hl b{color:#fff}
+.vrio{display:grid;gap:5px;margin:16px 0;font-size:14px;max-width:680px}
+.vrio div{display:grid;grid-template-columns:1fr auto;gap:12px;padding:10px 14px;background:var(--surface);border-radius:6px;box-shadow:var(--shadow);min-width:0;color:var(--fg-2)}
+.vrio div:nth-child(1){width:68%}.vrio div:nth-child(2){width:76%}.vrio div:nth-child(3){width:84%}.vrio div:nth-child(4){width:92%}
+.vrio div:last-child{background:var(--accent);color:#fff}
+.vrio div:last-child b{color:#fff}
+.vrio b{color:var(--fg)}
+.vrio span:last-child{font-weight:600;white-space:nowrap}
+.cage{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:16px 0}
+.cage div{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:14px 16px;font-size:14px;min-width:0;color:var(--fg-2)}
+.cage b{display:block;font:600 40px/1 var(--display);color:var(--accent);font-variation-settings:"opsz" 144;margin-bottom:6px}
+.cage small{display:block;color:var(--muted);margin-top:6px;font-size:12.5px;padding-top:6px;border-top:1px solid var(--line)}
+.funnel{display:grid;gap:6px;margin:16px 0;max-width:700px}
+.funnel div{background:var(--surface);border-radius:6px;box-shadow:var(--shadow);padding:10px 14px;font-size:14px;min-width:0;color:var(--fg-2);border-left:4px solid var(--accent)}
+.funnel div:nth-child(1){margin-inline:0}.funnel div:nth-child(2){margin-inline:4%}.funnel div:nth-child(3){margin-inline:8%}.funnel div:nth-child(4){margin-inline:12%}.funnel div:nth-child(5){margin-inline:16%;background:var(--accent-wash)}
+.funnel b{color:var(--fg)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:16px 0}
+.grid3 div{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:12px 14px;font-size:14px;color:var(--fg-2);min-width:0}
+.grid3 b{display:block;color:var(--fg);margin-bottom:2px}
+.ladder{display:grid;gap:8px;margin:16px 0;position:relative}
+.ladder .rung{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:14px 16px;background:var(--surface);border-radius:8px;box-shadow:var(--shadow);min-width:0;font-size:14px;color:var(--fg-2)}
+.ladder .rung b.t{color:var(--fg);font-size:15px;display:flex;flex-direction:column;gap:4px}
+.ladder .rung b.t i{font:500 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:var(--muted)}
+.ladder .rung:nth-child(1){border-left:5px solid #9ec5f4}.ladder .rung:nth-child(2){border-left:5px solid #6da7ec}.ladder .rung:nth-child(3){border-left:5px solid #3987e5}.ladder .rung:nth-child(4){border-left:5px solid #1c5cab}
+.ladder .scale{display:flex;justify-content:space-between;font:600 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:0 2px}
+.timeline{list-style:none;padding:0;margin:16px 0;font-size:14px;max-width:none;position:relative}
+.timeline::before{content:"";position:absolute;left:103px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.timeline li{display:grid;grid-template-columns:90px 26px 1fr;gap:0 8px;padding:7px 0;margin:0;align-items:start;color:var(--fg-2)}
+.timeline li .d{font:500 12px/1.4 var(--mono);color:var(--muted);text-align:right;padding-top:2px;white-space:nowrap}
+.timeline li .dot{width:26px;display:flex;justify-content:center;padding-top:6px}
+.timeline li .dot::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--surface);border:2px solid var(--axis)}
+.timeline li.key .dot::before{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-wash)}
+.timeline li.key .d{color:var(--accent-ink);font-weight:500}
+.timeline li.key span:last-child{color:var(--fg);font-weight:500}
+
+/* calculator */
+.calc{background:var(--navy);color:var(--on-navy);border-radius:10px;padding:20px 22px;margin:22px 0}
+.calc .ttl{font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--on-navy-2);margin-bottom:14px}
+.calc .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.calc label{display:block;font:600 11px/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--on-navy-2)}
+.calc input{width:100%;font:17px var(--mono);padding:9px 10px;border:1px solid rgba(255,255,255,.18);border-radius:6px;background:rgba(255,255,255,.06);color:var(--on-navy);margin-top:6px}
+.calc input:focus-visible{outline:2px solid var(--flag);outline-offset:1px}
+.calc .out{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.14)}
+.calc .out .k{font:600 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--on-navy-2)}
+.calc .out .v{font:600 30px/1.1 var(--display);margin-top:6px}
+.calc .out .v.acc{color:var(--flag)}
+.calc .out .v.rd{font:500 14px/1.45 var(--sans);color:var(--on-navy-2);margin-top:8px}
+.calc .formula{font:13px var(--mono);color:var(--on-navy-2);margin-top:14px;overflow-x:auto;white-space:nowrap}
+.calc .fn{font-size:12px;color:var(--on-navy-2);margin-top:8px}
+
+/* case files */
+.case{margin-top:26px;background:var(--surface);border-radius:10px;box-shadow:var(--shadow);overflow:hidden}
+.case .bar{background:var(--navy);color:var(--on-navy);padding:16px 22px;display:flex;flex-wrap:wrap;gap:6px 18px;align-items:baseline}
+.case .bar h3{margin:0;padding:0;color:var(--on-navy);font-size:24px}
+.case .bar .code{font:500 12px/1 var(--mono);color:var(--on-navy-2)}
+.case .meta{padding:12px 22px;font-size:13.5px;color:var(--fg-2);background:var(--surface-2);border-bottom:1px solid var(--line);max-width:none}
+.case .body{padding:6px 22px 20px}
+.case .body p{max-width:none}
+.case .body figure{margin-inline:0}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0 6px}
+.kv div{min-width:0;background:var(--surface-2);border-radius:6px;padding:10px 12px}
+.kv .k{font:600 10.5px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kv .v{font:600 22px/1.1 var(--display);margin-top:6px;color:var(--fg)}
+.kv .v small{display:block;font:500 12px/1.3 var(--sans);color:var(--fg-2);margin-top:3px}
+
+/* flashcards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:16px 0;max-width:none}
+.card{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:14px 16px 12px;cursor:pointer;min-width:0;border-top:3px solid var(--line);transition:transform .14s cubic-bezier(.2,.8,.2,1),border-color .14s}
+.card:hover{border-top-color:var(--accent)}
+.card:active{transform:scale(.98)}
+.card[aria-expanded="true"]{border-top-color:var(--accent)}
+.card .q{font-weight:600;font-size:15px;line-height:1.4}
+.card .a{margin-top:10px;font-size:14px;color:var(--fg-2);border-top:1px dashed var(--line);padding-top:10px;line-height:1.5}
+.card .a[hidden]{display:none}
+.card .hint{font:600 11px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink);margin-top:12px}
+
+/* quiz */
+.quizbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:8;display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--navy);color:var(--on-navy);border-radius:10px;padding:12px 16px;margin:18px 0;box-shadow:var(--shadow)}
+.quizbar .score{font:600 28px/1 var(--display)}
+.quizbar .score small{font:500 12px/1 var(--sans);color:var(--on-navy-2);margin-left:8px;letter-spacing:.04em}
+.quizbar .prog{flex:1 1 160px;height:8px;background:rgba(255,255,255,.14);border-radius:4px;overflow:hidden;min-width:120px}
+.quizbar .prog i{display:block;height:100%;width:0;background:var(--flag);transition:width .3s cubic-bezier(.2,.8,.2,1)}
+button{font:600 14px/1 var(--sans);padding:10px 16px;border-radius:6px;border:1px solid rgba(255,255,255,.3);background:transparent;color:var(--on-navy);cursor:pointer;transition:transform .1s cubic-bezier(.2,.8,.2,1),background .1s}
+button:hover{background:rgba(255,255,255,.1)}
+button:active{transform:scale(.96)}
+button:focus-visible{outline:2px solid var(--flag);outline-offset:2px}
+button:disabled{opacity:.55;cursor:default}
+.qsec{margin-top:26px}
+.qsec h4{margin:22px 0 8px}
+.q{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:16px 18px;margin:10px 0}
+.q .topic{font:600 10.5px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.q .qt{font-weight:600;max-width:none;line-height:1.45}
+.q .qt span{font:500 12px var(--mono);color:var(--muted);margin-right:8px}
+.q .opts{display:grid;gap:6px;margin-top:12px}
+.q label{display:grid;grid-template-columns:18px 1fr;gap:10px;padding:9px 12px;border-radius:6px;cursor:pointer;font-size:15px;align-items:start;border:1px solid var(--line);background:var(--surface-2);transition:border-color .1s,background .1s}
+.q label:hover{border-color:var(--accent);background:var(--accent-wash)}
+.q input{margin:4px 0 0;accent-color:var(--accent)}
+.q.done label{cursor:default}
+.q.done label:hover{background:var(--surface-2);border-color:var(--line)}
+.q label.right,.q.done label.right:hover{background:color-mix(in srgb,var(--good) 12%,var(--surface));border-color:var(--good)}
+.q label.wrong,.q.done label.wrong:hover{background:color-mix(in srgb,var(--critical) 12%,var(--surface));border-color:var(--critical)}
+.q .fb{font-size:13px;margin-top:10px;font-weight:600}
+.q .fb.ok{color:var(--good)}.q .fb.no{color:var(--critical)}
+.q .fb::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:currentColor;margin-right:7px}
+
+.disc{font-size:14.5px;max-width:none;padding:0;list-style:none}
+.disc li{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:12px 16px;margin:8px 0;color:var(--fg-2);border-left:4px solid var(--flag)}
+.disc li b{color:var(--fg)}
+footer{margin-top:56px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;max-width:none}
+
+
+/* study room */
+.room{margin:18px 0 26px}
+.room-head h3{font-size:24px;margin:0}
+.room-head p{color:var(--fg-2);margin:6px 0 14px;max-width:none}
+.room-topics{background:var(--surface);border-radius:10px;box-shadow:var(--shadow);padding:14px 18px;margin:0 0 14px}
+.rt-title{font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.rt-row{display:grid;grid-template-columns:minmax(140px,1.3fr) 2fr auto auto;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.rt-row:last-child{border-bottom:0}
+.rt-name{font-weight:600;color:var(--fg)}
+.rt-bar{height:8px;background:var(--grid);border-radius:4px;overflow:hidden}
+.rt-bar i{display:block;height:100%;background:var(--critical);border-radius:4px}
+.rt-row.ok .rt-bar i{background:var(--good)}
+.rt-n{font-variant-numeric:tabular-nums;color:var(--fg-2);white-space:nowrap;font-size:13px}
+.rt-row a{font-size:13px;white-space:nowrap}
+.room-actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:0 0 14px;font-size:13px;color:var(--fg-2)}
+.rcard{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:14px 18px;margin:10px 0;border-left:4px solid var(--critical)}
+.rcard.small{border-left-color:var(--flag)}
+.rcard .rq{font-weight:600;line-height:1.45;margin:2px 0 10px}
+.rcard .ra{display:grid;grid-template-columns:92px 1fr;gap:10px;font-size:14px;padding:4px 0}
+.rcard .ra .k{font:600 10.5px/1.6 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.rcard .ra .wrong{color:var(--critical);text-decoration:line-through;text-decoration-thickness:1px}
+.rcard .ra .right{color:var(--good);font-weight:600}
+.rcard .rw{font-size:14px;color:var(--fg-2);margin:8px 0 10px;padding:10px 12px;background:var(--surface-2);border-radius:6px;line-height:1.5}
+.rcard a{font-size:13px;font-weight:600}
+.q .fb .why{display:block;font-weight:400;color:var(--fg-2);margin-top:6px;line-height:1.5}
+.flash{animation:flashbg 2.4s ease-out}
+@keyframes flashbg{0%{background:var(--flag-wash);box-shadow:0 0 0 8px var(--flag-wash)}100%{background:transparent;box-shadow:0 0 0 8px transparent}}
+h3.flash,h4.flash{border-radius:4px}
+@media (max-width:640px){.rt-row{grid-template-columns:1fr auto;grid-template-areas:"name n" "bar bar" "link link"}.rt-name{grid-area:name}.rt-bar{grid-area:bar}.rt-n{grid-area:n}.rt-row a{grid-area:link}}
+
+.tctl{display:flex;gap:16px;flex-wrap:wrap;align-items:center;margin-top:12px;font-size:13px;color:var(--fg-2)}
+.tctl label{display:flex;gap:8px;align-items:center;font-weight:600;color:var(--fg)}
+.tctl select{font:14px var(--sans);padding:6px 8px;border:1px solid var(--axis);border-radius:6px;background:var(--surface);color:var(--fg);max-width:260px}
+.tctl .hint{color:var(--muted);font-weight:400}
+.tctl select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+/* notes */
+.unit{display:none}
+.unit.on{display:block}
+.unit h1{font-size:clamp(26px,3.4vw,36px);margin:0 0 8px;padding-top:36px}
+.unit h2{font-size:22px;margin:36px 0 10px;padding-top:0;border-top:0;border-bottom:2px solid var(--fg);padding-bottom:8px}
+.unit h3{font-size:17px;margin:24px 0 6px;font-family:var(--sans);color:var(--accent-ink)}
+.unit h4{margin:16px 0 6px}
+.unit p,.unit li{max-width:72ch}
+.unit ul,.unit ol{margin:6px 0 10px}
+.unit li{margin:3px 0}
+.unit li ul{margin:2px 0 4px}
+.unit .exam{background:var(--flag-wash);border-left:3px solid var(--flag);padding:4px 8px;border-radius:4px;display:inline-block}
+.unit table{min-width:0}
+.unit .tbl{margin:10px 0}
+.unit hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+.unit code{font:13px var(--mono);background:var(--surface-2);padding:1px 4px;border-radius:3px}
+.unit .lede{font-size:16px;color:var(--fg-2)}
+.unit .meta{font-size:12.5px;color:var(--muted);margin-bottom:14px}
+#notes-rail a{display:block;padding:7px 10px;border-radius:6px;color:var(--fg-2);text-decoration:none;font-size:13.5px;font-weight:500;border-left:2px solid transparent;cursor:pointer}
+#notes-rail a:hover{background:var(--surface)}
+#notes-rail a.on{background:var(--surface);color:var(--fg);border-left-color:var(--accent);box-shadow:var(--shadow)}
+#notes-rail a small{display:block;font-size:11px;color:var(--muted);font-weight:400}
+#notes-mobnav a{cursor:pointer}
+#notes-mobnav a.on{background:var(--accent);color:#fff}
+/* search */
+.tabs .in{align-items:center}
+.srch{margin-left:auto;flex:0 1 380px;min-width:0;display:flex;align-items:center;position:relative}
+.srch input{width:100%;font:14px var(--sans);padding:9px 34px 9px 34px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:var(--on-navy);-webkit-appearance:none;appearance:none}
+.srch input::placeholder{color:var(--on-navy-2)}
+.srch input:focus{outline:2px solid var(--flag);outline-offset:1px;background:rgba(255,255,255,.13)}
+.srch svg{position:absolute;left:11px;width:16px;height:16px;stroke:var(--on-navy-2);fill:none;stroke-width:2;stroke-linecap:round;pointer-events:none}
+.srch kbd{position:absolute;right:9px;font:11px var(--mono);color:var(--on-navy-2);border:1px solid rgba(255,255,255,.25);border-radius:4px;padding:1px 6px;pointer-events:none}
+.srch input:focus~kbd,.srch input:not(:placeholder-shown)~kbd{display:none}
+#srch-panel{position:absolute;left:0;right:0;top:100%;background:var(--bg);border-bottom:1px solid var(--line);box-shadow:0 22px 40px -22px rgba(0,0,0,.5);max-height:calc(100vh - 110px);max-height:calc(100dvh - 110px);overflow:auto;overscroll-behavior:contain}
+#srch-body{max-width:1180px;margin:0 auto;padding-block:14px 26px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.sr-top{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;font-size:14px;color:var(--fg-2)}
+.sr-top b{color:var(--fg)}
+.sr-jump{display:flex;gap:6px;flex-wrap:wrap}
+.sr-jump a,.sr-tips a{font:600 12.5px/1 var(--sans);padding:6px 11px;border-radius:999px;background:var(--surface);color:var(--fg);text-decoration:none;cursor:pointer;box-shadow:var(--shadow);transition:transform .1s cubic-bezier(.2,.8,.2,1)}
+.sr-jump a:active,.sr-tips a:active{transform:scale(.95)}
+.sr-jump a small{color:var(--muted);font-weight:500;margin-left:4px}
+.sr-g h3{font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px;padding:0}
+.sr-g h3 small{font:500 11px var(--mono);margin-left:6px;color:var(--accent-ink)}
+.sr-it{display:block;width:100%;text-align:left;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:6px 0;font:400 14px/1.5 var(--sans);cursor:pointer;transition:transform .1s cubic-bezier(.2,.8,.2,1),border-color .1s}
+.sr-it:hover{background:var(--surface);border-color:var(--accent)}
+.sr-it:active{transform:scale(.99)}
+.sr-it.open{border-radius:8px 8px 0 0;border-color:var(--accent)}
+.sr-path{display:block;font:600 11.5px/1.35 var(--sans);color:var(--accent-ink);margin-bottom:3px}
+.sr-t{display:block;color:var(--fg-2)}
+.sr-ans{display:block;margin-top:5px;color:var(--good);font-weight:600;font-size:13.5px}
+mark{background:color-mix(in srgb,var(--flag) 42%,transparent);color:inherit;border-radius:2px;padding:0 1px}
+mark.hit{background:var(--flag);color:#1b1200}
+.sr-x{background:var(--surface-2);border:1px solid var(--accent);border-top:0;border-radius:0 0 8px 8px;margin:-7px 0 10px;padding:10px 14px 12px;font-size:14px}
+.sr-x ol{margin:2px 0 8px;padding-left:22px;max-width:none}
+.sr-x li{margin:2px 0;color:var(--fg-2)}
+.sr-x li.ok{color:var(--good);font-weight:600}
+.sr-x p{margin:6px 0;max-width:none;color:var(--fg)}
+.sr-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.sr-acts button,.sr-more{font:600 13px/1 var(--sans);padding:9px 12px;border-radius:6px;border:1px solid var(--axis);background:var(--surface);color:var(--fg);cursor:pointer;transition:transform .1s cubic-bezier(.2,.8,.2,1)}
+.sr-acts button:hover,.sr-more:hover{background:var(--accent-wash);border-color:var(--accent)}
+.sr-acts button:active,.sr-more:active{transform:scale(.96)}
+.sr-empty,.sr-tips{color:var(--fg-2);font-size:14px;margin:6px 0 0}
+.sr-tips p{margin:4px 0 10px;max-width:none}
+.sr-tips a{margin:0 6px 8px 0;display:inline-block}
+@media (max-width:640px){.tabs .in>button{padding:14px 9px 11px;font-size:14px}.tabs .in>button small{display:none}.srch{flex:1 1 110px;margin-left:6px}.srch kbd{display:none}.srch input{padding-right:10px}.rt-row a{white-space:normal}}
+/* tabs */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--navy);border-top:1px solid rgba(255,255,255,.1);box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.tabs .in{max-width:1180px;margin:0 auto;display:flex;gap:2px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.tabs .in>button{border:0;border-radius:0;padding:14px 20px 11px;font:600 15px/1 var(--sans);color:var(--on-navy-2);background:transparent;border-bottom:3px solid transparent;display:flex;gap:8px;align-items:center}
+.tabs .in>button:hover{background:rgba(255,255,255,.06)}
+.tabs .in>button[aria-selected="true"]{color:var(--on-navy);border-bottom-color:var(--flag)}
+.tabs .in>button small{font:500 11px/1 var(--mono);color:var(--on-navy-2);background:rgba(255,255,255,.1);padding:4px 6px;border-radius:4px}
+[hidden]{display:none!important}
+.testwrap{max-width:820px;margin:0 auto;padding-block:36px 80px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.testhead{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;flex-wrap:wrap}
+.testhead h2{font-size:clamp(26px,3.4vw,36px)}
+.testhead .kick{font-size:15px;color:var(--fg-2);margin-top:8px;max-width:60ch}
+.ver{display:inline-flex;align-items:center;gap:8px;font:500 12px/1 var(--mono);color:var(--accent-ink);background:var(--accent-wash);padding:7px 10px;border-radius:999px;margin-top:10px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+button.pri:hover{background:var(--accent-ink)}
+button.ghost{color:var(--fg);border-color:var(--axis)}
+button.ghost:hover{background:var(--surface)}
+.hist{background:var(--surface);border-radius:10px;box-shadow:var(--shadow);padding:16px 20px;margin:22px 0}
+.hist .hh{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.hist h3{margin:0;font-size:19px}
+.hist .empty{font-size:14px;color:var(--muted);margin:10px 0 0}
+.hist table{min-width:0;margin-top:10px}
+.hist td,.hist th{padding:8px 10px}
+.hist td:first-child{font-weight:500;color:var(--fg-2)}
+.hist .pct{display:inline-block;min-width:44px;text-align:right;font-weight:600}
+.hist .pct.g{color:var(--good)}.hist .pct.b{color:var(--critical)}
+.hist tr.cur td{background:var(--accent-wash)}
+.hist .mini{height:6px;background:var(--grid);border-radius:3px;overflow:hidden;width:120px}
+.hist .mini i{display:block;height:100%;background:var(--accent)}
+.hist a.re{font-size:12px}
+.result{background:var(--navy);color:var(--on-navy);border-radius:10px;padding:18px 22px;margin:18px 0;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.result .big{font:600 44px/1 var(--display)}
+.result .big small{font:500 16px/1 var(--sans);color:var(--on-navy-2);margin-left:4px}
+.result p{margin:4px 0;color:var(--on-navy-2);max-width:none;font-size:14px}
+.result b{color:var(--on-navy)}
+.quizbar .vb{font:500 12px/1 var(--mono);color:var(--on-navy-2)}
+@media (max-width:980px){.mobnav{top:calc(env(safe-area-inset-top,0px) + 46px)}}
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr;gap:0}
+  .rail{display:none}
+  .mobnav{display:block;position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line);margin:0 -20px;padding:8px 20px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+  .mobnav::-webkit-scrollbar{display:none}
+  .mobnav a{display:inline-block;padding:7px 12px;margin-right:4px;border-radius:999px;color:var(--fg-2);text-decoration:none;font-size:13px;font-weight:600;background:var(--surface);box-shadow:var(--shadow)}
+  main{padding-top:24px}
+}
+@media (max-width:640px){
+  ol.facts{grid-template-columns:1fr}
+  .ch-head{grid-template-columns:1fr;gap:4px}
+  .ch-head .n{font-size:44px}
+  .ladder .rung{grid-template-columns:1fr}
+  .ansoff{grid-template-columns:1fr;grid-template-rows:auto}
+  .ansoff .ax{display:none}
+  .ansoff .cell{min-width:0}
+  .timeline::before{left:85px}
+  .timeline li{grid-template-columns:72px 26px 1fr}
+  .case .bar,.case .meta,.case .body{padding-inline:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+<div class="mast"><div class="in">
+  <div class="eyebrow">IE · Country Economic Analysis · Allard &amp; Garland · Final exam guide</div>
+  <h1>Country Economic Analysis</h1>
+  <p class="lede">All 14 class sessions, eleven decks, seven cases and two news articles, cut down to what 10 multiple-choice questions and 4 short paragraphs can ask.</p>
+  <div class="stats">
+    <div><div class="k">Exam</div><div class="v">Wed 11 Nov<small>2026, in class, Respondus, closed book</small></div></div>
+    <div><div class="k">Format</div><div class="v">10 MCQ · 4 short<small>6 pts each · 10 pts each · half from each professor</small></div></div>
+    <div><div class="k">Professors</div><div class="v">Garland · Allard<small>Exchange rates, resources, crises · Big economies, EU, risk</small></div></div>
+    <div><div class="k">On this page</div><div class="v">25 · 6 · <span class="bankn">0</span><small>Top facts · model answers · questions in the test bank</small></div></div>
+  </div>
+  <div class="flags"><span class="lab">Named for short answers</span><span class="chip">Malthus</span><span class="chip">HDI</span><span class="chip">Resource curse</span><span class="chip">Growth strategies</span><span class="chip">EU vs. US</span><span class="chip">Investor indicators</span><span class="chip">Dirty floating</span></div>
+</div></div>
+
+<div class="tabs" role="tablist" aria-label="Study or test"><div class="in">
+  <button type="button" role="tab" id="tab-btn-study" aria-selected="true" aria-controls="tab-study">Study</button>
+  <button type="button" role="tab" id="tab-btn-notes" aria-selected="false" aria-controls="tab-notes">Notes <small id="tab-notes-n">complete</small></button>
+  <button type="button" role="tab" id="tab-btn-test" aria-selected="false" aria-controls="tab-test">Test <small id="tab-attempts">0 attempts</small></button>
+  <div class="srch" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg><input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search notes, guide and questions" aria-label="Search notes, guide and questions" aria-controls="srch-panel"><kbd>/</kbd></div>
+</div>
+<div id="srch-panel" hidden><div id="srch-body"></div></div></div>
+
+<div class="shell" id="tab-study">
+<aside class="rail" aria-label="Chapters">
+  <div class="t">Chapters</div>
+  <a href="#top25"><i>01</i>Top 25 facts</a>
+  <a href="#six"><i>02</i>Six short answers</a>
+  <a href="#garland"><i>03</i>Garland's half</a>
+  <a href="#allard"><i>04</i>Allard's half</a>
+  <a href="#cases"><i>05</i>The cases</a>
+  <a href="#flash"><i>06</i>Flashcards</a>
+  <a href="#disc"><i>07</i>Discrepancies</a>
+  <a href="#test" class="totest"><i>→</i>Practice exam</a>
+  <div class="box"><b>Exam rule of thumb</b>Short answers test a concept, not names or numbers: define it, explain the mechanism, give one course example, add one limit.</div>
+</aside>
+<main>
+<nav class="mobnav" aria-label="Chapters"><a href="#top25">Top 25</a><a href="#six">Short answers</a><a href="#garland">Garland</a><a href="#allard">Allard</a><a href="#cases">Cases</a><a href="#flash">Flashcards</a><a href="#disc">Discrepancies</a><a href="#test" class="totest">Practice exam</a></nav>
+<!-- ============ TOP 25 ============ -->
+<section class="ch" id="top25">
+<div class="ch-head"><div class="n">01</div><div><h2>The 25 facts most likely to be tested</h2><div class="kick">Dark-topped cards are Garland's material. Blue-topped cards are Allard's. Each professor writes 5 MCQs and 2 short answers.</div></div></div>
+<div class="callout"><div><b>If you only have an hour:</b> read this list twice, then the six model answers in chapter 02, then take one practice exam.</div></div>
+<ol class="facts">
+<li class="a"><span class="tag">Garland</span><b>Malthus:</b> population grows <b>geometrically</b> (2, 4, 8, 16), food <b>arithmetically</b> (2, 4, 6, 8). Two checks restore balance. Preventive checks lower births (late marriage, today's one-child policy). Positive checks raise deaths (war, famine, epidemics). He was right about the past and wrong about the future, because the Industrial Revolution broke the limits.</li>
+<li class="a"><span class="tag">Garland</span><b>Dutch disease:</b> a resource boom brings in dollars, so the local currency appreciates (in real terms). Other tradables (manufacturing <i>and agriculture</i>) lose competitiveness, imports get cheaper, unemployment rises and long-run growth falls. Named after Dutch gas. It does <b>not</b> make farm products more competitive.</li>
+<li class="a"><span class="tag">Garland</span><b>Overvalued peg</b> (Garland's "below equilibrium," because the axis is local currency per dollar): cheaper external debt, cheaper imports (which fight inflation) and citizens "richer" abroad. The costs are falling exports, rising imports, a trade deficit and a reserve drain. Argentina 1 peso = $1, Brazil's Real Plan, Mexico in 1994.</li>
+<li class="a"><span class="tag">Garland</span><b>Undervalued peg:</b> cheap exports, a trade surplus and growth. The costs are expensive imports and inflation, expensive external debt and poorer citizens. China at 8.28/$ (1995–2004), Japan at 360, the DM under Bretton Woods.</li>
+<li class="a"><span class="tag">Garland</span><b>Dirty (managed) floating:</b> the currency floats, but the central bank goes against the market. Against appreciation it buys dollars and sells local currency, which risks inflation. Against depreciation it sells reserves (Angola sold about $10bn in 2009; Brazil's "Lula effect"). It only lasts while reserves do.</li>
+<li class="a"><span class="tag">Garland</span><b>Nominal vs. real:</b> to keep competitiveness, the nominal rate must depreciate by the inflation differential. Example with 100% peso inflation and 0% US inflation, starting at 10/$: 20 means real unchanged; 15 means nominal depreciation but <b>real appreciation</b> (lost competitiveness); 25 means real depreciation.</li>
+<li class="a"><span class="tag">Garland</span><b>Mundell:</b> capital moves to higher interest rates at equal risk. Capital inflows appreciate the currency, so a <b>trade deficit can persist, financed by capital inflows</b> (the US; Mexico 1990–94).</li>
+<li class="a"><span class="tag">Garland</span><b>Dual exchange rate:</b> the favorable rate goes to manufactured exports and essential imports; the unfavorable rate to resource exporters and luxury imports. Its fatal flaw is corruption: insiders flip official dollars on the parallel market (Angola about 190% profit; Venezuela lost about 15% of GDP).</li>
+<li class="a"><span class="tag">Garland</span><b>Resource curse:</b> Dutch disease, volatility, corruption and the political curse (rents mean no need to tax, so no accountability), and an asset-depletion mentality. Angola has all of them. <b>Norway</b> escaped thanks to strong institutions <i>before</i> oil, plus a sovereign fund invested <b>100% abroad</b> (sterilization) under a <b>4% Action Rule</b>.</li>
+<li class="a"><span class="tag">Garland</span><b>PPP:</b> values everything at US prices, so countries cheaper than the US look bigger. World GDP is $118T nominal vs. $211T at PPP. China: $19.5T vs. $41T (largest at PPP). India: $4T vs. $17T. To <b>rank</b> countries, use nominal GDP in a common currency.</li>
+<li class="a"><span class="tag">Garland</span><b>GNI vs. GDP vs. GNP:</b> GDP is output inside the borders. GNP is by nationality (hard to measure). GNI is GDP minus income sent abroad plus income received (remittances), and is the World Bank standard. <b>Openness = (X + M) / GDP</b>: Germany about 100%, India before 1991 about 22%.</li>
+<li class="a"><span class="tag">Garland</span><b>Maastricht:</b> deficit ≤ 3% of GDP, debt ≤ 60%, inflation ≤ 1.5 points and long-term rates ≤ 2 points above the best three, 2 years in the EMS band. Inside the euro the ECB runs monetary and exchange-rate policy, the EU runs trade policy, and the country keeps fiscal (within the Stability and Growth Pact) and structural policy.</li>
+<li class="a"><span class="tag">Garland</span><b>Mexico 1994:</b> Brady bonds (1990: haircut, longer maturity, lower rate, US Treasury backing) reopened markets. Inflows of hot money pushed up the peso and a trade deficit. Then Chiapas, Colosio and Fed hikes; reserves fell from $30bn to $5bn; tesobonos moved dollar risk onto the government. A December devaluation, a float, overshooting from 3 to 7, a $50bn rescue and the Tequila effect.</li>
+<li><span class="tag">Allard</span><b>Surplus vs. deficit countries:</b> surplus countries (Japan, China, Germany) produce more than they consume, have saving above investment, depend on foreign demand, lend abroad, see their currency tend to rise and are prone to deflation. Deficit countries (US, India, UK) are the mirror image.</li>
+<li><span class="tag">Allard</span><b>Japan's current-account surplus is driven by savings</b> (saving above investment), not a peg or low costs. The yen rose about 50% after the 1985 Plaza Accord, followed by a bubble, the lost decade and deflation (real growth above nominal). Abenomics' three arrows: fiscal, QE (Japan invented QE) and structural reform.</li>
+<li><span class="tag">Allard</span><b>Japan's debt</b> is about 250% of GDP, the world's highest, but it is in yen, about 90% held domestically and cheap to service. The risk is pensions as an ageing nation turns from saving to dissaving. <b>Carry trade:</b> borrow in yen, invest in USD/MXN/BRL; it unwinds as Japanese rates rise.</li>
+<li><span class="tag">Allard</span><b>ISI vs. EOI:</b> ISI protects infant industry for domestic demand (Brazil, India, Latin America) and ends up inefficient, unable to export and with little FDI. EOI uses external demand, FDI and a weak currency (Japan, the Tigers, China). Early developers (UK, US) grew about 1% a year per capita on domestic demand.</li>
+<li><span class="tag">Allard</span><b>India vs. China:</b> India has a <b>chronic current-account deficit</b> (domestic demand, consumption about 60% of GDP, a depreciating rupee). China has a <b>surplus</b> (consumption about 40%, a yuan undervalued by 20–35%). China's population is shrinking and India's growing. China opened about 1978; India in 1991 after a balance-of-payments crisis (two weeks of import reserves) and IMF conditions.</li>
+<li><span class="tag">Allard</span><b>HDI</b> combines life expectancy, education and GDP per capita (PPP). Angola ranks about 101st on income but about 143rd on HDI; Norway is 1st. Development requires GDP per capita to grow faster than population.</li>
+<li><span class="tag">Allard</span><b>EU vs. US:</b> the EU has more people but lower GDP (about 68% of the US's) and lower per-capita income. It has higher spending, universal welfare and more equality (Gini about 0.30). The US has a means-tested safety net, not "no welfare." Allard's slide says EU debt risk "is similar to the United States." The US is closer to an optimal currency area (labor mobility plus federal transfers).</li>
+<li><span class="tag">Allard</span><b>Levels of integration:</b> free-trade area, then customs union (adds a common external tariff), then common market (adds free movement of people and capital), then economic union (adds a single currency). Europe unified for <b>peace</b> (a "Trojan horse"). <b>Rodrik trilemma:</b> hyperglobalization, sovereignty and democracy; you can have only two.</li>
+<li><span class="tag">Allard</span><b>Brexit options</b> from soft to hard: remain, Norway (single market), Turkey (customs union, about 2.2% GDP loss), Canada FTA (about 6.3%, the one chosen), no deal (about 9.1%). Vote 51.9 to 48.1 in 2016; left in 2021.</li>
+<li><span class="tag">Allard</span><b>Country risk</b> is the probability that political and economic events hurt a firm's financial performance (Kobrin). Risk is quantifiable; uncertainty is not. Investors want revenue potential, a good operating environment, reasonable costs, reasonable financial conditions and market access.</li>
+<li><span class="tag">Allard</span><b>Weights depend on the investment.</b> Financial investor: interest rate, then exchange rate, then inflation. Plant for the local market: <b>market size</b> first. Export platform: <b>production costs</b>, then exchange rate, then trade agreements. ICRG = 50% political + 25% financial + 25% economic. Best phase to invest: early expansion or near the trough.</li>
+<li><span class="tag">Allard</span><b>Africa:</b> 54 countries, GDP about $2tn (the size of Canada, probably about 30% understated). Growth often trails population growth (2.7%), so per-capita income stalls. <b>Aid has a negative growth coefficient; FDI and trade work better.</b> AfCFTA removes tariffs on 90% of goods.</li>
+</ol>
+</section>
+
+<!-- ============ SIX ============ -->
+<section class="ch" id="six">
+<div class="ch-head"><div class="n">02</div><div><h2>The six short answers the professors named</h2><div class="kick">From the sample-questions file: Malthus, HDI, resource curse, growth strategies, EU vs. US, investor indicators. Each model answer is about 120 words, the length of a 10-point paragraph.</div></div></div>
+<div class="callout"><div><b>The 10/10 pattern:</b> define the term, explain the mechanism (A leads to B leads to C), give one course example, then add one limit or "so what." The exam tests concepts, not memorized names or numbers.</div></div>
+
+<h3>Malthus <span class="who">Garland · S1</span></h3>
+<p>Thomas Malthus, an 18th-century English clergyman and economist, argued that <b>population grows geometrically</b> (2, 4, 8, 16) while <b>food production grows only arithmetically</b> (2, 4, 6, 8). Population therefore tends to outrun subsistence, which is the Malthusian trap. Balance is restored by <b>preventive checks</b> that reduce births (late marriage, moral restraint, or in modern form China's one-child policy) and <b>positive checks</b> that raise deaths: war, famine and epidemics. He described pre-industrial history well, since per-capita income stayed near $400–600 for most of 2,000 years. He was wrong about the future because he could not foresee technological change, the Industrial Revolution or new farmland, and fertility is now falling in rich countries. Neo-Malthusians extend the idea to any scarce resource.</p>
+
+<h3>Human Development Index <span class="who">Allard · S7</span></h3>
+<p>The HDI is a UN composite measure of development beyond income. It combines <b>health</b> (life expectancy), <b>education</b> (literacy and enrollment, or schooling) and <b>standard of living</b> (GDP or GNI per capita at PPP). It shows whether income turns into well-being. <b>Angola</b> ranks about 101st on GDP per capita but about 143rd of 182 on HDI, because oil wealth is concentrated (Gini 0.59, 70% under $2 a day). <b>Norway</b> ranked 1st in 9 of 11 years. The <b>US</b> is rich but ranks lower, and falls about 45 places on the planetary-pressures-adjusted HDI. Real development needs <b>GDP per capita to grow faster than population</b>. Limits: it ignores inequality and the environment unless adjusted, and it depends on data quality.</p>
+
+<h3>The natural resource curse <span class="who">Garland · S3, S8, S9</span></h3>
+<p>The resource curse is the paradox that resource-rich countries often grow more slowly and govern worse than resource-poor ones. Its channels: (1) <b>Dutch disease</b>, where export dollars appreciate the real exchange rate and crowd out agriculture and manufacturing; (2) <b>volatility</b>, as GDP, the budget and the currency follow commodity prices; (3) <b>corruption and the political curse</b>, since rents remove the need to tax citizens, which weakens accountability and makes the state a prize; (4) an <b>asset-depletion mentality</b>. <b>Angola</b> shows every channel: real appreciation over 100%, oil about 60% of GDP but 0.2% of jobs, Sonangol as a slush fund, and the 2009 crash. <b>Norway</b> escaped through strong institutions before the discovery and a sovereign fund invested only abroad. Only volatility remained.</p>
+
+<h3>Growth strategies in the 20th century <span class="who">Allard · S7</span></h3>
+<p>Early industrializers (UK, US) grew slowly on domestic demand, at about 1% per capita a year. Later developers tried to jump-start growth. <b>Import-substitution industrialization (ISI)</b> protected infant industries with tariffs to supply domestic demand (Brazil from the 1930s, India after 1947, Latin America). It bred protected, inefficient firms that couldn't export, drew little FDI and enlarged the state (India's "Hindu rate" of about 3.5%). <b>Export-oriented industrialization (EOI)</b> used external demand (X − M), welcomed FDI and kept the currency undervalued (Japan, the Asian Tigers, China after Deng). EOI generally won. Debt and balance-of-payments crises (Latin America 1982, India 1991) pushed ISI countries to <b>Washington Consensus</b> liberalization. EOI's limits are dependence on foreign demand and backlash from partners (the China shocks).</p>
+
+<h3>EU vs. US <span class="who">Allard · S4, S11</span></h3>
+<p>The EU (27 members, about 450m people) is <b>larger in population</b> but has <b>lower GDP and per-capita income</b> (about $63–66k vs. $86k), mainly because productivity growth and R&amp;D lag. Europe has <b>universal welfare states</b>, higher spending and taxes, and <b>more equality</b> (Gini about 0.30; middle class 69–80% vs. about 59% in the US). The US relies on a means-tested safety net (Medicare, Medicaid). EU unemployment is structurally higher (rigid labor markets, generous benefits) and Europe is ageing faster. <b>Debt risk is broadly similar</b>: large, and in their own currency. The key structural gap is that the US is closer to an <b>optimal currency area</b>, with labor mobility and federal transfers that absorb regional shocks. Eurozone members have lost monetary and exchange-rate policy, with little common fiscal policy, so they adjust through internal devaluation.</p>
+
+<h3>Investor risk and opportunity indicators <span class="who">Allard · S14</span></h3>
+<p><b>Country risk</b> is the probability that political and economic events will hurt a firm's financial performance (Kobrin). Investors look for <b>revenue potential</b> (growth, market size, middle class), a <b>good operating environment</b> (low and stable inflation, predictable policy, flexible labor, institutions, low corruption, infrastructure), <b>reasonable costs</b>, <b>reasonable financial conditions</b> (rates, deficits and debt, reserves) and <b>market access</b> (a stable currency, trade agreements). Each is an opportunity when present and a risk when absent. <b>Weights depend on the investment.</b> A financial investor ranks interest rates, the exchange rate and inflation first. A plant for the local market ranks market size first. An export platform ranks production costs, the exchange rate and trade agreements first. The same indicator can cut both ways (high unemployment means unrest but available labor). Timing matters: invest in early expansion.</p>
+</section>
+
+<!-- ============ GARLAND ============ -->
+<section class="ch" id="garland">
+<div class="ch-head"><div class="n">03</div><div><h2>Garland's half: history, exchange rates, resources and crises</h2><div class="kick">Sessions 1, 2, 3, 5 (likely), 8, 9 and 12. His decks: Intro, Notes on Exchange Rates, Dutch Disease II, Nominal and Real Exchange Rates. Everything else comes from the cases and class. Exchange rates run through all of it.</div></div></div>
+
+<h3 id="s-intro">Intro: Malthus, divergence, GDP and PPP <span class="who">Session 1</span></h3>
+<ul>
+<li><b>Malthus:</b> see chapter 02. Scarcity as a founding concept of economics traces back to him.</li>
+<li><b>2,000 years of history</b> (Maddison Project): per-capita income was about $400–600 until about 1800. Western Europe took 500 years to go from $400 to $800; India recently doubled its income in about 13 years. Charts use a logarithmic scale.</li>
+<li><b>Great Divergence:</b> from the Industrial Revolution (about 1820s) came the "rise of the Western world." From the 1950s to the 1990s, 20% of the world's population produced 80% of its GDP. China and India were about 70% of world GDP around 1500, so they are "re-emerging" economies.</li>
+<li><b>Great Convergence:</b> the 1990s were the crucial decade (Berlin Wall 1989, USSR 1991, the "End of History"). The Washington Consensus spread (free trade, free capital, education and health), and reform waves hit India, Eastern Europe, Latin America and Africa together. The Asian Tigers (South Korea, Hong Kong, Singapore, Taiwan) copied Japan from the 1960s–70s. The world went from G7 to G20, and 5 of the top 10 economies at PPP are now emerging markets.</li>
+<li><b>2025 GDP (deck):</b> US $30.8T, EU $21.2T, China $19.5T, Germany $5.1T, Japan $4.4T, UK $4.0T, India $4.0T, world $118.4T. <b>At PPP:</b> China $41.3T, US $30.8T, EU $29.6T, India $17.2T, world $211.2T. <b>Population 2026:</b> India 1,477m, China 1,413m, US 349m.</li>
+<li><b>PPP and Atlas:</b> PPP values output at US prices (China about 50% of US prices, India about 25%). The Atlas method smooths the exchange rate with a 3-year average. Indonesia is the one to watch.</li>
+</ul>
+
+<h3 id="s-spain">Spain <span class="who">Session 2 · Garland case</span></h3>
+<ul class="timeline">
+<li><span class="d">1975</span><span class="dot"></span><span>Franco dies. Suárez and King Juan Carlos lead the transition; parties legalized; 1978 Constitution.</span></li>
+<li class="key"><span class="d">1981</span><span class="dot"></span><span>Coup attempt fails when the King refuses to back it. This marks the end of the transition.</span></li>
+<li><span class="d">1982–96</span><span class="dot"></span><span>PSOE (González): social rights, decentralization, repeated peseta devaluations, unemployment above 20%.</span></li>
+<li class="key"><span class="d">1986</span><span class="dot"></span><span>Joins the EEC: the end of isolation.</span></li>
+<li><span class="d">1992–95</span><span class="dot"></span><span>EMS currency storms: four peseta devaluations; 1993 the worst recession since 1959.</span></li>
+<li class="key"><span class="d">1996–99</span><span class="dot"></span><span>PP (Aznar): privatization and austerity. Deficit from 6.8% (1994) to 2.9%. Joins the euro in 1999.</span></li>
+<li><span class="d">2004–07</span><span class="dot"></span><span>Budget surplus, but a current-account deficit of about 9% (2nd largest in the world) and a housing boom.</span></li>
+<li class="key"><span class="d">2008–14</span><span class="dot"></span><span>Bust: unemployment 26%, debt above 100%, an EU bank rescue, <b>internal devaluation</b>.</span></li>
+<li><span class="d">2020</span><span class="dot"></span><span>Covid: GDP down about 11% (tourism about 15% of GDP). Stability and Growth Pact suspended; NextGenEU (Spain about €140bn).</span></li>
+</ul>
+<ul>
+<li><b>Competitive devaluation ("rob your neighbor"):</b> cheaper exports and pricier imports help GDP in the short run. The costs are inflation, more expensive international transactions, citizens poorer abroad and no pressure to raise productivity. The euro ended it.</li>
+<li><b>Symmetric vs. asymmetric shocks:</b> symmetric shocks (pandemic, Great Recession) suit one ECB response. Asymmetric shocks (Greece; Detroit within the US) can't be targeted by one monetary policy. The US uses labor mobility and federal funds; Europe has almost no common fiscal funds.</li>
+<li><b>"Austercide":</b> the ECB cut rates (countercyclical) while the EU demanded austerity (procyclical) from Greece, which deepened the slump. The pandemic reversed this lesson.</li>
+<li><b>Mundell's warning:</b> without a common fiscal policy, deficits become the only remaining lever. North vs. south fight over eurobonds.</li>
+</ul>
+
+<h3 id="s-brazil">Brazil <span class="who">Session 3 · HBS case</span></h3>
+<ul>
+<li><b>Pax Britannica (1815–1914):</b> free trade and comparative advantage: coffee and sugar out, manufactures in. Demand for both is <b>inelastic</b>, so bumper crops crash revenue, and producers destroyed crops to defend prices.</li>
+<li><b>ISI from the 1920s–30s</b> (Vargas): tariffs to protect infant industry. Labor benefits for registered workers fed a large <b>informal sector</b>.</li>
+<li><b>"Brazilian miracle" 1968–76</b> (military regime): growth above 10% on foreign borrowing, ending in the 1982 debt suspension that followed Mexico's default.</li>
+<li><b>Hyperinflation:</b> with no borrowing left, the government printed money and indexed contracts. Inflation peaked at about 2,000% (1993).</li>
+<li><b>Cardoso's Real Plan:</b> stopped printing, a new currency anchored to the dollar, high rates and debt restructuring (lower rate, longer term, <b>haircut</b>). The overvalued real led to current-account deficits and a forced float in 1999, after which exports boomed and inflation targeting began.</li>
+<li><b>Lula's three contributions:</b> (1) macro stability, continuing Cardoso's discipline; (2) trade, riding China's commodity demand ("the hand of God"; China is now Brazil's top partner); (3) inequality, through <b>conditional cash transfers</b> (Bolsa Família, conditional on school and vaccination).</li>
+<li><b>Institutions</b> (Acemoglu, Johnson, Robinson): an extractive colony vs. inclusive "neo-Europes." The result is a <b>bimodal income distribution</b> (many poor, few rich, a thin middle). The market is 214m people but only about 40m middle-class. Becker: crime is rational if expected gains exceed expected costs. São Paulo is the world capital of private helicopters.</li>
+</ul>
+
+<h3 id="s-dutch">Dutch disease, tradables, nominal vs. real <span class="who">Session 3 · Garland decks</span></h3>
+<div class="tbl"><table>
+<tr><th>Step</th><th>What happens</th></tr>
+<tr><td>1. Discovery</td><td>Resource exports surge and the economy floods with dollars</td></tr>
+<tr><td>2. Currency</td><td>Excess dollar supply makes the dollar depreciate and the <b>local currency appreciate</b></td></tr>
+<tr><td>3. Tradables</td><td>Non-resource exports become dearer and imports cheaper, so agriculture and manufacturing shrink</td></tr>
+<tr><td>4. Jobs</td><td>The resource sector isn't labor-intensive, so unemployment rises</td></tr>
+<tr><td>5. Growth</td><td>GDP growth is typically lower after the disease sets in (the Netherlands after its gas)</td></tr>
+</table></div>
+<ul>
+<li><b>Tradables:</b> anything importable or exportable (cars, chips, commodities). <b>Non-tradables:</b> real estate, haircuts, local legal and medical services, cement (traditionally). Cemex made cement tradable; US export bans made Nvidia chips non-tradable. A tourism surge can cause Dutch disease too.</li>
+<li><b>The cure (Dutch Disease II):</b> the root cause is the appreciation, so control it. <b>Dirty floating</b> means the central bank keeps buying dollars and injecting local currency, which causes inflation. A <b>fixed rate</b> has the same inflation problem when the commodity price rises and drains reserves when it falls. The best option is to <b>sterilize</b>: keep the foreign currency outside the country in a <b>sovereign wealth fund</b>.</li>
+<li><b>Nominal vs. real exchange rates:</b> see the 10 → 15/20/25 peso example in fact 06. Real depreciation means a gain in competitiveness.</li>
+</ul>
+
+<h3 id="s-germany">Germany, and measuring economies <span class="who">Session 5 · HBS case</span></h3>
+<ul>
+<li><b>GDP</b> is output inside the borders. <b>GNP</b> is by nationality (IBM's Mexican profits count for the US) and is almost impossible to measure. <b>GNI</b> starts from GDP, subtracts income leaving and adds income arriving (remittances: El Salvador adds about 30%). The World Bank uses GNI per capita.</li>
+<li><b>PPP examples:</b> India's GNI per capita is about $2,760 nominal vs. $11,600 at PPP. Only Switzerland stays more expensive than the US.</li>
+<li><b>Degree of openness = (X + M) / GDP.</b> It depends on trade policy and on size and resources. Germany has exports about 50% and imports about 49% of GDP, so about 100% open. The US is consumption-driven (about 67–70% of GDP).</li>
+<li><b>History:</b> unified in 1871 (Bismarck). Customs union and protection before free trade (List: free trade only works between equals; Britain "kicked away the ladder"). Bismarck's payroll-funded welfare was designed to undercut socialism. <b>Weimar hyperinflation</b> left a lasting obsession with low inflation (the Bundesbank). Then the Marshall Plan.</li>
+<li><b>The German model:</b> relationship banking, <b>codetermination</b> (workers sit on supervisory boards), cooperative unions (strikes need 90% approval), the Mittelstand, the dual vocational system, and cutting hours rather than jobs in recessions (Kurzarbeit).</li>
+<li><b>Reunification 1990:</b> the 1:1 conversion rate was political; about 5:1 was economic. Eastern firms became uncompetitive overnight and decades of transfers followed.</li>
+<li><b>Euro motives:</b> ending competitive devaluations (probably the main one), transparency, "great powers have great currencies," and anchoring Germany. The DM would be stronger than the euro.</li>
+<li><b>Today:</b> stagnation, the energy shock (nuclear shutdown, Russian gas), Chinese EVs, the AfD rising.</li>
+</ul>
+
+<h3 id="s-fx">Exchange-rate theory <span class="who">Session 8 · Notes on Exchange Rates</span></h3>
+<div class="grid3">
+<div><b>Floating, trade model</b>Exports supply dollars, imports demand them. Persistent X &gt; M means the local currency appreciates. Persistent M &gt; X means it depreciates.</div>
+<div><b>Mundell, capital model</b>Capital chases higher rates at equal risk. Inflows mean appreciation and a trade deficit financed by capital. Outflows mean depreciation and a surplus.</div>
+<div><b>Fixed / pegged</b>A price control. The central bank buys or sells reserves. Changes are called revaluation or devaluation.</div>
+<div><b>Dirty / managed float</b>Floats, but the central bank intervenes "against the market." It buys dollars to stop appreciation and sells reserves to stop depreciation.</div>
+<div><b>Dual rate</b>Two official rates that steer exports and imports. The invitation to corruption is fatal.</div>
+<div><b>Dollarization</b>No currency risk, but no monetary policy ("amputating an arm"). Ecuador, El Salvador, Panama.</div>
+</div>
+<ul>
+<li><b>Peg examples:</b> China at 8.28/$ (1995–2004; weak yuan, exports, 9–10% growth; under US pressure it moved to a band, now about 7). Argentina at 1 peso = $1 (about 1990–2001; strong peso, Miami real estate, exports collapsed; dollar mortgages became unpayable when it broke).</li>
+<li><b>Full convertibility:</b> US, eurozone, Japan, Switzerland, Australia, Canada. <b>Capital controls:</b> China and India.</li>
+<li><b>Twin deficits:</b> China's dollar buying financed the US trade deficit, and recycling those dollars into Treasuries financed the US fiscal deficit. China's "nuclear option" of dumping dollars would hurt China too.</li>
+<li><b>Black markets</b> appear when a peg creates excess demand for dollars (Nigeria, Ethiopia).</li>
+<li><b>Balance of payments:</b> the current account (goods, services, primary and secondary income), the financial account (FDI, portfolio) and the capital account (small items such as debt forgiveness). Errors and omissions balance it to zero.</li>
+</ul>
+
+<h3 id="s-angola">Angola <span class="who">Session 8 · HBS case · your midterm</span></h3>
+<ul>
+<li><b>Background:</b> a Portuguese extractive colony, once the world's 4th-largest coffee producer. At independence about 300,000 skilled Portuguese left. 27 years of civil war (MPLA vs. UNITA, Cold War proxies) followed, until 2002.</li>
+<li><b>Dutch disease:</b> the kwanza went from 10 to about 90/$ (2000–05) nominally, but inflation (325% in 2000) was far higher, so the <b>real</b> rate appreciated more than 100% (2002–09). Agriculture and manufacturing (about 7% of GDP; only cement and soft drinks survived) were crushed.</li>
+<li><b>Volatility:</b> in 2009 the oil price collapsed, exports fell from $65bn to $39bn and the budget went from +8.8% to −9.1% of GDP. The central bank sold about $10bn of reserves (dirty floating), then turned back to the IMF.</li>
+<li><b>Political curse:</b> Sonangol is concessionaire, collector, borrower and quasi-fiscal spender, a slush fund. Corruption ranks 162/180. The IMF was kept out until it was needed. The <b>dual exchange rate</b> gave insiders about a 190% flip profit.</li>
+<li><b>Asset depletion:</b> less clear. OPEC quotas limited extraction and the regime planned to stay in power for a long time.</li>
+<li><b>China vs. IMF:</b> a $2bn Eximbank oil-backed credit line with no conditions but Chinese contractors and labor, vs. IMF conditions (transparency, a sovereign wealth fund).</li>
+</ul>
+
+<h3 id="s-norway">Norway <span class="who">Session 9 · HBS case</span></h3>
+<ul>
+<li>It was the poorer Scandinavian country (fishing, farming) until oil (Ekofisk, 1969). Now GNI per capita is about $97k (3rd after Bermuda and Switzerland) and its HDI ranks 1st.</li>
+<li><b>Why no curse:</b> strong institutions <i>before</i> the discovery, no corruption, no civil war, state control (Statoil), and building domestic know-how. <b>Volatility</b> is the one symptom present (growth from about 3% to −1.4% in 2009).</li>
+<li><b>Government Pension Fund Global</b> (originally the Petroleum Fund): the largest sovereign wealth fund in the world, invested <b>100% outside Norway</b>. It may not buy Norwegian assets, which keeps oil dollars out of the krone market (sterilization). The <b>Action Rule</b> allows withdrawals of up to about 4% (its expected real return), for example in the pandemic. It was renamed "Pension" because of ageing.</li>
+<li><b>Dutch disease options compared:</b> dirty float (inflation risk), fixed rate (Saudi Arabia, 3.75 riyals/$ for about 40 years: is it too strong for non-oil industry?), or sterilization (Norway). Norway, Australia and Canada have "commodity currencies."</li>
+<li><b>Not in the EU</b> (rejected twice, about 52 to 48): it protects fish and cheese and keeps independent monetary policy for managing oil. It is in Schengen (as are Iceland and Switzerland).</li>
+<li><b>Welfare-state downsides:</b> people get comfortable ("Homo Petrolicus"), entrepreneurship is weak, taxes and spending are high (about 55% of GDP), infrastructure is poor (Oslo to Bergen takes about 10 hours by train), there is little diversification, and the fund policy means no investment at home.</li>
+<li><b>Flexicurity:</b> wages adjust in flexible markets (US). Europe is rigid (Spain: 45 days of severance per year; French courts reinstate workers). South Africa: union-driven high wages and about 60% youth unemployment (insiders vs. outsiders). The fix is flexible hiring and firing plus social security (Austria's "backpack" fund).</li>
+<li><b>Corruption Perception Index</b> (Transparency International): Denmark and Norway about 88, Singapore about 85. It is perception-based, so biased.</li>
+</ul>
+
+<h3 id="s-mexico">Mexico <span class="who">Session 12 · HBS case</span></h3>
+<ul class="timeline">
+<li><span class="d">1970s</span><span class="dot"></span><span>Petrodollar recycling: banks lend variable-rate dollars to emerging markets.</span></li>
+<li class="key"><span class="d">1982</span><span class="dot"></span><span>US and UK raise rates. <b>Mexico defaults first</b> and the dominoes fall across Latin America. Banks are nationalized; money is printed (inflation 159% in 1987). The lost decade begins.</span></li>
+<li><span class="d">1987</span><span class="dot"></span><span><b>The Pacto</b>: heterodox stabilization in which government, business, unions and farmers coordinate wages and prices to break inflation expectations.</span></li>
+<li class="key"><span class="d">1990</span><span class="dot"></span><span><b>Brady bonds</b>: debt becomes US-Treasury-backed bonds with oil collateral, a haircut, a longer maturity and a lower rate. Market access returns. (The Baker Plan of 1985 had failed.)</span></li>
+<li><span class="d">1988–94</span><span class="dot"></span><span>Salinas: the Washington Consensus, bank privatization, an open capital account, NAFTA (1 Jan 1994). Rates of about 30% vs. 6–7% in the US pull in $8bn, then $25bn, then $33bn of portfolio money. The peso is held strong in its band and the trade balance goes from +$0.4bn to −$16bn+.</span></li>
+<li class="key"><span class="d">1994</span><span class="dot"></span><span>Chiapas (1 Jan), the Colosio assassination (23 Mar), the PRI secretary-general's assassination (28 Sep). The Fed adds 175bp. <b>Tesobonos</b> (dollar-indexed) fail to stem outflows; reserves fall from about $30bn to $5bn.</span></li>
+<li class="key"><span class="d">Dec 1994</span><span class="dot"></span><span>The "December mistake" (insiders briefed). 20 Dec: band widened 15%. 22 Dec: float; the peso <b>overshoots</b> from about 3 to about 7.</span></li>
+<li><span class="d">1995</span><span class="dot"></span><span>$50bn rescue ($20bn US, $18bn IMF, $10bn BIS). GDP −6%. Trade balance −$18bn becomes +$7bn. The <b>Tequila effect</b> spreads to Brazil, Argentina and Peru.</span></li>
+</ul>
+<ul>
+<li><b>Why not raise rates in 1994?</b> The banks were too fragile. Capital controls would have signaled the end of reform. So reserves were spent and tesobonos issued.</li>
+<li><b>Lessons on capital flows:</b> "sudden stops" (Asia 1997, Russia 1998, Brazil 1999). The newer IMF view is that hot money itself can cause crises, which is why China and India keep capital controls. Chile welcomes FDI but requires a 20% one-year deposit on short-term capital.</li>
+</ul>
+</section>
+
+<!-- ============ ALLARD ============ -->
+<section class="ch" id="allard">
+<div class="ch-head"><div class="n">04</div><div><h2>Allard's half: big economies, integration and risk</h2><div class="kick">Sessions 4, 6, 7, 10, 11, 13 and 14. All of her decks were uploaded: US, Japan, India-China, EU/Spain/UK, Africa, Country Investment Decision. Her thread is how each economy turns into risk and opportunity for an investor.</div></div></div>
+
+<h3 id="s-us">The US economy <span class="who">Session 4 · deck + Allard case</span></h3>
+<ul>
+<li><b>Why the US grew:</b> every factor in abundance (land and resources, immigrant labor, British capital and technology) plus <b>inclusive institutions</b> and no feudal aristocracy. About 1.5% per-capita growth a year in the 19th century; it overtook the UK by 1913.</li>
+<li><b>About 25% of world GDP, stable since 1980.</b> China's share came mainly from Europe's. To rank countries, use nominal GDP.</li>
+<li><b>Potential growth = productivity growth + labor-force growth.</b> An inflationary gap means above potential; a recessionary gap means below. <b>Annualized growth</b> projects a quarter forward over four quarters.</li>
+<li><b>Sahm rule:</b> recession likely when the 3-month average unemployment rate is at least 0.5 points above its 12-month low. <b>NAIRU:</b> below it, inflation picks up.</li>
+<li><b>Headline vs. core:</b> core strips out food and fuel. Phillips curve: no clean downward slope over 1978–2026. Stagflation risk comes from supply shocks.</li>
+<li><b>Fiscal:</b> spending about 40% of GDP vs. taxes about 32%. A structural deficit since the Reagan tax cuts (one surplus year since 1961). Debt above $40tn, about 125% of GDP, heading to about 150%. Sustainable while <b>nominal GDP growth &gt; interest rate</b>, and that margin is narrowing (10-year yield about 5%).</li>
+<li><b>Twin deficits</b> (fiscal plus current account) from overconsumption, financed because the world wants dollar assets. It borrows in its own currency. Its net foreign-asset position is worsening.</li>
+<li><b>Health and welfare:</b> public health spending is about 8% of GDP but covers only the elderly and poor (Germany covers everyone for the same 8%). Prices aren't capped. <b>Means-tested, not universal.</b> Attitudes: Americans think the poor aren't trapped and luck doesn't decide income; Europeans think government should guarantee no one is in need.</li>
+<li><b>Labor:</b> wages have lagged productivity since the 1970s; manufacturing jobs were lost mainly to <b>automation</b>; the middle class is about 59%. These feed polarization.</li>
+</ul>
+
+<h3 id="s-japan">Japan <span class="who">Sessions 6 and 10 · deck</span></h3>
+<ul>
+<li><b>Three indicators:</b> (1) growth: post-war 8–12%, stepped down in the 1980s and again in the 1990s; real growth above nominal because of deflation. (2) GDP per capita grows slightly faster than GDP because the population is shrinking. (3) The current account is <b>always in surplus</b> (except the oil shocks of 1974 and 1979–80).</li>
+<li><b>Plaza Accord (1985):</b> the US (with Germany) pushed Japan to let the yen float, and it rose about 50% in two years. That was terrible for exporters and led to the bubble, the bust and the lost decade. Keeping a currency <i>down</i> is easy (accumulate reserves); keeping it <i>up</i> is hard.</li>
+<li><b>Deflation:</b> first in 1995. People postpone big purchases, a downward spiral that is very hard to escape. It raises debt/GDP because nominal GDP falls. Unemployment sat below NAIRU without inflation (cultural factors: saving, trust).</li>
+<li><b>Abenomics (2012):</b> fiscal expansion (the sales tax was raised twice, each time causing a recession), QE (Japan invented it; it was ineffective because banks didn't lend), and structural reform (the "neglected arrow"; its success was more women working). PM Takaichi continues the approach.</li>
+<li><b>Debt about 250% of GDP</b>, the highest anywhere, but in yen, about 90% domestic and with tiny interest costs. The Bank of Japan holds over 50% of government bonds. Rates have gone from negative to about 1.25%. The risk is pensions.</li>
+<li><b>Savings paradox:</b> households and firms save the most while the government borrows the most. One proposed fix was a tax on savings.</li>
+<li><b>Demography:</b> fertility 1.2, average age about 48. The <b>life-cycle model</b> says an ageing Japan will shift from saver to dissaver. Old-age support ratio about 1.2 by 2050 (vs. about 4 in the OECD today). Japan resists immigration.</li>
+<li><b>Carry trade:</b> borrow cheap yen or Swiss francs and invest in USD, AUD, MXN, BRL. As Japan raises rates it unwinds, capital flows home and the yen rises.</li>
+</ul>
+
+<h3 id="s-china">China <span class="who">Sessions 7 and 10 · deck + FT and NYT</span></h3>
+<ul>
+<li><b>History:</b> China and India were up to half of world GDP (1625–1825), when output tracked population. Parallels: unification about 200 BC (Han and Maurya), radical change in the 1940s (Mao 1949, Indian independence 1947).</li>
+<li><b>Mao:</b> the Great Leap Forward (forced industrialization; steel from melted gates; 20–38m famine deaths) and the Cultural Revolution.</li>
+<li><b>Deng (from about 1978):</b> pragmatism ("black cat or white cat"), a dual price system (farmers sell surplus at market prices), SEZs, FDI, a weak yuan, export-led growth. Also the one-child policy, now seen as a mistake. 60% of people were in poverty at the start; growth averaged about 10%, then slowed from about 2015.</li>
+<li><b>Model:</b> consumption about 40% of GDP, saving far above investment, a <b>current-account surplus</b>. After the 2012 property collapse, investment moved into infrastructure and green energy. The state controls banks, capital and lending (it can manage crises in slow motion).</li>
+<li><b>Yuan undervalued 20–35%</b> and actively held there. Subsidized lending below the base rate. Overcapacity: about 30% of world manufacturing vs. about 18% of consumption; solar share went from about 6% to about 80%.</li>
+<li><b>China shock 1.0</b> (WTO about 2001): the US lost about 2–2.5m manufacturing jobs. <b>2.0</b> (post-2020): subsidized high-tech exports aimed at Europe. Manufacturing jobs are now migrating to Vietnam, India, Mexico and Turkey.</li>
+<li><b>FT, unreliable numbers:</b> official growth about 5% vs. an estimate of about 2%. No quarterly expenditure breakdown; IMF grade C; data series being cut; local officials over-report. Use proxies (electricity, freight, credit).</li>
+<li><b>NYT, hidden export policies:</b> the renminbi is down about 14% in real terms since 2022, and VAT export rebates cost $318bn (1.5% of GDP). The result is a record $1.19tn surplus, higher import costs for households and harder rebalancing.</li>
+</ul>
+
+<h3 id="s-india">India <span class="who">Sessions 7 and 10 · deck</span></h3>
+<ul>
+<li>Allied with the USSR. <b>ISI</b>, the Permit Raj, the state taking over failing firms (about 50% of output), the "Hindu rate of growth" of about 3.5%. More business-friendly in the 1980s.</li>
+<li><b>1991 balance-of-payments crisis:</b> a current-account deficit of about 3% of GDP the financial account couldn't cover; reserves for about two weeks of imports; gold airlifted as collateral. The IMF imposed <b>Washington Consensus</b> conditions and growth rose to about 6%. English speakers fed the outsourcing boom.</li>
+<li><b>Model:</b> a chronic <b>current-account deficit</b>, consumption about 60% of GDP, investment about 30% of GDP, a rupee that keeps depreciating, services-led (about 3% of world manufacturing).</li>
+<li><b>Reforms:</b> GST (2017), demonetization, Aadhaar biometric ID (about 40% of food rations used to disappear), and Modi's Doing Business push from 142nd to 63rd.</li>
+<li><b>Risks:</b> institutions, the external deficit, infrastructure, premature deindustrialization, the "four horsemen" (globalization backlash, climate, automation, under-investment in people). <b>Opportunities:</b> domestic demand, demographics, democracy.</li>
+</ul>
+<div class="tbl"><table>
+<tr><th></th><th>China</th><th>India</th></tr>
+<tr><td>Current account</td><td>Surplus (saving &gt; investment)</td><td>Chronic deficit</td></tr>
+<tr><td>Growth driver</td><td>Exports and investment (EOI)</td><td>Domestic demand, services</td></tr>
+<tr><td>Currency</td><td>Tends to rise, held down</td><td>Tends to depreciate</td></tr>
+<tr><td>Demography</td><td>Shrinking, fertility below 1</td><td>Growing, fertility 1.9</td></tr>
+<tr><td>Model (Khanna)</td><td>Top-down, state as entrepreneur</td><td>Pluralistic, "chaotic"</td></tr>
+<tr><td>Main risk</td><td>Foreign demand, overcapacity, deflation, backlash</td><td>Institutions, foreign borrowing, infrastructure</td></tr>
+</table></div>
+
+<h3 id="s-eu">The EU and Brexit <span class="who">Session 11 · deck</span></h3>
+<div class="ladder">
+<div class="rung"><b class="t"><i>Level 1</i>Free-trade area</b><span>No internal tariffs. NAFTA/USMCA, EFTA.</span></div>
+<div class="rung"><b class="t"><i>Level 2</i>Customs union</b><span>Adds a common external tariff. Coal and Steel Community 1951; Turkey–EU.</span></div>
+<div class="rung"><b class="t"><i>Level 3</i>Common market</b><span>Adds free movement of people and capital: live and work anywhere.</span></div>
+<div class="rung"><b class="t"><i>Level 4</i>Economic union</b><span>Adds a single currency and coordinated policy. The deepest level, with the most sovereignty given up.</span></div>
+</div>
+<ul>
+<li><b>Why:</b> war. Economic integration was the "Trojan horse" for peace, and there have been no wars among members since.</li>
+<li><b>Enlargement:</b> the original 6, then 1973 (UK, Denmark, Ireland), 1981 Greece, 1986 Spain and Portugal (consolidating democracy), 1995 (Norway and Switzerland said no), 2004 (10 eastern countries; the migration fed Brexit), 2007 Bulgaria and Romania, 2013 Croatia, 2021 the UK leaves. The EU has 27 members and 450m people; the eurozone 21 members and 351m.</li>
+<li><b>Metrics (2024):</b> GDP per capita US about $86k, eurozone about $66k, EU about $63k. The EU runs a current-account surplus (even without Germany). Unemployment is structurally higher. Support for the EU is 74%, for the euro 83%.</li>
+<li><b>Challenges:</b> a shrinking working-age population (Poland −40%, Germany −30% by 2060), falling productivity, no big tech, regulation, and lagging R&amp;D (except Sweden, Belgium, Austria and Germany).</li>
+<li><b>Welfare:</b> universal, which builds consensus. Sweden (welfare about 50–60% of GDP, debt 30%, high R&amp;D) shows welfare and competitiveness can coexist. Gini: Sweden 0.27, Denmark 0.29, Germany 0.30. Pre-tax inequality is similar to the US; taxes and transfers make the difference.</li>
+<li><b>Brexit:</b> a conflicted history (de Gaulle vetoed UK entry in 1963 and 1967; a budget rebate; out of Schengen and the euro). The leave vote was rural, older, less-educated and in low-immigration areas. Article 50 was triggered in 2017. The result: slower growth, inflation, red tape, finance moving to Frankfurt and Paris. Most Britons now favor rejoining or closer ties.</li>
+<li><b>Rodrik trilemma and O'Rourke</b> ("too much market and too little state invites backlash") explain Brexit and Trump.</li>
+</ul>
+
+<h3 id="s-africa">Africa <span class="who">Session 13 · deck</span></h3>
+<ul>
+<li><b>Scale:</b> 54 countries and about 2,000 languages. GDP about $2tn, under 2% of the world (3.6% at PPP). Before the Industrial Revolution it was about 7% of world GDP; the slave trade depleted its population.</li>
+<li><b>Understated GDP:</b> statistics are expensive to collect, the informal economy is large and capital flight is common. Nigeria's 2014 rebasing added 89% overnight; estimates put the understatement at about 30%. Under 10% of Ethiopia's trade is invoiced.</li>
+<li><b>Growth:</b> some of the fastest growers before 2015 (the commodity supercycle). Covid hit less hard (a young population). Fragile supply chains. Non-resource economies (Ethiopia, Kenya) are steadier than oil exporters. Growth trailing population growth means falling per-capita income.</li>
+<li><b>Aid vs. FDI:</b> aid has a <b>negative coefficient</b> on growth and breeds corruption (Mobutu's Swiss accounts). FDI brings jobs, technology and links to buyers.</li>
+<li><b>Demography:</b> 13% of world population, doubling by 2050. Nigeria will match the US. Fertility was about 7 in the 1980s, but birth rates are falling faster than the UN projected.</li>
+<li><b>Institutions and conflict:</b> the Congo (Leopold, Lumumba, Mobutu), Ethiopia (10% growth until its civil war), Sudan and South Sudan, the Bab-el-Mandeb chokepoint. Landlocked with bad neighbors is the worst position. Rwanda is authoritarian but effective.</li>
+<li><b>AfCFTA:</b> signed by everyone except Eritrea; operational since 2019; tariffs off 90% of goods; aims at a common market, a single currency and free movement. Allard sees currency integration as feasible.</li>
+</ul>
+
+<h3 id="s-risk">Country risk and the investment decision <span class="who">Session 14 · deck</span></h3>
+<div class="grid3">
+<div><b>Financial investment</b>1 Interest rate · 2 Exchange rate · 3 Inflation · 4 Fiscal · 5 Balance of payments · 6 Reserves · 7 Investor protection · 8 Political stability</div>
+<div><b>Plant for the local market</b>1 Market size · 2 Production costs · 3 Institutions · 4 Doing Business · 5 Political stability · 6 Infrastructure · 7 Exchange rate</div>
+<div><b>Export platform</b>1 Production costs · 2 Exchange rate · 3 Trade agreements · 4 Infrastructure · 5 Institutions · 6 Doing Business · 7 Political stability</div>
+</div>
+<div class="tbl"><table>
+<tr><th>Shock</th><th>Growth</th><th>Inflation</th><th>Deficits</th><th>Confidence</th><th>Currency</th></tr>
+<tr><td>Commodity price spike (importer)</td><td>↓</td><td>↑</td><td>↑</td><td>↓</td><td>↓ (reserve currencies ↑)</td></tr>
+<tr><td>Pandemic</td><td>↓</td><td>↑ (supply falls faster than demand)</td><td>↑</td><td>↓</td><td>↓ (reserve currencies ↑)</td></tr>
+<tr><td>Geopolitical crisis or trade war</td><td>↓ if trade is hit</td><td>↑ if import-dependent</td><td>↑</td><td>↓</td><td>?</td></tr>
+<tr><td>Large immigration</td><td>↑</td><td>↓</td><td>Improves</td><td>?</td><td>?</td></tr>
+<tr><td>War</td><td>↑ for arms producers</td><td>↑</td><td>↑</td><td>↓</td><td>↓ (reserve currencies ↑)</td></tr>
+</table></div>
+<ul>
+<li><b>Definitions:</b> country risk (Kobrin). Risk is quantifiable and known in advance; uncertainty is not (an earthquake). Endogenous shocks (bubbles, banking crises, politics) vs. exogenous shocks (commodities, pandemics, war).</li>
+<li><b>What investors want:</b> revenue potential (growth, market, middle class: hence the Gini), an operating environment (low predictable inflation, predictable policy, rational labor markets, low taxes, infrastructure), financial conditions, market access.</li>
+<li><b>Business-cycle phases:</b> phase 1, early expansion (recessionary gap, low rates), is the best time to invest. Phase 2 is the peak; phase 3 contraction; phase 4 the trough, good once it seems near.</li>
+<li><b>Scorecards:</b> ICRG = 0.5 political + 0.25 financial + 0.25 economic; a higher score is safer; below 50 is very high risk and 80+ very low. The World Bank CPIA has 16 criteria. Doing Business was suspended after manipulation (China) and is being replaced by Business Ready.</li>
+<li><b>Hard countries attracting investment:</b> Rwanda (Kagame's reforms), India (Doing Business from 142nd to 63rd), Ghana (an industrial park with its own power, water and legal support; Ford is a tenant). Corruption adds about 10% to costs in Africa. Singapore pays officials well.</li>
+<li><b>Corruption measures:</b> the Transparency International CPI (perception surveys) and the World Governance Indicators (−2.5 to +2.5). There is a difference between petty bribery and systemic corruption (a Delhi procurement bucket billed at about $1,500 vs. a real cost under $5).</li>
+<li><b>Simulation reveals:</b> Tweedworth was Mauritius (the most popular pick), Trinity Island the Czech Republic, Grand Republic Venezuela (the worst), Somerville Bulgaria, Pine Way Israel, Liberty Kingdom Turkey, Princeton Island Egypt; the high-income outlier was Hong Kong. The lesson is that data alone doesn't tell the story.</li>
+</ul>
+</section>
+
+<!-- ============ CASES ============ -->
+<section class="ch" id="cases">
+<div class="ch-head"><div class="n">05</div><div><h2>The cases, one file each</h2><div class="kick">Seven cases plus two news articles. Spain (Garland) and the US (Allard) are IE cases; the rest are HBS. Angola was your group midterm.</div></div></div>
+
+<div class="case" id="c-spain">
+  <div class="bar"><h3>Spain: From Political Transition to European Convergence</h3><span class="code">IE · Garland &amp; Lamas · 2021 · Session 2</span></div>
+  <div class="meta">The question it answers: how a country that lived on devaluations adjusts once it gives up its currency.</div>
+  <div class="body">
+  <div class="kv"><div><div class="k">Unemployment peak</div><div class="v">26.1%<small>2013</small></div></div><div><div class="k">CA deficit</div><div class="v">~9%<small>2006–07, 2nd largest in the world</small></div></div><div><div class="k">Public debt</div><div class="v">36 → 101%<small>2007 → 2014</small></div></div><div><div class="k">Covid GDP</div><div class="v">−11%<small>tourism about 15% of GDP</small></div></div></div>
+  <p><b>Arc.</b> A late response to the 1973 oil shock (energy subsidies, soft wage deals, inflation of 24.5% in 1977), then the Moncloa Pacts. EEC entry in 1986 and EU structural funds. The peseta appreciated inside the EMS, then speculative attacks brought four devaluations (1992–95). Austerity, privatization and an independent Bank of Spain (1998) took it into the euro. Cheap euro credit fed a housing boom; the bust brought internal devaluation; the pandemic brought NextGenEU.</p>
+  <p><b>Structural problems.</b> A dual labor market (permanent vs. temporary contracts), low R&amp;D (1.24% of GDP), about 75% of energy imported, fertility of 1.23, and productivity growing +6.9% over 1995–2019 against +43.9% in the US.</p>
+  <p><b>Exam hook.</b> A fiscal surplus hid a private credit boom and an external deficit. Without a currency, Spain adjusted through wages and unemployment.</p>
+  </div>
+</div>
+
+<div class="case" id="c-brazil">
+  <div class="bar"><h3>Brazil under Lula: Off the Yellow BRIC Road</h3><span class="code">HBS 707-031 · Musacchio · Session 3</span></div>
+  <div class="meta">The question it answers: can Brazil grow 5% without inequality rising again?</div>
+  <div class="body">
+  <div class="kv"><div><div class="k">Inflation</div><div class="v">~2,000%<small>1993–94, down to 16% by 1996</small></div></div><div><div class="k">Gini</div><div class="v">0.56<small>2005; top 10% take 45%</small></div></div><div><div class="k">Savings rate</div><div class="v">22%<small>vs. about 52% in China</small></div></div><div><div class="k">Country risk</div><div class="v">700 → 2,000bp<small>2002 election fear</small></div></div></div>
+  <p><b>Lula "signaled left, turned right":</b> rates at 26%, a primary surplus of 4.25%, dollar debt swapped into reais, export promotion, and Bolsa Família (under 1% of GDP, most of the fall in poverty).</p>
+  <p><b>The "Brazil cost":</b> taxes about 72% of profits, high real rates, an overvalued real, 152 days to open a firm, costly firing, poor infrastructure. Kuznets curve and skill-biased technology both suggest growth may raise inequality again.</p>
+  </div>
+</div>
+
+<div class="case" id="c-us">
+  <div class="bar"><h3>The U.S. Economy: A Case Study</h3><span class="code">IE EC1-108-I · Allard · rev. 2021 · Session 4</span></div>
+  <div class="meta">The question it answers: why the US is rich, and whether its imbalances threaten that.</div>
+  <div class="body">
+  <div class="kv"><div><div class="k">World GDP share</div><div class="v">~25%<small>with about 4% of population</small></div></div><div><div class="k">Public debt</div><div class="v">130%<small>2021</small></div></div><div><div class="k">CA deficit</div><div class="v">~6%<small>before 2008</small></div></div><div><div class="k">Middle class</div><div class="v">~59%</div></div></div>
+  <p><b>Core ideas.</b> Factors plus institutions. The US is an optimal currency area thanks to labor mobility and federal transfers. Twin deficits from overconsumption. Debt "melts" when nominal growth exceeds the interest rate. Easterlin paradox. Wages lagging productivity; automation rather than globalization. Means-tested welfare: public social spending is under 19% of GDP, but <i>net</i> social spending is the 2nd highest after France once private spending is counted.</p>
+  </div>
+</div>
+
+<div class="case" id="c-germany">
+  <div class="bar"><h3>The German Export Engine</h3><span class="code">HBS 715-045 · Trumbull, Schlefer, Reinert · Session 5</span></div>
+  <div class="meta">The question it answers: whether Germany's export model is a strength or a problem for Europe.</div>
+  <div class="body">
+  <div class="kv"><div><div class="k">Exports / GDP</div><div class="v">8 → 24 → ~50%<small>1950 → 1974 → 2020s</small></div></div><div><div class="k">Unemployment peak</div><div class="v">11%<small>2005</small></div></div><div><div class="k">Trade surplus</div><div class="v">€1.4tn<small>2000–09, 60% with the EU</small></div></div><div><div class="k">Reunification</div><div class="v">~€1.7tn<small>cost</small></div></div></div>
+  <p><b>Arc.</b> List and the Zollverein, then finance capitalism, then the post-war model (hard money and an undervalued DM under Bretton Woods). The 1:1 reunification made Germany the "sick man of Europe." Hartz reforms and Agenda 2010 followed. In the euro era its surplus was recycled as loans to the periphery, so the bailouts also rescued German banks. Kurzarbeit carried it through 2009. The 2022 energy shock and the Zeitenwende came last.</p>
+  </div>
+</div>
+
+<div class="case" id="c-angola">
+  <div class="bar"><h3>Angola and the Resource Curse</h3><span class="code">HBS 711-016 · Musacchio, Werker, Schlefer · Session 8 · midterm</span></div>
+  <div class="meta">The question it answers: in 2010, should dos Santos follow IMF conditions or rely on Chinese oil-backed loans?</div>
+  <div class="body">
+  <div class="kv"><div><div class="k">Oil in GDP</div><div class="v">~60%<small>but 0.2% of jobs</small></div></div><div><div class="k">Oil in exports</div><div class="v">96%<small>2008</small></div></div><div><div class="k">HDI rank</div><div class="v">143/182<small>GDP per capita rank about 101</small></div></div><div><div class="k">2009 growth</div><div class="v">−0.5%<small>from about 12%</small></div></div></div>
+  <p><b>Every curse channel:</b> Dutch disease (real appreciation over 100%), volatility, the political curse (rentier state, military spending, Sonangol's quasi-fiscal operations), corruption (162/180), and multiple exchange rates as patronage. Agriculture employs about 70% of workers but produces about 10% of GDP. 70% of people live under $2 a day.</p>
+  </div>
+</div>
+
+<div class="case" id="c-norway">
+  <div class="bar"><h3>Norway: The Embarrassment of Riches</h3><span class="code">HBS 713-061 · Reinert · Session 9</span></div>
+  <div class="meta">The question it answers: is Norway making the most of its oil, "building a country vs. a piggy bank"?</div>
+  <div class="body">
+  <div class="kv"><div><div class="k">Fund size</div><div class="v">NOK ~4trn<small>about 140% of GDP (2013 case)</small></div></div><div><div class="k">Action Rule</div><div class="v">4%<small>expected real return</small></div></div><div><div class="k">HDI</div><div class="v">1st<small>9 of 11 years</small></div></div><div><div class="k">Hours worked</div><div class="v">−23%<small>since oil</small></div></div></div>
+  <p><b>State capture of the rents:</b> the "ten petroleum commandments," Statoil 100% state-owned, a foreign share of fields falling from 91% to about 20%. A 1973 white paper already warned of Dutch disease. The fund invests only abroad under ethical guidelines (it blacklists firms). The worries are "Homo Petrolicus," disability claims, weak PISA scores and poor infrastructure.</p>
+  </div>
+</div>
+
+<div class="case" id="c-mexico">
+  <div class="bar"><h3>Mexico (C): Reform and Crisis, 1987–95</h3><span class="code">HBS 797-050 · Pill · Session 12</span></div>
+  <div class="meta">The question it answers: how did the model reformer crash in 1994?</div>
+  <div class="body">
+  <div class="kv"><div><div class="k">Portfolio inflows</div><div class="v">$8 → 33bn<small>1990 → 1993</small></div></div><div><div class="k">Reserves</div><div class="v">$30 → 5bn<small>1994</small></div></div><div><div class="k">Peso</div><div class="v">~3 → 7<small>per dollar, overshooting</small></div></div><div><div class="k">Rescue</div><div class="v">$50bn<small>US 20, IMF 18, BIS 10</small></div></div></div>
+  <p><b>Concepts:</b> orthodox vs. heterodox stabilization (the Pacto), an exchange-rate anchor in a crawling band, Brady bonds, hot money vs. FDI, CA = S − I (private saving fell to 12% of GDP), moral hazard in deposit insurance, connected lending, tesobonos vs. cetes, the six-year political-electoral cycle, a self-fulfilling speculative attack.</p>
+  </div>
+</div>
+
+<div class="case" id="c-china">
+  <div class="bar"><h3>China in the news: two articles</h3><span class="code">FT Big Read (Hale, Nov 2025) · NYT (Bradsher, Oct 2026) · Session 10</span></div>
+  <div class="meta">Why they matter: data reliability is itself a country-risk indicator, and export strength can hide domestic weakness.</div>
+  <div class="body">
+  <p><b>FT, "The growing problem with China's unreliable numbers":</b> official growth hits its about-5% target every time, while one estimate is about 2%. There are three GDP approaches (expenditure, production, income); China publishes only production data quarterly. IMF grade C. Fixed-asset investment −1.7% and property −14.7%, yet GDP investment still adds to growth.</p>
+  <p><b>NYT, "The Hidden Policies That Power China's Export Boom":</b> a real renminbi depreciation of about 14% since 2022 and $318bn of VAT export rebates (a hidden subsidy) produced a record $1.19tn surplus. The costs are pricier imports for households, a fiscal drain and protectionist backlash. This works against rebalancing toward consumption.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ FLASHCARDS ============ -->
+<section class="ch" id="flash">
+<div class="ch-head"><div class="n">06</div><div><h2>Flashcards</h2><div class="kick">Tap a card to reveal the answer. Thirty recall items across both professors.</div></div></div>
+<div class="cards" id="cards"></div>
+</section>
+
+<!-- ============ DISCREPANCIES ============ -->
+<section class="ch" id="disc">
+<div class="ch-head"><div class="n">07</div><div><h2>Where class and source disagree</h2><div class="kick">If an exam option matches the deck or case, prefer it over what the Granola transcript recorded.</div></div></div>
+<ul class="disc">
+<li><b>Maastricht thresholds.</b> The Session 2 Granola notes say inflation within 2 points and interest rates within 1.5. The Spain case and the treaty say inflation within 1.5 and long-term rates within 2. Trust the case.</li>
+<li><b>Norway's fund size.</b> Class said about $4 trillion; the 2013 case says about NOK 4 trillion (about 140% of GDP). UNSURE which figure the slides use, so don't pin an answer on the exact number.</li>
+<li><b>Plaza Accord year.</b> Your private notes say the yen floated in 1980; the transcript and history say 1985.</li>
+<li><b>Professor names.</b> Granola wrote "Gonzalo Ramos" and "Gail Thompson"; they are Gonzalo Garland and Gayle Allard.</li>
+<li><b>EU vs. US debt.</b> Allard's slide says EU debt risk "is similar to the United States," but in 2024 US gross debt (about 125% of GDP) is well above the eurozone average. For sample Q7, answer "roughly the same" with UNSURE confidence.</li>
+<li><b>US public social spending.</b> The case gives under 19% of GDP; class stressed public health at about 8% of GDP. They measure different things: total social spending vs. health only.</li>
+<li><b>US debt level.</b> The case says 130% of GDP (2021); class said about 125% and above $40tn (2026). Use "above 120%."</li>
+<li><b>Who taught Session 5 (Germany).</b> Not recorded. Garland is likely (it opened with GDP/GNI/PPP), but it's UNSURE.</li>
+<li><b>Africa's GDP share.</b> The deck gives sub-Saharan Africa as 1.8% of world GDP; class said Africa is "under 2%." These are consistent but cover different regions.</li>
+</ul>
+<footer>Built 9 Nov 2026 from Granola notes and transcripts for Country Economic Analysis sessions 1–14 (7 Sep to 27 Oct 2026); Allard's decks (US economy, Japan, India-China, EU/Spain/UK, Intro to Africa 2025, Country Investment Decision); Garland's decks (Intro, Notes on Exchange Rates, Dutch Disease II, Nominal and Real Exchange Rates); the Spain, US, Brazil, Germany, Angola, Norway and Mexico (C) cases; the FT and NYT China articles; and the posted sample questions. A personal study aid: the syllabus bars GenAI for preparing assessments.</footer>
+</section>
+
+</main>
+</div>
+
+<div class="shell" id="tab-notes" hidden>
+  <aside class="rail" aria-label="Units">
+    <div class="t">Complete notes</div>
+    <div id="notes-rail"></div>
+    <div class="box"><b>How to use</b>Read a session end to end once, then test it with the topic drill in the Test tab. Lines marked EXAM are things the professor tied to the exam.</div>
+  </aside>
+  <main>
+    <nav class="mobnav" id="notes-mobnav" aria-label="Units"></nav>
+    <div id="notes-root"></div>
+  </main>
+</div>
+
+<div class="testwrap" id="tab-test" hidden>
+  <div class="testhead">
+    <div><h2>Practice exam</h2><div class="kick">Each version draws 10 of the <span class="bankn">0</span> questions in the bank, the real exam's MCQ count, balanced across every session and case, with question and answer order shuffled. Answers mark themselves. When you finish, the attempt is saved and a study room opens with every miss explained and linked to the section to re-read.</div><div class="ver">Version <span id="vseed">0000</span> · <span id="vmeta">10 questions</span></div>
+    <div class="tctl"><label>Questions per version <select id="nsel"><option value="10">10, exam length</option><option value="20">20</option><option value="40">40</option><option value="all">All in the pool</option></select></label><label>Topic <select id="tsel"><option value="">All topics, balanced</option></select></label><span class="hint">Pick a topic to drill every question on it. "New version" applies the choice.</span></div></div>
+    <div class="btns"><button type="button" class="ghost" id="finish">Finish and save</button><button type="button" class="pri" id="newver">New version</button></div>
+  </div>
+  <div class="result" id="result" hidden><div class="big"><span id="rsc">0</span><small>/ <span id="rn">10</span></small></div><div><p><b id="rmsg"></b></p><p id="rsub"></p></div></div>
+  <div class="quizbar">
+    <div class="score"><span id="sc">0</span> / <span id="scn">10</span> <small id="scsub">0 answered</small></div>
+    <div class="prog"><i id="pg"></i></div>
+    <span class="vb">v<span id="vseed2">0000</span></span>
+  </div>
+  <div class="room" id="room" hidden></div>
+  <div id="quizroot"></div>
+  <div class="hist" id="hist">
+    <div class="hh"><h3>Your attempts</h3><button type="button" class="ghost" id="clearhist">Clear history</button></div>
+    <p class="empty" id="histempty">No saved attempts yet. Finish a version and it appears here. Saved in this browser only.</p>
+    <div class="tbl" id="histtbl" hidden><table><thead><tr><th>#</th><th>When</th><th>Version</th><th class="n">Score</th><th></th><th></th></tr></thead><tbody id="histbody"></tbody></table></div>
+  </div>
+  <div class="hist" id="weak" hidden></div>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+(function(){
+  const panes={study:document.getElementById('tab-study'),test:document.getElementById('tab-test'),notes:document.getElementById('tab-notes')};
+  const btns={study:document.getElementById('tab-btn-study'),test:document.getElementById('tab-btn-test'),notes:document.getElementById('tab-btn-notes')};
+  function show(which,scrollTop){Object.keys(panes).forEach(k=>{panes[k].hidden=k!==which;btns[k].setAttribute('aria-selected',String(k===which))});if(scrollTop)window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})}
+  btns.study.addEventListener('click',()=>{show('study',true);if(location.hash==='#test'||location.hash==='#notes')history.replaceState(null,'',' ')});
+  btns.test.addEventListener('click',()=>{show('test',true);location.hash='test'});
+  btns.notes.addEventListener('click',()=>{show('notes',true);location.hash='notes'});
+  document.querySelectorAll('a.totest').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('test',true);location.hash='test'}));
+  /* notes unit switcher */
+  (function(){const units=[...document.querySelectorAll('#notes-root .unit')];const rail=document.getElementById('notes-rail'),mob=document.getElementById('notes-mobnav');if(!units.length)return;
+    let cur='';try{cur=localStorage.getItem('cea_notes_unit')||''}catch(e){}
+    window.__pickUnit=function(id){pick(id)};function pick(id){units.forEach(u=>u.classList.toggle('on',u.id===id));rail.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.dataset.u===id));mob.querySelectorAll('a').forEach(a=>a.classList.toggle('on',a.dataset.u===id));try{localStorage.setItem('cea_notes_unit',id)}catch(e){}}
+    units.forEach(u=>{const t=u.dataset.title,s=u.dataset.sub;const a=document.createElement('a');a.dataset.u=u.id;a.innerHTML=t+(s?'<small>'+s+'</small>':'');a.addEventListener('click',()=>{pick(u.id);window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})});rail.appendChild(a);
+      const m=document.createElement('a');m.dataset.u=u.id;m.textContent=t;m.addEventListener('click',()=>{pick(u.id);window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})});mob.appendChild(m)});
+    pick(units.some(u=>u.id===cur)?cur:units[0].id);
+    document.getElementById('tab-notes-n').textContent=units.length+' units';
+  })();
+  function route(){if(location.hash==='#test'){show('test',false)}else if(location.hash==='#notes'){show('notes',false)}else{show('study',false);const id=location.hash.slice(1);const el=id&&document.getElementById(id);if(el)el.scrollIntoView()}}
+  window.addEventListener('hashchange',route);route();
+  document.addEventListener('showtab',e=>show(e.detail,false));
+  document.querySelectorAll('.rail a:not(.totest)').forEach(a=>{if(a.closest('#tab-study'))a.addEventListener('click',()=>show('study',false))});
+  const links=[...document.querySelectorAll('#tab-study .rail a:not(.totest)')];const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  if(!('IntersectionObserver' in window)||!secs.length)return;
+  const set=id=>links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));
+  const io=new IntersectionObserver(es=>{const v=es.filter(e=>e.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top);if(v.length)set(v[0].target.id)},{rootMargin:'-25% 0px -60% 0px',threshold:0});
+  secs.forEach(s=>io.observe(s));set(secs[0].id);
+})();
+</script>
+<script>
+(function(){
+const tip=document.getElementById('tip');
+function showTip(e,html){tip.innerHTML=html;tip.style.display='block';moveTip(e)}
+function moveTip(e){const x=Math.min(e.clientX+12,window.innerWidth-280),y=e.clientY+14;tip.style.left=x+'px';tip.style.top=y+'px'}
+function hideTip(){tip.style.display='none'}
+const NS='http://www.w3.org/2000/svg';
+function el(n,a,txt){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e}
+function hov(node,html){node.addEventListener('mouseenter',e=>showTip(e,html));node.addEventListener('mousemove',moveTip);node.addEventListener('mouseleave',hideTip);node.addEventListener('focus',e=>{const r=node.getBoundingClientRect();showTip({clientX:r.left,clientY:r.top},html)});node.addEventListener('blur',hideTip);node.setAttribute('tabindex','0')}
+function fmt(n){return n.toLocaleString('en-US')}
+
+/* Flashcards */
+(function(){
+  const cards=[
+  ['Malthus: how do population and food grow?','Population geometrically (2, 4, 8, 16); food arithmetically (2, 4, 6, 8).'],
+  ['Malthus: the two checks?','Preventive (fewer births: late marriage, one-child policy). Positive (more deaths: war, famine, epidemics).'],
+  ['What broke the Malthusian limits?','Technology and the Industrial Revolution, plus new farmland.'],
+  ['Great Divergence vs. Great Convergence?','Divergence: the West pulls ahead after about 1820 (20% of people, 80% of GDP). Convergence: emerging markets catch up after the 1990s Washington Consensus.'],
+  ['What happens to a cheap country\'s GDP at PPP?','It rises above GDP at current exchange rates, in total and per capita.'],
+  ['GNI in one line?','GDP minus income sent abroad plus income received (remittances, profits). The World Bank standard.'],
+  ['Degree of openness?','(Exports + Imports) / GDP. Germany about 100%, India before 1991 about 22%.'],
+  ['Three parts of the HDI?','Life expectancy, education (literacy and enrollment), GDP per capita at PPP.'],
+  ['Dutch disease mechanism?','Resource dollars appreciate the real exchange rate, so agriculture and manufacturing lose competitiveness and unemployment rises.'],
+  ['Best cure for Dutch disease?','Sterilize: keep the foreign currency abroad in a sovereign wealth fund (Norway).'],
+  ['Dirty floating?','A float with central-bank intervention against the market: buying dollars to stop appreciation (risking inflation) or selling reserves to stop depreciation.'],
+  ['Overvalued peg: three positives?','Cheaper external debt, cheaper imports (fighting inflation), citizens richer abroad.'],
+  ['Undervalued peg: example and cost?','China at 8.28/$ (1995–2004). Costs: expensive imports and inflation, expensive external debt, partners complain.'],
+  ['10 pesos/$, 100% peso inflation, 0% US. The rate moves to 15. What happened?','A nominal depreciation but a real appreciation, so competitiveness is lost. It needed 20 to stay level.'],
+  ['Mundell in one line?','Capital chases higher rates. Inflows appreciate the currency, so a trade deficit can persist financed by capital inflows.'],
+  ['Dual exchange rate\'s fatal flaw?','Corruption: insiders buy official dollars cheaply and sell them on the parallel market.'],
+  ['Why did Norway escape the resource curse?','Strong institutions before the oil, plus a fund invested 100% abroad under a 4% Action Rule.'],
+  ['Brady bonds?','1990: debt converted into US-Treasury-backed bonds with a haircut, a longer maturity and a lower rate. Mexico regained market access.'],
+  ['Tesobonos?','Short-term, dollar-indexed Mexican bonds (1994) that moved currency risk onto the government.'],
+  ['The Pacto?','Mexico\'s heterodox stabilization: government, business, unions and farmers coordinate wages and prices to break inflation expectations.'],
+  ['Maastricht deficit and debt limits?','Deficit ≤ 3% of GDP, debt ≤ 60%.'],
+  ['Driver of Japan\'s current-account surplus?','Savings: saving exceeds investment.'],
+  ['Abenomics\' three arrows?','Fiscal expansion, QE, structural reform (the neglected arrow).'],
+  ['Carry trade?','Borrow in a low-rate currency (yen) and invest in a high-rate one (USD, MXN, BRL). It unwinds when Japanese rates rise.'],
+  ['ISI vs. EOI?','ISI: protect industry for domestic demand (Brazil, India). EOI: grow on exports, FDI and a weak currency (Japan, Tigers, China).'],
+  ['India vs. China current accounts?','India: chronic deficit. China: surplus.'],
+  ['Levels of integration, in order?','Free-trade area, customs union (common external tariff), common market (free movement), economic union (single currency).'],
+  ['Rodrik trilemma?','Hyperglobalization, national sovereignty and democracy: you can only fully have two.'],
+  ['Country risk (Kobrin)?','The probability that political and economic events in a country hurt a firm\'s financial performance.'],
+  ['Top indicator for each investor type?','Financial: interest rate. Plant for the local market: market size. Export platform: production costs.']];
+  const root=document.getElementById('cards');
+  cards.forEach(c=>{const d=document.createElement('div');d.className='card';d.setAttribute('role','button');d.setAttribute('tabindex','0');d.setAttribute('aria-expanded','false');
+    d.innerHTML=`<div class="q">${c[0]}</div><div class="a" hidden>${c[1]}</div><div class="hint">Tap to reveal</div>`;
+    const tog=()=>{const a=d.querySelector('.a');a.hidden=!a.hidden;d.setAttribute('aria-expanded',String(!a.hidden));d.querySelector('.hint').textContent=a.hidden?'Tap to reveal':'Tap to hide'};
+    d.addEventListener('click',tog);d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog()}});root.appendChild(d)});
+})();
+
+/* Quiz */
+(function(){
+  const REF={"top25": "Top 25 facts", "six": "The six short answers", "s-intro": "Intro: Malthus, GDP, PPP", "s-spain": "Spain", "s-brazil": "Brazil", "s-dutch": "Dutch disease and real exchange rates", "s-germany": "Germany and measuring economies", "s-fx": "Exchange-rate theory", "s-angola": "Angola", "s-norway": "Norway", "s-mexico": "Mexico", "s-us": "The US economy", "s-japan": "Japan", "s-china": "China", "s-india": "India", "s-eu": "The EU and Brexit", "s-africa": "Africa", "s-risk": "Country risk"};
+  const B=[];function q(t,txt,o,a,e,r){B.push({id:B.length,t,txt,o,a,e,r})}
+
+  window.__QB=B;
+  /* ---- engine ---- */
+  let N=10;const KEY='cea_attempts_v1';
+  const root=document.getElementById('quizroot'),sc=document.getElementById('sc'),sub=document.getElementById('scsub'),pg=document.getElementById('pg');
+  const vs=document.getElementById('vseed'),vs2=document.getElementById('vseed2'),res=document.getElementById('result'),room=document.getElementById('room');
+  document.querySelectorAll('.bankn').forEach(e=>e.textContent=B.length);
+  const TOPICS=[...new Set(B.map(x=>x.t))];
+  let seed=0,items=[],correct=0,answered=0,saved=false,startedAt=0,mode='exam',curTopic='';
+  const tsel=document.getElementById('tsel'),nsel=document.getElementById('nsel');TOPICS.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t+' ('+B.filter(x=>x.t===t).length+')';tsel.appendChild(o)});
+  function nWanted(pool){const v=nsel.value;const size=pool?pool.length:B.length;return v==='all'?size:Math.min(+v,size)}
+  function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  function shuffle(arr,r){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+  function load(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+  function store(list){try{localStorage.setItem(KEY,JSON.stringify(list))}catch(e){}}
+  function draw(r){ /* stratified: every topic gets its proportional share, then full shuffle */
+    if(N>=B.length)return shuffle(B,r);
+    const byT={};B.forEach(x=>(byT[x.t]=byT[x.t]||[]).push(x));
+    const quota={};let used=0;const rem=[];
+    TOPICS.forEach(t=>{const exact=N*byT[t].length/B.length;quota[t]=Math.floor(exact);used+=quota[t];rem.push([t,exact-quota[t]])});
+    rem.sort((a,b)=>b[1]-a[1]);for(let i=0;used<N;i++,used++)quota[rem[i%rem.length][0]]++;
+    let pick=[];TOPICS.forEach(t=>{pick=pick.concat(shuffle(byT[t],r).slice(0,quota[t]))});
+    return shuffle(pick,r);
+  }
+  function build(s,pool,m,topic){
+    seed=s;const r=rng(seed);mode=m||(pool?'drill':'exam');curTopic=topic||'';
+    const pick=pool?shuffle(pool.map(id=>B[id]),r).slice(0,mode==='topic'?nWanted(pool):pool.length):draw(r);
+    items=pick.map(q=>{const idx=shuffle(q.o.map((_,i)=>i),r);return{id:q.id,t:q.t,txt:q.txt,o:idx.map(i=>q.o[i]),a:idx.indexOf(q.a),e:q.e,r:q.r,done:false,ok:false,pick:-1}});
+    correct=0;answered=0;saved=false;startedAt=Date.now();res.hidden=true;room.hidden=true;room.innerHTML='';
+    const fbtn=document.getElementById('finish');fbtn.disabled=false;fbtn.textContent='Finish and save';
+    const label=mode==='drill'?'Drill':String(seed).padStart(4,'0');vs.textContent=label;vs2.textContent=label;
+    document.getElementById('vmeta').textContent=mode==='drill'?`${items.length} questions you missed · answers shuffled`:mode==='topic'?`${items.length} questions on ${curTopic} · order and answers shuffled`:`${items.length} of ${B.length} questions · balanced across every session · order and answers shuffled`;
+    root.innerHTML='';
+    items.forEach((q,qi)=>{const idx=qi+1;const d=document.createElement('div');d.className='q';d.id='qcard'+qi;
+      const opts=q.o.map((o,i)=>`<label><input type="radio" name="q${seed}_${idx}" id="q${seed}_${idx}o${i}" value="${i}"><span>${o}</span></label>`).join('');
+      d.innerHTML=`<div class="topic">${q.t}</div><div class="qt"><span>${String(idx).padStart(2,'0')}</span>${q.txt}</div><div class="opts">${opts}</div><div class="fb" hidden></div>`;
+      d.addEventListener('change',e=>{if(q.done)return;const p=+e.target.value;q.done=true;q.pick=p;answered++;
+        d.classList.add('done');d.querySelectorAll('label').forEach((l,i)=>{if(i===q.a)l.classList.add('right');else if(i===p)l.classList.add('wrong');l.querySelector('input').disabled=true});
+        const fb=d.querySelector('.fb');fb.hidden=false;if(p===q.a){correct++;q.ok=true;fb.textContent='Correct';fb.className='fb ok'}else{fb.innerHTML='Correct answer: '+q.o[q.a]+'<span class="why">'+q.e+'</span>';fb.className='fb no'}
+        upd();if(answered===items.length)finish()});
+      root.appendChild(d)});
+    upd();renderHist();
+  }
+  function upd(){const n=items.length;sc.textContent=correct;document.getElementById('scn').textContent=n;sub.textContent=answered+' answered'+(saved?' · saved':'');pg.style.width=(answered/n*100)+'%'}
+  function finish(){if(saved)return;saved=true;const fbtn=document.getElementById('finish');fbtn.disabled=true;fbtn.textContent='Saved';
+    const n=items.length;
+    items.forEach((q,i)=>{if(!q.done){q.done=true;const d=document.getElementById('qcard'+i);d.classList.add('done');d.querySelectorAll('label').forEach((l,j)=>{if(j===q.a)l.classList.add('right');l.querySelector('input').disabled=true});const fb=d.querySelector('.fb');fb.hidden=false;fb.innerHTML='Not answered. Correct answer: '+q.o[q.a]+'<span class="why">'+q.e+'</span>';fb.className='fb no'}});
+    const missed=items.filter(q=>!q.ok).map(q=>q.id);
+    const pct=Math.round(correct/n*100);
+    if(mode!=='drill'){const list=load();list.push({t:Date.now(),seed:seed,score:correct,n:n,topic:curTopic,missed:missed,asked:items.map(q=>q.id)});store(list)}
+    document.getElementById('rsc').textContent=correct;document.getElementById('rn').textContent=n;
+    document.getElementById('rmsg').textContent=pct>=90?'Exam ready.':pct>=75?'Close. Work the study room below, then take a new version.':'Not yet. Open the study room below: it lists every miss with the answer and the section to re-read.';
+    document.getElementById('rsub').textContent=(mode==='drill'?'Drill · ':`Version ${String(seed).padStart(4,'0')}${curTopic?' · '+curTopic:''} · `)+`${pct}% · ${answered} of ${n} answered`+(mode!=='drill'?' · saved to this browser.':' · drills are not saved.');
+    res.hidden=false;renderRoom(missed);res.scrollIntoView({behavior:'smooth',block:'start'});
+    upd();renderHist();
+  }
+  function goStudy(id){const el=document.getElementById(id);if(!el)return;location.hash=id;document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2400)},60)}
+  function renderRoom(missed){
+    room.innerHTML='';room.hidden=false;const n=items.length;
+    const h=document.createElement('div');h.className='room-head';h.innerHTML=`<h3>Study room</h3><p>${missed.length?missed.length+' to review. Each card gives the right answer, why, and the section of the Study tab to re-read.':'Nothing to review in this version. Take a new version to test other questions.'}</p>`;room.appendChild(h);
+    /* what to look for: by topic */
+    const byT={};items.forEach(q=>{byT[q.t]=byT[q.t]||{a:0,m:0};byT[q.t].a++;if(!q.ok)byT[q.t].m++});
+    const rows=Object.entries(byT).sort((x,y)=>(y[1].m/y[1].a)-(x[1].m/x[1].a));
+    const tb=document.createElement('div');tb.className='room-topics';tb.innerHTML='<div class="rt-title">What to look for</div>'+rows.map(([t,v])=>{const p=Math.round(v.m/v.a*100);const ref=B.find(x=>x.t===t).r;return `<div class="rt-row${v.m?'':' ok'}"><span class="rt-name">${t}</span><span class="rt-bar"><i style="width:${p}%"></i></span><span class="rt-n">${v.m} of ${v.a} missed</span><a href="#${ref}" data-go="${ref}">Open chapter</a></div>`}).join('');room.appendChild(tb);
+    if(missed.length){const btn=document.createElement('div');btn.className='room-actions';btn.innerHTML='<button type="button" class="pri" id="drillnow">Drill these '+missed.length+' now</button><span>Builds a short test from only the questions you missed. Drills are not saved to history.</span>';room.appendChild(btn);
+      btn.querySelector('#drillnow').addEventListener('click',()=>{build(1+Math.floor(Math.random()*9999),missed);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})})}
+    items.forEach((q,i)=>{if(q.ok)return;const c=document.createElement('div');c.className='rcard';
+      c.innerHTML=`<div class="topic">${q.t} · Q${String(i+1).padStart(2,'0')}</div><div class="rq">${q.txt}</div><div class="ra"><span class="k">Your answer</span><span class="wrong">${q.pick>=0?q.o[q.pick]:'Not answered'}</span></div><div class="ra"><span class="k">Correct</span><span class="right">${q.o[q.a]}</span></div><div class="rw">${q.e}</div><a href="#${q.r}" data-go="${q.r}">Re-read: ${REF[q.r]||q.r} →</a>`;room.appendChild(c)});
+    room.querySelectorAll('a[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();goStudy(a.dataset.go)}));
+  }
+  function renderHist(){const list=load();const n=list.length;document.getElementById('tab-attempts').textContent=n+(n===1?' attempt':' attempts');
+    document.getElementById('histempty').hidden=n>0;document.getElementById('histtbl').hidden=n===0;const tb=document.getElementById('histbody');tb.innerHTML='';
+    list.slice().reverse().forEach((a,i)=>{const pct=Math.round(a.score/a.n*100);const d=new Date(a.t);const tr=document.createElement('tr');if(a.seed===seed&&saved&&mode!=='drill')tr.className='cur';
+      tr.innerHTML=`<td>${n-i}</td><td>${d.toLocaleDateString(undefined,{day:'numeric',month:'short'})} ${d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'})}</td><td class="num">${String(a.seed).padStart(4,'0')}${a.topic?'<br><span style="font-family:var(--sans);font-size:12px;color:var(--muted)">'+a.topic+'</span>':''}</td><td class="n">${a.score} / ${a.n} <span class="pct ${pct>=75?'g':'b'}">${pct}%</span></td><td><div class="mini"><i style="width:${pct}%"></i></div></td><td><a href="#test" class="re" data-seed="${a.seed}" data-topic="${a.topic||''}" data-n="${a.n}">Retake</a></td>`;
+      tb.appendChild(tr)});
+    tb.querySelectorAll('a.re').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();retake(+a.dataset.seed,a.dataset.topic,+a.dataset.n);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})}));
+    /* weak spots across attempts */
+    const weak=document.getElementById('weak');const cnt={},tot={},qm={};
+    list.forEach(a=>{(a.asked||[]).forEach(id=>{const t=B[id]&&B[id].t;if(!t)return;tot[t]=(tot[t]||0)+1});(a.missed||[]).forEach(id=>{const t=B[id]&&B[id].t;if(!t)return;cnt[t]=(cnt[t]||0)+1;qm[id]=(qm[id]||0)+1})});
+    const allMissed=Object.keys(qm).map(Number);
+    if(!list.length){weak.hidden=true;return}
+    weak.hidden=false;
+    const rows=Object.keys(tot).map(t=>[t,cnt[t]||0,tot[t]]).sort((x,y)=>(y[1]/y[2])-(x[1]/x[2]));
+    const top=Object.entries(qm).sort((a,b)=>b[1]-a[1]).slice(0,5);
+    weak.innerHTML=`<div class="hh"><h3>Weak spots across all attempts</h3>${allMissed.length?`<button type="button" class="pri" id="drillall">Drill all ${allMissed.length} missed</button>`:''}</div>`+
+      `<div class="room-topics">${rows.map(([t,m,a])=>{const p=Math.round(m/a*100);const ref=B.find(x=>x.t===t).r;return `<div class="rt-row${m?'':' ok'}"><span class="rt-name">${t}</span><span class="rt-bar"><i style="width:${p}%"></i></span><span class="rt-n">${m} of ${a} missed</span><a href="#${ref}" data-go="${ref}">Open chapter</a></div>`}).join('')}</div>`+
+      (top.length?`<div class="rt-title" style="margin-top:14px">Most missed questions</div>${top.map(([id,c])=>{const q=B[+id];return `<div class="rcard small"><div class="topic">${q.t} · missed ${c}×</div><div class="rq">${q.txt}</div><div class="ra"><span class="k">Correct</span><span class="right">${q.o[q.a]}</span></div><div class="rw">${q.e}</div><a href="#${q.r}" data-go="${q.r}">Re-read: ${REF[q.r]||q.r} →</a></div>`}).join('')}`:'');
+    weak.querySelectorAll('a[data-go]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();goStudy(a.dataset.go)}));
+    const da=weak.querySelector('#drillall');if(da)da.addEventListener('click',()=>{build(1+Math.floor(Math.random()*9999),allMissed);document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})});
+  }
+  function startNew(s){const topic=tsel.value;if(topic){const pool=B.filter(x=>x.t===topic).map(x=>x.id);build(s,pool,'topic',topic)}else{N=nWanted(null);build(s)}}
+  function retake(s,topic,n){const v=[...nsel.options].find(o=>o.value===String(n))?String(n):(n>=B.length?'all':nsel.value);nsel.value=v;tsel.value=topic&&TOPICS.includes(topic)?topic:'';startNew(s)}
+  document.getElementById('newver').addEventListener('click',()=>{startNew(1+Math.floor(Math.random()*9999));document.querySelector('.testhead').scrollIntoView({behavior:'smooth'})});
+  document.getElementById('finish').addEventListener('click',()=>{if(answered===0){const b=document.getElementById('finish');b.textContent='Answer at least one question first';setTimeout(()=>b.textContent='Finish and save',2500);return}finish()});
+  document.getElementById('clearhist').addEventListener('click',()=>{const b=document.getElementById('clearhist');if(b.dataset.arm){store([]);delete b.dataset.arm;b.textContent='Clear history';renderHist()}else{b.dataset.arm='1';b.textContent='Tap again to clear';setTimeout(()=>{delete b.dataset.arm;b.textContent='Clear history'},3000)}});
+  build(1+Math.floor(Math.random()*9999));
+})();
+})();
+</script>
+<script>
+(function(){
+  const inp=document.getElementById('q'),panel=document.getElementById('srch-panel'),body=document.getElementById('srch-body');
+  if(!inp)return;
+  const QB=window.__QB||[];
+  inp.placeholder='Search notes, guide and '+QB.length.toLocaleString('en-US')+' questions';
+  function nk(s){let o='';for(let i=0;i<s.length;i++){const c=s[i];let d=c.normalize('NFD').charAt(0).toLowerCase().charAt(0);o+=d||c}return o}
+  const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  function own(el){const parts=[];(function walk(n){n.childNodes.forEach(c=>{if(c.nodeType===3){const v=c.nodeValue.trim();if(v)parts.push(v)}else if(c.nodeType===1&&!/^(UL|OL|svg|SCRIPT|STYLE)$/i.test(c.tagName)){if(el.tagName==='TR'&&c.tagName==='TD'&&parts.length)parts.push('·');walk(c)}})})(el);
+    return parts.join(' ').replace(/\s+/g,' ').replace(/\s+([,.;:)%])/g,'$1').replace(/\(\s+/g,'(').trim()}
+  let IDX=null;
+  function build(){IDX=[];
+    const sm=document.querySelector('#tab-study main');let h2='',h3='';
+    if(sm)sm.querySelectorAll('h2,h3,h4,p,li,tr,figure .ft,figcaption,.ladder .rung,.cage>div,.funnel>div,.vrio>div,.grid2>div,.grid3>div,.ansoff .cell,.kv>div,.howto>div,.examline>div,.card').forEach(el=>{
+      if(el.closest('svg,nav'))return;if(el.tagName==='TR'&&el.querySelector('th'))return;
+      const t=own(el);if(t.length<3)return;
+      if(el.tagName==='H2'){h2=t;h3=''}else if(el.tagName==='H3'){h3=t}
+      const head=/^H[234]$/.test(el.tagName);
+      IDX.push({g:'guide',el,t,n:nk(t),head,path:['Study',h2,el.tagName==='H2'?'':h3].filter(Boolean).join(' › ')})});
+    document.querySelectorAll('#notes-root .unit').forEach(u=>{let a='',b='';const title=u.dataset.title||'';
+      u.querySelectorAll('h2,h3,h4,p,li,tr').forEach(el=>{if(el.tagName==='TR'&&el.querySelector('th'))return;
+        const t=own(el);if(t.length<3)return;
+        if(el.tagName==='H2'){a=t;b=''}else if(el.tagName==='H3'){b=t}
+        IDX.push({g:'notes',el,t,n:nk(t),unit:u.id,head:/^H[234]$/.test(el.tagName),path:[title,a,el.tagName==='H2'?'':b].filter(Boolean).join(' › ')})})});
+    QB.forEach(q=>{IDX.push({g:'q',q,t:q.txt,n:nk(q.txt+' || '+q.o.join(' | ')+' || '+q.e),path:q.t})});
+  }
+  const LBL={notes:'Complete notes',guide:'Study guide',q:'Questions'},ORDER=['notes','guide','q'];
+  let last=null,lim={},toks=[];
+  function snip(t,len){len=len||230;const n=nk(t);let p=-1;toks.forEach(k=>{const j=n.indexOf(k);if(j>=0&&(p<0||j<p))p=j});
+    let a=0,b=t.length;if(t.length>len){a=Math.max(0,p-70);b=Math.min(t.length,a+len);if(a>0){const sp=t.indexOf(' ',a);if(sp>0&&sp<a+25)a=sp+1}}
+    const sub=t.slice(a,b),ns=n.slice(a,b),rs=[];toks.forEach(k=>{let j=0;while((j=ns.indexOf(k,j))>=0){rs.push([j,j+k.length]);j+=k.length}});
+    rs.sort((x,y)=>x[0]-y[0]);let out='',c=0;rs.forEach(([s,e])=>{if(s<c)return;out+=esc(sub.slice(c,s))+'<mark>'+esc(sub.slice(s,e))+'</mark>';c=e});out+=esc(sub.slice(c));
+    return (a>0?'… ':'')+out+(b<t.length?' …':'')}
+  function tips(){body.innerHTML='<div class="sr-tips"><p>Search every line of the complete notes, the study guide and the question bank. Use quotes for an exact phrase. Press <b>/</b> to search from anywhere, <b>Esc</b> to close, <b>Enter</b> to open the top result.</p>'+['factoring','Malaysia IMF','branch subsidiary','Big Mac','VRIO','Guatemala','Basel II','Kerviel alerts','sogo shosha','CAGE','"cash conversion cycle"','Mittelstand'].map(s=>'<a data-try="'+esc(s)+'">'+esc(s)+'</a>').join('')+'</div>'}
+  function run(){const raw=inp.value.trim();
+    if(raw.length<2){last=null;tips();return}
+    if(!IDX)build();
+    const m=raw.match(/^"(.+)"$/);toks=m?[nk(m[1])]:nk(raw).split(/\s+/).filter(t=>t.length>1||/\d/.test(t));
+    if(!toks.length){tips();return}
+    const pq=nk(raw.replace(/"/g,''));const res={guide:[],notes:[],q:[]};
+    IDX.forEach((r,i)=>{if(!toks.every(t=>r.n.includes(t)))return;let s=0;if(r.n.includes(pq))s+=10;if(r.head)s+=6;s+=Math.max(0,3-r.t.length/250);res[r.g].push({r,s,i})});
+    ORDER.forEach(k=>res[k].sort((a,b)=>b.s-a.s||a.i-b.i));
+    last={raw,res};lim={notes:15,guide:15,q:15};render()}
+  function item(k,x){const r=x.r;
+    if(k==='q'){const q=r.q,src=nk(q.txt);const inQ=toks.some(t=>src.includes(t));
+      return '<button type="button" class="sr-it" data-i="'+x.i+'"><span class="sr-path">Question · '+esc(q.t)+'</span><span class="sr-t">'+snip(q.txt,400)+'</span><span class="sr-ans">Answer: '+esc(q.o[q.a])+'</span>'+(inQ?'':'<span class="sr-t" style="margin-top:4px;font-size:13px">'+snip(q.e,200)+'</span>')+'</button>'}
+    return '<button type="button" class="sr-it" data-i="'+x.i+'"><span class="sr-path">'+esc(r.path)+'</span><span class="sr-t">'+snip(r.t)+'</span></button>'}
+  function render(){const {raw,res}=last;const total=ORDER.reduce((s,k)=>s+res[k].length,0);
+    let h='<div class="sr-top"><span><b>'+total.toLocaleString('en-US')+'</b> results for “'+esc(raw)+'”</span><span class="sr-jump">'+ORDER.map(k=>'<a data-j="'+k+'">'+LBL[k]+'<small>'+res[k].length+'</small></a>').join('')+'</span></div>';
+    if(!total)h+='<p class="sr-empty">No matches. Try fewer words, another spelling, or one key term.</p>';
+    ORDER.forEach(k=>{const arr=res[k];if(!arr.length)return;h+='<section class="sr-g" id="sr-'+k+'"><h3>'+LBL[k]+'<small>'+arr.length+'</small></h3>'+arr.slice(0,lim[k]).map(x=>item(k,x)).join('');
+      if(arr.length>lim[k])h+='<button type="button" class="sr-more" data-more="'+k+'">Show '+Math.min(60,arr.length-lim[k])+' more of '+(arr.length-lim[k])+'</button>';h+='</section>'});
+    body.innerHTML=h}
+  function open(){panel.hidden=false}
+  function close(){panel.hidden=true}
+  let marked=[];
+  function clearMarks(){marked.forEach(m=>{const p=m.parentNode;if(!p)return;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize()});marked=[]}
+  function markIn(el){const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);const nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+    nodes.forEach(nd=>{const t=nd.nodeValue,n=nk(t),rs=[];toks.forEach(k=>{let j=0;while((j=n.indexOf(k,j))>=0){rs.push([j,j+k.length]);j+=k.length}});if(!rs.length)return;rs.sort((a,b)=>a[0]-b[0]);
+      const f=document.createDocumentFragment();let c=0;rs.forEach(([s,e])=>{if(s<c)return;if(s>c)f.appendChild(document.createTextNode(t.slice(c,s)));const m=document.createElement('mark');m.className='hit';m.textContent=t.slice(s,e);f.appendChild(m);marked.push(m);c=e});
+      if(c<t.length)f.appendChild(document.createTextNode(t.slice(c)));nd.parentNode.replaceChild(f,nd)})}
+  function flash(el){el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2500)}
+  function jump(r){close();inp.blur();
+    if(r.g==='notes'){document.dispatchEvent(new CustomEvent('showtab',{detail:'notes'}));if(window.__pickUnit)window.__pickUnit(r.unit)}
+    else document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));
+    if(r.el.classList.contains('card')){const a=r.el.querySelector('.a');if(a)a.hidden=false}
+    requestAnimationFrame(()=>{clearMarks();markIn(r.el);r.el.scrollIntoView({block:'center'});flash(r.el)})}
+  function goSection(id){close();document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));const el=document.getElementById(id);if(el)requestAnimationFrame(()=>{el.scrollIntoView({block:'start'});flash(el)})}
+  function drill(topic){close();const ts=document.getElementById('tsel'),ns=document.getElementById('nsel'),nv=document.getElementById('newver');if(!ts||!nv)return;
+    ts.value=topic;if(ns)ns.value='all';document.dispatchEvent(new CustomEvent('showtab',{detail:'test'}));try{history.replaceState(null,'','#test')}catch(e){}nv.click();window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})}
+  body.addEventListener('click',e=>{const t=e.target.closest('[data-try],[data-j],[data-more],.sr-it,[data-sec],[data-drill]');if(!t)return;
+    if(t.dataset.try){inp.value=t.dataset.try;run();inp.focus();return}
+    if(t.dataset.j){const s=document.getElementById('sr-'+t.dataset.j);if(s)s.scrollIntoView({block:'start',behavior:'smooth'});return}
+    if(t.dataset.more){lim[t.dataset.more]+=60;const y=panel.scrollTop;render();panel.scrollTop=y;return}
+    if(t.dataset.sec){goSection(t.dataset.sec);return}
+    if(t.dataset.drill){drill(t.dataset.drill);return}
+    const r=IDX[+t.dataset.i];if(!r)return;
+    if(r.g!=='q'){jump(r);return}
+    const nx=t.nextElementSibling;if(nx&&nx.classList.contains('sr-x')){nx.remove();t.classList.remove('open');return}
+    const q=r.q;const x=document.createElement('div');x.className='sr-x';
+    x.innerHTML='<ol type="a">'+q.o.map((o,i)=>'<li'+(i===q.a?' class="ok"':'')+'>'+esc(o)+(i===q.a?' (correct)':'')+'</li>').join('')+'</ol><p>'+esc(q.e)+'</p><div class="sr-acts"><button type="button" data-sec="'+esc(q.r)+'">Open the section that explains it</button><button type="button" data-drill="'+esc(q.t)+'">Drill every question on '+esc(q.t)+'</button></div>';
+    t.classList.add('open');t.after(x)});
+  let tm=0;inp.addEventListener('input',()=>{open();clearTimeout(tm);tm=setTimeout(run,110)});
+  inp.addEventListener('focus',()=>{open();if(last&&inp.value.trim().length>=2)render();else run()});
+  inp.addEventListener('keydown',e=>{if(e.key==='Escape'){close();inp.blur()}else if(e.key==='Enter'){e.preventDefault();clearTimeout(tm);run();const f=body.querySelector('.sr-it');if(f)f.click()}});
+  document.addEventListener('keydown',e=>{const tag=(e.target.tagName||'').toLowerCase();const typing=tag==='input'||tag==='textarea'||tag==='select'||e.target.isContentEditable;
+    if((e.key==='/'&&!typing)||((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k')){e.preventDefault();inp.focus();inp.select()}
+    else if(e.key==='Escape'&&!panel.hidden){close();inp.blur()}});
+  document.addEventListener('pointerdown',e=>{if(!panel.hidden&&!e.target.closest('.tabs'))close()});
+})();
+</script>
