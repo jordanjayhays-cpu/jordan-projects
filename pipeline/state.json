@@ -88,9 +88,10 @@
   "Ripples of Karma",
   "All I Know",
   "Animal Within",
-  "Chains of Gold"
+  "Chains of Gold",
+  "Everything Changes"
  ],
- "last_scheduled_date": "2026-11-13",
+ "last_scheduled_date": "2026-11-14",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -216,6 +217,7 @@
   "2026-11-10": "ripples-of-karma",
   "2026-11-11": "all-i-know",
   "2026-11-12": "animal-within",
-  "2026-11-13": "chains-of-gold"
+  "2026-11-13": "chains-of-gold",
+  "2026-11-14": "everything-changes"
  }
 }
