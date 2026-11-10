@@ -503,6 +503,17 @@ button.ghost:hover{background:var(--surface)}
 .bact{display:flex;flex-wrap:wrap;gap:8px}
 .bact button,#breveal{flex:1 1 140px}
 .bend{margin-top:22px}
+.bopts{display:grid;gap:8px;margin:0 0 14px}
+.bopt{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:34px 1fr;gap:8px;align-items:baseline;padding:11px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2);color:var(--fg);font-size:15.5px;line-height:1.4;transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .15s}
+.bopt:hover{background:var(--accent-wash)}.bopt:active{transform:scale(.98)}
+.bopt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.bopt b{font-family:var(--mono);color:var(--muted);font-weight:500}
+.bopt:disabled{cursor:default;opacity:1;color:var(--fg);-webkit-text-fill-color:var(--fg)}
+.bopt.right{background:#e3f4e3;border-color:var(--good)}.bopt.right b{color:var(--good)}
+.bopt.wrong{background:#fbe5e5;border-color:var(--critical)}.bopt.wrong b{color:var(--critical)}
+.ba.good{border-left-color:var(--good)}.ba.bad{border-left-color:var(--critical)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bopt.right{background:#173a22}:root:not([data-theme="light"]) .bopt.wrong{background:#3d1a1a}}
+:root[data-theme="dark"] .bopt.right{background:#173a22}:root[data-theme="dark"] .bopt.wrong{background:#3d1a1a}
 @media (max-width:760px){
   .bgrid{grid-template-columns:minmax(0,1fr);gap:12px}
   .bcol{grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:auto auto;gap:6px}
@@ -5330,9 +5341,10 @@ button.ghost:hover{background:var(--surface)}
 
 <div class="testwrap bwrap" id="tab-board" hidden>
   <div class="testhead">
-    <div><h2>Points Board</h2><div class="kick">Six categories, three per professor, five tiles each. Tap a tile, answer out loud or on paper, then reveal and score yourself. Harder clues are worth more. Every new game draws different clues. Play solo or with up to four teams.</div></div>
+    <div><h2>Points Board</h2><div class="kick">Six categories, three per professor, five tiles each. <b>Exam style</b> asks multiple-choice questions in the (a)–(e) format of the posted sample questions, including all 7 of them, and marks you automatically. <b>Recall</b> asks open questions: answer out loud, then reveal and score yourself. Harder clues are worth more. Every new game draws different clues. Play solo or with up to four teams.</div></div>
   </div>
   <div class="bbar">
+    <label>Mode <select id="bmode"><option value="mcq">Exam style (a–e)</option><option value="recall">Recall (reveal answer)</option></select></label>
     <label>Players <select id="bplayers"><option value="1">Solo</option><option value="2">2 teams</option><option value="3">3 teams</option><option value="4">4 teams</option></select></label>
     <button type="button" class="ghost" id="bnew">New game</button>
     <span class="hint" id="bhint">Your game is saved in this browser, so you can stop and come back.</span>
@@ -5344,6 +5356,7 @@ button.ghost:hover{background:var(--surface)}
     <div class="bbox">
       <div class="bmtop"><span class="topic" id="bmcat"></span><button type="button" class="bx" id="bclose" aria-label="Close">×</button></div>
       <div class="bq" id="bmq"></div>
+      <div class="bopts" id="bopts" hidden></div>
       <button type="button" class="pri" id="breveal">Reveal answer</button>
       <div class="ba" id="bma" hidden></div>
       <div class="bact" id="bact" hidden></div>
@@ -6126,6 +6139,87 @@ pick(0,0);board();hist();
 
 </script>
 <script>
+/* Exam-style (a–e) clues, same categories and values as the recall board. [question, options, correctIndex, explanation, ref] */
+window.__BOARD_MCQ=[
+/* Exchange rates · Garland */
+[
+ [["Under a floating exchange rate, a country with persistent trade surpluses will see:",["its currency depreciate","its currency appreciate","no change in its currency","its reserves fall","none of the above"],1,"Exporters bring in an excess supply of dollars, so the local currency appreciates.","s-fx"],
+  ["Under a fixed exchange rate, an official change in the currency's value is called:",["appreciation or depreciation","revaluation or devaluation","sterilization","overshooting","a and d"],1,"With a peg, currencies are revalued or devalued; under a float they appreciate or depreciate.","s-fx"]],
+ [["Dirty (managed) floating means that:",["the currency floats and nobody ever intervenes","the currency is pegged to the dollar by law","the currency floats but the central bank intervenes","two official exchange rates coexist","none of the above"],2,"It floats, but the central bank goes against the market to dampen moves.","s-fx"],
+  ["Which is NOT an effect of a fixed rate that overvalues the local currency?",["exports become less competitive","imports become cheaper","external debt is cheaper to repay","a trade surplus emerges","citizens are richer abroad"],3,"An overvalued peg brings a trade deficit, not a surplus. The other four are Garland's listed effects.","s-fx"]],
+ [["When a central bank buys dollars to stop its currency appreciating, the main risk is:",["its foreign reserves quickly run out","inflation from the money it injects","the currency falls too far, too fast","a and c","none of the above"],1,"It pays for the dollars with new local currency, which is inflationary. Reserves run out only when it sells dollars.","s-fx"],
+  ["A dual exchange rate system typically:",["gives manufactured exports the good rate","gives essential imports the good rate","invites corruption via parallel markets","all of the above","a and b"],3,"All three: it steers exports and imports, and insiders flip cheap official dollars (Angola, Venezuela).","s-fx"]],
+ [["Per Mundell, if foreign interest rates rise relative to home rates (equal risk):",["capital flows out; home currency depreciates","capital flows in; home currency appreciates","the home trade deficit widens","b and c","none of the above"],0,"Capital chases the higher return abroad, so the home currency weakens and the trade balance improves.","s-fx"],
+  ["Which statements about China's 1995–2004 peg are correct?",["it was set at 8.28 yuan per dollar","it kept the yuan undervalued","it helped create a trade surplus","all of the above","a and b"],3,"All true: a weak yuan made exports cheap, producing a large surplus and 9–10% growth.","s-fx"]],
+ [["Peso inflation is 100%, US 0%; the rate moves from 10 to 15 pesos per dollar. The peso has:",["depreciated nominally and in real terms","depreciated nominally, appreciated in real terms","appreciated nominally and in real terms too","depreciated nominally, stayed constant in real terms","none of the above"],1,"It needed to reach 20 to stay competitive. Moving only to 15 is a nominal depreciation but a real appreciation.","s-dutch"],
+  ["China's purchases of dollars helped finance the US 'twin deficits' because:",["buying dollars financed the trade deficit","buying Treasuries financed the fiscal deficit","yuan loans financed US consumer credit","a and b","all of the above"],3,"Dollar buying covered the trade gap and recycling into Treasuries funded the budget gap. There were no yuan loans.","s-fx"]]
+],
+/* Oil and resources · Garland */
+[
+ [["Which of the following is NOT an effect of the Dutch disease?",["an appreciation of the local currency","less competitive manufactured exports","more competitive local farm products","higher manufacturing unemployment","none of the above"],2,"The posted sample question. Appreciation hurts all non-resource tradables, agriculture included.","s-dutch"],
+  ["The 'Dutch disease' is named after:",["Dutch tulip speculation in the 1600s","the Netherlands' natural gas finds","Dutch colonial trade in Indonesia","the old Dutch guilder's dollar peg","none of the above"],1,"The Netherlands' gas discoveries boosted the guilder and hurt its industry.","s-dutch"]],
+ [["Under the Dutch disease, imports:",["become cheaper","become more expensive","are unaffected","are restricted by law","b and d"],0,"The local currency appreciates, so imports get cheaper and undercut local producers.","s-dutch"],
+  ["Norway's oil fund (the Government Pension Fund Global) invests:",["only in Norwegian infrastructure","100% outside Norway","half at home and half abroad","only in energy companies","none of the above"],1,"All abroad, so the oil dollars stay out of the krone market (sterilization).","s-norway"]],
+ [["Which are channels of the natural resource curse?",["the Dutch disease","volatility tied to commodity prices","corruption and weak accountability","all of the above","a and b"],3,"All three, plus an asset-depletion mentality.","six"],
+  ["Norway's 'Action Rule' lets the budget draw on the oil fund each year up to about:",["1% of the fund","4% of the fund","10% of the fund","25% of the fund","no set limit"],1,"About 4%, the fund's expected real return.","s-norway"]],
+ [["Resource rents tend to weaken government accountability because:",["the state needs little tax from citizens","oil companies run national elections","the IMF controls the national budget","citizens must pay much higher taxes","b and c"],0,"The rentier logic: no need to tax means less engagement with citizens, so more patronage.","six"],
+  ["Angola's kwanza fell from 10 to about 90 per dollar (2000–05) yet appreciated in real terms because:",["world oil prices fell sharply","inflation far exceeded the depreciation","the central bank revalued the kwanza","US inflation was unusually high","none of the above"],1,"Inflation (325% in 2000) outran the nominal fall, so the real rate rose: Dutch disease.","s-angola"]],
+ [["Norway avoided the resource curse mainly because:",["its oil reserves were very small","prior institutions plus a fund abroad","it joined the euro early on","it pegged the krone to the dollar","c and d"],1,"Strong institutions before the oil, and sterilization through a fund invested abroad. Norway is not in the EU.","s-norway"],
+  ["When oil prices collapsed in 2009, Angola's central bank:",["bought dollars to weaken the kwanza","sold reserves to defend the kwanza","replaced the kwanza with the dollar","moved its reserves into a fund abroad","none of the above"],1,"It sold about $10bn of reserves (dirty floating), then turned back to the IMF.","s-angola"]]
+],
+/* History and crises · Garland */
+[
+ [["Thomas Malthus's demographic theories said that:",["population grows at an arithmetic rate","food grows at a geometric rate","'positive checks' restore the equilibrium","all of the above","a and b"],2,"The posted sample question. (a) and (b) are reversed: population is geometric, food arithmetic.","s-intro"],
+  ["Spain joined the European Economic Community in:",["1975","1981","1986","1999","2002"],2,"1 January 1986, together with Portugal.","s-spain"]],
+ [["Malthus's preventive checks include:",["wars over farmland","famine","late marriage","epidemics and plague","a and b"],2,"Preventive checks lower births. War, famine and epidemics are positive checks.","s-intro"],
+  ["If a country has prices significantly lower than in the United States:",["GDP at PPP equals GDP at current rates","GDP at PPP exceeds GDP at current rates","GDP per capita at PPP exceeds current-rate","b and c","none of the above"],3,"The posted sample question. PPP values output at US prices, so a cheap country's totals and per-capita figures both rise.","s-intro"]],
+ [["Which are Maastricht convergence criteria?",["public deficit below 3% of GDP","public debt below 60% of GDP","unemployment below 10%","all of the above","a and b"],4,"Deficit and debt limits are criteria (plus inflation, interest rates and the EMS band). There is no unemployment criterion.","s-spain"],
+  ["Lula's contributions to Brazil included:",["continued macroeconomic stability","conditional cash transfers","nationalizing the oil industry","all of the above","a and b"],4,"Stability, trade with China and Bolsa Família. He did not nationalize oil.","s-brazil"]],
+ [["Mexico's Brady bonds (1990):",["turned bank loans into US-backed bonds","included a haircut on principal","were issued by the IMF","all of the above","a and b"],4,"Treasury-backed, oil-collateralized bonds with a haircut, longer maturity and lower rate. Not IMF bonds.","s-mexico"],
+  ["After 2010, Spain regained competitiveness mainly through:",["devaluing the national currency","leaving the euro area for a time","internal devaluation of wages","adopting a dual exchange rate","none of the above"],2,"Inside the euro it couldn't devalue, so it cut wages and costs.","s-spain"]],
+ [["Mexico's tesobonos in 1994:",["were short-term dollar-indexed bonds","shifted currency risk to the state","were the earlier Brady bonds","a and b","all of the above"],3,"Dollar-indexed peso bonds that moved exchange-rate risk onto the government and created rollover risk.","s-mexico"],
+  ["Per Garland, which East-to-West mark conversion rate would have preserved competitiveness at German reunification?",["1 to 1","about 2 to 1","about 5 to 1","about 10 to 1","none of the above"],2,"About 5:1. The political 1:1 rate overvalued eastern wages and sank eastern firms.","s-germany"]]
+],
+/* US and Japan · Allard */
+[
+ [["The main driver of Japan's large and chronic current-account surplus over time is:",["the savings habits of the Japanese","a yen pegged to the dollar","very low Japanese production costs","the government's large budget deficit","none of the above"],0,"The posted sample question. Saving exceeds investment. A budget deficit would push the other way.","s-japan"],
+  ["Roughly what share of world GDP does the United States produce?",["about 10%","about 25%","about 40%","about 50%","none of the above"],1,"About 25%, stable since 1980.","s-us"]],
+ [["The Sahm rule signals a recession when 3-month average unemployment is:",["still below the NAIRU level","0.5 points above its 12-month low","above 10 percent for a quarter","falling for three straight months","none of the above"],1,"A rise of half a point over the recent low.","s-us"],
+  ["Which of the following was one of Abenomics' three arrows?",["a fixed yen-dollar peg","sharp public spending cuts","quantitative easing","leaving the WTO","a and b"],2,"The three arrows were fiscal expansion, QE and structural reform.","s-japan"]],
+ [["Public debt is broadly sustainable when:",["nominal growth exceeds the interest rate","the interest rate exceeds nominal growth","debt is below 60% of GDP","inflation is exactly zero","c and d"],0,"If nominal GDP grows faster than the interest bill, the debt ratio melts.","s-us"],
+  ["Japan's debt of about 250% of GDP is less dangerous than it looks because it is:",["denominated in yen","about 90% held domestically","cheap to service","all of the above","a and b"],3,"All three. The risk is ageing and pensions.","s-japan"]],
+ [["A carry trade involves:",["borrowing cheap and investing at high rates","borrowing dear and investing at low rates","pegging two currencies together","importing goods on trade credit","none of the above"],0,"For example, borrow in yen and invest in USD, MXN or BRL. It unwinds as Japanese rates rise.","s-japan"],
+  ["US social welfare is best described as:",["non-existent","universal, like Europe's","means-tested (Medicare, Medicaid)","funded entirely by the states","a and d"],2,"Targeted at the old and the poor rather than universal. It is not absent.","s-us"]],
+ [["Japan's real GDP growth has exceeded its nominal growth because of:",["inflation","deflation","a weak yen","quantitative easing","a and c"],1,"With falling prices, nominal GDP shrinks while real output grows a little.","s-japan"],
+  ["After the 1985 Plaza Accord, the yen:",["fell about 50%","rose about 50%","was pegged at 360","stayed broadly stable","none of the above"],1,"It rose about 50% in two years, which hit exporters and led to the bubble and the lost decade.","s-japan"]]
+],
+/* China and India · Allard */
+[
+ [["Which of the following comparisons between India and China is correct?",["India: chronic CA deficit; China: surplus","both have fast-growing populations","both populations are declining","both moved from ISI to exports together","they face similar institutional issues"],0,"The posted sample question. China's population is shrinking; they opened about 13 years apart.","s-india"],
+  ["India's major liberalizing reforms began in:",["1947","1978","1991","2001","2014"],2,"After the 1991 balance-of-payments crisis.","s-india"]],
+ [["Import-substitution industrialization (ISI) relies mainly on:",["foreign demand for exports","domestic demand behind tariffs","an undervalued currency","inflows of foreign investment","c and d"],1,"(c) and (d) are tools of export-oriented industrialization.","six"],
+  ["Which of the following is NOT one of the HDI's three dimensions?",["the Gini coefficient","life expectancy at birth","education and literacy","income per capita at PPP","none of the above"],0,"HDI = health, education, income. Inequality is left out, which is one of its limits.","six"]],
+ [["India's 1991 reforms were triggered by:",["a balance-of-payments crisis","its entry into the WTO","a bout of hyperinflation","a Mumbai stock market crash","b and c"],0,"It had reserves for two weeks of imports; the IMF imposed Washington Consensus conditions.","s-india"],
+  ["'China Shock 1.0' refers to:",["the Great Leap Forward famine","the post-WTO export surge","the 2015 stock market crash","the one-child policy","none of the above"],1,"After WTO entry, the US lost about 2–2.5m manufacturing jobs.","s-china"]],
+ [["Household consumption as a share of GDP is roughly:",["60% in China, 40% in India","40% in China, 60% in India","70% in both countries","40% in both countries","none of the above"],1,"China leans on investment and exports; India on domestic demand.","s-china"],
+  ["Allard's deck estimates the yuan is undervalued against the dollar by about:",["5%","20–35%","50–60%","it is overvalued","none of the above"],1,"About 20–35% (Council on Foreign Relations), held down by intervention.","s-china"]],
+ [["The FT doubts China's official GDP figures because:",["growth always hits the target","no quarterly spending breakdown","local officials over-report","all of the above","a and c"],3,"All three, plus an IMF data grade of C.","s-china"],
+  ["Deng's dual price system:",["let farmers sell surplus at market prices","created two official exchange rates","taxed exports and imports at two rates","fixed all farm prices at state levels","none of the above"],0,"After meeting state quotas, farmers sold the rest at market prices, raising productivity and incomes.","s-china"]]
+],
+/* EU, Africa and risk · Allard */
+[
+ [["Which of the following comparisons between the EU and the United States is correct?",["US and EU public debt is roughly the same","government spending is roughly the same","per-capita income is roughly the same","EU has welfare, the US has none","none of the above"],0,"The posted sample question. About 120% vs. 111% of GDP. Spending and income differ, and the US has means-tested welfare.","s-eu"],
+  ["Country risk, as defined by Kobrin, is:",["the chance events hurt a firm's results","a country's sovereign credit rating","the volatility of its exchange rate","b and c","none of the above"],0,"The probability that political and economic events hurt a firm's financial performance.","s-risk"]],
+ [["A customs union adds which of these to a free-trade area?",["a single currency","free movement of labor","a common external tariff","a common fiscal policy","a and b"],2,"Then a common market adds free movement, and an economic union adds the currency.","s-eu"],
+  ["For a plant built to export, the most important indicator is:",["domestic market size","production costs","interest rates","foreign reserves","a and c"],1,"Then the exchange rate and trade agreements. Market size leads for a plant serving locals.","s-risk"]],
+ [["Econometric studies cited in class find that foreign aid to Africa:",["strongly raises long-run growth","is negatively linked to growth","outperforms FDI on productivity","a and c","none of the above"],1,"Aid has a negative coefficient and feeds corruption; FDI and trade work better.","s-africa"],
+  ["The EU is larger than the US in:",["population","total GDP","per-capita income","all of the above","b and c"],0,"About 450m vs. 340m people, but EU GDP is about 68% of the US's.","s-eu"]],
+ [["Rodrik's trilemma says a country cannot fully have all three of:",["a peg, free capital, own monetary policy","globalization, sovereignty, democracy","growth, low inflation, full employment","a and b","none of the above"],1,"(a) is Mundell's impossible trinity, a common distractor.","s-eu"],
+  ["The ICRG composite country-risk score weights:",["political 50%, financial 25%, economic 25%","political, financial and economic equally","economic 50%, political 25%, financial 25%","financial 50%, political 25%, economic 25%","none of the above"],0,"0.5 political + 0.25 financial + 0.25 economic. A higher score means lower risk.","s-risk"]],
+ [["The key conditions for an optimal currency area are:",["labor mobility","fiscal transfers","a common language","a and b","all of the above"],3,"The US has both; the eurozone has little of either.","s-eu"],
+  ["According to Allard, the best phase of the business cycle in which to invest is:",["the peak","early expansion","mid-contraction","when inflation is highest","a and d"],1,"Early expansion, while a recessionary gap remains and rates are still low.","s-risk"]]
+]];
+
 /* Points Board: category x points review game */
 (function(){
 const CATS=[
@@ -6170,12 +6264,13 @@ const VAL=[100,200,300,400,500],KEY='cea_board_v1';
 const $=id=>document.getElementById(id);
 let S=null;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-function fresh(n){S={n:n,pick:CATS.map(()=>VAL.map(()=>Math.random()<.5?0:1)),used:{},scores:Array(n).fill(0),missed:[]};save()}
+function fresh(n,m){S={n:n,mode:m||'mcq',pick:CATS.map(()=>VAL.map(()=>Math.random()<.5?0:1)),used:{},scores:Array(n).fill(0),missed:[]};save()}
 try{S=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){S=null}
-if(!S||!S.pick)fresh(1);
+if(!S||!S.pick)fresh(1,'mcq');if(!S.mode)S.mode='recall';
+const MCQ=window.__BOARD_MCQ||[];const L='abcde';
 const names=n=>n===1?['You']:Array.from({length:n},(_,i)=>'Team '+(i+1));
 function render(){
-  $('bplayers').value=String(S.n);
+  $('bplayers').value=String(S.n);$('bmode').value=S.mode;
   const nm=names(S.n);
   $('bscores').innerHTML=nm.map((x,i)=>`<div class="bsc"><span>${x}</span><b>${S.scores[i]}</b></div>`).join('')+`<div class="bsc left"><span>Tiles left</span><b>${30-Object.keys(S.used).length}</b></div>`;
   $('bgrid').innerHTML=CATS.map((c,ci)=>`<div class="bcol"><div class="bcat"><b>${c.t}</b><span>${c.who}</span></div>`+VAL.map((v,vi)=>{const k=ci+'-'+vi,u=S.used[k];return `<button type="button" class="btile${u?' used '+(u.ok?'ok':'no'):''}" data-c="${ci}" data-v="${vi}" ${u?'aria-label="used"':''}>${u?(u.ok?'✓':'✗'):v}</button>`}).join('')+`</div>`).join('');
@@ -6183,14 +6278,19 @@ function render(){
   const done=Object.keys(S.used).length===30;$('bend').hidden=!done;if(done)endScreen();
 }
 let cur=null;
-function open(ci,vi){const c=CATS[ci],cl=c.clues[vi][S.pick[ci][vi]];cur={ci,vi,cl};
-  $('bmcat').textContent=c.t+' · '+c.who+' · '+VAL[vi];$('bmq').textContent=cl[0];$('bma').textContent=cl[1];$('bma').hidden=true;$('breveal').hidden=false;$('bact').hidden=true;
+function clueOf(ci,vi){const k=S.pick[ci][vi];if(S.mode==='mcq'){const m=MCQ[ci][vi][k];return{q:m[0],o:m[1],a:m[2],ans:'('+L[m[2]]+') '+m[1][m[2]]+'. '+m[3],r:m[4]}}const c=CATS[ci].clues[vi][k];return{q:c[0],ans:c[1],r:c[2]}}
+function open(ci,vi){const c=CATS[ci],cl=clueOf(ci,vi);cur={ci,vi,cl,picked:-1};
+  $('bmcat').textContent=c.t+' · '+c.who+' · '+VAL[vi];$('bmq').textContent=cl.q;$('bma').textContent=cl.ans;$('bma').hidden=true;$('bact').hidden=true;
+  const bo=$('bopts');if(cl.o){bo.hidden=false;$('breveal').hidden=true;bo.innerHTML=cl.o.map((o,i)=>`<button type="button" class="bopt" data-i="${i}"><b>(${L[i]})</b><span>${o}</span></button>`).join('');
+    bo.querySelectorAll('.bopt').forEach(b=>b.addEventListener('click',()=>pickOpt(+b.dataset.i)))}else{bo.hidden=true;bo.innerHTML='';$('breveal').hidden=false}
   const nm=names(S.n);
-  $('bact').innerHTML=(S.n===1?`<button type="button" class="pri" data-w="0">Got it (+${VAL[vi]})</button><button type="button" class="ghost" data-w="-1">Missed it</button>`:nm.map((x,i)=>`<button type="button" class="pri" data-w="${i}">${x} +${VAL[vi]}</button>`).join('')+`<button type="button" class="ghost" data-w="-1">Nobody</button>`);
-  $('bact').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>score(+b.dataset.w)));
-  $('bmodal').hidden=false;requestAnimationFrame(()=>$('bmodal').classList.add('on'));$('breveal').focus()}
+  $('bact').innerHTML=(S.n===1?(cl.o?`<button type="button" class="pri" data-w="auto">Continue</button>`:`<button type="button" class="pri" data-w="0">Got it (+${VAL[vi]})</button><button type="button" class="ghost" data-w="-1">Missed it</button>`):nm.map((x,i)=>`<button type="button" class="pri" data-w="${i}">${x} +${VAL[vi]}</button>`).join('')+`<button type="button" class="ghost" data-w="-1">Nobody</button>`);
+  $('bact').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>score(b.dataset.w==='auto'?(cur.picked===cur.cl.a?0:-1):+b.dataset.w)));
+  $('bmodal').hidden=false;requestAnimationFrame(()=>$('bmodal').classList.add('on'));const f=cl.o?$('bopts').querySelector('.bopt'):$('breveal');if(f)f.focus()}
+function pickOpt(i){if(cur.picked>-1)return;cur.picked=i;const ok=i===cur.cl.a;$('bopts').querySelectorAll('.bopt').forEach((b,j)=>{b.disabled=true;if(j===cur.cl.a)b.classList.add('right');else if(j===i)b.classList.add('wrong')});
+  $('bma').innerHTML=(ok?'<b>Correct.</b> ':'<b>Not quite.</b> ')+cur.cl.ans.replace(/&/g,'&amp;').replace(/</g,'&lt;');$('bma').className='ba '+(ok?'good':'bad');$('bma').hidden=false;$('bact').hidden=false;const f=$('bact').querySelector('button');if(f)f.focus()}
 function close(){$('bmodal').classList.remove('on');setTimeout(()=>{$('bmodal').hidden=true},180)}
-$('breveal').addEventListener('click',()=>{$('bma').hidden=false;$('breveal').hidden=true;$('bact').hidden=false;const f=$('bact').querySelector('button');if(f)f.focus()});
+$('breveal').addEventListener('click',()=>{$('bma').className='ba';$('bma').hidden=false;$('breveal').hidden=true;$('bact').hidden=false;const f=$('bact').querySelector('button');if(f)f.focus()});
 $('bclose').addEventListener('click',close);
 $('bmodal').addEventListener('click',e=>{if(e.target.id==='bmodal')close()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('bmodal').hidden)close()});
@@ -6199,9 +6299,10 @@ function score(w){const k=cur.ci+'-'+cur.vi;const ok=w>=0;if(ok)S.scores[w]+=VAL
 function endScreen(){const tot=S.scores.reduce((a,b)=>a+b,0),nm=names(S.n);
   const best=S.n===1?`You scored <b>${S.scores[0]}</b> of 9,000 possible.`:`Winner: <b>${nm[S.scores.indexOf(Math.max(...S.scores))]}</b>.`;
   $('bend').innerHTML=`<div class="rt-title">Game over</div><p>${best} ${S.missed.length?S.missed.length+' clues missed. Review them below, then play a new game: every tile draws a different clue.':'Nothing missed. Play again for a fresh draw.'}</p>`+
-   S.missed.map(([ci,vi])=>{const cl=CATS[ci].clues[vi][S.pick[ci][vi]];return `<div class="rcard small"><div class="topic">${CATS[ci].t} · ${VAL[vi]}</div><div class="rq">${cl[0]}</div><div class="ra"><span class="k">Answer</span><span class="right">${cl[1]}</span></div><a href="#${cl[2]}">Re-read →</a></div>`}).join('')}
-$('bnew').addEventListener('click',()=>{const b=$('bnew');if(Object.keys(S.used).length&&!b.dataset.arm&&Object.keys(S.used).length<30){b.dataset.arm='1';b.textContent='Tap again to restart';setTimeout(()=>{delete b.dataset.arm;b.textContent='New game'},3000);return}delete b.dataset.arm;b.textContent='New game';fresh(+$('bplayers').value);render()});
-$('bplayers').addEventListener('change',()=>{if(!Object.keys(S.used).length){fresh(+$('bplayers').value);render()}else{$('bhint').textContent='Player count applies when you start a new game.'}});
+   S.missed.map(([ci,vi])=>{const cl=clueOf(ci,vi);return `<div class="rcard small"><div class="topic">${CATS[ci].t} · ${VAL[vi]}</div><div class="rq">${cl.q}</div><div class="ra"><span class="k">Answer</span><span class="right">${cl.ans}</span></div><a href="#${cl.r}">Re-read →</a></div>`}).join('')}
+$('bnew').addEventListener('click',()=>{const b=$('bnew');if(Object.keys(S.used).length&&!b.dataset.arm&&Object.keys(S.used).length<30){b.dataset.arm='1';b.textContent='Tap again to restart';setTimeout(()=>{delete b.dataset.arm;b.textContent='New game'},3000);return}delete b.dataset.arm;b.textContent='New game';fresh(+$('bplayers').value,$('bmode').value);render()});
+function setup(){if(!Object.keys(S.used).length){fresh(+$('bplayers').value,$('bmode').value);render()}else{$('bhint').textContent='Changes apply when you start a new game.'}}
+$('bplayers').addEventListener('change',setup);$('bmode').addEventListener('change',setup);
 render();
 })();
 
