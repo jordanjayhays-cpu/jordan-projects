@@ -5341,10 +5341,10 @@ button.ghost:hover{background:var(--surface)}
 
 <div class="testwrap bwrap" id="tab-board" hidden>
   <div class="testhead">
-    <div><h2>Points Board</h2><div class="kick">Six categories, three per professor, five tiles each. <b>Exam style</b> asks multiple-choice questions in the (a)–(e) format of the posted sample questions, including all 7 of them, and marks you automatically. <b>Recall</b> asks open questions: answer out loud, then reveal and score yourself. Harder clues are worth more. Every new game draws different clues. Play solo or with up to four teams.</div></div>
+    <div><h2>Points Board</h2><div class="kick">Six categories, three per professor, five tiles each. <b>Exam style, harder</b> asks scenario and two-step questions in the (a)–(e) format of the posted samples, with the correct letter spread evenly. <b>Original set</b> includes all 7 posted sample questions. Both mark you automatically. <b>Recall</b> asks open questions: answer out loud, then reveal and score yourself. Harder clues are worth more. Every new game draws different clues. Play solo or with up to four teams.</div></div>
   </div>
   <div class="bbar">
-    <label>Mode <select id="bmode"><option value="mcq">Exam style (a–e)</option><option value="recall">Recall (reveal answer)</option></select></label>
+    <label>Mode <select id="bmode"><option value="hard">Exam style, harder (a–e)</option><option value="mcq">Exam style, original set incl. the 7 samples</option><option value="recall">Recall (reveal answer)</option></select></label>
     <label>Players <select id="bplayers"><option value="1">Solo</option><option value="2">2 teams</option><option value="3">3 teams</option><option value="4">4 teams</option></select></label>
     <button type="button" class="ghost" id="bnew">New game</button>
     <span class="hint" id="bhint">Your game is saved in this browser, so you can stop and come back.</span>
@@ -6220,6 +6220,86 @@ window.__BOARD_MCQ=[
   ["According to Allard, the best phase of the business cycle in which to invest is:",["the peak","early expansion","mid-contraction","when inflation is highest","a and d"],1,"Early expansion, while a recessionary gap remains and rates are still low.","s-risk"]]
 ]];
 
+window.__BOARD_MCQ_HARD=[
+/* 0 Exchange rates · Garland */
+[
+ [["A country's exports surge after a new trade deal while capital flows stay unchanged. Under a free float, what should happen?",["its currency should depreciate","its currency should appreciate","its reserves should fall sharply","its inflation must rise first","none of the above"],1,"Exporters supply more dollars, so the local currency appreciates. Reserves only move if the central bank intervenes.","s-fx"],
+  ["Which statements about a pegged exchange rate are correct?",["the central bank must buy or sell reserves","changes are called revaluations or devaluations","it acts like a price control on currency","all of the above","a and b"],3,"All three are Garland's points about fixed rates.","s-fx"]],
+ [["On Garland's chart (local currency per dollar on the vertical axis), a peg set BELOW the equilibrium rate means:",["the local currency is overvalued","the local currency is undervalued","the peg has no real effect","exports become more competitive","b and d"],0,"Fewer pesos per dollar than equilibrium means a strong (overvalued) peso. That's the sample-question trap.","s-fx"],
+  ["Which TWO are benefits of an overvalued currency peg?",["cheaper repayment of external debt","cheaper imports that help curb inflation","a larger trade surplus over time","more competitive manufactured exports","a and b"],4,"An overvalued peg makes debt and imports cheaper, but hurts exports and the trade balance.","s-fx"]],
+ [["A central bank keeps buying dollars during a long oil boom. If this goes on for years, which outcome is most likely?",["a rapid loss of foreign reserves","a collapse of the local currency","rising domestic inflation","a shrinking money supply","none of the above"],2,"Buying dollars injects local currency, which is inflationary. Reserves grow, they don't fall.","s-fx"],
+  ["Which tool keeps resource dollars from ever reaching the local currency market?",["a sovereign fund invested abroad","dirty floating by the central bank","a fixed peg to the US dollar","a dual official exchange rate","b and c"],0,"Sterilization: Norway's fund invests 100% abroad. Dirty floating and pegs both bring the dollars in and print local money.","s-dutch"]],
+ [["Country X raises interest rates well above its trading partners' at equal risk. Per Mundell, expect:",["capital inflows into X","an appreciating currency","a wider trade deficit","all of the above","a and b only"],3,"Capital chases the higher return, the currency rises, and the trade deficit widens, financed by the inflows.","s-fx"],
+  ["Under a dual exchange rate, which group normally gets the LEAST favorable rate?",["exporters of manufactured goods","exporters of natural resources","importers of essential medicines","importers of basic foodstuffs","none of the above"],1,"Resource exporters are already profitable, so they get the bad rate. Manufactured exports and essentials get the good one.","s-fx"]],
+ [["Home inflation is 20% and US inflation 0%. The exchange rate moves from 50 to 60 per dollar. In real terms the home currency:",["appreciated sharply","depreciated sharply","depreciated slightly","appreciated slightly","stayed about the same"],4,"50 × 1.2 = 60. The nominal depreciation exactly matches the inflation gap, so the real rate is unchanged.","s-dutch"],
+  ["After a peg breaks, the currency often falls far past its long-run level before recovering part of the way. This is called:",["sterilization of flows","the carry trade unwinding","exchange-rate overshooting","a sudden stop in credit","an internal devaluation"],2,"Mexico, Dec 1994: the peso went from about 3 to about 7 per dollar, overshooting.","s-mexico"]]
+],
+/* 1 Oil and resources · Garland */
+[
+ [["Which of these is a NON-tradable that Dutch disease does NOT directly undercut?",["coffee and cocoa farming","textile manufacturing","local hairdressing services","auto parts production","a and b"],2,"Haircuts can't be imported, so cheap imports don't hit them. Farming and manufacturing are tradables and get hurt.","s-dutch"],
+  ["An oil boom strongly appreciates a country's currency. Which TWO groups are hurt?",["local farmers competing with imports","manufacturing exporters","consumers buying imported goods","local real-estate developers","a and b"],4,"Tradable producers lose. Consumers gain from cheaper imports, and real estate is non-tradable.","s-dutch"]],
+ [["Why does Dutch disease often raise unemployment even while oil GDP grows?",["oil firms pay below-market wages","the oil sector employs few workers","governments ban foreign labor","inflation falls too far, too fast","none of the above"],1,"Oil is capital-intensive (in Angola about 60% of GDP but 0.2% of jobs), so lost manufacturing jobs aren't replaced.","s-angola"],
+  ["Which feature of the resource curse did Norway NOT escape?",["volatility of growth","widespread corruption","civil conflict over oil","asset-depletion behavior","all of the above"],0,"Growth swung from about 3% to −1.4% in 2009 with oil prices. Volatility is the one symptom Norway shows.","s-norway"]],
+ [["Which statements describe the 'political' resource curse?",["resource-rich states tend to be less democratic","rents reduce the need to tax citizens","control of the state becomes a prize","all of the above","a and b"],3,"All three are the rentier-state mechanism in the Angola case.","six"],
+  ["Norway's Action Rule lets the budget each year spend roughly:",["all oil revenue received that year","half of the fund's current value","nothing until the oil runs out","the fund's expected real return","a and c"],3,"About 4% of the fund, its expected real return.","s-norway"]],
+ [["A small copper exporter wants to avoid Dutch disease without causing inflation. What is the best option?",["save the copper earnings in a fund abroad","buy dollars and print local currency","peg the currency well above its value","subsidize imports with copper revenue","b and c"],0,"Sterilize abroad. Buying dollars prints money (inflation), and an overvalued peg worsens the problem.","s-dutch"],
+  ["After Angola's civil war, what hurt its farms and factories most?",["a collapse in oil output","IMF austerity programs","a strong real exchange rate","high tariffs on imported food","none of the above"],2,"Real appreciation of over 100% (2002–09) made imports cheap and crushed agriculture and manufacturing.","s-angola"]],
+ [["Which are reasons Norway avoided the resource curse?",["strong institutions before oil was found","investing oil money outside Norway","adopting the euro to steady the krone","all of the above","a and b"],4,"Norway is not in the EU or the euro. Institutions first plus a fund held abroad.","s-norway"],
+  ["Angola's official rate was about 2.9 times better than the parallel rate. The main effect of this dual rate was:",["faster diversification out of oil","large profits for connected insiders","lower inflation for consumers","a stronger IMF program","a and c"],1,"Insiders bought official dollars and flipped them for about 190% profit: the dual rate as patronage.","s-angola"]]
+],
+/* 2 History and crises · Garland */
+[
+ [["Which statements match Malthus's theory?",["food production grows geometrically","population grows arithmetically","technology prevents food shortages","all of the above","none of the above"],4,"All three are wrong. Population is geometric and food arithmetic, and Malthus did not foresee technology.","s-intro"],
+  ["A country's citizens abroad send home large remittances. Which measure captures that income?",["gross national income (GNI)","gross domestic product (GDP)","GDP at purchasing power parity","real GDP at constant prices","b and c"],0,"GNI adds income received from abroad; GDP counts only output inside the borders (El Salvador adds about 30%).","s-germany"]],
+ [["China's price level is about half the US's. Compared with GDP at market exchange rates, China's GDP at PPP will be:",["about half as large","about the same size","about twice as large","impossible to compare","none of the above"],2,"Valuing output at US prices roughly doubles it: about $19.5T nominal vs. about $41T at PPP.","s-intro"],
+  ["Two economies have the same GDP. A exports and imports 30% of GDP each; B exports and imports 10% each. Which is true?",["A's degree of openness is 60%","B's degree of openness is 20%","B is likely larger or more protectionist","all of the above","a and b"],3,"Openness = (X + M) / GDP. Large or protectionist economies tend to trade less relative to GDP.","s-germany"]],
+ [["Spain's repeated peseta devaluations before the euro ('rob your neighbor') mainly:",["raised long-run productivity growth","gave a short-term export boost","lowered import prices for families","helped Spain meet Maastricht","a and c"],1,"Cheaper exports in the short run, at the cost of inflation and no pressure to raise productivity.","s-spain"],
+  ["During its recession Greece had to cut spending and raise taxes while the ECB cut interest rates. The fiscal part of this mix was:",["countercyclical","procyclical","expansionary","neutral over the cycle","a and c"],1,"Austerity in a downturn is procyclical ('austercide'). The ECB's rate cut was the countercyclical part.","s-spain"]],
+ [["Which helped stop high inflation in Mexico (1987) and Brazil (1994)?",["Mexico's Pacto on wages and prices","Brazil's Real Plan currency anchor","printing money to fund deficits","all of the above","a and b"],4,"Printing money caused the inflation. The Pacto (heterodox) and the Real Plan ended it.","s-mexico"],
+  ["Which was NOT a feature of the 1990 Brady Plan?",["new IMF-issued bonds replacing debt","a haircut on the principal owed","longer maturities at lower rates","US Treasury collateral backing","none of the above"],0,"Brady bonds were Treasury-backed and oil-collateralized, with a haircut and longer, cheaper terms. The IMF didn't issue them.","s-mexico"]],
+ [["In 1994, why did Mexico not raise interest rates to defend the peso?",["NAFTA rules banned rate hikes","inflation was already negative","its banks were too fragile","the Fed was cutting its rates","a and d"],2,"Higher rates would have broken weak, newly privatized banks. The Fed was in fact raising rates.","s-mexico"],
+  ["To limit hot money, Chile required short-term foreign capital to:",["pay a 50% exit tax on its profits","convert at a fixed official rate","buy only government bonds","leave a 20% deposit for a year","none of the above"],3,"A 20% deposit with the central bank, forfeited if the money left within a year. FDI was welcomed.","s-mexico"]]
+],
+/* 3 US and Japan · Allard */
+[
+ [["Which describe current-account SURPLUS countries?",["they produce more than they consume","they lend their savings abroad","their currencies tend to rise","all of the above","a and b"],3,"All three. Japan, China and Germany are the examples.","s-japan"],
+  ["Which inflation measure strips out food and energy prices?",["headline CPI inflation","core CPI inflation","the GDP price deflator","producer price inflation","a and c"],1,"Core excludes the volatile food and fuel components.","s-us"]],
+ [["US unemployment's 3-month average is 0.3 points above its 12-month low. By the Sahm rule:",["a recession signal has fired","the US must be above NAIRU","inflation must now rise","the Fed must raise rates","none of the above"],4,"The signal needs a rise of 0.5 points or more, so 0.3 doesn't trigger it, and the rule says nothing about the others.","s-us"],
+  ["Why can deflation trap an economy like Japan's?",["it makes exports too expensive","it forces interest rates up sharply","people delay purchases, so demand falls","it cuts the real value of debts","a and b"],2,"Expected price falls make people wait, demand drops and prices fall further. It also raises real debt burdens.","s-japan"]],
+ [["Nominal GDP grows 5% a year and the average interest rate on government debt is 3%. Other things equal, the debt ratio tends to:",["fall over time","rise over time","stay exactly constant","explode within a decade","b and d"],0,"When nominal growth exceeds the interest rate, debt shrinks relative to GDP. That's Allard's sustainability rule.","s-us"],
+  ["Japan's public debt is about 250% of GDP. What makes it less risky than it looks?",["most of it is held by Japanese savers","it is denominated in yen","it is owed mainly to China","all of the above","a and b"],4,"It's about 90% domestic and in its own currency. China is not the main creditor.","s-japan"]],
+ [["Japanese interest rates rise after decades near zero. What happens to the yen carry trade?",["it expands as yen loans get cheaper","it is unaffected by rate changes","it unwinds and the yen tends to rise","it moves fully into franc assets","none of the above"],2,"The rate gap narrows, so investors repay yen loans and capital flows home, lifting the yen.","s-japan"],
+  ["Which statements about US welfare are correct?",["programs are mainly means-tested","Medicare covers the elderly","Medicaid covers the poor","all of the above","a and b"],3,"The US has welfare, but it's targeted rather than universal. 'No welfare' is the trap.","s-us"]],
+ [["Which arrow of Abenomics was called 'neglected', with more women working as its main success?",["fiscal expansion","structural reform","quantitative easing","yen intervention","a and c"],1,"Structural reform met heavy resistance. Fiscal policy and QE were the arrows used most.","s-japan"],
+  ["Japan's unemployment sat below NAIRU for years without inflation picking up. This suggests:",["a weak or flat Phillips curve","a steep Phillips curve","that NAIRU must be zero","an inflationary output gap","b and d"],0,"Low unemployment didn't push prices up, so the trade-off looked flat (cultural factors, saving, trust).","s-japan"]]
+],
+/* 4 China and India · Allard */
+[
+ [["Which pairing of growth strategy and example is correct?",["export-oriented growth: South Korea","import substitution: post-Deng China","export-oriented growth: pre-1991 India","import substitution: Japan's miracle","b and c"],0,"The Asian Tigers copied Japan's export model. China after Deng was EOI; India before 1991 was ISI.","six"],
+  ["Which is NOT one of the HDI's three dimensions?",["life expectancy at birth","education and literacy","income inequality (Gini)","income per capita (PPP)","none of the above"],2,"HDI = health, education, income. Ignoring inequality is one of its known limits.","six"]],
+ [["Typical results of import-substitution industrialization included:",["inefficient protected firms","weak export performance","a growing state sector","all of the above","a and b"],3,"All three: India's state share reached about 50% of output, with the 'Hindu rate' of about 3.5%.","six"],
+  ["India grows mainly on domestic demand and runs a current-account deficit. This means India:",["lends its savings to the world","relies on foreign capital inflows","keeps its currency undervalued","has saving above investment","a and d"],1,"A deficit means investment exceeds saving, so it borrows abroad. The rupee tends to fall rather than being held down.","s-india"]],
+ [["What triggered India's 1991 reforms?",["a balance-of-payments crisis","IMF loan conditions","its entry into the WTO","all of the above","a and b"],4,"With reserves for two weeks of imports, India took IMF money with Washington Consensus conditions.","s-india"],
+  ["An investor doubts China's official growth figure. Per the FT article, what is the best cross-check?",["the official GDP release itself","provincial growth targets","electricity use and rail freight","the yuan's official rate","a and b"],2,"Hard proxies (the Li Keqiang idea). Official figures always hit target, and local officials over-report.","s-china"]],
+ [["China's consumption is only about 40% of GDP. To keep growing as exports face backlash, China must:",["cut household consumption further","rebalance toward consumption","widen the yuan's undervaluation","switch to import substitution","a and c"],1,"Rebalancing toward C. A weaker yuan and more export rebates work against it.","s-china"],
+  ["Which describe 'China Shock 2.0'?",["subsidized high-tech exports","a push aimed largely at Europe","China's entry into the WTO","all of the above","a and b"],4,"WTO entry (about 2001) was China Shock 1.0.","s-china"]],
+ [["Which was NOT part of the Washington Consensus package imposed on India in 1991?",["nationalizing key industries","opening to foreign investment","cutting the budget deficit","removing trade barriers","none of the above"],0,"The package privatized and deregulated; nationalization was the old ISI model.","s-india"],
+  ["Compared with China, what are India's main investment risks according to Allard?",["institutional weakness","dependence on foreign borrowing","weak infrastructure","all of the above","a and b"],3,"All three. China's risks are different: foreign demand, overcapacity and deflation.","s-india"]]
+],
+/* 5 EU, Africa and risk · Allard */
+[
+ [["Which is the correct order of economic integration, from shallow to deep?",["customs union, FTA, common market","common market, FTA, customs union","FTA, customs union, common market","FTA, common market, customs union","none of the above"],2,"FTA, then customs union (common external tariff), then common market (free movement), then economic union (currency).","s-eu"],
+  ["Which EU–US comparisons are correct?",["public debt is roughly the same","the EU spends more of its GDP","per-capita income is about equal","all of the above","a and b"],4,"Debt is about 120% vs. 111% of GDP, and eurozone spending is about 47.5% vs. 37%. US per-capita income is clearly higher.","s-eu"]],
+ [["A fund wants to buy bonds in an emerging market. Which indicator matters most?",["domestic market size","the interest rate","production costs","trade agreements","a and c"],1,"For financial investors the top three are interest rate, exchange rate and inflation.","s-risk"],
+  ["Which best distinguishes risk from uncertainty?",["risk can be measured in advance","uncertainty is cheap to insure","risk only concerns politics","uncertainty is always smaller","b and d"],0,"Risk is quantifiable and identifiable; uncertainty (an earthquake) is not.","s-risk"]],
+ [["A country's GDP grows 3% a year while its population grows 3.5%. Then:",["GDP per capita is falling","poverty is unlikely to fall","growth is not development yet","all of the above","a and b"],3,"Africa's problem since 2016: growth below population growth means per-capita income declines.","s-africa"],
+  ["Why does Allard argue FDI beats aid for African development?",["it brings jobs and technology","it links firms to foreign buyers","it removes the need for institutions","all of the above","a and b"],4,"FDI brings jobs, technology and links to buyers. It doesn't replace institutions, and aid tends to feed corruption.","s-africa"]],
+ [["Which is NOT one of the three corners of Rodrik's trilemma?",["independent monetary policy","full national sovereignty","democratic mass politics","deep hyperglobalization","none of the above"],0,"Monetary policy belongs to Mundell's impossible trinity, the classic look-alike trap.","s-eu"],
+  ["Which Brexit model did the UK finally choose?",["a Norway-style single market","a Turkey-style customs union","a Canada-style trade deal","staying in on full EU terms","no deal under WTO rules"],2,"A Canada-style FTA, the hard option, with an estimated GDP cost of about 6.3%.","s-eu"]],
+ [["High unemployment in a target country can be:",["a risk, through social unrest","an opportunity: cheap, available labor","a sign of a recessionary gap","all of the above","a and b"],3,"Allard's grid puts unemployment in both columns, and it also signals where the economy is in the cycle.","s-risk"],
+  ["For an oil-IMPORTING country, a sharp rise in oil prices typically brings:",["higher growth, lower inflation","lower growth, higher inflation","higher growth, higher inflation","lower growth, lower inflation","none of the above"],1,"The shock grid: growth falls, inflation and deficits rise, confidence falls and the currency weakens.","s-risk"]]
+]];
+
 /* Points Board: category x points review game */
 (function(){
 const CATS=[
@@ -6264,10 +6344,10 @@ const VAL=[100,200,300,400,500],KEY='cea_board_v1';
 const $=id=>document.getElementById(id);
 let S=null;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-function fresh(n,m){S={n:n,mode:m||'mcq',pick:CATS.map(()=>VAL.map(()=>Math.random()<.5?0:1)),used:{},scores:Array(n).fill(0),missed:[]};save()}
+function fresh(n,m){S={v:2,n:n,mode:m||'hard',pick:CATS.map(()=>VAL.map(()=>Math.random()<.5?0:1)),used:{},scores:Array(n).fill(0),missed:[]};save()}
 try{S=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){S=null}
-if(!S||!S.pick)fresh(1,'mcq');if(!S.mode)S.mode='recall';
-const MCQ=window.__BOARD_MCQ||[];const L='abcde';
+if(!S||!S.pick||S.v!==2)fresh(1,'hard');if(!S.mode)S.mode='recall';
+const MCQ=window.__BOARD_MCQ||[],HARD=window.__BOARD_MCQ_HARD||null;const L='abcde';
 const names=n=>n===1?['You']:Array.from({length:n},(_,i)=>'Team '+(i+1));
 function render(){
   $('bplayers').value=String(S.n);$('bmode').value=S.mode;
@@ -6278,7 +6358,7 @@ function render(){
   const done=Object.keys(S.used).length===30;$('bend').hidden=!done;if(done)endScreen();
 }
 let cur=null;
-function clueOf(ci,vi){const k=S.pick[ci][vi];if(S.mode==='mcq'){const m=MCQ[ci][vi][k];return{q:m[0],o:m[1],a:m[2],ans:'('+L[m[2]]+') '+m[1][m[2]]+'. '+m[3],r:m[4]}}const c=CATS[ci].clues[vi][k];return{q:c[0],ans:c[1],r:c[2]}}
+function clueOf(ci,vi){const k=S.pick[ci][vi];if(S.mode==='mcq'||S.mode==='hard'){const m=(S.mode==='hard'&&HARD?HARD:MCQ)[ci][vi][k];return{q:m[0],o:m[1],a:m[2],ans:'('+L[m[2]]+') '+m[1][m[2]]+'. '+m[3],r:m[4]}}const c=CATS[ci].clues[vi][k];return{q:c[0],ans:c[1],r:c[2]}}
 function open(ci,vi){const c=CATS[ci],cl=clueOf(ci,vi);cur={ci,vi,cl,picked:-1};
   $('bmcat').textContent=c.t+' · '+c.who+' · '+VAL[vi];$('bmq').textContent=cl.q;$('bma').textContent=cl.ans;$('bma').hidden=true;$('bact').hidden=true;
   const bo=$('bopts');if(cl.o){bo.hidden=false;$('breveal').hidden=true;bo.innerHTML=cl.o.map((o,i)=>`<button type="button" class="bopt" data-i="${i}"><b>(${L[i]})</b><span>${o}</span></button>`).join('');
