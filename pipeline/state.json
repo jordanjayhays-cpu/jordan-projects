@@ -89,9 +89,10 @@
   "All I Know",
   "Animal Within",
   "Chains of Gold",
-  "Everything Changes"
+  "Everything Changes",
+  "Quiet Revolt"
  ],
- "last_scheduled_date": "2026-11-14",
+ "last_scheduled_date": "2026-11-15",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -218,6 +219,7 @@
   "2026-11-11": "all-i-know",
   "2026-11-12": "animal-within",
   "2026-11-13": "chains-of-gold",
-  "2026-11-14": "everything-changes"
+  "2026-11-14": "everything-changes",
+  "2026-11-15": "quiet-revolt"
  }
 }
