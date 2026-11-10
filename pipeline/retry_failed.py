@@ -42,8 +42,15 @@ def main():
     if not errored:
         span = "today" if not back else f"the last {back + 1} days"
         print(f"no errored posts in {span} — all clean"); return
-    when = (datetime.now(timezone.utc) + timedelta(minutes=10)).strftime("%Y-%m-%dT%H:%M:00")
-    for p in errored:
+    # Stagger the catch-up. On 2026-11-10 a three-day Facebook outage was swept
+    # up and all three posts were given the same minute, so a page that normally
+    # sees one video a day would have seen three land together. They are
+    # legitimate posts and should still go out, just not in a burst: 20 minutes
+    # apart reads as a backlog draining rather than a malfunction.
+    base = datetime.now(timezone.utc) + timedelta(minutes=10)
+    STAGGER_MINUTES = 20
+    for n, p in enumerate(errored):
+        when = (base + timedelta(minutes=STAGGER_MINUTES * n)).strftime("%Y-%m-%dT%H:%M:00")
         # The slug has to come from the post's OWN day, not from today, or a
         # swept-up older failure is retried carrying the wrong video.
         day = (p.get("publishDate") or "")[:10]
