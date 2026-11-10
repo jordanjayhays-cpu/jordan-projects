@@ -468,6 +468,48 @@ button.ghost:hover{background:var(--surface)}
 @media (max-width:640px){.tabs .in{flex-wrap:wrap}.tabs .in>button{padding:13px 8px 10px}.srch{flex:1 1 100%;margin:0 0 8px}}
 @media (max-width:640px){.testhead{grid-template-columns:minmax(0,1fr)}}
 </style>
+<style>
+.bwrap{max-width:1100px}
+.bbar{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:18px 0 10px}
+.bbar label{display:grid;gap:4px;font-weight:600;font-size:13px}
+.bbar select{font:inherit;font-weight:400;padding:8px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
+.bbar .hint{font-size:13px;color:var(--muted);flex:1 1 220px}
+.bscores{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}
+.bsc{background:var(--navy);color:var(--on-navy);border-radius:8px;padding:10px 14px;min-width:110px;display:grid;gap:4px}
+.bsc span{font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--on-navy-2)}
+.bsc b{font:600 26px/1 var(--display);font-variant-numeric:tabular-nums}
+.bsc.left{background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}.bsc.left span{color:var(--muted)}
+.bgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.bcol{display:grid;gap:8px;grid-template-rows:auto repeat(5,1fr);min-width:0}
+.bcat{background:var(--surface);border-radius:8px;box-shadow:var(--shadow);padding:10px;border-top:3px solid var(--accent);min-height:64px;display:grid;align-content:start;gap:4px}
+.bcol:nth-child(-n+3) .bcat{border-top-color:var(--navy-2)}
+.bcat b{font:600 15px/1.2 var(--display);color:var(--fg)}
+.bcat span{font:600 10.5px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.btile{font:600 24px/1 var(--display);color:var(--accent-ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;min-height:64px;cursor:pointer;font-variant-numeric:tabular-nums;transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .15s,box-shadow .15s}
+.btile:hover{background:var(--accent-wash);box-shadow:var(--shadow);transform:translateY(-2px)}
+.btile:active{transform:scale(.94)}
+.btile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btile.used{cursor:default;background:var(--surface-2);font-size:20px;transform:none;box-shadow:none}
+.btile.used.ok{color:var(--good)}.btile.used.no{color:var(--critical)}
+.bmodal{position:fixed;inset:0;z-index:40;background:rgba(12,22,38,.55);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));opacity:0;transition:opacity .18s}
+.bmodal.on{opacity:1}
+.bbox{background:var(--surface);border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.35);padding:20px;max-width:640px;width:100%;max-height:100%;overflow:auto;transform:scale(.94) translateY(8px);transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+.bmodal.on .bbox{transform:none}
+.bmtop{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.bx{all:unset;cursor:pointer;font-size:26px;line-height:1;color:var(--muted);padding:4px 8px;border-radius:6px}
+.bx:hover{background:var(--surface-2)}.bx:focus-visible{outline:2px solid var(--accent)}
+.bq{font:600 clamp(20px,3vw,26px)/1.3 var(--display);color:var(--fg);margin:14px 0 18px;text-wrap:balance}
+.ba{background:var(--good-wash,var(--accent-wash));border-left:3px solid var(--good);border-radius:6px;padding:12px 14px;font-size:16px;color:var(--fg);margin-bottom:14px}
+.bact{display:flex;flex-wrap:wrap;gap:8px}
+.bact button,#breveal{flex:1 1 140px}
+.bend{margin-top:22px}
+@media (max-width:760px){
+  .bgrid{grid-template-columns:minmax(0,1fr);gap:12px}
+  .bcol{grid-template-columns:repeat(5,minmax(0,1fr));grid-template-rows:auto auto;gap:6px}
+  .bcat{grid-column:1/-1;min-height:0;display:flex;justify-content:space-between;align-items:baseline}
+  .btile{min-height:52px;font-size:18px}
+}
+</style>
 
 <div class="mast"><div class="in">
   <div class="eyebrow">IE · Country Economic Analysis · Allard &amp; Garland · Final exam guide</div>
@@ -487,6 +529,7 @@ button.ghost:hover{background:var(--surface)}
   <button type="button" role="tab" id="tab-btn-notes" aria-selected="false" aria-controls="tab-notes">Notes <small id="tab-notes-n">complete</small></button>
   <button type="button" role="tab" id="tab-btn-test" aria-selected="false" aria-controls="tab-test">Test <small id="tab-attempts">0 attempts</small></button>
   <button type="button" role="tab" id="tab-btn-write" aria-selected="false" aria-controls="tab-write">Short answers <small>write</small></button>
+  <button type="button" role="tab" id="tab-btn-board" aria-selected="false" aria-controls="tab-board">Board <small>game</small></button>
   <div class="srch" role="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg><input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search notes, guide and questions" aria-label="Search notes, guide and questions" aria-controls="srch-panel"><kbd>/</kbd></div>
 </div>
 <div id="srch-panel" hidden><div id="srch-body"></div></div></div>
@@ -503,6 +546,7 @@ button.ghost:hover{background:var(--surface)}
   <a href="#disc"><i>07</i>Discrepancies</a>
   <a href="#test" class="totest"><i>→</i>Practice exam</a>
   <a href="#write" class="totest towrite"><i>✎</i>Write short answers</a>
+  <a href="#board" class="totest towrite"><i>▦</i>Points Board game</a>
   <div class="box"><b>Exam rule of thumb</b>Short answers test a concept, not names or numbers: define it, explain the mechanism, give one course example, add one limit.</div>
 </aside>
 <main>
@@ -5283,16 +5327,40 @@ button.ghost:hover{background:var(--surface)}
     <div id="whist"></div>
   </div>
 </div>
+
+<div class="testwrap bwrap" id="tab-board" hidden>
+  <div class="testhead">
+    <div><h2>Points Board</h2><div class="kick">Six categories, three per professor, five tiles each. Tap a tile, answer out loud or on paper, then reveal and score yourself. Harder clues are worth more. Every new game draws different clues. Play solo or with up to four teams.</div></div>
+  </div>
+  <div class="bbar">
+    <label>Players <select id="bplayers"><option value="1">Solo</option><option value="2">2 teams</option><option value="3">3 teams</option><option value="4">4 teams</option></select></label>
+    <button type="button" class="ghost" id="bnew">New game</button>
+    <span class="hint" id="bhint">Your game is saved in this browser, so you can stop and come back.</span>
+  </div>
+  <div class="bscores" id="bscores"></div>
+  <div class="bgrid" id="bgrid"></div>
+  <div class="bend" id="bend" hidden></div>
+  <div class="bmodal" id="bmodal" hidden role="dialog" aria-modal="true" aria-labelledby="bmq">
+    <div class="bbox">
+      <div class="bmtop"><span class="topic" id="bmcat"></span><button type="button" class="bx" id="bclose" aria-label="Close">×</button></div>
+      <div class="bq" id="bmq"></div>
+      <button type="button" class="pri" id="breveal">Reveal answer</button>
+      <div class="ba" id="bma" hidden></div>
+      <div class="bact" id="bact" hidden></div>
+    </div>
+  </div>
+</div>
 <script>
 (function(){
-  const panes={study:document.getElementById('tab-study'),test:document.getElementById('tab-test'),notes:document.getElementById('tab-notes'),write:document.getElementById('tab-write')};
-  const btns={study:document.getElementById('tab-btn-study'),test:document.getElementById('tab-btn-test'),notes:document.getElementById('tab-btn-notes'),write:document.getElementById('tab-btn-write')};
+  const panes={study:document.getElementById('tab-study'),test:document.getElementById('tab-test'),notes:document.getElementById('tab-notes'),write:document.getElementById('tab-write'),board:document.getElementById('tab-board')};
+  const btns={study:document.getElementById('tab-btn-study'),test:document.getElementById('tab-btn-test'),notes:document.getElementById('tab-btn-notes'),write:document.getElementById('tab-btn-write'),board:document.getElementById('tab-btn-board')};
   function show(which,scrollTop){try{localStorage.setItem('cea_tab',which)}catch(e){}Object.keys(panes).forEach(k=>{panes[k].hidden=k!==which;btns[k].setAttribute('aria-selected',String(k===which))});if(scrollTop)window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})}
-  btns.study.addEventListener('click',()=>{show('study',true);});
+  btns.study.addEventListener('click',()=>{show('study',true);if(location.hash==='#test'||location.hash==='#notes'||location.hash==='#write'||location.hash==='#board')history.replaceState(null,'',' ')});
   btns.test.addEventListener('click',()=>{show('test',true)});
   btns.notes.addEventListener('click',()=>{show('notes',true)});
   btns.write.addEventListener('click',()=>{show('write',true)});
-  document.querySelectorAll('a.towrite').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('write',true)}));
+  btns.board.addEventListener('click',()=>{show('board',true)});
+  document.querySelectorAll('a.towrite').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show(a.getAttribute('href').slice(1),true)}));
   document.querySelectorAll('a.totest:not(.towrite)').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('test',true)}));
   /* notes unit switcher */
   (function(){const units=[...document.querySelectorAll('#notes-root .unit')];const rail=document.getElementById('notes-rail'),mob=document.getElementById('notes-mobnav');if(!units.length)return;
@@ -5303,7 +5371,7 @@ button.ghost:hover{background:var(--surface)}
     pick(units.some(u=>u.id===cur)?cur:units[0].id);
     document.getElementById('tab-notes-n').textContent=units.length+' units';
   })();
-  function route(){if(location.hash==='#test'){show('test',false)}else if(location.hash==='#notes'){show('notes',false)}else if(location.hash==='#write'){show('write',false)}else{let sv='';try{sv=localStorage.getItem('cea_tab')||''}catch(e){}const id=location.hash.slice(1);if(!id&&panes[sv]&&sv!=='study'){show(sv,false);return}show('study',false);const el=id&&document.getElementById(id);if(el)el.scrollIntoView()}}
+  function route(){if(location.hash==='#test'){show('test',false)}else if(location.hash==='#notes'){show('notes',false)}else if(location.hash==='#write'){show('write',false)}else if(location.hash==='#board'){show('board',false)}else{let sv='';try{sv=localStorage.getItem('cea_tab')||''}catch(e){}const id=location.hash.slice(1);if(!id&&panes[sv]&&sv!=='study'){show(sv,false);return}show('study',false);const el=id&&document.getElementById(id);if(el)el.scrollIntoView()}}
   window.addEventListener('hashchange',route);route();
   document.addEventListener('showtab',e=>show(e.detail,false));
   document.querySelectorAll('.rail a:not(.totest)').forEach(a=>{if(a.closest('#tab-study'))a.addEventListener('click',()=>show('study',false))});
@@ -6058,12 +6126,93 @@ pick(0,0);board();hist();
 
 </script>
 <script>
+/* Points Board: category x points review game */
+(function(){
+const CATS=[
+{t:"Exchange rates",who:"Garland",clues:[
+ [["Under a float, a country that keeps exporting more than it imports sees its currency do what?","It appreciates: exporters bring in an excess supply of dollars.","s-fx"],["Under a fixed exchange rate, what are currency changes called?","Revaluation (up) and devaluation (down), not appreciation and depreciation.","s-fx"]],
+ [["What is the regime where the currency floats but the central bank intervenes against the market?","Dirty (managed) floating.","s-fx"],["Name the three benefits of an overvalued peg.","Cheaper external debt, cheaper imports (which fight inflation), and citizens richer abroad.","s-fx"]],
+ [["A central bank buys dollars to stop its currency rising. What is the main risk?","Inflation: it pays with newly created local currency.","s-fx"],["What is the fatal flaw of a dual exchange rate?","Corruption: insiders get cheap official dollars and resell them on the parallel market (Angola about 190% profit).","s-fx"]],
+ [["Per Mundell, how can a trade deficit persist without the currency falling?","Capital inflows chasing higher interest rates supply dollars and finance the deficit (the US; Mexico 1990–94).","s-fx"],["What was China's peg in 1995–2004, and what did it do?","8.28 yuan per dollar, undervalued: cheap exports, a trade surplus, 9–10% growth.","s-fx"]],
+ [["Peso inflation 100%, US 0%; the rate moves from 10 to 15 pesos per dollar. Nominal and real?","A nominal depreciation but a real appreciation. It needed to reach 20 to stay competitive.","s-dutch"],["How did China's dollar buying finance both US deficits?","Buying dollars financed the trade deficit; recycling them into Treasuries financed the fiscal deficit.","s-fx"]]]},
+{t:"Oil and resources",who:"Garland",clues:[
+ [["Which country is Dutch disease named after, and why?","The Netherlands, after its natural gas discoveries.","s-dutch"],["Under Dutch disease, do imports get cheaper or more expensive?","Cheaper, because the local currency appreciates.","s-dutch"]],
+ [["Which sectors does Dutch disease hurt?","Non-resource tradables: manufacturing and agriculture.","s-dutch"],["Where does Norway's oil fund invest?","100% outside Norway.","s-norway"]],
+ [["Name the four channels of the resource curse.","Dutch disease, volatility, corruption (the political curse), asset depletion.","six"],["What is Norway's Action Rule?","The budget may draw up to the fund's expected real return, about 4% a year.","s-norway"]],
+ [["Why do resource rents weaken accountability?","The government doesn't need to tax citizens, so it engages less with them and patronage grows.","six"],["Why did Angola's kwanza appreciate in real terms while falling nominally?","Inflation (325% in 2000) was far higher than its nominal depreciation.","s-angola"]],
+ [["Give the two reasons Norway escaped the resource curse.","Strong institutions before the oil, and a fund invested abroad (sterilization).","s-norway"],["What did Angola's central bank do when oil collapsed in 2009?","Sold reserves (about $10bn) to defend the kwanza (dirty floating), then turned to the IMF.","s-angola"]]]},
+{t:"History and crises",who:"Garland",clues:[
+ [["Malthus: population grows ___, food grows ___.","Geometrically; arithmetically.","s-intro"],["What year did Spain join the EEC?","1986.","s-spain"]],
+ [["What are Malthus's positive checks?","War, famine and epidemics: more deaths.","s-intro"],["What does PPP do to the GDP of countries cheaper than the US?","It raises it (output valued at US prices).","s-intro"]],
+ [["Name two of the Maastricht criteria.","Deficit ≤ 3% of GDP, debt ≤ 60%; also inflation, long-term interest rates and the EMS band.","s-spain"],["What were Lula's three contributions?","Macro stability, trade (the China commodity boom), and inequality (conditional cash transfers).","s-brazil"]],
+ [["What were Brady bonds?","Bank debt converted into US-Treasury-backed bonds, with a haircut, longer maturity and lower rate (Mexico, 1990).","s-mexico"],["How did Spain regain competitiveness after 2010 without devaluing?","Internal devaluation: cutting wages and costs.","s-spain"]],
+ [["What were tesobonos, and why were they risky?","Short-term, dollar-indexed Mexican bonds. They moved currency risk onto the government and created rollover risk.","s-mexico"],["Why was Germany's 1:1 reunification rate a problem?","It overvalued East German wages (about 5:1 was realistic), so eastern firms became uncompetitive overnight.","s-germany"]]]},
+{t:"US and Japan",who:"Allard",clues:[
+ [["Roughly what share of world GDP is the US?","About 25%, stable since 1980.","s-us"],["What is the main driver of Japan's current-account surplus?","High savings: saving exceeds investment.","s-japan"]],
+ [["What does the Sahm rule signal?","A recession, when 3-month average unemployment is 0.5 points or more above its 12-month low.","s-us"],["Name Abenomics' three arrows.","Fiscal expansion, QE, structural reform.","s-japan"]],
+ [["When is public debt sustainable?","When nominal GDP growth exceeds the interest rate.","s-us"],["Why is Japan's debt of about 250% of GDP less dangerous than it looks?","It's in yen, about 90% held domestically, and cheap to service.","s-japan"]],
+ [["What is a carry trade?","Borrowing in a low-rate currency (yen) to invest in a high-rate one (USD, MXN, BRL).","s-japan"],["Is US welfare universal or means-tested? Give an example.","Means-tested: Medicare and Medicaid.","s-us"]],
+ [["Why did Japan's real GDP growth exceed its nominal growth?","Deflation: prices were falling.","s-japan"],["What followed the 1985 Plaza Accord?","The yen rose about 50%, followed by a bubble, the bust, the lost decade and deflation.","s-japan"]]]},
+{t:"China and India",who:"Allard",clues:[
+ [["Which runs a chronic current-account deficit: India or China?","India. China runs a surplus.","s-india"],["What year did India's big reforms begin?","1991.","s-india"]],
+ [["Import substitution relies on which kind of demand?","Domestic demand, protected by tariffs.","six"],["Name the HDI's three dimensions.","Life expectancy, education, income per capita (PPP).","six"]],
+ [["What triggered India's 1991 reforms?","A balance-of-payments crisis (two weeks of import reserves), then IMF conditions.","s-india"],["What was China Shock 1.0?","The post-WTO export surge: the US lost about 2–2.5m manufacturing jobs.","s-china"]],
+ [["What is consumption's share of GDP in China vs. India?","About 40% vs. about 60%.","s-china"],["How undervalued is the yuan, per Allard's deck?","About 20–35% against the dollar.","s-china"]],
+ [["Why does the FT doubt China's GDP figures?","It always hits its target, there's no quarterly expenditure breakdown, the IMF grades it C, and officials over-report.","s-china"],["What did Deng's dual price system do?","Let farmers sell surplus at market prices after meeting state quotas, raising productivity and incomes.","s-china"]]]},
+{t:"EU, Africa and risk",who:"Allard",clues:[
+ [["Why did Europe start integrating after WWII?","Peace: economic integration as a Trojan horse.","s-eu"],["Define country risk (Kobrin).","The probability that political or economic events hurt a firm's financial performance.","s-risk"]],
+ [["What does a customs union add to a free-trade area?","A common external tariff.","s-eu"],["What is the most important indicator for an export plant?","Production costs.","s-risk"]],
+ [["EU vs. US: which is roughly the same?","Public debt as % of GDP (about 120% vs. about 111%).","s-eu"],["Do econometric studies find foreign aid helps African growth?","No: aid has a negative coefficient. FDI and trade work better.","s-africa"]],
+ [["What is Rodrik's trilemma?","Hyperglobalization, national sovereignty, democracy: you can only fully have two.","s-eu"],["What are the ICRG composite weights?","50% political, 25% financial, 25% economic.","s-risk"]],
+ [["Name the two conditions for an optimal currency area.","Labor mobility and fiscal transfers.","s-eu"],["What is the best business-cycle phase to invest in?","Early expansion (phase 1): a recessionary gap still exists and rates are low.","s-risk"]]]}
+];
+const VAL=[100,200,300,400,500],KEY='cea_board_v1';
+const $=id=>document.getElementById(id);
+let S=null;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function fresh(n){S={n:n,pick:CATS.map(()=>VAL.map(()=>Math.random()<.5?0:1)),used:{},scores:Array(n).fill(0),missed:[]};save()}
+try{S=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){S=null}
+if(!S||!S.pick)fresh(1);
+const names=n=>n===1?['You']:Array.from({length:n},(_,i)=>'Team '+(i+1));
+function render(){
+  $('bplayers').value=String(S.n);
+  const nm=names(S.n);
+  $('bscores').innerHTML=nm.map((x,i)=>`<div class="bsc"><span>${x}</span><b>${S.scores[i]}</b></div>`).join('')+`<div class="bsc left"><span>Tiles left</span><b>${30-Object.keys(S.used).length}</b></div>`;
+  $('bgrid').innerHTML=CATS.map((c,ci)=>`<div class="bcol"><div class="bcat"><b>${c.t}</b><span>${c.who}</span></div>`+VAL.map((v,vi)=>{const k=ci+'-'+vi,u=S.used[k];return `<button type="button" class="btile${u?' used '+(u.ok?'ok':'no'):''}" data-c="${ci}" data-v="${vi}" ${u?'aria-label="used"':''}>${u?(u.ok?'✓':'✗'):v}</button>`}).join('')+`</div>`).join('');
+  $('bgrid').querySelectorAll('.btile').forEach(b=>b.addEventListener('click',()=>{if(b.classList.contains('used'))return;open(+b.dataset.c,+b.dataset.v)}));
+  const done=Object.keys(S.used).length===30;$('bend').hidden=!done;if(done)endScreen();
+}
+let cur=null;
+function open(ci,vi){const c=CATS[ci],cl=c.clues[vi][S.pick[ci][vi]];cur={ci,vi,cl};
+  $('bmcat').textContent=c.t+' · '+c.who+' · '+VAL[vi];$('bmq').textContent=cl[0];$('bma').textContent=cl[1];$('bma').hidden=true;$('breveal').hidden=false;$('bact').hidden=true;
+  const nm=names(S.n);
+  $('bact').innerHTML=(S.n===1?`<button type="button" class="pri" data-w="0">Got it (+${VAL[vi]})</button><button type="button" class="ghost" data-w="-1">Missed it</button>`:nm.map((x,i)=>`<button type="button" class="pri" data-w="${i}">${x} +${VAL[vi]}</button>`).join('')+`<button type="button" class="ghost" data-w="-1">Nobody</button>`);
+  $('bact').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>score(+b.dataset.w)));
+  $('bmodal').hidden=false;requestAnimationFrame(()=>$('bmodal').classList.add('on'));$('breveal').focus()}
+function close(){$('bmodal').classList.remove('on');setTimeout(()=>{$('bmodal').hidden=true},180)}
+$('breveal').addEventListener('click',()=>{$('bma').hidden=false;$('breveal').hidden=true;$('bact').hidden=false;const f=$('bact').querySelector('button');if(f)f.focus()});
+$('bclose').addEventListener('click',close);
+$('bmodal').addEventListener('click',e=>{if(e.target.id==='bmodal')close()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('bmodal').hidden)close()});
+function score(w){const k=cur.ci+'-'+cur.vi;const ok=w>=0;if(ok)S.scores[w]+=VAL[cur.vi];else S.missed.push([cur.ci,cur.vi]);
+  S.used[k]={ok:ok};save();close();render()}
+function endScreen(){const tot=S.scores.reduce((a,b)=>a+b,0),nm=names(S.n);
+  const best=S.n===1?`You scored <b>${S.scores[0]}</b> of 9,000 possible.`:`Winner: <b>${nm[S.scores.indexOf(Math.max(...S.scores))]}</b>.`;
+  $('bend').innerHTML=`<div class="rt-title">Game over</div><p>${best} ${S.missed.length?S.missed.length+' clues missed. Review them below, then play a new game: every tile draws a different clue.':'Nothing missed. Play again for a fresh draw.'}</p>`+
+   S.missed.map(([ci,vi])=>{const cl=CATS[ci].clues[vi][S.pick[ci][vi]];return `<div class="rcard small"><div class="topic">${CATS[ci].t} · ${VAL[vi]}</div><div class="rq">${cl[0]}</div><div class="ra"><span class="k">Answer</span><span class="right">${cl[1]}</span></div><a href="#${cl[2]}">Re-read →</a></div>`}).join('')}
+$('bnew').addEventListener('click',()=>{const b=$('bnew');if(Object.keys(S.used).length&&!b.dataset.arm&&Object.keys(S.used).length<30){b.dataset.arm='1';b.textContent='Tap again to restart';setTimeout(()=>{delete b.dataset.arm;b.textContent='New game'},3000);return}delete b.dataset.arm;b.textContent='New game';fresh(+$('bplayers').value);render()});
+$('bplayers').addEventListener('change',()=>{if(!Object.keys(S.used).length){fresh(+$('bplayers').value);render()}else{$('bhint').textContent='Player count applies when you start a new game.'}});
+render();
+})();
+
+</script>
+<script>
 (function(){
   /* In-page links: switch tab and scroll without touching the address bar */
   document.addEventListener('click',function(e){
     if(e.defaultPrevented)return;const a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
     const id=a.getAttribute('href').slice(1);if(!id)return;e.preventDefault();
-    const tabs=['study','notes','test','write'];
+    const tabs=['study','notes','test','write','board'];
     if(tabs.indexOf(id)>-1){document.dispatchEvent(new CustomEvent('showtab',{detail:id}));window.scrollTo(0,document.querySelector('.mast').offsetHeight);return}
     const el=document.getElementById(id);if(!el)return;
     const pane=tabs.find(function(t){const p=document.getElementById('tab-'+t);return p&&p.contains(el)});
