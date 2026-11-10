@@ -5287,13 +5287,13 @@ button.ghost:hover{background:var(--surface)}
 (function(){
   const panes={study:document.getElementById('tab-study'),test:document.getElementById('tab-test'),notes:document.getElementById('tab-notes'),write:document.getElementById('tab-write')};
   const btns={study:document.getElementById('tab-btn-study'),test:document.getElementById('tab-btn-test'),notes:document.getElementById('tab-btn-notes'),write:document.getElementById('tab-btn-write')};
-  function show(which,scrollTop){Object.keys(panes).forEach(k=>{panes[k].hidden=k!==which;btns[k].setAttribute('aria-selected',String(k===which))});if(scrollTop)window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})}
-  btns.study.addEventListener('click',()=>{show('study',true);if(location.hash==='#test'||location.hash==='#notes'||location.hash==='#write')history.replaceState(null,'',' ')});
-  btns.test.addEventListener('click',()=>{show('test',true);location.hash='test'});
-  btns.notes.addEventListener('click',()=>{show('notes',true);location.hash='notes'});
-  btns.write.addEventListener('click',()=>{show('write',true);location.hash='write'});
-  document.querySelectorAll('a.towrite').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('write',true);location.hash='write'}));
-  document.querySelectorAll('a.totest:not(.towrite)').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('test',true);location.hash='test'}));
+  function show(which,scrollTop){try{localStorage.setItem('cea_tab',which)}catch(e){}Object.keys(panes).forEach(k=>{panes[k].hidden=k!==which;btns[k].setAttribute('aria-selected',String(k===which))});if(scrollTop)window.scrollTo({top:document.querySelector('.mast').offsetHeight,behavior:'auto'})}
+  btns.study.addEventListener('click',()=>{show('study',true);});
+  btns.test.addEventListener('click',()=>{show('test',true)});
+  btns.notes.addEventListener('click',()=>{show('notes',true)});
+  btns.write.addEventListener('click',()=>{show('write',true)});
+  document.querySelectorAll('a.towrite').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('write',true)}));
+  document.querySelectorAll('a.totest:not(.towrite)').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();show('test',true)}));
   /* notes unit switcher */
   (function(){const units=[...document.querySelectorAll('#notes-root .unit')];const rail=document.getElementById('notes-rail'),mob=document.getElementById('notes-mobnav');if(!units.length)return;
     let cur='';try{cur=localStorage.getItem('cea_notes_unit')||''}catch(e){}
@@ -5303,7 +5303,7 @@ button.ghost:hover{background:var(--surface)}
     pick(units.some(u=>u.id===cur)?cur:units[0].id);
     document.getElementById('tab-notes-n').textContent=units.length+' units';
   })();
-  function route(){if(location.hash==='#test'){show('test',false)}else if(location.hash==='#notes'){show('notes',false)}else if(location.hash==='#write'){show('write',false)}else{show('study',false);const id=location.hash.slice(1);const el=id&&document.getElementById(id);if(el)el.scrollIntoView()}}
+  function route(){if(location.hash==='#test'){show('test',false)}else if(location.hash==='#notes'){show('notes',false)}else if(location.hash==='#write'){show('write',false)}else{let sv='';try{sv=localStorage.getItem('cea_tab')||''}catch(e){}const id=location.hash.slice(1);if(!id&&panes[sv]&&sv!=='study'){show(sv,false);return}show('study',false);const el=id&&document.getElementById(id);if(el)el.scrollIntoView()}}
   window.addEventListener('hashchange',route);route();
   document.addEventListener('showtab',e=>show(e.detail,false));
   document.querySelectorAll('.rail a:not(.totest)').forEach(a=>{if(a.closest('#tab-study'))a.addEventListener('click',()=>show('study',false))});
@@ -5738,7 +5738,7 @@ q('US economy','According to the CBO chart of net interest costs, what are proje
     res.hidden=false;renderRoom(missed);res.scrollIntoView({behavior:'smooth',block:'start'});
     upd();renderHist();
   }
-  function goStudy(id){const el=document.getElementById(id);if(!el)return;location.hash=id;document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2400)},60)}
+  function goStudy(id){const el=document.getElementById(id);if(!el)return;document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'start'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),2400)},60)}
   function renderRoom(missed){
     room.innerHTML='';room.hidden=false;const n=items.length;
     const h=document.createElement('div');h.className='room-head';h.innerHTML=`<h3>Study room</h3><p>${missed.length?missed.length+' to review. Each card gives the right answer, why, and the section of the Study tab to re-read.':'Nothing to review in this version. Take a new version to test other questions.'}</p>`;room.appendChild(h);
@@ -6039,7 +6039,7 @@ $('wcheck').addEventListener('click',()=>{stop();const t=txt.value.toLowerCase()
   const n=words(txt.value);$('wsub').textContent=n+' words'+(n<60?' · too short to earn full marks':n>170?' · tighten it, this is a paragraph':'');
   $('wresult').hidden=false;$('wsave').disabled=false;$('wsave').textContent='Save score';score();$('wresult').scrollIntoView({behavior:'smooth',block:'start'})});
 $('wsave').addEventListener('click',()=>{const l=load();l.push({t:Date.now(),id:cur.id,p:pi,s:+$('wsc').textContent,n:words(txt.value)});store(l);$('wsave').disabled=true;$('wsave').textContent='Saved';board();hist()});
-$('wread').addEventListener('click',e=>{e.preventDefault();const el=document.getElementById(cur.ref);location.hash=cur.ref;document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));setTimeout(()=>{if(el){el.scrollIntoView({behavior:'smooth',block:'start'})}},60)});
+$('wread').addEventListener('click',e=>{e.preventDefault();const el=document.getElementById(cur.ref);document.dispatchEvent(new CustomEvent('showtab',{detail:'study'}));setTimeout(()=>{if(el){el.scrollIntoView({behavior:'smooth',block:'start'})}},60)});
 $('wsim').addEventListener('click',()=>{const r=a=>a[Math.floor(Math.random()*a.length)];
   const G=W.filter(w=>w.who==='Garland'),A=W.filter(w=>w.who==='Allard');const gs=[...G].sort(()=>Math.random()-.5).slice(0,2),as=[...A].sort(()=>Math.random()-.5).slice(0,2);
   const set=[...gs,...as].map(w=>[W.indexOf(w),Math.floor(Math.random()*w.prompts.length)]);
@@ -6056,4 +6056,19 @@ $('wclearhist').addEventListener('click',()=>{const b=$('wclearhist');if(b.datas
 pick(0,0);board();hist();
 })();
 
+</script>
+<script>
+(function(){
+  /* In-page links: switch tab and scroll without touching the address bar */
+  document.addEventListener('click',function(e){
+    if(e.defaultPrevented)return;const a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;
+    const id=a.getAttribute('href').slice(1);if(!id)return;e.preventDefault();
+    const tabs=['study','notes','test','write'];
+    if(tabs.indexOf(id)>-1){document.dispatchEvent(new CustomEvent('showtab',{detail:id}));window.scrollTo(0,document.querySelector('.mast').offsetHeight);return}
+    const el=document.getElementById(id);if(!el)return;
+    const pane=tabs.find(function(t){const p=document.getElementById('tab-'+t);return p&&p.contains(el)});
+    if(pane)document.dispatchEvent(new CustomEvent('showtab',{detail:pane}));
+    setTimeout(function(){el.scrollIntoView({block:'start'})},30);
+  });
+})();
 </script>
