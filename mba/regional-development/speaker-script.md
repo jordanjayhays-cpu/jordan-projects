@@ -41,7 +41,7 @@ Be honest if asked: "This is correlation, not proof. Patents are the thermometer
 
 Speaker 1 · about 1 minute.
 "This is the disappointing growth the IDB asked about. Since 2000, income per person in Mexico grew just 0.3% a year: 7% in 24 years. Guatemala and Honduras about 1.5%, below the world average. Korea, 3.1%."
-"Two exceptions: Panama and Costa Rica. Remember Costa Rica."
+"One exception: Costa Rica. Remember it." If asked about Panama: it grew fast on the canal, logistics and finance, a special case, so we left it off this chart.
 Hand-off: "So why? [Speaker 2] has the diagnosis."
 
 ## Slide 6 · Speaker 2
@@ -136,6 +136,7 @@ Rules: repeat the question, answer in one or two sentences with PREP (point, rea
 | Is informality really caused by payroll taxes? | Speaker 2 | It is one main cause in Levy's work, not the only one. ILOSTAT shows the size of it: about 6 in 10 workers across our subregion. |
 | Why do capitals matter? Seoul is huge too. | Speaker 2 | Seoul is big, but Korea's capital region is only 1.3× richer than its poorest region. Mexico City is 5.9× richer than Chiapas (OECD, 2021). |
 | Do more patents really cause growth? | Speaker 1 | Not on their own. Across 123 countries, inventing goes strongly with income (correlation 0.75) but only weakly with later growth. Patents are the thermometer; know-how is the engine (Romer; Hidalgo and Hausmann). |
+| Why is Panama missing from the growth chart? | Speaker 1 | It grew 3.9% a year, but on the canal, logistics and finance: a special case the rest of the subregion cannot copy. It is in every other chart. |
 | Why measure growth from 2000? | Speaker 1 | Honduras' 1990s data has a break that fakes very fast growth, so we use 2000 to 2024 for everyone. |
 | Won't foreign firms just take the profits out? | Speaker 4 | Some profit will leave. That is why the deal has conditions: local suppliers, formal hiring, a university partner. The know-how stays even when profits go. |
 | Why not put research centres in Mexico City? | Speaker 4 | The capital already soaks everything up (cause 3). Second cities spread the jobs and the learning. |

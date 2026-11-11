@@ -366,9 +366,9 @@ ${CAP('Each dot is a country (123 with over 1 million people), around 2021 · Wo
 
 S.push({who:'Speaker 1',html:`${TAG('Regional context · growth trend')}${T('Growth has disappointed: since 2000, Mexico’s income per person grew 0.3% a year')}
 ${BARS([['South Korea',3.11,'2024',C.kor,0],['World',1.73,'2024','#9a9a9a',0],['Latin America',1.15,'2024','#9a9a9a',0],
-  ['Panama',3.89,'2024',C.ink,1],['Costa Rica',2.82,'2024',C.ink,1],['Nicaragua',1.90,'2024',C.ink,1],['El Salvador',1.83,'2024',C.ink,1],['Guatemala',1.54,'2024',C.gtm,1],['Honduras',1.53,'2024',C.ink,1],['Mexico',0.30,'2024',C.mex,1]],
+  ['Costa Rica',2.82,'2024',C.ink,1],['Nicaragua',1.90,'2024',C.ink,1],['El Salvador',1.83,'2024',C.ink,1],['Guatemala',1.54,'2024',C.gtm,1],['Honduras',1.53,'2024',C.ink,1],['Mexico',0.30,'2024',C.mex,1]],
   {max:4,fmtv:v=>v.toFixed(1)+'%'})}
-${CAP('Average yearly growth of real income per person, 2000 to 2024 · World Bank WDI, NY.GDP.PCAP.KD · Costa Rica and Panama are the exceptions; we come back to Costa Rica',2000)}`});
+${CAP('Average yearly growth of real income per person, 2000 to 2024 · World Bank WDI, NY.GDP.PCAP.KD · Costa Rica is the exception; we come back to it · Panama left out: its growth rides on the canal, logistics and finance, a special case',2000)}`});
 
 // ---------- Order follows the brief: title, executive summary, context, diagnostic, benchmarks, recommendations, conclusion ----------
 // [old index, section (0-5, -1 none), speaker]
@@ -397,7 +397,7 @@ const NOTES=[
 `<b>Backup · Q&amp;A only.</b> See the Q&amp;A plan in the script for who answers what.`];
 
 {const N=NOTES.slice();NOTES.length=0;NOTES.push(N[0],N[1],N[2],N[3],
-`<b>Speaker 1 · about 1 minute.</b><br>"This is the disappointing growth the IDB asked about. Since 2000, income per person in Mexico grew just <b>0.3% a year</b>: 7% in 24 years. Guatemala and Honduras about 1.5%, below the world average. Korea, 3.1%."<br>"Two exceptions: Panama and Costa Rica. Remember Costa Rica."<br><b>Hand-off:</b> "So why? <b>[Speaker 2]</b> has the diagnosis."`,
+`<b>Speaker 1 · about 1 minute.</b><br>"This is the disappointing growth the IDB asked about. Since 2000, income per person in Mexico grew just <b>0.3% a year</b>: 7% in 24 years. Guatemala and Honduras about 1.5%, below the world average. Korea, 3.1%."<br>"One exception: Costa Rica. Remember it." If asked about Panama: it grew fast on the canal, logistics and finance, a special case, so we left it off this chart.<br><b>Hand-off:</b> "So why? <b>[Speaker 2]</b> has the diagnosis."`,
 N[5],N[6],N[7],N[8],N[9],
 `<b>Speaker 3 · International benchmarks · about 1 minute 15. One click on this slide.</b><br>On entry the chart draws 1980 to 1985, zoomed in. "Were we always behind? No. In 1980 Mexico filed 704 patents and Korea 1,241. Level. Two kids, same classroom."<br><b>Click:</b> the chart pulls back to 2024 and the title changes. Let it move, then: "Then Korea did its homework. Its patents grew <b>158 times</b>. Mexico's, 1.7 times."`,
 `<b>Speaker 3 · about 45 seconds.</b><br>"And the homework paid off. In 1960 Mexico was <b>four times richer</b> than Korea. Around 1988 they swapped. Today Korea is <b>3.6 times richer</b>."`,
