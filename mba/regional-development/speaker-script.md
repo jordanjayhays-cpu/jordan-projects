@@ -23,7 +23,7 @@ Speaker 1 · about 30 seconds. Open with the hook, out loud, before any introduc
 Speaker 1 · Executive summary · about 1 minute 30.
 "We are Group 1 from Ernst & Young. We were commissioned by the Inter-American Development Bank, the IDB, the development bank that lends to governments across Latin America and the Caribbean. The IDB asked us one question: why has growth in Mexico and Central America been so disappointing?" (Full names once; "EY" and "the IDB" after this.)
 Three clicks: the problem is on screen. Click: the cause. Click: the fix. Click: the ask.
-"The problem: eight patents, a whole country, one year. The cause: know-how is bought, and nobody here bought it. (Message #1) The fix: bring in the teachers, foreign firms in second cities, teaching local firms and workers. Our ask: fund it in one country, this year."
+"The problem: eight patents, a whole country, one year. The cause: know-how can be bought, and nobody here invested in it. (Message #1) The fix: bring in the builders: foreign firms that open permanent plants and labs in second cities and train local firms and workers. Our ask: fund it in one country, this year."
 
 ## Slide 3 · Speaker 1
 
@@ -69,7 +69,7 @@ Speaker 2 · about 1 minute.
 ## Slide 10 · Speaker 2
 
 Speaker 2 · the climax · about 45 seconds. Slow down.
-"Four causes, one pattern. Know-how is bought, and nobody here bought it." (Message #2)
+"Four causes, one pattern. Know-how can be bought, and nobody here invested in it." (Message #2)
 Hand-off: "Is this destiny? No. [Speaker 3] shows who has done it."
 
 ## Slide 11 · Speaker 3
@@ -92,12 +92,12 @@ Hand-off: "So what should the IDB do? [Speaker 4]."
 ## Slide 14 · Speaker 4
 
 Speaker 4 · Policy recommendations · about 45 seconds.
-"So what should the IDB do? Not chase patents. Patents are the thermometer, not the medicine. The medicine is know-how, and the fastest way to get it is to bring in the teachers: foreign firms that set up here and teach local firms and workers. Three moves, one for each cause."
+"So what should the IDB do? Not chase patents. Patents are the thermometer, not the medicine. The medicine is know-how, and the fastest way to get it is to bring in the builders: foreign firms that open permanent plants and labs here, not consultants, and train local firms and workers. Three moves, one for each cause."
 
 ## Slide 15 · Speaker 4
 
 Speaker 4 · about 1 minute 15. Fixes causes 1 and 2.
-"One: invite foreign firms, on one condition: they teach. They train local suppliers, hire formally, and partner with a local university. An IDB-funded investment team picks the firms and writes the conditions. Costa Rica did this with CINDE; Chile did something similar for salmon." Why now: factories leaving China are choosing new homes.
+"One: invite foreign firms to build here: a real plant or lab that stays. One condition: they train local suppliers, hire formally, and partner with a local university. An IDB-funded investment team picks the firms and writes the conditions. Costa Rica did this with CINDE; Chile did something similar for salmon." Why now: factories leaving China are choosing new homes.
 
 ## Slide 16 · Speaker 4
 
@@ -118,7 +118,7 @@ Speaker 5 · about 1 minute 15.
 ## Slide 19 · Speaker 5
 
 Speaker 5 · Conclusion and next steps · about 1 minute. The eight dots are back.
-"Eight inventions. In 1980 Korea started where Mexico was. The difference was homework. Know-how is bought, not born. (Message #4) So bring in the teachers, in one country, this year. In the next 90 days: pick the pilot country and its second city, shortlist the first foreign firms, and set the baselines."
+"Eight inventions. In 1980 Korea started where Mexico was. The difference was homework. Know-how is bought, not born. (Message #4) So bring in the builders, in one country, this year. In the next 90 days: pick the pilot country and its second city, shortlist the first foreign firms, and set the baselines."
 Pause. No "thank you". "We'd love your questions." Speaker 5 hosts Q&A.
 
 ## Slide 20 · Backup
