@@ -74,9 +74,10 @@ Hand-off: "Is this destiny? No. [Speaker 3] shows who has done it."
 
 ## Slide 11 · Speaker 3
 
-Speaker 3 · International benchmarks · about 1 minute. One click on this slide.
-On entry the chart draws 1960 to 1990, zoomed in. "Were we always behind? No. In 1960, Mexico was four times richer than Korea. Around 1988, they swap."
-Click: the chart pulls back to 2024. "Today Korea is 3.6 times richer." Pause. "So what changed?"
+Speaker 3 · International benchmarks · about 1 minute. Two clicks on this slide.
+On entry: 1960 to the mid-1980s, Mexico ahead. "Were we always behind? No. In 1960, Mexico was four times richer than Korea."
+Click 1: the lines cross. "Then Korea caught up. Around 1988, they swapped."
+Click 2: the chart pulls back to 2024. Let it move. "Today Korea is 3.6 times richer." Pause. "So what changed?"
 
 ## Slide 12 · Speaker 3
 

@@ -33,6 +33,7 @@ h2.t{position:absolute;left:160px;right:160px;top:104px;text-align:center;font-s
 .s2,.s3,.s4{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .7s var(--out)}
 .slide.st1 .s2,.slide.st2 .s3,.slide.st3 .s4{opacity:1;transform:none;transition-delay:var(--sd,0s)}
 .s1{transition:opacity .4s ease}.slide.st1 .s1{opacity:0}
+.slide.st2 .x2{opacity:0!important;transition-delay:0s!important}
 .secbar{position:absolute;left:0;right:0;top:16px;display:flex;justify-content:center;align-items:center;gap:22px;font-size:19px;font-weight:600;color:#b5b5b5;z-index:6}
 .secbar b{color:#fff;background:var(--ink);font-weight:900;padding:5px 14px;border-radius:999px;letter-spacing:.02em}
 .spk{position:absolute;left:40px;bottom:46px;font-size:18px;font-weight:700;color:var(--muted);z-index:6}
@@ -213,9 +214,10 @@ ${CAP('Researchers in R&D per million people, latest year (2017 to 2024) · Worl
 
 // Income chart: opens on 1960-1990 (Mexico ahead, the swap in 1988), one click pulls back to 2024
 const ZI={ox:260,oy:240,w:1300,h:560};
-S.push({who:'Speaker 3',zoomI:1,steps:1,html:`${TAG('International benchmark · Korea')}
+S.push({who:'Speaker 3',zoomI:1,steps:2,html:`${TAG('International benchmark · Korea')}
 <div class="s1">${T('Were we always behind? No. In 1960, Mexico was four times richer than Korea.')}</div>
-<h2 class="t s2">Then they swapped. Today Korea is <span class="bl">3.6 times</span> richer.</h2>
+<h2 class="t s2 x2">Then Korea caught up. Around 1988, they swapped.</h2>
+<h2 class="t s3">Today Korea is <span class="bl">3.6 times</span> richer.</h2>
 <svg id="zi" class="A" style="left:0;top:0" width="1920" height="1080">
  <g id="zig"></g>
  <line x1="260" x2="1560" y1="800" y2="800" stroke="${C.grey}" stroke-width="1.5"/>
@@ -246,8 +248,11 @@ function ziRender(svg,{xmax,ymax,tEnd,b0}){const {ox,oy,w,h}=ZI,X=y=>ox+(y-1960)
 function ziFinal(svg){ziRender(svg,{xmax:2024,ymax:40000,tEnd:2024,b0:1});svg.querySelector('#zib1').style.opacity=1}
 function ziAnim(sl,phase){cancelAnimationFrame(ziRaf);const svg=sl.querySelector('#zi');
   const io=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2,out=k=>1-Math.pow(1-k,3),cl=k=>Math.max(0,Math.min(1,k));
-  if(phase===1){svg.querySelector('#zib1').style.opacity=0;if(RM){ziRender(svg,{xmax:1990,ymax:12000,tEnd:1990,b0:1});return}
-    const t0=performance.now();const step=now=>{const t=now-t0,k=out(cl((t-300)/2200));ziRender(svg,{xmax:1990,ymax:12000,tEnd:1960+30*k,b0:cl((t-200)/500)});if(t<2600)ziRaf=requestAnimationFrame(step)};
+  if(phase===1){svg.querySelector('#zib1').style.opacity=0;if(RM){ziRender(svg,{xmax:1990,ymax:12000,tEnd:1984,b0:1});return}
+    const t0=performance.now();const step=now=>{const t=now-t0,k=out(cl((t-300)/2200));ziRender(svg,{xmax:1990,ymax:12000,tEnd:1960+24*k,b0:cl((t-200)/500)});if(t<2600)ziRaf=requestAnimationFrame(step)};
+    ziRaf=requestAnimationFrame(step);return}
+  if(phase===2){if(RM){ziRender(svg,{xmax:1990,ymax:12000,tEnd:1990,b0:1});return}
+    const t0=performance.now();const step=now=>{const t=now-t0,k=out(cl(t/1400));ziRender(svg,{xmax:1990,ymax:12000,tEnd:1984+6*k,b0:1});if(t<1500)ziRaf=requestAnimationFrame(step)};
     ziRaf=requestAnimationFrame(step);return}
   if(RM){ziFinal(svg);return}
   const t0=performance.now();const step=now=>{const t=now-t0,k=io(cl(t/2400));
@@ -420,7 +425,7 @@ const NOTES=[
 {const N=NOTES.slice();NOTES.length=0;NOTES.push(N[0],N[1],N[2],N[3],
 `<b>Speaker 1 · about 1 minute.</b><br>"This is the disappointing growth the IDB asked about. Since 2000, income per person in Mexico grew just <b>0.3% a year</b>: 7% in 24 years. Guatemala and Honduras about 1.5%, below the world average. Korea, 3.1%."<br>"One exception: Costa Rica. Remember it." If asked about Panama: it grew fast on the canal, logistics and finance, a special case, so we left it off this chart.<br><b>Hand-off:</b> "So why? <b>[Speaker 2]</b> has the diagnosis."`,
 N[5],N[6],N[7],N[8],N[9],
-`<b>Speaker 3 · International benchmarks · about 1 minute. One click on this slide.</b><br>On entry the chart draws 1960 to 1990, zoomed in. "Were we always behind? No. In 1960, Mexico was <b>four times richer</b> than Korea. Around 1988, they swap."<br><b>Click:</b> the chart pulls back to 2024. "Today Korea is <b>3.6 times richer</b>." Pause. "So what changed?"`,
+`<b>Speaker 3 · International benchmarks · about 1 minute. Two clicks on this slide.</b><br>On entry: 1960 to the mid-1980s, Mexico ahead. "Were we always behind? No. In 1960, Mexico was <b>four times richer</b> than Korea."<br><b>Click 1:</b> the lines cross. "Then Korea caught up. Around 1988, they swapped."<br><b>Click 2:</b> the chart pulls back to 2024. Let it move. "Today Korea is <b>3.6 times richer</b>." Pause. "So what changed?"`,
 `<b>Speaker 3 · about 1 minute 15. One click on this slide.</b><br>On entry the chart draws 1980 to 1985, zoomed in. "In 1980, the two filed patents at the same level: Mexico 704, Korea 1,241. Two kids, same classroom."<br><b>Click:</b> the chart pulls back to 2024 and the title changes. Let it move, then: "Then Korea did its homework. Its patents grew <b>158 times</b>. Mexico's, 1.7 times. That is what turned Korea from the poorer country into the richer one."`,
 N[12],N[13],N[14],N[15],N[16],N[17],N[18],N[19]);}
 {const old=S.slice();S.length=0;PLAN.forEach(([o,sec,spk],i)=>S.push({...old[o],sec,spk,who:spk?'Speaker '+spk:'Backup',notes:NOTES[i]}));}
@@ -497,7 +502,7 @@ function go(n){cur=Math.max(0,Math.min(N-1,n));els.forEach((e,i)=>e.classList.to
   notes.innerHTML=`<div class="who">${S[cur].who} · slide ${cur+1} of ${N}</div>${S[cur].notes||''}`;prog.style.width=((cur+1)/N*100)+'%';
   try{history.replaceState(null,'','#'+(cur+1))}catch(e){}}
 let stepIdx=0;
-function next(){const n=S[cur].steps||0;if(stepIdx<n){stepIdx++;els[cur].classList.add('st'+stepIdx);hideTip();if(S[cur].zoom&&stepIdx===1)zoomAnim(els[cur],2);if(S[cur].zoomI&&stepIdx===1)ziAnim(els[cur],2);if(S[cur].dotsSteps)placeDots(S[cur].dotsSteps[stepIdx]);countUp(els[cur],stepIdx+1);return}go(cur+1)}
+function next(){const n=S[cur].steps||0;if(stepIdx<n){stepIdx++;els[cur].classList.add('st'+stepIdx);hideTip();if(S[cur].zoom&&stepIdx===1)zoomAnim(els[cur],2);if(S[cur].zoomI)ziAnim(els[cur],stepIdx+1);if(S[cur].dotsSteps)placeDots(S[cur].dotsSteps[stepIdx]);countUp(els[cur],stepIdx+1);return}go(cur+1)}
 function fit(){scale=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(${(innerWidth-1920*scale)/2}px,${(innerHeight-1080*scale)/2}px) scale(${scale})`}
 addEventListener('resize',fit);fit();
 const toggleNotes=()=>notes.classList.toggle('show');
