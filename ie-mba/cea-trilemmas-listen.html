@@ -1,0 +1,159 @@
+<title>Rodrik vs. Mundell</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: lesson picker on top, one reading card with the current sentence lit up, player bar fixed at the bottom. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --fg:#14202e; --muted:#5c6878; --line:#dce2ea;
+  --accent:#1f5d8f; --accent-soft:#e3edf6; --live:#fff1c7; --live-ink:#5a4300;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141b; --surface:#18202b; --fg:#e6ebf1; --muted:#9aa6b5; --line:#2a3542;
+  --accent:#7fb3e0; --accent-soft:#1b2b3c; --live:#4a3b10; --live-ink:#ffe39a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f141b; --surface:#18202b; --fg:#e6ebf1; --muted:#9aa6b5; --line:#2a3542;
+  --accent:#7fb3e0; --accent-soft:#1b2b3c; --live:#4a3b10; --live-ink:#ffe39a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);margin:0}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 150px}
+h1{font:700 clamp(28px,5vw,40px)/1.1 var(--display);margin:4px 0 8px;text-wrap:balance}
+.eyebrow{font:600 12px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);margin:0 0 18px;max-width:60ch}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:0 0 18px}
+.lesson{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:2px;transition:transform .2s cubic-bezier(.34,1.56,.64,1),border-color .15s}
+.lesson:active{transform:scale(.96)}
+.lesson:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lesson b{font:600 15px/1.3 var(--display)}
+.lesson span{font-size:12.5px;color:var(--muted)}
+.lesson[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.card h2{font:700 24px/1.2 var(--display);margin:0 0 4px;text-wrap:balance}
+.card .who{font-size:13px;color:var(--muted);margin-bottom:12px}
+.s{display:inline;padding:1px 2px;border-radius:4px;cursor:pointer;transition:background .2s}
+.s:hover{background:var(--accent-soft)}
+.s.on{background:var(--live);color:var(--live-ink)}
+.para{margin:0 0 12px;font-size:17px;line-height:1.75}
+.note{font-size:13.5px;color:var(--muted);margin-top:14px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar .in{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:600 15px/1 var(--body);border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:12px 18px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .15s}
+.btn:active{transform:scale(.93)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--surface);min-width:110px}
+.bar label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.bar select{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px}
+.prog{flex:1 1 100%;height:4px;background:var(--line);border-radius:4px;overflow:hidden;order:-1}
+.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.status{font-size:13px;color:var(--muted);flex:1 1 140px;min-width:0}
+.warn{background:var(--live);color:var(--live-ink);border-radius:8px;padding:10px 14px;font-size:14px;margin:0 0 14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Country Economic Analysis · exam prep</div>
+  <h1>Rodrik vs. Mundell, in depth</h1>
+  <p class="lede">Eight short audio chapters on the two "pick two" rules, in order. Start with chapter 1 and press Play. The sentence being spoken lights up; tap any sentence to jump to it.</p>
+  <div class="warn" id="nosupport" hidden>This browser can't read aloud. Try opening the link in Safari or Chrome, or read along below.</div>
+  <div class="lessons" id="lessons"></div>
+  <div class="card" id="card"><h2 id="ltitle"></h2><div class="who" id="lwho"></div><div id="ltext"></div>
+    <p class="note">Spoken by your device's built-in voice. On iPhone, turn off silent mode if you hear nothing.</p></div>
+</div>
+
+<div class="bar"><div class="in">
+  <div class="prog"><i id="prog"></i></div>
+  <button type="button" class="btn pri" id="play">▶ Play</button>
+  <button type="button" class="btn" id="back" aria-label="Previous sentence">⏮</button>
+  <button type="button" class="btn" id="fwd" aria-label="Next sentence">⏭</button>
+  <label for="rate">Speed <select id="rate"><option value="0.85">0.85×</option><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2" selected>2×</option></select></label>
+  <span class="status" id="status">Ready</span>
+</div></div>
+
+<script>
+(function(){
+const L=[
+{t:"1. The big idea: pick two",who:"Start here",p:[
+["Before the economics, here is an everyday version of the idea.","When you hire someone to build something, you usually want it fast, cheap and good. In real life you can only pick two.","Fast and cheap will not be good. Good and fast will not be cheap. Cheap and good will not be fast."],
+["Both of today's ideas work exactly like that. A country wants three things. It can have any two of them, but never all three at once."],
+["Rodrik's version is about politics. It asks: who gets to make the rules in a country?","Mundell's version is about money. It asks: how does a country manage its currency and its interest rates?"],
+["Keep this picture in your head: one triangle about rules and voters, and one triangle about currencies and central banks."]]},
+{t:"2. Rodrik: the three things",who:"Allard",p:[
+["Dani Rodrik is an economist at Harvard. His idea is called the globalization trilemma, or Rodrik's trilemma. A trilemma just means a choice between three things."],
+["The first thing is hyperglobalization. That means being completely open to the world economy.","Goods, money, companies and often people move across borders freely, with the same rules everywhere."],
+["The second thing is national sovereignty. That means your country makes its own rules.","Your own parliament decides your tax rules, your labor rules, your immigration rules, without needing permission from anyone outside."],
+["The third thing is democratic politics. That means voters decide.","If people do not like a rule, they can vote and change it."],
+["Each one sounds good on its own. The problem is putting all three together."]]},
+{t:"3. Rodrik: why you can't have all three",who:"Allard",p:[
+["Think of the world economy as a giant club. To be a full member, every country must follow the same club rules. That is what hyperglobalization needs: shared rules."],
+["Option one: you keep globalization and democracy. Then the club rules have to be written democratically at the club level, for example by the European Union.","Your voters still have a say, but through the bigger body. What you give up is national sovereignty. Your own parliament no longer decides everything."],
+["Option two: you keep globalization and sovereignty. Your government stays in charge, but to stay in the club it has to do whatever keeps global markets happy.","Voters lose real choice, because the answer is always the same. What you give up is democracy.","Rodrik has a name for this: the golden straitjacket. That name is extra detail, you do not need it for the exam."],
+["Option three: you keep sovereignty and democracy. Your voters and your parliament decide everything.","But then rules differ from country to country, so trade and investment flow less freely. What you give up is hyperglobalization.","This is roughly how the world worked after the Second World War, with some trade, but national control."],
+["So in every option, one thing is missing. That is the trilemma."]]},
+{t:"4. Rodrik in real life: Brexit",who:"Allard",p:[
+["Here is the story Allard used. Inside the European Union, Britain had deep globalization through the single market. It also had democracy.","So by Rodrik's logic, it had to give up some sovereignty. And it did: many rules came from Brussels, including free movement of people from other European countries."],
+["After the big enlargement in two thousand four, many people moved from Eastern Europe to Britain.","In places where the foreign-born population grew very fast, many voters felt they had lost control. Immigration became the symbol of lost sovereignty."],
+["In twenty sixteen, Britain voted to leave, fifty two to forty eight.","It took back sovereignty. The price was less globalization: new trade barriers, more paperwork at the border, and slower growth."],
+["Allard tied this to populism more generally, including Trump.","When incomes stagnate, the middle class shrinks, and jobs disappear to automation and trade, people feel the system does not work for them. They push back against globalization."],
+["Kevin O'Rourke's line sums it up: too much market and too little state invites a backlash.","In plain words: if governments let global markets run everything, and stop protecting people, voters will eventually revolt."]]},
+{t:"5. Mundell: the three things",who:"Garland",p:[
+["Now switch to money. Robert Mundell won the Nobel Prize in economics. His idea is called the impossible trinity, or the Mundell trilemma."],
+["The first thing is a fixed exchange rate. That means your currency stays at one price against another currency, like eight point two eight yuan per dollar. It gives stability.","The second thing is free capital flows. That means money can move in and out of the country freely, with no controls.","The third thing is independent monetary policy. That means your own central bank chooses your interest rate, to fight inflation or help the economy."],
+["Again, each one is attractive. Stability is good, investment is good, and controlling your own interest rate is good.","But you can only have two at once."]]},
+{t:"6. Mundell: why you can't have all three",who:"Garland",p:[
+["Remember from Garland's class: money moves toward higher interest rates. Investors want the best return for the same risk."],
+["Now imagine Mexico tries to have all three. The peso is fixed to the dollar. Money can move freely. And Mexico's economy is slowing, so its central bank cuts interest rates to help.","Investors can now earn more in the United States. Because money is free to leave, they sell their pesos and buy dollars to move their money out."],
+["All that selling pushes the peso down. But the peso is supposed to be fixed.","So the central bank has to defend it. It sells its dollar reserves and buys back pesos.","It can only do that until the reserves run out. Then the peg breaks, and the peso falls hard."],
+["It also works in the other direction. If Mexico raised its interest rate instead, money would flood in, pushing the peso up.","To hold the peg, the central bank would have to buy dollars and print pesos, which causes inflation."],
+["So the lesson is: with a fixed rate and free capital, you cannot really choose your own interest rate.","Your rate has to follow the country you are pegged to. If you try to go your own way, money moves and breaks the peg."]]},
+{t:"7. Mundell: who picks which two",who:"Garland",p:[
+["Every country makes a choice.","Choice one: free capital and your own interest rate. Then you give up the fixed rate, and your currency floats. That is the United States, Japan, the United Kingdom, and Brazil after nineteen ninety nine."],
+["Choice two: a fixed rate and free capital. Then you give up your own monetary policy.","That is every country in the euro: Spain and Greece cannot set their own interest rates, the European Central Bank does.","It is also dollarized countries like Ecuador, El Salvador and Panama, where the American central bank effectively sets the conditions. And Argentina's currency board from nineteen ninety one to two thousand one."],
+["Choice three: a fixed or managed rate and your own interest rate. Then you give up free capital, and you use capital controls.","That is China, and India too. Large transfers in and out need approval. Chile used a softer version, a twenty percent deposit on short-term money."],
+["Now see the cases from class through this lens.","Mexico in nineteen ninety four had a band and free capital. When money rushed out, the peg could not hold, and the peso collapsed from about three to about seven per dollar.","Spain and Greece in the euro gave up their own interest rate. So in their crisis they could not cut rates or devalue, and had to cut wages instead, which is internal devaluation."]]},
+{t:"8. Side by side, traps and a quick quiz",who:"Both",p:[
+["Side by side. Rodrik is about politics: hyperglobalization, national sovereignty, democracy. Think Brexit.","Mundell is about money: a fixed exchange rate, free capital, your own interest rate. Think central banks and pegs."],
+["The three second test. If the options mention democracy or sovereignty, it is Rodrik. If they mention an exchange rate, capital flows or interest rates, it is Mundell."],
+["The favorite trap: which of these is NOT part of Rodrik's trilemma? Independent monetary policy. That belongs to Mundell.","The reverse trap: which is NOT part of Mundell's trinity? Democracy. That belongs to Rodrik."],
+["Quick quiz. Pause after each question and answer out loud.","Question one. Britain voted to take back control of its rules, and accepted more trade barriers. Which trilemma, and what did it give up?","Answer: Rodrik. It took back sovereignty and gave up some globalization."],
+["Question two. Greece cannot cut its own interest rate during a crisis. Which trilemma, and why?","Answer: Mundell. In the euro it has a fixed rate and free capital, so it gave up its own monetary policy."],
+["Question three. China keeps a managed currency and sets its own interest rates. What must it limit?","Answer: free movement of capital. It uses capital controls."],
+["Final line to remember. Rodrik is politics, Mundell is money, and in both you only get to pick two. Good luck."]]}
+];
+const $=id=>document.getElementById(id);
+const synth=window.speechSynthesis;const ok=!!(synth&&window.SpeechSynthesisUtterance);
+if(!ok)$('nosupport').hidden=false;
+let cur=0,flat=[],idx=0,playing=false,paused=false,voice=null,gen=0;
+function pickVoice(){if(!ok)return;const v=synth.getVoices();voice=v.find(x=>/^en(-|_)(US|GB)/i.test(x.lang)&&/Samantha|Google US|Daniel|Karen|Serena|Natural/i.test(x.name))||v.find(x=>/^en/i.test(x.lang))||null}
+if(ok){pickVoice();if('onvoiceschanged' in synth)synth.onvoiceschanged=pickVoice}
+function renderList(){$('lessons').innerHTML=L.map((l,i)=>`<button type="button" class="lesson" data-i="${i}" aria-current="${i===cur}"><b>${l.t}</b><span>${l.who} · ${l.p.flat().length} sentences</span></button>`).join('');
+  $('lessons').querySelectorAll('.lesson').forEach(b=>b.addEventListener('click',()=>{stop();load(+b.dataset.i);$('card').scrollIntoView({behavior:'smooth',block:'start'})}))}
+function load(i){cur=i;try{localStorage.setItem('cea_tri_lesson',i)}catch(e){}const l=L[i];$('ltitle').textContent=l.t;$('lwho').textContent=l.who;flat=[];
+  $('ltext').innerHTML=l.p.map(par=>'<p class="para">'+par.map(s=>{const k=flat.length;flat.push(s);return `<span class="s" data-k="${k}">${s}</span>`}).join(' ')+'</p>').join('');
+  $('ltext').querySelectorAll('.s').forEach(el=>el.addEventListener('click',()=>{idx=+el.dataset.k;if(playing){speakFrom(idx)}else mark(idx)}));
+  idx=0;mark(-1);renderList();status('Ready · '+flat.length+' sentences')}
+function mark(k){$('ltext').querySelectorAll('.s').forEach(el=>el.classList.toggle('on',+el.dataset.k===k));$('prog').style.width=(k<0?0:((k+1)/flat.length*100))+'%';
+  const el=$('ltext').querySelector('.s.on');if(el){const r=el.getBoundingClientRect();if(r.top<70||r.bottom>window.innerHeight-130)el.scrollIntoView({block:'center',behavior:'smooth'})}}
+function status(t){$('status').textContent=t}
+function setBtn(){$('play').textContent=playing&&!paused?'❚❚ Pause':'▶ Play'}
+function speakFrom(k){if(!ok)return;gen++;const my=gen;synth.cancel();playing=true;paused=false;setBtn();
+  const rate=+$('rate').value;
+  for(let j=k;j<flat.length;j++){const u=new SpeechSynthesisUtterance(flat[j]);u.rate=rate;u.lang='en-US';if(voice)u.voice=voice;
+    u.onstart=()=>{if(my!==gen)return;idx=j;mark(j);status('Sentence '+(j+1)+' of '+flat.length)};
+    if(j===flat.length-1)u.onend=()=>{if(my!==gen)return;playing=false;paused=false;setBtn();status('Finished. Pick the next lesson.');idx=0};
+    synth.speak(u)}}
+function stop(){gen++;if(ok)synth.cancel();playing=false;paused=false;setBtn()}
+$('play').addEventListener('click',()=>{if(!ok)return;
+  if(playing&&!paused){synth.pause();paused=true;setBtn();status('Paused');return}
+  if(playing&&paused){synth.resume();paused=false;setBtn();status('Sentence '+(idx+1)+' of '+flat.length);
+    setTimeout(()=>{if(playing&&!paused&&!synth.speaking)speakFrom(idx)},400);return}
+  speakFrom(idx)});
+$('back').addEventListener('click',()=>{idx=Math.max(0,idx-1);playing?speakFrom(idx):mark(idx)});
+$('fwd').addEventListener('click',()=>{idx=Math.min(flat.length-1,idx+1);playing?speakFrom(idx):mark(idx)});
+$('rate').addEventListener('change',()=>{try{localStorage.setItem('cea_listen_rate',$('rate').value)}catch(e){}if(playing)speakFrom(idx)});
+try{const r=localStorage.getItem('cea_listen_rate');if(r&&[...$('rate').options].some(o=>o.value===r))$('rate').value=r}catch(e){}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!paused&&ok){synth.pause();paused=true;setBtn();status('Paused')}});
+let start=0;try{start=+localStorage.getItem('cea_tri_lesson')||0}catch(e){}
+load(start>=0&&start<L.length?start:0);
+})();
+</script>
