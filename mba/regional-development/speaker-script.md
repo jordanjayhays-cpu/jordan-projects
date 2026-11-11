@@ -44,7 +44,7 @@ Hand-off: "So why? [Speaker 2] has the diagnosis."
 ## Slide 6 · Speaker 2
 
 Speaker 2 · Diagnostic · about 45 seconds.
-"Four causes. First: the region barely pays for research. Korea spends almost 5% of its economy on research every year. Mexico, 0.3%. That is a policy choice, written into a budget."
+"Four causes. First: the region barely pays for research. Korea spends almost 5% of its economy on research every year; the OECD average is about 3%; Latin America, under 0.7%. And our subregion is at the bottom of Latin America: Mexico 0.25%, Guatemala almost zero. That is a policy choice, written into a budget."
 
 ## Slide 7 · Speaker 2
 

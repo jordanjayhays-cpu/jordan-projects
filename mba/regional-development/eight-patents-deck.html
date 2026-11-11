@@ -140,7 +140,7 @@ S.push({who:'Speaker 1',html:`<div class="b" style="--t:100ms">${LOCKUP('top:62p
 <h2 class="t b" style="--t:250ms;top:170px">We are EY. The IDB asked us: why has growth been so disappointing?</h2>
 <p class="b" style="--t:500ms;position:absolute;left:260px;right:260px;top:322px;text-align:center;font-size:25px;color:var(--muted);line-height:1.4">The Inter-American Development Bank (IDB) is the development bank that lends to governments across Latin America and the Caribbean.</p>
 <div class="A" style="left:200px;right:200px;top:430px;display:grid;grid-template-columns:1fr 1fr;gap:100px">
-${[['What we found',['Mexico and Korea started level in 1980. Korea paid to learn; the region did not.','Research is 0.3% of the economy, and researchers are scarce.','Big cities drain the regions, and almost 6 in 10 workers are informal.']],
+${[['What we found',['Mexico and Korea started level in 1980. Korea paid to learn; the region did not.','Mexico spends 0.25% of its economy on research, Guatemala almost nothing, and researchers are scarce.','Big cities drain the regions, and almost 6 in 10 workers are informal.']],
    ['What we recommend',['A learning team that proves one new industry, then steps away.','Cheaper formal hiring: health and pensions paid from general taxes.','Connect the towns outside the big cities. Scored every year.']]].map(([h,items],c)=>
  `<div class="b" style="--t:${800+c*500}ms"><div style="font-size:28px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;padding-bottom:12px;border-bottom:4px solid #111">${h}</div>${items.map((t,k)=>`<p style="font-size:28px;font-weight:600;line-height:1.3;margin-top:18px;letter-spacing:-.3px"><b style="color:${c?C.kor:C.mex}">${k+1}.</b> ${t}</p>`).join('')}</div>`).join('')}</div>
 <p class="foot b" style="--t:2000ms;bottom:70px;font-size:48px;font-weight:900;letter-spacing:-1.5px">Know-how is bought, not born.</p>`});
@@ -183,15 +183,20 @@ If anyone asks about a year, hover the chart.`});
 
 S.push({who:'Speaker 2',html:`${TAG('Diagnosis · policy constraint: too little research spending')}${T('Cause 1: the region barely pays for research')}
 <svg class="A" style="left:0;top:0" width="1920" height="1080">
- <text class="ap" style="--t:500ms" x="420" y="472" text-anchor="end" font-size="34" font-weight="800" fill="${C.kor}">SOUTH KOREA</text>
- <rect class="grow" style="--t:700ms;--dur:1.3s" x="450" y="420" width="1100" height="80" fill="${C.kor}"/>
- <text class="ap" style="--t:1900ms" x="1575" y="482" font-size="64" font-weight="900" fill="${C.kor}">4.9%</text>
- <text class="ap" style="--t:2200ms" x="420" y="672" text-anchor="end" font-size="34" font-weight="800" fill="${C.mex}">MEXICO</text>
- <rect class="grow" style="--t:2400ms;--dur:.6s" x="450" y="620" width="${(0.3/4.9*1100).toFixed(1)}" height="80" fill="${C.mex}"/>
- <text class="ap" style="--t:2800ms" x="${(450+0.3/4.9*1100+25).toFixed(1)}" y="682" font-size="64" font-weight="900" fill="${C.mex}">0.3%</text></svg>
-${CAP('Share of the whole economy spent on research and development, every year · World Bank WDI, latest year 2022 to 2024',3000)}`,
+${(()=>{const R=[['South Korea',4.94,'2023',C.kor,0],['OECD average',2.93,'2023','#9a9a9a',0],['Brazil',1.19,'2023',C.grey,0],['Latin America average',0.68,'2023','#9a9a9a',0],
+  ['Costa Rica',0.34,'2023',C.ink,1],['Mexico',0.25,'2024',C.mex,1],['Panama',0.20,'2024',C.ink,1],['El Salvador',0.10,'2023',C.ink,1],['Honduras',0.06,'2019',C.ink,1],['Guatemala',0.01,'2023',C.gtm,1]];
+  const x0=600,W=1050,y0=225,H=68,sc=v=>v/4.94*W;let o='';
+  const f=R.findIndex(r=>r[4]);o+=`<rect class="ap" style="--t:200ms" x="120" y="${y0+f*H-14}" width="1700" height="${(R.length-f)*H+4}" fill="#f4f4f4"/>
+   <text class="ap" style="--t:300ms" x="140" y="${y0+f*H+18}" font-size="17" font-weight="800" letter-spacing="2" fill="${C.muted}">OUR SUBREGION</text>`;
+  R.forEach(([n,v,yr,c,sub],i)=>{const y=y0+i*H,t=500+i*140,tip=`${n}|${v.toFixed(2)}% of GDP on research, ${yr}`;
+   o+=`<text class="ap" style="--t:${t}ms" x="${x0-24}" y="${y+33}" text-anchor="end" font-size="28" font-weight="${sub||i===0?800:600}" fill="${c===C.grey||c==='#9a9a9a'?C.muted:c}">${n}</text>
+    <rect class="grow" data-tip="${tip}" style="--t:${t+100}ms;--dur:.8s" x="${x0}" y="${y+6}" width="${Math.max(3,sc(v)).toFixed(1)}" height="40" fill="${c}"/>
+    <text class="ap" style="--t:${t+500}ms" x="${(x0+Math.max(3,sc(v))+16).toFixed(1)}" y="${y+36}" font-size="28" font-weight="800" fill="${c===C.grey||c==='#9a9a9a'?C.muted:c}">${v.toFixed(2)}%${yr==='2019'?' <tspan font-size="18" font-weight="600" fill="#5c5c5c">(2019)</tspan>':''}</text>`});
+  return o})()}
+</svg>
+${CAP('Research and development spending, % of GDP, latest year (2023 or 2024; Honduras 2019) · World Bank WDI · Nicaragua left out: latest figure is from 2015',2000)}`,
 notes:`About 45 seconds.<br>
-"What was the homework? Korea spends almost <b>5%</b> of its whole economy on research, every year. Mexico spends <b>0.3%</b>."<br>
+"What was the homework? Korea spends almost <b>5%</b> of its whole economy on research, every year. Mexico spends <b>0.25%</b>."<br>
 "That's not luck. It's a line in a budget that someone chose to write."`});
 
 S.push({who:'Speaker 2',dots:'res',html:`${TAG('Diagnosis · structural constraint: too few researchers')}${T(`Cause 2: few people are paid to invent. Korea has <span class="bl">${num(22,{t:500})}</span> for every <span class="pk">1</span>`)}
@@ -370,7 +375,7 @@ const NOTES=[
 `<b>Speaker 1 · Regional context · about 45 seconds.</b> Wait for all eight dots.<br>"Last year, the whole of Guatemala filed <b>eight</b> patents. Eight. For 18 million people." A patent is a new invention someone registers: the simplest count of new ideas a country produces.`,
 `<b>Speaker 1 · about 30 seconds.</b> The eight dots shrink into a speck as Korea's fill the slide.<br>"The same year, South Korea filed <b>195,786</b>." Pause. "And Korea has fewer people than Mexico."`,
 `<b>Speaker 1 · about 45 seconds.</b><br>"This is what disappointing growth looks like. In 1960 Mexico was <b>four times richer</b> than Korea. Around 1988 they swapped. Today Korea is <b>3.6 times richer</b>."<br><b>Hand-off:</b> "So why? <b>[Speaker 2]</b> has the diagnosis."`,
-`<b>Speaker 2 · Diagnostic · about 45 seconds.</b><br>"Four causes. First: the region barely pays for research. Korea spends almost <b>5%</b> of its economy on research every year. Mexico, <b>0.3%</b>. That is a policy choice, written into a budget."`,
+`<b>Speaker 2 · Diagnostic · about 45 seconds.</b><br>"Four causes. First: the region barely pays for research. Korea spends almost <b>5%</b> of its economy on research every year; the OECD average is about 3%; Latin America, under 0.7%. And our subregion is at the bottom of Latin America: Mexico <b>0.25%</b>, Guatemala almost <b>zero</b>. That is a policy choice, written into a budget."`,
 `<b>Speaker 2 · about 45 seconds.</b><br>"Second: few people are paid to invent. For every researcher in Mexico, Korea has about <b>22</b>." If time: "Guatemala has about 26 researchers in the whole country."`,
 `<b>Speaker 2 · about 1 minute.</b><br>"Third: the capital cities pull in the money, the people and the talent, and send very little back. Myrdal called it backwash. Everyone else calls it leaving."`,
 `<b>Speaker 2 · about 1 minute.</b><br>"Fourth: hiring someone officially costs extra, because payroll taxes pay for health and pensions. So firms stay small and off the books. In Guatemala <b>7 in 10</b> workers are informal; in Mexico <b>almost 6 in 10</b>; in Costa Rica about <b>4 in 10</b>." (ILOSTAT, 2025; Santiago Levy's argument.)`,
