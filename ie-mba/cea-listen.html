@@ -66,7 +66,7 @@ h1{font:700 clamp(28px,5vw,40px)/1.1 var(--display);margin:4px 0 8px;text-wrap:b
   <button type="button" class="btn pri" id="play">▶ Play</button>
   <button type="button" class="btn" id="back" aria-label="Previous sentence">⏮</button>
   <button type="button" class="btn" id="fwd" aria-label="Next sentence">⏭</button>
-  <label for="rate">Speed <select id="rate"><option value="0.85">0.85×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option></select></label>
+  <label for="rate">Speed <select id="rate"><option value="0.85">0.85×</option><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2" selected>2×</option></select></label>
   <span class="status" id="status">Ready</span>
 </div></div>
 
@@ -151,7 +151,8 @@ $('play').addEventListener('click',()=>{if(!ok)return;
   speakFrom(idx)});
 $('back').addEventListener('click',()=>{idx=Math.max(0,idx-1);playing?speakFrom(idx):mark(idx)});
 $('fwd').addEventListener('click',()=>{idx=Math.min(flat.length-1,idx+1);playing?speakFrom(idx):mark(idx)});
-$('rate').addEventListener('change',()=>{if(playing)speakFrom(idx)});
+$('rate').addEventListener('change',()=>{try{localStorage.setItem('cea_listen_rate',$('rate').value)}catch(e){}if(playing)speakFrom(idx)});
+try{const r=localStorage.getItem('cea_listen_rate');if(r&&[...$('rate').options].some(o=>o.value===r))$('rate').value=r}catch(e){}
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!paused&&ok){synth.pause();paused=true;setBtn();status('Paused')}});
 let start=0;try{start=+localStorage.getItem('cea_listen_lesson')||0}catch(e){}
 load(start>=0&&start<L.length?start:0);
