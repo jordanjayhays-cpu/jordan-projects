@@ -27,18 +27,21 @@ Three clicks: the problem is on screen. Click: the cause. Click: the fix. Click:
 
 ## Slide 3 · Speaker 1
 
-Speaker 1 · Regional context · about 45 seconds. Wait for all eight dots.
-"Last year, the whole of Guatemala filed eight patents. Eight. For 18 million people." A patent is a new invention someone registers: the simplest count of new ideas a country produces.
+Speaker 1 · Regional context · about 1 minute. Two clicks.
+Wait for all eight dots. "Last year, the whole of Guatemala filed eight patents. Eight. For 18 million people."
+Click: the eight shrink into a speck as Korea's dots fill the slide. "The same year, South Korea filed 195,786. And Korea has fewer people than Mexico."
 
 ## Slide 4 · Speaker 1
 
-Speaker 1 · about 30 seconds. The eight dots shrink into a speck as Korea's fill the slide.
-"The same year, South Korea filed 195,786." Pause. "And Korea has fewer people than Mexico."
+Speaker 1 · about 1 minute. The dots spread into 123 countries.
+"Does this matter? Across 123 countries, the ones that invent more are richer. Ten times more patents per person goes with about 2.7 times the income. Korea is top right. Our subregion is bottom left."
+Be honest if asked: "This is correlation, not proof. Patents are the thermometer. The engine is know-how, and growth economics links know-how to growth: Romer, and Hausmann and Hidalgo on economic complexity."
 
 ## Slide 5 · Speaker 1
 
-Speaker 1 · about 45 seconds.
-"This is what disappointing growth looks like. In 1960 Mexico was four times richer than Korea. Around 1988 they swapped. Today Korea is 3.6 times richer."
+Speaker 1 · about 1 minute.
+"This is the disappointing growth the IDB asked about. Since 2000, income per person in Mexico grew just 0.3% a year: 7% in 24 years. Guatemala and Honduras about 1.5%, below the world average. Korea, 3.1%."
+"Two exceptions: Panama and Costa Rica. Remember Costa Rica."
 Hand-off: "So why? [Speaker 2] has the diagnosis."
 
 ## Slide 6 · Speaker 2
@@ -49,17 +52,19 @@ Speaker 2 · Diagnostic · about 45 seconds.
 ## Slide 7 · Speaker 2
 
 Speaker 2 · about 45 seconds.
-"Second: few people are paid to invent. For every researcher in Mexico, Korea has about 22." If time: "Guatemala has about 26 researchers in the whole country."
+"Second: few people are paid to invent. Korea has about 9,500 researchers per million people. Chile has about 700. Every country in our subregion is below Chile: Mexico 438, Guatemala 1.4." If time: "That is about 26 researchers in the whole of Guatemala."
 
 ## Slide 8 · Speaker 2
 
-Speaker 2 · about 1 minute.
-"Third: the capital cities pull in the money, the people and the talent, and send very little back. Myrdal called it backwash. Everyone else calls it leaving."
+Speaker 2 · about 1 minute 15.
+"Third: the capital races ahead and the rest of the country is left behind. Jobs, universities and investment pile up in the capital, and young people and money leave the regions. Economists call it backwash."
+"Look at the gap. In Korea, the capital region is only 1.3 times richer than the poorest region. In Costa Rica, 2.5 times. In Mexico, Mexico City is 5.9 times richer than Chiapas."
+If asked: "Mexico's richest region is actually Campeche, because of oil, so we compare the capital." OECD Regional Database, 2021.
 
 ## Slide 9 · Speaker 2
 
 Speaker 2 · about 1 minute.
-"Fourth: hiring someone officially costs extra, because payroll taxes pay for health and pensions. So firms stay small and off the books. In Guatemala 7 in 10 workers are informal; in Mexico almost 6 in 10; in Costa Rica about 4 in 10." (ILOSTAT, 2025; Santiago Levy's argument.)
+"Fourth: hiring someone officially costs extra, because payroll taxes pay for health and pensions. So firms stay small and off the books. Across our subregion, about 6 in 10 workers are informal, against about 1 in 4 in Chile. Honduras and Guatemala are the worst; Costa Rica the best." (ILOSTAT, 2025; Santiago Levy's argument.)
 
 ## Slide 10 · Speaker 2
 
@@ -69,14 +74,14 @@ Hand-off: "Is this destiny? No. [Speaker 3] shows who has done it."
 
 ## Slide 11 · Speaker 3
 
-Speaker 3 · International benchmarks · about 45 seconds.
-"Were we always behind? No. In 1980 Mexico filed 704 patents and Korea 1,241. Two kids, same classroom, similar grades."
+Speaker 3 · International benchmarks · about 1 minute 15. One click on this slide.
+On entry the chart draws 1980 to 1985, zoomed in. "Were we always behind? No. In 1980 Mexico filed 704 patents and Korea 1,241. Level. Two kids, same classroom."
+Click: the chart pulls back to 2024 and the title changes. Let it move, then: "Then Korea did its homework. Its patents grew 158 times. Mexico's, 1.7 times."
 
 ## Slide 12 · Speaker 3
 
-Speaker 3 · about 1 minute 15. Two clicks on this slide.
-Click 1: the chart draws 1980 to 1985, zoomed in. "Here they are in the early 1980s. Level."
-Click 2: it pulls back to 2024. Let it move, then: "Then Korea did its homework. Its patents grew 158 times. Mexico's, 1.7 times."
+Speaker 3 · about 45 seconds.
+"And the homework paid off. In 1960 Mexico was four times richer than Korea. Around 1988 they swapped. Today Korea is 3.6 times richer."
 
 ## Slide 13 · Speaker 3
 
@@ -126,10 +131,12 @@ Rules: repeat the question, answer in one or two sentences with PREP (point, rea
 
 | Likely question | Owner | Answer in one line |
 |---|---|---|
-| Korea had US support and a military government. Is it a fair comparison? | Speaker 2 | Agreed, one country is not a perfect model. That is why the plan copies cases from this region: Costa Rica, Chile, Medellín. |
-| Patents miss a lot. Firms file abroad. | Speaker 2 | True. Patents are the simplest count we can compare across countries. Research spending and researchers point the same way. |
-| Is informality really caused by payroll taxes? | Speaker 3 | It is one main cause in Levy's work, not the only one. The ILOSTAT numbers show the size of the problem: 57% in Mexico, 74% in Guatemala. |
-| Why do capitals matter? Seoul is huge too. | Speaker 3 | Seoul's share is similar. The difference is that Korea paid to spread know-how; backwash happens when nobody does. |
+| Korea had US support and a military government. Is it a fair comparison? | Speaker 3 | Agreed, one country is not a perfect model. That is why the plan copies cases from this region: Costa Rica, Chile, Medellín. |
+| Patents miss a lot. Firms file abroad. | Speaker 1 | True. Patents are the simplest count we can compare across countries. Research spending and researchers point the same way. |
+| Is informality really caused by payroll taxes? | Speaker 2 | It is one main cause in Levy's work, not the only one. ILOSTAT shows the size of it: about 6 in 10 workers across our subregion. |
+| Why do capitals matter? Seoul is huge too. | Speaker 2 | Seoul is big, but Korea's capital region is only 1.3× richer than its poorest region. Mexico City is 5.9× richer than Chiapas (OECD, 2021). |
+| Do more patents really cause growth? | Speaker 1 | Not on their own. Across 123 countries, inventing goes strongly with income (correlation 0.75) but only weakly with later growth. Patents are the thermometer; know-how is the engine (Romer; Hidalgo and Hausmann). |
+| Why measure growth from 2000? | Speaker 1 | Honduras' 1990s data has a break that fakes very fast growth, so we use 2000 to 2024 for everyone. |
 | Won't foreign firms just take the profits out? | Speaker 4 | Some profit will leave. That is why the deal has conditions: local suppliers, formal hiring, a university partner. The know-how stays even when profits go. |
 | Why not put research centres in Mexico City? | Speaker 4 | The capital already soaks everything up (cause 3). Second cities spread the jobs and the learning. |
 | What does it cost? | Speaker 4 | Costing is the first 90-day step, built with IDB project data. We will not quote a number we cannot defend. |

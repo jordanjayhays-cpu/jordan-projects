@@ -106,6 +106,20 @@ const arrowDef=(id,c)=>`<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5"
 // ---------- Dot layouts: one layer of dots that moves between slides ----------
 const grid=(n,{cx,cy,cols,p,r,c,tip,align='c'})=>{const rows=Math.ceil(n/cols),w=(cols-1)*p,h=(rows-1)*p,x0=align==='c'?cx-w/2:cx,y0=align==='b'?cy-h:cy-h/2;
   return Array.from({length:n},(_,i)=>({x:x0+(i%cols)*p,y:y0+Math.floor(i/cols)*p,r,c,tip}))};
+// Patents per million people vs income per person, ~2021 (±2 years), 123 countries over 1 million people · World Bank WDI
+const SC=[["CZE","Czechia",51.5,20374],["SGP","Singapore",371.13,67847],["CUB","Cuba",1.89,7379],["AGO","Angola",0.06,2788],["BIH","Bosnia and Herzegovina",16.33,5996],["ROU","Romania",40.37,11546],["SVK","Slovak Republic",26.8,18808],["AZE","Azerbaijan",11.74,5350],["TUR","Turkiye",97.85,13671],["COD","Congo, Dem. Rep.",0.73,485],["USA","United States",850.57,63097],["LSO","Lesotho",0.44,955],["IND","India",18.57,1965],["ARG","Argentina",8.96,12549],["ETH","Ethiopia",0.05,791],["PHL","Philippines",4.33,3351],["IDN","Indonesia",5.05,3851],["HND","Honduras",0.78,2424],["UGA","Uganda",0.3,919],["JOR","Jordan",2.26,4266],["TJK","Tajikistan",0.1,1254],["BEL","Belgium",68.96,43141],["MYS","Malaysia",25.76,10388],["BHR","Bahrain",1.99,24087],["ARM","Armenia",13.5,4265],["GTM","Guatemala",0.51,4269],["PAK","Pakistan",1.78,1595],["ECU","Ecuador",1.98,5815],["VEN","Venezuela, RB",0.78,1273],["LKA","Sri Lanka",12.01,4358],["HKG","Hong Kong SAR, China",54.09,44531],["GBR","United Kingdom",173.07,46492],["ZWE","Zimbabwe",2.09,1312],["CHN","China",1010.96,11469],["KAZ","Kazakhstan",40.67,10873],["HRV","Croatia",19.85,15395],["PER","Peru",2.84,6551],["DOM","Dominican Republic",0.63,8345],["ITA","Italy",173.86,32268],["SYR","Syrian Arab Republic",4.72,746],["BWA","Botswana",1.25,6896],["IRL","Ireland",14.68,92781],["EGY","Egypt, Arab Rep.",7.94,3837],["JAM","Jamaica",5.64,5607],["PNG","Papua New Guinea",0.1,2378],["NZL","New Zealand",64.9,41310],["KHM","Cambodia",0.06,1939],["SRB","Serbia",20.19,7466],["CYP","Cyprus",0.76,29517],["QAT","Qatar",18.76,65489],["BRA","Brazil",22.27,8799],["LVA","Latvia",55.19,16070],["SWE","Sweden",170.03,53997],["IRQ","Iraq",14.56,4183],["MDG","Madagascar",0.2,432],["BOL","Bolivia",0.42,3012],["KOR","Korea, Rep.",3597.58,34793],["GRC","Greece",37.27,19231],["AUS","Australia",115.47,59466],["GHA","Ghana",0.37,2030],["BGD","Bangladesh",0.44,1702],["NAM","Namibia",1.07,3810],["NOR","Norway",174.92,81199],["KGZ","Kyrgyz Republic",12.11,1133],["URY","Uruguay",9.13,17416],["MNG","Mongolia",32.21,4064],["EST","Estonia",18.78,21571],["LAO","Lao PDR",0.4,2557],["DZA","Algeria",5.99,4457],["CRI","Costa Rica",2.96,13267],["DJI","Djibouti",2.68,2854],["UZB","Uzbekistan",12.06,3952],["RWA","Rwanda",1.05,871],["DNK","Denmark",186.11,59313],["TTO","Trinidad and Tobago",1.46,15558],["JPN","Japan",1769.96,36793],["POL","Poland",91.32,16369],["BDI","Burundi",0.15,265],["MDA","Moldova",24.66,3688],["IRN","Iran, Islamic Rep.",115.43,5301],["SLV","El Salvador",0.32,4248],["CHE","Switzerland",147.97,90925],["OMN","Oman",14.0,18291],["KWT","Kuwait",4.59,26203],["LTU","Lithuania",28.84,18572],["NLD","Netherlands",118.63,49781],["RUS","Russian Federation",135.19,10231],["MEX","Mexico",8.75,9728],["ZMB","Zambia",0.66,1269],["SVN","Slovenia",105.31,24665],["BLR","Belarus",29.67,6458],["FIN","Finland",281.0,45792],["ALB","Albania",9.24,5512],["ARE","United Arab Emirates",7.21,40936],["DEU","Germany",478.65,44011],["ISR","Israel",169.88,40788],["KEN","Kenya",3.01,1699],["LBR","Liberia",0.38,622],["PRY","Paraguay",1.5,6277],["COL","Colombia",8.44,6457],["BGR","Bulgaria",25.36,9162],["CAN","Canada",123.17,44639],["MAR","Morocco",6.87,3309],["FRA","France",197.31,38031],["THA","Thailand",12.09,6119],["ESP","Spain",27.57,26705],["VNM","Viet Nam",10.77,3358],["YEM","Yemen, Rep.",0.54,1079],["ZAF","South Africa",8.03,5751],["UKR","Ukraine",29.39,2427],["MUS","Mauritius",4.74,9849],["CHL","Chile",20.66,14056],["PRT","Portugal",68.62,20748],["MKD","North Macedonia",22.86,6065],["AUT","Austria",209.03,45369],["NGA","Nigeria",1.88,2207],["SAU","Saudi Arabia",45.41,24923],["SDN","Sudan",3.18,1010],["TUN","Tunisia",16.6,3903],["GEO","Georgia",24.27,5175],["MOZ","Mozambique",0.95,588],["PAN","Panama",8.05,14553],["HUN","Hungary",44.96,15788]];
+const SCF={a:3.4483,b:0.4374,r:0.75};
+const SX=v=>330+(Math.log10(v)+1.5)/5.5*1300, SY=v=>900-(Math.log10(v)-2.4)/2.6*620;
+const HL={KOR:[C.kor,15],MEX:[C.mex,15],GTM:[C.gtm,15],CRI:['#111',12],SLV:['#555',10],HND:['#555',10],PAN:['#555',10]};
+// Horizontal bars, sorted, with the subregion in a shaded band. Row: [name, value, year, colour, inSubregion]
+const BARS=(R,{max,fmtv,y0=292,H=62})=>{const x0=600,W=1050,sc=v=>v/max*W,grey=c=>c===C.grey||c==='#9a9a9a';let o='';
+  const f=R.findIndex(r=>r[4]);if(f>=0)o+=`<rect class="ap" style="--t:200ms" x="120" y="${y0+f*H-14}" width="1700" height="${(R.length-f)*H+4}" fill="#f4f4f4"/>
+   <text class="ap" style="--t:300ms" x="140" y="${y0+f*H+18}" font-size="17" font-weight="800" letter-spacing="2" fill="${C.muted}">OUR SUBREGION</text>`;
+  R.forEach(([n,v,yr,c,sub],i)=>{const y=y0+i*H,t=500+i*140,w=Math.max(3,sc(v));
+   o+=`<text class="ap" style="--t:${t}ms" x="${x0-24}" y="${y+33}" text-anchor="end" font-size="28" font-weight="${sub||i===0?800:600}" fill="${grey(c)?C.muted:c}">${n}</text>
+    <rect class="grow" data-tip="${n}|${fmtv(v)}, ${yr}" style="--t:${t+100}ms;--dur:.8s" x="${x0}" y="${y+6}" width="${w.toFixed(1)}" height="40" fill="${c}"/>
+    <text class="ap" style="--t:${t+500}ms" x="${(x0+w+16).toFixed(1)}" y="${y+36}" font-size="28" font-weight="800" fill="${grey(c)?C.muted:c}">${fmtv(v)}${/^20(1|0)/.test(yr)&&yr!=='2022'&&yr<'2020'?` <tspan font-size="18" font-weight="600" fill="#5c5c5c">(${yr})</tspan>`:''}</text>`});
+  return `<svg class="A" style="left:0;top:0" width="1920" height="1080">${o}</svg>`};
 const L={
   hook:()=>Array.from({length:8},(_,i)=>({x:960+(i-3.5)*170,y:560,r:56,c:C.gtm,tip:'One patent application|Guatemala, 2024'})),
   korea:()=>[...Array.from({length:8},()=>({x:340,y:610,r:3,c:C.gtm,tip:'Guatemala|8 patent applications, 2024'})),
@@ -115,6 +129,7 @@ const L={
   res:()=>[...grid(95,{cx:960,cy:470,cols:19,p:42,r:16,c:C.kor,tip:'South Korea|9,472 researchers per million people'}),
            ...Array.from({length:4},(_,i)=>({x:960-9*42+i*42,y:760,r:16,c:C.mex,tip:'Mexico|438 researchers per million people'}))],
   informal:()=>[['GTM',7,C.gtm],['MEX',6,C.mex],['CRI',4,'#444']].flatMap(([k,n,c],row)=>Array.from({length:10},(_,i)=>({x:820+i*86,y:400+row*170,r:30,c:i<n?c:'#e2e2e2',tip:{GTM:'Guatemala, 2025|73.5% of workers in informal jobs',MEX:'Mexico, 2025|56.9% of workers in informal jobs',CRI:'Costa Rica, 2025|36.1% of workers in informal jobs'}[k]}))),
+  scatter:()=>[...SC].sort((a,b)=>(HL[a[0]]?1:0)-(HL[b[0]]?1:0)).map(([c,n,pp,g])=>({x:SX(pp),y:SY(g),r:HL[c]?HL[c][1]:8,c:HL[c]?HL[c][0]:'#cfcfcf',tip:`${n}|${pp<1?pp.toFixed(1):Math.round(pp).toLocaleString('en-US')} patents per million · $${Math.round(g).toLocaleString('en-US')} per person`})),
   close:()=>Array.from({length:8},(_,i)=>({x:960+(i-3.5)*70,y:250,r:22,c:C.gtm,tip:'One patent application|Guatemala, 2024'}))
 };
 
@@ -127,18 +142,11 @@ ${B(2,'Why growth in Mexico and Central America has been so disappointing, and a
 ${B(4,'Group 1 · Ernst &amp; Young (EY), commissioned by the Inter-American Development Bank (IDB)<br>the development bank that lends to governments across Latin America and the Caribbean<br>Subregion: Mexico and Central America · IE University · Economics for Public Sector · 12 November 2026','p','by')}`,
 notes:`<b>Leave this up while the room settles.</b> Do not say "good morning" yet. Your first words are the hook on the next slide; introductions come on slide 4.`});
 
-S.push({who:'Speaker 1',dots:'hook',html:`${TAG('Regional context')}${T('A whole country. One year. Eight new ideas.')}
-${CAP('Each dot is one patent application. Guatemala, 18.4 million people, 2024 · World Bank WDI',1800)}`,
-notes:`<b>Wait for all eight dots before you speak.</b> About 45 seconds.<br>
-"Last year, the whole of Guatemala filed <b>eight</b> patents. Eight. For 18 million people."<br>
-If needed: a patent is a new invention someone registers. It is the simplest count of new ideas a country produces.`});
-
-S.push({who:'Speaker 1',dots:'korea',html:`${TAG('Regional context · international comparison')}${T(`South Korea, the same year: <span class="bl">${num(195786,{t:300,dur:1600})}</span>`)}
-<div class="lab pu b" style="--t:1400ms;left:250px;top:640px;width:180px;font-size:22px">Guatemala’s 8</div>
-${CAP('Each blue dot is 1,000 patent applications. On this scale, Guatemala’s eight is the purple speck · World Bank WDI, 2024',1600)}`,
-notes:`About 30 seconds. The eight dots shrink into a speck while Korea's dots fill the slide.<br>
-"The same year, South Korea filed <b>195,786</b>." <b>Pause two seconds.</b><br>
-"And Korea has fewer people than Mexico." (Korea about 52 million, Mexico about 130 million.)`});
+S.push({who:'Speaker 1',dotsSteps:['hook','korea'],steps:1,html:`${TAG('Regional context')}
+<div class="s1">${T('A whole country. One year. Eight new ideas.')}${CAP('Each dot is one patent application. Guatemala, 18.4 million people, 2024 · World Bank WDI',1800)}</div>
+<div class="s2"><h2 class="t">South Korea, the same year: <span class="bl">${num(195786,{t:200,dur:1600})}</span></h2>
+<div class="lab pu" style="left:250px;top:640px;width:180px;font-size:22px">Guatemala’s 8</div>
+<p class="cap">Each blue dot is 1,000 patent applications. On this scale, Guatemala’s eight is the purple speck · World Bank WDI, 2024</p></div>`});
 
 S.push({who:'Speaker 1',steps:3,html:`<div class="b" style="--t:100ms">${LOCKUP('top:62px;transform:scale(.62)')}</div>
 <h2 class="t b" style="--t:250ms;top:170px">We are EY. The IDB asked us: why has growth been so disappointing?</h2>
@@ -161,7 +169,7 @@ const ZS={ox:90,oy:40,w:1200,h:560,y0:1980,series:[{k:'BRA',v:D.pat.BRA,c:C.grey
  {k:'MEX',v:D.pat.MEX,c:C.mex,name:'MEXICO',end:'1,172',hi:1,dy:44},{k:'KOR',v:D.pat.KOR,c:C.kor,name:'KOREA',end:'195,786',hi:1,dy:0}]};
 const zFX=ZS.ox+ZS.w, zFY=v=>ZS.oy+ZS.h-v/200000*ZS.h;
 const LC={zc:{series:ZS.series,x0:1980,x1:2024,w:ZS.w,h:ZS.h,ymax:200000,ox:ZS.ox,oy:ZS.oy,vfmt:v=>fmt(v)}};
-S.push({who:'Speaker 2',zoom:1,steps:1,html:`${TAG('International benchmark · Korea')}${T(`Then Korea did its homework<span class="s2 bl">: ${num(158,{pre:'×',t:0,from:1,dur:2400})}</span>`)}
+S.push({who:'Speaker 2',zoom:1,steps:1,html:`${TAG('International benchmark · Korea')}<div class="s1">${T('In 1980, Mexico and Korea were level')}</div><h2 class="t s2">Then Korea did its homework: <span class="bl">${num(158,{pre:'×',t:0,from:1,dur:2400})}</span></h2>
 <div class="A" style="left:230px;top:220px"><svg id="zc" width="1500" height="700">
  <defs><clipPath id="zclip"><rect x="60" y="0" width="1260" height="604"/></clipPath></defs>
  <g id="zgrid"></g>
@@ -202,17 +210,15 @@ notes:`About 45 seconds.<br>
 "What was the homework? Korea spends almost <b>5%</b> of its whole economy on research, every year. Mexico spends <b>0.25%</b>."<br>
 "That's not luck. It's a line in a budget that someone chose to write."`});
 
-S.push({who:'Speaker 2',dots:'res',html:`${TAG('Diagnosis · structural constraint: too few researchers')}${T(`Cause 2: few people are paid to invent. Korea has <span class="bl">${num(22,{t:500})}</span> for every <span class="pk">1</span>`)}
-<div class="lab b" style="--t:1300ms;left:560px;top:680px;width:800px;color:${C.kor}">SOUTH KOREA <span>9,472</span></div>
-<div class="lab b" style="--t:1700ms;left:560px;top:800px;width:800px;color:${C.mex}">MEXICO <span>438</span></div>
-${CAP('Each dot is 100 researchers per million people · World Bank WDI, Korea 2023, Mexico 2024',1900)}`,
-notes:`About 45 seconds.<br>
-"And Korea pays people to invent. For every researcher in Mexico, Korea has about <b>22</b>."<br>
-Spice if you have time: "Guatemala has about 26 researchers in the whole country." (1.4 per million × 18.4 million people.)`});
+S.push({who:'Speaker 2',html:`${TAG('Diagnosis · structural constraint: too few researchers')}${T('Cause 2: few people are paid to invent. Our whole subregion is below Chile.')}
+${BARS([['South Korea',9472,'2023',C.kor,0],['OECD average',4464,'2022','#9a9a9a',0],['Argentina',1313,'2023',C.grey,0],['Chile',707,'2022',C.grey,0],
+  ['Costa Rica',508,'2023',C.ink,1],['Mexico',438,'2024',C.mex,1],['Panama',251,'2024',C.ink,1],['Honduras',188,'2019',C.ink,1],['El Salvador',56,'2023',C.ink,1],['Guatemala',1.4,'2023',C.gtm,1]],
+  {max:9472,fmtv:v=>v<10?v.toFixed(1):Math.round(v).toLocaleString('en-US')})}
+${CAP('Researchers in R&D per million people, latest year (2022 to 2024; Honduras 2019) · World Bank WDI, SP.POP.SCIE.RD.P6',2000)}`});
 
 const GX=i=>260+i/64*1300, GY=v=>860-v/40000*560;
 const gl=k=>D.gdp[k].map((v,i)=>`${GX(i).toFixed(1)},${GY(v).toFixed(1)}`).join(' ');
-S.push({who:'Speaker 2',html:`${TAG('Regional context · growth trend')}${T('Sixty years ago Mexico was the richer one. Not any more.')}
+S.push({who:'Speaker 2',html:`${TAG('International benchmark · Korea')}${T('And the homework paid off. Sixty years ago Mexico was the richer one.')}
 <svg class="A" style="left:0;top:0" width="1920" height="1080">
  ${[10000,20000,30000,40000].map(v=>`<line x1="260" x2="1560" y1="${GY(v)}" y2="${GY(v)}" stroke="${C.line}"/><text x="244" y="${GY(v)+7}" text-anchor="end" font-size="20" fill="${C.muted}">$${v/1000}k</text>`).join('')}
  <line x1="260" x2="1560" y1="${GY(0)}" y2="${GY(0)}" stroke="${C.grey}" stroke-width="1.5"/>
@@ -236,30 +242,25 @@ notes:`<b>The climax. Slow down.</b> About 45 seconds.<br>
 "So this is not bad luck, and it's not culture. <b>Know-how is bought, and nobody here bought it.</b>" (Message #2)<br>
 Pause. "Why not? Two reasons."`});
 
-const arrows=(()=>{let s='';const cx=960,cy=560;for(let k=0;k<8;k++){const a=k*Math.PI/4,c=Math.cos(a),sn=Math.sin(a);
- s+=`<line class="ap" style="--t:${500+k*120}ms" x1="${cx+c*280}" y1="${cy+sn*280}" x2="${cx+c*120}" y2="${cy+sn*120}" stroke="${C.ink}" stroke-width="6" marker-end="url(#a1)"/>`}
- s+=`<line class="ap" style="--t:1700ms" x1="${cx+75}" y1="${cy+75}" x2="${cx+215}" y2="${cy+215}" stroke="${C.n2}" stroke-width="2" marker-end="url(#a2)"/>`;return s})();
-S.push({who:'Speaker 3',html:`${TAG('Diagnosis · structural constraint')}${T('Cause 3: the big cities soak everything up')}
-<svg class="A" style="left:0;top:0" width="1920" height="1080"><defs>${arrowDef('a1',C.ink)}${arrowDef('a2',C.n2)}</defs>
- ${arrows}<circle class="ap" style="--t:200ms" cx="960" cy="560" r="100" fill="${C.ink}"/>
- <text class="ap" style="--t:300ms" x="960" y="570" text-anchor="middle" font-size="26" font-weight="800" fill="#fff" letter-spacing="3">CAPITAL</text>
- <text class="ap" style="--t:1500ms" x="1330" y="545" font-size="26" font-weight="800">PULLED IN</text>
- <text class="ap" style="--t:1900ms" x="1200" y="800" font-size="26" font-weight="800" fill="${C.n2}">GIVEN BACK</text></svg>
-${CAP('Money, people and talent flow in; very little flows back out. Economists call it backwash (Myrdal, 1957) · diagram illustrative',2100)}`,
-notes:`About 1 minute 15.<br>
-"First reason: the capital cities pull in the money, the people and the talent, and send very little back."<br>
-"Economists call this backwash. Myrdal named it in 1957. Everyone else calls it leaving."<br>
-Course link: growth poles (Perroux) are meant to spread growth. Here they only pull it in.`});
+const GAP=[['South Korea','Capital Region',54495,'Jeju',40930,C.kor],['Costa Rica','Central (San José)',29512,'Brunca',11599,'#111'],['Mexico','Mexico City',42025,'Chiapas',7110,C.mex]];
+S.push({who:'Speaker 3',html:`${TAG('Diagnosis · structural constraint')}${T('Cause 3: the capital races ahead, and the rest of the country is left behind')}
+<p class="b" style="--t:300ms;position:absolute;left:260px;right:260px;top:270px;text-align:center;font-size:28px;color:var(--muted);line-height:1.4">Jobs, universities and investment pile up in the capital. Young people and money leave the regions. Economists call it backwash.</p>
+<svg class="A" style="left:0;top:0" width="1920" height="1080">
+ ${GAP.map(([c,cap,cv,poor,pv,col],k)=>{const y=420+k*170,sc=v=>v/55000*800,t=600+k*500;
+   return `<text class="ap" style="--t:${t}ms" x="420" y="${y+20}" text-anchor="end" font-size="32" font-weight="800" fill="${col}">${c}</text>
+    <rect class="grow" data-tip="${c}: ${cap}|$${cv.toLocaleString('en-US')} income per person, 2021" style="--t:${t+100}ms" x="450" y="${y-14}" width="${sc(cv)}" height="38" fill="${col}"/>
+    <text class="ap" style="--t:${t+300}ms" x="${450+sc(cv)+14}" y="${y+14}" font-size="22" font-weight="700" fill="${C.muted}">${cap} $${(cv/1000).toFixed(1)}k</text>
+    <rect class="grow" data-tip="${c}: ${poor}|$${pv.toLocaleString('en-US')} income per person, 2021" style="--t:${t+250}ms" x="450" y="${y+34}" width="${sc(pv)}" height="38" fill="${col}" opacity=".35"/>
+    <text class="ap" style="--t:${t+450}ms" x="${450+sc(pv)+14}" y="${y+62}" font-size="22" font-weight="700" fill="${C.muted}">poorest: ${poor} $${(pv/1000).toFixed(1)}k</text>
+    <text class="ap" style="--t:${t+600}ms" x="1800" y="${y+40}" text-anchor="end" font-size="64" font-weight="900" fill="${col}">${(cv/pv).toFixed(1)}×</text>`}).join('')}
+ <text class="ap" style="--t:300ms" x="1800" y="400" text-anchor="end" font-size="18" font-weight="800" letter-spacing="2" fill="${C.muted}">CAPITAL ÷ POOREST</text></svg>
+${CAP('Income per person by region, US$ at purchasing power, 2021 · OECD Regional Database · Mexico’s richest region is oil-rich Campeche, so we compare the capital · Guatemala and the rest of Central America are not covered',2400)}`});
 
-S.push({who:'Speaker 3',dots:'informal',html:`${TAG('Diagnosis · policy constraint')}${T('Cause 4: hiring officially costs extra, so almost 6 in 10 Mexican workers are off the books')}
-${[['GUATEMALA','73.5%',C.gtm],['MEXICO','56.9%',C.mex],['COSTA RICA','36.1%','#444']].map(([n,v,c],k)=>`<div class="lab b" style="--t:${600+k*250}ms;left:330px;top:${380+k*170}px;width:440px;text-align:right;color:${c}">${n} <span>${v}</span></div>`).join('')}
-${CAP('Each dot is one worker in ten; coloured dots work informally. Workers in informal jobs, % of all employment, 2025 · ILOSTAT, SDG indicator 8.3.1 · mechanism after Santiago Levy',1800)}`,
-notes:`About 1 minute 15.<br>
-"Second reason: hiring someone officially costs extra. Payroll taxes pay for health and pensions. So businesses stay small and off the books."<br>
-"The result: in Guatemala, <b>7 in 10</b> workers are informal. In Mexico, <b>almost 6 in 10</b>. Costa Rica, the country we'll come back to, about <b>4 in 10</b>."<br>
-"Small, hidden businesses never learn anything new." This is Santiago Levy's argument.<br>
-Source if asked: ILOSTAT, SDG indicator 8.3.1, informal employment as a share of all employment, 2025.<br>
-Hand over: "So what should the IDB do? <b>[Speaker 4]</b>."`});
+S.push({who:'Speaker 3',html:`${TAG('Diagnosis · policy constraint')}${T('Cause 4: hiring officially costs extra, so 6 in 10 workers in our subregion are informal')}
+${BARS([['Chile',26.4,'2025',C.grey,0],['Uruguay',32.7,'2025',C.grey,0],['Brazil',35.6,'2025',C.grey,0],['Latin America average',57.2,'2025','#9a9a9a',0],
+  ['Costa Rica',36.1,'2025',C.ink,1],['Panama',55.7,'2025',C.ink,1],['Mexico',56.9,'2025',C.mex,1],['El Salvador',63.6,'2025',C.ink,1],['Guatemala',73.5,'2025',C.gtm,1],['Honduras',82.6,'2017',C.ink,1]],
+  {max:100,fmtv:v=>v.toFixed(1)+'%'})}
+${CAP('Workers in informal jobs, % of all employment, 2025 (Honduras 2017) · ILOSTAT, SDG indicator 8.3.1 · averages are simple means: 16 Latin American countries, 6 in our subregion (61%) · mechanism after Santiago Levy',2000)}`});
 
 // ================= SPEAKER 4 · FUTURE (13-16) =================
 S.push({who:'Speaker 4',html:`${TAG('Policy recommendations')}<h2 class="big"><span class="b" style="--t:200ms">So what should the IDB do?</span><span class="b bl" style="--t:1100ms;font-size:96px">Bring in the teachers.</span><small class="b" style="--t:1900ms">Not chase patents: they are the thermometer, not the medicine. Invite foreign firms that teach local firms and workers. Three moves.</small></h2>`});
@@ -336,10 +337,10 @@ Next steps, one line: "In the next 90 days: pick the pilot country, set the thre
 <b>Pause two seconds. Do not say "thank you".</b> Then: "We'd love your questions." You lead the Q&A and hand questions to whoever owns that part.`});
 
 // ================= BACKUP (20) =================
-const about=[['Source','World Bank World Development Indicators: patents IP.PAT.RESD, population SP.POP.TOTL, researchers SP.POP.SCIE.RD.P6, R&D GB.XPD.RSDV.GD.ZS, income NY.GDP.PCAP.KD. Patent and income series re-pulled 11 Nov 2026. Informal employment: ILOSTAT, SDG indicator 8.3.1, 2025.'],
- ['Not pulled yet','Regional income gaps inside each country, CINDE and Fundación Chile case details, every costing. None appears as a number on any slide.'],
- ['What this cannot tell us','Patents count registered inventions, not all ingenuity; firms often file abroad. Korea had a geopolitical sponsor and an authoritarian state. One country is not a perfect model for another.'],
- ['Frameworks','Backwash, Myrdal 1957 · growth poles, Perroux 1955 and Hirschman 1958 · product life cycle, Vernon 1966 · growth diagnostics, Hausmann, Rodrik and Velasco · informality, Levy.'],
+const about=[['Source','World Bank World Development Indicators: patents IP.PAT.RESD, population SP.POP.TOTL, researchers SP.POP.SCIE.RD.P6, R&D GB.XPD.RSDV.GD.ZS, income NY.GDP.PCAP.KD. Patent and income series re-pulled 11 Nov 2026. Informal employment: ILOSTAT, SDG indicator 8.3.1, 2025. Regional income: OECD Regional Database, 2021.'],
+ ['Not pulled yet','Regional income gaps for Central America outside Costa Rica (not in the OECD data), CINDE and Fundación Chile case details, every costing. None appears as a number on any slide.'],
+ ['What this cannot tell us','Inventing goes strongly with income (correlation 0.75, 123 countries) but only weakly with later growth: holding 1990 income equal, 10× more patents per person in 1990 went with about 0.4 points faster growth a year to 2019 (97 countries). Patents measure know-how; they do not cause growth by themselves. Korea also had a geopolitical sponsor.'],
+ ['Literature','Know-how and growth: Romer 1990 (endogenous growth); Hidalgo and Hausmann 2009 (economic complexity predicts growth) · backwash, Myrdal 1957 · growth poles, Perroux 1955, Hirschman 1958 · growth diagnostics, Hausmann, Rodrik and Velasco · informality, Levy.'],
  ['Use of generative AI','We used Claude (Anthropic, claude.ai) to locate sources, recheck the World Bank series with code, and draft and design these slides, including simplifying the story and applying our Data Fluency and Storytelling course rules. We revised the output; the diagnosis, the recommendation and the delivery are ours.']];
 S.push({who:'Backup (Q&A)',html:`${TAG('Backup · sources and limits')}${T('About the numbers')}
 <div class="A" style="left:220px;right:220px;top:220px;display:grid;grid-template-columns:1fr 1fr;gap:34px 90px">${about.map(([h,p],k)=>
@@ -351,20 +352,39 @@ notes:`Use this only in Q&A. Likely questions:<br>
 • "Which country first?" Pick one as a group before Thursday.`});
 
 
+S.push({who:'Speaker 1',dots:'scatter',html:`${TAG('Regional context · evidence: inventing and income')}${T('Across the world, countries that invent more are richer')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080">
+ ${[0.1,1,10,100,1000].map(v=>`<line x1="${SX(v)}" x2="${SX(v)}" y1="270" y2="900" stroke="${C.line}"/><text x="${SX(v)}" y="930" text-anchor="middle" font-size="20" fill="${C.muted}">${v.toLocaleString('en-US')}</text>`).join('')}
+ ${[1000,10000,100000].map(v=>`<line x1="330" x2="1630" y1="${SY(v)}" y2="${SY(v)}" stroke="${C.line}"/><text x="314" y="${SY(v)+7}" text-anchor="end" font-size="20" fill="${C.muted}">$${v/1000}k</text>`).join('')}
+ <text x="980" y="968" text-anchor="middle" font-size="20" font-weight="700" fill="${C.muted}">Patent applications per million people (log scale)</text>
+ <text x="240" y="585" text-anchor="middle" font-size="20" font-weight="700" fill="${C.muted}" transform="rotate(-90 240 585)">Income per person (log scale)</text>
+ <line class="draw" pathLength="1" style="--t:1800ms;--dur:1s" x1="${SX(0.05)}" y1="${SY(10**(SCF.a+SCF.b*Math.log10(0.05)))}" x2="${SX(3600)}" y2="${SY(10**(SCF.a+SCF.b*Math.log10(3600)))}" stroke="${C.ink}" stroke-width="3" stroke-dasharray="1" opacity=".5"/>
+ ${[['KOR','South Korea',C.kor,18,-22],['MEX','Mexico',C.mex,18,-20],['GTM','Guatemala',C.gtm,-18,-20],['CRI','Costa Rica','#111',-18,-16]].map(([k,n,col,dx,dy])=>{const d=SC.find(r=>r[0]===k);
+   return `<text class="ap" style="--t:1500ms" x="${SX(d[2])+dx}" y="${SY(d[3])+dy}" text-anchor="${dx<0?'end':'start'}" font-size="24" font-weight="800" fill="${col}">${n}</text>`}).join('')}
+ <text class="ap" style="--t:2600ms" x="1620" y="800" text-anchor="end" font-size="26" font-weight="800">Correlation ${SCF.r.toFixed(2)}</text>
+ <text class="ap" style="--t:2800ms" x="1620" y="834" text-anchor="end" font-size="22" fill="${C.muted}">10× more patents per person ≈ 2.7× higher income</text></svg>
+${CAP('Each dot is a country (123 with over 1 million people), around 2021 · World Bank WDI · correlation, not proof of cause: see backup',2400)}`});
+
+S.push({who:'Speaker 1',html:`${TAG('Regional context · growth trend')}${T('Growth has disappointed: since 2000, Mexico’s income per person grew 0.3% a year')}
+${BARS([['South Korea',3.11,'2024',C.kor,0],['World',1.73,'2024','#9a9a9a',0],['Latin America',1.15,'2024','#9a9a9a',0],
+  ['Panama',3.89,'2024',C.ink,1],['Costa Rica',2.82,'2024',C.ink,1],['Nicaragua',1.90,'2024',C.ink,1],['El Salvador',1.83,'2024',C.ink,1],['Guatemala',1.54,'2024',C.gtm,1],['Honduras',1.53,'2024',C.ink,1],['Mexico',0.30,'2024',C.mex,1]],
+  {max:4,fmtv:v=>v.toFixed(1)+'%'})}
+${CAP('Average yearly growth of real income per person, 2000 to 2024 · World Bank WDI, NY.GDP.PCAP.KD · Costa Rica and Panama are the exceptions; we come back to Costa Rica',2000)}`});
+
 // ---------- Order follows the brief: title, executive summary, context, diagnostic, benchmarks, recommendations, conclusion ----------
 // [old index, section (0-5, -1 none), speaker]
 const SECS=['Executive summary','Regional context','Diagnostic','International benchmarks','Policy recommendations','Conclusion and next steps'];
-const PLAN=[[0,-1,1],[3,0,1],[1,1,1],[2,1,1],[8,1,1],[6,2,2],[7,2,2],[10,2,2],[11,2,2],[9,2,2],[4,3,3],[5,3,3],[13,3,3],[12,4,4],[14,4,4],[15,4,4],[16,4,4],[17,4,5],[18,5,5],[19,-1,0]];
+const PLAN=[[0,-1,1],[2,0,1],[1,1,1],[19,1,1],[20,1,1],[5,2,2],[6,2,2],[9,2,2],[10,2,2],[8,2,2],[4,3,3],[7,3,3],[12,3,3],[11,4,4],[13,4,4],[14,4,4],[15,4,4],[16,4,5],[17,5,5],[18,-1,0]];
 const NOTES=[
 `<b>Speaker 1 · about 30 seconds.</b> Open with the hook, out loud, before any introduction: "Last year, a whole country filed eight patents." Then click.`,
 `<b>Speaker 1 · Executive summary · about 1 minute 30.</b><br>"We are Group 1 from <b>Ernst &amp; Young</b>. We were commissioned by the <b>Inter-American Development Bank</b>, the IDB, the development bank that lends to governments across Latin America and the Caribbean. The IDB asked us one question: <b>why has growth in Mexico and Central America been so disappointing?</b>" (Full names once; "EY" and "the IDB" after this.)<br><b>Three clicks:</b> the problem is on screen. Click: the cause. Click: the fix. Click: the ask.<br>"The problem: eight patents, a whole country, one year. The cause: <b>know-how is bought, and nobody here bought it.</b> (Message #1) The fix: <b>bring in the teachers</b>, foreign firms in second cities, teaching local firms and workers. Our ask: fund it in one country, this year."`,
-`<b>Speaker 1 · Regional context · about 45 seconds.</b> Wait for all eight dots.<br>"Last year, the whole of Guatemala filed <b>eight</b> patents. Eight. For 18 million people." A patent is a new invention someone registers: the simplest count of new ideas a country produces.`,
-`<b>Speaker 1 · about 30 seconds.</b> The eight dots shrink into a speck as Korea's fill the slide.<br>"The same year, South Korea filed <b>195,786</b>." Pause. "And Korea has fewer people than Mexico."`,
+`<b>Speaker 1 · Regional context · about 1 minute. Two clicks.</b><br>Wait for all eight dots. "Last year, the whole of Guatemala filed <b>eight</b> patents. Eight. For 18 million people."<br><b>Click:</b> the eight shrink into a speck as Korea's dots fill the slide. "The same year, South Korea filed <b>195,786</b>. And Korea has fewer people than Mexico."`,
+`<b>Speaker 1 · about 1 minute.</b> The dots spread into 123 countries.<br>"Does this matter? Across 123 countries, the ones that invent more are richer. Ten times more patents per person goes with about <b>2.7 times</b> the income. Korea is top right. Our subregion is bottom left."<br>Be honest if asked: "This is correlation, not proof. Patents are the thermometer. The engine is know-how, and growth economics links know-how to growth: Romer, and Hausmann and Hidalgo on economic complexity."`,
 `<b>Speaker 1 · about 45 seconds.</b><br>"This is what disappointing growth looks like. In 1960 Mexico was <b>four times richer</b> than Korea. Around 1988 they swapped. Today Korea is <b>3.6 times richer</b>."<br><b>Hand-off:</b> "So why? <b>[Speaker 2]</b> has the diagnosis."`,
 `<b>Speaker 2 · Diagnostic · about 45 seconds.</b><br>"Four causes. First: the region barely pays for research. Korea spends almost <b>5%</b> of its economy on research every year; the OECD average is about 3%; Latin America, under 0.7%. And our subregion is at the bottom of Latin America: Mexico <b>0.25%</b>, Guatemala almost <b>zero</b>. That is a policy choice, written into a budget."`,
-`<b>Speaker 2 · about 45 seconds.</b><br>"Second: few people are paid to invent. For every researcher in Mexico, Korea has about <b>22</b>." If time: "Guatemala has about 26 researchers in the whole country."`,
-`<b>Speaker 2 · about 1 minute.</b><br>"Third: the capital cities pull in the money, the people and the talent, and send very little back. Myrdal called it backwash. Everyone else calls it leaving."`,
-`<b>Speaker 2 · about 1 minute.</b><br>"Fourth: hiring someone officially costs extra, because payroll taxes pay for health and pensions. So firms stay small and off the books. In Guatemala <b>7 in 10</b> workers are informal; in Mexico <b>almost 6 in 10</b>; in Costa Rica about <b>4 in 10</b>." (ILOSTAT, 2025; Santiago Levy's argument.)`,
+`<b>Speaker 2 · about 45 seconds.</b><br>"Second: few people are paid to invent. Korea has about 9,500 researchers per million people. Chile has about 700. <b>Every country in our subregion is below Chile</b>: Mexico 438, Guatemala 1.4." If time: "That is about 26 researchers in the whole of Guatemala."`,
+`<b>Speaker 2 · about 1 minute 15.</b><br>"Third: the capital races ahead and the rest of the country is left behind. Jobs, universities and investment pile up in the capital, and young people and money leave the regions. Economists call it backwash."<br>"Look at the gap. In Korea, the capital region is only <b>1.3 times</b> richer than the poorest region. In Costa Rica, 2.5 times. In Mexico, Mexico City is <b>5.9 times</b> richer than Chiapas."<br>If asked: "Mexico's richest region is actually Campeche, because of oil, so we compare the capital." OECD Regional Database, 2021.`,
+`<b>Speaker 2 · about 1 minute.</b><br>"Fourth: hiring someone officially costs extra, because payroll taxes pay for health and pensions. So firms stay small and off the books. Across our subregion, about <b>6 in 10 workers</b> are informal, against about 1 in 4 in Chile. Honduras and Guatemala are the worst; Costa Rica the best." (ILOSTAT, 2025; Santiago Levy's argument.)`,
 `<b>Speaker 2 · the climax · about 45 seconds. Slow down.</b><br>"Four causes, one pattern. <b>Know-how is bought, and nobody here bought it.</b>" (Message #2)<br><b>Hand-off:</b> "Is this destiny? No. <b>[Speaker 3]</b> shows who has done it."`,
 `<b>Speaker 3 · International benchmarks · about 45 seconds.</b><br>"Were we always behind? No. In 1980 Mexico filed 704 patents and Korea 1,241. Two kids, same classroom, similar grades."`,
 `<b>Speaker 3 · about 1 minute 15. Two clicks on this slide.</b><br><b>Click 1</b>: the chart draws 1980 to 1985, zoomed in. "Here they are in the early 1980s. Level."<br><b>Click 2</b>: it pulls back to 2024. Let it move, then: "Then Korea did its homework. Its patents grew <b>158 times</b>. Mexico's, 1.7 times."`,
@@ -376,6 +396,13 @@ const NOTES=[
 `<b>Speaker 5 · about 1 minute 15.</b><br>"Governments last four years; these programmes don't. So the cheapest, fastest step goes first, and each step has to earn the next. Every year we publish three scores. We are not promising a growth number." If asked: inclusive, because it reaches towns and informal workers; sustainable, because know-how lasts.`,
 `<b>Speaker 5 · Conclusion and next steps · about 1 minute.</b> The eight dots are back.<br>"Eight inventions. In 1980 Korea started where Mexico was. The difference was homework. <b>Know-how is bought, not born.</b> (Message #4) So bring in the teachers, in one country, this year. In the next 90 days: pick the pilot country and its second city, shortlist the first foreign firms, and set the baselines."<br><b>Pause. No "thank you".</b> "We'd love your questions." Speaker 5 hosts Q&amp;A.`,
 `<b>Backup · Q&amp;A only.</b> See the Q&amp;A plan in the script for who answers what.`];
+
+{const N=NOTES.slice();NOTES.length=0;NOTES.push(N[0],N[1],N[2],N[3],
+`<b>Speaker 1 · about 1 minute.</b><br>"This is the disappointing growth the IDB asked about. Since 2000, income per person in Mexico grew just <b>0.3% a year</b>: 7% in 24 years. Guatemala and Honduras about 1.5%, below the world average. Korea, 3.1%."<br>"Two exceptions: Panama and Costa Rica. Remember Costa Rica."<br><b>Hand-off:</b> "So why? <b>[Speaker 2]</b> has the diagnosis."`,
+N[5],N[6],N[7],N[8],N[9],
+`<b>Speaker 3 · International benchmarks · about 1 minute 15. One click on this slide.</b><br>On entry the chart draws 1980 to 1985, zoomed in. "Were we always behind? No. In 1980 Mexico filed 704 patents and Korea 1,241. Level. Two kids, same classroom."<br><b>Click:</b> the chart pulls back to 2024 and the title changes. Let it move, then: "Then Korea did its homework. Its patents grew <b>158 times</b>. Mexico's, 1.7 times."`,
+`<b>Speaker 3 · about 45 seconds.</b><br>"And the homework paid off. In 1960 Mexico was <b>four times richer</b> than Korea. Around 1988 they swapped. Today Korea is <b>3.6 times richer</b>."`,
+N[12],N[13],N[14],N[15],N[16],N[17],N[18],N[19]);}
 {const old=S.slice();S.length=0;PLAN.forEach(([o,sec,spk],i)=>S.push({...old[o],sec,spk,who:spk?'Speaker '+spk:'Backup',notes:NOTES[i]}));}
 
 // ---------- Render ----------
@@ -438,11 +465,11 @@ function zoomAnim(sl,phase){cancelAnimationFrame(zRaf);const svg=sl.querySelecto
 const notes=document.getElementById('notes'),prog=document.getElementById('progress');
 function go(n){cur=Math.max(0,Math.min(N-1,n));els.forEach((e,i)=>e.classList.toggle('on',i===cur));
   els.forEach(e=>e.classList.remove('st1','st2','st3'));stepIdx=0;
-  placeDots(S[cur].dots);countUp(els[cur]);hideTip();if(S[cur].zoom)zoomAnim(els[cur],1);else cancelAnimationFrame(zRaf);
+  placeDots(S[cur].dotsSteps?S[cur].dotsSteps[0]:S[cur].dots);countUp(els[cur]);hideTip();if(S[cur].zoom)zoomAnim(els[cur],1);else cancelAnimationFrame(zRaf);
   notes.innerHTML=`<div class="who">${S[cur].who} · slide ${cur+1} of ${N}</div>${S[cur].notes||''}`;prog.style.width=((cur+1)/N*100)+'%';
   try{history.replaceState(null,'','#'+(cur+1))}catch(e){}}
 let stepIdx=0;
-function next(){const n=S[cur].steps||0;if(stepIdx<n){stepIdx++;els[cur].classList.add('st'+stepIdx);hideTip();if(S[cur].zoom&&stepIdx===1)zoomAnim(els[cur],2);countUp(els[cur],stepIdx+1);return}go(cur+1)}
+function next(){const n=S[cur].steps||0;if(stepIdx<n){stepIdx++;els[cur].classList.add('st'+stepIdx);hideTip();if(S[cur].zoom&&stepIdx===1)zoomAnim(els[cur],2);if(S[cur].dotsSteps)placeDots(S[cur].dotsSteps[stepIdx]);countUp(els[cur],stepIdx+1);return}go(cur+1)}
 function fit(){scale=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(${(innerWidth-1920*scale)/2}px,${(innerHeight-1080*scale)/2}px) scale(${scale})`}
 addEventListener('resize',fit);fit();
 const toggleNotes=()=>notes.classList.toggle('show');
