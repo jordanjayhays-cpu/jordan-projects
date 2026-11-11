@@ -23,7 +23,7 @@ Speaker 1 · about 30 seconds. Open with the hook, out loud, before any introduc
 Speaker 1 · Executive summary · about 1 minute 30.
 "We are Group 1 from Ernst & Young. We were commissioned by the Inter-American Development Bank, the IDB, the development bank that lends to governments across Latin America and the Caribbean. The IDB asked us one question: why has growth in Mexico and Central America been so disappointing?" (Full names once; "EY" and "the IDB" after this.)
 Three clicks: the problem is on screen. Click: the cause. Click: the fix. Click: the ask.
-"The problem: eight patents, a whole country, one year. The cause: know-how can be bought, and nobody here invested in it. (Message #1) The fix: bring in the builders: foreign firms that open permanent plants and labs in second cities and train local firms and workers. Our ask: fund it in one country, this year."
+"The problem: eight patents, a whole country, one year. The cause: know-how can be bought, and the region has invested too little in it. (Message #1) The fix: bring in the builders: foreign firms that open permanent plants and labs in second cities and train local firms and workers. Our ask: fund it in one country, this year."
 
 ## Slide 3 · Speaker 1
 
@@ -69,7 +69,7 @@ Speaker 2 · about 1 minute.
 ## Slide 10 · Speaker 2
 
 Speaker 2 · the climax · about 45 seconds. Slow down.
-"Four causes, one pattern. Know-how can be bought, and nobody here invested in it." (Message #2)
+"Four causes, one pattern. Know-how can be bought, and the region has invested too little in it." (Message #2)
 Hand-off: "Is this destiny? No. [Speaker 3] shows who has done it."
 
 ## Slide 11 · Speaker 3
@@ -140,6 +140,22 @@ Appendix: use only in Q&A. Repeat the question, give the short answer, then the 
 Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
 
 ## Slide 24 · Appendix
+
+Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
+
+## Slide 25 · Appendix
+
+Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
+
+## Slide 26 · Appendix
+
+Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
+
+## Slide 27 · Appendix
+
+Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
+
+## Slide 28 · Appendix
 
 Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
 
