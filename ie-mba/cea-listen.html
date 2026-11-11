@@ -1,0 +1,159 @@
+<title>CEA Listen</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: lesson picker on top, one reading card with the current sentence lit up, player bar fixed at the bottom. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --fg:#14202e; --muted:#5c6878; --line:#dce2ea;
+  --accent:#1f5d8f; --accent-soft:#e3edf6; --live:#fff1c7; --live-ink:#5a4300;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141b; --surface:#18202b; --fg:#e6ebf1; --muted:#9aa6b5; --line:#2a3542;
+  --accent:#7fb3e0; --accent-soft:#1b2b3c; --live:#4a3b10; --live-ink:#ffe39a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f141b; --surface:#18202b; --fg:#e6ebf1; --muted:#9aa6b5; --line:#2a3542;
+  --accent:#7fb3e0; --accent-soft:#1b2b3c; --live:#4a3b10; --live-ink:#ffe39a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);margin:0}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 150px}
+h1{font:700 clamp(28px,5vw,40px)/1.1 var(--display);margin:4px 0 8px;text-wrap:balance}
+.eyebrow{font:600 12px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);margin:0 0 18px;max-width:60ch}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:0 0 18px}
+.lesson{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:2px;transition:transform .2s cubic-bezier(.34,1.56,.64,1),border-color .15s}
+.lesson:active{transform:scale(.96)}
+.lesson:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lesson b{font:600 15px/1.3 var(--display)}
+.lesson span{font-size:12.5px;color:var(--muted)}
+.lesson[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.card h2{font:700 24px/1.2 var(--display);margin:0 0 4px;text-wrap:balance}
+.card .who{font-size:13px;color:var(--muted);margin-bottom:12px}
+.s{display:inline;padding:1px 2px;border-radius:4px;cursor:pointer;transition:background .2s}
+.s:hover{background:var(--accent-soft)}
+.s.on{background:var(--live);color:var(--live-ink)}
+.para{margin:0 0 12px;font-size:17px;line-height:1.75}
+.note{font-size:13.5px;color:var(--muted);margin-top:14px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar .in{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:600 15px/1 var(--body);border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:12px 18px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .15s}
+.btn:active{transform:scale(.93)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--surface);min-width:110px}
+.bar label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.bar select{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px}
+.prog{flex:1 1 100%;height:4px;background:var(--line);border-radius:4px;overflow:hidden;order:-1}
+.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.status{font-size:13px;color:var(--muted);flex:1 1 140px;min-width:0}
+.warn{background:var(--live);color:var(--live-ink);border-radius:8px;padding:10px 14px;font-size:14px;margin:0 0 14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Country Economic Analysis · exam prep</div>
+  <h1>Listen and learn</h1>
+  <p class="lede">Pick a lesson and press Play. Each one is read aloud by your device, and the sentence being spoken lights up. Tap any sentence to jump to it.</p>
+  <div class="warn" id="nosupport" hidden>This browser can't read aloud. Try opening the link in Safari or Chrome, or read along below.</div>
+  <div class="lessons" id="lessons"></div>
+  <div class="card" id="card"><h2 id="ltitle"></h2><div class="who" id="lwho"></div><div id="ltext"></div>
+    <p class="note">Spoken by your device's built-in voice. On iPhone, turn off silent mode if you hear nothing.</p></div>
+</div>
+
+<div class="bar"><div class="in">
+  <div class="prog"><i id="prog"></i></div>
+  <button type="button" class="btn pri" id="play">▶ Play</button>
+  <button type="button" class="btn" id="back" aria-label="Previous sentence">⏮</button>
+  <button type="button" class="btn" id="fwd" aria-label="Next sentence">⏭</button>
+  <label for="rate">Speed <select id="rate"><option value="0.85">0.85×</option><option value="1" selected>1×</option><option value="1.15">1.15×</option><option value="1.3">1.3×</option></select></label>
+  <span class="status" id="status">Ready</span>
+</div></div>
+
+<script>
+(function(){
+const L=[
+{t:"Nominal vs. real GDP",who:"Garland and Allard",p:[
+["Forget the definitions for a moment. Picture a lemonade stand.","In year one, you sell one hundred cups at one dollar each. You make one hundred dollars.","In year two, you sell the same one hundred cups, but you raise the price to two dollars. You make two hundred dollars."],
+["Did your business really grow?","Your money doubled. That money total is nominal GDP.","But you made exactly the same amount of lemonade. That stuff total is real GDP, and it did not grow at all.","The extra hundred dollars is just inflation."],
+["So here is the rule. Nominal GDP answers: how much money? It rises if you make more stuff, or if prices go up.","Real GDP answers: how much stuff? It only rises if you actually make more. Price changes are taken out."],
+["That is why economists always measure growth in real terms.","If a country's nominal GDP grows ten percent, but prices also rose ten percent, real growth is zero, and nobody is better off."],
+["Now the Japan twist, which can be on the exam.","Japan had deflation, which means prices were falling.","Imagine you sell more cups, but at a lower price. Your money total can fall, while your real output rises.","That is why, in Japan, real growth was higher than nominal growth. It only happens when prices fall."],
+["One more rule from Allard. To rank countries by size, use nominal GDP in one common currency. To measure growth over time, use real GDP."]]},
+{t:"A currency is a product",who:"Garland",p:[
+["Here is the one idea that makes exchange rates easy. A currency is a product, and the exchange rate is its price.","Like any price, it goes up when people want to buy it, and down when people want to sell it."],
+["When Mexico exports avocados, Americans need pesos to pay. They buy pesos, so the peso gets stronger.","When Mexico imports iPhones, Mexicans need dollars. They sell pesos, so the peso gets weaker."],
+["Money moves for investment too. If Mexico pays high interest rates, foreign investors buy pesos to invest there, and the peso gets stronger.","If investors get scared and leave, they sell pesos, and the peso gets weaker."],
+["So remember: money coming in makes a currency stronger. Money going out makes it weaker."],
+["One trap with numbers. If the rate is quoted as pesos per dollar, a bigger number means a weaker peso.","Going from ten to fifteen pesos per dollar means you need more pesos to buy one dollar. The peso got weaker."]]},
+{t:"Strong vs. weak currency",who:"Garland",p:[
+["A strong currency makes imports cheaper, and makes your exports more expensive for foreigners.","It also makes dollar debts cheaper to repay, and it tends to lower inflation, because imported goods are cheap."],
+["A weak currency does the opposite. Imports get expensive, exports get cheap, dollar debts get harder to repay, and inflation tends to rise."],
+["The easy way to remember it: a strong currency is good for shoppers, and bad for sellers."],
+["This is exactly what Dutch disease is.","A country discovers oil. Oil exports bring in a flood of dollars. The local currency gets strong.","Imports get cheaper, so local farms and factories get undercut. Manufacturing jobs are lost.","Careful: under Dutch disease imports get cheaper, not more expensive, and agriculture is hurt too, not helped."]]},
+{t:"When the central bank buys or sells dollars",who:"Garland",p:[
+["The central bank is just a very big player in the currency market. It steps in when the currency moves too much."],
+["Problem one: the currency is too strong, for example during an oil boom.","The central bank buys dollars, and it pays for them with newly created local money.","More local money in circulation makes the currency weaker. Its reserves of dollars grow.","The cost is inflation, because it created new money."],
+["Problem two: the currency is too weak, for example when investors are fleeing.","The central bank sells dollars from its reserves, and takes local money back out of circulation.","Less local money makes the currency stronger.","The cost is that reserves run out. That is Mexico in nineteen ninety four. Reserves fell from about thirty billion dollars to five billion, and the peso crashed."],
+["Remember it like this. To push your currency down, buy dollars. You can do it for a long time, but you get inflation.","To hold your currency up, sell dollars. You can only do it until the reserves are gone."],
+["When the central bank does this only sometimes, it is called dirty floating, or managed floating.","When it does it all the time to hold one exact rate, it is a peg.","Norway does something smarter, called sterilization. It keeps its oil dollars abroad, in a sovereign wealth fund, so they never push up the krone in the first place."]]},
+{t:"Exchange-rate regimes",who:"Garland",p:[
+["Exchange-rate regimes sit on a spectrum, from fully free to fully given up."],
+["A free float: the market alone sets the rate. The United States, the euro area, Japan, and Brazil after nineteen ninety nine.","A dirty float: it floats, but the central bank steps in sometimes. Angola in two thousand nine, and Brazil's Lula effect.","A band: the currency moves freely, but only inside a range. Mexico before nineteen ninety four, and Spain in the European Monetary System."],
+["A fixed peg: one exact rate, defended all the time. China at eight point two eight yuan per dollar, from nineteen ninety five to two thousand four. Saudi Arabia at three point seven five riyals.","A currency board: a peg backed by law, with every peso backed by a dollar. Argentina, one peso equals one dollar, until two thousand one.","A dual exchange rate: two official rates for different uses. Angola and Venezuela. Its fatal flaw is corruption."],
+["Dollarization: the country uses another country's currency and gives up monetary policy completely. Ecuador, El Salvador and Panama. Garland called it amputating an arm.","A monetary union: countries share one currency and one central bank, like the euro."],
+["The trade off is freedom versus stability. The more fixed the regime, the more stable prices are, but the less the country can use its currency to absorb a shock.","At the fixed end, people and wages absorb the shock instead, through unemployment and internal devaluation, like Greece and Spain."]]},
+{t:"Nominal vs. real exchange rate",who:"Garland",p:[
+["The nominal exchange rate is just the quoted number, like ten pesos per dollar.","The real exchange rate asks a different question: did our products get cheaper or more expensive for foreigners?"],
+["Use the dollar price test. A Mexican product costs one hundred pesos. At ten pesos per dollar, it sells for ten dollars.","Mexico has twenty percent inflation and the US has none. Now the product costs one hundred twenty pesos."],
+["If the rate moves to twelve pesos per dollar, the product still sells for ten dollars. Nothing changed in real terms.","If the rate only moves to eleven, the product now costs about ten dollars ninety. It got more expensive abroad. That is a real appreciation, and Mexico loses competitiveness.","If the rate moves to thirteen, the product costs about nine dollars twenty. It got cheaper. That is a real depreciation."],
+["The rule: if your inflation is higher, your currency must fall by at least that much, or you become more expensive abroad.","That is what happened in Angola. The kwanza fell in nominal terms, but inflation was even higher, so in real terms it got stronger, which is Dutch disease."]]},
+{t:"Surplus vs. deficit countries",who:"Allard",p:[
+["A current account surplus country produces more than it consumes, and saves more than it invests.","It sells the extra abroad, lends its savings to the world, depends on foreign demand, and its currency tends to rise. Japan, China and Germany."],
+["A deficit country is the mirror image. It consumes more than it produces, borrows from abroad, grows on domestic demand, and its currency tends to fall. The United States, the United Kingdom and India."],
+["Do not confuse the current account with the budget.","The budget deficit is only the government spending more than it collects in taxes.","The current account is the whole country, trading with the rest of the world."],
+["Japan is the classic trap. It has a huge budget deficit, and still a current account surplus, because households and firms save so much.","So the driver of Japan's surplus is savings, not the budget, and not a peg."],
+["And from the sample questions: India runs a chronic current account deficit, and China runs a surplus."]]},
+{t:"Ten rules before the exam",who:"Both professors",p:[
+["Rule one. Money coming in makes a currency stronger. Money going out makes it weaker.","Rule two. A strong currency means cheap imports, and local producers get hurt.","Rule three. When the central bank buys dollars, the risk is inflation. When it sells dollars, the risk is running out of reserves."],
+["Rule four. On Garland's chart, a peg below equilibrium means the local currency is overvalued.","Rule five. Real means inflation removed. Purchasing power parity compares price levels between countries.","Rule six. Japan's surplus comes from savings. Its budget deficit is a separate thing."],
+["Rule seven. India has a current account deficit. China has a surplus.","Rule eight. The European Union and the United States have roughly the same public debt, about one hundred twenty and one hundred eleven percent of GDP. Almost everything else is different."],
+["Rule nine. Rodrik's trilemma is about politics: globalization, sovereignty, democracy. Mundell's impossible trinity is about money: a fixed rate, free capital, and your own monetary policy.","Rule ten. Ask who buys. If locals buy, market size matters most. If foreigners buy, production costs matter most. If you only hold financial assets, interest rates matter most."],
+["For the short answers, use the frame: define it, explain the mechanism with because and so, give one course example, and end with one limit. Good luck."]]}
+];
+const $=id=>document.getElementById(id);
+const synth=window.speechSynthesis;const ok=!!(synth&&window.SpeechSynthesisUtterance);
+if(!ok)$('nosupport').hidden=false;
+let cur=0,flat=[],idx=0,playing=false,paused=false,voice=null,gen=0;
+function pickVoice(){if(!ok)return;const v=synth.getVoices();voice=v.find(x=>/^en(-|_)(US|GB)/i.test(x.lang)&&/Samantha|Google US|Daniel|Karen|Serena|Natural/i.test(x.name))||v.find(x=>/^en/i.test(x.lang))||null}
+if(ok){pickVoice();if('onvoiceschanged' in synth)synth.onvoiceschanged=pickVoice}
+function renderList(){$('lessons').innerHTML=L.map((l,i)=>`<button type="button" class="lesson" data-i="${i}" aria-current="${i===cur}"><b>${l.t}</b><span>${l.who} · ${l.p.flat().length} sentences</span></button>`).join('');
+  $('lessons').querySelectorAll('.lesson').forEach(b=>b.addEventListener('click',()=>{stop();load(+b.dataset.i);$('card').scrollIntoView({behavior:'smooth',block:'start'})}))}
+function load(i){cur=i;try{localStorage.setItem('cea_listen_lesson',i)}catch(e){}const l=L[i];$('ltitle').textContent=l.t;$('lwho').textContent=l.who;flat=[];
+  $('ltext').innerHTML=l.p.map(par=>'<p class="para">'+par.map(s=>{const k=flat.length;flat.push(s);return `<span class="s" data-k="${k}">${s}</span>`}).join(' ')+'</p>').join('');
+  $('ltext').querySelectorAll('.s').forEach(el=>el.addEventListener('click',()=>{idx=+el.dataset.k;if(playing){speakFrom(idx)}else mark(idx)}));
+  idx=0;mark(-1);renderList();status('Ready · '+flat.length+' sentences')}
+function mark(k){$('ltext').querySelectorAll('.s').forEach(el=>el.classList.toggle('on',+el.dataset.k===k));$('prog').style.width=(k<0?0:((k+1)/flat.length*100))+'%';
+  const el=$('ltext').querySelector('.s.on');if(el){const r=el.getBoundingClientRect();if(r.top<70||r.bottom>window.innerHeight-130)el.scrollIntoView({block:'center',behavior:'smooth'})}}
+function status(t){$('status').textContent=t}
+function setBtn(){$('play').textContent=playing&&!paused?'❚❚ Pause':'▶ Play'}
+function speakFrom(k){if(!ok)return;gen++;const my=gen;synth.cancel();playing=true;paused=false;setBtn();
+  const rate=+$('rate').value;
+  for(let j=k;j<flat.length;j++){const u=new SpeechSynthesisUtterance(flat[j]);u.rate=rate;u.lang='en-US';if(voice)u.voice=voice;
+    u.onstart=()=>{if(my!==gen)return;idx=j;mark(j);status('Sentence '+(j+1)+' of '+flat.length)};
+    if(j===flat.length-1)u.onend=()=>{if(my!==gen)return;playing=false;paused=false;setBtn();status('Finished. Pick the next lesson.');idx=0};
+    synth.speak(u)}}
+function stop(){gen++;if(ok)synth.cancel();playing=false;paused=false;setBtn()}
+$('play').addEventListener('click',()=>{if(!ok)return;
+  if(playing&&!paused){synth.pause();paused=true;setBtn();status('Paused');return}
+  if(playing&&paused){synth.resume();paused=false;setBtn();status('Sentence '+(idx+1)+' of '+flat.length);
+    setTimeout(()=>{if(playing&&!paused&&!synth.speaking)speakFrom(idx)},400);return}
+  speakFrom(idx)});
+$('back').addEventListener('click',()=>{idx=Math.max(0,idx-1);playing?speakFrom(idx):mark(idx)});
+$('fwd').addEventListener('click',()=>{idx=Math.min(flat.length-1,idx+1);playing?speakFrom(idx):mark(idx)});
+$('rate').addEventListener('change',()=>{if(playing)speakFrom(idx)});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!paused&&ok){synth.pause();paused=true;setBtn();status('Paused')}});
+let start=0;try{start=+localStorage.getItem('cea_listen_lesson')||0}catch(e){}
+load(start>=0&&start<L.length?start:0);
+})();
+</script>
