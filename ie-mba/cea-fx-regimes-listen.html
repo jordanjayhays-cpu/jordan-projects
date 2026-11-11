@@ -1,0 +1,164 @@
+<title>Exchange-Rate Regimes Audio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: lesson picker on top, one reading card with the current sentence lit up, player bar fixed at the bottom. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --fg:#14202e; --muted:#5c6878; --line:#dce2ea;
+  --accent:#1f5d8f; --accent-soft:#e3edf6; --live:#fff1c7; --live-ink:#5a4300;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141b; --surface:#18202b; --fg:#e6ebf1; --muted:#9aa6b5; --line:#2a3542;
+  --accent:#7fb3e0; --accent-soft:#1b2b3c; --live:#4a3b10; --live-ink:#ffe39a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f141b; --surface:#18202b; --fg:#e6ebf1; --muted:#9aa6b5; --line:#2a3542;
+  --accent:#7fb3e0; --accent-soft:#1b2b3c; --live:#4a3b10; --live-ink:#ffe39a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);margin:0}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 150px}
+h1{font:700 clamp(28px,5vw,40px)/1.1 var(--display);margin:4px 0 8px;text-wrap:balance}
+.eyebrow{font:600 12px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);margin:0 0 18px;max-width:60ch}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:0 0 18px}
+.lesson{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:2px;transition:transform .2s cubic-bezier(.34,1.56,.64,1),border-color .15s}
+.lesson:active{transform:scale(.96)}
+.lesson:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lesson b{font:600 15px/1.3 var(--display)}
+.lesson span{font-size:12.5px;color:var(--muted)}
+.lesson[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.card h2{font:700 24px/1.2 var(--display);margin:0 0 4px;text-wrap:balance}
+.card .who{font-size:13px;color:var(--muted);margin-bottom:12px}
+.s{display:inline;padding:1px 2px;border-radius:4px;cursor:pointer;transition:background .2s}
+.s:hover{background:var(--accent-soft)}
+.s.on{background:var(--live);color:var(--live-ink)}
+.para{margin:0 0 12px;font-size:17px;line-height:1.75}
+.note{font-size:13.5px;color:var(--muted);margin-top:14px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar .in{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:600 15px/1 var(--body);border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:12px 18px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .15s}
+.btn:active{transform:scale(.93)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--surface);min-width:110px}
+.bar label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.bar select{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px}
+.prog{flex:1 1 100%;height:4px;background:var(--line);border-radius:4px;overflow:hidden;order:-1}
+.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.status{font-size:13px;color:var(--muted);flex:1 1 140px;min-width:0}
+.warn{background:var(--live);color:var(--live-ink);border-radius:8px;padding:10px 14px;font-size:14px;margin:0 0 14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Country Economic Analysis · exam prep</div>
+  <h1>Pegs, floats and everything between</h1>
+  <p class="lede">Nine short audio chapters on exchange-rate regimes, with real countries, including exactly how a peg works. Start with chapter 1 and press Play. The sentence being spoken lights up; tap any sentence to jump to it.</p>
+  <div class="warn" id="nosupport" hidden>This browser can't read aloud. Try opening the link in Safari or Chrome, or read along below.</div>
+  <div class="lessons" id="lessons"></div>
+  <div class="card" id="card"><h2 id="ltitle"></h2><div class="who" id="lwho"></div><div id="ltext"></div>
+    <p class="note">Spoken by your device's built-in voice. On iPhone, turn off silent mode if you hear nothing.</p></div>
+</div>
+
+<div class="bar"><div class="in">
+  <div class="prog"><i id="prog"></i></div>
+  <button type="button" class="btn pri" id="play">▶ Play</button>
+  <button type="button" class="btn" id="back" aria-label="Previous sentence">⏮</button>
+  <button type="button" class="btn" id="fwd" aria-label="Next sentence">⏭</button>
+  <label for="rate">Speed <select id="rate"><option value="0.85">0.85×</option><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2" selected>2×</option></select></label>
+  <span class="status" id="status">Ready</span>
+</div></div>
+
+<script>
+(function(){
+const L=[
+{t:"1. The one question: who sets the price?",who:"Start here",p:[
+["An exchange rate is just the price of one currency in another. For example, fifty eight Philippine pesos for one US dollar."],
+["Every exchange-rate system answers one question: who sets that price?","At one end, the market sets it completely, through buyers and sellers. At the other end, the country gives up its own currency entirely."],
+["In between there are several options. In order, from most free to least free: free float, dirty float, band, fixed peg, currency board, dual exchange rate, dollarization, and monetary union."],
+["The trade off is always the same: freedom versus stability.","The freer the currency, the more it moves around, but it absorbs shocks for you.","The more fixed it is, the more stable prices are, but the country loses tools to fight a crisis."]]},
+{t:"2. Free float",who:"Garland",p:[
+["In a free float, the central bank does nothing to the exchange rate. Supply and demand decide the price every day."],
+["Remember the basic forces. When a country exports, foreigners buy its currency, so it gets stronger. When it imports, its people sell their currency to buy dollars, so it gets weaker.","When investors bring money in, for example chasing higher interest rates, the currency gets stronger. When they pull money out, it gets weaker."],
+["Real examples: the United States dollar, the euro, the Japanese yen, the British pound, the Australian and Canadian dollars, and the Swiss franc. Brazil's real has floated since nineteen ninety nine."],
+["The big advantage: the currency acts like a shock absorber. If a country hits trouble, its currency falls, its exports get cheaper, and that helps it recover.","The big disadvantage: volatility. Prices of imports and debts can swing a lot, which makes planning harder for businesses."]]},
+{t:"3. How a peg actually works",who:"Garland",p:[
+["This is the part most people find confusing, so let's go slowly. Saudi Arabia pegs its currency, the riyal, at three point seven five riyals per dollar. It has done this for about forty years."],
+["A peg is a promise. The Saudi central bank says: at any time, we will trade three point seven five riyals for one dollar, in either direction.","Think of it like a shop that promises a fixed price for something, and keeps a big stock of it in the back room so it can always keep that promise."],
+["The stock in the back room is foreign exchange reserves: a huge pile of dollars that the central bank holds. Saudi Arabia gets its dollars mainly from selling oil."],
+["Case one: lots of people want dollars, for example to import cars or to move money abroad. Left alone, the riyal would weaken, to maybe four per dollar.","To stop that, the central bank sells dollars from its reserves at three point seven five, and takes riyals back in. That extra supply of dollars holds the price at three point seven five."],
+["Case two: lots of dollars come in, for example when oil prices are high. Left alone, the riyal would strengthen, to maybe three point five per dollar.","To stop that, the central bank buys the extra dollars at three point seven five, paying with newly created riyals. Its reserves grow. But printing riyals can push up inflation."],
+["The central bank also has to keep its interest rates close to the US rates. Otherwise money would flood in or rush out, and the pressure on the peg would be too big. This is Mundell's impossible trinity: a peg plus free capital means you follow the anchor country's interest rate."],
+["So how does a peg break? When too many people want dollars at once, the central bank keeps selling, and its reserves run down.","If the market thinks the reserves will run out, everyone rushes to change their money before the peg breaks. That is a speculative attack. When the reserves are gone, the peg collapses and the currency falls sharply."]]},
+{t:"4. Pegs in real life",who:"Garland",p:[
+["China pegged the yuan at eight point two eight per dollar from nineteen ninety five to two thousand four.","It set the yuan weak, below its true value. That made Chinese exports very cheap, created a huge trade surplus, and helped growth of nine to ten percent a year.","Because so many dollars came in, the Chinese central bank kept buying them, and built up enormous reserves. After American pressure, China moved to a band, and today the yuan is managed, around seven per dollar."],
+["Argentina did the opposite. From about nineteen ninety one, one peso equalled one dollar, to stop hyperinflation.","That peso was too strong. The dollar was cheap, so Argentinians bought imports and even apartments in Miami, while exports collapsed.","Many people took mortgages in dollars. When the peg broke around two thousand one, the peso crashed, and those dollar mortgages became impossible to repay."],
+["Japan, after the Second World War, was fixed at three hundred sixty yen per dollar, a weak yen that helped its export miracle.","And Saudi Arabia, as we saw, has held three point seven five riyals for about forty years, backed by oil dollars."],
+["An extra example, not from class: Hong Kong has kept about seven point eight Hong Kong dollars per US dollar since nineteen eighty three."]]},
+{t:"5. Overvalued vs. undervalued pegs",who:"Garland",p:[
+["A peg can be set too strong or too weak compared with where the market would put it."],
+["An overvalued peg, like Argentina's, makes the local currency strong.","Good sides: imports are cheap, which fights inflation, foreign debt is cheaper to repay, and citizens feel rich when they travel.","Bad sides: exports become uncompetitive, imports flood in, and the country runs a trade deficit. The central bank keeps selling dollars, and reserves drain."],
+["An undervalued peg, like China's, makes the local currency weak.","Good sides: cheap exports, a trade surplus, and fast growth.","Bad sides: imports are expensive, foreign debt is expensive, citizens are poorer in international terms, and trading partners complain about manipulation."],
+["Now the exam trap. On Garland's chart, the vertical axis is pesos per dollar. A peg below the equilibrium on that chart means fewer pesos per dollar, which means the peso is overvalued, not undervalued. This is exactly sample question two."]]},
+{t:"6. Dirty float, also called managed float",who:"Garland",p:[
+["A dirty float sits between a free float and a peg. The currency floats, but the central bank steps in sometimes, when moves get too big. Garland calls it going against the market."],
+["When the currency rises too fast, for example during an oil boom, the central bank buys dollars and sells local currency. That slows the rise. The risk is inflation, because it is putting new local money into the economy."],
+["When the currency falls too fast, for example when investors panic, the central bank sells dollars from its reserves. That slows the fall. The limit is the size of the reserves."],
+["Angola in two thousand nine: oil prices collapsed, fewer dollars came in, and the kwanza started falling. The central bank sold about ten billion dollars of reserves to support it, and then had to go back to the IMF.","Brazil's Lula effect: when markets feared Lula's election, money rushed out and the real fell. The central bank sold dollars to strengthen the real."],
+["The difference from a peg: in a dirty float there is no fixed number to defend. The central bank only smooths the ride."]]},
+{t:"7. Bands and crawling bands",who:"Garland",p:[
+["A band is a range. The currency floats freely inside it, but the central bank defends the top and the bottom.","A crawling band is a band that slowly moves over time, usually to allow a gradual depreciation."],
+["Mexico before nineteen ninety four had a band. Big capital inflows pushed the peso to the strong edge, and the central bank bought dollars to keep it inside the band.","In nineteen ninety four the money rushed out. Reserves fell from about thirty billion dollars to about five. On December twentieth Mexico widened the band by fifteen percent, and two days later let the peso float. It overshot, from about three to about seven pesos per dollar."],
+["Spain was in the European Monetary System, which kept currencies inside bands against each other. In nineteen ninety two and ninety three, speculators attacked the peseta, and Spain had to devalue it four times.","Being stable inside the band for two years was also one of the Maastricht conditions for joining the euro."],
+["The weakness of a band: everyone can see the edges. If markets think the central bank cannot defend an edge, they attack it."]]},
+{t:"8. Currency board, dual rate, dollarization, union",who:"Garland",p:[
+["A currency board is a very strict peg, backed by law. Every unit of local money must be backed by a dollar held in reserve, so the central bank cannot print money freely.","Argentina's convertibility law did this, one peso to one dollar. It killed hyperinflation, but it was so rigid that when the economy needed flexibility, it broke badly."],
+["A dual exchange rate means two official rates at the same time. The government gives the good rate to things it wants to encourage, like manufactured exports and medicines, and the bad rate to oil exporters and luxury imports.","Angola and Venezuela used this. The fatal flaw is corruption: well-connected people buy dollars cheaply at the official rate and sell them on the parallel market for a big profit. In Angola that was about one hundred ninety percent."],
+["Dollarization means a country drops its own currency and uses the US dollar. Ecuador, El Salvador and Panama.","No currency risk at all, but no monetary policy either. Garland compared it to amputating an arm."],
+["A monetary union means several countries share one currency and one central bank, like the euro.","No exchange rate risk inside the union, but one interest rate for everyone. When one country, like Greece, is hit by its own crisis, it cannot cut rates or devalue. It must cut wages instead, which is internal devaluation."]]},
+{t:"9. Summary and a quick quiz",who:"Both",p:[
+["The order to remember: free, dirty, band, peg, board, dual, dollar, union.","The more you move toward a fixed system, the more stability you get, and the less control you keep."],
+["Quick quiz. Pause after each question and answer out loud.","Question one. A central bank promises one exact rate and defends it every day with its reserves. What is it?","Answer: a fixed peg."],
+["Question two. The currency floats, but the central bank sold reserves this month because it was falling too fast. What is it?","Answer: a dirty, or managed, float."],
+["Question three. To hold a peg when everyone wants dollars, does the central bank buy or sell dollars, and what is the danger?","Answer: it sells dollars, and the danger is running out of reserves."],
+["Question four. To hold a peg when dollars are flooding in, does it buy or sell dollars, and what is the danger?","Answer: it buys dollars by printing local money, and the danger is inflation."],
+["Question five. Ecuador uses the US dollar. What did it give up?","Answer: its own monetary policy. Good luck."]]}
+];
+const $=id=>document.getElementById(id);
+const synth=window.speechSynthesis;const ok=!!(synth&&window.SpeechSynthesisUtterance);
+if(!ok)$('nosupport').hidden=false;
+let cur=0,flat=[],idx=0,playing=false,paused=false,voice=null,gen=0;
+function pickVoice(){if(!ok)return;const v=synth.getVoices();voice=v.find(x=>/^en(-|_)(US|GB)/i.test(x.lang)&&/Samantha|Google US|Daniel|Karen|Serena|Natural/i.test(x.name))||v.find(x=>/^en/i.test(x.lang))||null}
+if(ok){pickVoice();if('onvoiceschanged' in synth)synth.onvoiceschanged=pickVoice}
+function renderList(){$('lessons').innerHTML=L.map((l,i)=>`<button type="button" class="lesson" data-i="${i}" aria-current="${i===cur}"><b>${l.t}</b><span>${l.who} · ${l.p.flat().length} sentences</span></button>`).join('');
+  $('lessons').querySelectorAll('.lesson').forEach(b=>b.addEventListener('click',()=>{stop();load(+b.dataset.i);$('card').scrollIntoView({behavior:'smooth',block:'start'})}))}
+function load(i){cur=i;try{localStorage.setItem('cea_fx_lesson',i)}catch(e){}const l=L[i];$('ltitle').textContent=l.t;$('lwho').textContent=l.who;flat=[];
+  $('ltext').innerHTML=l.p.map(par=>'<p class="para">'+par.map(s=>{const k=flat.length;flat.push(s);return `<span class="s" data-k="${k}">${s}</span>`}).join(' ')+'</p>').join('');
+  $('ltext').querySelectorAll('.s').forEach(el=>el.addEventListener('click',()=>{idx=+el.dataset.k;if(playing){speakFrom(idx)}else mark(idx)}));
+  idx=0;mark(-1);renderList();status('Ready · '+flat.length+' sentences')}
+function mark(k){$('ltext').querySelectorAll('.s').forEach(el=>el.classList.toggle('on',+el.dataset.k===k));$('prog').style.width=(k<0?0:((k+1)/flat.length*100))+'%';
+  const el=$('ltext').querySelector('.s.on');if(el){const r=el.getBoundingClientRect();if(r.top<70||r.bottom>window.innerHeight-130)el.scrollIntoView({block:'center',behavior:'smooth'})}}
+function status(t){$('status').textContent=t}
+function setBtn(){$('play').textContent=playing&&!paused?'❚❚ Pause':'▶ Play'}
+function speakFrom(k){if(!ok)return;gen++;const my=gen;synth.cancel();playing=true;paused=false;setBtn();
+  const rate=+$('rate').value;
+  for(let j=k;j<flat.length;j++){const u=new SpeechSynthesisUtterance(flat[j]);u.rate=rate;u.lang='en-US';if(voice)u.voice=voice;
+    u.onstart=()=>{if(my!==gen)return;idx=j;mark(j);status('Sentence '+(j+1)+' of '+flat.length)};
+    if(j===flat.length-1)u.onend=()=>{if(my!==gen)return;playing=false;paused=false;setBtn();status('Finished. Pick the next lesson.');idx=0};
+    synth.speak(u)}}
+function stop(){gen++;if(ok)synth.cancel();playing=false;paused=false;setBtn()}
+$('play').addEventListener('click',()=>{if(!ok)return;
+  if(playing&&!paused){synth.pause();paused=true;setBtn();status('Paused');return}
+  if(playing&&paused){synth.resume();paused=false;setBtn();status('Sentence '+(idx+1)+' of '+flat.length);
+    setTimeout(()=>{if(playing&&!paused&&!synth.speaking)speakFrom(idx)},400);return}
+  speakFrom(idx)});
+$('back').addEventListener('click',()=>{idx=Math.max(0,idx-1);playing?speakFrom(idx):mark(idx)});
+$('fwd').addEventListener('click',()=>{idx=Math.min(flat.length-1,idx+1);playing?speakFrom(idx):mark(idx)});
+$('rate').addEventListener('change',()=>{try{localStorage.setItem('cea_listen_rate',$('rate').value)}catch(e){}if(playing)speakFrom(idx)});
+try{const r=localStorage.getItem('cea_listen_rate');if(r&&[...$('rate').options].some(o=>o.value===r))$('rate').value=r}catch(e){}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!paused&&ok){synth.pause();paused=true;setBtn();status('Paused')}});
+let start=0;try{start=+localStorage.getItem('cea_fx_lesson')||0}catch(e){}
+load(start>=0&&start<L.length?start:0);
+})();
+</script>
