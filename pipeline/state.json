@@ -90,9 +90,10 @@
   "Animal Within",
   "Chains of Gold",
   "Everything Changes",
-  "Quiet Revolt"
+  "Quiet Revolt",
+  "Tolstoy: Confessions"
  ],
- "last_scheduled_date": "2026-11-15",
+ "last_scheduled_date": "2026-11-16",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -220,6 +221,7 @@
   "2026-11-12": "animal-within",
   "2026-11-13": "chains-of-gold",
   "2026-11-14": "everything-changes",
-  "2026-11-15": "quiet-revolt"
+  "2026-11-15": "quiet-revolt",
+  "2026-11-16": "tolstoy-confessions"
  }
 }
