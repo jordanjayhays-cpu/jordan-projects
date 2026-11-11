@@ -22,7 +22,7 @@ section.slide.on{opacity:1;visibility:visible;transition:opacity .45s ease}
 h1.cover{position:absolute;left:160px;right:160px;top:330px;text-align:center;font-size:170px;font-weight:900;letter-spacing:-7px;line-height:.95}
 p.cover-sub{position:absolute;left:260px;right:260px;top:540px;text-align:center;font-size:42px;line-height:1.3}
 p.by{position:absolute;left:160px;right:160px;bottom:64px;text-align:center;font-size:24px;color:var(--muted);line-height:1.5}
-h2.t{position:absolute;left:160px;right:160px;top:70px;text-align:center;font-size:64px;font-weight:800;line-height:1.08;letter-spacing:-2px;text-wrap:balance}
+h2.t{position:absolute;left:160px;right:160px;top:104px;text-align:center;font-size:64px;font-weight:800;line-height:1.08;letter-spacing:-2px;text-wrap:balance}
 .lockup{position:absolute;left:0;right:0;top:120px;display:flex;align-items:center;justify-content:center;gap:36px}
 .logo{display:flex;align-items:center;justify-content:center;height:96px}
 .logo img{height:96px;width:auto;display:block}
@@ -32,7 +32,10 @@ h2.t{position:absolute;left:160px;right:160px;top:70px;text-align:center;font-si
 .mark img{height:28px;width:auto}
 .s2{opacity:0;transition:opacity .6s ease}.slide.stepped .s2{opacity:1;transition-delay:var(--sd,0s)}
 .s1{transition:opacity .4s ease}.slide.stepped .s1{opacity:0}
-.tag{position:absolute;left:160px;right:160px;top:34px;text-align:center;font-size:18px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.secbar{position:absolute;left:0;right:0;top:16px;display:flex;justify-content:center;align-items:center;gap:22px;font-size:19px;font-weight:600;color:#b5b5b5;z-index:6}
+.secbar b{color:#fff;background:var(--ink);font-weight:900;padding:5px 14px;border-radius:999px;letter-spacing:.02em}
+.spk{position:absolute;left:40px;bottom:46px;font-size:18px;font-weight:700;color:var(--muted);z-index:6}
+.tag{position:absolute;left:160px;right:160px;top:68px;text-align:center;font-size:18px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 p.cap{position:absolute;left:160px;right:160px;bottom:50px;text-align:center;font-size:24px;color:var(--muted);text-wrap:balance}
 h2.big{position:absolute;left:200px;right:200px;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:112px;font-weight:900;line-height:1.04;letter-spacing:-4px;text-wrap:balance}
 h2.big small{display:block;font-size:42px;font-weight:500;letter-spacing:-.5px;line-height:1.3;margin-top:36px;color:var(--muted);max-width:1300px}
@@ -133,17 +136,14 @@ notes:`About 30 seconds. The eight dots shrink into a speck while Korea's dots f
 "The same year, South Korea filed <b>195,786</b>." <b>Pause two seconds.</b><br>
 "And Korea has fewer people than Mexico." (Korea about 52 million, Mexico about 130 million.)`});
 
-S.push({who:'Speaker 1',html:`${TAG('Executive summary')}<div class="b" style="--t:100ms">${LOCKUP('top:78px;transform:scale(.7)')}</div>
-<h2 class="t b" style="--t:300ms;top:190px">We are EY. The IDB asked us: why has growth been so disappointing?</h2>
-<p class="b" style="--t:600ms;position:absolute;left:260px;right:260px;top:345px;text-align:center;font-size:26px;color:var(--muted);line-height:1.4">The Inter-American Development Bank (IDB) is the development bank that lends to governments across Latin America and the Caribbean.</p>
-${B(2,'Know-how is bought,<br>not born.','div','A','--t:1000ms;left:160px;right:160px;top:430px;text-align:center;font-size:88px;font-weight:900;letter-spacing:-3px;line-height:1.04')}
-<div class="cols3" style="top:690px">${[['Past','Mexico and Korea started level.'],['Present','Korea paid to learn. The region did not.'],['Future','The IDB can start the homework this year.']].map(([a,b],k)=>`<div class="b" style="--t:${1500+k*250}ms"><h3>${a}</h3><p>${b}</p></div>`).join('')}</div>`,
-notes:`About 2 minutes. This is the executive summary.<br>
-1. "We are Group 1 from <b>Ernst &amp; Young</b>. We were commissioned by the <b>Inter-American Development Bank</b>, the IDB, the development bank that lends to governments across Latin America and the Caribbean. The IDB asked us one question: <b>why has growth in Mexico and Central America been so disappointing?</b>" (Say the full names once; after this, "EY" and "the IDB" are fine.)<br>
-2. <b>"If you remember one thing today: know-how is bought, not born."</b> (Message #1)<br>
-3. Map, one line each: the past (they started level), the present (Korea paid to learn), the future (what the IDB can do).<br>
-4. Why the IDB should care: "You get a practical plan for inclusive growth that lasts. You can fund it this year and check its scores every year."<br>
-Hand over: "<b>[Speaker 2]</b> takes us back to 1980."`});
+S.push({who:'Speaker 1',html:`<div class="b" style="--t:100ms">${LOCKUP('top:62px;transform:scale(.62)')}</div>
+<h2 class="t b" style="--t:250ms;top:170px">We are EY. The IDB asked us: why has growth been so disappointing?</h2>
+<p class="b" style="--t:500ms;position:absolute;left:260px;right:260px;top:322px;text-align:center;font-size:25px;color:var(--muted);line-height:1.4">The Inter-American Development Bank (IDB) is the development bank that lends to governments across Latin America and the Caribbean.</p>
+<div class="A" style="left:200px;right:200px;top:430px;display:grid;grid-template-columns:1fr 1fr;gap:100px">
+${[['What we found',['Mexico and Korea started level in 1980. Korea paid to learn; the region did not.','Research is 0.3% of the economy, and researchers are scarce.','Big cities drain the regions, and almost 6 in 10 workers are informal.']],
+   ['What we recommend',['A learning team that proves one new industry, then steps away.','Cheaper formal hiring: health and pensions paid from general taxes.','Connect the towns outside the big cities. Scored every year.']]].map(([h,items],c)=>
+ `<div class="b" style="--t:${800+c*500}ms"><div style="font-size:28px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;padding-bottom:12px;border-bottom:4px solid #111">${h}</div>${items.map((t,k)=>`<p style="font-size:28px;font-weight:600;line-height:1.3;margin-top:18px;letter-spacing:-.3px"><b style="color:${c?C.kor:C.mex}">${k+1}.</b> ${t}</p>`).join('')}</div>`).join('')}</div>
+<p class="foot b" style="--t:2000ms;bottom:70px;font-size:48px;font-weight:900;letter-spacing:-1.5px">Know-how is bought, not born.</p>`});
 
 // ================= SPEAKER 2 · PAST + PRESENT (5-9) =================
 S.push({who:'Speaker 2',dots:'y1980',html:`${TAG('International benchmark · Korea')}${T('Were we always behind? No. In 1980, Mexico and Korea were level.')}
@@ -181,7 +181,7 @@ notes:`About 1 minute. <b>Two clicks on this slide.</b><br><b>Click 1:</b> the c
 "Then Korea started doing its homework. Korea's patents grew <b>158 times</b>. Mexico's grew 1.7 times."<br>
 If anyone asks about a year, hover the chart.`});
 
-S.push({who:'Speaker 2',html:`${TAG('Diagnosis · policy constraint: too little research spending')}${T('Homework means paying for research')}
+S.push({who:'Speaker 2',html:`${TAG('Diagnosis · policy constraint: too little research spending')}${T('Cause 1: the region barely pays for research')}
 <svg class="A" style="left:0;top:0" width="1920" height="1080">
  <text class="ap" style="--t:500ms" x="420" y="472" text-anchor="end" font-size="34" font-weight="800" fill="${C.kor}">SOUTH KOREA</text>
  <rect class="grow" style="--t:700ms;--dur:1.3s" x="450" y="420" width="1100" height="80" fill="${C.kor}"/>
@@ -194,7 +194,7 @@ notes:`About 45 seconds.<br>
 "What was the homework? Korea spends almost <b>5%</b> of its whole economy on research, every year. Mexico spends <b>0.3%</b>."<br>
 "That's not luck. It's a line in a budget that someone chose to write."`});
 
-S.push({who:'Speaker 2',dots:'res',html:`${TAG('Diagnosis · structural constraint: too few researchers')}${T(`And paying people to invent: <span class="bl">${num(22,{t:500})}</span> for every <span class="pk">1</span>`)}
+S.push({who:'Speaker 2',dots:'res',html:`${TAG('Diagnosis · structural constraint: too few researchers')}${T(`Cause 2: few people are paid to invent. Korea has <span class="bl">${num(22,{t:500})}</span> for every <span class="pk">1</span>`)}
 <div class="lab b" style="--t:1300ms;left:560px;top:680px;width:800px;color:${C.kor}">SOUTH KOREA <span>9,472</span></div>
 <div class="lab b" style="--t:1700ms;left:560px;top:800px;width:800px;color:${C.mex}">MEXICO <span>438</span></div>
 ${CAP('Each dot is 100 researchers per million people · World Bank WDI, Korea 2023, Mexico 2024',1900)}`,
@@ -204,7 +204,7 @@ Spice if you have time: "Guatemala has about 26 researchers in the whole country
 
 const GX=i=>260+i/64*1300, GY=v=>860-v/40000*560;
 const gl=k=>D.gdp[k].map((v,i)=>`${GX(i).toFixed(1)},${GY(v).toFixed(1)}`).join(' ');
-S.push({who:'Speaker 2',html:`${TAG('Regional context · growth trend')}${T('The homework paid off')}
+S.push({who:'Speaker 2',html:`${TAG('Regional context · growth trend')}${T('Sixty years ago Mexico was the richer one. Not any more.')}
 <svg class="A" style="left:0;top:0" width="1920" height="1080">
  ${[10000,20000,30000,40000].map(v=>`<line x1="260" x2="1560" y1="${GY(v)}" y2="${GY(v)}" stroke="${C.line}"/><text x="244" y="${GY(v)+7}" text-anchor="end" font-size="20" fill="${C.muted}">$${v/1000}k</text>`).join('')}
  <line x1="260" x2="1560" y1="${GY(0)}" y2="${GY(0)}" stroke="${C.grey}" stroke-width="1.5"/>
@@ -223,7 +223,7 @@ notes:`About 45 seconds.<br>
 Hand over: "So what happened here? <b>[Speaker 3]</b>."`});
 
 // ================= SPEAKER 3 · CLIMAX + WHY (10-12) =================
-S.push({who:'Speaker 3',html:`${TAG('Diagnosis')}<h2 class="big"><span class="b" style="--t:200ms">Know-how is bought.</span><span class="b pk" style="--t:1400ms">Nobody here bought it.</span><small class="b" style="--t:2600ms">Why not? Two reasons.</small></h2>`,
+S.push({who:'Speaker 3',html:`${TAG('Diagnosis')}<h2 class="big"><span class="b" style="--t:200ms">Know-how is bought.</span><span class="b pk" style="--t:1400ms">Nobody here bought it.</span><small class="b" style="--t:2600ms">Four causes, one pattern: the region never paid to learn.</small></h2>`,
 notes:`<b>The climax. Slow down.</b> About 45 seconds.<br>
 "So this is not bad luck, and it's not culture. <b>Know-how is bought, and nobody here bought it.</b>" (Message #2)<br>
 Pause. "Why not? Two reasons."`});
@@ -231,7 +231,7 @@ Pause. "Why not? Two reasons."`});
 const arrows=(()=>{let s='';const cx=960,cy=560;for(let k=0;k<8;k++){const a=k*Math.PI/4,c=Math.cos(a),sn=Math.sin(a);
  s+=`<line class="ap" style="--t:${500+k*120}ms" x1="${cx+c*280}" y1="${cy+sn*280}" x2="${cx+c*120}" y2="${cy+sn*120}" stroke="${C.ink}" stroke-width="6" marker-end="url(#a1)"/>`}
  s+=`<line class="ap" style="--t:1700ms" x1="${cx+75}" y1="${cy+75}" x2="${cx+215}" y2="${cy+215}" stroke="${C.n2}" stroke-width="2" marker-end="url(#a2)"/>`;return s})();
-S.push({who:'Speaker 3',html:`${TAG('Diagnosis · structural constraint')}${T('Reason one: the big cities soak everything up')}
+S.push({who:'Speaker 3',html:`${TAG('Diagnosis · structural constraint')}${T('Cause 3: the big cities soak everything up')}
 <svg class="A" style="left:0;top:0" width="1920" height="1080"><defs>${arrowDef('a1',C.ink)}${arrowDef('a2',C.n2)}</defs>
  ${arrows}<circle class="ap" style="--t:200ms" cx="960" cy="560" r="100" fill="${C.ink}"/>
  <text class="ap" style="--t:300ms" x="960" y="570" text-anchor="middle" font-size="26" font-weight="800" fill="#fff" letter-spacing="3">CAPITAL</text>
@@ -243,7 +243,7 @@ notes:`About 1 minute 15.<br>
 "Economists call this backwash. Myrdal named it in 1957. Everyone else calls it leaving."<br>
 Course link: growth poles (Perroux) are meant to spread growth. Here they only pull it in.`});
 
-S.push({who:'Speaker 3',dots:'informal',html:`${TAG('Diagnosis · policy constraint')}${T('Reason two: hiring officially costs extra, so almost 6 in 10 Mexican workers are off the books')}
+S.push({who:'Speaker 3',dots:'informal',html:`${TAG('Diagnosis · policy constraint')}${T('Cause 4: hiring officially costs extra, so almost 6 in 10 Mexican workers are off the books')}
 ${[['GUATEMALA','73.5%',C.gtm],['MEXICO','56.9%',C.mex],['COSTA RICA','36.1%','#444']].map(([n,v,c],k)=>`<div class="lab b" style="--t:${600+k*250}ms;left:330px;top:${380+k*170}px;width:440px;text-align:right;color:${c}">${n} <span>${v}</span></div>`).join('')}
 ${CAP('Each dot is one worker in ten; coloured dots work informally. Workers in informal jobs, % of all employment, 2025 · ILOSTAT, SDG indicator 8.3.1 · mechanism after Santiago Levy',1800)}`,
 notes:`About 1 minute 15.<br>
@@ -359,10 +359,38 @@ notes:`Use this only in Q&A. Likely questions:<br>
 • "What does it cost?" Costing is still open and gets built with IDB project data. Say so plainly.<br>
 • "Which country first?" Pick one as a group before Thursday.`});
 
+
+// ---------- Order follows the brief: title, executive summary, context, diagnostic, benchmarks, recommendations, conclusion ----------
+// [old index, section (0-5, -1 none), speaker]
+const SECS=['Executive summary','Regional context','Diagnostic','International benchmarks','Policy recommendations','Conclusion and next steps'];
+const PLAN=[[0,-1,1],[3,0,1],[1,1,1],[2,1,1],[8,1,1],[6,2,2],[7,2,2],[10,2,2],[11,2,2],[9,2,2],[4,3,3],[5,3,3],[13,3,3],[12,4,4],[14,4,4],[15,4,4],[16,4,4],[17,4,5],[18,5,5],[19,-1,0]];
+const NOTES=[
+`<b>Speaker 1 · about 30 seconds.</b> Open with the hook, out loud, before any introduction: "Last year, a whole country filed eight patents." Then click.`,
+`<b>Speaker 1 · Executive summary · about 1 minute 30.</b><br>"We are Group 1 from <b>Ernst &amp; Young</b>. We were commissioned by the <b>Inter-American Development Bank</b>, the IDB, the development bank that lends to governments across Latin America and the Caribbean. The IDB asked us one question: <b>why has growth in Mexico and Central America been so disappointing?</b>" (Full names once; "EY" and "the IDB" after this.)<br>Read the three findings and the three recommendations, one line each.<br><b>"If you remember one thing today: know-how is bought, not born."</b> (Message #1)`,
+`<b>Speaker 1 · Regional context · about 45 seconds.</b> Wait for all eight dots.<br>"Last year, the whole of Guatemala filed <b>eight</b> patents. Eight. For 18 million people." A patent is a new invention someone registers: the simplest count of new ideas a country produces.`,
+`<b>Speaker 1 · about 30 seconds.</b> The eight dots shrink into a speck as Korea's fill the slide.<br>"The same year, South Korea filed <b>195,786</b>." Pause. "And Korea has fewer people than Mexico."`,
+`<b>Speaker 1 · about 45 seconds.</b><br>"This is what disappointing growth looks like. In 1960 Mexico was <b>four times richer</b> than Korea. Around 1988 they swapped. Today Korea is <b>3.6 times richer</b>."<br><b>Hand-off:</b> "So why? <b>[Speaker 2]</b> has the diagnosis."`,
+`<b>Speaker 2 · Diagnostic · about 45 seconds.</b><br>"Four causes. First: the region barely pays for research. Korea spends almost <b>5%</b> of its economy on research every year. Mexico, <b>0.3%</b>. That is a policy choice, written into a budget."`,
+`<b>Speaker 2 · about 45 seconds.</b><br>"Second: few people are paid to invent. For every researcher in Mexico, Korea has about <b>22</b>." If time: "Guatemala has about 26 researchers in the whole country."`,
+`<b>Speaker 2 · about 1 minute.</b><br>"Third: the capital cities pull in the money, the people and the talent, and send very little back. Myrdal called it backwash. Everyone else calls it leaving."`,
+`<b>Speaker 2 · about 1 minute.</b><br>"Fourth: hiring someone officially costs extra, because payroll taxes pay for health and pensions. So firms stay small and off the books. In Guatemala <b>7 in 10</b> workers are informal; in Mexico <b>almost 6 in 10</b>; in Costa Rica about <b>4 in 10</b>." (ILOSTAT, 2025; Santiago Levy's argument.)`,
+`<b>Speaker 2 · the climax · about 45 seconds. Slow down.</b><br>"Four causes, one pattern. <b>Know-how is bought, and nobody here bought it.</b>" (Message #2)<br><b>Hand-off:</b> "Is this destiny? No. <b>[Speaker 3]</b> shows who has done it."`,
+`<b>Speaker 3 · International benchmarks · about 45 seconds.</b><br>"Were we always behind? No. In 1980 Mexico filed 704 patents and Korea 1,241. Two kids, same classroom, similar grades."`,
+`<b>Speaker 3 · about 1 minute 15. Two clicks on this slide.</b><br><b>Click 1</b>: the chart draws 1980 to 1985, zoomed in. "Here they are in the early 1980s. Level."<br><b>Click 2</b>: it pulls back to 2024. Let it move, then: "Then Korea did its homework. Its patents grew <b>158 times</b>. Mexico's, 1.7 times."`,
+`<b>Speaker 3 · about 1 minute.</b><br>"And it has been done next door. Costa Rica went after foreign factories on purpose, through its agency CINDE. <b>FDI brings technology and know-how</b>, and local firms and workers learn from it." (Message #3: know-how can be bought.) ⚠ Check the CINDE details.<br><b>Hand-off:</b> "So what should the IDB do? <b>[Speaker 4]</b>."`,
+`<b>Speaker 4 · Policy recommendations · about 45 seconds.</b><br>"Not chase patents. Patents are the thermometer, not the medicine. They show whether a country knows how to make new things. The medicine is building that know-how. Three steps, one for each cause."`,
+`<b>Speaker 4 · about 1 minute.</b> Fixes causes 1 and 2.<br>"Step one: a learning team. It picks one new industry, proves it works, hands it to local firms, then steps away. Chile did exactly this with salmon." Why now: factories leaving China are choosing new homes.`,
+`<b>Speaker 4 · about 1 minute.</b> Fixes cause 4.<br>"Step two: make hiring cheaper. Pay for health and pensions from general taxes, not wages, so firms and workers come onto the books." Say the cost first: "It costs money before it saves money."`,
+`<b>Speaker 4 · about 1 minute.</b> Fixes cause 3.<br>"Step three: connect the towns outside the big city, with roads, internet and suppliers, so growth spreads. Medellín's cable cars did this for neighbourhoods the city had written off."<br><b>Hand-off:</b> "<b>[Speaker 5]</b> on how we roll it out."`,
+`<b>Speaker 5 · about 1 minute 15.</b><br>"Governments last four years; these programmes don't. So the cheapest, fastest step goes first, and each step has to earn the next. Every year we publish three scores. We are not promising a growth number." If asked: inclusive, because it reaches towns and informal workers; sustainable, because know-how lasts.`,
+`<b>Speaker 5 · Conclusion and next steps · about 1 minute.</b> The eight dots are back.<br>"Eight inventions. In 1980 Korea started where Mexico was. The difference was homework. <b>Know-how is bought, not born.</b> (Message #4) Fund the learning team, in one country, this year. In the next 90 days: pick the pilot country, set the baselines, cost it with IDB data."<br><b>Pause. No "thank you".</b> "We'd love your questions." Speaker 5 hosts Q&amp;A.`,
+`<b>Backup · Q&amp;A only.</b> See the Q&amp;A plan in the script for who answers what.`];
+{const old=S.slice();S.length=0;PLAN.forEach(([o,sec,spk],i)=>S.push({...old[o],sec,spk,who:spk?'Speaker '+spk:'Backup',notes:NOTES[i]}));}
+
 // ---------- Render ----------
 const stage=document.getElementById('stage');const N=S.length;
 const POOL=210;
-stage.innerHTML=S.map((s,i)=>`<section class="slide" data-i="${i}">${s.html}${s.cover?'':`<div class="mark">EY for the IDB</div>`}</section>`).join('')+
+stage.innerHTML=S.map((s,i)=>`<section class="slide" data-i="${i}">${s.html}${s.cover?'':`<div class="mark">EY for the IDB</div>`}${s.sec>=0?`<div class="secbar">${SECS.map((n,k)=>k===s.sec?`<b>${n}</b>`:`<span>${n}</span>`).join('')}</div>`:''}${s.spk?`<div class="spk">Speaker ${s.spk}</div>`:''}</section>`).join('')+
  `<svg id="dots" viewBox="0 0 1920 1080">${Array.from({length:POOL},(_,i)=>`<circle r="10" cx="0" cy="0" style="opacity:0;transform:translate(960px,560px) scale(0)"/>`).join('')}</svg><div id="tip"></div>`;
 const els=[...stage.querySelectorAll('section.slide')],dotEls=[...stage.querySelectorAll('#dots circle')];let cur=0,scale=1;
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
