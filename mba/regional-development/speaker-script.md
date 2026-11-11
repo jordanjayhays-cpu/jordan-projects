@@ -18,17 +18,17 @@ Leave this up while the room settles. Do not say "good morning" yet. Your first 
 
 ## Slide 2 · Speaker 1
 
-Click, then wait for all eight dots before you speak. About 45 seconds on this slide.
+Wait for all eight dots before you speak. About 45 seconds.
 
 "Last year, the whole of Guatemala filed eight patents. Eight. For 18 million people."
 
-If needed: a patent is a new invention someone registers so they can use it. It is the simplest count of new ideas a country produces.
+If needed: a patent is a new invention someone registers. It is the simplest count of new ideas a country produces.
 
 ## Slide 3 · Speaker 1
 
-About 30 seconds.
+About 30 seconds. The eight dots shrink into a speck while Korea's dots fill the slide.
 
-"The same year, South Korea filed 195,786." Pause two seconds. Let the number land.
+"The same year, South Korea filed 195,786." Pause two seconds.
 
 "And Korea has fewer people than Mexico." (Korea about 52 million, Mexico about 130 million.)
 
@@ -36,7 +36,7 @@ About 30 seconds.
 
 About 2 minutes. This is the executive summary.
 
-1. Introduce the group: "We are Group 1 from EY. The IDB commissioned us to answer one question: why has growth in Mexico and Central America been so disappointing?"
+1. "We are Group 1 from EY. The IDB commissioned us to answer one question: why has growth in Mexico and Central America been so disappointing?"
 
 2. "If you remember one thing today: know-how is bought, not born." (Message #1)
 
@@ -50,19 +50,15 @@ Hand over: "[Speaker 2] takes us back to 1980."
 
 About 45 seconds.
 
-"Go back to 1980. Mexico filed 704 patents, Korea 1,241. Close. Two kids, same classroom, similar grades."
-
-Point out: same scale for both, so you can compare them by eye.
+"Were we always behind? No. In 1980 Mexico filed 704 patents and Korea 1,241. Close. Two kids, same classroom, similar grades."
 
 ## Slide 6 · Speaker 2
 
-About 1 minute. Click, and let the chart move before you talk over it.
-
-The chart opens on 1980 to 1985, when the two are level. Then it pulls back to 2024.
+About 1 minute. Let the chart move before you talk over it. It opens on 1980 to 1985, when the two are level, then pulls back to 2024.
 
 "Then Korea started doing its homework. Korea's patents grew 158 times. Mexico's grew 1.7 times."
 
-If anyone asks about a year, hover the chart. It shows both countries for that year.
+If anyone asks about a year, hover the chart.
 
 ## Slide 7 · Speaker 2
 
@@ -104,7 +100,7 @@ About 1 minute 15.
 
 "Economists call this backwash. Myrdal named it in 1957. Everyone else calls it leaving."
 
-Link to the course: growth poles (Perroux) are meant to spread growth. Here they only pull it in.
+Course link: growth poles (Perroux) are meant to spread growth. Here they only pull it in.
 
 ## Slide 12 · Speaker 3
 
@@ -114,9 +110,15 @@ About 1 minute 15.
 
 This is Santiago Levy's argument. Don't quote an informality percentage. We haven't pulled it yet.
 
-Hand over: "So what do we do about it? [Speaker 4]."
+Hand over: "So what should the IDB do? [Speaker 4]."
 
 ## Slide 13 · Speaker 4
+
+About 30 seconds. The turn of the story.
+
+"So what should the IDB do? We have a plan in three steps. Before the plan, the good news: it has already been done next door."
+
+## Slide 14 · Speaker 4
 
 About 1 minute.
 
@@ -126,7 +128,7 @@ About 1 minute.
 
 ⚠ Check the CINDE details before Thursday.
 
-## Slide 14 · Speaker 4
+## Slide 15 · Speaker 4
 
 About 1 minute.
 
@@ -136,7 +138,7 @@ About 1 minute.
 
 Why now: factories are leaving China and choosing new homes. The region can be ready for them.
 
-## Slide 15 · Speaker 4
+## Slide 16 · Speaker 4
 
 About 1 minute.
 
@@ -144,19 +146,19 @@ About 1 minute.
 
 Say the cost before anyone asks: "It costs money before it saves money."
 
-## Slide 16 · Speaker 4
+Hand over: "[Speaker 5] with the last step."
+
+## Slide 17 · Speaker 5
 
 About 1 minute.
 
 "Step three: connect the towns outside the big city, with roads, internet and suppliers, so growth spreads instead of pooling in the capital."
 
-Course link: a growth pole only works if local firms learn to supply the big plant and the towns around it get connected. Those are the two steps that usually get skipped.
+Course link: a growth pole only works if local firms learn to supply the big plant and the towns around it get connected. Those are the steps that usually get skipped.
 
 "Medellín's cable cars did this for neighbourhoods the city had written off."
 
-Hand over: "[Speaker 5] on how we roll it out."
-
-## Slide 17 · Speaker 5
+## Slide 18 · Speaker 5
 
 About 1 minute 30.
 
@@ -165,22 +167,22 @@ About 1 minute 30.
 "Every year we publish three scores: inventions per person, compared with Chile and Brazil, not Korea; how far the poorest region trails the richest; and how many workers are on the books."
 
 "We are not promising a growth number. A number we can't defend is worth less than an honest blank."
+
 If asked about the brief's words: inclusive, because it reaches the towns and the informal workers. Sustainable, because growth built on know-how lasts, unlike a commodity boom.
 
-## Slide 18 · Speaker 5
+## Slide 19 · Speaker 5
 
-Close. About 1 minute. Bring it back to the opening.
+Close. About 1 minute. The eight dots are back from the opening.
 
 "Eight inventions. In 1980 Korea started where Mexico was. The difference was homework."
 
-Summarize in one breath: same start, different homework, a plan to start ours.
-Next steps, one line: "In the next 90 days: pick the pilot country, set the three baselines, and cost the team with IDB project data."
-
 "Know-how is bought, not born." (Message #4) "Fund the learning team, in one country, this year."
+
+Next steps, one line: "In the next 90 days: pick the pilot country, set the three baselines, and cost the team with IDB project data."
 
 Pause two seconds. Do not say "thank you". Then: "We'd love your questions." You lead the Q&A and hand questions to whoever owns that part.
 
-## Slide 19 · Backup (any speaker in Q&A)
+## Slide 20 · Backup (Q&A)
 
 Use this only in Q&A. Likely questions:
 

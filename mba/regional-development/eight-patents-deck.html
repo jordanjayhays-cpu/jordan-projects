@@ -6,387 +6,340 @@
 <title>Eight Patents</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&family=Archivo+Narrow:wght@500;600;700&family=Newsreader:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#f3f1ec; --card:#f9f8f5; --band:#e9e5dd; --line:#dcd8d0;
-  --ink:#1c1a17; --ink2:#4a4640; --mute:#8a857c; --faint:#bdb7ad;
-  --kor:#1f6fd1; --mex:#c8541f; --gtm:#6a3fc1;
-  --n1:#2f2c28; --n2:#8f897f; --n3:#d6d1c7;
-  --out:cubic-bezier(.2,.75,.2,1); --spring:cubic-bezier(.3,1.6,.5,1);
-}
+/* Design after the CareerIQ reference: white page, one centred point per slide, one visual, one caption. */
+:root{--ink:#111;--paper:#fff;--surround:#e6e6e6;--muted:#5c5c5c;--line:#e3e3e3;--grey:#bdbdbd;
+  --kor:#2f5bff;--mex:#e8590c;--gtm:#7b3fe4;--out:cubic-bezier(.2,.75,.2,1);--spring:cubic-bezier(.3,1.6,.5,1)}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#d9d5cc;font-family:Archivo,system-ui,sans-serif;color:var(--ink);overflow:hidden}
-#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
-#stage{width:1334px;height:750px;position:relative;transform-origin:center center;flex:none}
-.slide{position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none;overflow:hidden;transition:opacity .45s var(--out)}
-.slide.on{opacity:1;pointer-events:auto}
+html,body{height:100%}
+body{background:var(--surround);color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+#viewport{position:fixed;inset:0;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:var(--paper);overflow:hidden}
+section.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+section.slide.on{opacity:1;visibility:visible;transition:opacity .45s ease}
 .A{position:absolute}
-.cap{font-family:"Archivo Narrow",sans-serif;font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:15px;color:var(--mute)}
-.h{font-weight:800;letter-spacing:-.035em;line-height:1.02}
-.it{font-family:Newsreader,serif;font-style:italic;font-weight:400}
-.sub{font-size:22px;line-height:1.4;color:var(--ink2)}
-.rule{position:absolute;height:1px;background:var(--line)}
-.card{position:absolute;left:72px;top:73px;width:400px;height:563px;background:var(--card);border:1px solid var(--line);padding:38px 30px}
-.big{font-weight:900;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
-.foot{position:absolute;left:0;right:0;bottom:0;height:40px;background:var(--band);display:flex;align-items:center;padding:0 72px;
-  font-family:"Archivo Narrow",sans-serif;font-size:13px;color:var(--mute);letter-spacing:.02em}
-.road{position:absolute;right:72px;top:62px;display:flex;gap:22px;font-family:"Archivo Narrow",sans-serif;font-size:14px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#c9c3b8}
-.road b{color:var(--ink);position:relative}
-.road b::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;background:var(--ink)}
+h1.cover{position:absolute;left:160px;right:160px;top:330px;text-align:center;font-size:170px;font-weight:900;letter-spacing:-7px;line-height:.95}
+p.cover-sub{position:absolute;left:260px;right:260px;top:540px;text-align:center;font-size:42px;line-height:1.3}
+p.by{position:absolute;left:160px;right:160px;bottom:64px;text-align:center;font-size:24px;color:var(--muted);line-height:1.5}
+h2.t{position:absolute;left:160px;right:160px;top:70px;text-align:center;font-size:64px;font-weight:800;line-height:1.08;letter-spacing:-2px;text-wrap:balance}
+p.cap{position:absolute;left:160px;right:160px;bottom:50px;text-align:center;font-size:24px;color:var(--muted);text-wrap:balance}
+h2.big{position:absolute;left:200px;right:200px;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:112px;font-weight:900;line-height:1.04;letter-spacing:-4px;text-wrap:balance}
+h2.big small{display:block;font-size:42px;font-weight:500;letter-spacing:-.5px;line-height:1.3;margin-top:36px;color:var(--muted);max-width:1300px}
+p.foot{position:absolute;left:200px;right:200px;bottom:130px;text-align:center;font-size:40px;font-weight:800;letter-spacing:-1px;text-wrap:balance}
+.cols3{position:absolute;left:180px;right:180px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:80px;text-align:center}
+.cols3 h3{font-size:30px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding-bottom:14px;border-bottom:4px solid var(--ink);margin-bottom:18px}
+.cols3 p{font-size:36px;font-weight:700;line-height:1.25;letter-spacing:-1px}
+.cols3 p.s{font-size:26px;font-weight:500;color:var(--muted);letter-spacing:0;margin-top:8px}
+.lab{position:absolute;font-size:30px;font-weight:800;letter-spacing:.02em;text-align:center}
+.lab span{color:var(--ink)}
+.pk{color:var(--mex)}.bl{color:var(--kor)}.pu{color:var(--gtm)}
 svg{overflow:visible}
-svg text{font-family:"Archivo Narrow",sans-serif}
-.ph{background:#fbe7a6;padding:0 4px}
-#nav{position:fixed;top:12px;right:12px;display:flex;gap:8px;z-index:5;opacity:.3;transition:opacity .2s}#nav:hover{opacity:1}
-#nav button{font:600 13px "Archivo Narrow",sans-serif;letter-spacing:.1em;border:0;background:rgba(28,26,23,.85);color:#fff;
-  padding:9px 14px;border-radius:999px;cursor:pointer;transition:transform .18s var(--spring)}
+svg text{font-family:Inter,sans-serif}
+#dots{position:absolute;inset:0;width:1920px;height:1080px;z-index:5;pointer-events:none}
+#dots circle{transition:transform .9s cubic-bezier(.65,0,.25,1),opacity .5s ease,fill .6s ease;pointer-events:auto}
+#progress{position:fixed;left:0;bottom:0;height:4px;width:0;background:var(--ink);z-index:20;transition:width .4s ease}
+#nav{position:fixed;top:12px;right:12px;display:flex;gap:8px;z-index:21;opacity:.3;transition:opacity .2s}#nav:hover{opacity:1}
+#nav button{font:700 13px Inter,sans-serif;border:0;background:#111;color:#fff;padding:9px 14px;border-radius:999px;cursor:pointer;transition:transform .18s var(--spring)}
 #nav button:active{transform:scale(.88);transition-duration:.06s}
-#notes{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;background:rgba(28,26,23,.94);color:#f3f1ec;z-index:6;
-  padding:18px 28px 22px;font:16px/1.5 Archivo,sans-serif;transform:translateY(105%);transition:transform .35s var(--out)}
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;background:rgba(17,17,17,.95);color:#f2f2f2;z-index:22;
+  padding:18px 28px 22px;font:16px/1.5 Inter,sans-serif;transform:translateY(105%);transition:transform .35s var(--out)}
 #notes.show{transform:none}
-#notes .who{font:700 13px "Archivo Narrow",sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#f0a07a;margin-bottom:6px}
+#notes .who{font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#ff9f6b;margin-bottom:6px}
 #notes b{color:#fff}
-#tip{position:absolute;z-index:4;pointer-events:none;background:var(--ink);color:#fff;font:500 14px/1.4 Archivo,sans-serif;
-  padding:8px 11px;border-radius:6px;opacity:0;transition:opacity .15s;white-space:nowrap}
+#tip{position:absolute;z-index:30;pointer-events:none;background:#fff;color:var(--ink);border:2px solid var(--ink);padding:12px 14px;font:18px/1.35 Inter,sans-serif;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);opacity:0;transition:opacity .15s;white-space:nowrap}
 #tip.show{opacity:1}
-#tip b{font-family:"Archivo Narrow";letter-spacing:.08em;text-transform:uppercase;font-size:12px;display:block;opacity:.7}
+#tip b{display:block;font-size:14px;color:var(--muted);font-weight:600;margin-bottom:2px}
 
-/* Motion: a simple "appear" on everything (Storytelling Ses. 3-4); the one big motion is the zoom on slide 6 */
-@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* build-in: text rises, marks appear; the dots move on their own layer */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 @keyframes ap{from{opacity:0}to{opacity:1}}
 @keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
 @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .grow{transform-origin:left center;transform-box:fill-box}
 .draw{stroke-dasharray:1;stroke-dashoffset:1}
-.slide.on .r{animation:rise .6s var(--out) both;animation-delay:var(--t,0ms)}
+.slide.on .b{animation:rise .7s var(--out) both;animation-delay:var(--t,calc(var(--i,0)*90ms + 80ms))}
 .slide.on .ap{animation:ap .45s ease both;animation-delay:var(--t,0ms)}
 .slide.on .draw{animation:draw var(--dur,1.2s) cubic-bezier(.45,0,.2,1) both;animation-delay:var(--t,0ms)}
 .slide.on .grow{animation:grow var(--dur,1s) var(--out) both;animation-delay:var(--t,0ms)}
-@media (prefers-reduced-motion:reduce){.slide *{animation:none!important}.draw{stroke-dashoffset:0}}
-@media print{
-  @page{size:1334px 750px;margin:0}
-  html,body{overflow:visible;background:var(--bg)}
-  #viewport{position:static;display:block}
-  #stage{transform:none!important;width:auto;height:auto}
-  .slide{position:relative;opacity:1;width:1334px;height:750px;page-break-after:always;break-after:page}
-  .slide *{animation:none!important}
-  .draw{stroke-dashoffset:0}
-  #nav,#tip,#notes{display:none}
-}
+@media (prefers-reduced-motion:reduce){.slide *{animation:none!important}.draw{stroke-dashoffset:0}#dots circle{transition:none}}
 </style>
 </head>
 <body>
 <div id="viewport"><div id="stage"></div></div>
+<div id="progress"></div>
 <div id="nav"><button id="pv" aria-label="Previous slide">‹</button><button id="nt" aria-label="Speaker notes">N</button><button id="nx" aria-label="Next slide">›</button></div>
 <div id="notes"></div>
 
 <script>
 // ---------- Data: World Bank WDI via api.worldbank.org, pulled 11 Nov 2026 ----------
 const D={"pat":{"KOR":[1241,1319,1556,1599,1997,2702,3640,4871,5696,7020,9082,13253,15951,21449,28554,59228,68405,67359,50596,55970,72831,73714,76570,90313,105250,122188,125476,128701,127114,127316,131805,138034,148136,159978,164073,167275,163424,159084,162561,171603,180477,186245,183748,191142,195786],"MEX":[704,765,550,730,688,590,629,742,652,757,661,564,565,553,498,432,386,420,453,455,431,534,526,468,565,584,574,629,685,822,951,1065,1294,1210,1246,1364,1310,1334,1555,1305,1132,1117,983,978,1172],"BRA":[2149,2171,2116,2302,2062,1954,1855,2451,2338,2323,2389,2319,2100,2429,2269,2707,2611,2756,2491,2816,3179,3439,3481,3866,4044,4054,3956,4194,4280,4271,4228,4695,4798,4959,4659,4641,5200,5480,4980,5464,5280,4666,4398,4973,5752]},"gdp":{"KOR":[1038,1077,1088,1153,1229,1286,1405,1498,1657,1856,2001,2171,2287,2583,2784,2955,3294,3645,3987,4270,4140,4378,4676,5228,5713,6106,6741,7535,8367,8878,9673,10619,11177,11837,12817,13924,14894,15682,14801,16403,17763,18460,19775,20278,21245,22124,23162,24392,24935,25010,26623,27393,27944,28733,29471,30172,31005,31980,32853,33496,33216,34793,35809,36348,37048],"MEX":[4146,4219,4276,4475,4846,5021,5154,5278,5589,5596,5775,5809,6099,6385,6559,6741,6845,6889,7310,7815,8290,8875,8677,8099,8208,8194,7714,7716,7658,7784,8037,8197,8330,8412,8623,7971,8321,8771,9162,9265,9582,9398,9242,9222,9421,9492,9814,9878,9826,9074,9389,9576,9783,9739,9862,10021,10101,10194,10297,10159,9235,9728,10013,10235,10284]}};
-const C={kor:'#1f6fd1',mex:'#c8541f',gtm:'#6a3fc1',ctx:'#bdb7ad',ink:'#1c1a17',ink2:'#4a4640',n1:'#2f2c28',n2:'#8f897f',n3:'#d6d1c7',mute:'#8a857c',line:'#dcd8d0',faint:'#bdb7ad'};
+const C={kor:'#2f5bff',mex:'#e8590c',gtm:'#7b3fe4',grey:'#bdbdbd',ink:'#111',muted:'#5c5c5c',line:'#e3e3e3',n2:'#8f8f8f',n3:'#d9d9d9'};
 const fmt=(v,d=0)=>v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
-
-// ---------- Helpers ----------
 const num=(to,{dec=0,pre='',suf='',t=400,from=0,dur=1000}={})=>`<span data-to="${to}" data-from="${from}" data-dur="${dur}" data-dec="${dec}" data-pre="${pre}" data-suf="${suf}" data-t="${t}">${pre}${fmt(to,dec)}${suf}</span>`;
-const R=(t,style,html,cls='r')=>`<div class="A ${cls}" style="--t:${t}ms;${style}">${html}</div>`;
-function dots(n,{x=0,y=0,cols=1e9,p=28,r=11,color=C.ink,t0=300,st=20,hollow=false,tip=''}={}){
-  let s='';for(let i=0;i<n;i++){const cx=x+(i%cols)*p+r,cy=y+Math.floor(i/cols)*p;
-    s+=`<circle class="ap" style="--t:${t0+i*st}ms"${tip?` data-tip="${tip}"`:''} cx="${cx}" cy="${cy}" r="${hollow?r-1:r}" ${hollow?`fill="none" stroke="${color}" stroke-width="1.8"`:`fill="${color}"`}/>`}return s}
-const kick=(t)=>R(0,'left:72px;top:62px',`<div class="cap">${t}</div>`);
-const road=k=>`<div class="road">${['Past','Present','Future'].map((w,i)=>i===k?`<b>${w}</b>`:`<span>${w}</span>`).join('')}</div>`;
-const marker=id=>`<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="${C.n2}"/></marker>`;
+const B=(i,html,tag='div',cls='',style='')=>`<${tag} class="b ${cls}" style="--i:${i};${style}">${html}</${tag}>`;
+const T=(html,t)=>`<h2 class="t b" style="--t:${t||80}ms">${html}</h2>`;
+const CAP=(html,t=600)=>`<p class="cap b" style="--t:${t}ms">${html}</p>`;
+const arrowDef=(id,c)=>`<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="${c}"/></marker>`;
+
+// ---------- Dot layouts: one layer of dots that moves between slides ----------
+const grid=(n,{cx,cy,cols,p,r,c,tip,align='c'})=>{const rows=Math.ceil(n/cols),w=(cols-1)*p,h=(rows-1)*p,x0=align==='c'?cx-w/2:cx,y0=align==='b'?cy-h:cy-h/2;
+  return Array.from({length:n},(_,i)=>({x:x0+(i%cols)*p,y:y0+Math.floor(i/cols)*p,r,c,tip}))};
+const L={
+  hook:()=>Array.from({length:8},(_,i)=>({x:960+(i-3.5)*170,y:560,r:56,c:C.gtm,tip:'One patent application|Guatemala, 2024'})),
+  korea:()=>[...Array.from({length:8},()=>({x:340,y:610,r:3,c:C.gtm,tip:'Guatemala|8 patent applications, 2024'})),
+            ...grid(196,{cx:1010,cy:610,cols:28,p:34,r:13,c:C.kor,tip:'South Korea|1 dot = 1,000 patent applications'})],
+  y1980:()=>[...grid(35,{cx:700,cy:800,cols:7,p:40,r:16,c:C.mex,tip:'Mexico, 1980|704 patent applications',align:'b'}),
+            ...grid(62,{cx:1220,cy:800,cols:7,p:40,r:16,c:C.kor,tip:'Korea, 1980|1,241 patent applications',align:'b'})],
+  res:()=>[...grid(95,{cx:960,cy:470,cols:19,p:42,r:16,c:C.kor,tip:'South Korea|9,472 researchers per million people'}),
+           ...Array.from({length:4},(_,i)=>({x:960-9*42+i*42,y:760,r:16,c:C.mex,tip:'Mexico|438 researchers per million people'}))],
+  close:()=>Array.from({length:8},(_,i)=>({x:960+(i-3.5)*70,y:250,r:22,c:C.gtm,tip:'One patent application|Guatemala, 2024'}))
+};
 
 const S=[];
-// ================= SPEAKER 1 · HOOK (slides 1-4) =================
-S.push({who:'Speaker 1',noFoot:1,html:`
-${R(0,'left:72px;top:62px',`<div class="cap">Ernst &amp; Young (EY) for the Inter-American Development Bank · Subregion: Mexico and Central America</div>`)}
-<div class="rule" style="left:72px;right:72px;top:100px"></div>
-${R(200,'left:66px;top:140px',`<div class="h" style="font-size:150px;font-weight:900;line-height:.9;letter-spacing:-.05em">Eight<br>patents</div>`)}
-${R(500,'left:72px;top:470px;width:820px',`<div class="sub" style="font-size:26px">Why growth in Mexico and Central America has been so disappointing, and a plan for inclusive growth that lasts</div>`)}
-<div class="rule" style="left:72px;right:72px;top:650px"></div>
-${R(700,'left:72px;top:672px',`<div class="cap" style="text-transform:none;letter-spacing:.05em">Group 1 · Ernst &amp; Young (EY) · IE University · Economics for Public Sector · 12 November 2026</div>`)}`,
+// ================= SPEAKER 1 · HOOK (1-4) =================
+S.push({who:'Speaker 1',html:`
+${B(0,'Eight patents','h1','cover')}
+${B(2,'Why growth in Mexico and Central America has been so disappointing, and a plan for inclusive growth that lasts','p','cover-sub')}
+${B(4,'Group 1 · Ernst &amp; Young (EY) for the Inter-American Development Bank<br>Subregion: Mexico and Central America · IE University · Economics for Public Sector · 12 November 2026','p','by')}`,
 notes:`<b>Leave this up while the room settles.</b> Do not say "good morning" yet. Your first words are the hook on the next slide; introductions come on slide 4.`});
 
-S.push({who:'Speaker 1',src:'Patent applications by residents, Guatemala, 2024 · World Bank WDI, IP.PAT.RESD · population SP.POP.TOTL',html:`
-${kick('Guatemala · 2024')}
-${R(200,'left:72px;top:120px;width:1190px',`<div class="h" style="font-size:72px">A whole country. One year.<br>Eight new ideas.</div>`)}
-<svg class="A" style="left:72px;top:430px" width="1190" height="100">${dots(8,{x:0,y:40,p:150,r:44,color:C.gtm,t0:1200,st:350,tip:'One patent application · Guatemala, 2024'})}</svg>
-${R(4200,'left:72px;top:560px',`<div class="cap">1 dot = 1 patent application · 18.4 million people</div>`)}`,
-notes:`<b>Click, then wait for all eight dots before you speak.</b> About 45 seconds on this slide.<br>
+S.push({who:'Speaker 1',dots:'hook',html:`${T('A whole country. One year. Eight new ideas.')}
+${CAP('Each dot is one patent application. Guatemala, 18.4 million people, 2024 · World Bank WDI',1800)}`,
+notes:`<b>Wait for all eight dots before you speak.</b> About 45 seconds.<br>
 "Last year, the whole of Guatemala filed <b>eight</b> patents. Eight. For 18 million people."<br>
-If needed: a patent is a new invention someone registers so they can use it. It is the simplest count of new ideas a country produces.`});
+If needed: a patent is a new invention someone registers. It is the simplest count of new ideas a country produces.`});
 
-S.push({who:'Speaker 1',src:'Patent applications by residents, 2024 · World Bank WDI, IP.PAT.RESD',html:`
-${kick('South Korea · the same year')}
-${R(300,'left:66px;top:150px',`<div class="big" style="font-size:250px;color:${C.kor}">${num(195786,{t:300,dur:1600})}</div>`)}
-${R(1900,'left:72px;top:430px;width:1100px',`<div class="h" style="font-size:44px">new ideas, in one year. Korea has fewer people than Mexico.</div>`)}
-${R(2400,'left:72px;top:540px',`<div class="sub">Guatemala: <b style="color:${C.gtm}">8</b></div>`)}`,
-notes:`About 30 seconds.<br>
-"The same year, South Korea filed <b>195,786</b>." <b>Pause two seconds.</b> Let the number land.<br>
+S.push({who:'Speaker 1',dots:'korea',html:`${T(`South Korea, the same year: <span class="bl">${num(195786,{t:300,dur:1600})}</span>`)}
+<div class="lab pu b" style="--t:1400ms;left:250px;top:640px;width:180px;font-size:22px">Guatemala’s 8</div>
+${CAP('Each blue dot is 1,000 patent applications. On this scale, Guatemala’s eight is the purple speck · World Bank WDI, 2024',1600)}`,
+notes:`About 30 seconds. The eight dots shrink into a speck while Korea's dots fill the slide.<br>
+"The same year, South Korea filed <b>195,786</b>." <b>Pause two seconds.</b><br>
 "And Korea has fewer people than Mexico." (Korea about 52 million, Mexico about 130 million.)`});
 
-S.push({who:'Speaker 1',src:'Executive summary · every figure is sourced on its own slide',html:`
-${kick('Executive summary · the IDB asked: why has growth been so disappointing?')}
-${R(200,'left:72px;top:110px;width:1190px',`<div class="h" style="font-size:96px">Know-how is bought,<br>not born.</div>`)}
-<div class="rule" style="left:72px;right:72px;top:380px"></div>
-${[['Past','Mexico and Korea started level.'],['Present','Korea paid to learn. The region did not.'],['Future','The IDB can start the homework this year.']].map(([a,b],i)=>
- R(900+i*350,`left:${72+i*400}px;top:410px;width:370px`,`<div class="cap" style="color:${C.ink}">${a}</div><div style="font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.2;margin-top:12px">${b}</div>`)).join('')}`,
+S.push({who:'Speaker 1',html:`${T('The IDB asked us: why has growth been so disappointing?')}
+${B(2,'Know-how is bought,<br>not born.','div','A','left:160px;right:160px;top:280px;text-align:center;font-size:104px;font-weight:900;letter-spacing:-4px;line-height:1.04')}
+<div class="cols3" style="top:640px">${[['Past','Mexico and Korea started level.'],['Present','Korea paid to learn. The region did not.'],['Future','The IDB can start the homework this year.']].map(([a,b],k)=>`<div class="b" style="--t:${900+k*250}ms"><h3>${a}</h3><p>${b}</p></div>`).join('')}</div>
+${CAP('Executive summary · every figure is sourced on its own slide',1700)}`,
 notes:`About 2 minutes. This is the executive summary.<br>
-1. Introduce the group: "We are Group 1 from EY. The IDB commissioned us to answer one question: <b>why has growth in Mexico and Central America been so disappointing?</b>"<br>
+1. "We are Group 1 from EY. The IDB commissioned us to answer one question: <b>why has growth in Mexico and Central America been so disappointing?</b>"<br>
 2. <b>"If you remember one thing today: know-how is bought, not born."</b> (Message #1)<br>
 3. Map, one line each: the past (they started level), the present (Korea paid to learn), the future (what the IDB can do).<br>
 4. Why the IDB should care: "You get a practical plan for inclusive growth that lasts. You can fund it this year and check its scores every year."<br>
 Hand over: "<b>[Speaker 2]</b> takes us back to 1980."`});
 
-// ================= SPEAKER 2 · PAST + PRESENT (slides 5-9) =================
-S.push({who:'Speaker 2',src:'Patent applications by residents, 1980 · World Bank WDI, IP.PAT.RESD',html:`
-${kick('1980')}${road(0)}
-${R(200,'left:72px;top:120px;width:520px',`<div class="h" style="font-size:64px">In 1980, Mexico and Korea were neck and neck.</div>`)}
-${R(900,'left:72px;top:440px;width:480px',`<div class="sub">Two kids, same classroom, similar grades.</div>`)}
-<svg class="A" style="left:660px;top:150px" width="600" height="420">
-${dots(35,{x:0,y:200,cols:7,p:30,r:12,color:C.mex,t0:600,st:22,tip:'Mexico · 704 patents in 1980'})}
-${dots(62,{x:300,y:80,cols:7,p:30,r:12,color:C.kor,t0:1500,st:22,tip:'Korea · 1,241 patents in 1980'})}
-<text class="ap" style="--t:1300ms" x="0" y="370" font-size="20" font-weight="700" letter-spacing=".05em" fill="${C.mex}">MEXICO <tspan fill="${C.ink}">704</tspan></text>
-<text class="ap" style="--t:2900ms" x="300" y="370" font-size="20" font-weight="700" letter-spacing=".05em" fill="${C.kor}">KOREA <tspan fill="${C.ink}">1,241</tspan></text>
-<text class="ap" style="--t:3100ms" x="0" y="408" font-size="14" fill="${C.mute}" letter-spacing=".12em">1 DOT = 20 PATENTS · SAME SCALE FOR BOTH</text></svg>`,
+// ================= SPEAKER 2 · PAST + PRESENT (5-9) =================
+S.push({who:'Speaker 2',dots:'y1980',html:`${T('Were we always behind? No. In 1980, Mexico and Korea were level.')}
+<div class="lab b" style="--t:1200ms;left:560px;top:850px;width:280px;color:${C.mex}">MEXICO <span>704</span></div>
+<div class="lab b" style="--t:1600ms;left:1080px;top:850px;width:280px;color:${C.kor}">KOREA <span>1,241</span></div>
+${CAP('Each dot is 20 patent applications, the same scale for both · World Bank WDI, 1980',1800)}`,
 notes:`About 45 seconds.<br>
-"Go back to 1980. Mexico filed 704 patents, Korea 1,241. Close. Two kids, same classroom, similar grades."<br>
-Point out: same scale for both, so you can compare them by eye.`});
+"Were we always behind? No. In 1980 Mexico filed 704 patents and Korea 1,241. Close. Two kids, same classroom, similar grades."`});
 
-// --- Slide 6: the one big motion. Opens on 1980-85 (level), then pulls back to 2024 ---
-const ZS={ox:52,oy:24,w:580,h:270,y0:1980,series:[{k:'BRA',v:D.pat.BRA,c:C.ctx,name:'BRAZIL',end:'5,752',dy:-8},
- {k:'MEX',v:D.pat.MEX,c:C.mex,name:'MEXICO',end:'1,172',hi:1,dy:34},{k:'KOR',v:D.pat.KOR,c:C.kor,name:'KOREA',end:'195,786',hi:1,dy:0}]};
+// --- the one big chart motion: opens on 1980-85 (level), then pulls back to 2024 ---
+const ZS={ox:90,oy:40,w:1200,h:560,y0:1980,series:[{k:'BRA',v:D.pat.BRA,c:C.grey,name:'BRAZIL',end:'5,752',dy:-14},
+ {k:'MEX',v:D.pat.MEX,c:C.mex,name:'MEXICO',end:'1,172',hi:1,dy:44},{k:'KOR',v:D.pat.KOR,c:C.kor,name:'KOREA',end:'195,786',hi:1,dy:0}]};
 const zFX=ZS.ox+ZS.w, zFY=v=>ZS.oy+ZS.h-v/200000*ZS.h;
 const LC={zc:{series:ZS.series,x0:1980,x1:2024,w:ZS.w,h:ZS.h,ymax:200000,ox:ZS.ox,oy:ZS.oy,vfmt:v=>fmt(v)}};
-S.push({who:'Speaker 2',zoom:1,src:'Patent applications by residents, 1980 to 2024 · World Bank WDI, IP.PAT.RESD · Brazil in grey for context',html:`
-${road(1)}
-<div class="card">${R(0,'position:relative',`<div class="cap">1980 to 2024</div>`)}
- ${R(150,'position:relative;margin-top:14px',`<div class="h" style="font-size:52px">Then Korea did its homework.</div>`)}
- ${R(2900,'position:relative;margin-top:44px',`<div class="big" style="font-size:110px;color:${C.kor}">${num(158,{pre:'×',t:2900,from:1,dur:2400})}</div>`)}
- ${R(3200,'position:relative;margin-top:14px',`<div class="sub" style="font-size:19px">Korea’s patents, 1980 to 2024.<br>Mexico’s: ×1.7</div>`)}</div>
-<div class="A" style="left:520px;top:120px"><svg id="zc" width="760" height="360">
- <defs><clipPath id="zclip"><rect x="40" y="0" width="610" height="296"/></clipPath></defs>
+S.push({who:'Speaker 2',zoom:1,html:`${T(`Then Korea did its homework: <span class="bl">${num(158,{pre:'×',t:2900,from:1,dur:2400})}</span>`)}
+<div class="A" style="left:230px;top:220px"><svg id="zc" width="1500" height="700">
+ <defs><clipPath id="zclip"><rect x="60" y="0" width="1260" height="604"/></clipPath></defs>
  <g id="zgrid"></g>
- <line x1="${ZS.ox}" x2="${zFX}" y1="${ZS.oy+ZS.h}" y2="${ZS.oy+ZS.h}" stroke="${C.faint}" stroke-width="1.2"/>
- <text x="${ZS.ox}" y="${ZS.oy+ZS.h+22}" font-size="13" fill="${C.mute}">1980</text><text id="zx1" x="${zFX}" y="${ZS.oy+ZS.h+22}" text-anchor="end" font-size="13" fill="${C.mute}">2024</text>
- <g clip-path="url(#zclip)"><polygon id="za" fill="${C.kor}" fill-opacity=".09"/>
- ${ZS.series.map(se=>`<polyline id="zp${se.k}" fill="none" stroke="${se.c}" stroke-width="${se.hi?3:1.4}" stroke-linejoin="round" stroke-linecap="round"/>`).join('')}</g>
- <g id="zb0" style="opacity:0"><line stroke="${C.ink}" stroke-width="1.4"/><line stroke="${C.ink}" stroke-width="1.4"/><line stroke="${C.ink}" stroke-width="1.4"/>
-   <text font-family="Archivo" font-size="24" font-weight="800" fill="${C.ink}">level</text></g>
- <g id="zlab" style="opacity:0;transition:opacity .5s">${ZS.series.map(se=>{const ly=zFY(se.v[44]);return (se.hi?`<circle cx="${zFX}" cy="${ly}" r="5" fill="${se.c}"/>`:'')+
-   `<text x="${zFX+12}" y="${ly+se.dy-3}" font-size="16" font-weight="700" letter-spacing=".04em" fill="${se.c}">${se.name}</text>
-    <text x="${zFX+12}" y="${ly+se.dy+15}" font-size="15" font-weight="600" fill="${se.hi?C.ink:C.mute}">${se.end}</text>`}).join('')}</g>
- <g class="xh" style="opacity:0;transition:opacity .15s"><line x1="0" x2="0" y1="${ZS.oy}" y2="${ZS.oy+ZS.h}" stroke="${C.ink}" stroke-width="1" stroke-dasharray="3 3"/>
-   <circle data-k="1" r="5" fill="${C.mex}" stroke="#fff" stroke-width="2"/><circle data-k="2" r="5" fill="${C.kor}" stroke="#fff" stroke-width="2"/></g>
+ <line x1="${ZS.ox}" x2="${zFX}" y1="${ZS.oy+ZS.h}" y2="${ZS.oy+ZS.h}" stroke="${C.grey}" stroke-width="1.5"/>
+ <text x="${ZS.ox}" y="${ZS.oy+ZS.h+34}" font-size="20" fill="${C.muted}">1980</text><text id="zx1" x="${zFX}" y="${ZS.oy+ZS.h+34}" text-anchor="end" font-size="20" fill="${C.muted}">2024</text>
+ <g clip-path="url(#zclip)"><polygon id="za" fill="${C.kor}" fill-opacity=".08"/>
+ ${ZS.series.map(se=>`<polyline id="zp${se.k}" fill="none" stroke="${se.c}" stroke-width="${se.hi?4:2}" stroke-linejoin="round" stroke-linecap="round"/>`).join('')}</g>
+ <g id="zb0" style="opacity:0"><line stroke="${C.ink}" stroke-width="2"/><line stroke="${C.ink}" stroke-width="2"/><line stroke="${C.ink}" stroke-width="2"/>
+   <text font-size="34" font-weight="800">level</text></g>
+ <g id="zlab" style="opacity:0;transition:opacity .5s">${ZS.series.map(se=>{const ly=zFY(se.v[44]);return (se.hi?`<circle cx="${zFX}" cy="${ly}" r="7" fill="${se.c}"/>`:'')+
+   `<text x="${zFX+18}" y="${ly+se.dy-4}" font-size="22" font-weight="800" fill="${se.c}">${se.name}</text>
+    <text x="${zFX+18}" y="${ly+se.dy+22}" font-size="22" font-weight="600" fill="${se.hi?C.ink:C.muted}">${se.end}</text>`}).join('')}</g>
+ <g class="xh" style="opacity:0;transition:opacity .15s"><line x1="0" x2="0" y1="${ZS.oy}" y2="${ZS.oy+ZS.h}" stroke="${C.ink}" stroke-width="1.5" stroke-dasharray="4 4"/>
+   <circle data-k="1" r="7" fill="${C.mex}" stroke="#fff" stroke-width="3"/><circle data-k="2" r="7" fill="${C.kor}" stroke="#fff" stroke-width="3"/></g>
  <rect id="zhov" data-lc="zc" x="${ZS.ox}" y="${ZS.oy}" width="${ZS.w}" height="${ZS.h}" fill="transparent" style="cursor:crosshair;pointer-events:none"/>
-</svg>${R(300,'left:20px;top:-30px',`<div class="cap">Patent applications per year</div>`)}</div>`,
-notes:`About 1 minute. <b>Click, and let the chart move before you talk over it.</b><br>
-The chart opens on 1980 to 1985, when the two are level. Then it pulls back to 2024.<br>
+</svg></div>
+${CAP('Patent applications per year, 1980 to 2024. Mexico grew ×1.7. Brazil in grey · World Bank WDI · hover for any year',3200)}`,
+notes:`About 1 minute. <b>Let the chart move before you talk over it.</b> It opens on 1980 to 1985, when the two are level, then pulls back to 2024.<br>
 "Then Korea started doing its homework. Korea's patents grew <b>158 times</b>. Mexico's grew 1.7 times."<br>
-If anyone asks about a year, hover the chart. It shows both countries for that year.`});
+If anyone asks about a year, hover the chart.`});
 
-S.push({who:'Speaker 2',src:'Research and development spending, % of GDP · World Bank WDI, GB.XPD.RSDV.GD.ZS · latest year, 2022 to 2024',html:`
-${kick('What was the homework?')}${road(1)}
-${R(150,'left:72px;top:110px;width:1190px',`<div class="h" style="font-size:68px">Homework means paying for research.</div>`)}
-${R(500,'left:72px;top:250px',`<div class="sub">Share of the whole economy spent on research, every year</div>`)}
-<svg class="A" style="left:72px;top:320px" width="1190" height="260">
- <text class="ap" style="--t:700ms" x="0" y="52" font-size="22" font-weight="700" fill="${C.kor}">SOUTH KOREA</text>
- <rect class="grow" style="--t:900ms;--dur:1.3s" x="200" y="20" width="880" height="52" fill="${C.kor}"/>
- <text class="ap" style="--t:2000ms" x="${200+880+16}" y="60" font-family="Archivo" font-size="40" font-weight="900" fill="${C.kor}">4.9%</text>
- <text class="ap" style="--t:2300ms" x="0" y="172" font-size="22" font-weight="700" fill="${C.mex}">MEXICO</text>
- <rect class="grow" style="--t:2500ms;--dur:.6s" x="200" y="140" width="${(0.3/4.9*880).toFixed(1)}" height="52" fill="${C.mex}"/>
- <text class="ap" style="--t:2900ms" x="${(200+0.3/4.9*880+16).toFixed(1)}" y="180" font-family="Archivo" font-size="40" font-weight="900" fill="${C.mex}">0.3%</text></svg>`,
+S.push({who:'Speaker 2',html:`${T('Homework means paying for research')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080">
+ <text class="ap" style="--t:500ms" x="420" y="472" text-anchor="end" font-size="34" font-weight="800" fill="${C.kor}">SOUTH KOREA</text>
+ <rect class="grow" style="--t:700ms;--dur:1.3s" x="450" y="420" width="1100" height="80" fill="${C.kor}"/>
+ <text class="ap" style="--t:1900ms" x="1575" y="482" font-size="64" font-weight="900" fill="${C.kor}">4.9%</text>
+ <text class="ap" style="--t:2200ms" x="420" y="672" text-anchor="end" font-size="34" font-weight="800" fill="${C.mex}">MEXICO</text>
+ <rect class="grow" style="--t:2400ms;--dur:.6s" x="450" y="620" width="${(0.3/4.9*1100).toFixed(1)}" height="80" fill="${C.mex}"/>
+ <text class="ap" style="--t:2800ms" x="${(450+0.3/4.9*1100+25).toFixed(1)}" y="682" font-size="64" font-weight="900" fill="${C.mex}">0.3%</text></svg>
+${CAP('Share of the whole economy spent on research and development, every year · World Bank WDI, latest year 2022 to 2024',3000)}`,
 notes:`About 45 seconds.<br>
 "What was the homework? Korea spends almost <b>5%</b> of its whole economy on research, every year. Mexico spends <b>0.3%</b>."<br>
 "That's not luck. It's a line in a budget that someone chose to write."`});
 
-S.push({who:'Speaker 2',src:'Researchers in R&D per million people · World Bank WDI, SP.POP.SCIE.RD.P6 · Korea 2023, Mexico 2024',html:`
-${road(1)}
-<div class="card">${R(0,'position:relative',`<div class="cap">Who does the homework</div>`)}
- ${R(150,'position:relative;margin-top:14px',`<div class="h" style="font-size:52px">And paying people to invent.</div>`)}
- ${R(600,'position:relative;margin-top:40px',`<div class="big" style="font-size:110px;color:${C.kor}">${num(22,{suf:'×',t:600})}</div>`)}
- ${R(900,'position:relative;margin-top:14px',`<div class="sub" style="font-size:19px">Korea has 22 researchers for every one in Mexico.</div>`)}</div>
-<div class="A" style="left:540px;top:150px">${R(300,'left:0;top:-36px',`<div class="cap">1 dot = 100 researchers per million people</div>`)}
-<svg width="720" height="380">${dots(95,{x:0,y:12,cols:19,p:23,r:9,color:C.kor,t0:500,st:12,tip:'South Korea · 9,472 researchers per million'})}
- ${dots(4,{x:0,y:220,p:23,r:9,color:C.mex,t0:1900,st:120,tip:'Mexico · 438 researchers per million'})}
- <text class="ap" style="--t:1500ms" x="0" y="150" font-size="20" font-weight="700" letter-spacing=".05em" fill="${C.kor}">SOUTH KOREA <tspan fill="${C.ink}">9,472</tspan></text>
- <text class="ap" style="--t:2300ms" x="0" y="268" font-size="20" font-weight="700" letter-spacing=".05em" fill="${C.mex}">MEXICO <tspan fill="${C.ink}">438</tspan></text></svg></div>`,
+S.push({who:'Speaker 2',dots:'res',html:`${T(`And paying people to invent: <span class="bl">${num(22,{t:500})}</span> for every <span class="pk">1</span>`)}
+<div class="lab b" style="--t:1300ms;left:560px;top:680px;width:800px;color:${C.kor}">SOUTH KOREA <span>9,472</span></div>
+<div class="lab b" style="--t:1700ms;left:560px;top:800px;width:800px;color:${C.mex}">MEXICO <span>438</span></div>
+${CAP('Each dot is 100 researchers per million people · World Bank WDI, Korea 2023, Mexico 2024',1900)}`,
 notes:`About 45 seconds.<br>
 "And Korea pays people to invent. For every researcher in Mexico, Korea has about <b>22</b>."<br>
 Spice if you have time: "Guatemala has about 26 researchers in the whole country." (1.4 per million × 18.4 million people.)`});
 
-const GX=i=>140+i/64*960, GY=v=>250+300-v/40000*300;
+const GX=i=>260+i/64*1300, GY=v=>860-v/40000*560;
 const gl=k=>D.gdp[k].map((v,i)=>`${GX(i).toFixed(1)},${GY(v).toFixed(1)}`).join(' ');
-S.push({who:'Speaker 2',src:'GDP per person, constant 2015 US$, 1960 to 2024 · World Bank WDI, NY.GDP.PCAP.KD',html:`
-${kick('Did it pay off?')}${road(1)}
-${R(150,'left:72px;top:110px',`<div class="h" style="font-size:68px">The homework paid off.</div>`)}
-<svg class="A" style="left:0;top:0" width="1334" height="700">
- ${[10000,20000,30000,40000].map(v=>`<line class="ap" x1="140" x2="1100" y1="${GY(v)}" y2="${GY(v)}" stroke="${C.line}"/><text class="ap" x="128" y="${GY(v)+4}" text-anchor="end" font-size="13" fill="${C.mute}">$${v/1000}k</text>`).join('')}
- <line x1="140" x2="1100" y1="${GY(0)}" y2="${GY(0)}" stroke="${C.faint}"/>
- <text x="140" y="${GY(0)+24}" font-size="14" fill="${C.mute}">1960</text><text x="1100" y="${GY(0)+24}" text-anchor="end" font-size="14" fill="${C.mute}">2024</text>
- <polyline class="draw" pathLength="1" style="--t:500ms;--dur:2s" points="${gl('MEX')}" fill="none" stroke="${C.mex}" stroke-width="3"/>
- <polyline class="draw" pathLength="1" style="--t:500ms;--dur:2s" points="${gl('KOR')}" fill="none" stroke="${C.kor}" stroke-width="3"/>
- <g class="ap" style="--t:400ms"><line x1="150" x2="150" y1="${GY(4146)}" y2="${GY(1038)}" stroke="${C.mex}" stroke-width="2"/>
-   <text x="150" y="${GY(4146)-44}" font-family="Archivo" font-size="22" font-weight="800" fill="${C.mex}">1960: Mexico 4× richer</text></g>
- <g class="ap" style="--t:2700ms"><line x1="1090" x2="1090" y1="${GY(37048)}" y2="${GY(10284)}" stroke="${C.kor}" stroke-width="2"/>
-   <text x="1078" y="${(GY(37048)+GY(10284))/2}" text-anchor="end" font-family="Archivo" font-size="22" font-weight="800" fill="${C.kor}">2024: Korea 3.6× richer</text></g>
- <g class="ap" style="--t:2500ms"><text x="1112" y="${GY(37048)+6}" font-size="18" font-weight="700" letter-spacing=".05em" fill="${C.kor}">KOREA</text>
-   <text x="1112" y="${GY(10284)+6}" font-size="18" font-weight="700" letter-spacing=".05em" fill="${C.mex}">MEXICO</text></g>
- <text class="ap" style="--t:300ms" x="140" y="228" font-size="14" fill="${C.mute}" letter-spacing=".12em">INCOME PER PERSON, REAL 2015 DOLLARS</text></svg>`,
+S.push({who:'Speaker 2',html:`${T('The homework paid off')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080">
+ ${[10000,20000,30000,40000].map(v=>`<line x1="260" x2="1560" y1="${GY(v)}" y2="${GY(v)}" stroke="${C.line}"/><text x="244" y="${GY(v)+7}" text-anchor="end" font-size="20" fill="${C.muted}">$${v/1000}k</text>`).join('')}
+ <line x1="260" x2="1560" y1="${GY(0)}" y2="${GY(0)}" stroke="${C.grey}" stroke-width="1.5"/>
+ <text x="260" y="${GY(0)+34}" font-size="20" fill="${C.muted}">1960</text><text x="1560" y="${GY(0)+34}" text-anchor="end" font-size="20" fill="${C.muted}">2024</text>
+ <polyline class="draw" pathLength="1" style="--t:500ms;--dur:2.2s" points="${gl('MEX')}" fill="none" stroke="${C.mex}" stroke-width="4"/>
+ <polyline class="draw" pathLength="1" style="--t:500ms;--dur:2.2s" points="${gl('KOR')}" fill="none" stroke="${C.kor}" stroke-width="4"/>
+ <g class="ap" style="--t:300ms"><line x1="272" x2="272" y1="${GY(4146)}" y2="${GY(1038)}" stroke="${C.mex}" stroke-width="3"/>
+   <text x="270" y="${GY(4146)-60}" font-size="34" font-weight="800" fill="${C.mex}">1960: Mexico 4× richer</text></g>
+ <g class="ap" style="--t:2800ms"><line x1="1548" x2="1548" y1="${GY(37048)}" y2="${GY(10284)}" stroke="${C.kor}" stroke-width="3"/>
+   <text x="1530" y="${(GY(37048)+GY(10284))/2+12}" text-anchor="end" font-size="34" font-weight="800" fill="${C.kor}">2024: Korea 3.6× richer</text></g>
+ <g class="ap" style="--t:2600ms"><text x="1580" y="${GY(37048)+9}" font-size="26" font-weight="800" fill="${C.kor}">KOREA</text>
+   <text x="1580" y="${GY(10284)+9}" font-size="26" font-weight="800" fill="${C.mex}">MEXICO</text></g></svg>
+${CAP('Income per person, constant 2015 US dollars, 1960 to 2024 · World Bank WDI',3000)}`,
 notes:`About 45 seconds.<br>
 "Did the homework pay off? In 1960, Mexico was <b>four times richer</b> than Korea. Around 1988 they swapped. Today Korea is <b>3.6 times richer</b> than Mexico."<br>
 Hand over: "So what happened here? <b>[Speaker 3]</b>."`});
 
-// ================= SPEAKER 3 · CLIMAX + WHY (slides 10-12) =================
-S.push({who:'Speaker 3',src:'Our argument, built on the five slides before it · framing after Hausmann, Rodrik & Velasco, growth diagnostics',html:`
-${road(1)}
-${R(300,'left:72px;top:200px;width:1190px',`<div class="h" style="font-size:104px">Know-how is bought.</div>`)}
-${R(1600,'left:72px;top:330px;width:1190px',`<div class="h" style="font-size:104px;color:${C.mex}">Nobody here bought it.</div>`)}`,
+// ================= SPEAKER 3 · CLIMAX + WHY (10-12) =================
+S.push({who:'Speaker 3',html:`<h2 class="big"><span class="b" style="--t:200ms">Know-how is bought.</span><span class="b pk" style="--t:1400ms">Nobody here bought it.</span><small class="b" style="--t:2600ms">Why not? Two reasons.</small></h2>`,
 notes:`<b>The climax. Slow down.</b> About 45 seconds.<br>
 "So this is not bad luck, and it's not culture. <b>Know-how is bought, and nobody here bought it.</b>" (Message #2)<br>
 Pause. "Why not? Two reasons."`});
 
-const arrows=(()=>{let s='';const cx=250,cy=210;for(let k=0;k<8;k++){const a=k*Math.PI/4,c=Math.cos(a),sn=Math.sin(a);
- s+=`<line class="ap" style="--t:${500+k*120}ms" x1="${cx+c*190}" y1="${cy+sn*190}" x2="${cx+c*82}" y2="${cy+sn*82}" stroke="${C.n1}" stroke-width="4" marker-end="url(#ah1)"/>`}
- s+=`<line class="ap" style="--t:1700ms" x1="${cx+50}" y1="${cy+50}" x2="${cx+150}" y2="${cy+150}" stroke="${C.n2}" stroke-width="1.3" marker-end="url(#ah2)"/>`;return s})();
-S.push({who:'Speaker 3',src:'Backwash: Myrdal 1957 · growth poles: Perroux 1955, Hirschman 1958 · diagram illustrative',html:`
-${kick('Reason one')}${road(1)}
-${R(150,'left:72px;top:120px;width:560px',`<div class="h" style="font-size:62px">The big cities soak everything up.</div>`)}
-${R(800,'left:72px;top:380px;width:520px',`<div class="sub">Money, people and talent flow in. Very little flows back out.</div>`)}
-${R(1200,'left:72px;top:520px',`<div class="it" style="font-size:26px">Economists call it backwash. Everyone else calls it leaving.</div>`)}
-<svg class="A" style="left:700px;top:100px" width="560" height="440"><defs>
- <marker id="ah1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="${C.n1}"/></marker>${marker('ah2')}</defs>
- ${arrows}<circle class="ap" style="--t:200ms" cx="250" cy="210" r="70" fill="${C.n1}"/>
- <text class="ap" style="--t:300ms" x="250" y="216" text-anchor="middle" font-size="16" font-weight="700" letter-spacing=".12em" fill="#fff">CAPITAL</text></svg>`,
+const arrows=(()=>{let s='';const cx=960,cy=560;for(let k=0;k<8;k++){const a=k*Math.PI/4,c=Math.cos(a),sn=Math.sin(a);
+ s+=`<line class="ap" style="--t:${500+k*120}ms" x1="${cx+c*280}" y1="${cy+sn*280}" x2="${cx+c*120}" y2="${cy+sn*120}" stroke="${C.ink}" stroke-width="6" marker-end="url(#a1)"/>`}
+ s+=`<line class="ap" style="--t:1700ms" x1="${cx+75}" y1="${cy+75}" x2="${cx+215}" y2="${cy+215}" stroke="${C.n2}" stroke-width="2" marker-end="url(#a2)"/>`;return s})();
+S.push({who:'Speaker 3',html:`${T('Reason one: the big cities soak everything up')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080"><defs>${arrowDef('a1',C.ink)}${arrowDef('a2',C.n2)}</defs>
+ ${arrows}<circle class="ap" style="--t:200ms" cx="960" cy="560" r="100" fill="${C.ink}"/>
+ <text class="ap" style="--t:300ms" x="960" y="570" text-anchor="middle" font-size="26" font-weight="800" fill="#fff" letter-spacing="3">CAPITAL</text>
+ <text class="ap" style="--t:1500ms" x="1330" y="545" font-size="26" font-weight="800">PULLED IN</text>
+ <text class="ap" style="--t:1900ms" x="1200" y="800" font-size="26" font-weight="800" fill="${C.n2}">GIVEN BACK</text></svg>
+${CAP('Money, people and talent flow in; very little flows back out. Economists call it backwash (Myrdal, 1957) · diagram illustrative',2100)}`,
 notes:`About 1 minute 15.<br>
 "First reason: the capital cities pull in the money, the people and the talent, and send very little back."<br>
 "Economists call this backwash. Myrdal named it in 1957. Everyone else calls it leaving."<br>
-Link to the course: growth poles (Perroux) are meant to spread growth. Here they only pull it in.`});
+Course link: growth poles (Perroux) are meant to spread growth. Here they only pull it in.`});
 
-S.push({who:'Speaker 3',src:'Mechanism after Santiago Levy · diagram illustrative · informality rate to be pulled from ILOSTAT, no figure claimed',html:`
-${road(1)}
-<div class="card">${R(0,'position:relative',`<div class="cap">Reason two</div>`)}
- ${R(150,'position:relative;margin-top:14px',`<div class="h" style="font-size:48px">Hiring someone officially costs extra.</div>`)}
- ${R(700,'position:relative;margin-top:30px',`<div class="sub" style="font-size:21px">So businesses stay small and hidden. And small, hidden businesses never learn anything new.</div>`)}</div>
-<svg class="A" style="left:560px;top:150px" width="700" height="400">
- ${dots(3,{x:60,y:230,p:60,r:22,color:C.n1,t0:400,st:150})}
- <line class="ap" style="--t:1100ms" x1="262" x2="262" y1="70" y2="330" stroke="${C.n2}" stroke-width="4" stroke-dasharray="10 8"/>
- <text class="ap" style="--t:1200ms" x="262" y="50" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".12em" fill="${C.n2}">THE TAX WALL</text>
- ${[[350,246,32],[450,214,46],[580,170,64]].map(([x,y,r],k)=>`<circle class="ap" style="--t:${1600+k*250}ms" cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${C.faint}" stroke-width="2" stroke-dasharray="6 5"/>`).join('')}
- <text class="ap" style="--t:700ms" x="120" y="370" text-anchor="middle" font-size="16" font-weight="700" letter-spacing=".12em" fill="${C.n1}">STAYS SMALL</text>
- <text class="ap" style="--t:2300ms" x="470" y="370" text-anchor="middle" font-size="16" font-weight="700" letter-spacing=".12em" fill="${C.mute}">NEVER HAPPENS</text></svg>`,
+S.push({who:'Speaker 3',html:`${T('Reason two: hiring someone officially costs extra')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080">
+ ${[0,1,2].map(k=>`<circle class="ap" style="--t:${400+k*150}ms" cx="${560+k*90}" cy="620" r="36" fill="${C.ink}"/>`).join('')}
+ <line class="ap" style="--t:1100ms" x1="880" x2="880" y1="330" y2="760" stroke="${C.n2}" stroke-width="6" stroke-dasharray="16 12"/>
+ <text class="ap" style="--t:1200ms" x="880" y="305" text-anchor="middle" font-size="24" font-weight="800" fill="${C.n2}" letter-spacing="2">THE TAX WALL</text>
+ ${[[1010,640,50],[1170,590,72],[1380,520,100]].map(([x,y,r],k)=>`<circle class="ap" style="--t:${1600+k*250}ms" cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${C.grey}" stroke-width="3" stroke-dasharray="8 7"/>`).join('')}
+ <text class="ap" style="--t:700ms" x="650" y="810" text-anchor="middle" font-size="26" font-weight="800">STAYS SMALL</text>
+ <text class="ap" style="--t:2300ms" x="1200" y="810" text-anchor="middle" font-size="26" font-weight="800" fill="${C.muted}">NEVER HAPPENS</text></svg>
+${CAP('So businesses stay small and hidden, and never learn anything new · mechanism after Santiago Levy · diagram illustrative',2500)}`,
 notes:`About 1 minute 15.<br>
 "Second reason: hiring someone officially costs extra. Payroll taxes pay for health and pensions. So businesses stay small and off the books, and small hidden businesses never learn anything new."<br>
 This is Santiago Levy's argument. <b>Don't quote an informality percentage.</b> We haven't pulled it yet.<br>
-Hand over: "So what do we do about it? <b>[Speaker 4]</b>."`});
+Hand over: "So what should the IDB do? <b>[Speaker 4]</b>."`});
 
-// ================= SPEAKER 4 · FUTURE: THE PLAN (slides 13-16) =================
-const box=(x,fill,lines,col,t)=>`<g class="ap" style="--t:${t}ms"><rect x="${x}" y="0" width="300" height="140" fill="${fill}"/>${lines.map((l,k)=>`<text x="${x+150}" y="${(lines.length>1?64:78)+k*26}" text-anchor="middle" font-size="18" font-weight="700" letter-spacing=".1em" fill="${col}">${l}</text>`).join('')}</g>`;
-S.push({who:'Speaker 4',src:'CINDE Costa Rica, from our International Cities session · no figures claimed · case details to verify',html:`
-${kick('It has been done next door')}${road(2)}
-${R(150,'left:72px;top:110px;width:1190px',`<div class="h" style="font-size:68px">A neighbour already did it: Costa Rica.</div>`)}
-<svg class="A" style="left:72px;top:270px" width="1190" height="150"><defs>${marker('ah3')}</defs>
- ${box(0,C.n1,['FOREIGN FACTORIES'],'#fff',600)}
- <line class="ap" style="--t:1100ms" x1="320" y1="70" x2="420" y2="70" stroke="${C.n2}" stroke-width="2" marker-end="url(#ah3)"/>
- ${box(445,C.n2,['TECHNOLOGY','AND KNOW-HOW'],'#fff',1300)}
- <line class="ap" style="--t:1800ms" x1="765" y1="70" x2="865" y2="70" stroke="${C.n2}" stroke-width="2" marker-end="url(#ah3)"/>
- ${box(890,C.n3,['LOCAL FIRMS','AND WORKERS'],C.n1,2000)}</svg>
-${R(2600,'left:72px;top:480px;width:1190px',`<div class="h" style="font-size:48px;color:${C.kor}">FDI brings technology and know-how.</div>`)}`,
+// ================= SPEAKER 4 · FUTURE (13-16) =================
+S.push({who:'Speaker 4',html:`<h2 class="big"><span class="b" style="--t:200ms">So what should the IDB do?</span><small class="b" style="--t:900ms">A plan for inclusive growth that lasts, in three steps. It has been done before, next door.</small></h2>`,
+notes:`About 30 seconds. The turn of the story.<br>
+"So what should the IDB do? We have a plan in three steps. Before the plan, the good news: it has already been done next door."`});
+
+const box=(x,y,w,h,fill,lines,col,t)=>`<g class="ap" style="--t:${t}ms"><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}"/>${lines.map((l,k)=>`<text x="${x+w/2}" y="${y+h/2+(k-(lines.length-1)/2)*36+10}" text-anchor="middle" font-size="28" font-weight="800" letter-spacing="1" fill="${col}">${l}</text>`).join('')}</g>`;
+S.push({who:'Speaker 4',html:`${T('A neighbour already did it: Costa Rica')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080"><defs>${arrowDef('a3',C.n2)}</defs>
+ ${box(200,360,420,200,C.ink,['FOREIGN FACTORIES'],'#fff',500)}
+ <line class="ap" style="--t:1000ms" x1="640" y1="460" x2="730" y2="460" stroke="${C.n2}" stroke-width="3" marker-end="url(#a3)"/>
+ ${box(750,360,420,200,C.n2,['TECHNOLOGY','AND KNOW-HOW'],'#fff',1200)}
+ <line class="ap" style="--t:1700ms" x1="1190" y1="460" x2="1280" y2="460" stroke="${C.n2}" stroke-width="3" marker-end="url(#a3)"/>
+ ${box(1300,360,420,200,C.n3,['LOCAL FIRMS','AND WORKERS'],C.ink,1900)}</svg>
+<p class="foot b bl" style="--t:2500ms;bottom:250px;font-size:60px;letter-spacing:-2px">FDI brings technology and know-how.</p>
+${CAP('Costa Rica courted foreign manufacturers on purpose, through its investment agency CINDE · from our International Cities session · case details to verify',2800)}`,
 notes:`About 1 minute.<br>
 "Good news: a neighbour already did it. Costa Rica went after foreign factories on purpose, through its investment agency CINDE. <b>FDI brings technology and know-how</b>, and local firms and workers learn from it."<br>
 "<b>Know-how can be bought.</b>" (Message #3)<br>
 ⚠ Check the CINDE details before Thursday.`});
 
-const stepHead=(n,t,s)=>`${R(100,'left:60px;top:70px',`<div class="big" style="font-size:300px;color:${C.n3}">${n}</div>`)}
-${R(250,'left:72px;top:390px;width:470px',`<div class="cap" style="color:${C.ink}">Step ${n}</div><div class="h" style="font-size:50px;margin-top:10px">${t}</div>`)}
-${R(700,'left:72px;top:560px;width:470px',`<div class="sub" style="font-size:19px">${s}</div>`)}`;
-S.push({who:'Speaker 4',src:'Precedent: Fundación Chile · product life cycle, Vernon 1966 · diagram illustrative · costing UNSURE',html:`
-${kick('Our plan: inclusive growth that lasts')}${road(2)}${stepHead(1,'Build a learning team.','It learns one new industry, proves it works, hands it to local firms, then steps away.')}
-<svg class="A" style="left:620px;top:170px" width="640" height="300"><defs>${marker('ah4')}</defs>
- <rect class="ap" style="--t:600ms" x="0" y="0" width="170" height="150" fill="${C.n1}"/>
- <line class="ap" style="--t:1000ms" x1="182" y1="75" x2="218" y2="75" stroke="${C.n2}" stroke-width="2" marker-end="url(#ah4)"/>
- <rect class="ap" style="--t:1200ms" x="232" y="0" width="85" height="150" fill="${C.n1}"/><rect class="ap" style="--t:1300ms" x="317" y="0" width="85" height="150" fill="${C.n2}"/>
- <line class="ap" style="--t:1700ms" x1="414" y1="75" x2="450" y2="75" stroke="${C.n2}" stroke-width="2" marker-end="url(#ah4)"/>
- <rect class="ap" style="--t:1900ms" x="464" y="0" width="170" height="150" fill="${C.n2}"/>
- <text class="ap" style="--t:700ms" x="85" y="182" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="${C.n1}">TEAM PROVES IT</text>
- <text class="ap" style="--t:1400ms" x="317" y="182" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="${C.n1}">HANDS IT OVER</text>
- <text class="ap" style="--t:2000ms" x="549" y="182" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="${C.n2}">TEAM LEAVES</text>
- <text class="ap" style="--t:2300ms" x="0" y="230" font-size="14" fill="${C.mute}" letter-spacing=".1em">DARK = PUBLIC MONEY · GREY = PRIVATE FIRMS</text></svg>
-${R(2600,'left:620px;top:470px;width:640px',`<div class="it" style="font-size:30px">Chile did exactly this with salmon.</div>`)}`,
+S.push({who:'Speaker 4',html:`${T('Step 1: build a learning team')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080"><defs>${arrowDef('a4',C.n2)}</defs>
+ <rect class="ap" style="--t:500ms" x="330" y="300" width="340" height="260" fill="${C.ink}"/>
+ <line class="ap" style="--t:900ms" x1="690" y1="430" x2="770" y2="430" stroke="${C.n2}" stroke-width="3" marker-end="url(#a4)"/>
+ <rect class="ap" style="--t:1100ms" x="790" y="300" width="170" height="260" fill="${C.ink}"/><rect class="ap" style="--t:1200ms" x="960" y="300" width="170" height="260" fill="${C.n2}"/>
+ <line class="ap" style="--t:1600ms" x1="1150" y1="430" x2="1230" y2="430" stroke="${C.n2}" stroke-width="3" marker-end="url(#a4)"/>
+ <rect class="ap" style="--t:1800ms" x="1250" y="300" width="340" height="260" fill="${C.n2}"/>
+ <text class="ap" style="--t:600ms" x="500" y="610" text-anchor="middle" font-size="26" font-weight="800">PROVES IT WORKS</text>
+ <text class="ap" style="--t:1300ms" x="960" y="610" text-anchor="middle" font-size="26" font-weight="800">HANDS IT TO FIRMS</text>
+ <text class="ap" style="--t:1900ms" x="1420" y="610" text-anchor="middle" font-size="26" font-weight="800" fill="${C.n2}">STEPS AWAY</text></svg>
+<p class="foot b" style="--t:2400ms">Chile did exactly this with salmon.</p>
+${CAP('Dark is public money, grey is private firms · precedent: Fundación Chile · diagram illustrative, costing to be built with IDB data',2700)}`,
 notes:`About 1 minute.<br>
 "Step one: build a learning team. It picks one new industry, proves it works, hands it to local firms, and then steps away. Its whole job is to make itself unnecessary."<br>
 "Chile did exactly this with salmon, through Fundación Chile."<br>
 Why now: factories are leaving China and choosing new homes. The region can be ready for them.`});
 
-S.push({who:'Speaker 4',src:'Mechanism after Santiago Levy · precedents to verify: Brazil SIMPLES, Mexico RIF · diagram illustrative · costing UNSURE',html:`
-${kick('Our plan: inclusive growth that lasts')}${road(2)}${stepHead(2,'Make hiring cheaper.','Pay for health and pensions from general taxes, not from wages.')}
-<svg class="A" style="left:620px;top:150px" width="640" height="320">
- ${dots(3,{x:20,y:220,p:60,r:22,color:C.n2,t0:400,st:120})}
- <line class="ap" style="--t:200ms" x1="222" x2="222" y1="70" y2="300" stroke="${C.n3}" stroke-width="4" stroke-dasharray="10 8"/>
- ${[[310,236,32],[410,204,46],[540,160,64]].map(([x,y,r],k)=>`<circle class="ap" style="--t:${1100+k*300}ms" cx="${x}" cy="${y}" r="${r}" fill="${C.n1}"/>`).join('')}
- <text class="ap" style="--t:500ms" x="80" y="300" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".12em" fill="${C.n2}">HIDDEN TODAY</text>
- <text class="ap" style="--t:2000ms" x="430" y="300" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".12em" fill="${C.n1}">FREE TO GROW</text></svg>
-${R(2400,'left:620px;top:495px;width:640px',`<div class="it" style="font-size:30px">It costs money before it saves money.</div>`)}`,
+S.push({who:'Speaker 4',html:`${T('Step 2: make hiring cheaper')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080">
+ ${[0,1,2].map(k=>`<circle class="ap" style="--t:${300+k*120}ms" cx="${560+k*90}" cy="560" r="36" fill="${C.n2}"/>`).join('')}
+ <line class="ap" style="--t:200ms" x1="880" x2="880" y1="300" y2="680" stroke="${C.n3}" stroke-width="6" stroke-dasharray="16 12"/>
+ ${[[1010,580,50],[1170,530,72],[1380,460,100]].map(([x,y,r],k)=>`<circle class="ap" style="--t:${1100+k*300}ms" cx="${x}" cy="${y}" r="${r}" fill="${C.ink}"/>`).join('')}
+ <text class="ap" style="--t:500ms" x="650" y="730" text-anchor="middle" font-size="26" font-weight="800" fill="${C.n2}">HIDDEN TODAY</text>
+ <text class="ap" style="--t:2000ms" x="1200" y="730" text-anchor="middle" font-size="26" font-weight="800">FREE TO GROW</text></svg>
+<p class="foot b" style="--t:2400ms">It costs money before it saves money.</p>
+${CAP('Pay for health and pensions from general taxes, not from wages · precedents to verify: Brazil SIMPLES, Mexico RIF · costing to be built',2700)}`,
 notes:`About 1 minute.<br>
 "Step two: make hiring cheaper. Pay for health and pensions from general taxes, not from wages. Then businesses can grow out in the open, the same firms we saw stuck behind the wall."<br>
-<b>Say the cost before anyone asks:</b> "It costs money before it saves money."`});
+<b>Say the cost before anyone asks:</b> "It costs money before it saves money."<br>
+Hand over: "<b>[Speaker 5]</b> with the last step."`});
 
-const town=[[-1,0],[-.7,-.75],[0,-1],[.7,-.75],[1,0],[.7,.75],[-.7,.75]];
-S.push({who:'Speaker 4',src:'Growth pole process: Perroux 1955, from our Core-Periphery session · case: Medellín · diagram illustrative · costing UNSURE',html:`
-${kick('Our plan: inclusive growth that lasts')}${road(2)}
-${R(100,'left:72px;top:110px;width:1190px',`<div class="cap" style="color:${C.ink}">Step 3</div><div class="h" style="font-size:64px;margin-top:10px">Connect the towns outside the big city.</div>`)}
-<svg class="A" style="left:0;top:0" width="1334" height="700">
- ${town.map(([dx,dy],k)=>`<line class="draw" pathLength="1" style="--t:${700+k*150}ms;--dur:.7s" x1="667" y1="430" x2="${667+dx*330}" y2="${430+dy*120}" stroke="${C.n2}" stroke-width="3"/>`).join('')}
- ${town.map(([dx,dy],k)=>`<circle class="ap" style="--t:300ms" cx="${667+dx*330}" cy="${430+dy*120}" r="16" fill="${C.n3}"/><circle class="ap" style="--t:${1200+k*150}ms" cx="${667+dx*330}" cy="${430+dy*120}" r="16" fill="${C.n1}"/>`).join('')}
- <circle class="ap" style="--t:200ms" cx="667" cy="430" r="46" fill="${C.n1}"/>
- <text class="ap" style="--t:200ms" x="667" y="436" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="#fff">CITY</text></svg>
-${R(2600,'left:72px;top:590px;width:1190px',`<div class="it" style="font-size:28px">Medellín’s cable cars linked the hillsides the city had written off.</div>`)}`,
+// ================= SPEAKER 5 · STEP 3, ROLL-OUT, CLOSE (17-19) =================
+const town=[[-1,0],[-.7,-.8],[0,-1],[.7,-.8],[1,0],[.7,.8],[-.7,.8]];
+S.push({who:'Speaker 5',html:`${T('Step 3: connect the towns outside the big city')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080">
+ ${town.map(([dx,dy],k)=>`<line class="draw" pathLength="1" style="--t:${700+k*150}ms;--dur:.7s" x1="960" y1="560" x2="${960+dx*520}" y2="${560+dy*230}" stroke="${C.n2}" stroke-width="4"/>`).join('')}
+ ${town.map(([dx,dy],k)=>`<circle class="ap" style="--t:300ms" cx="${960+dx*520}" cy="${560+dy*230}" r="26" fill="${C.n3}"/><circle class="ap" style="--t:${1200+k*150}ms" cx="${960+dx*520}" cy="${560+dy*230}" r="26" fill="${C.ink}"/>`).join('')}
+ <circle class="ap" style="--t:200ms" cx="960" cy="560" r="72" fill="${C.ink}"/>
+ <text class="ap" style="--t:200ms" x="960" y="570" text-anchor="middle" font-size="26" font-weight="800" fill="#fff" letter-spacing="3">CITY</text></svg>
+<p class="foot b" style="--t:2600ms">Medellín’s cable cars linked the hillsides the city had written off.</p>
+${CAP('Roads, internet and local suppliers, so growth spreads instead of pooling · growth poles, Perroux 1955 · case: Medellín · costing to be built',2900)}`,
 notes:`About 1 minute.<br>
 "Step three: connect the towns outside the big city, with roads, internet and suppliers, so growth spreads instead of pooling in the capital."<br>
-Course link: a growth pole only works if local firms learn to supply the big plant and the towns around it get connected. Those are the two steps that usually get skipped.<br>
-"Medellín's cable cars did this for neighbourhoods the city had written off."<br>
-Hand over: "<b>[Speaker 5]</b> on how we roll it out."`});
+Course link: a growth pole only works if local firms learn to supply the big plant and the towns around it get connected. Those are the steps that usually get skipped.<br>
+"Medellín's cable cars did this for neighbourhoods the city had written off."`});
 
-// ================= SPEAKER 5 · ROLL-OUT + CLOSE (slides 17-18) =================
-const band=(x0,x1,y,c,lab,t)=>`<g class="ap" style="--t:${t}ms"><text x="${120+x0*104}" y="${y-12}" font-size="18" font-weight="700" fill="${C.ink}">${lab}</text></g>
- <rect class="grow" style="--t:${t+150}ms;--dur:.8s" x="${120+x0*104}" y="${y}" width="${(x1-x0)*104}" height="34" fill="${c}"/>`;
-S.push({who:'Speaker 5',src:'Timeline illustrative · costings UNSURE, to be built from IDB project data · score baselines from World Bank, ILOSTAT and national accounts',html:`
-${road(2)}
-${R(100,'left:72px;top:100px;width:1190px',`<div class="h" style="font-size:62px">Cheap first, big later. Scored every year.</div>`)}
-<svg class="A" style="left:0;top:200px" width="1334" height="250">
- <line x1="120" x2="1160" y1="210" y2="210" stroke="${C.faint}"/>
- ${[0,2,5,10].map(y=>`<text x="${120+y*104}" y="234" text-anchor="${y==10?'end':'start'}" font-size="14" fill="${C.mute}">Year ${y}</text>`).join('')}
- ${band(0,3,40,C.n1,'1 · Learning team',300)}${band(2,5,110,C.n1,'2 · Cheaper hiring',800)}${band(5,10,180,C.n2,'3 · Connected towns',1300)}</svg>
-<div class="rule" style="left:72px;right:72px;top:478px"></div>
-${R(1900,'left:72px;top:492px',`<div class="cap" style="color:${C.ink}">Three scores, published every year</div>`)}
-${[['Inventions per person','against Chile and Brazil'],['Richest region against poorest','income per person'],['Workers on the books','and firms with 10+ staff']].map(([a,b],i)=>
- R(2100+i*200,`left:${72+i*400}px;top:530px;width:370px`,`<div style="font-size:26px;font-weight:700;letter-spacing:-.02em">${a}</div><div class="sub" style="font-size:17px;margin-top:4px">${b}</div>`)).join('')}`,
+const band=(x0,x1,y,c,lab,t)=>`<text class="ap" style="--t:${t}ms" x="${300+x0*132}" y="${y-16}" font-size="28" font-weight="800">${lab}</text>
+ <rect class="grow" style="--t:${t+150}ms;--dur:.8s" x="${300+x0*132}" y="${y}" width="${(x1-x0)*132}" height="44" fill="${c}"/>`;
+S.push({who:'Speaker 5',html:`${T('Cheap first, big later. Scored every year.')}
+<svg class="A" style="left:0;top:0" width="1920" height="1080">
+ <line x1="300" x2="1620" y1="560" y2="560" stroke="${C.grey}" stroke-width="1.5"/>
+ ${[0,2,5,10].map(y=>`<text x="${300+y*132}" y="592" text-anchor="${y==10?'end':'start'}" font-size="20" fill="${C.muted}">Year ${y}</text>`).join('')}
+ ${band(0,3,290,C.ink,'1 · Learning team',300)}${band(2,5,380,C.ink,'2 · Cheaper hiring',800)}${band(5,10,470,C.n2,'3 · Connected towns',1300)}</svg>
+<div class="cols3" style="top:670px">${[['Score 1','Inventions per person','against Chile and Brazil'],['Score 2','Richest region against poorest','income per person'],['Score 3','Workers on the books','and firms with 10+ staff']].map(([h,a,b],k)=>
+ `<div class="b" style="--t:${1900+k*220}ms"><h3>${h}</h3><p>${a}</p><p class="s">${b}</p></div>`).join('')}</div>
+${CAP('Published every year. No growth number promised · timeline illustrative · costings to be built from IDB project data',2700)}`,
 notes:`About 1 minute 30.<br>
 "Governments last four years. These programmes don't. So the cheapest, fastest step goes first, and each step has to show results that protect the next one."<br>
 "Every year we publish three scores: inventions per person, compared with Chile and Brazil, not Korea; how far the poorest region trails the richest; and how many workers are on the books."<br>
-"We are not promising a growth number. A number we can't defend is worth less than an honest blank."<br>If asked about the brief's words: <b>inclusive</b>, because it reaches the towns and the informal workers. <b>Sustainable</b>, because growth built on know-how lasts, unlike a commodity boom.`});
+"We are not promising a growth number. A number we can't defend is worth less than an honest blank."<br>
+If asked about the brief's words: <b>inclusive</b>, because it reaches the towns and the informal workers. <b>Sustainable</b>, because growth built on know-how lasts, unlike a commodity boom.`});
 
-S.push({who:'Speaker 5',src:'Patent applications by residents, Guatemala, 2024 · World Bank WDI, IP.PAT.RESD',html:`
-<svg class="A" style="left:72px;top:90px" width="1190" height="60">${dots(8,{x:0,y:26,p:58,r:20,color:C.gtm,t0:200,st:120})}</svg>
-${R(1200,'left:72px;top:190px;width:1190px',`<div class="h" style="font-size:92px">Know-how is bought,<br>not born.</div>`)}
-<div class="rule" style="left:72px;right:72px;top:420px"></div>
-${R(2200,'left:72px;top:440px;width:1190px',`<div class="cap" style="color:${C.ink}">Our ask of the IDB</div><div class="h" style="font-size:50px;margin-top:14px">Fund the learning team. One country. <span style="color:${C.kor}">This year.</span></div>`)}
-${R(3000,'left:72px;top:600px;width:1190px',`<div class="sub" style="font-size:20px"><b style="color:${C.ink}">Next 90 days:</b> pick the pilot country · set the three baselines · cost the team with IDB project data</div>`)}`,
-notes:`<b>Close. About 1 minute. Bring it back to the opening.</b><br>
+S.push({who:'Speaker 5',dots:'close',html:`<h2 class="big" style="top:120px"><span class="b" style="--t:900ms">Know-how is bought, not born.</span>
+ <small class="b" style="--t:1800ms;color:${C.ink};font-weight:800;font-size:56px;letter-spacing:-1.5px">Fund the learning team. One country. <span class="bl">This year.</span></small></h2>
+${CAP('Next 90 days: pick the pilot country · set the three baselines · cost the team with IDB project data',2600)}`,
+notes:`<b>Close. About 1 minute. The eight dots are back from the opening.</b><br>
 "Eight inventions. In 1980 Korea started where Mexico was. The difference was homework."<br>
-Summarize in one breath: same start, different homework, a plan to start ours.<br>Next steps, one line: "In the next 90 days: pick the pilot country, set the three baselines, and cost the team with IDB project data."<br>
 "<b>Know-how is bought, not born.</b>" (Message #4) "Fund the learning team, in one country, this year."<br>
+Next steps, one line: "In the next 90 days: pick the pilot country, set the three baselines, and cost the team with IDB project data."<br>
 <b>Pause two seconds. Do not say "thank you".</b> Then: "We'd love your questions." You lead the Q&A and hand questions to whoever owns that part.`});
 
-// ================= BACKUP =================
-S.push({who:'Backup (any speaker in Q&A)',src:'Frameworks: Myrdal 1957 · Perroux 1955 · Hirschman 1958 · Vernon 1966 · Hausmann, Rodrik & Velasco · Levy on informality · course sessions',html:`
-${kick('Backup · what is solid, what is not')}
-${[[C.kor,'Verified, with code','All figures are from the World Bank WDI: patents IP.PAT.RESD, population SP.POP.TOTL, researchers SP.POP.SCIE.RD.P6, R&D GB.XPD.RSDV.GD.ZS, income NY.GDP.PCAP.KD. Patent and income series re-pulled 11 Nov 2026.'],
-   [C.mex,'Unsure, not pulled yet','Informality rate. Regional income gaps. CINDE and Fundación Chile case details. Every costing. None of these appears as a number on any slide.'],
-   [C.gtm,'What this cannot tell us','Patents count registered inventions, not all ingenuity, and firms often file abroad. Korea had a geopolitical sponsor and an authoritarian state. One country is not a perfect model for another.']]
- .map(([c,h,a],i)=>R(200+i*150,`left:${72+i*403}px;top:110px;width:383px;border-top:3px solid ${c};padding-top:16px`,`<div class="cap" style="color:${c};font-weight:700">${h}</div><div style="font-size:16px;line-height:1.5;margin-top:10px">${a}</div>`)).join('')}
-${R(800,'left:72px;top:420px;right:72px;border-left:3px solid #2f2c28;padding:2px 0 2px 22px',`<div class="cap" style="color:#2f2c28;font-weight:700">Use of generative AI</div>
-<div style="font-size:16px;line-height:1.5;margin-top:8px">We acknowledge the use of Claude (Anthropic, https://claude.ai) to locate sources, retrieve and recheck the World Bank series with code, and draft and design these slides. The prompts included asking for story angles, simplifying the story so a 12-year-old could follow it, applying our Data Fluency and Storytelling course rules, and verifying every figure and marking anything it could not. The outputs were a basis we revised; the diagnosis, the recommendation and the delivery are ours.</div>`)}`,
+// ================= BACKUP (20) =================
+const about=[['Source','World Bank World Development Indicators: patents IP.PAT.RESD, population SP.POP.TOTL, researchers SP.POP.SCIE.RD.P6, R&D GB.XPD.RSDV.GD.ZS, income NY.GDP.PCAP.KD. Patent and income series re-pulled 11 Nov 2026.'],
+ ['Not pulled yet','Informality rate, regional income gaps, CINDE and Fundación Chile case details, every costing. None appears as a number on any slide.'],
+ ['What this cannot tell us','Patents count registered inventions, not all ingenuity; firms often file abroad. Korea had a geopolitical sponsor and an authoritarian state. One country is not a perfect model for another.'],
+ ['Frameworks','Backwash, Myrdal 1957 · growth poles, Perroux 1955 and Hirschman 1958 · product life cycle, Vernon 1966 · growth diagnostics, Hausmann, Rodrik and Velasco · informality, Levy.'],
+ ['Use of generative AI','We used Claude (Anthropic, claude.ai) to locate sources, recheck the World Bank series with code, and draft and design these slides, including simplifying the story and applying our Data Fluency and Storytelling course rules. We revised the output; the diagnosis, the recommendation and the delivery are ours.']];
+S.push({who:'Backup (Q&A)',html:`${T('About the numbers')}
+<div class="A" style="left:220px;right:220px;top:220px;display:grid;grid-template-columns:1fr 1fr;gap:34px 90px">${about.map(([h,p],k)=>
+ `<div class="b" style="--t:${300+k*120}ms;border-top:3px solid ${C.ink};padding-top:14px${k===4?';grid-column:1 / span 2':''}"><div style="font-size:22px;font-weight:800">${h}</div><div style="font-size:21px;line-height:1.45;color:${C.muted};margin-top:6px">${p}</div></div>`).join('')}</div>`,
 notes:`Use this only in Q&A. Likely questions:<br>
 • "Korea had US support and a military government." Agree. One country is not a perfect model. That's why the plan copies regional cases (Chile, Costa Rica, Medellín).<br>
 • "Firms file patents abroad." True. Patents are the simplest comparable count, not the whole picture.<br>
@@ -395,9 +348,18 @@ notes:`Use this only in Q&A. Likely questions:<br>
 
 // ---------- Render ----------
 const stage=document.getElementById('stage');const N=S.length;
-stage.innerHTML=S.map((s,i)=>`<section class="slide" data-i="${i}">${s.html}${s.noFoot?'':`<div class="foot">${s.src}</div>`}</section>`).join('')+`<div id="tip"></div>`;
-const els=[...stage.querySelectorAll('.slide')];let cur=0,scale=1;
+const POOL=210;
+stage.innerHTML=S.map((s,i)=>`<section class="slide" data-i="${i}">${s.html}</section>`).join('')+
+ `<svg id="dots" viewBox="0 0 1920 1080">${Array.from({length:POOL},(_,i)=>`<circle r="10" cx="0" cy="0" style="opacity:0;transform:translate(960px,560px) scale(0)"/>`).join('')}</svg><div id="tip"></div>`;
+const els=[...stage.querySelectorAll('section.slide')],dotEls=[...stage.querySelectorAll('#dots circle')];let cur=0,scale=1;
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const last=Array(POOL).fill(null);
+function placeDots(name){const pts=name?L[name]():[];
+  dotEls.forEach((el,i)=>{const p=pts[i];
+    if(p){const fresh=!last[i];if(fresh&&!RM){el.style.transition='none';el.style.transform=`translate(${p.x}px,${p.y}px) scale(0)`;el.getBoundingClientRect();el.style.transition=''}
+      el.style.transitionDelay=fresh?`${200+i*(name==='hook'?170:6)}ms`:`${i*2}ms`;
+      el.style.transform=`translate(${p.x}px,${p.y}px) scale(${p.r/10})`;el.style.opacity=1;el.setAttribute('fill',p.c);el.dataset.tip=p.tip||'';last[i]=p}
+    else{el.style.transitionDelay='0ms';el.style.opacity=0;if(last[i])el.style.transform=`translate(${last[i].x}px,${last[i].y}px) scale(0)`;el.dataset.tip='';last[i]=null}})}
 
 let raf=[];
 function countUp(sl){raf.forEach(cancelAnimationFrame);raf=[];
@@ -407,23 +369,23 @@ function countUp(sl){raf.forEach(cancelAnimationFrame);raf=[];
     const step=now=>{const k=Math.min(1,Math.max(0,(now-t0)/dur)),e=1-Math.pow(1-k,3);el.textContent=pre+fmt(from+(to-from)*e,dec)+suf;
       if(k<1)raf.push(requestAnimationFrame(step));else el.textContent=final};raf.push(requestAnimationFrame(step))})}
 
-// ---------- Slide 6 zoom ----------
+// ---------- the zoom chart ----------
 let zRaf=0;
 function zRender(svg,{xmax,ymax,tEnd,b0}){
   const {ox,oy,w,h,y0}=ZS,X=y=>ox+(y-y0)/(xmax-y0)*w,Y=v=>oy+h-v/ymax*h,q=s=>svg.querySelector(s);
   const minorA=Math.max(0,Math.min(1,(30000-ymax)/20000));
   q('#zgrid').innerHTML=[1000,2000,3000,4000,50000,100000,150000,200000].filter(v=>v<=ymax*1.001).map(v=>{const a=v<50000?minorA:1;
-    return a<=0?'':`<g opacity="${a}"><line x1="${ox}" x2="${ox+w}" y1="${Y(v)}" y2="${Y(v)}" stroke="${C.line}"/><text x="${ox-8}" y="${Y(v)+4}" text-anchor="end" font-size="13" fill="${C.mute}">${v/1000}k</text></g>`}).join('');
+    return a<=0?'':`<g opacity="${a}"><line x1="${ox}" x2="${ox+w}" y1="${Y(v)}" y2="${Y(v)}" stroke="${C.line}"/><text x="${ox-14}" y="${Y(v)+7}" text-anchor="end" font-size="20" fill="${C.muted}">${v/1000}k</text></g>`}).join('');
   q('#zx1').textContent=Math.round(xmax);
   const pts=se=>{const n=Math.floor(tEnd-y0+1e-9),f=tEnd-y0-n,a=[];for(let i=0;i<=n;i++)a.push([X(y0+i),Y(se.v[i])]);
     if(f>1e-6&&n+1<se.v.length)a.push([X(y0+n+f),Y(se.v[n]+(se.v[n+1]-se.v[n])*f)]);return a};
   ZS.series.forEach(se=>q('#zp'+se.k).setAttribute('points',pts(se).map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')));
   const kp=pts(ZS.series[2]);q('#za').setAttribute('points',`${X(y0)},${Y(0)} ${kp.map(p=>p.join(',')).join(' ')} ${kp[kp.length-1][0]},${Y(0)}`);
   q('#za').style.opacity=Math.max(0,Math.min(1,(xmax-1990)/34));
-  const bx=X(y0)+12,yK=Y(D.pat.KOR[0]),yM=Y(D.pat.MEX[0]),L=q('#zb0').querySelectorAll('line'),T=q('#zb0').querySelector('text');
-  L[0].setAttribute('x1',bx);L[0].setAttribute('x2',bx);L[0].setAttribute('y1',yK);L[0].setAttribute('y2',yM);
-  [[1,yK],[2,yM]].forEach(([k,y])=>{L[k].setAttribute('x1',bx-6);L[k].setAttribute('x2',bx);L[k].setAttribute('y1',y);L[k].setAttribute('y2',y)});
-  T.setAttribute('x',bx+12);T.setAttribute('y',(yK+yM)/2+8);q('#zb0').style.opacity=b0;
+  const bx=X(y0)+16,yK=Y(D.pat.KOR[0]),yM=Y(D.pat.MEX[0]),Ls=q('#zb0').querySelectorAll('line'),Tx=q('#zb0').querySelector('text');
+  Ls[0].setAttribute('x1',bx);Ls[0].setAttribute('x2',bx);Ls[0].setAttribute('y1',yK);Ls[0].setAttribute('y2',yM);
+  [[1,yK],[2,yM]].forEach(([k,y])=>{Ls[k].setAttribute('x1',bx-8);Ls[k].setAttribute('x2',bx);Ls[k].setAttribute('y1',y);Ls[k].setAttribute('y2',y)});
+  Tx.setAttribute('x',bx+16);Tx.setAttribute('y',(yK+yM)/2+12);q('#zb0').style.opacity=b0;
 }
 function zFinal(svg){zRender(svg,{xmax:2024,ymax:200000,tEnd:2024,b0:0});svg.querySelector('#zlab').style.opacity=1;svg.querySelector('#zhov').style.pointerEvents='auto'}
 function zoomAnim(sl){cancelAnimationFrame(zRaf);const svg=sl.querySelector('#zc');svg.querySelector('#zlab').style.opacity=0;svg.querySelector('#zhov').style.pointerEvents='none';
@@ -435,27 +397,25 @@ function zoomAnim(sl){cancelAnimationFrame(zRaf);const svg=sl.querySelector('#zc
     else{const k=io(cl((t-2900)/2400));st={xmax:1990+34*k,ymax:4000+196000*(1-Math.pow(1-k,2)),tEnd:1985+39*k,b0:1-cl(k*3)}}
     zRender(svg,st);if(t<5300)zRaf=requestAnimationFrame(step);else zFinal(svg)};
   zRaf=requestAnimationFrame(step)}
-addEventListener('beforeprint',()=>document.querySelectorAll('#zc').forEach(zFinal));
 
-// ---------- Navigation, notes, tooltips ----------
-const notes=document.getElementById('notes');
+// ---------- navigation, notes, tooltips ----------
+const notes=document.getElementById('notes'),prog=document.getElementById('progress');
 function go(n){cur=Math.max(0,Math.min(N-1,n));els.forEach((e,i)=>e.classList.toggle('on',i===cur));
-  countUp(els[cur]);hideTip();if(S[cur].zoom)zoomAnim(els[cur]);else cancelAnimationFrame(zRaf);
-  notes.innerHTML=`<div class="who">${S[cur].who} · slide ${cur+1} of ${N}</div>${S[cur].notes||''}`;
+  placeDots(S[cur].dots);countUp(els[cur]);hideTip();if(S[cur].zoom)zoomAnim(els[cur]);else cancelAnimationFrame(zRaf);
+  notes.innerHTML=`<div class="who">${S[cur].who} · slide ${cur+1} of ${N}</div>${S[cur].notes||''}`;prog.style.width=((cur+1)/N*100)+'%';
   try{history.replaceState(null,'','#'+(cur+1))}catch(e){}}
-function fit(){scale=Math.min(innerWidth/1334,innerHeight/750);stage.style.transform=`scale(${scale})`}
+function fit(){scale=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(${(innerWidth-1920*scale)/2}px,${(innerHeight-1080*scale)/2}px) scale(${scale})`}
 addEventListener('resize',fit);fit();
 const toggleNotes=()=>notes.classList.toggle('show');
 addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(cur+1)}
- if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}if(e.key==='Home')go(0);if(e.key==='End')go(N-1);
- if(e.key==='n'||e.key==='N')toggleNotes()});
+ if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}if(e.key==='Home')go(0);if(e.key==='End')go(N-1);if(e.key==='n'||e.key==='N')toggleNotes()});
 document.getElementById('nx').onclick=()=>go(cur+1);document.getElementById('pv').onclick=()=>go(cur-1);document.getElementById('nt').onclick=toggleNotes;
 const tip=document.getElementById('tip');
-function showTip(html,cx,cy){const r=stage.getBoundingClientRect();tip.innerHTML=html;let x=(cx-r.left)/scale+14,y=(cy-r.top)/scale-48;
-  tip.classList.add('show');const w=tip.offsetWidth;if(x+w>1320)x-=w+28;tip.style.left=x+'px';tip.style.top=Math.max(8,y)+'px'}
+function showTip(html,cx,cy){const r=stage.getBoundingClientRect();tip.innerHTML=html;let x=(cx-r.left)/scale+18,y=(cy-r.top)/scale-70;
+  tip.classList.add('show');const w=tip.offsetWidth;if(x+w>1900)x-=w+36;tip.style.left=x+'px';tip.style.top=Math.max(8,y)+'px'}
 function hideTip(){tip.classList.remove('show');stage.querySelectorAll('.xh').forEach(g=>g.style.opacity=0)}
 stage.addEventListener('mousemove',e=>{const t=e.target.closest('[data-tip]');
-  if(t){const[a,...b]=t.dataset.tip.split(' · ');showTip(`<b>${a}</b>${b.join(' · ')}`,e.clientX,e.clientY);return}
+  if(t&&t.dataset.tip){const[a,b]=t.dataset.tip.split('|');showTip(`<b>${a}</b>${b||''}`,e.clientX,e.clientY);return}
   if(e.target.matches('rect[data-lc]')){const o=LC[e.target.dataset.lc],svg=e.target.ownerSVGElement,p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;
     const q=p.matrixTransform(svg.getScreenCTM().inverse()),i=Math.max(0,Math.min(o.x1-o.x0,Math.round((q.x-o.ox)/o.w*(o.x1-o.x0)))),X=o.ox+i/(o.x1-o.x0)*o.w;
     const g=svg.querySelector('.xh');g.style.opacity=1;g.querySelector('line').setAttribute('x1',X);g.querySelector('line').setAttribute('x2',X);
