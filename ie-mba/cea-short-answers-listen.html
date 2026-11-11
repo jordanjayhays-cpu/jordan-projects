@@ -1,0 +1,151 @@
+<title>Short Answers Audio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: lesson picker on top, one reading card with the current sentence lit up, player bar fixed at the bottom. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --fg:#14202e; --muted:#5c6878; --line:#dce2ea;
+  --accent:#1f5d8f; --accent-soft:#e3edf6; --live:#fff1c7; --live-ink:#5a4300;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141b; --surface:#18202b; --fg:#e6ebf1; --muted:#9aa6b5; --line:#2a3542;
+  --accent:#7fb3e0; --accent-soft:#1b2b3c; --live:#4a3b10; --live-ink:#ffe39a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f141b; --surface:#18202b; --fg:#e6ebf1; --muted:#9aa6b5; --line:#2a3542;
+  --accent:#7fb3e0; --accent-soft:#1b2b3c; --live:#4a3b10; --live-ink:#ffe39a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);margin:0}
+.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 150px}
+h1{font:700 clamp(28px,5vw,40px)/1.1 var(--display);margin:4px 0 8px;text-wrap:balance}
+.eyebrow{font:600 12px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lede{color:var(--muted);margin:0 0 18px;max-width:60ch}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin:0 0 18px}
+.lesson{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:2px;transition:transform .2s cubic-bezier(.34,1.56,.64,1),border-color .15s}
+.lesson:active{transform:scale(.96)}
+.lesson:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lesson b{font:600 15px/1.3 var(--display)}
+.lesson span{font-size:12.5px;color:var(--muted)}
+.lesson[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.card h2{font:700 24px/1.2 var(--display);margin:0 0 4px;text-wrap:balance}
+.card .who{font-size:13px;color:var(--muted);margin-bottom:12px}
+.s{display:inline;padding:1px 2px;border-radius:4px;cursor:pointer;transition:background .2s}
+.s:hover{background:var(--accent-soft)}
+.s.on{background:var(--live);color:var(--live-ink)}
+.para{margin:0 0 12px;font-size:17px;line-height:1.75}
+.note{font-size:13.5px;color:var(--muted);margin-top:14px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar .in{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:600 15px/1 var(--body);border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:12px 18px;cursor:pointer;transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .15s}
+.btn:active{transform:scale(.93)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--surface);min-width:110px}
+.bar label{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center}
+.bar select{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:6px}
+.prog{flex:1 1 100%;height:4px;background:var(--line);border-radius:4px;overflow:hidden;order:-1}
+.prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.status{font-size:13px;color:var(--muted);flex:1 1 140px;min-width:0}
+.warn{background:var(--live);color:var(--live-ink);border-radius:8px;padding:10px 14px;font-size:14px;margin:0 0 14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Country Economic Analysis · exam prep</div>
+  <h1>The six short answers, out loud</h1>
+  <p class="lede">Hear a full-marks answer for each of the six topics the professors named, then the four-step breakdown, the common mistakes and your turn to say it. Start with chapter 1 and press Play. The sentence being spoken lights up; tap any sentence to jump to it.</p>
+  <div class="warn" id="nosupport" hidden>This browser can't read aloud. Try opening the link in Safari or Chrome, or read along below.</div>
+  <div class="lessons" id="lessons"></div>
+  <div class="card" id="card"><h2 id="ltitle"></h2><div class="who" id="lwho"></div><div id="ltext"></div>
+    <p class="note">Spoken by your device's built-in voice. On iPhone, turn off silent mode if you hear nothing.</p></div>
+</div>
+
+<div class="bar"><div class="in">
+  <div class="prog"><i id="prog"></i></div>
+  <button type="button" class="btn pri" id="play">▶ Play</button>
+  <button type="button" class="btn" id="back" aria-label="Previous sentence">⏮</button>
+  <button type="button" class="btn" id="fwd" aria-label="Next sentence">⏭</button>
+  <label for="rate">Speed <select id="rate"><option value="0.85">0.85×</option><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2" selected>2×</option></select></label>
+  <span class="status" id="status">Ready</span>
+</div></div>
+
+<script>
+(function(){
+const L=[
+{t:"0. How to write a 10 out of 10",who:"Start here",p:[
+["The exam has four short answers, worth ten points each. Two come from Garland and two from Allard.","They are short paragraphs, not essays. Each one tests one concept. You do not need memorized names or numbers, you need the idea and how it works."],
+["Use the same four-step frame every time.","Step one, define it, in one sentence.","Step two, explain the mechanism, in two or three sentences, using the words because and so. A leads to B, so C happens.","Step three, give one example from class, by name. Angola, Norway, Japan, India, Mexico.","Step four, add one limit, or one so what for an investor."],
+["The most common way to lose points is to name an idea and stop. Every point needs a because or a so after it."],
+["In each chapter you will hear a full-marks answer first. Then it is broken down into the four steps. Then the common mistakes. At the end, pause and say your own version out loud."]]},
+{t:"1. Malthus",who:"Garland",p:[
+["Here is a full-marks answer.","Thomas Malthus, an eighteenth-century English clergyman and economist, argued that population grows geometrically, two, four, eight, sixteen, while food production grows only arithmetically, two, four, six, eight.","So population tends to outrun food. This is the Malthusian trap.","Balance is restored by preventive checks, which reduce births, like late marriage, or in modern form China's one-child policy, and by positive checks, which raise deaths: war, famine and epidemics.","He described the past well, because for most of two thousand years income per person stayed near four to six hundred dollars.","But he was wrong about the future, because he did not foresee technology and the Industrial Revolution. Today birth rates are falling in rich countries."],
+["Now the breakdown.","Define: population grows geometrically, food grows arithmetically.","Mechanism: population outruns food, so two checks bring it back. Preventive checks mean fewer births. Positive checks mean more deaths.","Example and verdict: right about the past, wrong about the future, because of the Industrial Revolution.","Limit: today fertility is falling, and neo-Malthusians apply the idea to other resources like water and energy."],
+["Common mistakes. Swapping geometric and arithmetic. Population is geometric, food is arithmetic.","Calling war or famine a preventive check. They are positive checks. Remember: preventive prevents births, positive means people die."],
+["Your turn. Pause now, and say the Malthus answer out loud in about one minute. Then press play to continue."]]},
+{t:"2. Human Development Index",who:"Allard",p:[
+["Here is a full-marks answer.","The Human Development Index is a United Nations measure of development that goes beyond income. It combines three dimensions: health, measured by life expectancy, education, measured by literacy and schooling, and income, measured by GDP or GNI per person at purchasing power parity.","GDP per person only shows average income, so it can hide whether that income really improves people's lives.","Angola ranks around one hundred and first in the world on GDP per person, but only around one hundred forty third on the HDI, because its oil wealth is concentrated and seventy percent of people live on under two dollars a day. Norway, by contrast, ranks first.","However, the HDI ignores inequality and the environment, so it should be read alongside the Gini coefficient."],
+["The breakdown.","Define: a composite of three things. A memory hook: live long, learn, earn.","Mechanism: GDP alone hides distribution, so the HDI checks whether wealth becomes longer and better educated lives.","Example: Angola rich on paper but low on HDI, Norway first.","Limit: it misses inequality and the environment."],
+["Common mistakes. Listing only GDP. Forgetting the example. And leaving out why it matters, the so."],
+["Your turn. Pause, and say the HDI answer out loud. Live long, learn, earn."]]},
+{t:"3. The natural resource curse",who:"Garland",p:[
+["Here is a full-marks answer.","The resource curse is the paradox that countries rich in natural resources often grow more slowly and are governed worse than countries without them.","It works through four channels.","First, Dutch disease: resource exports bring in dollars, the local currency appreciates, so imports get cheaper and agriculture and manufacturing lose competitiveness.","Second, volatility: GDP, the budget and the currency swing with commodity prices.","Third, corruption: oil money means the government does not need to tax citizens, so accountability weakens.","Fourth, asset depletion: insecure rulers extract and spend fast instead of saving.","Angola shows all four: oil was about sixty percent of GDP but only zero point two percent of jobs, its state oil company worked as a slush fund, and the two thousand nine price crash hit hard.","Norway escaped, because it had strong institutions before the oil, and it invests its oil fund entirely abroad, which keeps the dollars from pushing up the krone."],
+["The breakdown.","Define: a paradox, resource-rich but slower and worse governed.","Mechanism: the four channels. Memory hook: D V C A. Dutch disease, volatility, corruption, asset depletion.","Example: Angola has all four.","Contrast and limit: Norway's two fixes, institutions first, and a fund held abroad."],
+["Common mistakes. Saying imports get more expensive. Under Dutch disease imports get cheaper.","Treating Dutch disease and the resource curse as the same thing. Dutch disease is only one channel.","Saying Norway escaped by luck. It escaped because of institutions and the fund."],
+["Your turn. Pause, and say it out loud using D V C A, then Norway's two fixes."]]},
+{t:"4. Growth strategies in the twentieth century",who:"Allard",p:[
+["Here is a full-marks answer.","Early industrializers like Britain and the United States grew slowly on domestic demand, at about one percent per person per year. Later developers tried to jump-start growth.","Import-substitution industrialization, or ISI, protected new local industries with tariffs so they could supply the home market. Brazil from the nineteen thirties and India after independence used it.","But protected firms did not have to compete, so they became inefficient, could not export, and attracted little foreign investment. India was stuck at about three and a half percent growth.","Export-oriented industrialization, or EOI, relied on foreign demand instead. It welcomed foreign investment and kept the currency weak. Japan, the Asian Tigers, and China after Deng used it, and it generally won.","Crises pushed ISI countries to change: Latin America's debt crisis in nineteen eighty two, and India's balance of payments crisis in nineteen ninety one, which led to Washington Consensus reforms.","EOI has limits too, because it depends on foreign buyers and causes backlash, like the China shocks."],
+["The breakdown.","Define: two strategies. ISI looks inward, EOI looks outward.","Mechanism: ISI protects, so firms get lazy and cannot export. EOI competes globally, so it grows faster.","Example: India and Brazil for ISI, Japan, Korea and China for EOI. India switched in nineteen ninety one.","Limit: EOI depends on foreign demand."],
+["Common mistakes. Saying India and China switched at the same time. China opened around nineteen seventy eight, India in nineteen ninety one.","Forgetting the GDP formula link. ISI relies on domestic spending, EOI relies on net exports."],
+["Your turn. Pause, and compare ISI and EOI out loud, with one example each."]]},
+{t:"5. EU versus US",who:"Allard",p:[
+["Here is a full-marks answer.","The European Union has more people than the United States, but a smaller economy and lower income per person, about sixty three to sixty six thousand dollars against eighty six thousand, mainly because European productivity and research spending lag.","Europe has universal welfare states, higher government spending, about forty seven percent of GDP against thirty seven percent, and more equality, with a Gini around zero point three. The United States has a means-tested safety net, like Medicare and Medicaid.","Unemployment is structurally higher in Europe because labor markets are more rigid, and Europe is ageing faster.","Public debt, however, is roughly the same, about one hundred twenty percent of GDP in the United States and one hundred eleven percent in the euro area.","The key structural difference is that the United States works better as a currency union, because workers move between states and federal money flows to struggling regions. Euro countries lost their own interest rates and exchange rates, with little shared budget, so in a crisis they must cut wages instead."],
+["The breakdown.","Define: compare size, income, welfare, equality and debt.","Mechanism: lower productivity, so lower income per person. Universal welfare, so more equality and higher spending.","Example: the debt numbers, and Greece or Spain cutting wages inside the euro.","Limit or so what: same debt, different everything else."],
+["Common mistakes. Saying the United States has no welfare state. It is means-tested, not absent.","Saying income or spending is about the same. Only debt is roughly the same."],
+["Your turn. Pause, and say it out loud. Memory hook: same debt, different everything else."]]},
+{t:"6. Investor risk and opportunity indicators",who:"Allard",p:[
+["Here is a full-marks answer.","Country risk is the probability that political and economic events in a country will hurt a firm's financial performance. Unlike uncertainty, risk can be measured.","Investors ask five questions. Can I sell, meaning growth, market size and a middle class. Can I operate, meaning stable inflation, predictable policy, flexible labor laws, low corruption and good infrastructure. Is it cheap, meaning wages and taxes. Can I fund it, meaning interest rates and debt. And can I get in and out, meaning a stable currency and trade agreements.","Each one is an opportunity when present and a risk when missing.","The weights depend on the type of investment. A plant serving local customers ranks market size first. An export plant ranks production costs first, then the exchange rate and trade agreements. A financial investor ranks interest rates first.","The same indicator can cut both ways: high unemployment means unrest, but also cheap, available workers. Timing matters too, and the best moment to invest is early in an expansion."],
+["The breakdown.","Define: country risk, and risk versus uncertainty.","Mechanism: the five questions. Memory hook: sell, operate, cost, fund, access.","Example: who buys decides the top indicator. Locals means market size, foreigners means production costs, financial assets means interest rates.","Limit: the same indicator can be a risk or an opportunity."],
+["Common mistakes. Giving a flat list without saying the weights depend on the investment. And treating every indicator as only a risk."],
+["Your turn. Pause, and say it out loud: sell, operate, cost, fund, access, then who buys."]]},
+{t:"7. Final review",who:"Both",p:[
+["Six topics, six memory hooks.","Malthus: population geometric, food arithmetic, preventive and positive checks.","HDI: live long, learn, earn. Angola versus Norway.","Resource curse: D V C A, and Norway's two fixes.","Growth strategies: ISI inward, EOI outward, India switched in nineteen ninety one.","EU versus US: same debt, different everything else.","Investor indicators: sell, operate, cost, fund, access, and who buys."],
+["And the frame for every answer: define, mechanism with because and so, one course example, one limit.","Keep each answer to a short paragraph. Clear and complete beats long. Good luck."]]}
+];
+const $=id=>document.getElementById(id);
+const synth=window.speechSynthesis;const ok=!!(synth&&window.SpeechSynthesisUtterance);
+if(!ok)$('nosupport').hidden=false;
+let cur=0,flat=[],idx=0,playing=false,paused=false,voice=null,gen=0;
+function pickVoice(){if(!ok)return;const v=synth.getVoices();voice=v.find(x=>/^en(-|_)(US|GB)/i.test(x.lang)&&/Samantha|Google US|Daniel|Karen|Serena|Natural/i.test(x.name))||v.find(x=>/^en/i.test(x.lang))||null}
+if(ok){pickVoice();if('onvoiceschanged' in synth)synth.onvoiceschanged=pickVoice}
+function renderList(){$('lessons').innerHTML=L.map((l,i)=>`<button type="button" class="lesson" data-i="${i}" aria-current="${i===cur}"><b>${l.t}</b><span>${l.who} · ${l.p.flat().length} sentences</span></button>`).join('');
+  $('lessons').querySelectorAll('.lesson').forEach(b=>b.addEventListener('click',()=>{stop();load(+b.dataset.i);$('card').scrollIntoView({behavior:'smooth',block:'start'})}))}
+function load(i){cur=i;try{localStorage.setItem('cea_sa_lesson',i)}catch(e){}const l=L[i];$('ltitle').textContent=l.t;$('lwho').textContent=l.who;flat=[];
+  $('ltext').innerHTML=l.p.map(par=>'<p class="para">'+par.map(s=>{const k=flat.length;flat.push(s);return `<span class="s" data-k="${k}">${s}</span>`}).join(' ')+'</p>').join('');
+  $('ltext').querySelectorAll('.s').forEach(el=>el.addEventListener('click',()=>{idx=+el.dataset.k;if(playing){speakFrom(idx)}else mark(idx)}));
+  idx=0;mark(-1);renderList();status('Ready · '+flat.length+' sentences')}
+function mark(k){$('ltext').querySelectorAll('.s').forEach(el=>el.classList.toggle('on',+el.dataset.k===k));$('prog').style.width=(k<0?0:((k+1)/flat.length*100))+'%';
+  const el=$('ltext').querySelector('.s.on');if(el){const r=el.getBoundingClientRect();if(r.top<70||r.bottom>window.innerHeight-130)el.scrollIntoView({block:'center',behavior:'smooth'})}}
+function status(t){$('status').textContent=t}
+function setBtn(){$('play').textContent=playing&&!paused?'❚❚ Pause':'▶ Play'}
+function speakFrom(k){if(!ok)return;gen++;const my=gen;synth.cancel();playing=true;paused=false;setBtn();
+  const rate=+$('rate').value;
+  for(let j=k;j<flat.length;j++){const u=new SpeechSynthesisUtterance(flat[j]);u.rate=rate;u.lang='en-US';if(voice)u.voice=voice;
+    u.onstart=()=>{if(my!==gen)return;idx=j;mark(j);status('Sentence '+(j+1)+' of '+flat.length)};
+    if(j===flat.length-1)u.onend=()=>{if(my!==gen)return;playing=false;paused=false;setBtn();status('Finished. Pick the next lesson.');idx=0};
+    synth.speak(u)}}
+function stop(){gen++;if(ok)synth.cancel();playing=false;paused=false;setBtn()}
+$('play').addEventListener('click',()=>{if(!ok)return;
+  if(playing&&!paused){synth.pause();paused=true;setBtn();status('Paused');return}
+  if(playing&&paused){synth.resume();paused=false;setBtn();status('Sentence '+(idx+1)+' of '+flat.length);
+    setTimeout(()=>{if(playing&&!paused&&!synth.speaking)speakFrom(idx)},400);return}
+  speakFrom(idx)});
+$('back').addEventListener('click',()=>{idx=Math.max(0,idx-1);playing?speakFrom(idx):mark(idx)});
+$('fwd').addEventListener('click',()=>{idx=Math.min(flat.length-1,idx+1);playing?speakFrom(idx):mark(idx)});
+$('rate').addEventListener('change',()=>{try{localStorage.setItem('cea_listen_rate',$('rate').value)}catch(e){}if(playing)speakFrom(idx)});
+try{const r=localStorage.getItem('cea_listen_rate');if(r&&[...$('rate').options].some(o=>o.value===r))$('rate').value=r}catch(e){}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing&&!paused&&ok){synth.pause();paused=true;setBtn();status('Paused')}});
+let start=0;try{start=+localStorage.getItem('cea_sa_lesson')||0}catch(e){}
+load(start>=0&&start<L.length?start:0);
+})();
+</script>
