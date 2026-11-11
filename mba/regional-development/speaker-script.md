@@ -47,7 +47,7 @@ Hand-off: "So why? [Speaker 2] has the diagnosis."
 ## Slide 6 · Speaker 2
 
 Speaker 2 · Diagnostic · about 45 seconds.
-"Four causes. First: the region barely pays for research. Korea spends almost 5% of its economy on research every year; the OECD average is about 3%; Latin America, under 0.7%. And our subregion is at the bottom of Latin America: Mexico 0.25%, Guatemala almost zero. That is a policy choice, written into a budget."
+"Four causes. First: the region barely pays for research. Korea spends almost 5% of its economy on research every year; the OECD average is about 3%; Latin America, under 0.7%. Most of South America and the Caribbean is low too, and our subregion is at the bottom: Mexico 0.25%, Guatemala almost zero. That is a policy choice, written into a budget."
 
 ## Slide 7 · Speaker 2
 
@@ -74,14 +74,15 @@ Hand-off: "Is this destiny? No. [Speaker 3] shows who has done it."
 
 ## Slide 11 · Speaker 3
 
-Speaker 3 · International benchmarks · about 1 minute 15. One click on this slide.
-On entry the chart draws 1980 to 1985, zoomed in. "Were we always behind? No. In 1980 Mexico filed 704 patents and Korea 1,241. Level. Two kids, same classroom."
-Click: the chart pulls back to 2024 and the title changes. Let it move, then: "Then Korea did its homework. Its patents grew 158 times. Mexico's, 1.7 times."
+Speaker 3 · International benchmarks · about 1 minute. One click on this slide.
+On entry the chart draws 1960 to 1990, zoomed in. "Were we always behind? No. In 1960, Mexico was four times richer than Korea. Around 1988, they swap."
+Click: the chart pulls back to 2024. "Today Korea is 3.6 times richer." Pause. "So what changed?"
 
 ## Slide 12 · Speaker 3
 
-Speaker 3 · about 45 seconds.
-"And the homework paid off. In 1960 Mexico was four times richer than Korea. Around 1988 they swapped. Today Korea is 3.6 times richer."
+Speaker 3 · about 1 minute 15. One click on this slide.
+On entry the chart draws 1980 to 1985, zoomed in. "In 1980, the two filed patents at the same level: Mexico 704, Korea 1,241. Two kids, same classroom."
+Click: the chart pulls back to 2024 and the title changes. Let it move, then: "Then Korea did its homework. Its patents grew 158 times. Mexico's, 1.7 times. That is what turned Korea from the poorer country into the richer one."
 
 ## Slide 13 · Speaker 3
 
@@ -124,6 +125,22 @@ Pause. No "thank you". "We'd love your questions." Speaker 5 hosts Q&A.
 ## Slide 20 · Backup
 
 Backup · Q&A only. See the Q&A plan in the script for who answers what.
+
+## Slide 21 · Appendix
+
+Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
+
+## Slide 22 · Appendix
+
+Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
+
+## Slide 23 · Appendix
+
+Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
+
+## Slide 24 · Appendix
+
+Appendix: use only in Q&A. Repeat the question, give the short answer, then the reason. Hand back to Speaker 5.
 
 ## Q&A plan (Speaker 5 hosts and passes each question on)
 
