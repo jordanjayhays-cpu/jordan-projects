@@ -9,8 +9,8 @@ One message, said at least 5 times: **Know-how is bought, not born.**
 | Speaker 1 | 1–4 | Hook and executive summary | 4 min |
 | Speaker 2 | 5–9 | Past, and present: the evidence | 4 min |
 | Speaker 3 | 10–12 | Climax and the two reasons | 3.5 min |
-| Speaker 4 | 13–16 | Future: Costa Rica and the three steps | 4 min |
-| Speaker 5 | 17–18 | Roll-out, close, then leads Q&A | 3 min |
+| Speaker 4 | 13–16 | The turn, Costa Rica, steps 1 and 2 | 4 min |
+| Speaker 5 | 17–19 | Step 3, roll-out, close, then hosts Q&A | 4 min |
 
 ## Slide 1 · Speaker 1
 
