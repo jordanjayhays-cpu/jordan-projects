@@ -54,7 +54,9 @@ About 45 seconds.
 
 ## Slide 6 · Speaker 2
 
-About 1 minute. Let the chart move before you talk over it. It opens on 1980 to 1985, when the two are level, then pulls back to 2024.
+About 1 minute. Two clicks on this slide.
+Click 1: the chart draws 1980 to 1985, zoomed in. Say: "Here they are in the early 1980s. Level. Same starting line."
+Click 2: the chart pulls back to 2024. Let it move, then talk.
 
 "Then Korea started doing its homework. Korea's patents grew 158 times. Mexico's grew 1.7 times."
 
@@ -120,7 +122,7 @@ Hand over: "So what should the IDB do? [Speaker 4]."
 
 About 30 seconds. The turn of the story.
 
-"So what should the IDB do? We have a plan in three steps. Before the plan, the good news: it has already been done next door."
+"So what should the IDB do? Not chase patents. Patents are the thermometer, not the medicine. They show whether a country knows how to make new things. The medicine is building that know-how: firms that learn new industries, workers on the books, and towns connected to the growth. Three steps. And the good news: it has already been done next door."
 
 ## Slide 14 · Speaker 4
 

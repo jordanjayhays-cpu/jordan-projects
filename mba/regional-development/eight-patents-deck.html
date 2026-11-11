@@ -23,6 +23,15 @@ h1.cover{position:absolute;left:160px;right:160px;top:330px;text-align:center;fo
 p.cover-sub{position:absolute;left:260px;right:260px;top:540px;text-align:center;font-size:42px;line-height:1.3}
 p.by{position:absolute;left:160px;right:160px;bottom:64px;text-align:center;font-size:24px;color:var(--muted);line-height:1.5}
 h2.t{position:absolute;left:160px;right:160px;top:70px;text-align:center;font-size:64px;font-weight:800;line-height:1.08;letter-spacing:-2px;text-wrap:balance}
+.lockup{position:absolute;left:0;right:0;top:120px;display:flex;align-items:center;justify-content:center;gap:36px}
+.logo{display:flex;align-items:center;justify-content:center;height:96px}
+.logo img{height:96px;width:auto;display:block}
+.logo .txt{font-size:72px;font-weight:900;letter-spacing:-2px}
+.lockup .x{font-size:56px;color:var(--muted);font-weight:400}
+.mark{position:absolute;right:40px;bottom:46px;display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;color:var(--muted);z-index:6}
+.mark img{height:28px;width:auto}
+.s2{opacity:0;transition:opacity .6s ease}.slide.stepped .s2{opacity:1;transition-delay:var(--sd,0s)}
+.s1{transition:opacity .4s ease}.slide.stepped .s1{opacity:0}
 .tag{position:absolute;left:160px;right:160px;top:34px;text-align:center;font-size:18px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 p.cap{position:absolute;left:160px;right:160px;bottom:50px;text-align:center;font-size:24px;color:var(--muted);text-wrap:balance}
 h2.big{position:absolute;left:200px;right:200px;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:112px;font-weight:900;line-height:1.04;letter-spacing:-4px;text-wrap:balance}
@@ -82,6 +91,8 @@ const num=(to,{dec=0,pre='',suf='',t=400,from=0,dur=1000}={})=>`<span data-to="$
 const B=(i,html,tag='div',cls='',style='')=>`<${tag} class="b ${cls}" style="--i:${i};${style}">${html}</${tag}>`;
 const T=(html,t)=>`<h2 class="t b" style="--t:${t||80}ms">${html}</h2>`;
 const TAG=(html)=>`<div class="tag b" style="--t:0ms">${html}</div>`;
+const LOGO=txt=>`<span class="logo"><span class="txt">${txt}</span></span>`;
+const LOCKUP=(style='')=>`<div class="lockup" style="${style}">${LOGO('EY')}<span class="x">+</span>${LOGO('IDB')}</div>`;
 const CAP=(html,t=600)=>`<p class="cap b" style="--t:${t}ms">${html}</p>`;
 const arrowDef=(id,c)=>`<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0L10,5L0,10z" fill="${c}"/></marker>`;
 
@@ -102,7 +113,8 @@ const L={
 
 const S=[];
 // ================= SPEAKER 1 · HOOK (1-4) =================
-S.push({who:'Speaker 1',html:`
+S.push({who:'Speaker 1',cover:1,html:`
+<div class="b" style="--t:0ms">${LOCKUP()}</div>
 ${B(0,'Eight patents','h1','cover')}
 ${B(2,'Why growth in Mexico and Central America has been so disappointing, and a plan for inclusive growth that lasts','p','cover-sub')}
 ${B(4,'Group 1 · Ernst &amp; Young (EY), commissioned by the Inter-American Development Bank (IDB)<br>the development bank that lends to governments across Latin America and the Caribbean<br>Subregion: Mexico and Central America · IE University · Economics for Public Sector · 12 November 2026','p','by')}`,
@@ -121,10 +133,11 @@ notes:`About 30 seconds. The eight dots shrink into a speck while Korea's dots f
 "The same year, South Korea filed <b>195,786</b>." <b>Pause two seconds.</b><br>
 "And Korea has fewer people than Mexico." (Korea about 52 million, Mexico about 130 million.)`});
 
-S.push({who:'Speaker 1',html:`${TAG('Executive summary')}${T('We are EY. The IDB asked us: why has growth been so disappointing?')}
-${B(2,'Know-how is bought,<br>not born.','div','A','left:160px;right:160px;top:280px;text-align:center;font-size:104px;font-weight:900;letter-spacing:-4px;line-height:1.04')}
-<div class="cols3" style="top:640px">${[['Past','Mexico and Korea started level.'],['Present','Korea paid to learn. The region did not.'],['Future','The IDB can start the homework this year.']].map(([a,b],k)=>`<div class="b" style="--t:${900+k*250}ms"><h3>${a}</h3><p>${b}</p></div>`).join('')}</div>
-${CAP('Every figure is sourced on its own slide',1700)}`,
+S.push({who:'Speaker 1',html:`${TAG('Executive summary')}<div class="b" style="--t:100ms">${LOCKUP('top:78px;transform:scale(.7)')}</div>
+<h2 class="t b" style="--t:300ms;top:190px">We are EY. The IDB asked us: why has growth been so disappointing?</h2>
+<p class="b" style="--t:600ms;position:absolute;left:260px;right:260px;top:345px;text-align:center;font-size:26px;color:var(--muted);line-height:1.4">The Inter-American Development Bank (IDB) is the development bank that lends to governments across Latin America and the Caribbean.</p>
+${B(2,'Know-how is bought,<br>not born.','div','A','--t:1000ms;left:160px;right:160px;top:430px;text-align:center;font-size:88px;font-weight:900;letter-spacing:-3px;line-height:1.04')}
+<div class="cols3" style="top:690px">${[['Past','Mexico and Korea started level.'],['Present','Korea paid to learn. The region did not.'],['Future','The IDB can start the homework this year.']].map(([a,b],k)=>`<div class="b" style="--t:${1500+k*250}ms"><h3>${a}</h3><p>${b}</p></div>`).join('')}</div>`,
 notes:`About 2 minutes. This is the executive summary.<br>
 1. "We are Group 1 from <b>Ernst &amp; Young</b>. We were commissioned by the <b>Inter-American Development Bank</b>, the IDB, the development bank that lends to governments across Latin America and the Caribbean. The IDB asked us one question: <b>why has growth in Mexico and Central America been so disappointing?</b>" (Say the full names once; after this, "EY" and "the IDB" are fine.)<br>
 2. <b>"If you remember one thing today: know-how is bought, not born."</b> (Message #1)<br>
@@ -145,7 +158,7 @@ const ZS={ox:90,oy:40,w:1200,h:560,y0:1980,series:[{k:'BRA',v:D.pat.BRA,c:C.grey
  {k:'MEX',v:D.pat.MEX,c:C.mex,name:'MEXICO',end:'1,172',hi:1,dy:44},{k:'KOR',v:D.pat.KOR,c:C.kor,name:'KOREA',end:'195,786',hi:1,dy:0}]};
 const zFX=ZS.ox+ZS.w, zFY=v=>ZS.oy+ZS.h-v/200000*ZS.h;
 const LC={zc:{series:ZS.series,x0:1980,x1:2024,w:ZS.w,h:ZS.h,ymax:200000,ox:ZS.ox,oy:ZS.oy,vfmt:v=>fmt(v)}};
-S.push({who:'Speaker 2',zoom:1,html:`${TAG('International benchmark · Korea')}${T(`Then Korea did its homework: <span class="bl">${num(158,{pre:'×',t:2900,from:1,dur:2400})}</span>`)}
+S.push({who:'Speaker 2',zoom:1,steps:2,html:`${TAG('International benchmark · Korea')}${T(`Then Korea did its homework<span class="s2 bl">: ${num(158,{pre:'×',t:0,from:1,dur:2400})}</span>`)}
 <div class="A" style="left:230px;top:220px"><svg id="zc" width="1500" height="700">
  <defs><clipPath id="zclip"><rect x="60" y="0" width="1260" height="604"/></clipPath></defs>
  <g id="zgrid"></g>
@@ -162,8 +175,9 @@ S.push({who:'Speaker 2',zoom:1,html:`${TAG('International benchmark · Korea')}$
    <circle data-k="1" r="7" fill="${C.mex}" stroke="#fff" stroke-width="3"/><circle data-k="2" r="7" fill="${C.kor}" stroke="#fff" stroke-width="3"/></g>
  <rect id="zhov" data-lc="zc" x="${ZS.ox}" y="${ZS.oy}" width="${ZS.w}" height="${ZS.h}" fill="transparent" style="cursor:crosshair;pointer-events:none"/>
 </svg></div>
-${CAP('Patent applications per year, 1980 to 2024. Mexico grew ×1.7. Brazil in grey · World Bank WDI · hover for any year',3200)}`,
-notes:`About 1 minute. <b>Let the chart move before you talk over it.</b> It opens on 1980 to 1985, when the two are level, then pulls back to 2024.<br>
+<div class="s1">${CAP('Patent applications per year, zoomed in on 1980 to 1985 · World Bank WDI',1800)}</div>
+<div class="s2" style="--sd:2.4s"><p class="cap">Patent applications per year, 1980 to 2024. Mexico grew ×1.7. Brazil in grey · World Bank WDI · hover for any year</p></div>`,
+notes:`About 1 minute. <b>Two clicks on this slide.</b><br><b>Click 1:</b> the chart draws 1980 to 1985, zoomed in. Say: "Here they are in the early 1980s. Level. Same starting line."<br><b>Click 2:</b> the chart pulls back to 2024. Let it move, then talk.<br>
 "Then Korea started doing its homework. Korea's patents grew <b>158 times</b>. Mexico's grew 1.7 times."<br>
 If anyone asks about a year, hover the chart.`});
 
@@ -240,9 +254,9 @@ Source if asked: ILOSTAT, SDG indicator 8.3.1, informal employment as a share of
 Hand over: "So what should the IDB do? <b>[Speaker 4]</b>."`});
 
 // ================= SPEAKER 4 · FUTURE (13-16) =================
-S.push({who:'Speaker 4',html:`${TAG('Policy recommendations')}<h2 class="big"><span class="b" style="--t:200ms">So what should the IDB do?</span><small class="b" style="--t:900ms">A plan for inclusive growth that lasts, in three steps. It has been done before, next door.</small></h2>`,
+S.push({who:'Speaker 4',html:`${TAG('Policy recommendations')}<h2 class="big"><span class="b" style="--t:200ms">So what should the IDB do?</span><small class="b" style="--t:900ms">Not chase patents. Patents are the thermometer, not the medicine. Build the know-how that produces them, in three steps.</small></h2>`,
 notes:`About 30 seconds. The turn of the story.<br>
-"So what should the IDB do? We have a plan in three steps. Before the plan, the good news: it has already been done next door."`});
+"So what should the IDB do? Not chase patents. Patents are the thermometer, not the medicine. They show whether a country knows how to make new things. The medicine is building that know-how: firms that learn new industries, workers on the books, and towns connected to the growth. Three steps. And the good news: it has already been done next door."`});
 
 const box=(x,y,w,h,fill,lines,col,t)=>`<g class="ap" style="--t:${t}ms"><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}"/>${lines.map((l,k)=>`<text x="${x+w/2}" y="${y+h/2+(k-(lines.length-1)/2)*36+10}" text-anchor="middle" font-size="28" font-weight="800" letter-spacing="1" fill="${col}">${l}</text>`).join('')}</g>`;
 S.push({who:'Speaker 4',html:`${TAG('International benchmark · Costa Rica')}${T('A neighbour already did it: Costa Rica')}
@@ -348,7 +362,7 @@ notes:`Use this only in Q&A. Likely questions:<br>
 // ---------- Render ----------
 const stage=document.getElementById('stage');const N=S.length;
 const POOL=210;
-stage.innerHTML=S.map((s,i)=>`<section class="slide" data-i="${i}">${s.html}</section>`).join('')+
+stage.innerHTML=S.map((s,i)=>`<section class="slide" data-i="${i}">${s.html}${s.cover?'':`<div class="mark">EY for the IDB</div>`}</section>`).join('')+
  `<svg id="dots" viewBox="0 0 1920 1080">${Array.from({length:POOL},(_,i)=>`<circle r="10" cx="0" cy="0" style="opacity:0;transform:translate(960px,560px) scale(0)"/>`).join('')}</svg><div id="tip"></div>`;
 const els=[...stage.querySelectorAll('section.slide')],dotEls=[...stage.querySelectorAll('#dots circle')];let cur=0,scale=1;
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -361,8 +375,8 @@ function placeDots(name){const pts=name?L[name]():[];
     else{el.style.transitionDelay='0ms';el.style.opacity=0;if(last[i])el.style.transform=`translate(${last[i].x}px,${last[i].y}px) scale(0)`;el.dataset.tip='';last[i]=null}})}
 
 let raf=[];
-function countUp(sl){raf.forEach(cancelAnimationFrame);raf=[];
-  sl.querySelectorAll('[data-to]').forEach(el=>{const to=+el.dataset.to,from=+el.dataset.from||0,dec=+el.dataset.dec,pre=el.dataset.pre,suf=el.dataset.suf,delay=+el.dataset.t,dur=+el.dataset.dur||1000;
+function countUp(sl,stepped){raf.forEach(cancelAnimationFrame);raf=[];
+  [...sl.querySelectorAll('[data-to]')].filter(el=>!!el.closest('.s2')===!!stepped).forEach(el=>{const to=+el.dataset.to,from=+el.dataset.from||0,dec=+el.dataset.dec,pre=el.dataset.pre,suf=el.dataset.suf,delay=+el.dataset.t,dur=+el.dataset.dur||1000;
     const final=pre+fmt(to,dec)+suf;if(RM){el.textContent=final;return}
     el.textContent=pre+fmt(from,dec)+suf;const t0=performance.now()+delay;
     const step=now=>{const k=Math.min(1,Math.max(0,(now-t0)/dur)),e=1-Math.pow(1-k,3);el.textContent=pre+fmt(from+(to-from)*e,dec)+suf;
@@ -387,28 +401,34 @@ function zRender(svg,{xmax,ymax,tEnd,b0}){
   Tx.setAttribute('x',bx+16);Tx.setAttribute('y',(yK+yM)/2+12);q('#zb0').style.opacity=b0;
 }
 function zFinal(svg){zRender(svg,{xmax:2024,ymax:200000,tEnd:2024,b0:0});svg.querySelector('#zlab').style.opacity=1;svg.querySelector('#zhov').style.pointerEvents='auto'}
-function zoomAnim(sl){cancelAnimationFrame(zRaf);const svg=sl.querySelector('#zc');svg.querySelector('#zlab').style.opacity=0;svg.querySelector('#zhov').style.pointerEvents='none';
+function zoomAnim(sl,phase){cancelAnimationFrame(zRaf);const svg=sl.querySelector('#zc');
+  const io=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2,out=k=>1-Math.pow(1-k,3),cl=k=>Math.max(0,Math.min(1,k));
+  if(phase===1){svg.querySelector('#zlab').style.opacity=0;svg.querySelector('#zhov').style.pointerEvents='none';
+    if(RM){zRender(svg,{xmax:1990,ymax:4000,tEnd:1985,b0:1});return}
+    const t0=performance.now();const step=now=>{const t=now-t0,k=out(cl((t-400)/1700));
+      zRender(svg,{xmax:1990,ymax:4000,tEnd:1980+5*k,b0:cl((t-500)/400)});if(t<2200)zRaf=requestAnimationFrame(step)};
+    zRaf=requestAnimationFrame(step);return}
   if(RM){zFinal(svg);return}
-  const t0=performance.now(),io=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2,out=k=>1-Math.pow(1-k,3),cl=k=>Math.max(0,Math.min(1,k));
-  const step=now=>{const t=now-t0;let st;
-    if(t<2100){const k=out(cl((t-400)/1700));st={xmax:1990,ymax:4000,tEnd:1980+5*k,b0:cl((t-500)/400)}}
-    else if(t<2900)st={xmax:1990,ymax:4000,tEnd:1985,b0:1};
-    else{const k=io(cl((t-2900)/2400));st={xmax:1990+34*k,ymax:4000+196000*(1-Math.pow(1-k,2)),tEnd:1985+39*k,b0:1-cl(k*3)}}
-    zRender(svg,st);if(t<5300)zRaf=requestAnimationFrame(step);else zFinal(svg)};
+  const t0=performance.now();const step=now=>{const t=now-t0,k=io(cl(t/2400));
+    zRender(svg,{xmax:1990+34*k,ymax:4000+196000*(1-Math.pow(1-k,2)),tEnd:1985+39*k,b0:1-cl(k*3)});
+    if(t<2500)zRaf=requestAnimationFrame(step);else zFinal(svg)};
   zRaf=requestAnimationFrame(step)}
 
 // ---------- navigation, notes, tooltips ----------
 const notes=document.getElementById('notes'),prog=document.getElementById('progress');
 function go(n){cur=Math.max(0,Math.min(N-1,n));els.forEach((e,i)=>e.classList.toggle('on',i===cur));
-  placeDots(S[cur].dots);countUp(els[cur]);hideTip();if(S[cur].zoom)zoomAnim(els[cur]);else cancelAnimationFrame(zRaf);
+  els.forEach(e=>e.classList.remove('stepped'));stepDone=false;
+  placeDots(S[cur].dots);countUp(els[cur]);hideTip();if(S[cur].zoom)zoomAnim(els[cur],1);else cancelAnimationFrame(zRaf);
   notes.innerHTML=`<div class="who">${S[cur].who} · slide ${cur+1} of ${N}</div>${S[cur].notes||''}`;prog.style.width=((cur+1)/N*100)+'%';
   try{history.replaceState(null,'','#'+(cur+1))}catch(e){}}
+let stepDone=false;
+function next(){if(S[cur].steps&&!stepDone){stepDone=true;els[cur].classList.add('stepped');hideTip();zoomAnim(els[cur],2);countUp(els[cur],true);return}go(cur+1)}
 function fit(){scale=Math.min(innerWidth/1920,innerHeight/1080);stage.style.transform=`translate(${(innerWidth-1920*scale)/2}px,${(innerHeight-1080*scale)/2}px) scale(${scale})`}
 addEventListener('resize',fit);fit();
 const toggleNotes=()=>notes.classList.toggle('show');
-addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(cur+1)}
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();next()}
  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}if(e.key==='Home')go(0);if(e.key==='End')go(N-1);if(e.key==='n'||e.key==='N')toggleNotes()});
-document.getElementById('nx').onclick=()=>go(cur+1);document.getElementById('pv').onclick=()=>go(cur-1);document.getElementById('nt').onclick=toggleNotes;
+document.getElementById('nx').onclick=()=>next();document.getElementById('pv').onclick=()=>go(cur-1);document.getElementById('nt').onclick=toggleNotes;
 const tip=document.getElementById('tip');
 function showTip(html,cx,cy){const r=stage.getBoundingClientRect();tip.innerHTML=html;let x=(cx-r.left)/scale+18,y=(cy-r.top)/scale-70;
   tip.classList.add('show');const w=tip.offsetWidth;if(x+w>1900)x-=w+36;tip.style.left=x+'px';tip.style.top=Math.max(8,y)+'px'}
@@ -422,7 +442,7 @@ stage.addEventListener('mousemove',e=>{const t=e.target.closest('[data-tip]');
     showTip(`<b>${o.x0+i}</b>Korea ${o.vfmt(o.series[2].v[i])}<br>Mexico ${o.vfmt(o.series[1].v[i])}`,e.clientX,e.clientY);return}
   hideTip()});
 stage.addEventListener('mouseleave',hideTip);
-stage.addEventListener('click',e=>{if(e.target.closest('[data-tip],rect[data-lc]'))return;go(cur+(e.clientX<innerWidth*.25?-1:1))});
+stage.addEventListener('click',e=>{if(e.target.closest('[data-tip],rect[data-lc]'))return;e.clientX<innerWidth*.25?go(cur-1):next()});
 document.querySelectorAll('#zc').forEach(zFinal);
 go((parseInt(location.hash.slice(1))||1)-1);
 </script>
