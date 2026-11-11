@@ -36,7 +36,7 @@ About 30 seconds. The eight dots shrink into a speck while Korea's dots fill the
 
 About 2 minutes. This is the executive summary.
 
-1. "We are Group 1 from EY. The IDB commissioned us to answer one question: why has growth in Mexico and Central America been so disappointing?"
+1. "We are Group 1 from Ernst & Young. We were commissioned by the Inter-American Development Bank, the IDB, the development bank that lends to governments across Latin America and the Caribbean. The IDB asked us one question: why has growth in Mexico and Central America been so disappointing?" (Say the full names once; after this, "EY" and "the IDB" are fine.)
 
 2. "If you remember one thing today: know-how is bought, not born." (Message #1)
 
@@ -106,9 +106,13 @@ Course link: growth poles (Perroux) are meant to spread growth. Here they only p
 
 About 1 minute 15.
 
-"Second reason: hiring someone officially costs extra. Payroll taxes pay for health and pensions. So businesses stay small and off the books, and small hidden businesses never learn anything new."
+"Second reason: hiring someone officially costs extra. Payroll taxes pay for health and pensions. So businesses stay small and off the books."
 
-This is Santiago Levy's argument. Don't quote an informality percentage. We haven't pulled it yet.
+"The result: in Guatemala, 7 in 10 workers are informal. In Mexico, almost 6 in 10. Costa Rica, the country we'll come back to, about 4 in 10."
+
+"Small, hidden businesses never learn anything new." This is Santiago Levy's argument.
+
+Source if asked: ILOSTAT, SDG indicator 8.3.1, informal employment as a share of all employment, 2025.
 
 Hand over: "So what should the IDB do? [Speaker 4]."
 
@@ -142,7 +146,7 @@ Why now: factories are leaving China and choosing new homes. The region can be r
 
 About 1 minute.
 
-"Step two: make hiring cheaper. Pay for health and pensions from general taxes, not from wages. Then businesses can grow out in the open, the same firms we saw stuck behind the wall."
+"Step two: make hiring cheaper. Pay for health and pensions from general taxes, not from wages. Then businesses can grow out in the open, and the informal workers from reason two get onto the books."
 
 Say the cost before anyone asks: "It costs money before it saves money."
 
@@ -193,3 +197,18 @@ Use this only in Q&A. Likely questions:
 • "What does it cost?" Costing is still open and gets built with IDB project data. Say so plainly.
 
 • "Which country first?" Pick one as a group before Thursday.
+
+## Q&A plan (Speaker 5 hosts and passes each question on)
+
+Rules: repeat the question, answer in one or two sentences with PREP (point, reason, example, point), hand back. Never guess a number: say we will check it and follow up.
+
+| Likely question | Owner | Answer in one line |
+|---|---|---|
+| Korea had US support and a military government. Is it a fair comparison? | Speaker 2 | Agreed, one country is not a perfect model. That is why the plan copies cases from this region: Costa Rica, Chile, Medellín. |
+| Patents miss a lot. Firms file abroad. | Speaker 2 | True. Patents are the simplest count we can compare across countries. Research spending and researchers point the same way. |
+| Is informality really caused by payroll taxes? | Speaker 3 | It is one main cause in Levy's work, not the only one. The ILOSTAT numbers show the size of the problem: 57% in Mexico, 74% in Guatemala. |
+| Why do capitals matter? Seoul is huge too. | Speaker 3 | Seoul's share is similar. The difference is that Korea paid to spread know-how; backwash happens when nobody does. |
+| What does it cost? | Speaker 4 | Costing is the first 90-day step, built with IDB project data. We will not quote a number we cannot defend. |
+| Which country first? | Speaker 4 | [Group decides before Thursday.] |
+| Why will a government keep this going after an election? | Speaker 5 | Cheapest, fastest step first, and three public scores every year, so each step earns the next. |
+| How is this sustainable and inclusive? | Speaker 5 | Inclusive: it reaches the towns and the informal workers. Sustainable: growth built on know-how lasts, unlike a commodity boom. |
