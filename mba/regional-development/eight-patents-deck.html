@@ -13,21 +13,22 @@
   --ink:#1c1a17; --ink2:#4a4640; --mute:#8a857c; --faint:#bdb7ad;
   --kor:#1f6fd1; --mex:#c8541f; --gtm:#6a3fc1;
   --n1:#2f2c28; --n2:#8f897f; --n3:#d6d1c7;
+  --spring:cubic-bezier(.3,1.6,.5,1); --out:cubic-bezier(.2,.75,.2,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:#d9d5cc;font-family:Archivo,system-ui,sans-serif;color:var(--ink);overflow:hidden}
 #viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
 #stage{width:1334px;height:750px;position:relative;transform-origin:center center;flex:none}
-.slide{position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none;
-  transform:translateX(24px);transition:opacity .35s cubic-bezier(.2,.8,.2,1),transform .45s cubic-bezier(.2,.9,.25,1.05)}
+.slide{position:absolute;inset:0;background:var(--bg);opacity:0;pointer-events:none;overflow:hidden;
+  transform:translateX(40px);transition:opacity .4s var(--out),transform .6s cubic-bezier(.25,1.25,.4,1)}
 .slide.on{opacity:1;pointer-events:auto;transform:none}
-.slide.prev{transform:translateX(-24px)}
+.slide.prev{transform:translateX(-40px)}
 .cap{font-family:"Archivo Narrow",sans-serif;font-weight:600;letter-spacing:.16em;text-transform:uppercase;font-size:13px;color:var(--mute)}
 .it{font-family:Newsreader,serif;font-style:italic;font-weight:400;color:var(--ink)}
 .card{position:absolute;left:72px;top:73px;width:378px;height:563px;background:var(--card);border:1px solid var(--line);padding:36px 28px 28px}
 .card h2{font-weight:800;font-size:40px;line-height:1.02;letter-spacing:-.035em;margin:14px 0 12px}
 .card .sub{font-size:16.5px;line-height:1.45;color:var(--ink2);padding-bottom:16px;border-bottom:1px solid var(--line)}
-.card .big{font-weight:900;font-size:84px;letter-spacing:-.04em;line-height:1;margin:16px 0 14px}
+.card .big{font-weight:900;font-size:84px;letter-spacing:-.04em;line-height:1;margin:16px 0 14px;font-variant-numeric:tabular-nums}
 .card .bigt{font-weight:800;font-size:34px;letter-spacing:-.03em;line-height:1.05;margin:18px 0 14px}
 .card .bl{font-family:"Archivo Narrow",sans-serif;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--mute);line-height:1.6}
 .card .kt{font-family:"Archivo Narrow",sans-serif;font-weight:700;letter-spacing:.14em;font-size:12.5px;margin-top:18px;color:var(--ink)}
@@ -36,24 +37,71 @@ html,body{height:100%;background:#d9d5cc;font-family:Archivo,system-ui,sans-seri
 .foot{position:absolute;left:0;right:0;bottom:0;height:42px;background:var(--band);display:flex;align-items:center;padding:0 72px;
   font-family:"Archivo Narrow",sans-serif;font-size:13px;color:var(--mute);letter-spacing:.02em}
 .prog{position:absolute;right:72px;bottom:64px;display:flex;align-items:center;gap:5px}
-.prog i{display:block;height:3px;width:40px;background:var(--line)}
-.prog i.a{background:var(--ink)}
+.prog i{display:block;height:3px;width:40px;background:var(--line);position:relative;overflow:hidden}
+.prog i.a::after{content:"";position:absolute;inset:0;background:var(--ink);transform-origin:left;transform:scaleX(0)}
+.slide.on .prog i.a::after{animation:bar .9s var(--out) .2s both}
 .prog span{font-family:"Archivo Narrow",sans-serif;font-size:13px;color:var(--mute);letter-spacing:.12em;margin-left:6px}
 .aside{position:absolute;font-family:Newsreader,serif;font-style:italic;font-size:25px;line-height:1.25;color:var(--ink)}
-.rule{position:absolute;height:1px;background:var(--line)}
+.rule{position:absolute;height:1px;background:var(--line);transform-origin:left}
+svg{overflow:visible}
 svg text{font-family:"Archivo Narrow",sans-serif}
 .ph{background:#fbe7a6;padding:0 4px}
 #nav{position:fixed;top:12px;right:12px;display:flex;gap:8px;z-index:5;opacity:.35;transition:opacity .2s}#nav:hover{opacity:1}
 #nav button{font:600 13px "Archivo Narrow",sans-serif;letter-spacing:.1em;border:0;background:rgba(28,26,23,.82);color:#fff;
-  padding:9px 14px;border-radius:999px;cursor:pointer;transition:transform .18s cubic-bezier(.3,1.6,.5,1)}
-#nav button:active{transform:scale(.9)}
+  padding:9px 14px;border-radius:999px;cursor:pointer;transition:transform .18s var(--spring)}
+#nav button:active{transform:scale(.88);transition-duration:.06s}
+#tip{position:absolute;z-index:4;pointer-events:none;background:var(--ink);color:#fff;font:500 14px/1.4 Archivo,sans-serif;
+  padding:8px 11px;border-radius:6px;opacity:0;transform:translateY(6px) scale(.96);transition:opacity .15s,transform .25s var(--spring);white-space:nowrap}
+#tip.show{opacity:1;transform:none}
+#tip b{font-family:"Archivo Narrow";letter-spacing:.08em;text-transform:uppercase;font-size:12px;display:block;opacity:.7}
+[data-tip]{cursor:default}
+.hov{transition:transform .25s var(--spring),opacity .2s}
+.hov:hover{transform:scale(1.25)}
+
+/* ---------- motion: everything replays each time a slide is entered ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes growy{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes flow{from{stroke-dashoffset:22}to{stroke-dashoffset:0}}
+@keyframes stream{from{transform:translateX(-19.5px)}to{transform:translateX(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes wallgo{from{opacity:1}to{opacity:.22}}
+@keyframes shine{0%{background-position:-200% 0}100%{background-position:200% 0}}
+.r,.pop,.draw,.fade,.grow,.growy{will-change:transform,opacity}
+.pop,.pulse{transform-box:fill-box;transform-origin:center}
+.grow{transform-origin:left center;transform-box:fill-box}
+.growy{transform-origin:center bottom;transform-box:fill-box}
+.draw{stroke-dasharray:1;stroke-dashoffset:1}
+.slide.on .r{animation:rise .75s var(--out) both;animation-delay:var(--t,calc(var(--i,0)*90ms + 150ms))}
+.slide.on .pop{animation:pop .55s var(--spring) both;animation-delay:var(--t,0ms)}
+.slide.on .draw{animation:draw var(--dur,1.4s) cubic-bezier(.45,0,.2,1) both;animation-delay:var(--t,200ms)}
+.slide.on .fade{animation:fade var(--dur,.9s) ease both;animation-delay:var(--t,0ms)}
+.slide.on .grow{animation:grow var(--dur,.9s) cubic-bezier(.25,1.2,.4,1) both;animation-delay:var(--t,0ms)}
+.slide.on .growy{animation:growy .8s var(--spring) both;animation-delay:var(--t,0ms)}
+.slide.on .flow{animation:flow .8s linear infinite}
+.slide.on .stream{animation:stream .5s linear infinite;animation-delay:var(--t,0ms)}
+.slide.on .pulse{animation:pulse 1.6s ease-in-out infinite;animation-delay:var(--t,0ms)}
+.slide.on .wallgo{animation:wallgo 1.1s ease both;animation-delay:var(--t,0ms)}
+.slide.on .rule.r{animation:grow .9s var(--out) both;animation-delay:var(--t,calc(var(--i,0)*90ms + 150ms))}
+@media (prefers-reduced-motion:reduce){
+  .slide,.slide *{animation:none!important;transition:none!important}
+  .draw{stroke-dashoffset:0}
+  .prog i.a::after{transform:none}
+}
 @media print{
   @page{size:1334px 750px;margin:0}
   html,body{overflow:visible;background:var(--bg)}
   #viewport{position:static;display:block}
   #stage{transform:none!important;width:auto;height:auto}
   .slide{position:relative;opacity:1;transform:none;width:1334px;height:750px;page-break-after:always;break-after:page}
-  #nav{display:none}
+  .slide *{animation:none!important}
+  .draw{stroke-dashoffset:0}
+  .prog i.a::after{transform:none}
+  #nav,#tip{display:none}
 }
 </style>
 </head>
@@ -64,61 +112,70 @@ svg text{font-family:"Archivo Narrow",sans-serif}
 <script>
 // ---------- Data: World Bank WDI, pulled 11 Nov 2026 via api.worldbank.org ----------
 const D={"pat":{"KOR":[1241,1319,1556,1599,1997,2702,3640,4871,5696,7020,9082,13253,15951,21449,28554,59228,68405,67359,50596,55970,72831,73714,76570,90313,105250,122188,125476,128701,127114,127316,131805,138034,148136,159978,164073,167275,163424,159084,162561,171603,180477,186245,183748,191142,195786],"MEX":[704,765,550,730,688,590,629,742,652,757,661,564,565,553,498,432,386,420,453,455,431,534,526,468,565,584,574,629,685,822,951,1065,1294,1210,1246,1364,1310,1334,1555,1305,1132,1117,983,978,1172],"BRA":[2149,2171,2116,2302,2062,1954,1855,2451,2338,2323,2389,2319,2100,2429,2269,2707,2611,2756,2491,2816,3179,3439,3481,3866,4044,4054,3956,4194,4280,4271,4228,4695,4798,4959,4659,4641,5200,5480,4980,5464,5280,4666,4398,4973,5752]},"gdp":{"KOR":[1038,1077,1088,1153,1229,1286,1405,1498,1657,1856,2001,2171,2287,2583,2784,2955,3294,3645,3987,4270,4140,4378,4676,5228,5713,6106,6741,7535,8367,8878,9673,10619,11177,11837,12817,13924,14894,15682,14801,16403,17763,18460,19775,20278,21245,22124,23162,24392,24935,25010,26623,27393,27944,28733,29471,30172,31005,31980,32853,33496,33216,34793,35809,36348,37048],"MEX":[4146,4219,4276,4475,4846,5021,5154,5278,5589,5596,5775,5809,6099,6385,6559,6741,6845,6889,7310,7815,8290,8875,8677,8099,8208,8194,7714,7716,7658,7784,8037,8197,8330,8412,8623,7971,8321,8771,9162,9265,9582,9398,9242,9222,9421,9492,9814,9878,9826,9074,9389,9576,9783,9739,9862,10021,10101,10194,10297,10159,9235,9728,10013,10235,10284],"BRA":[2604,2743,2838,2773,2785,2773,2879,2921,3127,3339,3596,3907,4268,4748,5014,5149,5543,5680,5821,6069,6473,6055,5968,5665,5842,6168,6494,6592,6463,6545,6150,6108,5974,6167,6427,6596,6641,6765,6687,6622,6818,6823,6945,6941,7259,7410,7622,8003,8331,8246,8793,9068,9167,9367,9338,8936,8578,8628,8722,8771,8435,8799,9032,9288,9567],"GTM":[1885,1908,1918,2040,2074,2102,2156,2183,2309,2355,2425,2495,2609,2715,2816,2802,2945,3106,3181,3249,3287,3226,3042,2892,2826,2730,2659,2678,2706,2735,2742,2766,2824,2857,2894,2958,2968,3019,3090,3129,3166,3166,3213,3222,3250,3285,3388,3528,3570,3516,3547,3621,3656,3717,3810,3894,3925,3973,4040,4139,4006,4269,4384,4469,4564]}};
-const C={kor:'#1f6fd1',mex:'#c8541f',gtm:'#6a3fc1',ctx:'#bdb7ad',ink:'#1c1a17',n1:'#2f2c28',n2:'#8f897f',n3:'#d6d1c7',mute:'#8a857c',line:'#dcd8d0'};
+const C={kor:'#1f6fd1',mex:'#c8541f',gtm:'#6a3fc1',ctx:'#bdb7ad',ink:'#1c1a17',ink2:'#4a4640',n1:'#2f2c28',n2:'#8f897f',n3:'#d6d1c7',mute:'#8a857c',line:'#dcd8d0',faint:'#bdb7ad'};
+const fmt=(v,d=0)=>v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 
 // ---------- Helpers ----------
 const SECTIONS=['Context','Diagnostic','Benchmarks','Recommendations','Conclusion'];
+// count-up number: renders final value (print / reduced motion), JS animates from zero on entry
+const num=(to,{dec=0,pre='',suf='',t=450}={})=>`<span data-to="${to}" data-dec="${dec}" data-pre="${pre}" data-suf="${suf}" data-t="${t}">${pre}${fmt(to,dec)}${suf}</span>`;
 function card(o){return `<div class="card">
- <div class="cap">${o.kicker}</div>
- <h2>${o.title}</h2>
- <div class="sub">${o.sub}</div>
- ${o.big?`<div class="big" style="color:${o.color||C.ink}">${o.big}</div>`:''}
- ${o.bigt?`<div class="bigt" style="color:${o.color||C.ink}">${o.bigt}</div>`:''}
- <div class="bl">${o.label||''}</div>
- ${o.key?`<div class="kt">${o.keyTitle||'KEY'}</div><div class="kx">${o.key}</div>`:''}
+ <div class="cap r" style="--i:0">${o.kicker}</div>
+ <h2 class="r" style="--i:1">${o.title}</h2>
+ <div class="sub r" style="--i:2">${o.sub}</div>
+ ${o.big?`<div class="big r" style="--i:3;color:${o.color||C.ink}">${o.big}</div>`:''}
+ ${o.bigt?`<div class="bigt r" style="--i:3;color:${o.color||C.ink}">${o.bigt}</div>`:''}
+ <div class="bl r" style="--i:4">${o.label||''}</div>
+ ${o.key?`<div class="kt r" style="--i:5">${o.keyTitle||'KEY'}</div><div class="kx r" style="--i:5">${o.key}</div>`:''}
 </div>`}
-function dotRow(n,{x=0,y=0,p=19.5,r=8,color=C.ink,hollow=false,max=Infinity}={}){
+// dots pop in one after another: t0 = start (ms), st = stagger (ms)
+function dotRow(n,{x=0,y=0,p=19.5,r=8,color=C.ink,hollow=false,max=Infinity,t0=300,st=30,tip=''}={}){
   let s='';const m=Math.min(Math.ceil(n),max);
-  for(let i=0;i<m;i++){s+=hollow?`<circle cx="${x+i*p+r}" cy="${y}" r="${r-1}" fill="none" stroke="${color}" stroke-width="1.6"/>`
-    :`<circle cx="${x+i*p+r}" cy="${y}" r="${r}" fill="${color}"/>`}
+  for(let i=0;i<m;i++){const T=`style="--t:${t0+i*st}ms"`,dt=tip?` data-tip="${tip}"`:'';
+    s+=hollow?`<circle class="pop" ${T}${dt} cx="${x+i*p+r}" cy="${y}" r="${r-1}" fill="none" stroke="${color}" stroke-width="1.6"/>`
+    :`<circle class="pop" ${T}${dt} cx="${x+i*p+r}" cy="${y}" r="${r}" fill="${color}"/>`}
   return s}
-function dotGrid(n,{x=0,y=0,cols=10,p=28,r=11,color=C.ink}={}){
-  let s='';for(let i=0;i<n;i++){const cx=x+(i%cols)*p+r,cy=y+Math.floor(i/cols)*p+r;s+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${color}"/>`}return s}
-function lineChart(series,{x0,x1,w=600,h=230,ymax,yticks,fmt,ox=40,oy=30,startLabel,endLabel}){
-  const X=i=>ox+i/(x1-x0)*w, Y=v=>oy+h-v/ymax*h;
+function dotGrid(n,{x=0,y=0,cols=10,p=28,r=11,color=C.ink,t0=300,st=18,tip=''}={}){
+  let s='';for(let i=0;i<n;i++){const cx=x+(i%cols)*p+r,cy=y+Math.floor(i/cols)*p+r;
+   s+=`<circle class="pop" style="--t:${t0+i*st}ms"${tip?` data-tip="${tip}"`:''} cx="${cx}" cy="${cy}" r="${r}" fill="${color}"/>`}return s}
+const LC={};let lcN=0;
+// line chart: lines draw themselves, labels land at the end of each line, hover shows the year
+function lineChart(series,{x0,x1,w=600,h=230,ymax,yticks,yfmt,vfmt,ox=40,oy=30}){
+  const id='lc'+(lcN++);const X=i=>ox+i/(x1-x0)*w, Y=v=>oy+h-v/ymax*h;
+  LC[id]={series,x0,x1,w,h,ymax,ox,oy,vfmt};
   let s='';
-  yticks.forEach(t=>{s+=`<line x1="${ox}" x2="${ox+w}" y1="${Y(t)}" y2="${Y(t)}" stroke="${C.line}" stroke-width="1"/>`;
-    if(t>0)s+=`<text x="${ox-8}" y="${Y(t)+4}" text-anchor="end" font-size="12" fill="${C.mute}">${fmt(t)}</text>`});
-  s+=`<line x1="${ox}" x2="${ox+w}" y1="${Y(0)}" y2="${Y(0)}" stroke="${C.faint||'#bdb7ad'}" stroke-width="1.2"/>`;
+  yticks.forEach((t,k)=>{s+=`<line class="fade" style="--t:${100+k*60}ms" x1="${ox}" x2="${ox+w}" y1="${Y(t)}" y2="${Y(t)}" stroke="${C.line}" stroke-width="1"/>`;
+    if(t>0)s+=`<text class="fade" style="--t:${100+k*60}ms" x="${ox-8}" y="${Y(t)+4}" text-anchor="end" font-size="12" fill="${C.mute}">${yfmt(t)}</text>`});
+  s+=`<line x1="${ox}" x2="${ox+w}" y1="${Y(0)}" y2="${Y(0)}" stroke="${C.faint}" stroke-width="1.2"/>`;
   s+=`<text x="${ox}" y="${Y(0)+22}" font-size="12" fill="${C.mute}">${x0}</text><text x="${ox+w}" y="${Y(0)+22}" text-anchor="end" font-size="12" fill="${C.mute}">${x1}</text>`;
-  // context lines first, highlighted lines on top
   [...series].sort((a,b)=>(a.hi?1:0)-(b.hi?1:0)).forEach(se=>{
     const pts=se.v.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
-    if(se.area)s+=`<polygon points="${X(0)},${Y(0)} ${pts} ${X(se.v.length-1)},${Y(0)}" fill="${se.c}" opacity=".09"/>`;
-    s+=`<polyline points="${pts}" fill="none" stroke="${se.c}" stroke-width="${se.hi?2.4:1.4}" stroke-linejoin="round"/>`;
+    const t=se.hi?500:250, dur=se.hi?(se.slow?2200:1700):1300, end=t+dur;
+    if(se.area)s+=`<polygon class="fade" style="--t:${end-300}ms;--dur:1s" points="${X(0)},${Y(0)} ${pts} ${X(se.v.length-1)},${Y(0)}" fill="${se.c}" fill-opacity=".09"/>`;
+    s+=`<polyline class="draw" pathLength="1" style="--t:${t}ms;--dur:${dur}ms" points="${pts}" fill="none" stroke="${se.c}" stroke-width="${se.hi?2.6:1.4}" stroke-linejoin="round" stroke-linecap="round"/>`;
     const lx=X(se.v.length-1),ly=Y(se.v[se.v.length-1]);
-    if(se.hi)s+=`<circle cx="${lx}" cy="${ly}" r="4" fill="${se.c}"/>`;
-    s+=`<text x="${lx+12}" y="${ly+(se.dy||0)-3}" font-size="15" font-weight="700" letter-spacing=".04em" fill="${se.c}">${se.name}</text>
-        <text x="${lx+12}" y="${ly+(se.dy||0)+14}" font-size="14" font-weight="600" fill="${se.hi?C.ink:C.mute}">${se.end}</text>`;
+    if(se.hi)s+=`<circle class="pop" style="--t:${end}ms" cx="${lx}" cy="${ly}" r="4.5" fill="${se.c}"/>`;
+    s+=`<g class="r" style="--t:${end}ms"><text x="${lx+12}" y="${ly+(se.dy||0)-3}" font-size="15" font-weight="700" letter-spacing=".04em" fill="${se.c}">${se.name}</text>
+        <text x="${lx+12}" y="${ly+(se.dy||0)+14}" font-size="14" font-weight="600" fill="${se.hi?C.ink:C.mute}">${se.end}</text></g>`;
   });
+  s+=`<g class="xh" data-lc="${id}" style="opacity:0;transition:opacity .15s"><line x1="0" x2="0" y1="${oy}" y2="${oy+h}" stroke="${C.ink}" stroke-width="1" stroke-dasharray="3 3"/>
+      ${series.filter(se=>se.hi).map((se,k)=>`<circle data-k="${series.indexOf(se)}" r="5" fill="${se.c}" stroke="#fff" stroke-width="2"/>`).join('')}</g>
+     <rect data-lc="${id}" x="${ox}" y="${oy}" width="${w}" height="${h}" fill="transparent" style="cursor:crosshair"/>`;
   return s}
-function slide(o){return o}
 
 // ---------- Slides ----------
 const S=[];
-const src=t=>t;
 
 // 1 Title
-S.push({sec:-1,src:'Group 1 · <span class="ph">[Big Four firm]</span> · IE University · Economics for Public Sector',
-html:`<div class="cap" style="position:absolute;left:72px;top:66px">For the Inter-American Development Bank · Subregion: Mexico and Central America</div>
-<div class="rule" style="left:72px;right:72px;top:104px"></div>
-<div style="position:absolute;left:68px;top:136px;font-weight:900;font-size:128px;line-height:.92;letter-spacing:-.05em">Eight<br>patents</div>
-<div style="position:absolute;left:72px;top:432px;font-size:24px;line-height:1.4;color:var(--ink2);width:700px">What Mexico and Central America stopped buying, and what it cost them</div>
-<svg style="position:absolute;left:72px;top:518px" width="560" height="40">${dotRow(8,{y:20,p:72,r:14,color:C.gtm})}</svg>
-<div class="it" style="position:absolute;left:650px;top:505px;font-size:23px">a whole country’s output of new ideas, 2024</div>
-<div class="rule" style="left:72px;right:72px;top:652px"></div>
-<div class="cap" style="position:absolute;left:72px;top:676px;letter-spacing:.06em;text-transform:none;font-size:14px">Group 1 · <span class="ph">[Big Four firm]</span> · prepared for the IDB · IE University</div>
-<div class="cap" style="position:absolute;right:72px;top:676px;letter-spacing:.06em;text-transform:none;font-size:14px">12 November 2026</div>`,noFoot:true});
+S.push({sec:-1,html:`<div class="cap r" style="--i:0;position:absolute;left:72px;top:66px">For the Inter-American Development Bank · Subregion: Mexico and Central America</div>
+<div class="rule r" style="--i:1;left:72px;right:72px;top:104px"></div>
+<div class="r" style="--i:2;position:absolute;left:68px;top:136px;font-weight:900;font-size:128px;line-height:.92;letter-spacing:-.05em">Eight<br>patents</div>
+<div class="r" style="--i:4;position:absolute;left:72px;top:432px;font-size:24px;line-height:1.4;color:var(--ink2);width:700px">What Mexico and Central America stopped buying, and what it cost them</div>
+<svg style="position:absolute;left:72px;top:518px" width="560" height="40">${dotRow(8,{y:20,p:72,r:14,color:C.gtm,t0:900,st:170})}</svg>
+<div class="it r" style="--t:2400ms;position:absolute;left:650px;top:505px;font-size:23px">a whole country’s output of new ideas, 2024</div>
+<div class="rule r" style="--t:600ms;left:72px;right:72px;top:652px"></div>
+<div class="cap r" style="--t:800ms;position:absolute;left:72px;top:676px;letter-spacing:.06em;text-transform:none;font-size:14px">Group 1 · <span class="ph">[Big Four firm]</span> · prepared for the IDB · IE University</div>
+<div class="cap r" style="--t:800ms;position:absolute;right:72px;top:676px;letter-spacing:.06em;text-transform:none;font-size:14px">12 November 2026</div>`,noFoot:true});
 
 // 2 Executive summary
 S.push({sec:-1,src:'All figures World Bank WDI, cited on each slide · programmes detailed on slides 14 to 18',
@@ -126,268 +183,312 @@ html:card({kicker:'Executive summary',title:'Growth stalled: the region never bo
  sub:'Mexico and Korea started level in 1980. One paid for research for forty years. The other did not.',
  bigt:'One country.<br>This year.',color:C.kor,label:'Our ask of the IDB'})+
 `<div class="right">
- <div class="cap" style="margin-top:56px">What we found</div>
- <div class="rule" style="position:relative;margin:14px 0 18px"></div>
- <div style="font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.2">Guatemala filed <span style="color:${C.gtm}">8</span> patents in 2024. Korea filed <span style="color:${C.kor}">195,786</span>.</div>
- <div style="font-size:18px;color:var(--ink2);margin-top:12px;line-height:1.45">Low research spending, few researchers, capitals that drain their regions, and payroll taxes that keep firms small.</div>
- <div class="cap" style="margin-top:56px">What we recommend</div>
- <div class="rule" style="position:relative;margin:14px 0 18px"></div>
- <div style="font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.2">Fund a capability agency in one country, then two follow-on programmes over ten years.</div>
- <div style="font-size:18px;color:var(--ink2);margin-top:12px;line-height:1.45">Judged on three counts published every year. No growth number promised.</div>
+ <div class="cap r" style="--t:500ms;margin-top:56px">What we found</div>
+ <div class="rule r" style="--t:550ms;position:relative;margin:14px 0 18px"></div>
+ <div class="r" style="--t:650ms;font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.2">Guatemala filed <span style="color:${C.gtm}">${num(8,{t:800})}</span> patents in 2024. Korea filed <span style="color:${C.kor}">${num(195786,{t:900})}</span>.</div>
+ <div class="r" style="--t:800ms;font-size:18px;color:var(--ink2);margin-top:12px;line-height:1.45">Low research spending, few researchers, capitals that drain their regions, and payroll taxes that keep firms small.</div>
+ <div class="cap r" style="--t:1300ms;margin-top:56px">What we recommend</div>
+ <div class="rule r" style="--t:1350ms;position:relative;margin:14px 0 18px"></div>
+ <div class="r" style="--t:1450ms;font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.2">Fund a capability agency in one country, then two follow-on programmes over ten years.</div>
+ <div class="r" style="--t:1600ms;font-size:18px;color:var(--ink2);margin-top:12px;line-height:1.45">Judged on three counts published every year. No growth number promised.</div>
 </div>`});
 
-// 3 Context 1: the bill (growth trend)
+// 3 Context 1: income
+const XC=52+28/64*580, YC=24+250-8000/40000*250;
 S.push({sec:0,src:'Income per person, constant 2015 US$, 1960 to 2024 · World Bank WDI, NY.GDP.PCAP.KD · retrieved 11 Nov 2026',
 html:card({kicker:'Regional context · 1 of 3',title:'In 1960 Mexico was four times richer than Korea.',
- sub:'Income per person, 1960 to 2024.',big:'3.6×',color:C.kor,label:'Korea’s income per person against Mexico’s, 2024',
- key:'Constant 2015 US dollars, so this is real income, not prices. Brazil and Guatemala in grey for context.'})+
-`<div class="right"><div class="cap" style="margin:72px 0 0 20px">GDP per person, constant 2015 US$</div>
+ sub:'Income per person, 1960 to 2024.',big:num(3.6,{dec:1,suf:'×',t:900}),color:C.kor,label:'Korea’s income per person against Mexico’s, 2024',
+ key:'Constant 2015 US dollars, so this is real income, not prices. Brazil and Guatemala in grey for context. Hover the chart for any year.'})+
+`<div class="right"><div class="cap r" style="--i:1;margin:72px 0 0 20px">GDP per person, constant 2015 US$</div>
 <svg width="767" height="330" style="margin-top:10px">${lineChart([
  {v:D.gdp.BRA,c:C.ctx,name:'BRAZIL',end:'$9,567',dy:22},
  {v:D.gdp.GTM,c:C.ctx,name:'GUATEMALA',end:'$4,564',dy:31},
  {v:D.gdp.MEX,c:C.mex,name:'MEXICO',end:'$10,284',hi:1,dy:-16},
  {v:D.gdp.KOR,c:C.kor,name:'KOREA',end:'$37,048',hi:1,area:1}],
- {x0:1960,x1:2024,w:580,h:250,ymax:40000,yticks:[0,10000,20000,30000,40000],fmt:t=>'$'+t/1000+'k',ox:52,oy:24})}
- <circle cx="${52+28/64*580}" cy="${24+250-8000/40000*250}" r="6" fill="none" stroke="${C.ink}" stroke-width="1.5"/>
- <text x="${52+28/64*580-10}" y="${24+250-8000/40000*250-14}" text-anchor="end" font-size="14" fill="${C.ink2||'#4a4640'}">1988: they swap</text>
+ {x0:1960,x1:2024,w:580,h:250,ymax:40000,yticks:[0,10000,20000,30000,40000],yfmt:t=>'$'+t/1000+'k',vfmt:v=>'$'+fmt(v),ox:52,oy:24})}
+ <circle class="pop" style="--t:1500ms" cx="${XC}" cy="${YC}" r="7" fill="none" stroke="${C.ink}" stroke-width="1.6"/>
+ <text class="r" style="--t:1600ms" x="${XC-12}" y="${YC-16}" text-anchor="end" font-size="14" fill="${C.ink2}">1988: they swap</text>
 </svg>
-<div class="rule" style="left:20px;right:0;top:440px"></div>
-<div class="aside" style="left:20px;top:458px">since then Korea’s income has more than quadrupled. Mexico’s grew by a third.</div></div>`});
+<div class="rule r" style="--t:2100ms;left:20px;right:0;top:440px"></div>
+<div class="aside r" style="--t:2250ms;left:20px;top:458px">since then Korea’s income has more than quadrupled. Mexico’s grew by a third.</div></div>`});
 
 // 4 Context 2: eight patents
 S.push({sec:0,src:'Patent applications, residents, 2024 · World Bank WDI, IP.PAT.RESD · retrieved 11 Nov 2026',
 html:card({kicker:'Regional context · 2 of 3',title:'Its inventors filed eight patents all year.',sub:'Guatemala, 2024. Population 18.4 million.',
- big:'8',color:C.gtm,label:'Patent applications, whole country, whole year',key:'One dot is one patent application filed by someone living in the country.'})+
-`<div class="right"><div class="aside" style="top:140px">not eight thousand.<br>eight.</div>
-<svg style="position:absolute;top:238px" width="767" height="80">${dotRow(8,{y:36,p:94.5,r:35,color:C.gtm})}</svg>
-<div class="cap" style="position:absolute;top:350px">1 dot = 1 patent</div>
-<div class="rule" style="left:0;right:0;top:420px"></div>
-<div class="aside" style="top:440px">the same year, Korea filed <span style="color:${C.kor}">195,786</span>.</div></div>`});
+ big:num(8,{t:500}),color:C.gtm,label:'Patent applications, whole country, whole year',key:'One dot is one patent application filed by someone living in the country.'})+
+`<div class="right"><div class="aside r" style="--t:300ms;top:140px">not eight thousand.<br>eight.</div>
+<svg style="position:absolute;top:238px" width="767" height="80">${dotRow(8,{y:36,p:94.5,r:35,color:C.gtm,t0:700,st:180,tip:'One patent application · Guatemala, 2024'})}</svg>
+<div class="cap r" style="--t:2100ms;position:absolute;top:350px">1 dot = 1 patent</div>
+<div class="rule r" style="--t:2300ms;left:0;right:0;top:420px"></div>
+<div class="aside r" style="--t:2500ms;top:440px">the same year, Korea filed <span style="color:${C.kor}">${num(195786,{t:2600})}</span>.</div></div>`});
 
-// 5 Context 3: per person
+// 5 Context 3: per person — Korea's row never stops
 const pm=[['South Korea',3783,C.kor],['Brazil',27.1,C.ctx],['Chile',19.7,C.ctx],['Mexico',9.0,C.mex],['Costa Rica',2.9,C.ctx],['Guatemala',0.4,C.ctx]];
 const P5=19.5, vis5=Math.floor((767-180)/P5);
 S.push({sec:0,src:'Patents by residents ÷ population, 2024 · World Bank WDI, IP.PAT.RESD and SP.POP.TOTL · retrieved 17 Oct 2026',
 html:card({kicker:'Regional context · 3 of 3',title:'Per person, the gap will not fit on the slide.',sub:'Patents per million people, 2024.',
- big:'420×',color:C.kor,label:'Korea’s filings per person against Mexico’s',
+ big:num(420,{suf:'×',t:700}),color:C.kor,label:'Korea’s filings per person against Mexico’s',
  key:'One dot is one patent per million people. Guatemala’s is hollow because it is under one. Against Guatemala the gap is 8,704×.'})+
-`<div class="right"><svg width="767" height="380" style="margin-top:110px"><defs><linearGradient id="fd" x1="0" x2="1"><stop offset=".8" stop-color="#f3f1ec" stop-opacity="0"/><stop offset="1" stop-color="#f3f1ec"/></linearGradient></defs>
-${pm.map(([n,v,c],i)=>{const y=20+i*50;return `<text x="150" y="${y+5}" text-anchor="end" font-size="16" font-weight="600" fill="${c===C.ctx?C.mute:c}">${n} <tspan fill="${C.mute}">${v.toLocaleString('en-US',{maximumFractionDigits:1,minimumFractionDigits:v<100?1:0})}</tspan></text>`+
- (v<1?dotRow(1,{x:170,y,p:P5,r:8,color:C.ctx,hollow:true}):dotRow(v,{x:170,y,p:P5,r:8,color:c,max:vis5+2}))}).join('')}
-<rect x="600" y="0" width="167" height="40" fill="url(#fd)"/></svg>
-<div class="aside" style="left:178px;top:430px">Korea’s row keeps going for another ${Math.round((3783-vis5)*P5/1334)} slide widths</div></div>`});
+`<div class="right"><svg width="767" height="380" style="margin-top:110px"><defs>
+<linearGradient id="fd" x1="0" x2="1"><stop offset=".78" stop-color="#f3f1ec" stop-opacity="0"/><stop offset="1" stop-color="#f3f1ec"/></linearGradient>
+<clipPath id="kc"><rect x="170" y="0" width="600" height="40"/></clipPath></defs>
+${pm.map(([n,v,c],i)=>{const y=20+i*50,tip=`${n} · ${fmt(v,v<100?1:0)} patents per million people`;const t0=400+(5-i)*120;
+ return `<text class="r" style="--t:${t0}ms" x="150" y="${y+5}" text-anchor="end" font-size="16" font-weight="600" fill="${c===C.ctx?C.mute:c}">${n} <tspan fill="${C.mute}">${fmt(v,v<100?1:0)}</tspan></text>`+
+ (i===0?`<g clip-path="url(#kc)"><g class="stream" style="--t:2200ms">${dotRow(vis5+3,{x:170-P5,y,p:P5,r:8,color:c,t0:1300,st:22,tip})}</g></g>`
+  :v<1?dotRow(1,{x:170,y,p:P5,r:8,color:C.ctx,hollow:true,t0:t0+100,tip})
+  :dotRow(v,{x:170,y,p:P5,r:8,color:c,t0:t0+100,st:28,tip}))}).join('')}
+<rect x="600" y="0" width="167" height="40" fill="url(#fd)" pointer-events="none"/></svg>
+<div class="aside r" style="--t:2400ms;left:178px;top:430px">Korea’s row keeps going for another ${Math.round((3783-vis5)*P5/1334)} slide widths</div></div>`});
 
 // 6 Diagnostic 1: R&D
 const rd=[['South Korea',4.9,C.kor],['Brazil',1.2,C.ctx],['Chile',0.4,C.ctx],['Mexico',0.3,C.mex],['Costa Rica',0.3,C.ctx],['Guatemala',0.0,C.ctx]];
 S.push({sec:1,src:'R&D expenditure, % of GDP · World Bank WDI, GB.XPD.RSDV.GD.ZS · latest year per country, 2022 to 2024 · retrieved 17 Oct 2026',
 html:card({kicker:'Diagnostic · 1 of 5',title:'Research is a line in the budget. Here it is nearly blank.',sub:'Research spending as a share of the economy.',
- big:'0.3%',color:C.mex,label:'Mexico’s research spending. Korea’s: 4.9%',key:'One dot is one tenth of one percent of the economy. Guatemala’s is hollow: it rounds to zero.'})+
-`<div class="right"><div class="cap" style="margin-top:72px">R&D spending, % of GDP · largest first</div>
-<svg width="767" height="340" style="margin-top:24px">${rd.map(([n,v,c],i)=>{const y=20+i*52;return `<text x="140" y="${y+5}" text-anchor="end" font-size="16" font-weight="600" fill="${c===C.ctx?C.mute:c}">${n} <tspan fill="${C.mute}">${v.toFixed(1)}</tspan></text>`+
- (v<0.05?dotRow(1,{x:150,y,p:12.6,r:5,color:C.ctx,hollow:true}):dotRow(Math.round(v*10),{x:150,y,p:12.6,r:5,color:c}))}).join('')}</svg>
-<div class="rule" style="left:0;right:0;top:450px"></div>
-<div class="aside" style="top:468px">Korea buys this every year. The region mostly does not.</div></div>`});
+ big:num(0.3,{dec:1,suf:'%',t:600}),color:C.mex,label:'Mexico’s research spending. Korea’s: 4.9%',key:'One dot is one tenth of one percent of the economy. Guatemala’s is hollow: it rounds to zero.'})+
+`<div class="right"><div class="cap r" style="--i:1;margin-top:72px">R&D spending, % of GDP · largest first</div>
+<svg width="767" height="340" style="margin-top:24px">${rd.map(([n,v,c],i)=>{const y=20+i*52,t0=400+i*140,tip=`${n} · ${v.toFixed(1)}% of GDP on R&D`;
+ return `<text class="r" style="--t:${t0}ms" x="140" y="${y+5}" text-anchor="end" font-size="16" font-weight="600" fill="${c===C.ctx?C.mute:c}">${n} <tspan fill="${C.mute}">${v.toFixed(1)}</tspan></text>`+
+ (v<0.05?dotRow(1,{x:150,y,p:12.6,r:5,color:C.ctx,hollow:true,t0:t0+100,tip}):dotRow(Math.round(v*10),{x:150,y,p:12.6,r:5,color:c,t0:t0+100,st:18,tip}))}).join('')}</svg>
+<div class="rule r" style="--t:2000ms;left:0;right:0;top:450px"></div>
+<div class="aside r" style="--t:2150ms;top:468px">Korea buys this every year. The region mostly does not.</div></div>`});
 
 // 7 Diagnostic 2: researchers
 S.push({sec:1,src:'Researchers in R&D per million people · World Bank WDI, SP.POP.SCIE.RD.P6 · Korea and Guatemala 2023, Mexico 2024 · retrieved 17 Oct 2026',
 html:card({kicker:'Diagnostic · 2 of 5',title:'Because almost nobody is paid to do it.',sub:'Researchers in R&D per million people.',
- big:'1.4',color:C.gtm,label:'Researchers per million in Guatemala. Korea’s: 9,472',key:'One dot is one hundred researchers per million people. Guatemala’s is hollow: it is under one.'})+
-`<div class="right"><div class="cap" style="margin-top:72px">1 dot = 100 researchers per million</div>
-<svg width="767" height="300" style="margin-top:28px">${dotGrid(95,{x:0,y:0,cols:20,p:21,r:8,color:C.kor})}
-${dotRow(4,{x:0,y:150,p:21,r:8,color:C.mex})}${dotRow(1,{x:0,y:212,p:21,r:8,color:C.gtm,hollow:true})}
-<text x="450" y="50" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.kor}">SOUTH KOREA <tspan fill="${C.ink}">9,472</tspan></text>
-<text x="450" y="156" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.mex}">MEXICO <tspan fill="${C.ink}">438</tspan></text>
-<text x="450" y="218" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.gtm}">GUATEMALA <tspan fill="${C.ink}">1.4</tspan></text></svg>
-<div class="rule" style="left:450px;right:0;top:400px"></div>
-<div class="aside" style="left:450px;top:416px">1.4 per million is about 26 people in the whole country</div></div>`});
+ big:num(1.4,{dec:1,t:2000}),color:C.gtm,label:'Researchers per million in Guatemala. Korea’s: 9,472',key:'One dot is one hundred researchers per million people. Guatemala’s is hollow: it is under one.'})+
+`<div class="right"><div class="cap r" style="--i:1;margin-top:72px">1 dot = 100 researchers per million</div>
+<svg width="767" height="300" style="margin-top:28px">${dotGrid(95,{x:0,y:0,cols:20,p:21,r:8,color:C.kor,t0:400,st:9,tip:'South Korea · 9,472 researchers per million'})}
+${dotRow(4,{x:0,y:150,p:21,r:8,color:C.mex,t0:1450,st:90,tip:'Mexico · 438 researchers per million'})}${dotRow(1,{x:0,y:212,p:21,r:8,color:C.gtm,hollow:true,t0:2000,tip:'Guatemala · 1.4 researchers per million'})}
+<text class="r" style="--t:900ms" x="450" y="50" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.kor}">SOUTH KOREA <tspan fill="${C.ink}">9,472</tspan></text>
+<text class="r" style="--t:1500ms" x="450" y="156" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.mex}">MEXICO <tspan fill="${C.ink}">438</tspan></text>
+<text class="r" style="--t:2000ms" x="450" y="218" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.gtm}">GUATEMALA <tspan fill="${C.ink}">1.4</tspan></text></svg>
+<div class="rule r" style="--t:2400ms;left:450px;right:0;top:400px"></div>
+<div class="aside r" style="--t:2550ms;left:450px;top:416px">1.4 per million is about 26 people in the whole country</div></div>`});
 
-// 8 Diagnostic 3: backwash
+// 8 Diagnostic 3: backwash — arrows keep flowing into the capital
 const arrows=(()=>{let s='';const cx=330,cy=180;for(let k=0;k<8;k++){const a=k*Math.PI/4,c=Math.cos(a),sn=Math.sin(a);
- s+=`<line x1="${cx+c*150}" y1="${cy+sn*150}" x2="${cx+c*72}" y2="${cy+sn*72}" stroke="${C.n1}" stroke-width="3" marker-end="url(#ah)"/>`;}
- [[-1,1],[1,1]].forEach(([dx,dy])=>{s+=`<line x1="${cx+dx*42}" y1="${cy+dy*42}" x2="${cx+dx*125}" y2="${cy+dy*125}" stroke="${C.n2}" stroke-width="1.2" marker-end="url(#ah2)"/>`});return s})();
+ s+=`<g class="fade" style="--t:${500+k*90}ms"><line x1="${cx+c*150}" y1="${cy+sn*150}" x2="${cx+c*72}" y2="${cy+sn*72}" stroke="${C.n1}" stroke-width="3" stroke-dasharray="14 8" class="flow" marker-end="url(#ah)"/></g>`;}
+ [[-1,1],[1,1]].forEach(([dx,dy],k)=>{s+=`<line class="fade" style="--t:${1500+k*150}ms" x1="${cx+dx*42}" y1="${cy+dy*42}" x2="${cx+dx*125}" y2="${cy+dy*125}" stroke="${C.n2}" stroke-width="1.2" marker-end="url(#ah2)"/>`});return s})();
 S.push({sec:1,src:'Growth pole theory: Perroux 1955 · Myrdal 1957 · Hirschman 1958 · diagram is illustrative, not to scale',
 html:card({kicker:'Diagnostic · 3 of 5 · structural',title:'The big cities took, and sent nothing back.',sub:'People, money and talent flowed in. Jobs and roads never flowed out.',
  bigt:'Backwash',label:'Myrdal, 1957 · growth concentrates instead of spreading',key:'The dark circle is the capital. Thick arrows are what it pulls in, thin arrows what it gives back. A concept, not data.'})+
-`<div class="right"><div class="cap" style="margin-top:72px">The growth pole, in practice</div>
+`<div class="right"><div class="cap r" style="--i:1;margin-top:72px">The growth pole, in practice</div>
 <svg width="767" height="360" style="margin-top:4px"><defs>
 <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" fill="${C.n1}"/></marker>
 <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="${C.n2}"/></marker></defs>
-${arrows}<circle cx="330" cy="180" r="58" fill="${C.n1}"/>
-<text x="600" y="160" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n1}">PULLED IN</text>
-<text x="600" y="200" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n2}">GIVEN BACK</text></svg>
-<div class="rule" style="left:0;right:0;top:458px"></div>
-<div class="aside" style="top:474px">economists call this backwash. everyone else calls it leaving.</div></div>`});
+${arrows}<g class="pop" style="--t:300ms"><circle class="pulse" style="--t:1300ms" cx="330" cy="180" r="58" fill="${C.n1}"/></g>
+<text class="r" style="--t:1200ms" x="600" y="160" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n1}">PULLED IN</text>
+<text class="r" style="--t:1700ms" x="600" y="200" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n2}">GIVEN BACK</text></svg>
+<div class="rule r" style="--t:2000ms;left:0;right:0;top:458px"></div>
+<div class="aside r" style="--t:2150ms;top:474px">economists call this backwash. everyone else calls it leaving.</div></div>`});
 
-// 9 Diagnostic 4: payroll taxes
+// 9 Diagnostic 4: payroll taxes — the wall drops, growth never comes
 S.push({sec:1,src:'Mechanism after Santiago Levy · diagram illustrative · informality rate not shown until pulled from ILOSTAT',
 html:card({kicker:'Diagnostic · 4 of 5 · policy',title:'Hiring someone openly costs extra.',sub:'So firms stay small, stay hidden, and never learn to grow.',
  bigt:'Payroll taxes buy invisibility.',label:'Mechanism after Santiago Levy',key:'Solid circles are the firm today. The dashed line is the moment the state can see it. Hollow circles are the growth that never comes.'})+
-`<div class="right"><div class="cap" style="margin-top:72px">Why firms never get big</div>
+`<div class="right"><div class="cap r" style="--i:1;margin-top:72px">Why firms never get big</div>
 <svg width="767" height="330" style="margin-top:10px">
-${dotRow(3,{x:100,y:200,p:52,r:18,color:C.n1})}
-<line x1="272" x2="272" y1="70" y2="300" stroke="${C.n2}" stroke-width="3" stroke-dasharray="9 7"/>
-<circle cx="352" cy="214" r="28" fill="none" stroke="${C.faint||'#bdb7ad'}" stroke-width="1.6" stroke-dasharray="5 4"/>
-<circle cx="434" cy="188" r="40" fill="none" stroke="#bdb7ad" stroke-width="1.6" stroke-dasharray="5 4"/>
-<circle cx="542" cy="155" r="55" fill="none" stroke="#bdb7ad" stroke-width="1.6" stroke-dasharray="5 4"/>
-<text x="148" y="330" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n1}">STAYS SMALL</text>
-<text x="440" y="330" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.mute}">NEVER HAPPENS</text></svg>
-<div class="rule" style="left:0;right:0;top:458px"></div>
-<div class="aside" style="top:474px">a large share of the workforce lives to the left of that line</div></div>`});
+${dotRow(3,{x:100,y:200,p:52,r:18,color:C.n1,t0:400,st:140})}
+<line class="growy" style="--t:1000ms" x1="272" x2="272" y1="70" y2="300" stroke="${C.n2}" stroke-width="3" stroke-dasharray="9 7"/>
+${[[352,214,28],[434,188,40],[542,155,55]].map(([x,y,r],k)=>`<circle class="pop" style="--t:${1500+k*200}ms" cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${C.faint}" stroke-width="1.6" stroke-dasharray="5 4"/>`).join('')}
+<text class="r" style="--t:700ms" x="148" y="330" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n1}">STAYS SMALL</text>
+<text class="r" style="--t:1900ms" x="440" y="330" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.mute}">NEVER HAPPENS</text></svg>
+<div class="rule r" style="--t:2200ms;left:0;right:0;top:458px"></div>
+<div class="aside r" style="--t:2350ms;top:474px">a large share of the workforce lives to the left of that line</div></div>`});
 
 // 10 Diagnostic 5: synthesis
 S.push({sec:1,src:'Argument, not data · follows from the four preceding slides · framing after Hausmann, Rodrik & Velasco, growth diagnostics',
-html:`<div class="cap" style="position:absolute;left:72px;top:66px">Diagnostic · 5 of 5 · what it adds up to</div><div class="rule" style="left:72px;right:72px;top:104px"></div>
-<div style="position:absolute;left:68px;top:180px;font-weight:800;font-size:84px;line-height:1;letter-spacing:-.045em">This is not a mystery.<br><span style="color:${C.mex}">It is a purchase nobody made.</span></div>
-<div style="position:absolute;left:72px;top:390px;font-size:25px;line-height:1.45;color:var(--ink2);width:900px">Knowing how to make hard things is not a national character trait. It is bought, slowly, on purpose.</div>`});
+html:`<div class="cap r" style="--i:0;position:absolute;left:72px;top:66px">Diagnostic · 5 of 5 · what it adds up to</div><div class="rule r" style="--i:1;left:72px;right:72px;top:104px"></div>
+<div class="r" style="--t:300ms;position:absolute;left:68px;top:180px;font-weight:800;font-size:84px;line-height:1;letter-spacing:-.045em">This is not a mystery.</div>
+<div class="r" style="--t:1300ms;position:absolute;left:68px;top:264px;font-weight:800;font-size:84px;line-height:1;letter-spacing:-.045em;color:${C.mex}">It is a purchase nobody made.</div>
+<div class="r" style="--t:2100ms;position:absolute;left:72px;top:390px;font-size:25px;line-height:1.45;color:var(--ink2);width:900px">Knowing how to make hard things is not a national character trait. It is bought, slowly, on purpose.</div>`});
 
 // 11 Benchmark 1: 1980 parity
 S.push({sec:2,src:'Patent applications, residents, 1980 · World Bank WDI, IP.PAT.RESD · retrieved 11 Nov 2026',
 html:card({kicker:'International benchmarks · 1 of 3 · Korea',title:'Korea was standing right here.',sub:'In 1980 the two countries filed almost the same number of patents.',
- big:'1.8×',color:C.kor,label:'Korea’s entire lead over Mexico in 1980',key:'One dot is twenty patents. Same scale for both countries.'})+
-`<div class="right"><div class="cap" style="margin:72px 0 0 130px">1980 · 1 dot = 20 patents</div>
-<svg width="767" height="300" style="margin-top:18px">${dotGrid(35,{x:130,y:112,cols:7,p:28,r:11,color:C.mex})}${dotGrid(62,{x:456,y:0,cols:7,p:28,r:11,color:C.kor})}
-<text x="130" y="290" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.mex}">MEXICO <tspan fill="${C.ink}">704</tspan></text>
-<text x="456" y="290" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.kor}">KOREA <tspan fill="${C.ink}">1,241</tspan></text></svg>
-<div class="rule" style="left:130px;right:0;top:430px"></div>
-<div class="aside" style="left:130px;top:446px">so this gap is not ancient.<br>it was built inside one career.</div></div>`});
+ big:num(1.8,{dec:1,suf:'×',t:1600}),color:C.kor,label:'Korea’s entire lead over Mexico in 1980',key:'One dot is twenty patents. Same scale for both countries.'})+
+`<div class="right"><div class="cap r" style="--i:1;margin:72px 0 0 130px">1980 · 1 dot = 20 patents</div>
+<svg width="767" height="300" style="margin-top:18px">${dotGrid(35,{x:130,y:112,cols:7,p:28,r:11,color:C.mex,t0:400,st:20,tip:'Mexico · 704 patents in 1980'})}${dotGrid(62,{x:456,y:0,cols:7,p:28,r:11,color:C.kor,t0:1000,st:20,tip:'Korea · 1,241 patents in 1980'})}
+<text class="r" style="--t:1000ms" x="130" y="290" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.mex}">MEXICO <tspan fill="${C.ink}">704</tspan></text>
+<text class="r" style="--t:2200ms" x="456" y="290" font-size="17" font-weight="700" letter-spacing=".05em" fill="${C.kor}">KOREA <tspan fill="${C.ink}">1,241</tspan></text></svg>
+<div class="rule r" style="--t:2400ms;left:130px;right:0;top:430px"></div>
+<div class="aside r" style="--t:2550ms;left:130px;top:446px">so this gap is not ancient.<br>it was built inside one career.</div></div>`});
 
 // 12 Benchmark 2: the climb
 S.push({sec:2,src:'Patent applications, residents, 1980 to 2024 · World Bank WDI, IP.PAT.RESD · retrieved 11 Nov 2026',
 html:card({kicker:'International benchmarks · 2 of 3 · Korea',title:'Then one of them started climbing.',sub:'Patents filed each year, 1980 to 2024.',
- big:'×158',color:C.kor,label:'Korea’s filings over 44 years. Mexico’s: ×1.7',key:'All lines begin together at bottom left. Mexico never leaves the floor. Brazil in grey for context.'})+
-`<div class="right"><div class="cap" style="margin:72px 0 0 20px">Patent applications per year</div>
+ big:num(158,{pre:'×',t:500}),color:C.kor,label:'Korea’s filings over 44 years. Mexico’s: ×1.7',key:'All lines begin together at bottom left. Mexico never leaves the floor. Brazil in grey for context. Hover the chart for any year.'})+
+`<div class="right"><div class="cap r" style="--i:1;margin:72px 0 0 20px">Patent applications per year</div>
 <svg width="767" height="340" style="margin-top:10px">${lineChart([
  {v:D.pat.BRA,c:C.ctx,name:'BRAZIL',end:'5,752',dy:-6},
  {v:D.pat.MEX,c:C.mex,name:'MEXICO',end:'1,172',hi:1,dy:34},
- {v:D.pat.KOR,c:C.kor,name:'KOREA',end:'195,786',hi:1,area:1}],
- {x0:1980,x1:2024,w:580,h:250,ymax:200000,yticks:[0,50000,100000,150000,200000],fmt:t=>t/1000+'k',ox:52,oy:24})}</svg>
-<div class="rule" style="left:20px;right:0;top:450px"></div>
-<div class="aside" style="left:20px;top:466px">forty-four years, same starting point</div></div>`});
+ {v:D.pat.KOR,c:C.kor,name:'KOREA',end:'195,786',hi:1,area:1,slow:1}],
+ {x0:1980,x1:2024,w:580,h:250,ymax:200000,yticks:[0,50000,100000,150000,200000],yfmt:t=>t/1000+'k',vfmt:v=>fmt(v),ox:52,oy:24})}</svg>
+<div class="rule r" style="--t:2600ms;left:20px;right:0;top:450px"></div>
+<div class="aside r" style="--t:2750ms;left:20px;top:466px">forty-four years, same starting point</div></div>`});
 
-// 13 Benchmark 3: Costa Rica FDI
+// 13 Benchmark 3: Costa Rica FDI — the know-how travels left to right
+const flowBox=(x,fill,txt,col,t)=>`<g class="pop" style="--t:${t}ms"><rect x="${x}" y="70" width="200" height="120" fill="${fill}"/>${txt.map((l,k)=>`<text x="${x+100}" y="${(txt.length>1?126:135)+k*22}" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="${col}">${l}</text>`).join('')}</g>`;
+const flowArrow=(x,t)=>`<line class="grow" style="--t:${t}ms;--dur:.5s" x1="${x}" y1="130" x2="${x+54}" y2="130" stroke="${C.n2}" stroke-width="1.5" marker-end="url(#ah3)"/>`;
 S.push({sec:2,src:'CINDE Costa Rica, from our International Cities session · no figures claimed on this slide · case details to verify',
 html:card({kicker:'International benchmarks · 3 of 3 · this region',title:'Closer to home, FDI did the teaching.',
  sub:'Costa Rica courted foreign manufacturers on purpose, through its agency CINDE.',
  bigt:'FDI brings technology and know-how.',color:C.kor,label:'The lesson for the IDB',key:'Dark is what arrives, grey is what stays behind. The arrows are learning, not money.'})+
-`<div class="right"><div class="cap" style="margin-top:72px">How a foreign plant teaches a region</div>
+`<div class="right"><div class="cap r" style="--i:1;margin-top:72px">How a foreign plant teaches a region</div>
 <svg width="767" height="300" style="margin-top:28px"><defs><marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="${C.n2}"/></marker></defs>
-<rect x="0" y="70" width="200" height="120" fill="${C.n1}"/><text x="100" y="135" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="#fff">FOREIGN PLANT</text>
-<line x1="214" y1="130" x2="268" y2="130" stroke="${C.n2}" stroke-width="1.5" marker-end="url(#ah3)"/>
-<rect x="282" y="70" width="200" height="120" fill="${C.n2}"/><text x="382" y="126" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="#fff">TECHNOLOGY</text><text x="382" y="148" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="#fff">AND KNOW-HOW</text>
-<line x1="496" y1="130" x2="550" y2="130" stroke="${C.n2}" stroke-width="1.5" marker-end="url(#ah3)"/>
-<rect x="564" y="70" width="200" height="120" fill="${C.n3}"/><text x="664" y="126" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="${C.n1}">LOCAL SUPPLIERS</text><text x="664" y="148" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="${C.n1}">AND WORKERS</text></svg>
-<div class="rule" style="left:0;right:0;top:450px"></div>
-<div class="aside" style="top:466px">bananas to medical devices in one generation. none of it was luck.</div></div>`});
+${flowBox(0,C.n1,['FOREIGN PLANT'],'#fff',400)}${flowArrow(214,900)}
+${flowBox(282,C.n2,['TECHNOLOGY','AND KNOW-HOW'],'#fff',1200)}${flowArrow(496,1700)}
+${flowBox(564,C.n3,['LOCAL SUPPLIERS','AND WORKERS'],C.n1,2000)}</svg>
+<div class="rule r" style="--t:2400ms;left:0;right:0;top:450px"></div>
+<div class="aside r" style="--t:2550ms;top:466px">bananas to medical devices in one generation. none of it was luck.</div></div>`});
 
-// 14 Rec 1: capability agency
+// 14 Rec 1: capability agency — risk hands over from public to private
 S.push({sec:3,src:'Product life cycle, Vernon 1966 · footloose firms, from our Industrial Location session · precedent: Fundación Chile · diagram illustrative, costing UNSURE',
 html:card({kicker:'Recommendations · programme one',title:'Learn one new industry at a time.',sub:'Fund an agency that proves a new product works, hands it to firms, and then leaves.',
  bigt:'Fundación Chile did it with salmon.',color:C.kor,label:'Precedent from this region',key:'Dark is public money, grey is private firms. The agency’s whole job is to make itself unnecessary.'})+
-`<div class="right"><div class="cap" style="margin-top:72px">Who carries the risk, over time</div>
+`<div class="right"><div class="cap r" style="--i:1;margin-top:72px">Who carries the risk, over time</div>
 <svg width="767" height="300" style="margin-top:44px"><defs><marker id="ah4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="${C.n2}"/></marker></defs>
-<rect x="40" y="40" width="196" height="140" fill="${C.n1}"/>
-<line x1="248" y1="110" x2="276" y2="110" stroke="${C.n2}" stroke-width="1.5" marker-end="url(#ah4)"/>
-<rect x="286" y="40" width="98" height="140" fill="${C.n1}"/><rect x="384" y="40" width="98" height="140" fill="${C.n2}"/>
-<line x1="494" y1="110" x2="522" y2="110" stroke="${C.n2}" stroke-width="1.5" marker-end="url(#ah4)"/>
-<rect x="532" y="40" width="196" height="140" fill="${C.n2}"/>
-<text x="138" y="216" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".12em" fill="${C.n1}">AGENCY PROVES IT</text>
-<text x="384" y="216" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".12em" fill="${C.n1}">HANDS IT TO FIRMS</text>
-<text x="630" y="216" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".12em" fill="${C.n2}">AGENCY LEAVES</text></svg>
-<div class="rule" style="left:0;right:0;top:450px"></div>
-<div class="aside" style="top:466px">the agency is judged by how soon it is no longer needed</div></div>`});
+<rect class="growy" style="--t:400ms" x="40" y="40" width="196" height="140" fill="${C.n1}"/>
+<line class="grow" style="--t:900ms;--dur:.5s" x1="248" y1="110" x2="276" y2="110" stroke="${C.n2}" stroke-width="1.5" marker-end="url(#ah4)"/>
+<rect class="growy" style="--t:1100ms" x="286" y="40" width="98" height="140" fill="${C.n1}"/><rect class="growy" style="--t:1300ms" x="384" y="40" width="98" height="140" fill="${C.n2}"/>
+<line class="grow" style="--t:1700ms;--dur:.5s" x1="494" y1="110" x2="522" y2="110" stroke="${C.n2}" stroke-width="1.5" marker-end="url(#ah4)"/>
+<rect class="growy" style="--t:1900ms" x="532" y="40" width="196" height="140" fill="${C.n2}"/>
+<text class="r" style="--t:600ms" x="138" y="216" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".12em" fill="${C.n1}">AGENCY PROVES IT</text>
+<text class="r" style="--t:1400ms" x="384" y="216" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".12em" fill="${C.n1}">HANDS IT TO FIRMS</text>
+<text class="r" style="--t:2100ms" x="630" y="216" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".12em" fill="${C.n2}">AGENCY LEAVES</text></svg>
+<div class="rule r" style="--t:2400ms;left:0;right:0;top:450px"></div>
+<div class="aside r" style="--t:2550ms;top:466px">the agency is judged by how soon it is no longer needed</div></div>`});
 
-// 15 Rec 2: growth pole steps
+// 15 Rec 2: growth pole steps — the two paid steps land last and hardest
 const steps=[['01','A big factory arrives',0],['02 · pay for this','Local firms learn to supply it',1],['03','Skills spread around',0],['04','It keeps going on its own',0],['05 · pay for this','Roads and signal reach the towns outside',1]];
 S.push({sec:3,src:'Perroux’s five-stage growth pole process, from our Core-Periphery session · case: Medellín · costing UNSURE',
 html:card({kicker:'Recommendations · programme two',title:'Pay for the two steps that always get skipped.',sub:'Perroux’s growth pole has five stages. Two of them fail by default.',
  bigt:'Medellín’s cable cars were step five.',label:'They were never a transport project',key:'The faded stages happen without us. The two in full colour are the ones the money is attached to.'})+
-`<div class="right"><div class="cap" style="margin-top:56px">How a growth pole is supposed to work</div>
-${steps.map(([n,t,h],i)=>`<div style="position:absolute;top:${100+i*88}px;left:0;border-left:3px solid ${h?C.n1:C.line};padding-left:20px">
+`<div class="right"><div class="cap r" style="--i:1;margin-top:56px">How a growth pole is supposed to work</div>
+${steps.map(([n,t,h],i)=>`<div class="r" style="--t:${h?1500+i*250:400+i*180}ms;position:absolute;top:${100+i*88}px;left:0;border-left:3px solid ${h?C.n1:C.line};padding-left:20px">
  <div class="cap" style="font-size:12.5px;color:${h?C.n1:C.mute}">${n}</div>
  <div style="font-size:27px;font-weight:${h?700:500};letter-spacing:-.02em;margin-top:4px;color:${h?C.ink:'#b3ada3'}">${t}</div></div>`).join('')}</div>`});
 
-// 16 Rec 3: take the wall down
+// 16 Rec 3: take the wall down — wall fades, firms grow
 S.push({sec:3,src:'Diagram illustrative · mechanism after Santiago Levy · precedents to verify: Brazil SIMPLES, Mexico RIF · costing UNSURE',
 html:card({kicker:'Recommendations · programme three',title:'Take the wall down.',sub:'Pay for health and pensions from general tax, not from wages.',
  bigt:'This costs money before it saves money.',label:'Say it before anyone asks',key:'Same firms as on the diagnostic slide. The dashed line is the cost of being seen, faded because we remove it.'})+
-`<div class="right"><div class="cap" style="margin-top:72px">The same picture, with the wall removed</div>
+`<div class="right"><div class="cap r" style="--i:1;margin-top:72px">The same picture, with the wall removed</div>
 <svg width="767" height="330" style="margin-top:10px">
-${dotRow(3,{x:100,y:200,p:52,r:18,color:C.n2})}
-<line x1="272" x2="272" y1="70" y2="300" stroke="${C.n3}" stroke-width="3" stroke-dasharray="9 7"/>
-<circle cx="352" cy="214" r="28" fill="${C.n1}"/><circle cx="434" cy="188" r="40" fill="${C.n1}"/><circle cx="542" cy="155" r="55" fill="${C.n1}"/>
-<text x="148" y="330" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n2}">HIDDEN TODAY</text>
-<text x="440" y="330" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n1}">ABLE TO GROW</text></svg>
-<div class="rule" style="left:0;right:0;top:458px"></div>
-<div class="aside" style="top:474px">the wall is a policy choice, not a fact of life</div></div>`});
+${dotRow(3,{x:100,y:200,p:52,r:18,color:C.n2,t0:300,st:100})}
+<line class="wallgo" style="--t:900ms" x1="272" x2="272" y1="70" y2="300" stroke="${C.n2}" stroke-width="3" stroke-dasharray="9 7"/>
+${[[352,214,28],[434,188,40],[542,155,55]].map(([x,y,r],k)=>`<circle class="pop" style="--t:${1500+k*280}ms" cx="${x}" cy="${y}" r="${r}" fill="${C.n1}"/>`).join('')}
+<text class="r" style="--t:500ms" x="148" y="330" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n2}">HIDDEN TODAY</text>
+<text class="r" style="--t:2200ms" x="440" y="330" text-anchor="middle" font-size="14" font-weight="700" letter-spacing=".14em" fill="${C.n1}">ABLE TO GROW</text></svg>
+<div class="rule r" style="--t:2500ms;left:0;right:0;top:458px"></div>
+<div class="aside r" style="--t:2650ms;top:474px">the wall is a policy choice, not a fact of life</div></div>`});
 
-// 17 Rec 4: sequencing
-const band=(x,w,y,c,t1,t2,n)=>`<text x="${x}" y="${y-30}" font-size="16" font-weight="700" fill="${C.ink}">${t1}</text><text x="${x}" y="${y-10}" font-size="15" fill="${C.mute}">${t2}</text>
-<rect x="${x}" y="${y}" width="${w}" height="40" fill="${c}" opacity=".18"/>${dotRow(n,{x:x+12,y:y+20,p:(w-24)/n,r:6.5,color:c})}`;
+// 17 Rec 4: sequencing — bands sweep in, in order
+const band=(x,w,y,c,t1,t2,n,t)=>`<g class="r" style="--t:${t}ms"><text x="${x}" y="${y-30}" font-size="16" font-weight="700" fill="${C.ink}">${t1}</text><text x="${x}" y="${y-10}" font-size="15" fill="${C.mute}">${t2}</text></g>
+<rect class="grow" style="--t:${t+150}ms" x="${x}" y="${y}" width="${w}" height="40" fill="${c}" opacity=".18"/>${dotRow(n,{x:x+12,y:y+20,p:(w-24)/n,r:6.5,color:c,t0:t+500,st:45})}`;
 S.push({sec:3,src:'Timeline illustrative · costings UNSURE, to be built from IDB project data and national budgets',
 html:card({kicker:'Recommendations · sequencing',title:'Governments last four years. These do not.',sub:'So the order is chosen for political survival, not analytical elegance.',
  bigt:'Each one buys the political room for the next.',label:'Which is why the cheap, visible one goes first',key:'Each band begins once the one before it has shown something. The bands show order, not cost.'})+
-`<div class="right"><div class="cap" style="margin-top:72px">Ten years, three overlapping programmes</div>
+`<div class="right"><div class="cap r" style="--i:1;margin-top:72px">Ten years, three overlapping programmes</div>
 <svg width="767" height="360" style="margin-top:10px">
-${band(10,150,70,C.n1,'Take the wall down','Years 0 to 2 · felt inside one term',5)}
-${band(160,225,170,C.n1,'Learn new industries','Years 2 to 5 · the window is open now',8)}
-${band(385,375,270,C.n2,'Reach the towns outside','Years 5 to 10 · needs the tax base first',13)}
-<line x1="10" x2="760" y1="330" y2="330" stroke="#bdb7ad"/>
-${[[0,10],[2,160],[5,385],[10,760]].map(([y,x])=>`<text x="${x}" y="352" text-anchor="${y==10?'end':'start'}" font-size="13" fill="${C.mute}">Year ${y}</text>`).join('')}</svg>
-<div class="aside" style="top:468px">a plan that ignores the electoral calendar never happens</div></div>`});
+<line class="grow" style="--t:200ms;--dur:1.2s" x1="10" x2="760" y1="330" y2="330" stroke="#bdb7ad"/>
+${[[0,10],[2,160],[5,385],[10,760]].map(([y,x],k)=>`<text class="r" style="--t:${300+k*200}ms" x="${x}" y="352" text-anchor="${y==10?'end':'start'}" font-size="13" fill="${C.mute}">Year ${y}</text>`).join('')}
+${band(10,150,70,C.n1,'Take the wall down','Years 0 to 2 · felt inside one term',5,500)}
+${band(160,225,170,C.n1,'Learn new industries','Years 2 to 5 · the window is open now',8,1200)}
+${band(385,375,270,C.n2,'Reach the towns outside','Years 5 to 10 · needs the tax base first',13,1900)}</svg>
+<div class="aside r" style="--t:2900ms;top:468px">a plan that ignores the electoral calendar never happens</div></div>`});
 
-// 18 Rec 5: accountability
+// 18 Rec 5: accountability — today pops, targets trace in
 const cnt=[[3,15,'How many patents the region files','Against Chile and Brazil, not against Korea'],[2,9,'How far the poorest region trails','Income per person, richest region against poorest'],[4,12,'How many workers are on the books','And how many firms pass ten employees']];
 S.push({sec:3,src:'Baselines to be set from World Bank, ILOSTAT and national accounts · counters illustrative · target levels UNSURE',
 html:card({kicker:'Recommendations · accountability',title:'Three counts. Published every year.',sub:'If the IDB funds this, these are the numbers that go on the record.',
  bigt:'We are not promising a growth number.',color:C.kor,label:'No comparable subregion has run this package before',key:'Solid is where the region is. Hollow is where it is aiming. Shape only: target levels are not set yet.'})+
-`<div class="right"><div class="cap" style="margin-top:72px">Solid = today · hollow = where we are aiming</div>
-<svg width="767" height="360" style="margin-top:20px">${cnt.map(([a,b,t,s],i)=>{const y=40+i*110;return dotRow(a,{x:0,y,p:25,r:9,color:C.n1})+
- `${Array.from({length:b-a},(_,k)=>`<circle cx="${(a+k)*25+9}" cy="${y}" r="8" fill="none" stroke="${C.n1}" stroke-width="1.5"/>`).join('')}
- <text x="400" y="${y-2}" font-family="Archivo" font-size="21" font-weight="700" fill="${C.ink}">${t}</text>
- <text x="400" y="${y+24}" font-size="15" fill="${C.mute}">${s}</text>`}).join('')}</svg>
-<div class="rule" style="left:0;right:0;top:450px"></div>
-<div class="aside" style="top:466px">a number we cannot defend is worth less than an honest blank</div></div>`});
+`<div class="right"><div class="cap r" style="--i:1;margin-top:72px">Solid = today · hollow = where we are aiming</div>
+<svg width="767" height="360" style="margin-top:20px">${cnt.map(([a,b,t,s],i)=>{const y=40+i*110,t0=400+i*500;return dotRow(a,{x:0,y,p:25,r:9,color:C.n1,t0,st:90})+
+ `${Array.from({length:b-a},(_,k)=>`<circle class="draw" pathLength="1" style="--t:${t0+a*90+k*40}ms;--dur:.5s" cx="${(a+k)*25+9}" cy="${y}" r="8" fill="none" stroke="${C.n1}" stroke-width="1.5"/>`).join('')}
+ <g class="r" style="--t:${t0+150}ms"><text x="400" y="${y-2}" font-family="Archivo" font-size="21" font-weight="700" fill="${C.ink}">${t}</text>
+ <text x="400" y="${y+24}" font-size="15" fill="${C.mute}">${s}</text></g>`}).join('')}</svg>
+<div class="rule r" style="--t:2300ms;left:0;right:0;top:450px"></div>
+<div class="aside r" style="--t:2450ms;top:466px">a number we cannot defend is worth less than an honest blank</div></div>`});
 
 // 19 Conclusion: ask + next steps
 S.push({sec:4,src:'Programme one of three · precedents: Fundación Chile and CINDE Costa Rica · costing UNSURE, to be built with IDB project data',
-html:`<div class="cap" style="position:absolute;left:72px;top:66px">Conclusion · one ask</div><div class="rule" style="left:72px;right:72px;top:104px"></div>
-<div style="position:absolute;left:68px;top:150px;font-weight:800;font-size:76px;line-height:1.02;letter-spacing:-.045em">Fund the capability agency.<br>In one country. <span style="color:${C.kor}">This year.</span></div>
-<div style="position:absolute;left:72px;top:335px;font-size:23px;line-height:1.45;color:var(--ink2);width:900px">Factories leaving China are choosing where to land right now. In five years this ask is worth less.</div>
-<div class="cap" style="position:absolute;left:72px;top:450px">Next steps for the IDB, first 90 days</div>
-<div class="rule" style="left:72px;right:72px;top:482px"></div>
-${['Pick the pilot country','Set the three baselines','Cost the agency with IDB project data'].map((t,i)=>`<div style="position:absolute;left:${72+i*400}px;top:500px;width:370px">
+html:`<div class="cap r" style="--i:0;position:absolute;left:72px;top:66px">Conclusion · one ask</div><div class="rule r" style="--i:1;left:72px;right:72px;top:104px"></div>
+<div class="r" style="--t:300ms;position:absolute;left:68px;top:150px;font-weight:800;font-size:76px;line-height:1.02;letter-spacing:-.045em">Fund the capability agency.</div>
+<div class="r" style="--t:800ms;position:absolute;left:68px;top:228px;font-weight:800;font-size:76px;line-height:1.02;letter-spacing:-.045em">In one country. <span class="pop" style="--t:1400ms;display:inline-block;color:${C.kor}">This year.</span></div>
+<div class="r" style="--t:1900ms;position:absolute;left:72px;top:335px;font-size:23px;line-height:1.45;color:var(--ink2);width:900px">Factories leaving China are choosing where to land right now. In five years this ask is worth less.</div>
+<div class="cap r" style="--t:2400ms;position:absolute;left:72px;top:450px">Next steps for the IDB, first 90 days</div>
+<div class="rule r" style="--t:2450ms;left:72px;right:72px;top:482px"></div>
+${['Pick the pilot country','Set the three baselines','Cost the agency with IDB project data'].map((t,i)=>`<div class="r" style="--t:${2600+i*180}ms;position:absolute;left:${72+i*400}px;top:500px;width:370px">
 <div style="font-family:Archivo Narrow;font-weight:700;font-size:15px;color:${C.mute};letter-spacing:.12em">0${i+1}</div>
 <div style="font-size:24px;font-weight:700;letter-spacing:-.02em;margin-top:6px">${t}</div></div>`).join('')}`});
 
 // 20 Backup
 S.push({sec:4,src:'Frameworks: Prebisch & Singer 1950 · Perroux 1955 · Myrdal 1957 · Vernon 1966 · Hausmann, Rodrik & Velasco · Levy on informality · course sessions',
-html:`<div class="cap" style="position:absolute;left:72px;top:62px">Backup · behind the story</div><div class="rule" style="left:72px;right:72px;top:96px"></div>
-<div style="position:absolute;left:70px;top:120px;font-weight:800;font-size:44px;letter-spacing:-.035em">What is solid, what is not, and how this was made</div>
+html:`<div class="cap r" style="--i:0;position:absolute;left:72px;top:62px">Backup · behind the story</div><div class="rule r" style="--i:1;left:72px;right:72px;top:96px"></div>
+<div class="r" style="--i:2;position:absolute;left:70px;top:120px;font-weight:800;font-size:44px;letter-spacing:-.035em">What is solid, what is not, and how this was made</div>
 ${[[C.kor,'Verified, with code','All figures from World Bank WDI: patents IP.PAT.RESD, population SP.POP.TOTL, researchers SP.POP.SCIE.RD.P6, R&D GB.XPD.RSDV.GD.ZS, income NY.GDP.PCAP.KD.','Patent and income series re-pulled 11 Nov 2026 and match. Every ratio recomputed from the raw series.'],
    [C.mex,'Unsure, not pulled yet','Informality rate. Chiapas income and poverty. Urban primacy share. CINDE case details. Every costing in the three programmes.','None of these appears as a number on any slide. Sources identified: ILOSTAT, INEGI, CONEVAL, IDB project data.'],
    [C.gtm,'What this cannot tell us','Patents measure registered invention, not all ingenuity, and firms often file abroad instead.','R&D years differ by country, 2022 to 2024. Korea’s path had a geopolitical sponsor and an authoritarian state. One country is not a counterfactual for another.']]
- .map(([c,h,a,b],i)=>`<div style="position:absolute;left:${72+i*403}px;top:208px;width:383px;border-top:3px solid ${c};padding-top:16px">
+ .map(([c,h,a,b],i)=>`<div class="r" style="--t:${500+i*180}ms;position:absolute;left:${72+i*403}px;top:208px;width:383px;border-top:3px solid ${c};padding-top:16px">
  <div class="cap" style="color:${c};font-weight:700">${h}</div><div style="font-size:15.5px;line-height:1.45;margin-top:10px">${a}</div>
  <div style="font-size:15px;line-height:1.45;margin-top:14px;color:var(--mute)">${b}</div></div>`).join('')}
-<div class="rule" style="left:72px;right:72px;top:470px"></div>
-<div style="position:absolute;left:72px;top:488px;right:72px;border-left:3px solid ${C.n1};padding:2px 0 2px 22px">
+<div class="rule r" style="--t:1200ms;left:72px;right:72px;top:470px"></div>
+<div class="r" style="--t:1300ms;position:absolute;left:72px;top:488px;right:72px;border-left:3px solid ${C.n1};padding:2px 0 2px 22px">
 <div class="cap" style="color:${C.n1};font-weight:700">Use of generative AI</div>
-<div style="font-size:15.5px;line-height:1.5;margin-top:8px">We acknowledge the use of Claude (Anthropic, https://claude.ai) to locate sources, retrieve and recheck the World Bank series with code, and draft and design these slides. The prompts included asking for three story angles, rebuilding the deck around patents rather than income, verifying every figure and marking anything it could not, and revising the deck against our Data Fluency course rules (at most two ideas per slide, highlight colour, consistent sorting). The outputs were a basis for slides we revised; the diagnosis and the recommendation are ours.</div></div>`});
+<div style="font-size:15.5px;line-height:1.5;margin-top:8px">We acknowledge the use of Claude (Anthropic, https://claude.ai) to locate sources, retrieve and recheck the World Bank series with code, and draft and design these slides. The prompts included asking for three story angles, rebuilding the deck around patents rather than income, verifying every figure and marking anything it could not, and revising the deck against our Data Fluency course rules (at most two ideas per slide, highlight colour, consistent sorting, motion). The outputs were a basis for slides we revised; the diagnosis and the recommendation are ours.</div></div>`});
 
 // ---------- Render ----------
 const stage=document.getElementById('stage');const N=S.length;
 stage.innerHTML=S.map((s,i)=>`<section class="slide" data-i="${i}">${s.html}
 ${s.sec>=0?`<div class="prog">${SECTIONS.map((_,k)=>`<i class="${k===s.sec?'a':''}"></i>`).join('')}<span>${String(i+1).padStart(2,'0')} / ${N}</span></div>`:
  (i>0?`<div class="prog"><span>${String(i+1).padStart(2,'0')} / ${N}</span></div>`:'')}
-${s.noFoot?'':`<div class="foot">${s.src}</div>`}</section>`).join('');
-const els=[...stage.children];let cur=0;
-function go(n){cur=Math.max(0,Math.min(N-1,n));els.forEach((e,i)=>{e.classList.toggle('on',i===cur);e.classList.toggle('prev',i<cur)});
- try{history.replaceState(null,'','#'+(cur+1))}catch(e){}}
-function fit(){const s=Math.min(innerWidth/1334,innerHeight/750);stage.style.transform=`scale(${s})`}
+${s.noFoot?'':`<div class="foot">${s.src}</div>`}</section>`).join('')+`<div id="tip"></div>`;
+const els=[...stage.querySelectorAll('.slide')];let cur=0,scale=1;
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// count-up for every number on the slide being entered
+let raf=[];
+function countUp(sl){raf.forEach(cancelAnimationFrame);raf=[];
+  sl.querySelectorAll('[data-to]').forEach(el=>{const to=+el.dataset.to,dec=+el.dataset.dec,pre=el.dataset.pre,suf=el.dataset.suf,delay=+el.dataset.t,dur=1100;
+    const final=pre+fmt(to,dec)+suf; if(RM){el.textContent=final;return}
+    el.textContent=pre+fmt(0,dec)+suf;const t0=performance.now()+delay;
+    const step=now=>{const k=Math.min(1,Math.max(0,(now-t0)/dur)),e=1-Math.pow(1-k,3);
+      el.textContent=pre+fmt(to*e,dec)+suf; if(k<1)raf.push(requestAnimationFrame(step)); else el.textContent=final};
+    raf.push(requestAnimationFrame(step))})}
+function go(n){const nx=Math.max(0,Math.min(N-1,n));cur=nx;
+  els.forEach((e,i)=>{e.classList.toggle('on',i===cur);e.classList.toggle('prev',i<cur)});
+  countUp(els[cur]);hideTip();
+  try{history.replaceState(null,'','#'+(cur+1))}catch(e){}}
+function fit(){scale=Math.min(innerWidth/1334,innerHeight/750);stage.style.transform=`scale(${scale})`}
 addEventListener('resize',fit);fit();
 addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(cur+1)}
  if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(cur-1)}if(e.key==='Home')go(0);if(e.key==='End')go(N-1)});
 document.getElementById('nx').onclick=()=>go(cur+1);document.getElementById('pv').onclick=()=>go(cur-1);
+
+// tooltips: dots carry data-tip, line charts show every series for the hovered year
+const tip=document.getElementById('tip');
+function showTip(html,cx,cy){const r=stage.getBoundingClientRect();tip.innerHTML=html;
+  let x=(cx-r.left)/scale+14,y=(cy-r.top)/scale-48;tip.classList.add('show');
+  const w=tip.offsetWidth; if(x+w>1320)x-=w+28; tip.style.left=x+'px';tip.style.top=Math.max(8,y)+'px'}
+function hideTip(){tip.classList.remove('show');stage.querySelectorAll('.xh').forEach(g=>g.style.opacity=0)}
+stage.addEventListener('mousemove',e=>{
+  const t=e.target.closest('[data-tip]');
+  if(t){const[a,...b]=t.dataset.tip.split(' · ');showTip(`<b>${a}</b>${b.join(' · ')}`,e.clientX,e.clientY);return}
+  if(e.target.matches('rect[data-lc]')){const o=LC[e.target.dataset.lc],svg=e.target.ownerSVGElement;
+    const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());
+    const i=Math.max(0,Math.min(o.x1-o.x0,Math.round((q.x-o.ox)/o.w*(o.x1-o.x0)))),X=o.ox+i/(o.x1-o.x0)*o.w;
+    const g=svg.querySelector(`.xh[data-lc="${e.target.dataset.lc}"]`);g.style.opacity=1;
+    g.querySelector('line').setAttribute('x1',X);g.querySelector('line').setAttribute('x2',X);
+    g.querySelectorAll('circle').forEach(c=>{const se=o.series[+c.dataset.k];c.setAttribute('cx',X);c.setAttribute('cy',o.oy+o.h-se.v[i]/o.ymax*o.h)});
+    showTip(`<b>${o.x0+i}</b>${o.series.filter(s=>s.hi).reverse().map(s=>`<span style="color:${s.c==='#c8541f'?'#f0a07a':'#8fb8f0'}">●</span> ${s.name[0]+s.name.slice(1).toLowerCase()} ${o.vfmt(s.v[i])}`).join('<br>')}`,e.clientX,e.clientY);return}
+  hideTip()});
+stage.addEventListener('mouseleave',hideTip);
+// dots with tooltips grow slightly under the pointer
+stage.querySelectorAll('circle[data-tip]').forEach(c=>{c.addEventListener('mouseenter',()=>{c.style.transition='r .25s cubic-bezier(.3,1.6,.5,1)';c.dataset.r0=c.dataset.r0||c.getAttribute('r');c.setAttribute('r',+c.dataset.r0*1.3)});
+  c.addEventListener('mouseleave',()=>c.setAttribute('r',c.dataset.r0))});
+// click anywhere on the slide (not on a chart) to advance, like a clicker
+stage.addEventListener('click',e=>{if(e.target.closest('[data-tip],rect[data-lc],a,button'))return;go(cur+(e.clientX<innerWidth*0.25?-1:1))});
 go((parseInt(location.hash.slice(1))||1)-1);
 </script>
 </body>
