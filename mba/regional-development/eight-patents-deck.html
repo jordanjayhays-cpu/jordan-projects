@@ -118,7 +118,7 @@ const fmt=(v,d=0)=>v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFrac
 // ---------- Helpers ----------
 const SECTIONS=['Context','Diagnostic','Benchmarks','Recommendations','Conclusion'];
 // count-up number: renders final value (print / reduced motion), JS animates from zero on entry
-const num=(to,{dec=0,pre='',suf='',t=450}={})=>`<span data-to="${to}" data-dec="${dec}" data-pre="${pre}" data-suf="${suf}" data-t="${t}">${pre}${fmt(to,dec)}${suf}</span>`;
+const num=(to,{dec=0,pre='',suf='',t=450,from=0,dur=1100}={})=>`<span data-to="${to}" data-from="${from}" data-dur="${dur}" data-dec="${dec}" data-pre="${pre}" data-suf="${suf}" data-t="${t}">${pre}${fmt(to,dec)}${suf}</span>`;
 function card(o){return `<div class="card">
  <div class="cap r" style="--i:0">${o.kicker}</div>
  <h2 class="r" style="--i:1">${o.title}</h2>
@@ -314,18 +314,68 @@ html:card({kicker:'International benchmarks · 1 of 3 · Korea',title:'Korea was
 <div class="rule r" style="--t:2400ms;left:130px;right:0;top:430px"></div>
 <div class="aside r" style="--t:2550ms;left:130px;top:446px">so this gap is not ancient.<br>it was built inside one career.</div></div>`});
 
-// 12 Benchmark 2: the climb
-S.push({sec:2,src:'Patent applications, residents, 1980 to 2024 · World Bank WDI, IP.PAT.RESD · retrieved 11 Nov 2026',
+// 12 Benchmark 2: the climb — opens zoomed in on 1980–1985 (Korea and Mexico side by side), then pulls back to 2024
+const ZS={ox:52,oy:24,w:580,h:250,y0:1980,
+ series:[{k:'BRA',v:D.pat.BRA,c:C.ctx,name:'BRAZIL',end:'5,752',dy:-6},
+         {k:'MEX',v:D.pat.MEX,c:C.mex,name:'MEXICO',end:'1,172',hi:1,dy:34},{k:'KOR',v:D.pat.KOR,c:C.kor,name:'KOREA',end:'195,786',hi:1}]};
+LC.zc={series:ZS.series,x0:1980,x1:2024,w:580,h:250,ymax:200000,ox:52,oy:24,vfmt:v=>fmt(v)};
+const zFX=ZS.ox+ZS.w, zFY=v=>ZS.oy+ZS.h-v/200000*ZS.h;
+S.push({sec:2,zoom:1,src:'Patent applications, residents, 1980 to 2024 · World Bank WDI, IP.PAT.RESD · retrieved 11 Nov 2026',
 html:card({kicker:'International benchmarks · 2 of 3 · Korea',title:'Then one of them started climbing.',sub:'Patents filed each year, 1980 to 2024.',
- big:num(158,{pre:'×',t:500}),color:C.kor,label:'Korea’s filings over 44 years. Mexico’s: ×1.7',key:'All lines begin together at bottom left. Mexico never leaves the floor. Brazil in grey for context. Hover the chart for any year.'})+
+ big:num(158,{pre:'×',t:2900,from:1,dur:2400}),color:C.kor,label:'Korea’s filings over 44 years. Mexico’s: ×1.7',
+ key:'The chart opens on 1980 to 1985, when the two were close, then pulls back to 2024. Brazil in grey for context. Hover the chart for any year.'})+
 `<div class="right"><div class="cap r" style="--i:1;margin:72px 0 0 20px">Patent applications per year</div>
-<svg width="767" height="340" style="margin-top:10px">${lineChart([
- {v:D.pat.BRA,c:C.ctx,name:'BRAZIL',end:'5,752',dy:-6},
- {v:D.pat.MEX,c:C.mex,name:'MEXICO',end:'1,172',hi:1,dy:34},
- {v:D.pat.KOR,c:C.kor,name:'KOREA',end:'195,786',hi:1,area:1,slow:1}],
- {x0:1980,x1:2024,w:580,h:250,ymax:200000,yticks:[0,50000,100000,150000,200000],yfmt:t=>t/1000+'k',vfmt:v=>fmt(v),ox:52,oy:24})}</svg>
-<div class="rule r" style="--t:2600ms;left:20px;right:0;top:450px"></div>
-<div class="aside r" style="--t:2750ms;left:20px;top:466px">forty-four years, same starting point</div></div>`});
+<svg id="zc" width="767" height="340" style="margin-top:10px">
+ <defs><clipPath id="zclip"><rect x="40" y="0" width="610" height="276"/></clipPath></defs>
+ <g id="zgrid"></g>
+ <line x1="52" x2="632" y1="274" y2="274" stroke="${C.faint}" stroke-width="1.2"/>
+ <text x="52" y="296" font-size="12" fill="${C.mute}">1980</text><text id="zx1" x="632" y="296" text-anchor="end" font-size="12" fill="${C.mute}">2024</text>
+ <g clip-path="url(#zclip)"><polygon id="za" fill="${C.kor}" fill-opacity=".09"/>
+ ${ZS.series.map(se=>`<polyline id="zp${se.k}" fill="none" stroke="${se.c}" stroke-width="${se.hi?2.6:1.4}" stroke-linejoin="round" stroke-linecap="round"/>`).join('')}</g>
+ <g id="zb0" style="opacity:0"><line stroke="${C.ink}" stroke-width="1.4"/><line stroke="${C.ink}" stroke-width="1.4"/><line stroke="${C.ink}" stroke-width="1.4"/>
+   <text font-family="Archivo" font-size="22" font-weight="800" fill="${C.kor}">1.8×</text><text font-size="13" fill="${C.ink2}">Korea’s whole lead, 1980</text></g>
+ <g id="zlab" style="opacity:0;transition:opacity .5s">${ZS.series.map(se=>{const ly=zFY(se.v[44]);return (se.hi?`<circle cx="${zFX}" cy="${ly}" r="4.5" fill="${se.c}"/>`:'')+
+   `<text x="${zFX+12}" y="${ly+(se.dy||0)-3}" font-size="15" font-weight="700" letter-spacing=".04em" fill="${se.c}">${se.name}</text>
+    <text x="${zFX+12}" y="${ly+(se.dy||0)+14}" font-size="14" font-weight="600" fill="${se.hi?C.ink:C.mute}">${se.end}</text>`}).join('')}</g>
+ <g class="xh" data-lc="zc" style="opacity:0;transition:opacity .15s"><line x1="0" x2="0" y1="24" y2="274" stroke="${C.ink}" stroke-width="1" stroke-dasharray="3 3"/>
+   <circle data-k="1" r="5" fill="${C.mex}" stroke="#fff" stroke-width="2"/><circle data-k="2" r="5" fill="${C.kor}" stroke="#fff" stroke-width="2"/></g>
+ <rect id="zhov" data-lc="zc" x="52" y="24" width="580" height="250" fill="transparent" style="cursor:crosshair;pointer-events:none"/>
+</svg>
+<div class="rule r" style="--t:5300ms;left:20px;right:0;top:450px"></div>
+<div class="aside r" style="--t:5450ms;left:20px;top:466px">forty-four years, same starting point</div></div>`});
+let zRaf=0;
+function zRender(svg,{xmax,ymax,tEnd,b0}){
+  const {ox,oy,w,h,y0}=ZS, X=y=>ox+(y-y0)/(xmax-y0)*w, Y=v=>oy+h-v/ymax*h, q=id=>svg.querySelector(id);
+  // gridlines: fine 1k steps while zoomed in, fading out as the axis widens
+  const minorA=Math.max(0,Math.min(1,(30000-ymax)/20000));
+  q('#zgrid').innerHTML=[1000,2000,3000,4000,50000,100000,150000,200000].filter(v=>v<=ymax*1.001).map(v=>{const a=v<50000?minorA:1;
+    return a<=0?'':`<g opacity="${a}"><line x1="${ox}" x2="${ox+w}" y1="${Y(v)}" y2="${Y(v)}" stroke="${C.line}"/><text x="${ox-8}" y="${Y(v)+4}" text-anchor="end" font-size="12" fill="${C.mute}">${v/1000}k</text></g>`}).join('');
+  q('#zx1').textContent=Math.round(xmax);
+  const pts=se=>{const n=Math.floor(tEnd-y0+1e-9),f=tEnd-y0-n,a=[];for(let i=0;i<=n;i++)a.push([X(y0+i),Y(se.v[i])]);
+    if(f>1e-6&&n+1<se.v.length)a.push([X(y0+n+f),Y(se.v[n]+(se.v[n+1]-se.v[n])*f)]);return a};
+  ZS.series.forEach(se=>q('#zp'+se.k).setAttribute('points',pts(se).map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')));
+  const kp=pts(ZS.series[2]);q('#za').setAttribute('points',`${X(y0)},${Y(0)} ${kp.map(p=>p.join(',')).join(' ')} ${kp[kp.length-1][0]},${Y(0)}`);
+  q('#za').style.opacity=Math.max(0,Math.min(1,(xmax-1990)/34));
+  // 1980 bracket between Korea and Mexico
+  const bx=X(y0)+10,yK=Y(D.pat.KOR[0]),yM=Y(D.pat.MEX[0]),L=q('#zb0').querySelectorAll('line'),T=q('#zb0').querySelectorAll('text');
+  L[0].setAttribute('x1',bx);L[0].setAttribute('x2',bx);L[0].setAttribute('y1',yK);L[0].setAttribute('y2',yM);
+  [[1,yK],[2,yM]].forEach(([k,y])=>{L[k].setAttribute('x1',bx-6);L[k].setAttribute('x2',bx);L[k].setAttribute('y1',y);L[k].setAttribute('y2',y)});
+  T[0].setAttribute('x',bx+10);T[0].setAttribute('y',(yK+yM)/2+8);T[1].setAttribute('x',bx+62);T[1].setAttribute('y',(yK+yM)/2+4);
+  q('#zb0').style.opacity=b0;
+}
+function zFinal(svg){zRender(svg,{xmax:2024,ymax:200000,tEnd:2024,b0:0});svg.querySelector('#zlab').style.opacity=1;svg.querySelector('#zhov').style.pointerEvents='auto'}
+function zoomAnim(sl){cancelAnimationFrame(zRaf);const svg=sl.querySelector('#zc');
+  svg.querySelector('#zlab').style.opacity=0;svg.querySelector('#zhov').style.pointerEvents='none';
+  if(RM){zFinal(svg);return}
+  const t0=performance.now(),io=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2,out=k=>1-Math.pow(1-k,3),cl=k=>Math.max(0,Math.min(1,k));
+  const step=now=>{const t=now-t0;let st;
+    if(t<2100){const k=out(cl((t-400)/1700));st={xmax:1990,ymax:4000,tEnd:1980+5*k,b0:cl((t-500)/400)}}
+    else if(t<2900){st={xmax:1990,ymax:4000,tEnd:1985,b0:1}}
+    else{const k=io(cl((t-2900)/2400));st={xmax:1990+34*k,ymax:4000+196000*(1-Math.pow(1-k,2)),tEnd:1985+39*k,b0:1-cl(k*3)}}
+    zRender(svg,st);
+    if(t<5300)zRaf=requestAnimationFrame(step);else zFinal(svg)};
+  zRaf=requestAnimationFrame(step)}
+addEventListener('beforeprint',()=>document.querySelectorAll('#zc').forEach(zFinal));
 
 // 13 Benchmark 3: Costa Rica FDI — the know-how travels left to right
 const flowBox=(x,fill,txt,col,t)=>`<g class="pop" style="--t:${t}ms"><rect x="${x}" y="70" width="200" height="120" fill="${fill}"/>${txt.map((l,k)=>`<text x="${x+100}" y="${(txt.length>1?126:135)+k*22}" text-anchor="middle" font-size="15" font-weight="700" letter-spacing=".1em" fill="${col}">${l}</text>`).join('')}</g>`;
@@ -450,15 +500,15 @@ const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 // count-up for every number on the slide being entered
 let raf=[];
 function countUp(sl){raf.forEach(cancelAnimationFrame);raf=[];
-  sl.querySelectorAll('[data-to]').forEach(el=>{const to=+el.dataset.to,dec=+el.dataset.dec,pre=el.dataset.pre,suf=el.dataset.suf,delay=+el.dataset.t,dur=1100;
+  sl.querySelectorAll('[data-to]').forEach(el=>{const to=+el.dataset.to,from=+el.dataset.from||0,dec=+el.dataset.dec,pre=el.dataset.pre,suf=el.dataset.suf,delay=+el.dataset.t,dur=+el.dataset.dur||1100;
     const final=pre+fmt(to,dec)+suf; if(RM){el.textContent=final;return}
-    el.textContent=pre+fmt(0,dec)+suf;const t0=performance.now()+delay;
+    el.textContent=pre+fmt(from,dec)+suf;const t0=performance.now()+delay;
     const step=now=>{const k=Math.min(1,Math.max(0,(now-t0)/dur)),e=1-Math.pow(1-k,3);
-      el.textContent=pre+fmt(to*e,dec)+suf; if(k<1)raf.push(requestAnimationFrame(step)); else el.textContent=final};
+      el.textContent=pre+fmt(from+(to-from)*e,dec)+suf; if(k<1)raf.push(requestAnimationFrame(step)); else el.textContent=final};
     raf.push(requestAnimationFrame(step))})}
 function go(n){const nx=Math.max(0,Math.min(N-1,n));cur=nx;
   els.forEach((e,i)=>{e.classList.toggle('on',i===cur);e.classList.toggle('prev',i<cur)});
-  countUp(els[cur]);hideTip();
+  countUp(els[cur]);hideTip();if(S[cur].zoom)zoomAnim(els[cur]);else cancelAnimationFrame(zRaf);
   try{history.replaceState(null,'','#'+(cur+1))}catch(e){}}
 function fit(){scale=Math.min(innerWidth/1334,innerHeight/750);stage.style.transform=`scale(${scale})`}
 addEventListener('resize',fit);fit();
@@ -489,6 +539,7 @@ stage.querySelectorAll('circle[data-tip]').forEach(c=>{c.addEventListener('mouse
   c.addEventListener('mouseleave',()=>c.setAttribute('r',c.dataset.r0))});
 // click anywhere on the slide (not on a chart) to advance, like a clicker
 stage.addEventListener('click',e=>{if(e.target.closest('[data-tip],rect[data-lc],a,button'))return;go(cur+(e.clientX<innerWidth*0.25?-1:1))});
+document.querySelectorAll('#zc').forEach(zFinal);
 go((parseInt(location.hash.slice(1))||1)-1);
 </script>
 </body>
