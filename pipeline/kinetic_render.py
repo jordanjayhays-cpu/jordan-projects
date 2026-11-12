@@ -39,6 +39,12 @@ SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
 # Simplified Chinese, which also covers the Han characters the others need.
 CJK = "/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc"
 CJK_INDEX = 2
+# Neither DejaVu nor Noto Serif CJK covers Devanagari. "MĀYĀ Illusion माया
+# मृगतृष्णा" rendered as thirteen empty boxes, and because the title sits under
+# the wordmark for the whole body, not just the end card, the boxes were on
+# screen for all thirty seconds. Caught on 2026-11-12, five days before that
+# track was due to publish. Install with: apt-get install -y fonts-noto-core.
+DEVA = "/usr/share/fonts/truetype/noto/NotoSerifDevanagari-Regular.ttf"
 
 # The end card is cover, title, gold rule, wordmark — no link, no crown — for
 # every language now. An env var rather than another positional argument,
@@ -53,16 +59,60 @@ def has_cjk(text):
                for c in str(text))
 
 
+def has_devanagari(text):
+    return any("ऀ" <= c <= "ॿ" for c in str(text))
+
+
 def font(size, text=""):
     if text and has_cjk(text) and os.path.exists(CJK):
         return ImageFont.truetype(CJK, size, index=CJK_INDEX)
+    # CJK first: a title mixing both is far more likely to be a Chinese cut
+    # than a Hindi one, and the Chinese file is the one we render daily.
+    if text and has_devanagari(text) and os.path.exists(DEVA):
+        return ImageFont.truetype(DEVA, size)
     return ImageFont.truetype(SERIF, size)
 
 def ease(t):  # smooth in-out
     return t * t * (3 - 2 * t)
 
+def script_runs(text):
+    """Split text into consecutive runs that one font can draw.
+
+    Noto Serif Devanagari has NO Latin coverage, and DejaVu has no Devanagari,
+    so "MĀYĀ Illusion माया मृगतृष्णा" cannot be drawn with either alone: one
+    half or the other comes out as boxes. Runs are drawn separately and laid
+    out end to end.
+    """
+    runs, cur, cur_dev = [], "", None
+    for ch in str(text):
+        dev = has_devanagari(ch)
+        if cur and dev != cur_dev:
+            runs.append(cur); cur = ""
+        cur, cur_dev = cur + ch, dev
+    if cur:
+        runs.append(cur)
+    return runs
+
+
+def measure(d, text, size):
+    return sum(d.textlength(r, font=font(size, r)) for r in script_runs(text))
+
+
 def draw_text_shadow(d, xy, text, f, fill, anchor="mm"):
     x, y = xy
+    runs = script_runs(text)
+    if len(runs) > 1:
+        # Mixed scripts: lay the runs out left to right, each in its own font,
+        # keeping the same centring the single-font path gives.
+        size = getattr(f, "size", 54)
+        fonts = [font(size, r) for r in runs]
+        widths = [d.textlength(r, font=fo) for r, fo in zip(runs, fonts)]
+        cx = x - sum(widths) / 2 if anchor == "mm" else x
+        for r, fo, w in zip(runs, fonts, widths):
+            d.text((cx, y + 3), r, font=fo, fill=(0, 0, 0), anchor="lm")
+            d.text((cx, y), r, font=fo, fill=fill, anchor="lm")
+            cx += w
+        return
     d.text((x, y + 3), text, font=f, fill=(0, 0, 0), anchor=anchor)
     d.text((x, y), text, font=f, fill=fill, anchor=anchor)
 
@@ -100,7 +150,7 @@ def locked_frame(art1000, n, dark=0, title=None):
         # Gold, to separate it from the teal wordmark, and shrunk to fit rather
         # than truncated — several titles run past 940px at the base size.
         ts = 36
-        while ts > 22 and d.textlength(title, font=font(ts, title)) > 940:
+        while ts > 22 and measure(d, title, ts) > 940:
             ts -= 2
         draw_text_shadow(d, (W / 2, 240), title, font(ts, title), GOLD)
     if dark:
@@ -245,7 +295,7 @@ def main():
             img.paste(small, (int((W - 560) / 2), 330))
             d = ImageDraw.Draw(img)
             tf_ = 56
-            while tf_ > 40 and d.textlength(title, font=font(tf_, title)) > 940:
+            while tf_ > 40 and measure(d, title, tf_) > 940:
                 tf_ -= 2
             draw_text_shadow(d, (W / 2, 1000), title, font(tf_, title), IVORY)
             d.rectangle([(W - 150) / 2, 1070, (W + 150) / 2, 1072], fill=GOLD)
