@@ -21,123 +21,141 @@ One message, said at least 5 times: **Know-how is not bought; it is cultivated. 
 
 ## Slide 1 · Natalie
 
-Natalie · about 30 seconds. Open with the hook, out loud, before any introduction: "Last year, a whole country filed eight patents." Then click.
+Natalie · 0:30
+"Quick question. How many new inventions did a country of 18 million people register last year? Ten thousand? A thousand? Hold your guess. We'll come back to it."
+"We're Group 1 from Ernst & Young. The Inter-American Development Bank, the IDB, the development bank that lends to governments across Latin America and the Caribbean, asked us one question: why has growth in Mexico and Central America been so disappointing?"
 
 ## Slide 2 · Natalie
 
-Natalie · Executive summary · about 1 minute 30.
-"We are Group 1 from Ernst & Young. We were commissioned by the Inter-American Development Bank, the IDB, the development bank that lends to governments across Latin America and the Caribbean. The IDB asked us one question: why has growth in Mexico and Central America been so disappointing?" (Full names once; "EY" and "the IDB" after this.)
-Three clicks: the problem is on screen. Click: the cause. Click: the fix. Click: the ask.
-"The problem: eight patents, a whole country, one year. The cause: know-how can be cultivated, and the region lacks focus. (Message #1) The fix: bring in the builders: foreign firms that open permanent plants and labs in second cities and train local firms and workers. Our ask: fund it in Guatemala, this year."
-Hand-off: next is Giulia.
+Natalie · 1:00 · 3 clicks
+"Here's our answer in four lines."
+"The problem: this region is a patent desert. Not one country. All of it."
+[CLICK] "The cause: know-how isn't something you're born with. It's cultivated. And this region has lost its focus."
+[CLICK] "The fix: bring in the builders. Foreign firms that open permanent plants and labs in second cities, and train local firms and workers as they go."
+[CLICK] "Our ask: start in Guatemala, this year."
+"If you remember one thing today: know-how is not bought. It is cultivated."
+Hand-off: "Now, back to that guess. Giulia."
 
 ## Slide 3 · Giulia
 
-Giulia · Regional context · about 1 minute. Two clicks.
-Wait for all eight dots. "Last year, the whole of Guatemala filed eight patents. Eight. For 18 million people."
-Click: the eight shrink into a speck as Korea's dots fill the slide. "The same year, South Korea filed 195,786. And Korea has fewer people than Mexico."
+Giulia · 0:50 · 1 click
+Wait for all eight dots to land.
+"Here's the answer. Guatemala, 18 million people, filed eight patent applications last year. Eight. Every dot on this screen is one of them."
+[CLICK] Let the dots move. "Same year, South Korea: 195,786. Guatemala's eight just shrank to a speck. And Korea has fewer people than Mexico."
 
 ## Slide 4 · Giulia
 
-Giulia · about 1 minute. The dots spread into 123 countries.
-"Does this matter? Across 123 countries, the ones that invent more are richer. Ten times more patents per person goes with about 2.7 times the income. Korea is top right. Our subregion is bottom left."
-Be honest if asked: "This is correlation, not proof. Patents are the thermometer. The engine is know-how, and growth economics links know-how to growth: Romer, and Hausmann and Hidalgo on economic complexity."
-Hand-off: next is Naman.
+Giulia · 0:45
+"Does that matter? Across 123 countries, yes. The countries that invent more are richer. Ten times more patents per person goes with about 2.7 times the income. Korea sits top right. Our region sits low and to the left."
+"One honest caveat: patents don't create growth on their own. They're the thermometer, not the medicine. The medicine is know-how."
+Hand-off: "And the thermometer says this region is running cold. Naman."
 
 ## Slide 5 · Naman
 
-Naman · about 1 minute.
-"This is the disappointing growth the IDB asked about. Since 2000, income per person in Mexico grew just 0.3% a year: 7% in 24 years. Guatemala and Honduras about 1.5%, below the world average. Korea, 3.1%."
-"One exception: Costa Rica. Remember it." If asked about Panama: it grew fast on the canal, logistics and finance, a special case, so we left it off this chart.
+Naman · 0:45
+"Here's what running cold looks like. Since 2000, Mexico's income per person has grown 0.3% a year. That's 7% in twenty-four years."
+"Guatemala and Honduras: about 1.5%, below the world average. Korea: 3.1%. Costa Rica is the one exception in our subregion. Keep an eye on it; we'll come back."
+"So why? Four causes."
 
 ## Slide 6 · Naman
 
-Naman · Diagnostic · about 45 seconds.
-"Four causes. First: the region barely pays for research. Korea spends almost 5% of its economy on research every year; the OECD average is about 3%; Latin America, under 0.7%. Most of South America and the Caribbean is low too, and our subregion is at the bottom: Mexico 0.25%, Guatemala almost zero. That is a policy choice, written into a budget."
+Naman · 0:35
+"Cause one: the region barely pays for research. Korea spends almost 5% of its economy on it. The OECD, about 3%. Latin America, under 0.7%."
+"Our subregion sits at the very bottom: Mexico 0.25%. Guatemala, almost zero. That's not geography. That's a budget line."
 
 ## Slide 7 · Naman
 
-Naman · about 45 seconds.
-"Second: few people are paid to invent. Korea has about 9,500 researchers per million people. Chile has about 700. Every country in our subregion is below Chile: Mexico 438, Guatemala 1.4." If time: "That is about 26 researchers in the whole of Guatemala."
+Naman · 0:30
+"Cause two: almost nobody is paid to invent. Korea has 9,472 researchers per million people. Chile, about 700. Every country in our subregion is below Chile."
+"Guatemala: 1.4 per million. That's about 26 researchers in the whole country."
 
 ## Slide 8 · Naman
 
-Naman · about 1 minute 15.
-"Third: the capital races ahead and the rest of the country is left behind. Jobs, universities and investment pile up in the capital, and young people and money leave the regions. Economists call it backwash."
-"Look at the gap. In Korea, the capital region is only 1.3 times richer than the poorest region. In Costa Rica, 2.5 times. In Mexico, Mexico City is 5.9 times richer than Chiapas."
-If asked: "Mexico's richest region is actually Campeche, because of oil, so we compare the capital." OECD Regional Database, 2021.
+Naman · 0:45
+"Cause three: the capital races ahead and leaves the rest behind. Jobs, universities and money pile up in one city, and young people follow. Economists call it backwash."
+"Look at the gap between the capital and the poorest region. Korea: 1.3 times. Costa Rica: 2.5. Guatemala: 4.7. Mexico City is 5.9 times richer than Chiapas."
 
 ## Slide 9 · Naman
 
-Naman · about 1 minute.
-"Fourth: hiring someone officially costs extra, because payroll taxes pay for health and pensions. So firms stay small and off the books. Across our subregion, about 6 in 10 workers are informal, against about 1 in 4 in Chile. Honduras and Guatemala are the worst; Costa Rica the best." (ILOSTAT, 2025; Santiago Levy's argument.)
-Hand-off: next is Jordan.
+Naman · 0:40
+"Cause four: hiring someone officially costs extra. Payroll taxes fund health and pensions, so firms stay small and off the books."
+"Across our subregion, about 6 in 10 workers are informal. In Guatemala, more than 7 in 10. In Chile, 1 in 4. And a firm that stays hidden never grows, and never learns."
+Hand-off: "Put the four causes together, and you get one pattern. Jordan."
 
 ## Slide 10 · Jordan
 
-Jordan · the climax · about 45 seconds. Slow down.
-"Four causes, one pattern. know-how can be cultivated, and the region lacks focus." (Message #2)
+Jordan · 0:30
+Slow down. Let the first line land before the orange one appears.
+"Know-how can be cultivated. [pause] This region has lost its focus."
+"Four causes, one pattern: it stopped investing in learning. And here's the proof that this is a choice, not destiny."
 
 ## Slide 11 · Jordan
 
-Jordan · International benchmarks · about 1 minute. Two clicks on this slide.
-On entry: 1960 to the mid-1980s, Mexico ahead. "Were we always behind? No. In 1960, Mexico was four times richer than Korea."
-Click 1: the lines cross. "Then Korea caught up. Around 1988, they swapped."
-Click 2: the chart pulls back to 2024. Let it move. "Today Korea is 3.6 times richer." Pause. "So what changed?"
-Hand-off: next is Adi.
+Jordan · 0:50 · 2 clicks
+"Was the region always behind? No. In 1960, Mexico was four times richer than South Korea."
+[CLICK] "Then Korea caught up. Around 1988, the lines cross."
+[CLICK] Let the chart pull back. Pause. "Today Korea is 3.6 times richer. Same starting line. Completely different finish."
+Hand-off: "So what changed? Adi."
 
 ## Slide 12 · Adi
 
-Adi · about 1 minute 15. One click on this slide.
-On entry the chart draws 1980 to 1985, zoomed in. "In 1980, the two filed patents at the same level: Mexico 704, Korea 1,241. Two kids, same classroom."
-Click: the chart pulls back to 2024 and the title changes. Let it move, then: "Then Korea found its calling. Its patents grew 158 times. Mexico's, 1.7 times. That is what turned Korea from the poorer country into the richer one."
-Hand-off: next is Jordan.
+Adi · 0:45 · 1 click
+"In 1980, the two countries were close: Mexico filed 704 patents, Korea 1,241. Two kids, same classroom."
+[CLICK] Let the chart pull back. "Then Korea found its calling. It put research at the centre of its economy, and its patents grew 158 times. Mexico's grew 1.7 times."
+Hand-off: "Korea is far away. But someone much closer did it too. Jordan."
 
 ## Slide 13 · Jordan
 
-Jordan · about 1 minute.
-"And it has been done next door. Costa Rica went after foreign factories on purpose, through its agency CINDE. FDI brings technology and know-how, and local firms and workers learn from it." (Message #3: know-how can be bought.) ⚠ Check the CINDE details.
-Hand-off: next is Adi.
+Jordan · 0:40
+"Costa Rica: the one exception on our growth chart. It went after foreign manufacturers on purpose, through its investment agency, CINDE."
+"Those firms brought technology and know-how, and local suppliers and workers learned from them. FDI brings technology and know-how. That's not luck. It's focus."
+Hand-off: "So what should the IDB do? Adi."
 
 ## Slide 14 · Adi
 
-Adi · Policy recommendations · about 45 seconds.
-"So what should the IDB do? Not chase patents. Patents are the thermometer, not the medicine. The medicine is know-how, and the fastest way to get it is to bring in the builders: foreign firms that open permanent plants and labs here, not consultants, and train local firms and workers. Three moves, one for each cause."
+Adi · 0:25
+"Bring in the builders. Not consultants who advise and leave: firms that build here and stay. Three moves, one for each cause."
 
 ## Slide 15 · Adi
 
-Adi · about 1 minute 15. Fixes causes 1 and 2.
-"One: invite foreign firms to build here: a real plant or lab that stays. One condition: they train local suppliers, hire formally, and partner with a local university. An IDB-funded investment team picks the firms and writes the conditions. Costa Rica did this with CINDE; Chile did something similar for salmon." Why now: factories leaving China are choosing new homes.
-Hand-off: next is Jordan.
+Adi · 0:50
+"Move one: invite foreign firms to build here, on one condition: they train locals. Every deal has three conditions: train local suppliers, hire formally, partner with a local university."
+"An IDB-funded investment team picks the firms and writes the conditions. That fixes causes one and two: research and researchers grow inside real companies. And the timing is right: factories leaving China are choosing new homes now."
+Hand-off: "But where should they go? Jordan."
 
 ## Slide 16 · Jordan
 
-Jordan · about 1 minute. Fixes cause 3.
-"Two: put them in second cities, not the capital. The capital is already full. Second cities linked to their towns spread the jobs instead of draining them." Example cities to name if asked: [group to choose, e.g. Querétaro or Mérida in Mexico].
-Hand-off: next is Adi.
+Jordan · 0:40
+"Move two: second cities, not the capital. The capital is already full; that was cause three."
+"So the plants go to second cities, like Quetzaltenango in Guatemala, linked to the towns around them by roads, internet and local suppliers. The jobs spread instead of draining away."
+Hand-off: "And for local firms to join in, hiring has to get cheaper. Adi."
 
 ## Slide 17 · Adi
 
-Adi · about 1 minute. Fixes cause 4.
-"Three: make formal hiring cheaper. Pay for health and pensions from general taxes, not wages. Then local firms can come onto the books and become suppliers to the foreign firms." Say the cost first: "It costs money before it saves money."
-Hand-off: next is Jordan.
+Adi · 0:40
+"Move three: make formal hiring cheaper. Pay for health and pensions from general taxes, not from wages."
+"Then the hidden firms from cause four can come onto the books and become suppliers to the foreign plants. Honestly: this costs money before it saves money. That's why it's phased in."
+Hand-off: "So how do we roll it out? Jordan."
 
 ## Slide 18 · Jordan
 
-Jordan · about 1 minute 15.
-"Governments last four years; these programmes don't. So the cheapest, fastest step goes first, and each step has to earn the next. Every year we publish three scores. We are not promising a growth number." If asked: inclusive, because it reaches towns and informal workers; sustainable, because know-how lasts.
-Hand-off: next is Adi.
+Jordan · 0:45
+"Governments last four years. These programmes don't. So: cheap first, big later. First the investment team signs the first firms, then the second-city hubs open, then cheaper hiring phases in."
+"Every year we publish three KPIs: inventions per person against Chile and Brazil, jobs outside the capital, and workers on the books. We're not promising a growth number. We're promising to be measured."
+Hand-off: "Adi."
 
 ## Slide 19 · Adi
 
-Adi · Conclusion and next steps · about 1 minute. The eight dots are back.
-"Eight inventions. In 1980 Korea started where Mexico was. The difference was homework. Know-how is not bought; it is cultivated. (Message #4) So bring in the builders, in Guatemala, this year. In the next 90 days: pick the pilot country and its second city, shortlist the first foreign firms, and set the baselines."
-Pause. No "thank you". "We'd love your questions." Adi hosts Q&A.
-Hand-off: next is Jordan / Adi.
+Adi · 0:45
+"Remember the guess at the start? Eight. A whole country, one year. In 1980, Korea stood where Mexico stood. The difference wasn't luck. It was focus."
+Pause. "Know-how is not bought. It is cultivated."
+"So bring in the builders. Start this year, in Guatemala: the deepest patent desert in the region, where the first plant will teach the most. In the next 90 days: pick the second city, shortlist the first firms, set the three baselines."
+Pause two seconds. Don't say thank you. "We'd love your questions."
 
 ## Slide 20 · Jordan / Adi
 
-Jordan / Adi · Q&A only. See the Q&A plan in the script for who answers what.
+Jordan / Adi · 0:00
+Not presented. Leave it for Q&A: every source and footnote, by slide.
 
 ## Slide 21 · Appendix
 
