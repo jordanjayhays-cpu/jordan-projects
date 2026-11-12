@@ -8,8 +8,8 @@ The one message, said four times: **Know-how is not bought. It is cultivated.**
 
 | # | Slide | Presenter | Slot (max) | Clicks |
 |---|---|---|---|---|
-| 1 | Title | Natalie | 0:30 |  |
-| 2 | Executive summary | Natalie | 1:00 | 3 |
+| 1 | Title | Nathalie | 0:30 |  |
+| 2 | Executive summary | Nathalie | 1:00 | 3 |
 | 3 | Eight patents, then Korea | Giulia | 0:50 | 1 |
 | 4 | Inventing and income | Giulia | 0:45 |  |
 | 5 | Growth has disappointed | Naman | 0:45 |  |
@@ -31,7 +31,7 @@ The one message, said four times: **Know-how is not bought. It is cultivated.**
 
 | Presenter | Slides | Slots (max) |
 |---|---|---|
-| Natalie | 1, 2 | 1:30 |
+| Nathalie | 1, 2 | 1:30 |
 | Giulia | 3, 4 | 1:35 |
 | Naman | 5, 6, 7, 8, 9 | 3:15 |
 | Jordan | 10, 11, 13, 16, 18 | 3:25 |
@@ -45,7 +45,7 @@ The one message, said four times: **Know-how is not bought. It is cultivated.**
 - **Present tense, eyes on the room,** not on the screen.
 - **Adi ends the talk with no "thank you".** Pause two seconds, then invite questions.
 
-## Natalie · slides 1, 2 · 1:30
+## Nathalie · slides 1, 2 · 1:30
 
 ### Slide 1 · Title · 0:30
 

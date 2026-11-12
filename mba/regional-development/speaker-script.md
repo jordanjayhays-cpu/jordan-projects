@@ -1,12 +1,12 @@
 # Eight Patents: speaker script
 
-Group 1 · Ernst & Young (EY) for the IDB · 20 minutes: Natalie, Giulia, Naman, Jordan, Adi; then Q&A hosted by Adi.
+Group 1 · Ernst & Young (EY) for the IDB · 20 minutes: Nathalie, Giulia, Naman, Jordan, Adi; then Q&A hosted by Adi.
 
 One message, said at least 5 times: **Know-how is not bought; it is cultivated. The region lacks focus.**
 
 | Presenter | Slides | Part |
 |---|---|---|
-| Natalie | 1–2 | Title, executive summary |
+| Nathalie | 1–2 | Title, executive summary |
 | Giulia | 3–4 | Regional context: eight patents, inventing and income |
 | Naman | 5–9 | Growth trend and the four causes |
 | Jordan | 10–11 | The climax; income: Mexico ahead, the swap, the boom |
@@ -19,15 +19,15 @@ One message, said at least 5 times: **Know-how is not bought; it is cultivated. 
 | Adi | 19 | Conclusion and the ask, then hosts Q&A |
 | Jordan / Adi | 20 | Sources (Q&A only) |
 
-## Slide 1 · Natalie
+## Slide 1 · Nathalie
 
-Natalie · 0:30
+Nathalie · 0:30
 "Quick question. How many new inventions did a country of 18 million people register last year? Ten thousand? A thousand? Hold your guess. We'll come back to it."
 "We're Group 1 from Ernst & Young. The Inter-American Development Bank, the IDB, the development bank that lends to governments across Latin America and the Caribbean, asked us one question: why has growth in Mexico and Central America been so disappointing?"
 
-## Slide 2 · Natalie
+## Slide 2 · Nathalie
 
-Natalie · 1:00 · 3 clicks
+Nathalie · 1:00 · 3 clicks
 "Here's our answer in four lines."
 "The problem: this region is a patent desert. Not one country. All of it."
 [CLICK] "The cause: know-how isn't something you're born with. It's cultivated. And this region has lost its focus."
