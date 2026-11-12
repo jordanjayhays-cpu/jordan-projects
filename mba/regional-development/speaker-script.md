@@ -1,8 +1,8 @@
 # Eight Patents: speaker script
 
-Group 1 · Ernst & Young (EY) for the IDB · 20 minutes, 5 speakers, then Q&A.
+Group 1 · Ernst & Young (EY) for the IDB · 20 minutes: Natalie, Giulia, Naman, Jordan, Adi; then Q&A hosted by Adi.
 
-One message, said at least 5 times: **Know-how is bought, not born.**
+One message, said at least 5 times: **Know-how is not bought; it is cultivated. The region lacks focus.**
 
 | Presenter | Slides | Part |
 |---|---|---|
