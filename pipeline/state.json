@@ -92,9 +92,10 @@
   "Everything Changes",
   "Quiet Revolt",
   "Tolstoy: Confessions",
-  "M\u0100Y\u0100 Illusion \u092e\u093e\u092f\u093e \u092e\u0943\u0917\u0924\u0943\u0937\u094d\u0923\u093e"
+  "M\u0100Y\u0100 Illusion \u092e\u093e\u092f\u093e \u092e\u0943\u0917\u0924\u0943\u0937\u094d\u0923\u093e",
+  "The Social Mind"
  ],
- "last_scheduled_date": "2026-11-17",
+ "last_scheduled_date": "2026-11-18",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -224,6 +225,7 @@
   "2026-11-14": "everything-changes",
   "2026-11-15": "quiet-revolt",
   "2026-11-16": "tolstoy-confessions",
-  "2026-11-17": "maya-illusion"
+  "2026-11-17": "maya-illusion",
+  "2026-11-18": "the-social-mind"
  }
 }
