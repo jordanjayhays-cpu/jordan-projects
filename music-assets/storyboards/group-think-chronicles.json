@@ -1,0 +1,94 @@
+{
+ "track": "Group Think Chronicles",
+ "slug": "group-think-chronicles",
+ "premise": "One figure becomes a crowd, the crowd becomes a single shape, and the one voice that rises gets absorbed. It ends where it started, alone, which is the only place the song says you can actually think.",
+ "spine": "COUNT. The film is a headcount ramp: one figure, then two, then a rank, then thirty filling the frame, then back to one. Light moves with it, brightest when the crowd is largest, because conformity in this song is not darkness, it is the comfort of being lit the same way as everyone else.",
+ "continuity": [
+  "Every figure is the SAME figure: same hood, same ground-length robe, same squared shoulders, always seen from behind. A crowd of him, never extras.",
+  "The horizon stays low and empty. No architecture, no landmarks. The only thing that ever changes in frame is how many of him there are.",
+  "The raised hand in shot 5 is the only gesture in the whole film. It appears once and is never seen again, which is the point."
+ ],
+ "timing_note": "Ten shots across the 30-second teaser, about three seconds each. Shot 5 should land near 'but only one voice gets to decide' and shot 9 near 'the harmony's fake'.",
+ "shots": [
+  {
+   "n": 1,
+   "act": "I. ONE",
+   "size": "MEDIUM",
+   "light": 3,
+   "count": 1,
+   "desc": "A single hooded figure stands alone on a flat empty plain under a pale blank sky, seen from behind, very small in a very wide space."
+  },
+  {
+   "n": 2,
+   "act": "I. ONE",
+   "size": "WIDE",
+   "light": 4,
+   "count": 2,
+   "desc": "A second identical figure now stands beside the first, shoulder to shoulder, in exactly the same posture, on the same empty plain."
+  },
+  {
+   "n": 3,
+   "act": "II. MANY",
+   "size": "WIDE",
+   "light": 5,
+   "count": 6,
+   "desc": "Six identical figures in a loose arc on the plain, all facing the same direction away from camera, evenly spaced."
+  },
+  {
+   "n": 4,
+   "act": "II. MANY",
+   "size": "MEDIUM",
+   "light": 5,
+   "count": 12,
+   "desc": "The arc has tightened into a close rank, twelve identical figures shoulder to shoulder, no gaps left between them."
+  },
+  {
+   "n": 5,
+   "act": "III. VOICE",
+   "size": "DETAIL",
+   "light": 7,
+   "count": 12,
+   "desc": "Close over the backs of the rank: one single bare hand is raised high above the sea of hoods, catching the light. Every other figure is still."
+  },
+  {
+   "n": 6,
+   "act": "III. VOICE",
+   "size": "WIDE",
+   "light": 7,
+   "count": 30,
+   "desc": "The crowd now fills the entire frame edge to edge, a field of identical hoods seen from behind. The raised hand is nowhere in it."
+  },
+  {
+   "n": 7,
+   "act": "IV. ONE SHAPE",
+   "size": "MEDIUM",
+   "light": 5,
+   "count": 30,
+   "desc": "The crowd from directly behind, every head tilted at precisely the same angle, the rows so aligned they read as one solid mass rather than people."
+  },
+  {
+   "n": 8,
+   "act": "IV. ONE SHAPE",
+   "size": "DETAIL",
+   "light": 4,
+   "count": 30,
+   "desc": "Looking down at the ground: dozens of identical shadows overlapping until they merge into a single large shapeless dark pool."
+  },
+  {
+   "n": 9,
+   "act": "V. THE BREAK",
+   "size": "WIDE",
+   "light": 3,
+   "count": 30,
+   "desc": "The same crowd, but one figure at the far edge has stepped a single pace out of the rank, breaking the straight line of shoulders. Still seen from behind, still identical, just no longer in formation."
+  },
+  {
+   "n": 10,
+   "act": "V. THE BREAK",
+   "size": "MEDIUM",
+   "light": 2,
+   "count": 1,
+   "desc": "The crowd is gone. One hooded figure stands alone on the flat empty plain again, in the same spot as the first shot, under a darker sky."
+  }
+ ]
+}
