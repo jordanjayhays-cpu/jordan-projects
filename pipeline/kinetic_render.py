@@ -45,6 +45,15 @@ CJK_INDEX = 2
 # screen for all thirty seconds. Caught on 2026-11-12, five days before that
 # track was due to publish. Install with: apt-get install -y fonts-noto-core.
 DEVA = "/usr/share/fonts/truetype/noto/NotoSerifDevanagari-Regular.ttf"
+# Arabic needs more than a font. Letters change shape by position and the
+# script runs right to left, and Pillow does neither: it draws isolated forms
+# left to right, which is unreadable to anyone who reads Arabic even when the
+# glyphs are present. arabic_reshaper picks the contextual forms and
+# python-bidi reorders. Caught on 2026-11-14 on "Unity of Being وحدة الوجود",
+# five days before publish. Naskh is the serif-like face of the Noto Arabic
+# family, closest to the template. apt-get install -y fonts-noto-core and
+# python3 -m pip install arabic-reshaper python-bidi.
+ARAB = "/usr/share/fonts/truetype/noto/NotoNaskhArabic-Regular.ttf"
 
 # The end card is cover, title, gold rule, wordmark — no link, no crown — for
 # every language now. An env var rather than another positional argument,
@@ -63,6 +72,26 @@ def has_devanagari(text):
     return any("ऀ" <= c <= "ॿ" for c in str(text))
 
 
+def has_arabic(text):
+    # Second range is Arabic Presentation Forms, which is what reshaping
+    # produces, so an already-shaped run still answers True here.
+    return any("؀" <= c <= "ۿ" or "ﭐ" <= c <= "﻿"
+               for c in str(text))
+
+
+def shape_arabic(text):
+    """Contextual letterforms plus right-to-left order, or text unchanged."""
+    if not has_arabic(text):
+        return text
+    try:
+        import arabic_reshaper
+        from bidi.algorithm import get_display
+        return get_display(arabic_reshaper.reshape(text))
+    except Exception:
+        # Unshaped Arabic is wrong, but a crashed daily render is worse.
+        return text
+
+
 def font(size, text=""):
     if text and has_cjk(text) and os.path.exists(CJK):
         return ImageFont.truetype(CJK, size, index=CJK_INDEX)
@@ -70,6 +99,8 @@ def font(size, text=""):
     # than a Hindi one, and the Chinese file is the one we render daily.
     if text and has_devanagari(text) and os.path.exists(DEVA):
         return ImageFont.truetype(DEVA, size)
+    if text and has_arabic(text) and os.path.exists(ARAB):
+        return ImageFont.truetype(ARAB, size)
     return ImageFont.truetype(SERIF, size)
 
 def ease(t):  # smooth in-out
@@ -82,16 +113,29 @@ def script_runs(text):
     so "MĀYĀ Illusion माया मृगतृष्णा" cannot be drawn with either alone: one
     half or the other comes out as boxes. Runs are drawn separately and laid
     out end to end.
+
+    Whitespace stays inside the run it follows instead of starting a new one.
+    Splitting on the space in "وحدة الوجود" put each word in its own run, and
+    runs are laid out left to right, so the two words came out in the wrong
+    order even though every letter was shaped correctly. Keeping the phrase
+    whole lets the bidi pass order it.
     """
-    runs, cur, cur_dev = [], "", None
+    def kind(c):
+        if c.isspace(): return None      # neutral: joins the current run
+        if has_devanagari(c): return "deva"
+        if has_arabic(c): return "arab"
+        return "latin"
+    runs, cur, cur_kind = [], "", None
     for ch in str(text):
-        dev = has_devanagari(ch)
-        if cur and dev != cur_dev:
+        k = kind(ch)
+        if k is not None and cur and k != cur_kind:
             runs.append(cur); cur = ""
-        cur, cur_dev = cur + ch, dev
+        cur = cur + ch
+        if k is not None:
+            cur_kind = k
     if cur:
         runs.append(cur)
-    return runs
+    return [shape_arabic(r) for r in runs]
 
 
 def measure(d, text, size):
@@ -113,8 +157,12 @@ def draw_text_shadow(d, xy, text, f, fill, anchor="mm"):
             d.text((cx, y), r, font=fo, fill=fill, anchor="lm")
             cx += w
         return
-    d.text((x, y + 3), text, font=f, fill=(0, 0, 0), anchor=anchor)
-    d.text((x, y), text, font=f, fill=fill, anchor=anchor)
+    # Single run, but still take it from script_runs rather than the raw text:
+    # a title that is entirely Arabic has one run and that run is the SHAPED
+    # one. Drawing `text` here would skip the reshaping and the bidi reorder.
+    one = runs[0] if runs else text
+    d.text((x, y + 3), one, font=f, fill=(0, 0, 0), anchor=anchor)
+    d.text((x, y), one, font=f, fill=fill, anchor=anchor)
 
 def fit_art(art, size):
     a = art.copy()
