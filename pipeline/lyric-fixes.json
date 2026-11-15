@@ -439,5 +439,43 @@
    "now": "Rousseau's lament,",
    "why": "Same name, same mangling. Spelling the philosopher's name correctly matters for a track that is about him."
   }
+ ],
+ "dichos-del-corazon": [
+  {
+   "i": 0,
+   "was": "Ito ang mga mga",
+   "now": "",
+   "why": "Tagalog hallucination. The transcriber tries English then Tagalog, and over this Spanish opening the Tagalog pass won and produced filler. Blanked rather than guessed: a Spanish re-run suggests a line here but not reliably enough to put words on screen."
+  },
+  {
+   "i": 1,
+   "was": "mga nangyari sa mga nangyari",
+   "now": "",
+   "why": "Same hallucination, second half."
+  },
+  {
+   "i": 2,
+   "was": "Sa Dachos, we learn",
+   "now": "From dichos, we learn",
+   "why": "'Sa' is Tagalog contamination and 'Dachos' is the song's own title word misspelt. A Spanish re-run gives 'De dichos aprendimos', so 'From dichos, we learn'."
+  },
+  {
+   "i": 4,
+   "was": "Gotting your steps",
+   "now": "Guiding your steps",
+   "why": "'Gotting' is not a word; the Spanish pass heard 'Guiando', and 'guiding your steps in all that you do' parses."
+  },
+  {
+   "i": 6,
+   "was": "Alma al tiempo,",
+   "now": "Al mal tiempo,",
+   "why": "The dicho is «Al mal tiempo, buena cara». 'Alma al tiempo' is meaningless and breaks the proverb the verse is built on."
+  },
+  {
+   "i": 14,
+   "was": "Alma al tiempo,",
+   "now": "Al mal tiempo,",
+   "why": "Same proverb, second chorus."
+  }
  ]
 }

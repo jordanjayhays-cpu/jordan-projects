@@ -77,7 +77,19 @@ def title_from(posts):
                 s = json.loads(s)
             except ValueError:
                 continue
-        t = ((s or {}).get("title") or "").split(" | Philosophical King")[0].strip()
+        t = ((s or {}).get("title") or "").strip()
+        # Strip whichever suffix this channel uses. TikTok writes
+        # "<track> | Philosophical King"; YouTube writes "<track> — Philosophical
+        # King (Official Lyric Teaser)". Only the pipe was handled, so when a
+        # YouTube post happened to come first the long title was taken as the
+        # track title: drawn on screen for the whole video, and re-suffixed on
+        # the rebuilt YouTube post, which then read "... (Official Lyric Teaser)
+        # — Philosophical King (Official Lyric" after the 100-character cut.
+        # Seen on 2026-11-20. Which post comes first is not stable, so this has
+        # to handle both rather than rely on the order.
+        for sep in (" | Philosophical King", " — Philosophical King",
+                    " - Philosophical King"):
+            t = t.split(sep)[0].strip()
         if t:
             return t
     return None

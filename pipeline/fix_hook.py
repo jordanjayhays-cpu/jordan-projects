@@ -119,7 +119,13 @@ def main():
         plat = integ["platform"]
         if plat == "reddit" or plat not in channels:
             continue
-        settings = platform_settings(plat, title)
+        # live_title, not the slug-derived one. The caption above already
+        # avoids slug.title() for good reasons, but the per-platform settings
+        # were still getting it, so a hook fix quietly rewrote the YouTube and
+        # TikTok titles: "Dichos del Corazón" came back as "Dichos Del
+        # Corazon", losing the accent and the lowercase "del". Store titles are
+        # Jordan's and have to match the release exactly.
+        settings = platform_settings(plat, live_title)
         if settings is None:
             print(f"skipping {plat}: not configured")
             continue
