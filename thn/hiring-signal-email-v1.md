@@ -2,7 +2,7 @@
 
 Goal: reach Alabama hospitals that are posting a hospital medicine job right now, physician to physician.
 Material used: THN website (Dr. Shiv Kalan bio, on-site physician leader model), THN campaign v1 copy and critic notes, live job postings (Indeed, 2026-11-17).
-Done when: version A approved (done), THN confirms Dr. Kalan takes the calls, and the variant is added to THN's Instantly as a draft for the signal list only.
+Done when: version A approved (done), and the variant is added to THN's Instantly as a draft for the signal list only.
 
 Format rules applied: greeting on its own line, one sentence per paragraph, no em dashes, "doctors" not "hospitalists".
 
@@ -23,12 +23,12 @@ Our founder, Dr. Shiv Kalan, spent 12 years as a hospital doctor and medical dir
 
 While you recruit, our doctors can work those shifts full time, with one of our physician leaders on site.
 
-Would 15 minutes with Dr. Kalan, doctor to doctor, be useful this week?
+Would a short call with our team be useful this week?
 
 {{sendingAccountFirstName}}
 The Hospitalist Network
 
-*Tradeoff: names their real opening and borrows Dr. Kalan's credibility without sending from his account; needs him to take the calls.*
+*Tradeoff: names their real opening and borrows Dr. Kalan's credibility; the call is with the THN team, so it does not depend on his calendar.*
 
 ## Version B: bold
 
@@ -78,14 +78,14 @@ Founder, The Hospitalist Network
 
 ## Premortem
 
-1. **Dr. Kalan is not available for the calls the email offers.** Fix: THN confirms he takes them; fallback ask is "a short call with our team".
+1. **Most contacts sit on catch-all domains, so they cannot be verified.** Fix: phone (THN) for the top 3, a small catch-all batch only with Jordan's yes.
 2. **The posting is filled or stale when the email lands.** Fix: 7-day freshness check; if filled, the email still works with "while you build the team" wording (version A only).
 3. **The named contact is not the decision maker.** Fix: hospitalist director first, CMO second; one contact per hospital per week.
 
 ## Open
 
 - Sender: THN Instantly inboxes, not Dr. Kalan (decided 2026-11-17). Version A chosen.
-- Dr. Kalan available for the 15-minute calls: UNSURE, confirm with THN.
+- Ask changed to "a short call with our team" (Jordan, 2026-11-17).
 - "12 years" comes from THN's site ("12+ years as a hospitalist and medical director"); confirm with THN.
 - Roster offer (version B): unconfirmed with Veevy.
 
