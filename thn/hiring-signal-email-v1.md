@@ -76,6 +76,13 @@ Founder, The Hospitalist Network
 - Same schedule as v1: Tue-Thu 08:00-11:00 America/Chicago, text only, no tracking, stop on reply.
 - Follow-ups: reuse v1 emails 2-4, same sender ({{sendingAccountFirstName}}, The Hospitalist Network).
 
+## Status (2026-11-17)
+
+- Draft campaign created in THN's Instantly: `THN | Alabama | Hiring signal | v1` (id e60703cb), status draft, 0 sent.
+- 4 emails: version A, then "physician leader on site", "licensed in Alabama and available", "last note". Ask in every email: a short call with our team.
+- Sender: daniella@teamhospitalistnetwork.com only, daily limit 10, Tue-Thu 08:00-11:00 Central, text only, no tracking, stop on reply.
+- 6 leads, all on catch-all domains (unverifiable, Jordan approved a separate small campaign). Excluded: Jackson and DCH (already in v1), Huntsville Hospital system (off-limits), Grandview (CEO unconfirmed).
+
 ## Premortem
 
 1. **Most contacts sit on catch-all domains, so they cannot be verified.** Fix: phone (THN) for the top 3, a small catch-all batch only with Jordan's yes.
