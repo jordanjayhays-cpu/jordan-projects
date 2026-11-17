@@ -19,6 +19,8 @@ Hi Dr. {{lastName}},
 
 I saw {{companyName}} is hiring {{opening}}.
 
+The Hospitalist Network staffs hospitals with full-time traveling doctors who cover hospital medicine shifts.
+
 Our founder, Dr. Shiv Kalan, spent 12 years as a hospital doctor and medical director before starting The Hospitalist Network.
 
 While you recruit, our doctors can work those shifts full time, with one of our physician leaders on site.
