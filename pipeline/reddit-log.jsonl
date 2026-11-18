@@ -109,3 +109,4 @@
 {"at": "2026-11-16T09:36:30+00:00", "outcome": "posted", "slug": "everything-changes", "title": "Everything Changes", "when": "2026-11-16T09:51:00", "link": "https://www.youtube.com/watch?v=FBhAK0fJhqI"}
 {"at": "2026-11-17T09:36:15+00:00", "outcome": "released-failed", "slugs": ["everything-changes"]}
 {"at": "2026-11-17T09:36:24+00:00", "outcome": "posted", "slug": "quiet-revolt", "title": "Quiet Revolt", "when": "2026-11-17T09:51:00", "link": "https://www.youtube.com/watch?v=82i_T7t0mXQ"}
+{"at": "2026-11-18T09:36:19+00:00", "outcome": "released-failed", "slugs": ["quiet-revolt"]}
