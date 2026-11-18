@@ -203,8 +203,22 @@ def transcribe(wav, title=""):
     # Lyrics that are missing are worse on screen than lyrics that are wrong.
     model = WhisperModel("small", device="cpu", compute_type="int8")
     def run(lang, prompt=None):
+        # temperature=0 is NOT optional. faster-whisper defaults to a
+        # temperature fallback ladder (0.0 .. 1.0) and, on audio it cannot
+        # decode confidently, climbs it and SAMPLES — so the same wav, the same
+        # model and the same arguments return different lyrics on every run, and
+        # sometimes none at all. On 2026-11-18 that shipped
+        # the-limits-of-self-knowledge with an empty transcript: one blank line,
+        # no lyrics on screen, and the hook fell back to the title so the caption
+        # read "<title>: <title>". Re-running by hand gave 7 English segments,
+        # then 0, then Cyrillic, from one unchanged file. Pinned to 0 this is
+        # plain greedy decoding and is reproducible; verified identical across
+        # three consecutive runs. The cost is that genuinely hard audio now
+        # returns less instead of inventing something, which is the trade this
+        # pipeline already makes everywhere else.
         segments, _ = model.transcribe(wav, word_timestamps=True, vad_filter=False,
-                                       language=lang, initial_prompt=prompt)
+                                       language=lang, initial_prompt=prompt,
+                                       temperature=0)
         segs = []
         for seg in segments:
             ws = [{"w": w.word.strip(), "s": round(w.start, 2), "e": round(w.end, 2)} for w in (seg.words or [])]
@@ -359,6 +373,13 @@ def main():
         for grp in split_seg(ws):
             lines.append({"text": " ".join(x["w"] for x in grp), "s": grp[0]["s"], "e": grp[-1]["e"]})
     if not lines:
+        # Loud, because this was silent once and shipped a lyric-less video with
+        # a "<title>: <title>" caption to four channels. An empty transcript is
+        # not a normal outcome; it means Whisper found nothing it would commit
+        # to, and the day needs a hand-written transcript before it publishes.
+        print(f"WARNING: empty transcript for {slug_} — the video will carry NO "
+              f"lyrics and pick_hook will fall back to the title. Write "
+              f"music-assets/{slug_}-lyrics.json by hand and re-render this day.")
         lines = [{"text": "", "s": 0, "e": 0.1}]
     # bridge small gaps only — during real instrumental breaks the screen goes clean
     for a, b in zip(lines, lines[1:]):
