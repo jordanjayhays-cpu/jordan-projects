@@ -193,6 +193,24 @@ GLOSSARY = (
 )
 
 
+def degenerate(segs):
+    """True when a pass has collapsed into a repetition loop.
+
+    Whisper does this on some audio, and temperature=0 makes it reproducible
+    rather than occasionally escaping, so it has to be detected instead.
+
+    Threshold measured across all 102 transcripts in music-assets, not guessed:
+    the lowest ratio a real transcript reaches is 0.364 (maya-illusion, which
+    repeats its refrain throughout), the median is 0.740, and the n-b-a loop
+    scores 0.118. 0.25 sits in the gap with margin on both sides.
+    """
+    words = [w["w"].lower().strip(".,!?-") for s in segs for w in s]
+    words = [w for w in words if w]
+    if len(words) < 8:          # too short to judge; the caller handles empties
+        return False
+    return len(set(words)) / len(words) < 0.25
+
+
 def transcribe(wav, title=""):
     from faster_whisper import WhisperModel
     # Stays on "small". "medium" reads the names better but transcribes less of
@@ -226,6 +244,22 @@ def transcribe(wav, title=""):
         return segs
     en = run("en")
     tl = run("tl")
+    # A pass that has collapsed into a repetition loop must never win the
+    # density comparison below. On n-b-a the tl pass returned
+    # "Pag -ag -ag -ag ..." (17 words, 2 distinct) while the en pass returned
+    # 79 words of clean English - and the test PREFERRED the loop, because
+    # "Pag" is in the marker set and 1/17 clears 0.02. That scheduled
+    # 2026-11-26 with eighteen seconds of "-ag-ag-ag" on screen.
+    en_bad, tl_bad = degenerate(en), degenerate(tl)
+    if tl_bad != en_bad:
+        return en if tl_bad else tl
+    if en_bad and tl_bad:
+        # Loud, like the empty-transcript guard: nothing usable came back and
+        # the day needs a hand transcript before it publishes.
+        print("WARNING: both transcription passes collapsed into a repetition "
+              "loop. The video will carry nonsense lyrics. Write the transcript "
+              "by hand and re-render this day.")
+        return en if sum(len(x) for x in en) >= sum(len(x) for x in tl) else tl
     # Pick by Tagalog DENSITY, not by word count.
     #
     # The old rule required the tl pass to find 1.2x more words than the en pass.
