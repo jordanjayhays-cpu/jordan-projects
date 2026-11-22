@@ -211,6 +211,17 @@ def degenerate(segs):
     return len(set(words)) / len(words) < 0.25
 
 
+def coverage(segs, dur=30.0):
+    """How far into the clip the transcript actually reaches, 0 to 1.
+
+    Teasers are always 30s, so a transcript that stops at 2.5s has not found
+    a short song, it has given up.
+    """
+    if not segs:
+        return 0.0
+    return max(w["e"] for s in segs for w in s) / dur
+
+
 def transcribe(wav, title=""):
     from faster_whisper import WhisperModel
     # Stays on "small". "medium" reads the names better but transcribes less of
@@ -220,7 +231,7 @@ def transcribe(wav, title=""):
     # words covering 18.3-29.9s — the first eighteen seconds silently dropped.
     # Lyrics that are missing are worse on screen than lyrics that are wrong.
     model = WhisperModel("small", device="cpu", compute_type="int8")
-    def run(lang, prompt=None):
+    def run(lang, prompt=None, m=None):
         # temperature=0 is NOT optional. faster-whisper defaults to a
         # temperature fallback ladder (0.0 .. 1.0) and, on audio it cannot
         # decode confidently, climbs it and SAMPLES — so the same wav, the same
@@ -234,9 +245,9 @@ def transcribe(wav, title=""):
         # three consecutive runs. The cost is that genuinely hard audio now
         # returns less instead of inventing something, which is the trade this
         # pipeline already makes everywhere else.
-        segments, _ = model.transcribe(wav, word_timestamps=True, vad_filter=False,
-                                       language=lang, initial_prompt=prompt,
-                                       temperature=0)
+        segments, _ = (m or model).transcribe(wav, word_timestamps=True,
+                                              vad_filter=False, language=lang,
+                                              initial_prompt=prompt, temperature=0)
         segs = []
         for seg in segments:
             ws = [{"w": w.word.strip(), "s": round(w.start, 2), "e": round(w.end, 2)} for w in (seg.words or [])]
@@ -284,7 +295,32 @@ def transcribe(wav, title=""):
     # score 0.036 (Kapwa) to 0.246 (Bayanihan). 0.02 sits in the empty middle.
     # An earlier 0.04 was too tight and would have anglicised Kapwa, which the
     # old rule happened to get right - a fix that regresses a working case.
-    return tl if density >= 0.02 else en
+    chosen = tl if density >= 0.02 else en
+
+    # The small model sometimes stops a few seconds in and reports success.
+    # On what-if it returned 13 words covering 2.56s of a 30s clip - and the
+    # FULL temperature ladder returned exactly those same thirteen words, so
+    # this is the model's ceiling, not a sampling problem. medium read the
+    # whole clip: 48 words out to 29.0s.
+    #
+    # medium is NOT better in general. Measured on Pleasure vs Purpose it
+    # transcribes LESS (57 words against 83), which is why small stays the
+    # default. So it is consulted only once small has plainly given up, and
+    # its answer is kept only if it reaches materially further.
+    #
+    # Threshold measured across all 104 transcripts, not guessed: the lowest
+    # coverage a real track reaches is 0.579 (an instrumental outro), the
+    # median is 1.029, and what-if scored 0.125. 0.45 sits in the gap.
+    if coverage(chosen) < 0.45:
+        print(f"small model covered only {coverage(chosen):.0%} of the clip; "
+              f"retrying with medium")
+        big = WhisperModel("medium", device="cpu", compute_type="int8")
+        alt = run("en", m=big)
+        if not degenerate(alt) and coverage(alt) > coverage(chosen) + 0.2:
+            print(f"medium reached {coverage(alt):.0%} - using it")
+            return alt
+        print("medium did no better; keeping the small model's transcript")
+    return chosen
 
 def split_seg(ws, maxw=5):
     if len(ws) <= maxw: return [ws]
