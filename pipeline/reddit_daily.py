@@ -153,10 +153,31 @@ def main():
         print(f"released after ERROR on Reddit, will retry: {', '.join(released)}")
         trace("released-failed", slugs=released)
 
+    # No releaseURL test any more: the MCP listing simply does not carry that
+    # field (its rows are content, error, group, id, integration, integrationId,
+    # integrationName, platform, publishDate, settings, state), so requiring it
+    # matched nothing and the run looked like a quiet day. PUBLISHED is the
+    # honest test of "it went out", and the link comes from the YouTube
+    # catalogue below, which is the primary source anyway; releaseURL was only
+    # ever the fallback and has never been the link that was posted.
     yts = [p for p in posts if p.get("integration", {}).get("providerIdentifier") == "youtube"
-           and p.get("state") == "PUBLISHED" and p.get("releaseURL")]
+           and p.get("state") == "PUBLISHED"]
     if not yts:
-        trace("no-published-youtube", window_posts=len(posts)); return
+        # Say WHY nothing matched, not just that nothing did. Each of the three
+        # conditions fails for a different reason, and after the move to MCP a
+        # renamed field looks exactly like a quiet day. This trace is what tells
+        # the two apart without guessing at the shape.
+        trace("no-published-youtube", window_posts=len(posts),
+              platforms=sorted({(x.get("integration") or {}).get("providerIdentifier")
+                                or x.get("platform") or "?" for x in posts}),
+              states=sorted({x.get("state") or "?" for x in posts}),
+              youtube_rows=[{"state": x.get("state"),
+                             "has_releaseURL": bool(x.get("releaseURL")),
+                             "keys": sorted(x.keys())}
+                            for x in posts
+                            if ((x.get("integration") or {}).get("providerIdentifier")
+                                or x.get("platform")) == "youtube"][:2])
+        return
     # every un-posted track from the window, oldest first (self-healing catch-up)
     pending = []
     for y in sorted(yts, key=lambda x: x.get("publishDate", "")):
@@ -189,8 +210,15 @@ def main():
     # back to the Short if a track is not on the Topic channel.
     sys.path.insert(0, PIPE)
     from yt_catalogue import full_song
-    link = full_song(slug=slug, title=title) or p["releaseURL"]
-    print(f"reddit link: {link}" + ("" if link != p["releaseURL"] else " (teaser fallback)"))
+    link = full_song(slug=slug, title=title) or p.get("releaseURL")
+    if not link:
+        # Better no post than a post with no link. The catalogue missed this
+        # track and MCP gives no releaseURL to fall back on.
+        print(f"no YouTube link for {slug}; add it to yt_catalogue and re-run")
+        trace("no-link", slug=slug, title=title)
+        return
+    print(f"reddit link: {link}"
+          + ("" if link != p.get("releaseURL") else " (teaser fallback)"))
     value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "link",
              "url": link, "is_flair_required": bool(cfg.get("flair"))}
     if cfg.get("flair"):
