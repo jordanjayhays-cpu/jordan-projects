@@ -119,3 +119,4 @@
 {"at": "2026-11-21T09:36:11+00:00", "outcome": "posted", "slug": "unity-of-being-وحدة-الوجود", "title": "Unity of Being وَحْدَة الوُجُود", "when": "2026-11-21T09:51:00", "link": "https://www.youtube.com/watch?v=3esratcRmM8"}
 {"at": "2026-11-22T09:36:23+00:00", "outcome": "crashed", "error": "HTTPError: HTTP Error 401: Unauthorized"}
 {"at": "2026-11-23T09:36:31+00:00", "outcome": "released-failed", "slugs": ["unity-of-being-وحدة-الوجود"]}
+{"at": "2026-11-23T09:36:32+00:00", "outcome": "no-published-youtube", "window_posts": 14}
