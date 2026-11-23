@@ -68,8 +68,10 @@ def main():
             "shortLink": False, "type": "schedule",
             "postsAndComments": [{"content": p["content"], "attachments": [up["path"]]}],
             "settings": settings}]})
-        subprocess.check_output(["curl", "-sS", "--cacert", CA, "-X", "DELETE",
-            f"https://api.postiz.com/public/v1/posts/group/{p['group']}", "-H", f"Authorization: {KEY}"])
+        # Over MCP, not the REST route: Postiz's public REST API began
+        # answering 401 to this key on 2026-11-22 while MCP kept working.
+        # deletePostTool takes a post id where the REST route took a group.
+        mcp("deletePostTool", {"id": p["id"]})
         print(f"RETRIED {p['platform']} for {when} UTC; errored copy removed")
         time.sleep(0.5)
 

@@ -32,17 +32,35 @@ PIPE = os.path.dirname(os.path.abspath(__file__))
 API = "https://api.postiz.com/public/v1/"
 
 
-def posts_on(day):
-    url = (f"{API}posts?startDate={day}T00:00:00.000Z&endDate={day}T23:59:59.000Z"
-           f"&customer=&display=day&day=0&week=0&month=0&year={day[:4]}")
-    d = json.load(urllib.request.urlopen(
-        urllib.request.Request(url, headers={"Authorization": KEY,
-                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"}), timeout=60))
-    return d.get("posts", d if isinstance(d, list) else [])
+sys.path.insert(0, PIPE)
+import mcp_parse  # noqa: E402
+
+CA = "/root/.ccr/ca-bundle.crt"
+
+
+def posts_window(start, end):
+    """Every post in the window, in ONE call, via the MCP endpoint.
+
+    Postiz's public REST API started answering 401 to this key on 2026-11-22
+    while the MCP endpoint kept working with the very same key, so this is not
+    a dead credential and does not wait on a new one. daily_post.py already
+    schedules over MCP, which is why the queue kept extending that morning
+    while health.py, reddit_daily.py, fix_hook.py and rerender_days.py all
+    failed: those four were the REST callers.
+
+    One call for the whole window rather than one per day, because each MCP
+    round trip is slower than the REST one it replaces.
+    """
+    return mcp_parse.call("postsListTool",
+                          {"startDate": f"{start}T00:00:00",
+                           "endDate": f"{end}T23:59:00"}, KEY, CA)["output"]["posts"]
 
 
 def plat(p):
-    return (p.get("integration") or {}).get("providerIdentifier") or "?"
+    """MCP returns platform flat; REST nested it. Accept either, so this keeps
+    working if the REST API comes back and something passes its shape in."""
+    return (p.get("platform")
+            or (p.get("integration") or {}).get("providerIdentifier") or "?")
 
 
 def main():
@@ -50,7 +68,11 @@ def main():
     today = date.today()
     window = [(today - timedelta(days=i)).isoformat() for i in range(days, -1, -1)]
 
-    by_day = {d: posts_on(d) for d in window}
+    by_day = {d: [] for d in window}
+    for p in posts_window(window[0], window[-1]):
+        d = (p.get("publishDate") or "")[:10]
+        if d in by_day:
+            by_day[d].append(p)
     schedule = json.load(open(os.path.join(PIPE, "state.json"))).get("schedule", {})
 
     # What counts as normal: a channel that published on at least a third of the

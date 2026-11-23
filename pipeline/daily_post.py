@@ -154,16 +154,15 @@ def latest_published_youtube():
     from datetime import datetime, timedelta, timezone
     end = datetime.now(timezone.utc)
     start = end - timedelta(days=4)
-    req = urllib.request.Request(
-        f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
-        f"&endDate={end.strftime('%Y-%m-%dT%H:%M:%SZ')}",
-        headers={"Authorization": KEY,
-                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
-    with urllib.request.urlopen(req, context=CTX, timeout=30) as r:
-        data = json.load(r)
-    posts = data["posts"] if isinstance(data, dict) else data
+    # Over MCP: Postiz's public REST API began answering 401 to this key on
+    # 2026-11-22 while MCP kept accepting it. This helper is currently unused,
+    # but a REST call left here would 401 for whoever wires it up next.
+    posts = mcp("postsListTool",
+                {"startDate": start.strftime("%Y-%m-%dT%H:%M:%S"),
+                 "endDate": end.strftime("%Y-%m-%dT%H:%M:%S")})["output"]["posts"]
     yts = [p for p in posts
-           if p.get("integration", {}).get("providerIdentifier") == "youtube"
+           if (p.get("platform")
+               or p.get("integration", {}).get("providerIdentifier")) == "youtube"
            and p.get("state") == "PUBLISHED" and p.get("releaseURL")]
     if not yts:
         return None

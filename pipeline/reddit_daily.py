@@ -19,6 +19,37 @@ def mcp(name, args):
     return mcp_parse.call(name, args, KEY, CA)
 
 
+def _norm(p):
+    """MCP's post shape, adapted to the REST shape this file was written for.
+
+    Two differences bite: MCP puts `platform` flat where REST nested it under
+    integration.providerIdentifier, and MCP returns `settings` as a dict where
+    REST sent a JSON string. Normalising here keeps the rest of the file,
+    including the YouTube filter and the title parse, exactly as it was.
+    """
+    q = dict(p)
+    if "integration" not in q and q.get("platform"):
+        q["integration"] = {"providerIdentifier": q["platform"]}
+    if isinstance(q.get("settings"), dict):
+        q["settings"] = json.dumps(q["settings"])
+    return q
+
+
+def posts_between(start, end):
+    """Posts in a window, over MCP.
+
+    Postiz's public REST API began answering 401 to this key on 2026-11-22
+    while the MCP endpoint kept accepting the very same key, so this is a
+    transport change, not a dead credential. It is why daily_post.py kept
+    scheduling that morning while this script crashed: daily_post was already
+    on MCP and this was not.
+    """
+    out = mcp("postsListTool",
+              {"startDate": start.strftime("%Y-%m-%dT%H:%M:%S"),
+               "endDate": end.strftime("%Y-%m-%dT%H:%M:%S")})["output"]["posts"]
+    return [_norm(x) for x in out]
+
+
 def get_json(url, tries=4):
     """GET with retries. The agent proxy drops tunnels intermittently
     (ws_closed_mid_exchange, connection reset by peer). Observed on 2026-09-14:
@@ -82,10 +113,7 @@ def main():
 
     end = datetime.now(timezone.utc)
     start = end - timedelta(days=3)
-    data = get_json(
-        f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
-        f"&endDate={end.strftime('%Y-%m-%dT%H:%M:%SZ')}")
-    posts = data["posts"] if isinstance(data, dict) else data
+    posts = posts_between(start, end)
 
     # Put back any track whose Reddit post FAILED to publish.
     #
@@ -185,18 +213,16 @@ def main():
 
     def fetch(pid):
         _t.sleep(3)
-        dd = get_json(
-            f"https://api.postiz.com/public/v1/posts?startDate={start.strftime('%Y-%m-%dT%H:%M:%SZ')}"
-            f"&endDate={(end + timedelta(days=2)).strftime('%Y-%m-%dT%H:%M:%SZ')}")
-        return next((x for x in (dd["posts"] if isinstance(dd, dict) else dd)
+        return next((x for x in posts_between(start, end + timedelta(days=2))
                      if x["id"] == pid), None)
 
     pid = res["output"][0]["postId"]
     mine = fetch(pid)
     if mine and mine.get("publishDate", "")[:16] != when[:16]:
         print(f"WARN: stored {mine.get('publishDate')} != requested {when}; re-pinning")
-        subprocess.check_output(["curl", "-sS", "--cacert", CA, "-X", "DELETE",
-            f"https://api.postiz.com/public/v1/posts/group/{mine['group']}", "-H", f"Authorization: {KEY}"])
+        # deletePostTool takes the post id; the REST route deleted by group.
+        # This branch only ever handles the one Reddit post it just made.
+        mcp("deletePostTool", {"id": mine["id"]})
         res = mcp("integrationSchedulePostTool", {"socialPost": [{
             "integrationId": reddit["id"], "isPremium": False, "date": when,
             "shortLink": False, "type": "schedule",
