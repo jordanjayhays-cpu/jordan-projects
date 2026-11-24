@@ -1,0 +1,370 @@
+<title>Reading Philosophical King</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+/* Layout: a reference work. Ledger rows, numbered sections, catalogue type for
+   anything countable. Dark-first, because that is the ground every PK video
+   already uses: ink, ivory serif, one gold rule. */
+:root {
+  --bg: #0a0f13;
+  --band: #0e151a;
+  --surface: #121b22;
+  --line: #22303a;
+  --fg: #ece7dd;
+  --muted: #8d9aa4;
+  --gold: #d2a44c;
+  --gold-dim: #8c6d2f;
+  --teal: #5e9fb0;
+  --display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --cat: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f6f3ec; --band: #efeae0; --surface: #fffdf8; --line: #ded6c7;
+    --fg: #161b1f; --muted: #5d6670; --gold: #8a6718; --gold-dim: #b49556;
+    --teal: #2d6b7d; color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f6f3ec; --band: #efeae0; --surface: #fffdf8; --line: #ded6c7;
+  --fg: #161b1f; --muted: #5d6670; --gold: #8a6718; --gold-dim: #b49556;
+  --teal: #2d6b7d; color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--body); font-size: 16px; line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 820px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.hero {
+  background: var(--band);
+  margin-top: calc(-1 * env(safe-area-inset-top, 0px));
+  padding-top: calc(env(safe-area-inset-top, 0px) + 4.5rem);
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.eyebrow {
+  font-family: var(--cat); font-size: .7rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--gold); margin: 0 0 1.4rem;
+}
+h1 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(2.6rem, 8vw, 4.4rem); line-height: 1.02;
+  margin: 0 0 1.2rem; text-wrap: balance; letter-spacing: -.01em;
+}
+h1 em { font-style: italic; color: var(--gold); }
+.standfirst {
+  font-size: clamp(1.05rem, 2.6vw, 1.2rem); color: var(--muted);
+  max-width: 54ch; margin: 0;
+}
+.rule { height: 1px; background: var(--gold-dim); width: 72px; margin: 1.8rem 0; }
+
+.counts {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 1px; background: var(--line); border: 1px solid var(--line);
+  margin-top: 2.6rem;
+}
+.counts div { background: var(--band); padding: 1rem 1.1rem; min-width: 0; }
+.counts .n {
+  font-family: var(--cat); font-size: 1.5rem; font-weight: 500;
+  color: var(--gold); font-variant-numeric: tabular-nums; display: block;
+}
+.counts .k {
+  font-family: var(--cat); font-size: .66rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+section { padding-block: 3.4rem; border-bottom: 1px solid var(--line); }
+section:last-of-type { border-bottom: 0; }
+h2 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.75rem, 4.6vw, 2.5rem); line-height: 1.12;
+  margin: 0 0 1.1rem; text-wrap: balance;
+}
+h2 .num {
+  font-family: var(--cat); font-size: .7rem; color: var(--gold);
+  letter-spacing: .14em; display: block; margin-bottom: .55rem;
+}
+h3 {
+  font-family: var(--body); font-size: 1rem; font-weight: 600;
+  margin: 2rem 0 .5rem; letter-spacing: -.005em;
+}
+p { margin: 0 0 1.05rem; max-width: 66ch; }
+p:last-child { margin-bottom: 0; }
+strong { font-weight: 600; color: var(--fg); }
+.lede { font-size: 1.08rem; color: var(--muted); max-width: 60ch; }
+
+/* ledger of thematic clusters */
+.ledger { display: flex; flex-direction: column; gap: 1px; background: var(--line);
+          border: 1px solid var(--line); margin: 1.8rem 0 0; }
+.row { background: var(--surface); padding: 1.15rem 1.2rem; min-width: 0;
+       display: grid; grid-template-columns: 4.5rem 1fr; gap: 1.1rem; align-items: start; }
+.row .tally {
+  font-family: var(--cat); font-size: 1.35rem; color: var(--gold);
+  font-variant-numeric: tabular-nums; line-height: 1.2;
+}
+.row .tally span { display: block; font-size: .6rem; color: var(--muted);
+                   letter-spacing: .1em; text-transform: uppercase; }
+.row h4 { margin: 0 0 .35rem; font-size: 1rem; font-weight: 600; }
+.row p { margin: 0; font-size: .92rem; color: var(--muted); max-width: none; }
+.tracks { font-family: var(--cat); font-size: .78rem; color: var(--teal);
+          margin-top: .5rem; line-height: 1.7; word-break: break-word; }
+
+blockquote {
+  margin: 1.8rem 0; padding: 0 0 0 1.3rem; border-left: 2px solid var(--gold);
+  font-family: var(--display); font-size: clamp(1.3rem, 3.4vw, 1.7rem);
+  line-height: 1.32; color: var(--fg); max-width: 40ch;
+}
+blockquote cite {
+  display: block; font-family: var(--cat); font-style: normal;
+  font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-top: .85rem;
+}
+.thesis {
+  background: var(--surface); border: 1px solid var(--gold-dim);
+  padding: 1.7rem 1.6rem; margin: 1.6rem 0;
+}
+.thesis p {
+  font-family: var(--display); font-size: clamp(1.25rem, 3.2vw, 1.6rem);
+  line-height: 1.35; margin: 0; max-width: 46ch;
+}
+
+/* the four-step formula */
+ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 1.6rem 0 0; }
+ol.steps li {
+  counter-increment: s; position: relative; padding-left: 2.6rem;
+  margin-bottom: 1.4rem; min-width: 0;
+}
+ol.steps li::before {
+  content: counter(s); position: absolute; left: 0; top: .05rem;
+  font-family: var(--cat); font-size: .8rem; color: var(--gold);
+  border: 1px solid var(--gold-dim); width: 1.75rem; height: 1.75rem;
+  display: grid; place-items: center;
+}
+ol.steps b { display: block; font-weight: 600; margin-bottom: .2rem; }
+ol.steps span { color: var(--muted); font-size: .94rem; }
+.lyric { font-family: var(--cat); font-size: .82rem; color: var(--teal);
+         display: block; margin-top: .35rem; }
+
+/* the contradiction: two opposed columns */
+.tension { display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+           background: var(--line); border: 1px solid var(--line); margin: 1.7rem 0; }
+.tension > div { background: var(--surface); padding: 1.4rem 1.3rem; min-width: 0; }
+.tension h4 { margin: 0 0 .7rem; font-family: var(--cat); font-size: .68rem;
+              letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+.tension q { font-family: var(--display); font-size: 1.22rem; line-height: 1.35;
+             display: block; margin-bottom: .7rem; quotes: none; }
+.tension p { font-size: .88rem; color: var(--muted); margin: 0; max-width: none; }
+@media (max-width: 560px) { .tension { grid-template-columns: 1fr; } }
+
+/* entry paths */
+.paths { display: flex; flex-direction: column; gap: 1px;
+         background: var(--line); border: 1px solid var(--line); margin-top: 1.6rem; }
+.path { background: var(--surface); padding: 1.15rem 1.2rem; min-width: 0; }
+.path h4 { margin: 0 0 .5rem; font-size: .95rem; font-weight: 600; }
+.path .seq { font-family: var(--cat); font-size: .8rem; color: var(--teal);
+             line-height: 1.85; word-break: break-word; }
+.path .seq i { font-style: normal; color: var(--muted); padding: 0 .35rem; }
+
+/* method */
+.method { counter-reset: m; list-style: none; padding: 0; margin: 1.6rem 0 0; }
+.method li {
+  counter-increment: m; display: grid; grid-template-columns: 2.2rem 1fr;
+  gap: 1rem; padding: .95rem 0; border-top: 1px solid var(--line); min-width: 0;
+}
+.method li:last-child { border-bottom: 1px solid var(--line); }
+.method li::before {
+  content: "0" counter(m); font-family: var(--cat); font-size: .78rem;
+  color: var(--gold); padding-top: .18rem;
+}
+.method b { font-weight: 600; }
+.method em { font-style: normal; font-family: var(--cat); font-size: .78rem;
+             color: var(--teal); display: block; margin-top: .2rem; }
+
+.pushback { background: var(--band); border-left: 2px solid var(--teal);
+            padding: 1.3rem 1.4rem; margin-top: 1.5rem; }
+.pushback h4 { margin: 0 0 .4rem; font-size: .95rem; font-weight: 600; }
+.pushback p { margin: 0; font-size: .94rem; color: var(--muted); }
+.pushback + .pushback { margin-top: 1rem; }
+
+footer { padding-block: 2.6rem 3.4rem; color: var(--muted); font-size: .85rem; }
+footer p { max-width: 62ch; }
+.note { font-family: var(--cat); font-size: .74rem; line-height: 1.8; }
+</style>
+
+<div class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Catalogue analysis &middot; 254 tracks read in full</p>
+    <h1>An encyclopedia that <em>happens to rhyme</em></h1>
+    <p class="standfirst">Philosophical King is not an artist with albums. It is a reference work built one concept at a time, and almost everything true about it follows from that.</p>
+    <div class="counts">
+      <div><span class="n">254</span><span class="k">Tracks total</span></div>
+      <div><span class="n">101</span><span class="k">Out or scheduled</span></div>
+      <div><span class="n">153</span><span class="k">Still unreleased</span></div>
+      <div><span class="n">~70</span><span class="k">Non-English concepts</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <h2><span class="num">01</span>What it actually is</h2>
+  <p class="lede">Most philosophy music picks a mood. This picks a syllabus.</p>
+  <p>Each track takes one idea and does the same four things to it. The ambition is coverage, not curation, and that is genuinely unusual: the project is trying to be complete about human thought rather than expressive about one person's corner of it. Nobody else is attempting this at this scale.</p>
+  <p>The strengths and the single real weakness both come from that one structural fact. A reference work is enormously valuable and almost impossible to read front to back.</p>
+</section>
+
+<section>
+  <h2><span class="num">02</span>What it is about</h2>
+  <p>Four clusters account for nearly the whole catalogue. The groupings are my reading, and tracks overlap, but the proportions hold.</p>
+
+  <div class="ledger">
+    <div class="row">
+      <div class="tally">78<span>tracks</span></div>
+      <div>
+        <h4>Systems that domesticate you</h4>
+        <p>The spine of the project, about a third of everything. The claim is never simply that power is bad. It is sharper: the cage feels like normal, and that is the trick.</p>
+        <div class="tracks">9 to Fake &middot; Bullshit Jobs &middot; Burnout Society &middot; Normal is a Business &middot; They Say We're Free &middot; Winners Keep Winning &middot; Chains of Gold &middot; The Bureaucracy Trap &middot; Technofeudalism &middot; The Contract We Never Signed</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="tally">70<span>tracks</span></div>
+      <div>
+        <h4>World wisdom</h4>
+        <p>Yoruba, Igbo, Māori, Zulu, Ge'ez, Quechua, Balinese, Mongolian, Punjabi, Sicilian, Korean neo-Confucian, Kabbalah. A quarter of the catalogue is philosophy that isn't Greek. This is the most distinctive thing here and the least visible from outside.</p>
+        <div class="tracks">Sawubona &middot; Ibuanyidanda &middot; Hatäta &middot; Ayni &middot; Whakapapa &middot; Kapwa &middot; Ọgbọ́n jẹ́ ti gbogbo wa &middot; Tenger &middot; Uncarved Block &middot; Unity of Being</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="tally">20<span>tracks</span></div>
+      <div>
+        <h4>The self is not what you think</h4>
+        <p>No-self, masks, dissolution, the gap between the performer and the person.</p>
+        <div class="tracks">The Self That Wasn't &middot; MĀYĀ &middot; Kenosis &middot; Cult of One &middot; Mask On Mind Off &middot; The Limits of Self-Knowledge</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="tally">15<span>tracks</span></div>
+      <div>
+        <h4>Death as a clarifier</h4>
+        <p>Never morbid, always instrumental. Mortality is used as a tool for ranking what matters, not as a subject in itself.</p>
+        <div class="tracks">Memento Mori &middot; Denial of Death &middot; Día de los Muertos &middot; First Step Last Breath &middot; 4,000 Mondays</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">03</span>The formula</h2>
+  <p>Across 105 transcripts the structure barely varies. This is craft, not repetition, and it is why the songs work as rap rather than as lectures.</p>
+  <ol class="steps">
+    <li><b>Name the concept</b><span>Often in its own language, untranslated, so the word itself does work.</span></li>
+    <li><b>Kill a misconception</b><span>The turn almost always arrives in the first eight bars.</span><span class="lyric">"evil ain't a beast it's mundane, it's bland, it's the quiet compliance with the boss's command"</span></li>
+    <li><b>One hard concrete image</b><span>Never an abstraction where an object will do.</span><span class="lyric">"childhood shrunk to a five inch glow" &nbsp;/&nbsp; "it's not a hug, just a digital ghost"</span></li>
+    <li><b>Turn to second person and hand it over</b><span>The signature move. These songs almost never end describing something. They end by making it the listener's problem.</span><span class="lyric">"Who told you to kneel?" &nbsp;/&nbsp; "Look in the mirror, don't turn away"</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2><span class="num">04</span>The one message</h2>
+  <p>Stated once, every cluster turns out to be serving it.</p>
+  <div class="thesis">
+    <p>You were shaped by systems you never chose, and the shaping is invisible because it feels like normal. Philosophy is what makes it visible. Once you can see it, the next move is yours, and no guru, institution or book can make it for you.</p>
+  </div>
+  <p>Systems show the cage. The self tracks show that part of the cage is inside you. The epistemology tracks hand you the tools. Death supplies the urgency. World wisdom proves other arrangements exist, which is the only real proof that this one is not inevitable.</p>
+  <blockquote>a soul that knows itself is harder to make break<cite>Gnostic Gospels</cite></blockquote>
+</section>
+
+<section>
+  <h2><span class="num">05</span>The contradiction at the centre</h2>
+  <p>The catalogue argues two incompatible things, hard, repeatedly.</p>
+  <div class="tension">
+    <div>
+      <h4>Sovereign individual</h4>
+      <q>No institution gonna set you free. No guru, no throne.</q>
+      <p>Claim Your Mind, Cult of One, Quiet Revolt, Mind Unchained. Freedom is something you take, alone, by seeing clearly.</p>
+    </div>
+    <div>
+      <h4>Relational self</h4>
+      <q>My self and your self were never separate to begin with.</q>
+      <p>Kapwa, Bayanihan, Ubuntu, The Social Mind, N B A. There is no self to free, only a knot of relations.</p>
+    </div>
+  </div>
+  <p>Both cannot be simply true. Right now the tension is accidental and reads as inconsistency between tracks. <strong>Made deliberate, it is the whole project's thesis:</strong> you have to free your mind alone, and you cannot live free alone. That is a real philosophical position, and nobody else in this lane is making it.</p>
+</section>
+
+<section>
+  <h2><span class="num">06</span>Where it is heading</h2>
+  <p>The 153 unreleased tracks go harder in two directions at once: deeper into political economy, and deeper into non-Western traditions. The project is radicalising and globalising simultaneously.</p>
+  <div class="tracks" style="margin-top:1.2rem">Technofeudalism &middot; Movement Capture &middot; Bad Money Wins &middot; Show Me the Incentives &middot; Wealth Without Work &nbsp;&nbsp;&#124;&nbsp;&nbsp; Hatäta &middot; Ibuanyidanda &middot; Tenger &middot; 리 Before 기 &middot; Ọgbọ́n ní ọ̀pọ̀ ohùn</div>
+  <p style="margin-top:1.3rem">The strongest unreleased title in the catalogue is <strong>The System Can't See Itself</strong>.</p>
+</section>
+
+<section>
+  <h2><span class="num">07</span>Will a listener understand it?</h2>
+  <p><strong>Per track, yes.</strong> The formula is clean, the images are concrete, and the second-person turn gives every song somewhere to land.</p>
+  <p><strong>Across the catalogue, no</strong> &mdash; and that is a distribution problem, not a writing problem. 254 tracks in no order, released one a day and heard on shuffle, is a library with no shelves. Someone hits Technofeudalism and Hygge back to back with no way to know they belong to one argument. The arc exists in the work and is invisible in the delivery.</p>
+  <h3>The fix is cheap: four sequenced entry paths</h3>
+  <div class="paths">
+    <div class="path">
+      <h4>Start here &middot; The cage</h4>
+      <div class="seq">This Is Water <i>→</i> Normal is a Business <i>→</i> They Say We're Free <i>→</i> Winners Keep Winning <i>→</i> Quiet Revolt</div>
+    </div>
+    <div class="path">
+      <h4>Start here &middot; Dying well</h4>
+      <div class="seq">Memento Mori <i>→</i> Denial of Death <i>→</i> Día de los Muertos <i>→</i> First Step Last Breath <i>→</i> Legacy</div>
+    </div>
+    <div class="path">
+      <h4>Start here &middot; Wisdom that isn't Greek</h4>
+      <div class="seq">Kapwa <i>→</i> Whakapapa <i>→</i> Uncarved Block <i>→</i> Unity of Being <i>→</i> Sawubona</div>
+    </div>
+    <div class="path">
+      <h4>Start here &middot; Who are you, actually</h4>
+      <div class="seq">The Cave <i>→</i> Mask On Mind Off <i>→</i> The Self That Wasn't <i>→</i> MĀYĀ <i>→</i> Kenosis</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">08</span>How someone actually uses it</h2>
+  <p>The catalogue contains a working method. It has never been written down, and it is the most valuable thing here that isn't already a song.</p>
+  <ol class="method">
+    <li><div><b>Notice what feels normal.</b> The things that never get questioned are the ones doing the most work.<em>This Is Water &middot; Normal is a Business</em></div></li>
+    <li><div><b>Ask who gets paid when you believe it.</b> Follow the incentive before you argue with the idea.<em>Winners Keep Winning &middot; Show Me the Incentives</em></div></li>
+    <li><div><b>Check whether the belief is yours or installed.</b> Most convictions arrived pre-assembled.<em>Claim Your Mind &middot; The Filter</em></div></li>
+    <li><div><b>Use mortality to force the ranking.</b> Nothing sorts priorities faster than a deadline you can't move.<em>Memento Mori &middot; First Step Last Breath</em></div></li>
+    <li><div><b>Act small and now, not grand and later.</b> The change is behavioural and unglamorous.<em>Quiet Revolt &middot; Dolce Far Niente</em></div></li>
+    <li><div><b>Do it with people.</b> Step one through five are solitary. This one is why they matter.<em>Kapwa &middot; N B A</em></div></li>
+  </ol>
+  <blockquote>Ate slow, spoke less. Listened for what came next.<cite>Quiet Revolt &mdash; what step five sounds like</cite></blockquote>
+</section>
+
+<section>
+  <h2><span class="num">09</span>Two things worth pushing back on</h2>
+  <div class="pushback">
+    <h4>Heavy on diagnosis, light on reconstruction</h4>
+    <p>Far more tracks describe the cage than describe what to build instead. The catalogue is excellent at showing you that the door is painted on. It is thinner on what is through it. The connection cluster is the beginning of an answer and is currently outnumbered roughly four to one.</p>
+  </div>
+  <div class="pushback">
+    <h4>The world wisdom quarter is buried</h4>
+    <p>Seventy tracks of Yoruba, Igbo, Māori, Ge'ez and Quechua philosophy is not a seam running through a rap project. For most listeners it would be the reason to care, and nothing in the current packaging says it exists.</p>
+  </div>
+</section>
+
+<footer class="note">
+  <p>Read from the full catalogue: 254 track titles, 105 complete transcripts and the artist's own track descriptions. Cluster sizes are an interpretive assignment, not a label on the files; tracks belong to more than one. Quoted lines are taken from the transcripts as they stand, which on a handful of tracks are still being corrected.</p>
+</footer>
+
+</div>
