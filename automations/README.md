@@ -24,6 +24,15 @@ noise -> mark read. prospect reply (prospect_lane = true) -> reply-log + Telegra
 Lanes: personal (credential already connected), amigo-sales, niah, placewell, vaya, kinsol, pk-music, massage-club (read-only by the routing rule).
 Tune noise_regex, keep_regex and own_domains in the Lane Config node.
 
+## Backlog sweep (run by hand)
+
+Inbox backlog sweep (personal Gmail): reads the last 90 days of the inbox in one run, classifies every email, logs every human reply to reply-log, one Telegram summary. Duplicate it per mailbox by switching the Gmail credential and the Lane Config values. Unpublished; run from the editor with Execute workflow.
+
+## Email skeleton IDs
+
+personal BdtCptK359uE5BCe (credential connected) · amigo-sales vhC1laX6rBR5tgpE · niah 66pb3ErT38OEGC6u · placewell DcbkpoEySPHSdcIf · vaya yNElJEYE2px7Ihz7 · kinsol CEnpTyQR6ttuoxKM · pk-music NmAqnrjXlzoJrk1O · massage-club ykqWnMxI3tEOloKp · backlog sweep MWYpNWNCGYaljhEa.
+On the seven non-personal skeletons n8n auto-attached the personal Gmail credential at creation; their New Email trigger is DISABLED until the lane credential is selected on the three Gmail nodes.
+
 ## Webhook URLs
 
 - Replies: https://neuromatch.app.n8n.cloud/webhook/reply-landed (POST; Instantly reply_received, HeyReach campaign webhook, or any JSON with email/text)
