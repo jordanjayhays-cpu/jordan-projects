@@ -105,9 +105,10 @@
   "What If?",
   "Art of War \u5b6b\u5b50\u5175\u6cd5",
   "Ren \u4ec1",
-  "The Way of the Sword \u5263\u306e\u9053"
+  "The Way of the Sword \u5263\u306e\u9053",
+  "Dokk\u014dd\u014d \u72ec\u884c\u9053"
  ],
- "last_scheduled_date": "2026-11-30",
+ "last_scheduled_date": "2026-12-01",
  "reddit_posted": [
   "bayanihan",
   "memento-mori",
@@ -250,6 +251,7 @@
   "2026-11-27": "what-if",
   "2026-11-28": "art-of-war",
   "2026-11-29": "ren",
-  "2026-11-30": "the-way-of-the-sword"
+  "2026-11-30": "the-way-of-the-sword",
+  "2026-12-01": "dokkodo"
  }
 }
