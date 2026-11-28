@@ -1,0 +1,301 @@
+#!/usr/bin/env python3
+"""
+Same-day Reddit poster: after the morning YouTube Short publishes (08:00 UTC),
+link-post it to Reddit. Dedupes via state.reddit_posted. Env: POSTIZ_KEY.
+"""
+import json, os, re, ssl, subprocess, sys, urllib.request
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import mcp_parse
+from datetime import datetime, timedelta, timezone
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PIPE = os.path.join(ROOT, "pipeline")
+KEY = os.environ.get("POSTIZ_KEY") or sys.exit("POSTIZ_KEY not set")
+CA = "/root/.ccr/ca-bundle.crt"
+CTX = ssl.create_default_context(cafile=CA) if os.path.exists(CA) else ssl.create_default_context()
+
+def mcp(name, args):
+    """One Postiz MCP tool call. Retries and error text live in mcp_parse."""
+    return mcp_parse.call(name, args, KEY, CA)
+
+
+def _norm(p):
+    """MCP's post shape, adapted to the REST shape this file was written for.
+
+    Two differences bite: MCP puts `platform` flat where REST nested it under
+    integration.providerIdentifier, and MCP returns `settings` as a dict where
+    REST sent a JSON string. Normalising here keeps the rest of the file,
+    including the YouTube filter and the title parse, exactly as it was.
+    """
+    q = dict(p)
+    if "integration" not in q and q.get("platform"):
+        q["integration"] = {"providerIdentifier": q["platform"]}
+    if isinstance(q.get("settings"), dict):
+        q["settings"] = json.dumps(q["settings"])
+    return q
+
+
+def posts_between(start, end):
+    """Posts in a window, over MCP.
+
+    Postiz's public REST API began answering 401 to this key on 2026-11-22
+    while the MCP endpoint kept accepting the very same key, so this is a
+    transport change, not a dead credential. It is why daily_post.py kept
+    scheduling that morning while this script crashed: daily_post was already
+    on MCP and this was not.
+    """
+    out = mcp("postsListTool",
+              {"startDate": start.strftime("%Y-%m-%dT%H:%M:%S"),
+               "endDate": end.strftime("%Y-%m-%dT%H:%M:%S")})["output"]["posts"]
+    return [_norm(x) for x in out]
+
+
+def get_json(url, tries=4):
+    """GET with retries. The agent proxy drops tunnels intermittently
+    (ws_closed_mid_exchange, connection reset by peer). Observed on 2026-09-14:
+    one run died at the first fetch and the very next run succeeded. An
+    unretried read turns a blip into a day with no Reddit post."""
+    import time as _t
+    for attempt in range(tries):
+        try:
+            req = urllib.request.Request(url, headers={
+                "Authorization": KEY,
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                              "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"})
+            with urllib.request.urlopen(req, context=CTX, timeout=45) as r:
+                return json.load(r)
+        except Exception as exc:
+            if attempt == tries - 1:
+                raise
+            print(f"fetch failed ({type(exc).__name__}), retrying in "
+                  f"{2 ** attempt}s: {str(exc)[:90]}")
+            _t.sleep(2 ** attempt)
+
+
+LOG = os.path.join(PIPE, "reddit-log.jsonl")
+
+
+def trace(outcome, **fields):
+    """Append one line saying what this run decided, and commit it.
+
+    Reddit published twice between 2026-08-31 and 09-12 while this Routine
+    reported success every morning and filed no alert. Every branch below is a
+    quiet `return`, so a run that decided to do nothing looked exactly like a
+    run that posted. The Routine's own logs are not readable afterwards, so the
+    decision has to be written somewhere durable: the repo.
+
+    Never let logging break the run it is logging.
+    """
+    try:
+        from datetime import datetime as _d, timezone as _tz
+        line = json.dumps({"at": _d.now(_tz.utc).isoformat(timespec="seconds"),
+                           "outcome": outcome, **fields}, ensure_ascii=False)
+        with open(LOG, "a") as f:
+            f.write(line + "\n")
+        print(f"trace: {line}")
+        subprocess.call(["git", "-C", ROOT, "add", "pipeline/reddit-log.jsonl"])
+        subprocess.call(["git", "-C", ROOT, "-c", "user.name=Claude",
+                         "-c", "user.email=noreply@anthropic.com", "commit", "-q",
+                         "-m", f"reddit: run trace ({outcome})"])
+        subprocess.call(["git", "-C", ROOT, "push", "-q", "origin",
+                         "claude/philosophical-king-poster-raq2ke"])
+    except Exception as exc:
+        print(f"trace failed (ignored): {type(exc).__name__}: {exc}")
+
+
+def main():
+    cfg_path = os.path.join(PIPE, "reddit.json")
+    if not os.path.exists(cfg_path):
+        trace("no-reddit-json"); return
+    cfg = json.load(open(cfg_path))
+    state = json.load(open(os.path.join(PIPE, "state.json")))
+    descs = json.load(open(os.path.join(PIPE, "descriptions.json")))
+
+    end = datetime.now(timezone.utc)
+    start = end - timedelta(days=3)
+    posts = posts_between(start, end)
+
+    # Put back any track whose Reddit post FAILED to publish.
+    #
+    # On 2026-09-26 and 09-27 the post was created, sat in QUEUE, and went to
+    # ERROR at fire time with releaseURL and releaseId both null. The slug was
+    # already in reddit_posted by then, so the track was silently skipped for
+    # good. Two tracks were lost that way before anyone looked. Without this,
+    # every morning Reddit is broken burns one more track permanently.
+    #
+    # An ERROR with no releaseId definitively did not publish, so releasing the
+    # slug cannot produce a duplicate. A PUBLISHED post for the same title in
+    # the window wins and the slug stays recorded.
+    published_titles, failed = set(), {}
+    for rp in posts:
+        if (rp.get("integration") or {}).get("providerIdentifier") != "reddit":
+            continue
+        try:
+            t = json.loads(rp.get("settings") or "{}")["subreddit"][0]["value"]["title"]
+        except Exception:
+            continue
+        sl = re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", t.lower()).strip())
+        if rp.get("state") == "PUBLISHED" or rp.get("releaseId"):
+            published_titles.add(sl)
+        elif rp.get("state") == "ERROR":
+            failed[sl] = t
+    released = [sl for sl in failed
+                if sl not in published_titles and sl in state.get("reddit_posted", [])]
+    if released:
+        state["reddit_posted"] = [x for x in state["reddit_posted"] if x not in released]
+        json.dump(state, open(os.path.join(PIPE, "state.json"), "w"), indent=1)
+        subprocess.call(["git", "-C", ROOT, "add", "pipeline/state.json"])
+        subprocess.call(["git", "-C", ROOT, "-c", "user.name=Claude",
+                         "-c", "user.email=noreply@anthropic.com", "commit", "-q",
+                         "-m", f"reddit: released {', '.join(released)} after failed publish"])
+        subprocess.call(["git", "-C", ROOT, "push", "-q", "origin",
+                         "claude/philosophical-king-poster-raq2ke"])
+        print(f"released after ERROR on Reddit, will retry: {', '.join(released)}")
+        trace("released-failed", slugs=released)
+
+    # No releaseURL test any more: the MCP listing simply does not carry that
+    # field (its rows are content, error, group, id, integration, integrationId,
+    # integrationName, platform, publishDate, settings, state), so requiring it
+    # matched nothing and the run looked like a quiet day. PUBLISHED is the
+    # honest test of "it went out", and the link comes from the YouTube
+    # catalogue below, which is the primary source anyway; releaseURL was only
+    # ever the fallback and has never been the link that was posted.
+    yts = [p for p in posts if p.get("integration", {}).get("providerIdentifier") == "youtube"
+           and p.get("state") == "PUBLISHED"]
+    if not yts:
+        # Say WHY nothing matched, not just that nothing did. Each of the three
+        # conditions fails for a different reason, and after the move to MCP a
+        # renamed field looks exactly like a quiet day. This trace is what tells
+        # the two apart without guessing at the shape.
+        trace("no-published-youtube", window_posts=len(posts),
+              platforms=sorted({(x.get("integration") or {}).get("providerIdentifier")
+                                or x.get("platform") or "?" for x in posts}),
+              states=sorted({x.get("state") or "?" for x in posts}),
+              youtube_rows=[{"state": x.get("state"),
+                             "has_releaseURL": bool(x.get("releaseURL")),
+                             "keys": sorted(x.keys())}
+                            for x in posts
+                            if ((x.get("integration") or {}).get("providerIdentifier")
+                                or x.get("platform")) == "youtube"][:2])
+        return
+    # every un-posted track from the window, oldest first (self-healing catch-up)
+    pending = []
+    for y in sorted(yts, key=lambda x: x.get("publishDate", "")):
+        raw = json.loads(y["settings"]).get("title", "") if isinstance(y.get("settings"), str) else ""
+        t = raw.split(" — Philosophical King")[0].strip() or "Philosophical King"
+        sl = re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", t.lower()).strip())
+        if sl not in state.get("reddit_posted", []):
+            pending.append((y, t, sl))
+    if not pending:
+        seen = []
+        for y in yts:
+            raw = json.loads(y["settings"]).get("title", "") if isinstance(y.get("settings"), str) else ""
+            t = raw.split(" — Philosophical King")[0].strip()
+            seen.append(re.sub(r"\s+", "-", re.sub(r"[^\w\s-]", "", t.lower()).strip()))
+        trace("all-already-posted", window_posts=len(posts), considered=seen,
+              already=[x for x in seen if x in state.get("reddit_posted", [])])
+        return
+    print(f"{len(pending)} track(s) pending for Reddit")
+    p, title, slug = pending[0]
+
+    integs = mcp("integrationList", {})["output"]
+    reddit = next((i for i in integs if i["platform"] == "reddit"), None)
+    if not reddit:
+        trace("no-reddit-channel"); return
+
+    desc = descs.get(slug, f"One idea, one song: {title}.")
+    when = (datetime.now(timezone.utc) + timedelta(minutes=15)).strftime("%Y-%m-%dT%H:%M:00")
+    # Link the FULL song, not the 30-second teaser Short. Reddit is a place people
+    # sit and listen; a teaser that cuts off mid-verse reads as an advert. Falls
+    # back to the Short if a track is not on the Topic channel.
+    sys.path.insert(0, PIPE)
+    from yt_catalogue import full_song
+    link = full_song(slug=slug, title=title) or p.get("releaseURL")
+    if not link:
+        # Better no post than a post with no link. The catalogue missed this
+        # track and MCP gives no releaseURL to fall back on.
+        print(f"no YouTube link for {slug}; add it to yt_catalogue and re-run")
+        trace("no-link", slug=slug, title=title)
+        return
+    print(f"reddit link: {link}"
+          + ("" if link != p.get("releaseURL") else " (teaser fallback)"))
+    value = {"subreddit": cfg["subreddit"], "title": title[:290], "type": "link",
+             "url": link, "is_flair_required": bool(cfg.get("flair"))}
+    if cfg.get("flair"):
+        value["flair"] = cfg["flair"]
+    res = mcp("integrationSchedulePostTool", {"socialPost": [{
+        "integrationId": reddit["id"], "isPremium": False, "date": when,
+        "shortLink": False, "type": "schedule",
+        "postsAndComments": [{"content": f"<p>{desc}</p>", "attachments": []}],
+        "settings": [{"key": "subreddit", "value": [{"value": value}]}]}]})
+    # Verify the post actually exists before recording it as done.
+    #
+    # This is the bug that lost five days. The old code appended the slug to
+    # state.reddit_posted unconditionally, so a run that scheduled nothing still
+    # marked the track posted and every later run skipped it as already done.
+    # The re-pin branch below made it worse: it DELETED the post first and never
+    # checked that the replacement was created, so a failure there left the day
+    # with no post and the state saying otherwise. Nothing ever raised, so the
+    # routine reported success each morning while Reddit sat empty.
+    import time as _t
+
+    def fetch(pid):
+        _t.sleep(3)
+        return next((x for x in posts_between(start, end + timedelta(days=2))
+                     if x["id"] == pid), None)
+
+    pid = res["output"][0]["postId"]
+    mine = fetch(pid)
+    if mine and mine.get("publishDate", "")[:16] != when[:16]:
+        print(f"WARN: stored {mine.get('publishDate')} != requested {when}; re-pinning")
+        # deletePostTool takes the post id; the REST route deleted by group.
+        # This branch only ever handles the one Reddit post it just made.
+        mcp("deletePostTool", {"id": mine["id"]})
+        res = mcp("integrationSchedulePostTool", {"socialPost": [{
+            "integrationId": reddit["id"], "isPremium": False, "date": when,
+            "shortLink": False, "type": "schedule",
+            "postsAndComments": [{"content": f"<p>{desc}</p>", "attachments": []}],
+            "settings": [{"key": "subreddit", "value": [{"value": value}]}]}]})
+        pid = (res.get("output") or [{}])[0].get("postId")
+        mine = fetch(pid) if pid else None
+
+    if not mine:
+        # The scheduling call returned a postId, so the post very likely EXISTS
+        # and only the read-back failed. Treating that as "not posted" is what
+        # caused the 2026-09-14 duplicate: the first run created the post, the
+        # verification read died on a dropped tunnel, the slug went unrecorded,
+        # and the next run posted the same track an hour later. Two posts in one
+        # day from a small account is what Reddit rate-limits, and the next two
+        # days errored on publish.
+        #
+        # So record it and flag it. A track wrongly marked posted costs one
+        # missed day, which the next day's run makes up. A duplicate costs two
+        # days of rejected posts and antagonises the platform.
+        trace("posted-unverified", slug=slug, title=title, when=when, post_id=pid,
+              note="scheduling returned a postId but the read-back failed; "
+                   "recorded anyway to avoid a duplicate tomorrow")
+        print(f"WARNING: scheduled {slug} but could not read it back. Recording it "
+              f"as posted anyway: a duplicate is worse than a miss. Check Postiz.")
+
+    state.setdefault("reddit_posted", []).append(slug)
+    json.dump(state, open(os.path.join(PIPE, "state.json"), "w"), indent=1)
+    subprocess.check_call(["git", "-C", ROOT, "add", "pipeline/state.json"])
+    subprocess.call(["git", "-C", ROOT, "-c", "user.name=Claude",
+                     "-c", "user.email=noreply@anthropic.com",
+                     "commit", "-q", "-m", f"reddit: posted {slug}"])
+    subprocess.check_call(["git", "-C", ROOT, "push", "origin", "claude/philosophical-king-poster-raq2ke"])
+    print(f"scheduled Reddit link post for {title} at {when} UTC -> {link}")
+    trace("posted", slug=slug, title=title, when=when, link=link)
+
+if __name__ == "__main__":
+    try:
+        main()
+    except SystemExit:
+        raise
+    except Exception as exc:
+        # Every quiet exit already traces. A crash did not, which is exactly how
+        # a dropped connection on 2026-09-14 produced a silent no-op day.
+        import traceback
+        trace("crashed", error=f"{type(exc).__name__}: {str(exc)[:200]}")
+        traceback.print_exc()
+        raise

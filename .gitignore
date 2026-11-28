@@ -1,0 +1,11 @@
+__pycache__/
+
+# Album sequence page: quotes unreleased lyrics, lives as a private artifact only
+docs/different-altar-sequence.html
+
+# Catalogue deck: strategy/distribution analysis, lives as a private artifact
+docs/pk-catalogue-deck.html
+
+# Catalogue dataset + browser: internal analysis, private artifacts
+docs/pk-catalogue-table.html
+docs/pk-catalogue.csv
