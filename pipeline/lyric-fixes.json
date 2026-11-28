@@ -485,5 +485,23 @@
    "now": "Ate slow, spoke less",
    "why": "Homophone. 'Eight slow' is not a phrase; 'ate slow, spoke less' is the list of quiet actions the whole verse is made of."
   }
+ ],
+ "art-of-war": [
+  {
+   "i": 0,
+   "was": "白斩不戴 身体前者后求战 白底前者后求战",
+   "now": "百战不殆。胜兵先胜而后求战，败兵先战而后求胜。",
+   "why": "Whisper could not hear the Classical Chinese chant. The recovered Suno sheet has it verbatim from Sun Tzu."
+  },
+  {
+   "i": 1,
+   "was": "冰沙归刀也 世积之别",
+   "now": "兵者，诡道也。知己知彼，"
+  },
+  {
+   "i": 2,
+   "was": "白斩不戴 身体前者后求战 白底前者后求战",
+   "now": "百战不殆。胜兵先胜而后求战，败兵先战而后求胜。"
+  }
  ]
 }
